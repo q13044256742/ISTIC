@@ -69,6 +69,12 @@
     <Compile Include="Frm_MainFrame.Designer.cs">
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
     </Compile>
+    <Compile Include="Frm_YJDJ_FirstFrame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_YJDJ_FirstFrame.Designer.cs">
+      <DependentUpon>Frm_YJDJ_FirstFrame.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\MyPanel.cs">
@@ -79,6 +85,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_MainFrame.resx">
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_YJDJ_FirstFrame.resx">
+      <DependentUpon>Frm_YJDJ_FirstFrame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -102,8 +111,24 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Images\top_bg.png" />
     <None Include="Images\tuichu.png" />
     <None Include="Images\logo.png" />
+    <None Include="Images\area1.png" />
+    <None Include="Images\area2.png" />
+    <None Include="Images\area3.png" />
+    <Content Include="Images\banner.png" />
+    <None Include="Images\login2.png" />
+    <None Include="Images\logo1.png" />
+    <None Include="Images\pic1.png" />
+    <None Include="Images\pic2.png" />
+    <None Include="Images\pic3.png" />
+    <None Include="Images\pic4.png" />
+    <None Include="Images\pic5.png" />
+    <None Include="Images\pic6.png" />
+    <None Include="Images\pic7.png" />
+    <None Include="Images\pic8.png" />
+    <None Include="Images\right2.png" />
     <Content Include="Images\top.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
