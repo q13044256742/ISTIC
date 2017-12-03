@@ -57,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Frm_AddPC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_AddPC.Designer.cs">
+      <DependentUpon>Frm_AddPC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm_Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,9 @@
     <Compile Include="Tools\MyPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="Frm_AddPC.resx">
+      <DependentUpon>Frm_AddPC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frm_Login.resx">
       <DependentUpon>Frm_Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -117,6 +126,7 @@
     <None Include="Images\area1.png" />
     <None Include="Images\area2.png" />
     <None Include="Images\area3.png" />
+    <None Include="Images\add.png" />
     <Content Include="Images\banner.png" />
     <None Include="Images\login2.png" />
     <None Include="Images\logo1.png" />
@@ -129,8 +139,15 @@
     <None Include="Images\pic7.png" />
     <None Include="Images\pic8.png" />
     <None Include="Images\right2.png" />
+    <None Include="Images\current2.png" />
+    <None Include="Images\dhbg.png" />
+    <None Include="Images\tianjia.png" />
+    <None Include="Images\shanchu.png" />
+    <None Include="Images\chaxun.png" />
+    <None Include="Images\tijiao.png" />
     <Content Include="Images\top.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
