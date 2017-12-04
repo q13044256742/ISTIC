@@ -133,6 +133,36 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap jidu1 {
+            get {
+                object obj = ResourceManager.GetObject("jidu1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap jidu2 {
+            get {
+                object obj = ResourceManager.GetObject("jidu2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap jidu3 {
+            get {
+                object obj = ResourceManager.GetObject("jidu3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap login2 {
             get {
                 object obj = ResourceManager.GetObject("login2", resourceCulture);
