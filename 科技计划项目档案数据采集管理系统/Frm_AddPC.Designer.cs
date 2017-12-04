@@ -51,23 +51,23 @@
             this.txt_UploadFile = new System.Windows.Forms.TextBox();
             this.btn_UploadFile = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dgv_CDlist = new System.Windows.Forms.DataGridView();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
             this.gpmc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpbh = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bz = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btn_Submit = new System.Windows.Forms.Label();
             this.btn_Save = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_CDlist)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_CDlist)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -128,6 +128,27 @@
             // 
             this.comboBox1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "重大专项管理办公室",
+            "核高基（01）专项办公室",
+            "集成电路（02）专项办公室",
+            "宽带移动（03）专项办公室",
+            "数控机床（04）专项办公室",
+            "数控机床（04）专项办公室",
+            "核电（06）专项办公室",
+            "转基因（08）专项办公室",
+            "新药创制（09）专项办公室",
+            "传染病（10）专项办公室",
+            "中国农村技术开发中心",
+            "科学技术部火炬高技术产业开发中心",
+            "科学技术部火炬高技术产业开发中心",
+            "中国科学技术交流中心（中日技术合作事务中心）",
+            "中国生物技术发展中心",
+            "科学技术部高技术研究发展中心",
+            "中国21世纪议程管理中心",
+            "科技部科技评估中心",
+            "国家科技风险开发事业中心",
+            "中国生物技术发展中心"});
             this.comboBox1.Location = new System.Drawing.Point(118, 61);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(633, 22);
@@ -235,14 +256,14 @@
             this.textBox10.Location = new System.Drawing.Point(118, 223);
             this.textBox10.Multiline = true;
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(633, 72);
+            this.textBox10.Size = new System.Drawing.Size(633, 60);
             this.textBox10.TabIndex = 20;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label12.Location = new System.Drawing.Point(46, 310);
+            this.label12.Location = new System.Drawing.Point(46, 296);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(42, 14);
             this.label12.TabIndex = 22;
@@ -252,7 +273,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label13.Location = new System.Drawing.Point(114, 311);
+            this.label13.Location = new System.Drawing.Point(114, 297);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(63, 14);
             this.label13.TabIndex = 24;
@@ -261,7 +282,7 @@
             // txt_UploadFile
             // 
             this.txt_UploadFile.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_UploadFile.Location = new System.Drawing.Point(192, 307);
+            this.txt_UploadFile.Location = new System.Drawing.Point(192, 293);
             this.txt_UploadFile.Name = "txt_UploadFile";
             this.txt_UploadFile.Size = new System.Drawing.Size(396, 23);
             this.txt_UploadFile.TabIndex = 23;
@@ -269,7 +290,7 @@
             // btn_UploadFile
             // 
             this.btn_UploadFile.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_UploadFile.Location = new System.Drawing.Point(594, 306);
+            this.btn_UploadFile.Location = new System.Drawing.Point(594, 292);
             this.btn_UploadFile.Name = "btn_UploadFile";
             this.btn_UploadFile.Size = new System.Drawing.Size(75, 26);
             this.btn_UploadFile.TabIndex = 25;
@@ -308,10 +329,35 @@
             this.groupBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox1.Location = new System.Drawing.Point(6, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(786, 340);
+            this.groupBox1.Size = new System.Drawing.Size(786, 328);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "批次信息";
+            // 
+            // dateTimePicker3
+            // 
+            this.dateTimePicker3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePicker3.Location = new System.Drawing.Point(512, 92);
+            this.dateTimePicker3.Name = "dateTimePicker3";
+            this.dateTimePicker3.Size = new System.Drawing.Size(190, 23);
+            this.dateTimePicker3.TabIndex = 29;
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePicker2.Location = new System.Drawing.Point(512, 124);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(190, 23);
+            this.dateTimePicker2.TabIndex = 28;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(117, 190);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(160, 26);
+            this.numericUpDown1.TabIndex = 27;
             // 
             // dateTimePicker1
             // 
@@ -326,22 +372,12 @@
             // 
             this.groupBox2.Controls.Add(this.dgv_CDlist);
             this.groupBox2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox2.Location = new System.Drawing.Point(6, 348);
+            this.groupBox2.Location = new System.Drawing.Point(6, 332);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(786, 293);
             this.groupBox2.TabIndex = 27;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "光盘列表";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.btn_Submit);
-            this.groupBox3.Controls.Add(this.btn_Save);
-            this.groupBox3.Location = new System.Drawing.Point(6, 638);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(786, 51);
-            this.groupBox3.TabIndex = 28;
-            this.groupBox3.TabStop = false;
             // 
             // dgv_CDlist
             // 
@@ -359,31 +395,6 @@
             this.dgv_CDlist.RowTemplate.Height = 23;
             this.dgv_CDlist.Size = new System.Drawing.Size(780, 268);
             this.dgv_CDlist.TabIndex = 0;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(117, 190);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(160, 26);
-            this.numericUpDown1.TabIndex = 27;
-            // 
-            // dateTimePicker2
-            // 
-            this.dateTimePicker2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker2.Location = new System.Drawing.Point(512, 124);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(190, 23);
-            this.dateTimePicker2.TabIndex = 28;
-            // 
-            // dateTimePicker3
-            // 
-            this.dateTimePicker3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker3.Location = new System.Drawing.Point(512, 92);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.Size = new System.Drawing.Size(190, 23);
-            this.dateTimePicker3.TabIndex = 29;
             // 
             // gpmc
             // 
@@ -403,13 +414,25 @@
             this.bz.HeaderText = "备注";
             this.bz.Name = "bz";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btn_Submit);
+            this.groupBox3.Controls.Add(this.btn_Save);
+            this.groupBox3.Location = new System.Drawing.Point(6, 618);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(786, 51);
+            this.groupBox3.TabIndex = 28;
+            this.groupBox3.TabStop = false;
+            // 
             // btn_Submit
             // 
+            this.btn_Submit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Submit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.btn_Submit.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.tijiao;
-            this.btn_Submit.Location = new System.Drawing.Point(701, 16);
+            this.btn_Submit.Location = new System.Drawing.Point(708, 17);
             this.btn_Submit.Name = "btn_Submit";
-            this.btn_Submit.Size = new System.Drawing.Size(66, 28);
+            this.btn_Submit.Size = new System.Drawing.Size(66, 30);
             this.btn_Submit.TabIndex = 1;
             this.btn_Submit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btn_Submit.MouseEnter += new System.EventHandler(this.btn_Save_MouseEnter);
@@ -417,11 +440,13 @@
             // 
             // btn_Save
             // 
+            this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Save.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.btn_Save.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.save;
-            this.btn_Save.Location = new System.Drawing.Point(616, 16);
+            this.btn_Save.Location = new System.Drawing.Point(623, 17);
             this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(66, 28);
+            this.btn_Save.Size = new System.Drawing.Size(66, 30);
             this.btn_Save.TabIndex = 0;
             this.btn_Save.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btn_Save.MouseEnter += new System.EventHandler(this.btn_Save_MouseEnter);
@@ -429,15 +454,16 @@
             // 
             // Frm_AddPC
             // 
+            this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(796, 692);
+            this.ClientSize = new System.Drawing.Size(796, 670);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_AddPC";
@@ -447,10 +473,10 @@
             this.Load += new System.EventHandler(this.Frm_AddPC_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_CDlist)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_CDlist)).EndInit();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
