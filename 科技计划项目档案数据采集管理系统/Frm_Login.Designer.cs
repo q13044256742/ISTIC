@@ -86,7 +86,6 @@
             this.cbo_Identity.Items.AddRange(new object[] {
             "档案管理",
             "移交登记",
-            "任务分配",
             "著录加工",
             "档案质检",
             "工作统计",
@@ -170,6 +169,7 @@
             this.Name = "frm_Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录系统";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frm_Login_FormClosing);
             this.myPanel1.ResumeLayout(false);
             this.myPanel1.PerformLayout();
             this.ResumeLayout(false);

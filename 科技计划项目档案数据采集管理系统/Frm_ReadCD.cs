@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -40,12 +41,22 @@ namespace 科技计划项目档案数据采集管理系统
                     while (pgb_YSJ.Value < pgb_YSJ.Maximum)
                     {
                         pgb_YSJ.PerformStep();
+                        if (pgb_YSJ.Value >= pgb_YSJ.Maximum / 2)
+                        {
+                            TriggerError();
+                            Thread.CurrentThread.Abort();
+                        }
                         Thread.Sleep(250);
                     }
-                    Thread.CurrentThread.Abort();
                 }).Start();
             }
 
+        }
+
+        //触发错误
+        private void TriggerError()
+        {
+            Height += 55;
         }
 
         private void btn_Back_Click(object sender, System.EventArgs e)

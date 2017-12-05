@@ -1,23 +1,55 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Properties;
+using static 科技计划项目档案数据采集管理系统.Tools.Identity;
 
 namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_MainFrame : DevExpress.XtraEditors.XtraForm
     {
-        public Frm_MainFrame()
+        public Frm_MainFrame(CurrentIdentity identity)
         {
             InitializeComponent();
-            InitalForm();
+            InitalForm(identity);
         }
+
+        Panel _panel_log = null;
+        Panel _panel_word = null;
 
         /// <summary>
         /// 初始化界面数据
         /// </summary>
-        private void InitalForm()
+        /// <param name="identity">当前登录人身份</param>
+        private void InitalForm(CurrentIdentity identity)
         {
+            //生成全部菜单项
+            Panel[] panels = GetPanelList(identity);
+            int flag = 0;
+            if(identity == CurrentIdentity.YJDJ)
+            {
+                for (int i = 0; i < panels.Length; i++)
+                {
+                    if (!"采集加工".Equals(panels[i].Name))
+                    {
+                        panels[i].Location = new Point(-1, pal_XTSY.Top + pal_XTSY.Height + (flag++ * panels[i].Height));
+                        pal_LeftMenu.Controls.Add(panels[i]);
+                    }
+                }
+            }else if(identity == CurrentIdentity.ZLJG)
+            {
+                for (int i = 0; i < panels.Length; i++)
+                {
+                    if ("采集加工".Equals(panels[i].Name) || "查询借阅".Equals(panels[i].Name))
+                    {
+                        panels[i].Location = new Point(-1, pal_XTSY.Top + pal_XTSY.Height + (flag++ * panels[i].Height));
+                        pal_LeftMenu.Controls.Add(panels[i]);
+                    }
+                }
+            }
+
             //左侧菜单栏添加动态效果
             foreach (Control item in pal_LeftMenu.Controls)
             {
@@ -39,7 +71,6 @@ namespace 科技计划项目档案数据采集管理系统
             }
 
             //工作动态（加载七条数据）
-            //lbl_listTitle
             for (int i = 0; i < 7; i++)
             {
                 Label label = new Label();
@@ -69,18 +100,209 @@ namespace 科技计划项目档案数据采集管理系统
                 date.ForeColor = lbl_listDate.ForeColor;
                 pal_FirstFrame_Bottom.Controls.Add(date);
             }
+           
+        }
 
-            //
-            foreach (Control item in gp_companylist.Controls)
+        /// <summary>
+        /// 获取左侧菜单栏列表
+        /// </summary>
+        /// <returns></returns>
+        private Panel[] GetPanelList(CurrentIdentity identity)
+        {
+            string filePath = Application.StartupPath + "/Datas/gncd.txt";
+            Image[] imgs = new Image[] {Resources.pic1, Resources.pic2, Resources.pic3, Resources.pic4, Resources.pic5, Resources.pic6, Resources.pic7 };
+            if (File.Exists(filePath))
             {
-                item.MouseEnter += Panel_MouseEnter;
-                item.MouseLeave += Panel_MouseLeave;
-                foreach (Control control in item.Controls)
+                string[] list = File.ReadAllLines(filePath, Encoding.UTF8);
+                Panel[] ps = new Panel[list.Length];
+                for (int i = 0; i < list.Length; i++)
                 {
-                    control.MouseEnter += Panel_MouseEnter;
-                    control.MouseLeave += Panel_MouseLeave;
+                    Panel panel = new Panel();
+                    panel.Size = new Size(282, 53);
+                    panel.BorderStyle = BorderStyle.FixedSingle;
+                    panel.Tag = "a";
+                    panel.BackColor = Color.Transparent;
+                    panel.Name = list[i];
+
+                    Label label = new Label();
+                    label.Font = new Font("Tahoma", 11f);
+                    label.Size = new Size(107, 36);
+                    label.Location = new Point(62, 8);
+                    label.ForeColor = Color.White;
+                    label.ImageAlign = ContentAlignment.MiddleLeft;
+                    label.TextAlign = ContentAlignment.MiddleRight;
+                    label.Text = list[i];
+                    label.Image = imgs[i];
+
+                    if ("移交登记".Equals(list[i].Trim()))
+                    {
+                        panel.Click += Panel_Click;
+                    }
+                    else if ("采集加工".Equals(list[i].Trim()))
+                    {
+                        if (identity == CurrentIdentity.ZLJG)
+                        {
+                            panel.Click += ZLJG_Click;
+                        }
+                    }
+                    panel.Controls.Add(label);
+                    ps[i] = panel;
+                }
+                return ps;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 著录加工 - 点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ZLJG_Click(object sender, EventArgs e)
+        {
+            Control control = sender as Control;
+            _panel_work = _panel_work ?? GetWorkList();
+            if (_panel_work != null)
+            {
+                if (_panel_work.Visible)
+                {
+                    _panel_work.Visible = false;
+                    foreach (Control item in pal_LeftMenu.Controls)
+                    {
+                        if ("a".Equals(item.Tag) && control.Top < item.Top)
+                        {
+                            item.Top -= _panel_work.Height;
+                        }
+                    }
+                }
+                else
+                {
+                    _panel_work.Visible = true;
+
+                    int top = control.Top + control.Height;
+                    int left = control.Left;
+                    _panel_work.Location = new Point(left, top);
+                    foreach (Control item in pal_LeftMenu.Controls)
+                    {
+                        if ("a".Equals(item.Tag) && control.Top < item.Top)
+                        {
+                            item.Top += _panel_work.Height;
+                        }
+                    }
                 }
             }
+        }
+
+        /// <summary>
+        /// 获取著录加工下拉菜单
+        /// </summary>
+        /// <returns></returns>
+        private Panel GetWorkList()
+        {
+            Panel pal_Group = new Panel();
+            pal_Group.Visible = false;
+            int height = 0;
+            string filePath = Application.StartupPath + "/Datas/zljg.txt";
+            if (File.Exists(filePath))
+            {
+                string[] cl = File.ReadAllLines(filePath, Encoding.UTF8);
+                for (int i = 0; i < cl.Length; i++)
+                {
+                    Panel pal_Com = new Panel();
+                    pal_Com.Size = new Size(287, 33);
+                    pal_Com.Location = new Point(-1, i * pal_Com.Height);
+                    pal_Com.BorderStyle = BorderStyle.FixedSingle;
+
+                    Label label = new Label();
+                    label.AutoSize = true;
+                    label.Text = cl[i];
+                    label.Location = new Point(85, 8);
+                    label.Font = new Font("微软雅黑", 9f);
+                    label.MouseEnter += Panel_MouseEnter;
+                    label.MouseLeave += Panel_MouseLeave;
+                    pal_Com.Controls.Add(label);
+
+                    pal_Com.MouseEnter += Panel_MouseEnter;
+                    pal_Com.MouseLeave += Panel_MouseLeave;
+                    pal_Group.Controls.Add(pal_Com);
+                    height += pal_Com.Height;
+
+                    if ("加工登记".Equals(cl[i].Trim()))
+                        pal_Com.Click += Pal_Com_Click;
+                    else if ("加工中".Equals(cl[i].Trim()))
+                    {
+
+                    }
+
+                }
+            }
+            pal_Group.Size = new Size(282, height);
+
+            pal_LeftMenu.Controls.Add(pal_Group);
+
+            return pal_Group;
+        }
+
+        /// <summary>
+        /// 采集加工 - 我的加工事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Pal_Com_Click(object sender, EventArgs e)
+        {
+            pal_FirstFrame.Hide();
+            Frm_ZLJG_FirstFrame frm = new Frm_ZLJG_FirstFrame();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        Panel _panel_work = null;
+        /// <summary>
+        /// 移交登记/档案接收 - 列出来源单位事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Panel_Click(object sender, EventArgs e)
+        {
+            Control control = sender as Control;
+            Panel panel = null;
+            if ("移交登记".Equals(control.Name))
+            {
+                if (_panel_word != null && _panel_word.Visible)
+                    return;
+                panel = _panel_log = _panel_log == null ? GetCompanyList(1) : _panel_log;
+            }
+            else if ("档案加工".Equals(control.Name))
+                panel = _panel_word = _panel_word == null ? GetCompanyList(2) : _panel_word;
+            if (panel != null)
+            {
+                if (panel.Visible)
+                {
+                    panel.Visible = false;
+                    foreach (Control item in pal_LeftMenu.Controls)
+                    {
+                        if ("a".Equals(item.Tag) && control.Top < item.Top)
+                        {
+                            item.Top -= panel.Height;
+                        }
+                    }
+                }
+                else
+                {
+                    int top = control.Top + control.Height;
+                    int left = control.Left;
+                    panel.Location = new Point(left, top);
+                    panel.Visible = true;
+
+                    foreach (Control item in pal_LeftMenu.Controls)
+                    {
+                        if ("a".Equals(item.Tag) && control.Top < item.Top)
+                        {
+                            item.Top += panel.Height;
+                        }
+                    }
+                }
+            } 
         }
 
         private void Item_MouseLeave1(object sender, EventArgs e)
@@ -108,24 +330,9 @@ namespace 科技计划项目档案数据采集管理系统
             Cursor = Cursors.Default;
         }
 
-
-
         private void Frm_MainFrame_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
             Application.Exit();
-        }
-
-        /// <summary>
-        /// 移交登记
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Pal_YJDJ_Click(object sender, EventArgs e)
-        {
-            pal_FirstFrame.Hide();
-            Frm_YJDJ_FirstFrame frm_YJDJ_First = new Frm_YJDJ_FirstFrame();
-            frm_YJDJ_First.MdiParent = this;
-            frm_YJDJ_First.Show();
         }
 
         private void lst_DataList_DrawItem(object sender, DrawItemEventArgs e)
@@ -159,35 +366,65 @@ namespace 科技计划项目档案数据采集管理系统
             label.ForeColor = Color.DimGray;
         }
 
-        private void pal_YJDJ_DoubleClick(object sender, EventArgs e)
+        /// <summary>
+        /// 生成单位列表
+        /// </summary>
+        /// <param name="index">1）移交登记 2）档案接收</param>
+        /// <returns></returns>
+        private Panel GetCompanyList(int index)
         {
-            Control control = sender as Control;
-            if (gp_companylist.Visible)
+            Panel pal_Group = new Panel();
+            pal_Group.Visible = false;
+            int height = 0;
+            string filePath = Application.StartupPath + "/Datas/companyList.txt";
+            if (File.Exists(filePath))
             {
-                gp_companylist.Visible = false;
-                foreach (Control item in pal_LeftMenu.Controls)
+                string[] cl = File.ReadAllLines(filePath, Encoding.UTF8);
+                for (int i = 0; i < cl.Length; i++)
                 {
-                    if ("a".Equals(item.Tag) && control.Top <item.Top)
-                    {
-                        item.Top -= gp_companylist.Height;
-                    }
-                }
-            }
-            else
-            {
-                int top = control.Top + control.Height;
-                int left = control.Left;
-                gp_companylist.Location = new Point(left, top);
-                gp_companylist.Visible = true;
+                    Panel pal_Com = new Panel();
+                    pal_Com.Size = new Size(287, 33);
+                    pal_Com.Location = new Point(-1, i * pal_Com.Height);
+                    pal_Com.BorderStyle = BorderStyle.FixedSingle;
 
-                foreach (Control item in pal_LeftMenu.Controls)
-                {
-                    if ("a".Equals(item.Tag) && control.Top < item.Top)
+                    Label label = new Label();
+                    label.AutoSize = true;
+                    label.Text = cl[i];
+                    label.Location = new Point(85, 8);
+                    label.Font = new Font("微软雅黑", 9f);
+                    label.MouseEnter += Panel_MouseEnter;
+                    label.MouseLeave += Panel_MouseLeave;
+                    if (index == 1)
                     {
-                        item.Top += gp_companylist.Height;
+                        label.Click += Label_Click;
+                        pal_Com.Click += Label_Click;
                     }
+                    pal_Com.Controls.Add(label);
+
+                    pal_Com.MouseEnter += Panel_MouseEnter;
+                    pal_Com.MouseLeave += Panel_MouseLeave;
+                    pal_Group.Controls.Add(pal_Com);
+                    height += pal_Com.Height;
                 }
             }
+            pal_Group.Size = new Size(282, height);
+
+            pal_LeftMenu.Controls.Add(pal_Group);
+
+            return pal_Group;
+        }
+
+        /// <summary>
+        /// 移交登记（全部来源单位） - 来源单位列表点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Label_Click(object sender, EventArgs e)
+        {
+            pal_FirstFrame.Hide();
+            Frm_YJDJ_FirstFrame frm_YJDJ_First = new Frm_YJDJ_FirstFrame();
+            frm_YJDJ_First.MdiParent = this;
+            frm_YJDJ_First.Show();
         }
 
         private void Panel_MouseLeave(object sender, EventArgs e)
@@ -215,5 +452,14 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
+        private void lbl_ExitLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (MessageBox.Show("确认注销当前登录用户吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+            {
+                frm_Login frm = new frm_Login();
+                frm.Show();
+                Hide();
+            }
+        }
     }
 }

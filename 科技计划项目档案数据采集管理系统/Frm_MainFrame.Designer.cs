@@ -33,49 +33,18 @@
             this.pal_TabMenu = new System.Windows.Forms.Panel();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.panel6 = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.panel6 = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
             this.pal_LeftMenu = new 科技计划项目档案数据采集管理系统.Tools.MyPanel();
-            this.gp_companylist = new System.Windows.Forms.GroupBox();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label18 = new System.Windows.Forms.Label();
-            this.panel11 = new System.Windows.Forms.Panel();
-            this.label19 = new System.Windows.Forms.Label();
-            this.panel12 = new System.Windows.Forms.Panel();
-            this.label20 = new System.Windows.Forms.Label();
-            this.panel13 = new System.Windows.Forms.Panel();
-            this.label21 = new System.Windows.Forms.Label();
-            this.panel14 = new System.Windows.Forms.Panel();
-            this.label22 = new System.Windows.Forms.Label();
-            this.panel15 = new System.Windows.Forms.Panel();
-            this.label23 = new System.Windows.Forms.Label();
-            this.panel16 = new System.Windows.Forms.Panel();
-            this.label24 = new System.Windows.Forms.Label();
-            this.panel17 = new System.Windows.Forms.Panel();
-            this.label25 = new System.Windows.Forms.Label();
-            this.panel18 = new System.Windows.Forms.Panel();
-            this.label26 = new System.Windows.Forms.Label();
-            this.panel19 = new System.Windows.Forms.Panel();
-            this.label27 = new System.Windows.Forms.Label();
-            this.pal_TJFX = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.pal_CXJY = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.pal_JCYJ = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.pal_DAJS = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.pal_YJDJ = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
             this.pal_XTSY = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -85,33 +54,17 @@
             this.lbl_OtherInfo = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lbl_ExitLogin = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pal_FirstFrame.SuspendLayout();
             this.pal_FirstFrame_Bottom.SuspendLayout();
             this.pal_TabMenu.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.panel6.SuspendLayout();
             this.pal_LeftMenu.SuspendLayout();
-            this.gp_companylist.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel11.SuspendLayout();
-            this.panel12.SuspendLayout();
-            this.panel13.SuspendLayout();
-            this.panel14.SuspendLayout();
-            this.panel15.SuspendLayout();
-            this.panel16.SuspendLayout();
-            this.panel17.SuspendLayout();
-            this.panel18.SuspendLayout();
-            this.panel19.SuspendLayout();
-            this.pal_TJFX.SuspendLayout();
-            this.pal_CXJY.SuspendLayout();
-            this.pal_JCYJ.SuspendLayout();
-            this.pal_DAJS.SuspendLayout();
-            this.pal_YJDJ.SuspendLayout();
             this.pal_XTSY.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
@@ -200,6 +153,29 @@
             this.label16.Text = "通知公告";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label15
+            // 
+            this.label15.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label15.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.current2;
+            this.label15.Location = new System.Drawing.Point(53, 9);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(101, 40);
+            this.label15.TabIndex = 1;
+            this.label15.Tag = "1";
+            this.label15.Text = "工作动态";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label10
+            // 
+            this.label10.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label10.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.right2;
+            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label10.Location = new System.Drawing.Point(2, 8);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(58, 42);
+            this.label10.TabIndex = 0;
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // panel5
             // 
             this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -227,6 +203,15 @@
             this.label11.TabIndex = 6;
             this.label11.Text = "年度档案收集情况统计";
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.area3;
+            this.pictureBox3.Location = new System.Drawing.Point(646, 102);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(314, 211);
+            this.pictureBox3.TabIndex = 5;
+            this.pictureBox3.TabStop = false;
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -236,6 +221,15 @@
             this.label12.Size = new System.Drawing.Size(178, 16);
             this.label12.TabIndex = 4;
             this.label12.Text = "年度档案收集情况统计";
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.area2;
+            this.pictureBox4.Location = new System.Drawing.Point(321, 103);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(308, 211);
+            this.pictureBox4.TabIndex = 3;
+            this.pictureBox4.TabStop = false;
             // 
             // label13
             // 
@@ -247,6 +241,15 @@
             this.label13.TabIndex = 2;
             this.label13.Text = "年度档案收集情况统计";
             // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.area1;
+            this.pictureBox5.Location = new System.Drawing.Point(6, 104);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(300, 211);
+            this.pictureBox5.TabIndex = 1;
+            this.pictureBox5.TabStop = false;
+            // 
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.Color.MintCream;
@@ -256,56 +259,6 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(977, 56);
             this.panel6.TabIndex = 0;
-            // 
-            // label15
-            // 
-            this.label15.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label15.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.current2;
-            this.label15.Location = new System.Drawing.Point(53, 9);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(101, 40);
-            this.label15.TabIndex = 1;
-            this.label15.Tag = "1";
-            this.label15.Text = "工作动态";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label10
-            // 
-            this.label10.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label10.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.right2;
-            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label10.Location = new System.Drawing.Point(2, 8);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(58, 42);
-            this.label10.TabIndex = 0;
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.area3;
-            this.pictureBox3.Location = new System.Drawing.Point(646, 102);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(314, 211);
-            this.pictureBox3.TabIndex = 5;
-            this.pictureBox3.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.area2;
-            this.pictureBox4.Location = new System.Drawing.Point(321, 103);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(308, 211);
-            this.pictureBox4.TabIndex = 3;
-            this.pictureBox4.TabStop = false;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.area1;
-            this.pictureBox5.Location = new System.Drawing.Point(6, 104);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(300, 211);
-            this.pictureBox5.TabIndex = 1;
-            this.pictureBox5.TabStop = false;
             // 
             // label14
             // 
@@ -324,12 +277,6 @@
             this.pal_LeftMenu.AutoScroll = true;
             this.pal_LeftMenu.BackgroundImage = global::科技计划项目档案数据采集管理系统.Properties.Resources.top;
             this.pal_LeftMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pal_LeftMenu.Controls.Add(this.gp_companylist);
-            this.pal_LeftMenu.Controls.Add(this.pal_TJFX);
-            this.pal_LeftMenu.Controls.Add(this.pal_CXJY);
-            this.pal_LeftMenu.Controls.Add(this.pal_JCYJ);
-            this.pal_LeftMenu.Controls.Add(this.pal_DAJS);
-            this.pal_LeftMenu.Controls.Add(this.pal_YJDJ);
             this.pal_LeftMenu.Controls.Add(this.pal_XTSY);
             this.pal_LeftMenu.Controls.Add(this.label3);
             this.pal_LeftMenu.Controls.Add(this.pictureBox2);
@@ -338,369 +285,6 @@
             this.pal_LeftMenu.Name = "pal_LeftMenu";
             this.pal_LeftMenu.Size = new System.Drawing.Size(280, 599);
             this.pal_LeftMenu.TabIndex = 5;
-            // 
-            // gp_companylist
-            // 
-            this.gp_companylist.Controls.Add(this.panel4);
-            this.gp_companylist.Controls.Add(this.panel11);
-            this.gp_companylist.Controls.Add(this.panel12);
-            this.gp_companylist.Controls.Add(this.panel13);
-            this.gp_companylist.Controls.Add(this.panel14);
-            this.gp_companylist.Controls.Add(this.panel15);
-            this.gp_companylist.Controls.Add(this.panel16);
-            this.gp_companylist.Controls.Add(this.panel17);
-            this.gp_companylist.Controls.Add(this.panel18);
-            this.gp_companylist.Controls.Add(this.panel19);
-            this.gp_companylist.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.gp_companylist.Location = new System.Drawing.Point(-2, 474);
-            this.gp_companylist.Name = "gp_companylist";
-            this.gp_companylist.Size = new System.Drawing.Size(282, 324);
-            this.gp_companylist.TabIndex = 9;
-            this.gp_companylist.TabStop = false;
-            this.gp_companylist.Visible = false;
-            // 
-            // panel4
-            // 
-            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Controls.Add(this.label18);
-            this.panel4.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.panel4.Location = new System.Drawing.Point(-1, 259);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(285, 33);
-            this.panel4.TabIndex = 3;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label18.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label18.Location = new System.Drawing.Point(85, 7);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(154, 17);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "新药创制（09）专项办公室";
-            // 
-            // panel11
-            // 
-            this.panel11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel11.Controls.Add(this.label19);
-            this.panel11.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.panel11.Location = new System.Drawing.Point(-1, 291);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(287, 33);
-            this.panel11.TabIndex = 4;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label19.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label19.Location = new System.Drawing.Point(85, 7);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(142, 17);
-            this.label19.TabIndex = 0;
-            this.label19.Text = "传染病（10）专项办公室";
-            // 
-            // panel12
-            // 
-            this.panel12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel12.BackColor = System.Drawing.Color.Aqua;
-            this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel12.Controls.Add(this.label20);
-            this.panel12.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.panel12.Location = new System.Drawing.Point(-1, 3);
-            this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(287, 33);
-            this.panel12.TabIndex = 1;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label20.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label20.Location = new System.Drawing.Point(85, 8);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(80, 17);
-            this.label20.TabIndex = 0;
-            this.label20.Text = "全部来源单位";
-            // 
-            // panel13
-            // 
-            this.panel13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel13.Controls.Add(this.label21);
-            this.panel13.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.panel13.Location = new System.Drawing.Point(-1, 195);
-            this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(285, 33);
-            this.panel13.TabIndex = 1;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label21.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label21.Location = new System.Drawing.Point(85, 8);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(130, 17);
-            this.label21.TabIndex = 0;
-            this.label21.Text = "核电（06）专项办公室";
-            // 
-            // panel14
-            // 
-            this.panel14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel14.Controls.Add(this.label22);
-            this.panel14.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.panel14.Location = new System.Drawing.Point(-1, 131);
-            this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(287, 33);
-            this.panel14.TabIndex = 1;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label22.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label22.Location = new System.Drawing.Point(85, 7);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(154, 17);
-            this.label22.TabIndex = 0;
-            this.label22.Text = "宽带移动（03）专项办公室";
-            // 
-            // panel15
-            // 
-            this.panel15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel15.Controls.Add(this.label23);
-            this.panel15.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.panel15.Location = new System.Drawing.Point(-1, 227);
-            this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(287, 33);
-            this.panel15.TabIndex = 1;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label23.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label23.Location = new System.Drawing.Point(85, 8);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(142, 17);
-            this.label23.TabIndex = 0;
-            this.label23.Text = "转基因（08）专项办公室";
-            // 
-            // panel16
-            // 
-            this.panel16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel16.Controls.Add(this.label24);
-            this.panel16.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.panel16.Location = new System.Drawing.Point(-1, 99);
-            this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(287, 33);
-            this.panel16.TabIndex = 1;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label24.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label24.Location = new System.Drawing.Point(85, 8);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(154, 17);
-            this.label24.TabIndex = 0;
-            this.label24.Text = "集成电路（02）专项办公室";
-            // 
-            // panel17
-            // 
-            this.panel17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel17.Controls.Add(this.label25);
-            this.panel17.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.panel17.Location = new System.Drawing.Point(-1, 163);
-            this.panel17.Name = "panel17";
-            this.panel17.Size = new System.Drawing.Size(287, 33);
-            this.panel17.TabIndex = 2;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label25.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label25.Location = new System.Drawing.Point(85, 8);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(154, 17);
-            this.label25.TabIndex = 0;
-            this.label25.Text = "数控机床（04）专项办公室";
-            // 
-            // panel18
-            // 
-            this.panel18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel18.Controls.Add(this.label26);
-            this.panel18.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.panel18.Location = new System.Drawing.Point(-1, 67);
-            this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(287, 33);
-            this.panel18.TabIndex = 1;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label26.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label26.Location = new System.Drawing.Point(85, 8);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(142, 17);
-            this.label26.TabIndex = 0;
-            this.label26.Text = "核高基（01）专项办公室";
-            // 
-            // panel19
-            // 
-            this.panel19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel19.Controls.Add(this.label27);
-            this.panel19.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.panel19.Location = new System.Drawing.Point(-1, 35);
-            this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(287, 33);
-            this.panel19.TabIndex = 0;
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label27.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label27.Location = new System.Drawing.Point(85, 8);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(116, 17);
-            this.label27.TabIndex = 0;
-            this.label27.Text = "重大专项管理办公室";
-            // 
-            // pal_TJFX
-            // 
-            this.pal_TJFX.BackColor = System.Drawing.Color.Transparent;
-            this.pal_TJFX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pal_TJFX.Controls.Add(this.label9);
-            this.pal_TJFX.Location = new System.Drawing.Point(-1, 406);
-            this.pal_TJFX.Name = "pal_TJFX";
-            this.pal_TJFX.Size = new System.Drawing.Size(282, 53);
-            this.pal_TJFX.TabIndex = 6;
-            this.pal_TJFX.Tag = "a";
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Tahoma", 11F);
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic6;
-            this.label9.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label9.Location = new System.Drawing.Point(62, 8);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(107, 36);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "统计分析";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // pal_CXJY
-            // 
-            this.pal_CXJY.BackColor = System.Drawing.Color.Transparent;
-            this.pal_CXJY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pal_CXJY.Controls.Add(this.label6);
-            this.pal_CXJY.Location = new System.Drawing.Point(-1, 354);
-            this.pal_CXJY.Name = "pal_CXJY";
-            this.pal_CXJY.Size = new System.Drawing.Size(282, 53);
-            this.pal_CXJY.TabIndex = 3;
-            this.pal_CXJY.Tag = "a";
-            // 
-            // label6
-            // 
-            this.label6.Font = new System.Drawing.Font("Tahoma", 11F);
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic5;
-            this.label6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label6.Location = new System.Drawing.Point(62, 8);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(107, 36);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "查询借阅";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // pal_JCYJ
-            // 
-            this.pal_JCYJ.BackColor = System.Drawing.Color.Transparent;
-            this.pal_JCYJ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pal_JCYJ.Controls.Add(this.label8);
-            this.pal_JCYJ.Location = new System.Drawing.Point(-1, 302);
-            this.pal_JCYJ.Name = "pal_JCYJ";
-            this.pal_JCYJ.Size = new System.Drawing.Size(282, 53);
-            this.pal_JCYJ.TabIndex = 5;
-            this.pal_JCYJ.Tag = "a";
-            // 
-            // label8
-            // 
-            this.label8.Font = new System.Drawing.Font("Tahoma", 11F);
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic4;
-            this.label8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label8.Location = new System.Drawing.Point(62, 8);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(107, 36);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "监测预警";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // pal_DAJS
-            // 
-            this.pal_DAJS.BackColor = System.Drawing.Color.Transparent;
-            this.pal_DAJS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pal_DAJS.Controls.Add(this.label7);
-            this.pal_DAJS.Location = new System.Drawing.Point(-1, 250);
-            this.pal_DAJS.Name = "pal_DAJS";
-            this.pal_DAJS.Size = new System.Drawing.Size(282, 53);
-            this.pal_DAJS.TabIndex = 4;
-            this.pal_DAJS.Tag = "a";
-            this.pal_DAJS.Click += new System.EventHandler(this.pal_YJDJ_DoubleClick);
-            // 
-            // label7
-            // 
-            this.label7.Font = new System.Drawing.Font("Tahoma", 11F);
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic3;
-            this.label7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label7.Location = new System.Drawing.Point(62, 8);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(107, 36);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "档案接收";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // pal_YJDJ
-            // 
-            this.pal_YJDJ.BackColor = System.Drawing.Color.Transparent;
-            this.pal_YJDJ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pal_YJDJ.Controls.Add(this.label5);
-            this.pal_YJDJ.Location = new System.Drawing.Point(-1, 198);
-            this.pal_YJDJ.Name = "pal_YJDJ";
-            this.pal_YJDJ.Size = new System.Drawing.Size(282, 53);
-            this.pal_YJDJ.TabIndex = 3;
-            this.pal_YJDJ.Tag = "a";
-            this.pal_YJDJ.Click += new System.EventHandler(this.pal_YJDJ_DoubleClick);
-            // 
-            // label5
-            // 
-            this.label5.Font = new System.Drawing.Font("Tahoma", 11F);
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic2;
-            this.label5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label5.Location = new System.Drawing.Point(62, 8);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 36);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "移交登记";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // pal_XTSY
             // 
@@ -752,7 +336,7 @@
             // 
             this.panel1.BackgroundImage = global::科技计划项目档案数据采集管理系统.Properties.Resources.top;
             this.panel1.Controls.Add(this.pal_LoginInfo);
-            this.panel1.Controls.Add(this.linkLabel1);
+            this.panel1.Controls.Add(this.lbl_ExitLogin);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -804,21 +388,22 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "欢迎你：";
             // 
-            // linkLabel1
+            // lbl_ExitLogin
             // 
-            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lbl_ExitLogin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel1.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.linkLabel1.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.tuichu;
-            this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel1.Location = new System.Drawing.Point(1118, 48);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(101, 32);
-            this.linkLabel1.TabIndex = 1;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "退出系统";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_ExitLogin.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_ExitLogin.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_ExitLogin.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.tuichu;
+            this.lbl_ExitLogin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl_ExitLogin.Location = new System.Drawing.Point(1118, 48);
+            this.lbl_ExitLogin.Name = "lbl_ExitLogin";
+            this.lbl_ExitLogin.Size = new System.Drawing.Size(101, 32);
+            this.lbl_ExitLogin.TabIndex = 1;
+            this.lbl_ExitLogin.TabStop = true;
+            this.lbl_ExitLogin.Text = "退出系统";
+            this.lbl_ExitLogin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_ExitLogin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbl_ExitLogin_LinkClicked);
             // 
             // pictureBox1
             // 
@@ -851,38 +436,12 @@
             this.pal_TabMenu.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            this.panel6.ResumeLayout(false);
             this.pal_LeftMenu.ResumeLayout(false);
             this.pal_LeftMenu.PerformLayout();
-            this.gp_companylist.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel11.ResumeLayout(false);
-            this.panel11.PerformLayout();
-            this.panel12.ResumeLayout(false);
-            this.panel12.PerformLayout();
-            this.panel13.ResumeLayout(false);
-            this.panel13.PerformLayout();
-            this.panel14.ResumeLayout(false);
-            this.panel14.PerformLayout();
-            this.panel15.ResumeLayout(false);
-            this.panel15.PerformLayout();
-            this.panel16.ResumeLayout(false);
-            this.panel16.PerformLayout();
-            this.panel17.ResumeLayout(false);
-            this.panel17.PerformLayout();
-            this.panel18.ResumeLayout(false);
-            this.panel18.PerformLayout();
-            this.panel19.ResumeLayout(false);
-            this.panel19.PerformLayout();
-            this.pal_TJFX.ResumeLayout(false);
-            this.pal_CXJY.ResumeLayout(false);
-            this.pal_JCYJ.ResumeLayout(false);
-            this.pal_DAJS.ResumeLayout(false);
-            this.pal_YJDJ.ResumeLayout(false);
             this.pal_XTSY.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -895,7 +454,7 @@
 
         #endregion
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel lbl_ExitLogin;
         private Tools.MyPanel pal_LeftMenu;
         private Tools.MyPanel panel1;
         private Tools.MyPanel pal_LoginInfo;
@@ -905,16 +464,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Panel pal_XTSY;
-        private System.Windows.Forms.Panel pal_TJFX;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Panel pal_CXJY;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Panel pal_JCYJ;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Panel pal_DAJS;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Panel pal_YJDJ;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel pal_FirstFrame;
         private System.Windows.Forms.Panel pal_FirstFrame_Bottom;
@@ -934,26 +483,5 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lbl_listDate;
         private System.Windows.Forms.Label lbl_listTitle;
-        private System.Windows.Forms.GroupBox gp_companylist;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Panel panel11;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Panel panel12;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Panel panel13;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Panel panel14;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Panel panel15;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Panel panel16;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Panel panel17;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Panel panel18;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Panel panel19;
-        private System.Windows.Forms.Label label27;
     }
 }

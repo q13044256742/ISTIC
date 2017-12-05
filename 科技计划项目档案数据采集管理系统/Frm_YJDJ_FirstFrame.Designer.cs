@@ -30,7 +30,6 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dgv_SWDJ = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lbl_Submit = new System.Windows.Forms.Label();
@@ -44,20 +43,15 @@
             this.btn_Find = new System.Windows.Forms.Label();
             this.btn_Delete = new System.Windows.Forms.Label();
             this.btn_Add = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cbo_Company = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.dgv_SWDJ = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_SWDJ)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).BeginInit();
             this.panel1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_SWDJ)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -74,8 +68,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.groupBox3);
-            this.tabPage1.Controls.Add(this.groupBox4);
+            this.tabPage1.Controls.Add(this.dgv_SWDJ);
             this.tabPage1.Location = new System.Drawing.Point(4, 28);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -83,27 +76,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "实物登记";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // dgv_SWDJ
-            // 
-            this.dgv_SWDJ.AllowUserToAddRows = false;
-            this.dgv_SWDJ.AllowUserToDeleteRows = false;
-            this.dgv_SWDJ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_SWDJ.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dgv_SWDJ.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_SWDJ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_SWDJ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_SWDJ.EnableHeadersVisualStyles = false;
-            this.dgv_SWDJ.Location = new System.Drawing.Point(3, 23);
-            this.dgv_SWDJ.Name = "dgv_SWDJ";
-            this.dgv_SWDJ.ReadOnly = true;
-            this.dgv_SWDJ.RowHeadersVisible = false;
-            this.dgv_SWDJ.RowTemplate.Height = 23;
-            this.dgv_SWDJ.Size = new System.Drawing.Size(987, 270);
-            this.dgv_SWDJ.TabIndex = 0;
-            this.dgv_SWDJ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_SWDJ_CellContentClick);
-            this.dgv_SWDJ.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_SWDJ_CellMouseEnter);
-            this.dgv_SWDJ.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_SWDJ_CellMouseLeave);
             // 
             // tabPage2
             // 
@@ -277,63 +249,24 @@
             this.btn_Add.MouseEnter += new System.EventHandler(this.btn_Find_MouseEnter);
             this.btn_Add.MouseLeave += new System.EventHandler(this.btn_Find_MouseLeave);
             // 
-            // groupBox3
+            // dgv_SWDJ
             // 
-            this.groupBox3.Controls.Add(this.cbo_Company);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Location = new System.Drawing.Point(6, -4);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(993, 47);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            // 
-            // cbo_Company
-            // 
-            this.cbo_Company.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbo_Company.FormattingEnabled = true;
-            this.cbo_Company.Items.AddRange(new object[] {
-            "重大专项管理办公室",
-            "核高基（01）专项办公室",
-            "集成电路（02）专项办公室",
-            "宽带移动（03）专项办公室",
-            "数控机床（04）专项办公室",
-            "数控机床（04）专项办公室",
-            "核电（06）专项办公室",
-            "转基因（08）专项办公室",
-            "新药创制（09）专项办公室",
-            "传染病（10）专项办公室",
-            "中国农村技术开发中心",
-            "科学技术部火炬高技术产业开发中心",
-            "科学技术部火炬高技术产业开发中心",
-            "中国科学技术交流中心（中日技术合作事务中心）",
-            "中国生物技术发展中心",
-            "科学技术部高技术研究发展中心",
-            "中国21世纪议程管理中心",
-            "科技部科技评估中心",
-            "国家科技风险开发事业中心",
-            "中国生物技术发展中心"});
-            this.cbo_Company.Location = new System.Drawing.Point(122, 15);
-            this.cbo_Company.Name = "cbo_Company";
-            this.cbo_Company.Size = new System.Drawing.Size(367, 27);
-            this.cbo_Company.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 18);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(111, 19);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "来源单位筛选:";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.dgv_SWDJ);
-            this.groupBox4.Location = new System.Drawing.Point(6, 37);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(993, 296);
-            this.groupBox4.TabIndex = 4;
-            this.groupBox4.TabStop = false;
+            this.dgv_SWDJ.AllowUserToAddRows = false;
+            this.dgv_SWDJ.AllowUserToDeleteRows = false;
+            this.dgv_SWDJ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_SWDJ.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dgv_SWDJ.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_SWDJ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_SWDJ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_SWDJ.EnableHeadersVisualStyles = false;
+            this.dgv_SWDJ.Location = new System.Drawing.Point(3, 3);
+            this.dgv_SWDJ.Name = "dgv_SWDJ";
+            this.dgv_SWDJ.ReadOnly = true;
+            this.dgv_SWDJ.RowHeadersVisible = false;
+            this.dgv_SWDJ.RowTemplate.Height = 23;
+            this.dgv_SWDJ.Size = new System.Drawing.Size(1001, 334);
+            this.dgv_SWDJ.TabIndex = 1;
+            this.dgv_SWDJ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_SWDJ_CellContentClick);
             // 
             // Frm_YJDJ_FirstFrame
             // 
@@ -349,7 +282,6 @@
             this.Text = "移交登记";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_SWDJ)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -357,9 +289,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_SWDJ)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -373,7 +303,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView dgv_SWDJ;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridView dgv_GPDJ;
         private System.Windows.Forms.Label btn_Back;
@@ -382,9 +311,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lbl_Submit;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ComboBox cbo_Company;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.DataGridView dgv_SWDJ;
     }
 }

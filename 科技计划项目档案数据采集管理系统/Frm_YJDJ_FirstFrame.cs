@@ -35,7 +35,6 @@ namespace 科技计划项目档案数据采集管理系统
 
             //默认下拉框事件
             cbo_TypeSelect.SelectedIndex = 0;
-            cbo_Company.SelectedIndex = 0;
         }
 
         private void Dgv_SWDJ_CellContentClick(object sender, DataGridViewCellEventArgs e)

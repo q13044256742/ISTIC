@@ -41,8 +41,13 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_Back = new System.Windows.Forms.Label();
+            this.gp_ErrorTip = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.gp_ErrorTip.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -161,8 +166,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.btn_Back);
-            this.groupBox2.Location = new System.Drawing.Point(5, 162);
+            this.groupBox2.Location = new System.Drawing.Point(5, 167);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(462, 60);
             this.groupBox2.TabIndex = 11;
@@ -181,13 +188,59 @@
             this.btn_Back.TabIndex = 5;
             this.btn_Back.Click += new System.EventHandler(this.btn_Back_Click);
             // 
+            // gp_ErrorTip
+            // 
+            this.gp_ErrorTip.Controls.Add(this.radioButton2);
+            this.gp_ErrorTip.Controls.Add(this.radioButton1);
+            this.gp_ErrorTip.Controls.Add(this.label5);
+            this.gp_ErrorTip.Location = new System.Drawing.Point(5, 161);
+            this.gp_ErrorTip.Name = "gp_ErrorTip";
+            this.gp_ErrorTip.Size = new System.Drawing.Size(462, 62);
+            this.gp_ErrorTip.TabIndex = 12;
+            this.gp_ErrorTip.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(45, 17);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(372, 17);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Tip： 无法读取项目/课题信息，是否按非结构化光盘处理？";
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Font = new System.Drawing.Font("Tahoma", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButton1.Location = new System.Drawing.Point(315, 37);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(40, 21);
+            this.radioButton1.TabIndex = 1;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "是";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Font = new System.Drawing.Font("Tahoma", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButton2.Location = new System.Drawing.Point(361, 37);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(40, 21);
+            this.radioButton2.TabIndex = 2;
+            this.radioButton2.Text = "否";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
             // Frm_ReadCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 228);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(474, 232);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gp_ErrorTip);
             this.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -199,6 +252,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.gp_ErrorTip.ResumeLayout(false);
+            this.gp_ErrorTip.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -218,5 +273,9 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label btn_Back;
+        private System.Windows.Forms.GroupBox gp_ErrorTip;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.Label label5;
     }
 }
