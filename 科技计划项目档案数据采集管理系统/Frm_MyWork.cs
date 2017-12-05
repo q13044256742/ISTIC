@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -10,10 +11,15 @@ namespace 科技计划项目档案数据采集管理系统
             InitializeComponent();
             InitialForm(planName);
         }
-
+        List<TabPage> tabList = new List<TabPage>();
         private void InitialForm(string planName)
         {
-            showTab(0);
+            foreach (TabPage tab in tab_MenuList.TabPages)
+            {
+                tabList.Add(tab);
+                tab_MenuList.TabPages.Remove(tab);
+            }
+            ShowTab(false, "plan");
             lbl_PlanName.Text = planName;
             tv_DataList.Nodes[0].Text = planName;
         }
@@ -21,40 +27,31 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 展示指定文本的tab页面（隐藏其他页面）
         /// </summary>
-        /// <param name="v">要展示页面的Text</param>
-        private void showTab(int index)
+        /// <param name="v">要展示页面的Name</param>
+        private void ShowTab(bool clear, string name)
         {
-            tab_MenuList.TabPages[index].Select();
-            //foreach (TabPage item in tab_MenuList.TabPages)
-            //{
-            //    if (!tabName.Equals(item.Name))
-            //    {
-            //        tab_MenuList.TabPages.Remove(tab_MenuList.TabPages[item.Name]);
-            //    }
-            //    else
-            //    {
-            //        //item.Parent = tab_MenuList;
-            //        item.Select();
-            //    }
-            //}
+            if (clear)
+                tab_MenuList.TabPages.Clear();
+            for (int i = 0; i < tabList.Count; i++)
+            {
+                if (tabList[i].Name.Equals(name))
+                {
+                    tab_MenuList.TabPages.Add(tabList[i]);
+                    break;
+                }
+            }
         }
 
         private void cbo_JH_Next_SelectedIndexChanged(object sender, EventArgs e)
         {
             tv_DataList.Nodes[0].Nodes.Clear();
             tv_DataList.Nodes[0].ExpandAll();
-            if(cbo_JH_Next.SelectedIndex == 0)
+            if (cbo_JH_Next.SelectedIndex == 1)
             {
-                TreeNode treeNode = new TreeNode("项目");
-                treeNode.Name = "xm";
-                tv_DataList.Nodes[0].Nodes.Add(treeNode);
-                tv_DataList.SelectedNode = treeNode;
-            }else if(cbo_JH_Next.SelectedIndex == 1)
+                ShowTab(false, "project");
+            }
+            else if (cbo_JH_Next.SelectedIndex == 2)
             {
-                TreeNode treeNode = new TreeNode("课题");
-                treeNode.Name = "kt";
-                tv_DataList.Nodes[0].Nodes.Add(treeNode);
-                tv_DataList.SelectedNode = treeNode;
             }
         }
 
@@ -62,8 +59,13 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if ("项目".Equals(tv_DataList.SelectedNode.Text))
             {
-                showTab(1);
+               
             }
+        }
+
+        private void Frm_MyWork_Load(object sender, EventArgs e)
+        {
+            cbo_JH_Next.SelectedIndex = 0;
         }
     }
 }
