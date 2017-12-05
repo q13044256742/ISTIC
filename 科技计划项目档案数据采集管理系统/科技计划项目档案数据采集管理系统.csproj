@@ -81,29 +81,11 @@
     <Compile Include="Frm_MainFrame.Designer.cs">
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_MyWork.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_MyWork.Designer.cs">
-      <DependentUpon>Frm_MyWork.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_OnWorking.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_OnWorking.Designer.cs">
-      <DependentUpon>Frm_OnWorking.cs</DependentUpon>
-    </Compile>
     <Compile Include="Frm_PcDetail.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Frm_PcDetail.Designer.cs">
       <DependentUpon>Frm_PcDetail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_ProTypeSelect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_ProTypeSelect.Designer.cs">
-      <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </Compile>
     <Compile Include="Frm_ReadCD.cs">
       <SubType>Form</SubType>
@@ -141,17 +123,8 @@
     <EmbeddedResource Include="Frm_MainFrame.resx">
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_MyWork.resx">
-      <DependentUpon>Frm_MyWork.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_OnWorking.resx">
-      <DependentUpon>Frm_OnWorking.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Frm_PcDetail.resx">
       <DependentUpon>Frm_PcDetail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_ProTypeSelect.resx">
-      <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_ReadCD.resx">
       <DependentUpon>Frm_ReadCD.cs</DependentUpon>

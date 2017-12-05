@@ -231,7 +231,7 @@ namespace 科技计划项目档案数据采集管理系统
                         pal_Com.Click += Pal_Com_Click;
                     else if ("加工中".Equals(cl[i].Trim()))
                     {
-                        pal_Com.Click += Pal_Com_Click1;
+
                     }
 
                 }
@@ -241,14 +241,6 @@ namespace 科技计划项目档案数据采集管理系统
             pal_LeftMenu.Controls.Add(pal_Group);
 
             return pal_Group;
-        }
-
-        private void Pal_Com_Click1(object sender, EventArgs e)
-        {
-            pal_FirstFrame.Hide();
-            Frm_OnWorking frm = new Frm_OnWorking(0);
-            frm.MdiParent = this;
-            frm.Show();
         }
 
         /// <summary>
