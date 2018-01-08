@@ -30,10 +30,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cbo_Identity = new System.Windows.Forms.ComboBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txt_loginPassword = new System.Windows.Forms.TextBox();
             this.btn_Login = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txt_loginName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.myPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -45,10 +44,9 @@
             this.myPanel1.Controls.Add(this.label3);
             this.myPanel1.Controls.Add(this.label2);
             this.myPanel1.Controls.Add(this.cbo_Identity);
-            this.myPanel1.Controls.Add(this.button2);
-            this.myPanel1.Controls.Add(this.textBox2);
+            this.myPanel1.Controls.Add(this.txt_loginPassword);
             this.myPanel1.Controls.Add(this.btn_Login);
-            this.myPanel1.Controls.Add(this.textBox1);
+            this.myPanel1.Controls.Add(this.txt_loginName);
             this.myPanel1.Controls.Add(this.label1);
             this.myPanel1.Location = new System.Drawing.Point(145, 91);
             this.myPanel1.Name = "myPanel1";
@@ -97,28 +95,17 @@
             this.cbo_Identity.Size = new System.Drawing.Size(103, 24);
             this.cbo_Identity.TabIndex = 6;
             // 
-            // button2
+            // txt_loginPassword
             // 
-            this.button2.BackgroundImage = global::科技计划项目档案数据采集管理系统.Properties.Resources.login2;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button2.Font = new System.Drawing.Font("Tahoma", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(381, 330);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(95, 31);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "注册(&R)";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox2.Location = new System.Drawing.Point(309, 228);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(168, 27);
-            this.textBox2.TabIndex = 3;
+            this.txt_loginPassword.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.txt_loginPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_loginPassword.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.txt_loginPassword.Location = new System.Drawing.Point(309, 228);
+            this.txt_loginPassword.Name = "txt_loginPassword";
+            this.txt_loginPassword.PasswordChar = '*';
+            this.txt_loginPassword.Size = new System.Drawing.Size(168, 27);
+            this.txt_loginPassword.TabIndex = 3;
+            this.txt_loginPassword.Text = "admin";
             // 
             // btn_Login
             // 
@@ -126,7 +113,7 @@
             this.btn_Login.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_Login.Font = new System.Drawing.Font("Tahoma", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btn_Login.ForeColor = System.Drawing.Color.White;
-            this.btn_Login.Location = new System.Drawing.Point(238, 330);
+            this.btn_Login.Location = new System.Drawing.Point(355, 337);
             this.btn_Login.Name = "btn_Login";
             this.btn_Login.Size = new System.Drawing.Size(95, 31);
             this.btn_Login.TabIndex = 4;
@@ -134,15 +121,16 @@
             this.btn_Login.UseVisualStyleBackColor = true;
             this.btn_Login.Click += new System.EventHandler(this.btn_Login_Click);
             // 
-            // textBox1
+            // txt_loginName
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(309, 181);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(168, 27);
-            this.textBox1.TabIndex = 2;
+            this.txt_loginName.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.txt_loginName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_loginName.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.txt_loginName.Location = new System.Drawing.Point(309, 181);
+            this.txt_loginName.Name = "txt_loginName";
+            this.txt_loginName.Size = new System.Drawing.Size(168, 27);
+            this.txt_loginName.TabIndex = 2;
+            this.txt_loginName.Text = "admin";
             // 
             // label1
             // 
@@ -170,6 +158,7 @@
             this.Name = "frm_Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录系统";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frm_Login_FormClosing);
             this.myPanel1.ResumeLayout(false);
             this.myPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -180,10 +169,9 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txt_loginName;
+        private System.Windows.Forms.TextBox txt_loginPassword;
         private System.Windows.Forms.Button btn_Login;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox cbo_Identity;
         private Tools.MyPanel myPanel1;
         private System.Windows.Forms.Label label3;
