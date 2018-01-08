@@ -85,5 +85,16 @@ namespace 科技计划项目档案数据采集管理系统
             SqlDataReader reader = sqlCommand.ExecuteReader();
             return reader;
         }
+
+        /// <summary>
+        /// 执行非查询操作（增删改）
+        /// </summary>
+        /// <param name="nonQuerySql">SQL语句</param>
+        public static void ExecuteNonQuery(string nonQuerySql)
+        {
+            SqlCommand sqlCommand = new SqlCommand(nonQuerySql, GetConnect());
+            sqlCommand.ExecuteNonQuery();
+            CloseConnect();
+        }
     }
 }

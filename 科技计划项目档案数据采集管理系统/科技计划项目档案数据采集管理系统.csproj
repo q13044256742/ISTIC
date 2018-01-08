@@ -86,6 +86,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
     <Compile Include="Tools\CreateButton.cs" />
+    <Compile Include="Tools\DataGridViewStyleHelper.cs" />
     <Compile Include="Tools\MyPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -96,6 +97,7 @@
     <Compile Include="TransferOfRegistration\Frm_ToR.Designer.cs">
       <DependentUpon>Frm_ToR.cs</DependentUpon>
     </Compile>
+    <Compile Include="TransferOfRegistration\TransferOfRegistration.cs" />
     <EmbeddedResource Include="Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
     </EmbeddedResource>
