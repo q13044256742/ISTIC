@@ -84,7 +84,6 @@
             this.cbo_Identity.Items.AddRange(new object[] {
             "档案管理",
             "移交登记",
-            "任务分配",
             "著录加工",
             "档案质检",
             "工作统计",
