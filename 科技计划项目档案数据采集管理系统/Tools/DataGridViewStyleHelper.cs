@@ -41,16 +41,36 @@ namespace 科技计划项目档案数据采集管理系统
         /// 设置指定列的值为可点击样式
         /// </summary>
         /// <param name="indexs">指定列的列数（从0开始）</param>
-        public static void SetLinkStyle(DataGridView dataGridView, int[] indexs)
+        public static void SetLinkStyle(DataGridView dataGridView, int[] indexs, bool special)
         {
             DataGridViewCellStyle style = new DataGridViewCellStyle();
-            style.Font = new System.Drawing.Font("宋体", DefaultCellFontSize);
-            style.ForeColor = System.Drawing.Color.Blue;
+            style.Font = new System.Drawing.Font("微软雅黑", DefaultCellFontSize);
             style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            for (int j = 0; j < indexs.Length; j++)
+            if (special)
             {
-                dataGridView.Columns[indexs[j]].DefaultCellStyle = style;
-                dataGridView.Columns[indexs[j]].ReadOnly = true;
+                for (int i = 0; i < dataGridView.RowCount - 1; i++)
+                {
+                    for (int j = 0; j < indexs.Length; j++)
+                    {
+                        int temp = -1;
+                        object val = dataGridView.Rows[i].Cells[indexs[j]].Value;
+                        if (val == null || (Int32.TryParse(val.ToString(), out temp) && temp == 0))
+                            style.ForeColor = System.Drawing.Color.Black;
+                        else
+                            style.ForeColor = System.Drawing.Color.Blue;
+                        dataGridView.Rows[i].Cells[indexs[j]].Style = style;
+                    }
+                }
+
+            }
+            else
+            {
+                style.ForeColor = System.Drawing.Color.Blue;
+                for (int j = 0; j < indexs.Length; j++)
+                {
+                    dataGridView.Columns[indexs[j]].DefaultCellStyle = style;
+                    dataGridView.Columns[indexs[j]].ReadOnly = true;
+                }
             }
         }
 

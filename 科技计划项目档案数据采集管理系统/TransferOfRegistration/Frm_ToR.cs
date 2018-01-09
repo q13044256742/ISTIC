@@ -24,39 +24,119 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
         private void Frm_ToR_Load(object sender, EventArgs e)
         {
-            LoadDataScoure();
+            //默认加载批次列表
+            LoadPCDataScoure(null);
+
+            //加载来源单位列表
+            LoadCompanySource();
+            btn_Back.Enabled = false;
         }
 
-        private void btn_Add_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 加载来源单位列表
+        /// </summary>
+        private void LoadCompanySource()
         {
-            Frm_AddPC frm = new Frm_AddPC();
-            if(frm.ShowDialog() == DialogResult.OK)
+            DevExpress.XtraBars.Navigation.AccordionControlElement element = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            element.Name = "ace_all";
+            element.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            element.Text = "全部来源单位";
+            element.Click += Element_Click;
+            ace_ToR.Elements.Add(element);
+
+            string querySql = "SELECT cs_id,cs_name FROM company_source";
+            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            for (int i = 0; i < table.Rows.Count; i++)
             {
-                LoadDataScoure();
+                element = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+                element.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+                element.Name = table.Rows[i]["cs_id"].ToString();
+                element.Text = table.Rows[i]["cs_name"].ToString();
+                element.Click += Element_Click;
+                ace_ToR.Elements.Add(element);
+            }
+
+            //默认为收缩状态
+            ace_ToR.Expanded = false;
+        }
+
+        /// <summary>
+        /// 来源单位点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Element_Click(object sender, EventArgs e)
+        {
+            DevExpress.XtraBars.Navigation.AccordionControlElement element = sender as DevExpress.XtraBars.Navigation.AccordionControlElement;
+            if ("ace_all".Equals(element.Name))
+            {
+                LoadPCDataScoure(null);
+            }else
+            {
+                StringBuilder querySql = new StringBuilder("SELECT ");
+                querySql.Append("pc.trp_id,");
+                querySql.Append("cs_name,");
+                querySql.Append("trp_name,");
+                querySql.Append("trp_code,");
+                querySql.Append("trp_cd_amount");
+                querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
+                querySql.Append(" WHERE com_id='" + element.Name + "'");
+                querySql.Append(" AND pc.com_id = cs.cs_id");
+                querySql.Append(" AND trp_status=1");
+                LoadPCDataScoure(querySql.ToString());
+
+                querySql = new StringBuilder("SELECT cs_code FROM company_source WHERE cs_id ='" + element.Name + "'");
+                dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery(querySql.ToString());
             }
         }
 
         /// <summary>
-        /// 加载表单数据
+        /// 添加批次信息
         /// </summary>
-        private void LoadDataScoure()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_Add_Click(object sender, EventArgs e)
+        {
+            //获取当前列表所属来源单位id
+            string unitCode = dgv_SWDJ.Tag == null ? string.Empty : dgv_SWDJ.Tag.ToString();
+            Frm_AddPC frm = new Frm_AddPC(unitCode);
+            if(frm.ShowDialog() == DialogResult.OK)
+            {
+                LoadPCDataScoure(null);
+            }
+        }
+
+        /// <summary>
+        /// 加载批次数据
+        /// </summary>
+        /// <param name="querySql">待加载的数据SQL</param>
+        private void LoadPCDataScoure(string _querySql)
         {
             dgv_SWDJ.DataSource = null;
             dgv_SWDJ.Columns.Clear();
             dgv_SWDJ.Rows.Clear();
 
-
-            //加载实物登记数据
-            StringBuilder querySql = new StringBuilder("SELECT ");
-            querySql.Append("com_id,");
-            querySql.Append("trp_name,");
-            querySql.Append("trp_code,");
-            querySql.Append("trp_cd_amount");
-            querySql.Append(" FROM transfer_registration_pc");
-            DataTable dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
+            DataTable dataTable = null;
+            //加载实物登记数据【默认加载状态为1（未提交）的数据】
+            if (string.IsNullOrEmpty(_querySql))
+            {
+                StringBuilder querySql = new StringBuilder("SELECT ");
+                querySql.Append("pc.trp_id,");
+                querySql.Append("cs_name,");
+                querySql.Append("trp_name,");
+                querySql.Append("trp_code,");
+                querySql.Append("trp_cd_amount");
+                querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
+                querySql.Append(" WHERE trp_status=1");
+                querySql.Append(" AND pc.com_id = cs.cs_id");
+                dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
+            }
+            else
+                dataTable = SqlHelper.ExecuteQuery(_querySql);
 
             //将数据源转化成DataGridView表数据
-            dgv_SWDJ.Columns.Add("com_id", "来源单位");
+            dgv_SWDJ.Columns.Add("trp_id", "主键");
+            dgv_SWDJ.Columns.Add("cs_name", "来源单位");
             dgv_SWDJ.Columns.Add("trp_name", "批次名称");
             dgv_SWDJ.Columns.Add("trp_code", "批次编号");
             dgv_SWDJ.Columns.Add("trp_cd_amount", "光盘数");
@@ -66,7 +146,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             {
                 DataRow row = dataTable.Rows[i];
                 int index = dgv_SWDJ.Rows.Add();
-                dgv_SWDJ.Rows[index].Cells["com_id"].Value = row["com_id"];
+                dgv_SWDJ.Rows[index].Cells["trp_id"].Value = row["trp_id"];
+                dgv_SWDJ.Rows[index].Cells["cs_name"].Value = row["cs_name"];
                 dgv_SWDJ.Rows[index].Cells["trp_name"].Value = row["trp_name"];
                 dgv_SWDJ.Rows[index].Cells["trp_code"].Value = row["trp_code"];
                 dgv_SWDJ.Rows[index].Cells["trp_cd_amount"].Value = row["trp_cd_amount"];
@@ -74,11 +155,157 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_SWDJ.Rows[index].Cells["submit"].Value = "提交";
             }
             //设置最小列宽
-            dgv_SWDJ.Columns["com_id"].MinimumWidth = 300;
+            dgv_SWDJ.Columns["cs_name"].MinimumWidth = 300;
             dgv_SWDJ.Columns["trp_name"].MinimumWidth = 220;
             //设置链接按钮样式
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_SWDJ, new int[] { dgv_SWDJ.Columns.Count - 1, dgv_SWDJ.Columns.Count - 2 });
-            DataGridViewStyleHelper.SetLinkStyle(dgv_SWDJ, new int[] { dgv_SWDJ.Columns.Count - 1, dgv_SWDJ.Columns.Count - 2 });
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_SWDJ, new int[] { dgv_SWDJ.Columns.Count - 1, dgv_SWDJ.Columns.Count - 2, dgv_SWDJ.Columns.Count - 3 });
+            DataGridViewStyleHelper.SetLinkStyle(dgv_SWDJ, new int[] { dgv_SWDJ.Columns.Count - 1, dgv_SWDJ.Columns.Count - 2, dgv_SWDJ.Columns.Count - 3 }, true);
+
+            dgv_SWDJ.Columns["trp_id"].Visible = false;
+
+            btn_Back.Enabled = false;
+            btn_Add.Enabled = true;
         }
+
+        /// <summary>
+        /// 加载光盘数据
+        /// </summary>
+        /// <param name="pid">批次主键</param>
+        private void LoadCDDataScoure(string pid)
+        {
+            dgv_SWDJ.DataSource = null;
+            dgv_SWDJ.Columns.Clear();
+            dgv_SWDJ.Rows.Clear();
+
+            StringBuilder querySql = new StringBuilder("SELECT ");
+            querySql.Append("trc_id,");
+            querySql.Append("trc_name,");
+            querySql.Append("trc_code,");
+            querySql.Append("trc_remark");
+            querySql.Append(" FROM transfer_registraion_cd");
+            querySql.Append(" WHERE trp_id='" + pid + "'");
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
+
+            //将数据源转化成DataGridView表数据
+            dgv_SWDJ.Columns.Add("trc_id", "主键");
+            dgv_SWDJ.Columns.Add("trc_name", "光盘名称");
+            dgv_SWDJ.Columns.Add("trc_code", "光盘编号");
+            dgv_SWDJ.Columns.Add("trc_remark", "备注");
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                DataRow row = dataTable.Rows[i];
+                int index = dgv_SWDJ.Rows.Add();
+                dgv_SWDJ.Rows[index].Cells["trc_id"].Value = row["trc_id"];
+                dgv_SWDJ.Rows[index].Cells["trc_name"].Value = row["trc_name"];
+                dgv_SWDJ.Rows[index].Cells["trc_code"].Value = row["trc_code"];
+                dgv_SWDJ.Rows[index].Cells["trc_remark"].Value = row["trc_remark"];
+            }
+            dgv_SWDJ.Columns["trc_id"].Visible = false;
+
+            btn_Back.Enabled = true;
+            btn_Add.Enabled = false;
+        }
+
+        /// <summary>
+        /// 单元格点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgv_SWDJ_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1 && e.ColumnIndex != -1 && e.RowIndex != dgv_SWDJ.RowCount - 1)
+            {
+                //当前点击单元格的值
+                object value = dgv_SWDJ.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+
+                //光盘数-点击事件
+                if ("trp_cd_amount".Equals(dgv_SWDJ.Columns[e.ColumnIndex].Name))
+                {
+                    object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
+                    if (Convert.ToInt32(value) != 0)
+                    {
+                        LoadCDDataScoure(currentRowId.ToString());
+                    }
+                }
+                //添加光盘-点击事件
+                else if ("addpc".Equals(dgv_SWDJ.Columns[e.ColumnIndex].Name))
+                {
+                    object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
+                    Frm_AddCD frm = new Frm_AddCD(currentRowId.ToString());
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadPCDataScoure(null);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 返回上一页
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_Back_Click(object sender, EventArgs e)
+        {
+            LoadPCDataScoure(null);
+        }
+
+        /// <summary>
+        /// 删除选中数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_Delete_Click(object sender, EventArgs e)
+        {
+            int amount = dgv_SWDJ.SelectedRows.Count;
+            if (amount > 0)
+            {
+                if (MessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                {
+                    int deleteAmount = 0;
+                    foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
+                    {
+                        string pid = row.Cells["trp_id"].Value.ToString();
+                        string deleteSql = "DELETE FROM transfer_registration_pc WHERE trp_id = '" + pid + "'";
+                        SqlHelper.ExecuteNonQuery(deleteSql);
+                        deleteAmount++;
+                    }
+                    MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadPCDataScoure(null);
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        /// <summary>
+        /// 搜索
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_Search_Click(object sender, EventArgs e)
+        {
+            string searchKey = txt_Search.Text.Trim();
+            if (!string.IsNullOrEmpty(searchKey))
+            {
+                StringBuilder querySql = new StringBuilder("SELECT ");
+                querySql.Append("pc.trp_id,");
+                querySql.Append("cs_name,");
+                querySql.Append("trp_name,");
+                querySql.Append("trp_code,");
+                querySql.Append("trp_cd_amount");
+                querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
+                querySql.Append("WHERE cs_name LIKE '%" + searchKey + "%' ");
+                querySql.Append("OR trp_code LIKE '%" + searchKey + "%' ");
+                querySql.Append("OR trp_name LIKE '%" + searchKey + "%'");
+                querySql.Append(" AND pc.com_id = cs.cs_id");
+                LoadPCDataScoure(querySql.ToString());
+            }
+            else
+                LoadPCDataScoure(null);
+        }
+
     }
 }

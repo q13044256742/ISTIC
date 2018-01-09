@@ -34,18 +34,6 @@ namespace 科技计划项目档案数据采集管理系统
             Hide();
         }
 
-        /// <summary>
-        /// 移交登记
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Pal_YJDJ_Click(object sender, EventArgs e)
-        {
-            Frm_YJDJ_FirstFrame frm_YJDJ_First = new Frm_YJDJ_FirstFrame();
-            frm_YJDJ_First.MdiParent = this;
-            frm_YJDJ_First.Show();
-        }
-
         private void lst_DataList_DrawItem(object sender, DrawItemEventArgs e)
         {
             e.Graphics.FillRectangle(new SolidBrush(e.BackColor), e.Bounds);
@@ -75,6 +63,11 @@ namespace 科技计划项目档案数据采集管理系统
             Label label = sender as Label;
             label.Font = new Font(label.Font, FontStyle.Regular);
             label.ForeColor = Color.DimGray;
+        }
+
+        private void Frm_MainFrame_Load(object sender, EventArgs e)
+        {
+            lbl_OtherInfo.Text = $"当前时间：{DateTime.Now.Year}年{DateTime.Now.Month}月{DateTime.Now.Day}日 {System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)}";
         }
     }
 }

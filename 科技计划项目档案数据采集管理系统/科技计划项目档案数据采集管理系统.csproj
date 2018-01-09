@@ -75,22 +75,19 @@
     <Compile Include="Frm_MainFrame.Designer.cs">
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_YJDJ_FirstFrame.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_YJDJ_FirstFrame.Designer.cs">
-      <DependentUpon>Frm_YJDJ_FirstFrame.cs</DependentUpon>
-    </Compile>
     <Compile Include="Login\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
-    <Compile Include="Tools\CreateButton.cs" />
     <Compile Include="Tools\DataGridViewStyleHelper.cs" />
-    <Compile Include="Tools\MyPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Login\UserLogin.cs" />
+    <Compile Include="TransferOfRegistration\CD.cs" />
+    <Compile Include="TransferOfRegistration\Frm_AddCD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransferOfRegistration\Frm_AddCD.Designer.cs">
+      <DependentUpon>Frm_AddCD.cs</DependentUpon>
+    </Compile>
     <Compile Include="TransferOfRegistration\Frm_ToR.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,9 +104,6 @@
     <EmbeddedResource Include="Frm_MainFrame.resx">
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_YJDJ_FirstFrame.resx">
-      <DependentUpon>Frm_YJDJ_FirstFrame.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -121,6 +115,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TransferOfRegistration\Frm_AddCD.resx">
+      <DependentUpon>Frm_AddCD.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_ToR.resx">
       <DependentUpon>Frm_ToR.cs</DependentUpon>
     </EmbeddedResource>

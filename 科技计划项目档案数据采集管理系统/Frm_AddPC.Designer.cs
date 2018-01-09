@@ -42,7 +42,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.txt_Remark = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.txt_UploadFile = new System.Windows.Forms.TextBox();
             this.btn_UploadFile = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -63,140 +62,119 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(18, 30);
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(36, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 14);
+            this.label1.Size = new System.Drawing.Size(56, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "批次名称:";
+            this.label1.Text = "批次名称";
             // 
             // txt_BatchName
             // 
-            this.txt_BatchName.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_BatchName.Location = new System.Drawing.Point(118, 27);
+            this.txt_BatchName.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_BatchName.Location = new System.Drawing.Point(110, 29);
             this.txt_BatchName.Name = "txt_BatchName";
             this.txt_BatchName.Size = new System.Drawing.Size(269, 23);
             this.txt_BatchName.TabIndex = 1;
             // 
             // txt_BatchCode
             // 
-            this.txt_BatchCode.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_BatchCode.Location = new System.Drawing.Point(512, 27);
+            this.txt_BatchCode.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_BatchCode.Location = new System.Drawing.Point(477, 29);
             this.txt_BatchCode.Name = "txt_BatchCode";
-            this.txt_BatchCode.Size = new System.Drawing.Size(190, 23);
+            this.txt_BatchCode.Size = new System.Drawing.Size(239, 23);
             this.txt_BatchCode.TabIndex = 3;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(418, 30);
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Location = new System.Drawing.Point(406, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 14);
+            this.label2.Size = new System.Drawing.Size(56, 17);
             this.label2.TabIndex = 2;
-            this.label2.Text = "批次编号:";
+            this.label2.Text = "批次编号";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(18, 66);
+            this.label3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label3.Location = new System.Drawing.Point(36, 68);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 14);
+            this.label3.Size = new System.Drawing.Size(56, 17);
             this.label3.TabIndex = 4;
-            this.label3.Text = "来源单位:";
+            this.label3.Text = "来源单位";
             // 
             // cbo_SourceUnit
             // 
             this.cbo_SourceUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbo_SourceUnit.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbo_SourceUnit.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cbo_SourceUnit.FormattingEnabled = true;
-            this.cbo_SourceUnit.Items.AddRange(new object[] {
-            "重大专项管理办公室",
-            "核高基（01）专项办公室",
-            "集成电路（02）专项办公室",
-            "宽带移动（03）专项办公室",
-            "数控机床（04）专项办公室",
-            "数控机床（04）专项办公室",
-            "核电（06）专项办公室",
-            "转基因（08）专项办公室",
-            "新药创制（09）专项办公室",
-            "传染病（10）专项办公室",
-            "中国农村技术开发中心",
-            "科学技术部火炬高技术产业开发中心",
-            "科学技术部火炬高技术产业开发中心",
-            "中国科学技术交流中心（中日技术合作事务中心）",
-            "中国生物技术发展中心",
-            "科学技术部高技术研究发展中心",
-            "中国21世纪议程管理中心",
-            "科技部科技评估中心",
-            "国家科技风险开发事业中心",
-            "中国生物技术发展中心"});
-            this.cbo_SourceUnit.Location = new System.Drawing.Point(118, 63);
+            this.cbo_SourceUnit.Location = new System.Drawing.Point(110, 65);
             this.cbo_SourceUnit.Name = "cbo_SourceUnit";
-            this.cbo_SourceUnit.Size = new System.Drawing.Size(269, 22);
+            this.cbo_SourceUnit.Size = new System.Drawing.Size(269, 25);
             this.cbo_SourceUnit.TabIndex = 6;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(418, 66);
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.Location = new System.Drawing.Point(406, 68);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 14);
+            this.label5.Size = new System.Drawing.Size(56, 17);
             this.label5.TabIndex = 8;
-            this.label5.Text = "交接时间:";
+            this.label5.Text = "交接时间";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(432, 104);
+            this.label7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Location = new System.Drawing.Point(418, 106);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(56, 14);
+            this.label7.Size = new System.Drawing.Size(44, 17);
             this.label7.TabIndex = 11;
-            this.label7.Text = "移交人:";
+            this.label7.Text = "移交人";
             // 
             // txt_giver
             // 
-            this.txt_giver.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_giver.Location = new System.Drawing.Point(512, 100);
+            this.txt_giver.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_giver.Location = new System.Drawing.Point(477, 103);
             this.txt_giver.Name = "txt_giver";
-            this.txt_giver.Size = new System.Drawing.Size(190, 23);
+            this.txt_giver.Size = new System.Drawing.Size(180, 23);
             this.txt_giver.TabIndex = 10;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.Location = new System.Drawing.Point(32, 104);
+            this.label9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label9.Location = new System.Drawing.Point(48, 106);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(56, 14);
+            this.label9.Size = new System.Drawing.Size(44, 17);
             this.label9.TabIndex = 15;
-            this.label9.Text = "接受人:";
+            this.label9.Text = "接受人";
             // 
             // txt_Receiver
             // 
-            this.txt_Receiver.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_Receiver.Location = new System.Drawing.Point(118, 100);
+            this.txt_Receiver.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_Receiver.Location = new System.Drawing.Point(110, 103);
             this.txt_Receiver.Name = "txt_Receiver";
-            this.txt_Receiver.Size = new System.Drawing.Size(204, 23);
+            this.txt_Receiver.Size = new System.Drawing.Size(180, 23);
             this.txt_Receiver.TabIndex = 14;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label11.Location = new System.Drawing.Point(45, 143);
+            this.label11.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label11.Location = new System.Drawing.Point(60, 145);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(42, 14);
+            this.label11.Size = new System.Drawing.Size(32, 17);
             this.label11.TabIndex = 21;
-            this.label11.Text = "备注:";
+            this.label11.Text = "备注";
             // 
             // txt_Remark
             // 
-            this.txt_Remark.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_Remark.Location = new System.Drawing.Point(117, 139);
+            this.txt_Remark.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_Remark.Location = new System.Drawing.Point(110, 139);
             this.txt_Remark.Multiline = true;
             this.txt_Remark.Name = "txt_Remark";
             this.txt_Remark.Size = new System.Drawing.Size(584, 60);
@@ -205,35 +183,25 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label12.Location = new System.Drawing.Point(44, 222);
+            this.label12.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label12.Location = new System.Drawing.Point(60, 215);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(42, 14);
+            this.label12.Size = new System.Drawing.Size(32, 17);
             this.label12.TabIndex = 22;
-            this.label12.Text = "附件:";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label13.Location = new System.Drawing.Point(112, 222);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(63, 14);
-            this.label13.TabIndex = 24;
-            this.label13.Text = "文件标题";
+            this.label12.Text = "附件";
             // 
             // txt_UploadFile
             // 
-            this.txt_UploadFile.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_UploadFile.Location = new System.Drawing.Point(190, 218);
+            this.txt_UploadFile.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_UploadFile.Location = new System.Drawing.Point(110, 212);
             this.txt_UploadFile.Name = "txt_UploadFile";
-            this.txt_UploadFile.Size = new System.Drawing.Size(396, 23);
+            this.txt_UploadFile.Size = new System.Drawing.Size(466, 23);
             this.txt_UploadFile.TabIndex = 23;
             // 
             // btn_UploadFile
             // 
-            this.btn_UploadFile.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_UploadFile.Location = new System.Drawing.Point(592, 218);
+            this.btn_UploadFile.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_UploadFile.Location = new System.Drawing.Point(582, 210);
             this.btn_UploadFile.Name = "btn_UploadFile";
             this.btn_UploadFile.Size = new System.Drawing.Size(75, 26);
             this.btn_UploadFile.TabIndex = 25;
@@ -247,7 +215,6 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.btn_UploadFile);
             this.groupBox1.Controls.Add(this.txt_BatchName);
-            this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txt_UploadFile);
             this.groupBox1.Controls.Add(this.txt_BatchCode);
@@ -262,20 +229,20 @@
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.txt_Receiver);
             this.groupBox1.Font = new System.Drawing.Font("宋体", 10F);
-            this.groupBox1.Location = new System.Drawing.Point(6, 3);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(739, 259);
+            this.groupBox1.Size = new System.Drawing.Size(739, 252);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "批次基本信息";
             // 
             // dtp_TransferTime
             // 
-            this.dtp_TransferTime.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dtp_TransferTime.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dtp_TransferTime.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_TransferTime.Location = new System.Drawing.Point(512, 63);
+            this.dtp_TransferTime.Location = new System.Drawing.Point(477, 66);
             this.dtp_TransferTime.Name = "dtp_TransferTime";
-            this.dtp_TransferTime.Size = new System.Drawing.Size(190, 23);
+            this.dtp_TransferTime.Size = new System.Drawing.Size(180, 23);
             this.dtp_TransferTime.TabIndex = 29;
             // 
             // groupBox2
@@ -293,6 +260,7 @@
             // 
             this.dgv_CDlist.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_CDlist.BackgroundColor = System.Drawing.Color.White;
+            this.dgv_CDlist.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_CDlist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_CDlist.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.gpmc,
@@ -305,6 +273,7 @@
             this.dgv_CDlist.RowTemplate.Height = 23;
             this.dgv_CDlist.Size = new System.Drawing.Size(733, 247);
             this.dgv_CDlist.TabIndex = 0;
+            this.dgv_CDlist.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_CellEnter);
             // 
             // gpmc
             // 
@@ -336,9 +305,10 @@
             // btn_Save
             // 
             this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Save.Location = new System.Drawing.Point(656, 12);
+            this.btn_Save.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.btn_Save.Location = new System.Drawing.Point(658, 13);
             this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(75, 34);
+            this.btn_Save.Size = new System.Drawing.Size(70, 30);
             this.btn_Save.TabIndex = 0;
             this.btn_Save.Text = "保存(&S)";
             this.btn_Save.UseVisualStyleBackColor = true;
@@ -386,7 +356,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txt_Remark;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txt_UploadFile;
         private System.Windows.Forms.Button btn_UploadFile;
         private System.Windows.Forms.GroupBox groupBox1;

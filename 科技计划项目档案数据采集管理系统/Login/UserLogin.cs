@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Data;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -13,7 +14,7 @@ namespace 科技计划项目档案数据采集管理系统
         public bool IsExist(User user)
         {
             string querySql = "SELECT COUNT(*) FROM user_list WHERE login_name='" + user.LoginUserName + "' AND login_password='" + user.LoginPassword + "'";
-            int i = SqlHelper.ExecuteCountQuery(querySql);
+            int i = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery(querySql));
             return i == 0 ? false : true;
         }
 

@@ -64,14 +64,14 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 查询统计类型的SQL(count)
+        /// 查询唯一结果的SQL(count)
         /// </summary>
-        public static int ExecuteCountQuery(string querySql)
+        public static object ExecuteOnlyOneQuery(string querySql)
         {
             SqlCommand sqlCommand = new SqlCommand(querySql, GetConnect());
-            string result = sqlCommand.ExecuteScalar().ToString();
+            object result = sqlCommand.ExecuteScalar();
             CloseConnect();
-            return Convert.ToInt32(result);
+            return result;
         }
 
         /// <summary>
