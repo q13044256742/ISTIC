@@ -114,6 +114,7 @@
             this.cbo_SourceUnit.Name = "cbo_SourceUnit";
             this.cbo_SourceUnit.Size = new System.Drawing.Size(269, 25);
             this.cbo_SourceUnit.TabIndex = 6;
+            this.cbo_SourceUnit.SelectionChangeCommitted += new System.EventHandler(this.cbo_SourceUnit_SelectionChangeCommitted);
             // 
             // label5
             // 
@@ -274,6 +275,7 @@
             this.dgv_CDlist.Size = new System.Drawing.Size(733, 247);
             this.dgv_CDlist.TabIndex = 0;
             this.dgv_CDlist.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_CellEnter);
+            this.dgv_CDlist.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_RowLeave);
             // 
             // gpmc
             // 

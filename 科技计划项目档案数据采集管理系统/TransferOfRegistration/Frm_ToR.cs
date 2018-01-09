@@ -44,7 +44,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             element.Click += Element_Click;
             ace_ToR.Elements.Add(element);
 
-            string querySql = "SELECT cs_id,cs_name FROM company_source";
+            string querySql = "SELECT cs_id,cs_name FROM company_source ORDER BY sorting ASC";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < table.Rows.Count; i++)
             {

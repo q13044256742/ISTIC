@@ -36,12 +36,22 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_CDlist.DefaultCellStyle.Font = new Font("微软雅黑", 9f);
 
             //加载来源单位
-            string querySql = "SELECT cs_id,cs_name FROM company_source";
+            string querySql = "SELECT cs_id,cs_name FROM company_source ORDER BY sorting ASC";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             cbo_SourceUnit.DataSource = table;
             cbo_SourceUnit.DisplayMember = "cs_name";
             cbo_SourceUnit.ValueMember = "cs_id";
 
+            CreateBatchCode(unitCode);
+        }
+
+        /// <summary>
+        /// 自动生成批次编号
+        /// </summary>
+        /// <returns></returns>
+        private void CreateBatchCode(string unitCode)
+        {
+            string querySql;
             //自动生成批次编号
             object csid = SqlHelper.ExecuteOnlyOneQuery("SELECT CS_ID FROM company_source WHERE cs_code = '" + unitCode + "'");
             if (csid == null)
@@ -165,8 +175,9 @@ namespace 科技计划项目档案数据采集管理系统
             return true;
         }
 
-
-
+        /// <summary>
+        /// Tab键触发自动生成光盘编号事件
+        /// </summary>
         private void dgv_CDlist_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1 && e.ColumnIndex != -1)
@@ -174,9 +185,31 @@ namespace 科技计划项目档案数据采集管理系统
                 if (e.ColumnIndex == 1)
                 {
                     string number = dgv_CDlist.RowCount - 1 < 10 ? "0" + (dgv_CDlist.RowCount - 1) : (dgv_CDlist.RowCount - 1).ToString();
-                    string pcCode = txt_BatchCode.Text + "_" + number;
+                    string pcCode = txt_BatchCode.Text + "-" + number;
                     dgv_CDlist.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = pcCode;
                 }
+            }
+        }
+
+
+        /// <summary>
+        /// 来源单位变化时，批次编号同步变化
+        /// </summary>
+        private void cbo_SourceUnit_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            string unitId = cbo_SourceUnit.SelectedValue == null ? string.Empty : cbo_SourceUnit.SelectedValue.ToString();
+            if (!string.IsNullOrEmpty(unitId))
+            {
+                string unitCode = SqlHelper.ExecuteOnlyOneQuery("SELECT cs_code FROM company_source WHERE cs_id='" + unitId + "'").ToString();
+                CreateBatchCode(unitCode);
+            }
+        }
+
+        private void dgv_CDlist_RowLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1 && e.ColumnIndex != -1)
+            {
+                //暂时搁置
             }
         }
     }
