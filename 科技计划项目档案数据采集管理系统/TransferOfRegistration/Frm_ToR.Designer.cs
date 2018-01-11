@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewButtonColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,9 +54,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.pal_XTSY = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.ac_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
-            this.ace_FP = new DevExpress.XtraBars.Navigation.AccordionControlElement();
-            this.ace_ToR = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.pal_LeftMenu = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SWDJ)).BeginInit();
@@ -66,7 +64,6 @@
             this.groupBox2.SuspendLayout();
             this.pal_YJDJ.SuspendLayout();
             this.pal_XTSY.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewButtonColumn2
@@ -109,8 +106,8 @@
             // 
             // dataGridViewTextBoxColumn1
             // 
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewTextBoxColumn1.HeaderText = "来源单位";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -144,9 +141,9 @@
             // 
             // dataGridViewTextBoxColumn4
             // 
-            dataGridViewCellStyle6.Format = "d";
-            dataGridViewCellStyle6.NullValue = null;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle4.Format = "d";
+            dataGridViewCellStyle4.NullValue = null;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewTextBoxColumn4.HeaderText = "项目数";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
@@ -332,40 +329,21 @@
             this.label4.Text = "系统首页";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // ac_LeftMenu
+            // pal_LeftMenu
             // 
-            this.ac_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ac_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.ace_FP,
-            this.ace_ToR});
-            this.ac_LeftMenu.Location = new System.Drawing.Point(0, 0);
-            this.ac_LeftMenu.Name = "ac_LeftMenu";
-            this.ac_LeftMenu.Size = new System.Drawing.Size(226, 491);
-            this.ac_LeftMenu.TabIndex = 12;
-            this.ac_LeftMenu.Text = "accordionControl1";
-            // 
-            // ace_FP
-            // 
-            this.ace_FP.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic1;
-            this.ace_FP.Name = "ace_FP";
-            this.ace_FP.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.ace_FP.Text = "系统首页";
-            this.ace_FP.TextToImageDistance = 20;
-            // 
-            // ace_ToR
-            // 
-            this.ace_ToR.Expanded = true;
-            this.ace_ToR.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic2;
-            this.ace_ToR.Name = "ace_ToR";
-            this.ace_ToR.Text = "移交登记";
-            this.ace_ToR.TextToImageDistance = 20;
+            this.pal_LeftMenu.AutoScroll = true;
+            this.pal_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pal_LeftMenu.Location = new System.Drawing.Point(0, 0);
+            this.pal_LeftMenu.Name = "pal_LeftMenu";
+            this.pal_LeftMenu.Size = new System.Drawing.Size(229, 491);
+            this.pal_LeftMenu.TabIndex = 12;
             // 
             // Frm_ToR
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1001, 491);
-            this.Controls.Add(this.ac_LeftMenu);
+            this.Controls.Add(this.pal_LeftMenu);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
@@ -383,7 +361,6 @@
             this.groupBox2.PerformLayout();
             this.pal_YJDJ.ResumeLayout(false);
             this.pal_XTSY.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -414,8 +391,6 @@
         private System.Windows.Forms.Button btn_Delete;
         private System.Windows.Forms.Button btn_Search;
         private System.Windows.Forms.Button btn_Add;
-        private DevExpress.XtraBars.Navigation.AccordionControl ac_LeftMenu;
-        private DevExpress.XtraBars.Navigation.AccordionControlElement ace_ToR;
-        private DevExpress.XtraBars.Navigation.AccordionControlElement ace_FP;
+        private System.Windows.Forms.Panel pal_LeftMenu;
     }
 }

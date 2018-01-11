@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using 科技计划项目档案数据采集管理系统.Properties;
 
 namespace 科技计划项目档案数据采集管理系统.TransferOfRegistration
 {
@@ -37,41 +39,52 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         private void LoadCompanySource()
         {
-            DevExpress.XtraBars.Navigation.AccordionControlElement element = new DevExpress.XtraBars.Navigation.AccordionControlElement();
-            element.Name = "ace_all";
-            element.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            element.Text = "全部来源单位";
-            element.Click += Element_Click;
-            ace_ToR.Elements.Add(element);
+            Image[] imgs = new Image[] { Resources.pic1, Resources.pic2, Resources.pic3, Resources.pic4, Resources.pic5, Resources.pic6, Resources.pic7, Resources.pic8 };
+            //加载一级菜单
+            List<CreateKyoPanel.KyoPanel> list = new List<CreateKyoPanel.KyoPanel>();
+            list.Add(new CreateKyoPanel.KyoPanel
+            {
+                Name = "ToR",
+                Text = "移交登记",
+                Image = imgs[0]
+            });
+            CreateKyoPanel.SetPanel(pal_LeftMenu, list);
+            //加载二级菜单
+            list.Clear();
+            list.Add(new CreateKyoPanel.KyoPanel
+            {
+                Name = "ace_all",
+                Text = "全部来源单位",
+                Image = Resources.pic1,
+            });
 
             string querySql = "SELECT cs_id,cs_name FROM company_source ORDER BY sorting ASC";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < table.Rows.Count; i++)
             {
-                element = new DevExpress.XtraBars.Navigation.AccordionControlElement();
-                element.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-                element.Name = table.Rows[i]["cs_id"].ToString();
-                element.Text = table.Rows[i]["cs_name"].ToString();
-                element.Click += Element_Click;
-                ace_ToR.Elements.Add(element);
+                list.Add(new CreateKyoPanel.KyoPanel
+                {
+                    Name = table.Rows[i]["cs_id"].ToString(),
+                    Text = table.Rows[i]["cs_name"].ToString()
+                });
             }
+            Panel basicPanel = CreateKyoPanel.SetSubPanel(pal_LeftMenu.Controls.Find("ToR", false)[0] as Panel, list, Element_Click);
 
-            //默认为收缩状态
-            ace_ToR.Expanded = false;
         }
 
         /// <summary>
         /// 来源单位点击事件
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Element_Click(object sender, EventArgs e)
         {
-            DevExpress.XtraBars.Navigation.AccordionControlElement element = sender as DevExpress.XtraBars.Navigation.AccordionControlElement;
-            if ("ace_all".Equals(element.Name))
-            {
+            Panel panel = null;
+            if (sender is Panel)
+                panel = sender as Panel;
+            else if (sender is Label)
+                panel = (sender as Label).Parent as Panel;
+            if ("ace_all".Equals(panel.Name))
                 LoadPCDataScoure(null);
-            }else
+            else
             {
                 StringBuilder querySql = new StringBuilder("SELECT ");
                 querySql.Append("pc.trp_id,");
@@ -80,14 +93,23 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 querySql.Append("trp_code,");
                 querySql.Append("trp_cd_amount");
                 querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
-                querySql.Append(" WHERE com_id='" + element.Name + "'");
+                querySql.Append(" WHERE com_id='" + panel.Name + "'");
                 querySql.Append(" AND pc.com_id = cs.cs_id");
                 querySql.Append(" AND trp_status=1");
                 LoadPCDataScoure(querySql.ToString());
 
-                querySql = new StringBuilder("SELECT cs_code FROM company_source WHERE cs_id ='" + element.Name + "'");
+                querySql = new StringBuilder("SELECT cs_code FROM company_source WHERE cs_id ='" + panel.Name + "'");
                 dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery(querySql.ToString());
             }
+
+            //当前Panel为选中状态
+            foreach (Panel item in panel.Parent.Controls)
+            {
+                item.BackColor = Color.Transparent;
+                item.Tag = false;
+            }
+            panel.BackColor = Color.Purple;
+            panel.Tag = true;
         }
 
         /// <summary>

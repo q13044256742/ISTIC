@@ -79,6 +79,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
+    <Compile Include="Tools\CreateKyoPanel.cs" />
     <Compile Include="Tools\DataGridViewStyleHelper.cs" />
     <Compile Include="Login\UserLogin.cs" />
     <Compile Include="TransferOfRegistration\CD.cs" />
