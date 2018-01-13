@@ -38,6 +38,16 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
+        /// 设置指定列的宽度
+        /// </summary>
+        /// <param name="indexs">二维数组，指定列和指定宽度</param>
+        public static void SetWidth(DataGridView dataGridView, List<KeyValuePair<string, int>> keyValue)
+        {
+            for (int i = 0; i < keyValue.Count; i++)
+                dataGridView.Columns[keyValue[i].Key].Width = keyValue[i].Value;
+        }
+
+        /// <summary>
         /// 设置指定列的值为可点击样式
         /// </summary>
         /// <param name="indexs">指定列的列数（从0开始）</param>
@@ -70,6 +80,45 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     dataGridView.Columns[indexs[j]].DefaultCellStyle = style;
                     dataGridView.Columns[indexs[j]].ReadOnly = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 设置指定列的值为可点击样式
+        /// </summary>
+        /// <param name="indexs">指定列的列名</param>
+        public static void SetLinkStyle(DataGridView dataGridView, string[] columNames, bool special)
+        {
+            DataGridViewCellStyle normalStyle = new DataGridViewCellStyle();
+            normalStyle.Font = new System.Drawing.Font("微软雅黑", DefaultCellFontSize);
+            normalStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            normalStyle.ForeColor = System.Drawing.Color.Blue;
+
+            DataGridViewCellStyle specialStyle = new DataGridViewCellStyle();
+            specialStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            if (special)
+            {
+                for (int i = 0; i < dataGridView.RowCount - 1; i++)
+                {
+                    for (int j = 0; j < columNames.Length; j++)
+                    {
+                        int temp = -1;
+                        object val = dataGridView.Rows[i].Cells[columNames[j]].Value;
+                        if (val == null || (Int32.TryParse(val.ToString(), out temp) && temp == 0))
+                            dataGridView.Rows[i].Cells[columNames[j]].Style = specialStyle;
+                        else
+                            dataGridView.Rows[i].Cells[columNames[j]].Style = normalStyle;
+                    }
+                }
+
+            }
+            else
+            {
+                for (int j = 0; j < columNames.Length; j++)
+                {
+                    dataGridView.Columns[columNames[j]].DefaultCellStyle = normalStyle;
+                    dataGridView.Columns[columNames[j]].ReadOnly = true;
                 }
             }
         }

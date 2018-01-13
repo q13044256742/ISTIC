@@ -13,15 +13,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         public Frm_ToR()
         {
             InitializeComponent();
-            InitalForm();
-        }
-        /// <summary>
-        /// 初始化界面数据
-        /// </summary>
-        private void InitalForm()
-        {
-            //列表标题居中
-            dgv_SWDJ.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         private void Frm_ToR_Load(object sender, EventArgs e)
@@ -32,6 +23,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             //加载来源单位列表
             LoadCompanySource();
             btn_Back.Enabled = false;
+
+            dgv_SWDJ.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_GPDJ.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
         }
 
         /// <summary>
@@ -83,23 +77,41 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             else if (sender is Label)
                 panel = (sender as Label).Parent as Panel;
             if ("ace_all".Equals(panel.Name))
-                LoadPCDataScoure(null);
+            {
+                if (tc_ToR.SelectedIndex == 0)
+                    LoadPCDataScoure(null);
+                else if (tc_ToR.SelectedIndex == 1)
+                    LoadGPDJ(null);
+            }
             else
             {
-                StringBuilder querySql = new StringBuilder("SELECT ");
-                querySql.Append("pc.trp_id,");
-                querySql.Append("cs_name,");
-                querySql.Append("trp_name,");
-                querySql.Append("trp_code,");
-                querySql.Append("trp_cd_amount");
-                querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
-                querySql.Append(" WHERE com_id='" + panel.Name + "'");
-                querySql.Append(" AND pc.com_id = cs.cs_id");
-                querySql.Append(" AND trp_status=1");
-                LoadPCDataScoure(querySql.ToString());
+                if (tc_ToR.SelectedIndex == 0)
+                {
+                    StringBuilder querySql = new StringBuilder("SELECT ");
+                    querySql.Append("pc.trp_id,");
+                    querySql.Append("cs_name,");
+                    querySql.Append("trp_name,");
+                    querySql.Append("trp_code,");
+                    querySql.Append("trp_cd_amount");
+                    querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
+                    querySql.Append(" WHERE com_id='" + panel.Name + "'");
+                    querySql.Append(" AND pc.com_id = cs.cs_id");
+                    querySql.Append(" AND trp_status=1");
+                    LoadPCDataScoure(querySql.ToString());
 
-                querySql = new StringBuilder("SELECT cs_code FROM company_source WHERE cs_id ='" + panel.Name + "'");
-                dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery(querySql.ToString());
+                    dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery("SELECT cs_code FROM company_source WHERE cs_id ='" + panel.Name + "'");
+                }
+                else if(tc_ToR.SelectedIndex == 1)
+                {
+                    StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
+                    querySql.Append(" FROM transfer_registraion_cd trc");
+                    querySql.Append(" LEFT JOIN(");
+                    querySql.Append(" SELECT trp.trp_id, cs_id, cs_name, sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
+                    querySql.Append(" ON trc.trp_id = tb.trp_id");
+                    querySql.Append(" WHERE tb.cs_id='" + panel.Name + "'");
+                    querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, sorting ASC, trc_code ASC");
+                    LoadGPDJ(querySql.ToString());
+                }
             }
 
             //当前Panel为选中状态
@@ -148,9 +160,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 querySql.Append("trp_name,");
                 querySql.Append("trp_code,");
                 querySql.Append("trp_cd_amount");
-                querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
+                querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN company_source cs ON pc.com_id = cs.cs_id");
                 querySql.Append(" WHERE trp_status=1");
-                querySql.Append(" AND pc.com_id = cs.cs_id");
                 dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
             }
             else
@@ -329,16 +340,129 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 querySql.Append("trp_name,");
                 querySql.Append("trp_code,");
                 querySql.Append("trp_cd_amount");
-                querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
-                querySql.Append("WHERE cs_name LIKE '%" + searchKey + "%' ");
+                querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN company_source cs ON pc.com_id = cs.cs_id");
+                querySql.Append(" WHERE cs_name LIKE '%" + searchKey + "%' ");
                 querySql.Append("OR trp_code LIKE '%" + searchKey + "%' ");
                 querySql.Append("OR trp_name LIKE '%" + searchKey + "%'");
-                querySql.Append(" AND pc.com_id = cs.cs_id");
                 LoadPCDataScoure(querySql.ToString());
             }
             else
                 LoadPCDataScoure(null);
         }
 
+        /// <summary>
+        /// 选项卡切换事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tc_ToR_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = tc_ToR.SelectedIndex;
+            if(index == 1)//光盘
+            {
+                if (dgv_GPDJ.Columns.Count == 0)
+                    LoadGPDJ(null);
+            }
+        }
+
+        /// <summary>
+        /// 加载光盘列表
+        /// </summary>
+        private void LoadGPDJ(string _querySql)
+        {
+            dgv_GPDJ.Rows.Clear();
+            dgv_GPDJ.Columns.Clear();
+
+            dgv_GPDJ.Columns.Add("trc_id", "主键");
+            dgv_GPDJ.Columns.Add("cs_name", "来源单位");
+            dgv_GPDJ.Columns.Add("trc_code", "光盘编号");
+            dgv_GPDJ.Columns.Add("trc_name", "光盘名称");
+            dgv_GPDJ.Columns.Add("trc_project_amount", "项目数");
+            dgv_GPDJ.Columns.Add("trc_subject_amount", "课题数");
+            dgv_GPDJ.Columns.Add("trc_file_amount", "文件数");
+            dgv_GPDJ.Columns.Add("trc_status", "读写状态");
+            dgv_GPDJ.Columns.Add("control", "操作");
+
+            DataTable table = null;
+            if (_querySql == null)
+            {
+
+                StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
+                querySql.Append(" FROM transfer_registraion_cd trc");
+                querySql.Append(" LEFT JOIN(");
+                querySql.Append(" SELECT trp.trp_id, cs_name,sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
+                querySql.Append(" ON trc.trp_id = tb.trp_id");
+                querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, sorting ASC, trc_code ASC");
+                table = SqlHelper.ExecuteQuery(querySql.ToString());
+            }
+            else
+                table = SqlHelper.ExecuteQuery(_querySql);
+            foreach (DataRow row in table.Rows)
+            {
+                int _index = dgv_GPDJ.Rows.Add();
+                dgv_GPDJ.Rows[_index].Cells["trc_id"].Value = row["trc_id"];
+                dgv_GPDJ.Rows[_index].Cells["cs_name"].Value = row["cs_name"];
+                dgv_GPDJ.Rows[_index].Cells["trc_code"].Value = row["trc_code"];
+                dgv_GPDJ.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
+                dgv_GPDJ.Rows[_index].Cells["trc_project_amount"].Value = GetInt32(row["trc_project_amount"]);
+                dgv_GPDJ.Rows[_index].Cells["trc_subject_amount"].Value = GetInt32(row["trc_subject_amount"]);
+                dgv_GPDJ.Rows[_index].Cells["trc_file_amount"].Value = 0;//文件数待处理
+                dgv_GPDJ.Rows[_index].Cells["trc_status"].Value = GetInt32(row["trc_status"]) == 0 ? "未读写" : "已读写";
+                dgv_GPDJ.Rows[_index].Cells["control"].Value = "读写";
+            }
+            if (dgv_GPDJ.Columns.Count > 0)
+                dgv_GPDJ.Columns[0].Visible = false;
+
+            List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
+            list.Add(new KeyValuePair<string, int>("cs_name", 250));
+            list.Add(new KeyValuePair<string, int>("trc_code", 200));
+            list.Add(new KeyValuePair<string, int>("trc_name", 200));
+
+            list.Add(new KeyValuePair<string, int>("trc_project_amount", 90));
+            list.Add(new KeyValuePair<string, int>("trc_subject_amount", 90));
+            list.Add(new KeyValuePair<string, int>("trc_file_amount", 90));
+            list.Add(new KeyValuePair<string, int>("control", 100));
+            list.Add(new KeyValuePair<string, int>("trc_status", 100));
+            DataGridViewStyleHelper.SetWidth(dgv_GPDJ, list);
+
+            DataGridViewStyleHelper.SetLinkStyle(dgv_GPDJ, new string[] { "trc_project_amount", "trc_subject_amount", "trc_file_amount", "control", "trc_status" }, true);
+        }
+
+        /// <summary>
+        /// 将Object对象转换成Int对象
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        private int GetInt32(object _obj)
+        {
+            int temp = 0;
+            if (_obj == null)
+                return temp;
+            int.TryParse(_obj.ToString(), out temp);
+            return temp;
+        }
+
+        /// <summary>
+        /// 光盘页搜索
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_CD_Search_Click(object sender, EventArgs e)
+        {
+            string key = txt_CD_Search.Text;
+            string queryCondition = null;
+            if (!string.IsNullOrEmpty(key))
+                queryCondition = " WHERE cs_name LIKE '%" + key + "%' OR trc_code LIKE '%" + key + "%' OR trc_name LIKE '%" + key + "%'";
+
+            StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
+            querySql.Append(" FROM transfer_registraion_cd trc");
+            querySql.Append(" LEFT JOIN(");
+            querySql.Append(" SELECT trp.trp_id, cs_name,sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
+            querySql.Append(" ON trc.trp_id = tb.trp_id");
+            querySql.Append(queryCondition);
+            querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, sorting ASC, trc_code ASC");
+
+            LoadGPDJ(querySql.ToString());
+        }
     }
 }
