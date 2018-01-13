@@ -121,7 +121,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             //获取当前列表所属来源单位id
             string unitCode = dgv_SWDJ.Tag == null ? string.Empty : dgv_SWDJ.Tag.ToString();
-            Frm_AddPC frm = new Frm_AddPC(unitCode);
+            Frm_AddPC frm = new Frm_AddPC(true, unitCode);
             if(frm.ShowDialog() == DialogResult.OK)
             {
                 LoadPCDataScoure(null);
@@ -177,11 +177,12 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_SWDJ.Rows[index].Cells["submit"].Value = "提交";
             }
             //设置最小列宽
-            dgv_SWDJ.Columns["cs_name"].MinimumWidth = 300;
+            dgv_SWDJ.Columns["cs_name"].MinimumWidth = 200;
             dgv_SWDJ.Columns["trp_name"].MinimumWidth = 220;
             //设置链接按钮样式
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_SWDJ, new int[] { dgv_SWDJ.Columns.Count - 1, dgv_SWDJ.Columns.Count - 2, dgv_SWDJ.Columns.Count - 3 });
-            DataGridViewStyleHelper.SetLinkStyle(dgv_SWDJ, new int[] { dgv_SWDJ.Columns.Count - 1, dgv_SWDJ.Columns.Count - 2, dgv_SWDJ.Columns.Count - 3 }, true);
+            DataGridViewStyleHelper.SetLinkStyle(dgv_SWDJ, new int[] {dgv_SWDJ.Columns.Count - 1, dgv_SWDJ.Columns.Count - 2, dgv_SWDJ.Columns.Count - 3 }, true);
+            dgv_SWDJ.Columns[2].DefaultCellStyle = new DataGridViewCellStyle { ForeColor = Color.Blue };
 
             dgv_SWDJ.Columns["trp_id"].Visible = false;
 
@@ -255,6 +256,16 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
                     Frm_AddCD frm = new Frm_AddCD(currentRowId.ToString());
                     if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadPCDataScoure(null);
+                    }
+                }
+                //批次名称-点击事件
+                else if ("trp_name".Equals(dgv_SWDJ.Columns[e.ColumnIndex].Name))
+                {
+                    object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
+                    Frm_AddPC frm = new Frm_AddPC(false, currentRowId.ToString());
+                    if(frm.ShowDialog() == DialogResult.OK)
                     {
                         LoadPCDataScoure(null);
                     }

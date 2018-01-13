@@ -48,11 +48,12 @@
             this.dtp_TransferTime = new System.Windows.Forms.DateTimePicker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgv_CDlist = new System.Windows.Forms.DataGridView();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_Save = new System.Windows.Forms.Button();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpmc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpbh = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bz = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btn_Save = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_CDlist)).BeginInit();
@@ -264,6 +265,7 @@
             this.dgv_CDlist.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_CDlist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_CDlist.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.id,
             this.gpmc,
             this.gpbh,
             this.bz});
@@ -276,24 +278,6 @@
             this.dgv_CDlist.TabIndex = 0;
             this.dgv_CDlist.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_CellEnter);
             this.dgv_CDlist.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_RowLeave);
-            // 
-            // gpmc
-            // 
-            this.gpmc.FillWeight = 200F;
-            this.gpmc.HeaderText = "光盘名称";
-            this.gpmc.Name = "gpmc";
-            // 
-            // gpbh
-            // 
-            this.gpbh.FillWeight = 150F;
-            this.gpbh.HeaderText = "光盘编号";
-            this.gpbh.Name = "gpbh";
-            // 
-            // bz
-            // 
-            this.bz.FillWeight = 250F;
-            this.bz.HeaderText = "备注";
-            this.bz.Name = "bz";
             // 
             // groupBox3
             // 
@@ -315,6 +299,29 @@
             this.btn_Save.Text = "保存(&S)";
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
+            // 
+            // id
+            // 
+            this.id.HeaderText = "编号";
+            this.id.Name = "id";
+            // 
+            // gpmc
+            // 
+            this.gpmc.FillWeight = 200F;
+            this.gpmc.HeaderText = "光盘名称";
+            this.gpmc.Name = "gpmc";
+            // 
+            // gpbh
+            // 
+            this.gpbh.FillWeight = 150F;
+            this.gpbh.HeaderText = "光盘编号";
+            this.gpbh.Name = "gpbh";
+            // 
+            // bz
+            // 
+            this.bz.FillWeight = 250F;
+            this.bz.HeaderText = "备注";
+            this.bz.Name = "bz";
             // 
             // Frm_AddPC
             // 
@@ -365,9 +372,10 @@
         private System.Windows.Forms.DataGridView dgv_CDlist;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.DateTimePicker dtp_TransferTime;
+        private System.Windows.Forms.Button btn_Save;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn gpmc;
         private System.Windows.Forms.DataGridViewTextBoxColumn gpbh;
         private System.Windows.Forms.DataGridViewTextBoxColumn bz;
-        private System.Windows.Forms.Button btn_Save;
     }
 }
