@@ -89,6 +89,12 @@
     <Compile Include="TransferOfRegistration\Frm_AddCD.Designer.cs">
       <DependentUpon>Frm_AddCD.cs</DependentUpon>
     </Compile>
+    <Compile Include="TransferOfRegistration\Frm_CD_Read.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransferOfRegistration\Frm_CD_Read.Designer.cs">
+      <DependentUpon>Frm_CD_Read.cs</DependentUpon>
+    </Compile>
     <Compile Include="TransferOfRegistration\Frm_ToR.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +124,9 @@
     </Compile>
     <EmbeddedResource Include="TransferOfRegistration\Frm_AddCD.resx">
       <DependentUpon>Frm_AddCD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferOfRegistration\Frm_CD_Read.resx">
+      <DependentUpon>Frm_CD_Read.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_ToR.resx">
       <DependentUpon>Frm_ToR.cs</DependentUpon>

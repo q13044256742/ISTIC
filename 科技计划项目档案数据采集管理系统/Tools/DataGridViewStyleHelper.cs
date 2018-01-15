@@ -134,5 +134,17 @@ namespace 科技计划项目档案数据采集管理系统
             for (int j = 0; j < indexs.Length; j++)
                 dataGridView.Columns[indexs[j]].DefaultCellStyle = style;
         }
+
+        /// <summary>
+        /// 设置单元格文本对齐方式为居中
+        /// </summary>
+        /// <param name="indexs">指定列的列数（从0开始）</param>
+        public static void SetAlignWithCenter(DataGridView dataGridView, string[] indexs)
+        {
+            DataGridViewCellStyle style = new DataGridViewCellStyle();
+            style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            for (int j = 0; j < indexs.Length; j++)
+                dataGridView.Columns[indexs[j]].DefaultCellStyle = style;
+        }
     }
 }

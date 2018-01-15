@@ -30,8 +30,17 @@
         {
             this.dgv_GPDJ = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txt_Search = new System.Windows.Forms.TextBox();
+            this.btn_Back = new System.Windows.Forms.Button();
+            this.btn_Delete = new System.Windows.Forms.Button();
+            this.btn_Search = new System.Windows.Forms.Button();
+            this.btn_Add = new System.Windows.Forms.Button();
             this.dgv_SWDJ = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txt_CD_Search = new System.Windows.Forms.TextBox();
+            this.btn_CD_Search = new System.Windows.Forms.Button();
             this.tc_ToR = new System.Windows.Forms.TabControl();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pal_YJDJ = new System.Windows.Forms.Panel();
@@ -39,25 +48,16 @@
             this.pal_XTSY = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.pal_LeftMenu = new System.Windows.Forms.Panel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txt_Search = new System.Windows.Forms.TextBox();
-            this.btn_Back = new System.Windows.Forms.Button();
-            this.btn_Delete = new System.Windows.Forms.Button();
-            this.btn_Search = new System.Windows.Forms.Button();
-            this.btn_Add = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.txt_CD_Search = new System.Windows.Forms.TextBox();
-            this.btn_CD_Search = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).BeginInit();
             this.tabPage1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SWDJ)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.tc_ToR.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.pal_YJDJ.SuspendLayout();
             this.pal_XTSY.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgv_GPDJ
@@ -75,6 +75,7 @@
             this.dgv_GPDJ.RowTemplate.Height = 23;
             this.dgv_GPDJ.Size = new System.Drawing.Size(759, 415);
             this.dgv_GPDJ.TabIndex = 1;
+            this.dgv_GPDJ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_GPDJ_CellClick);
             // 
             // tabPage1
             // 
@@ -87,6 +88,80 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "实物登记";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.txt_Search);
+            this.groupBox2.Controls.Add(this.btn_Back);
+            this.groupBox2.Controls.Add(this.btn_Delete);
+            this.groupBox2.Controls.Add(this.btn_Search);
+            this.groupBox2.Controls.Add(this.btn_Add);
+            this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.groupBox2.Location = new System.Drawing.Point(2, -5);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(757, 49);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            // 
+            // txt_Search
+            // 
+            this.txt_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_Search.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_Search.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_Search.Location = new System.Drawing.Point(207, 15);
+            this.txt_Search.Name = "txt_Search";
+            this.txt_Search.Size = new System.Drawing.Size(251, 26);
+            this.txt_Search.TabIndex = 4;
+            // 
+            // btn_Back
+            // 
+            this.btn_Back.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Back.AutoSize = true;
+            this.btn_Back.Location = new System.Drawing.Point(688, 13);
+            this.btn_Back.Name = "btn_Back";
+            this.btn_Back.Size = new System.Drawing.Size(66, 30);
+            this.btn_Back.TabIndex = 3;
+            this.btn_Back.Text = "返回(&B)";
+            this.btn_Back.UseVisualStyleBackColor = true;
+            this.btn_Back.Click += new System.EventHandler(this.btn_Back_Click);
+            // 
+            // btn_Delete
+            // 
+            this.btn_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Delete.AutoSize = true;
+            this.btn_Delete.Location = new System.Drawing.Point(612, 13);
+            this.btn_Delete.Name = "btn_Delete";
+            this.btn_Delete.Size = new System.Drawing.Size(68, 30);
+            this.btn_Delete.TabIndex = 2;
+            this.btn_Delete.Text = "删除(&D)";
+            this.btn_Delete.UseVisualStyleBackColor = true;
+            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
+            // 
+            // btn_Search
+            // 
+            this.btn_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Search.AutoSize = true;
+            this.btn_Search.Location = new System.Drawing.Point(464, 13);
+            this.btn_Search.Name = "btn_Search";
+            this.btn_Search.Size = new System.Drawing.Size(65, 30);
+            this.btn_Search.TabIndex = 1;
+            this.btn_Search.Text = "查询(&F)";
+            this.btn_Search.UseVisualStyleBackColor = true;
+            this.btn_Search.Click += new System.EventHandler(this.btn_Search_Click);
+            // 
+            // btn_Add
+            // 
+            this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Add.AutoSize = true;
+            this.btn_Add.Location = new System.Drawing.Point(537, 13);
+            this.btn_Add.Name = "btn_Add";
+            this.btn_Add.Size = new System.Drawing.Size(67, 30);
+            this.btn_Add.TabIndex = 0;
+            this.btn_Add.Text = "添加(&A)";
+            this.btn_Add.UseVisualStyleBackColor = true;
+            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
             // 
             // dgv_SWDJ
             // 
@@ -115,6 +190,41 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "光盘登记";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.txt_CD_Search);
+            this.groupBox3.Controls.Add(this.btn_CD_Search);
+            this.groupBox3.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.groupBox3.Location = new System.Drawing.Point(2, -5);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(758, 49);
+            this.groupBox3.TabIndex = 13;
+            this.groupBox3.TabStop = false;
+            // 
+            // txt_CD_Search
+            // 
+            this.txt_CD_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_CD_Search.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_CD_Search.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_CD_Search.Location = new System.Drawing.Point(429, 16);
+            this.txt_CD_Search.Name = "txt_CD_Search";
+            this.txt_CD_Search.Size = new System.Drawing.Size(251, 26);
+            this.txt_CD_Search.TabIndex = 4;
+            // 
+            // btn_CD_Search
+            // 
+            this.btn_CD_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_CD_Search.AutoSize = true;
+            this.btn_CD_Search.Location = new System.Drawing.Point(686, 13);
+            this.btn_CD_Search.Name = "btn_CD_Search";
+            this.btn_CD_Search.Size = new System.Drawing.Size(65, 30);
+            this.btn_CD_Search.TabIndex = 1;
+            this.btn_CD_Search.Text = "查询(&F)";
+            this.btn_CD_Search.UseVisualStyleBackColor = true;
+            this.btn_CD_Search.Click += new System.EventHandler(this.btn_CD_Search_Click);
             // 
             // tc_ToR
             // 
@@ -200,115 +310,6 @@
             this.pal_LeftMenu.Size = new System.Drawing.Size(229, 491);
             this.pal_LeftMenu.TabIndex = 12;
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.txt_Search);
-            this.groupBox2.Controls.Add(this.btn_Back);
-            this.groupBox2.Controls.Add(this.btn_Delete);
-            this.groupBox2.Controls.Add(this.btn_Search);
-            this.groupBox2.Controls.Add(this.btn_Add);
-            this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.groupBox2.Location = new System.Drawing.Point(2, -5);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(757, 49);
-            this.groupBox2.TabIndex = 12;
-            this.groupBox2.TabStop = false;
-            // 
-            // txt_Search
-            // 
-            this.txt_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_Search.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_Search.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_Search.Location = new System.Drawing.Point(207, 15);
-            this.txt_Search.Name = "txt_Search";
-            this.txt_Search.Size = new System.Drawing.Size(251, 26);
-            this.txt_Search.TabIndex = 4;
-            // 
-            // btn_Back
-            // 
-            this.btn_Back.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Back.AutoSize = true;
-            this.btn_Back.Location = new System.Drawing.Point(688, 13);
-            this.btn_Back.Name = "btn_Back";
-            this.btn_Back.Size = new System.Drawing.Size(66, 30);
-            this.btn_Back.TabIndex = 3;
-            this.btn_Back.Text = "返回(&B)";
-            this.btn_Back.UseVisualStyleBackColor = true;
-            this.btn_Back.Click += new System.EventHandler(this.btn_Back_Click);
-            // 
-            // btn_Delete
-            // 
-            this.btn_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Delete.AutoSize = true;
-            this.btn_Delete.Location = new System.Drawing.Point(612, 13);
-            this.btn_Delete.Name = "btn_Delete";
-            this.btn_Delete.Size = new System.Drawing.Size(68, 30);
-            this.btn_Delete.TabIndex = 2;
-            this.btn_Delete.Text = "删除(&D)";
-            this.btn_Delete.UseVisualStyleBackColor = true;
-            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
-            // 
-            // btn_Search
-            // 
-            this.btn_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Search.AutoSize = true;
-            this.btn_Search.Location = new System.Drawing.Point(464, 13);
-            this.btn_Search.Name = "btn_Search";
-            this.btn_Search.Size = new System.Drawing.Size(65, 30);
-            this.btn_Search.TabIndex = 1;
-            this.btn_Search.Text = "查询(&F)";
-            this.btn_Search.UseVisualStyleBackColor = true;
-            this.btn_Search.Click += new System.EventHandler(this.btn_Search_Click);
-            // 
-            // btn_Add
-            // 
-            this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Add.AutoSize = true;
-            this.btn_Add.Location = new System.Drawing.Point(537, 13);
-            this.btn_Add.Name = "btn_Add";
-            this.btn_Add.Size = new System.Drawing.Size(67, 30);
-            this.btn_Add.TabIndex = 0;
-            this.btn_Add.Text = "添加(&A)";
-            this.btn_Add.UseVisualStyleBackColor = true;
-            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.txt_CD_Search);
-            this.groupBox3.Controls.Add(this.btn_CD_Search);
-            this.groupBox3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.groupBox3.Location = new System.Drawing.Point(2, -5);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(758, 49);
-            this.groupBox3.TabIndex = 13;
-            this.groupBox3.TabStop = false;
-            // 
-            // txt_CD_Search
-            // 
-            this.txt_CD_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_CD_Search.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_CD_Search.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_CD_Search.Location = new System.Drawing.Point(429, 16);
-            this.txt_CD_Search.Name = "txt_CD_Search";
-            this.txt_CD_Search.Size = new System.Drawing.Size(251, 26);
-            this.txt_CD_Search.TabIndex = 4;
-            // 
-            // btn_CD_Search
-            // 
-            this.btn_CD_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_CD_Search.AutoSize = true;
-            this.btn_CD_Search.Location = new System.Drawing.Point(686, 13);
-            this.btn_CD_Search.Name = "btn_CD_Search";
-            this.btn_CD_Search.Size = new System.Drawing.Size(65, 30);
-            this.btn_CD_Search.TabIndex = 1;
-            this.btn_CD_Search.Text = "查询(&F)";
-            this.btn_CD_Search.UseVisualStyleBackColor = true;
-            this.btn_CD_Search.Click += new System.EventHandler(this.btn_CD_Search_Click);
-            // 
             // Frm_ToR
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -323,16 +324,16 @@
             this.Load += new System.EventHandler(this.Frm_ToR_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).EndInit();
             this.tabPage1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SWDJ)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.tc_ToR.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.pal_YJDJ.ResumeLayout(false);
             this.pal_XTSY.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
