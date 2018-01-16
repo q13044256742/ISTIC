@@ -1,6 +1,6 @@
-﻿namespace 科技计划项目档案数据采集管理系统.TransferOfRegistration
+﻿namespace 科技计划项目档案数据采集管理系统
 {
-    partial class Frm_ToR
+    partial class Frm_CG
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dgv_GPDJ = new System.Windows.Forms.DataGridView();
+            this.pal_LeftMenu = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tc_ToR = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txt_Search = new System.Windows.Forms.TextBox();
@@ -43,41 +45,51 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txt_CD_Search = new System.Windows.Forms.TextBox();
             this.btn_CD_Search = new System.Windows.Forms.Button();
-            this.tc_ToR = new System.Windows.Forms.TabControl();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pal_YJDJ = new System.Windows.Forms.Panel();
-            this.pal_XTSY = new System.Windows.Forms.Panel();
-            this.pal_LeftMenu = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).BeginInit();
+            this.dgv_GPDJ = new System.Windows.Forms.DataGridView();
+            this.groupBox1.SuspendLayout();
+            this.tc_ToR.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SWDJ)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.tc_ToR.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.pal_YJDJ.SuspendLayout();
-            this.pal_XTSY.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).BeginInit();
             this.SuspendLayout();
             // 
-            // dgv_GPDJ
+            // pal_LeftMenu
             // 
-            this.dgv_GPDJ.AllowUserToDeleteRows = false;
-            this.dgv_GPDJ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pal_LeftMenu.AutoScroll = true;
+            this.pal_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pal_LeftMenu.Location = new System.Drawing.Point(0, 0);
+            this.pal_LeftMenu.Name = "pal_LeftMenu";
+            this.pal_LeftMenu.Size = new System.Drawing.Size(229, 491);
+            this.pal_LeftMenu.TabIndex = 16;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgv_GPDJ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_GPDJ.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_GPDJ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_GPDJ.Location = new System.Drawing.Point(2, 44);
-            this.dgv_GPDJ.Name = "dgv_GPDJ";
-            this.dgv_GPDJ.ReadOnly = true;
-            this.dgv_GPDJ.RowTemplate.Height = 23;
-            this.dgv_GPDJ.Size = new System.Drawing.Size(759, 415);
-            this.dgv_GPDJ.TabIndex = 1;
-            this.dgv_GPDJ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_GPDJ_CellClick);
+            this.groupBox1.Controls.Add(this.tc_ToR);
+            this.groupBox1.Location = new System.Drawing.Point(230, -6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(771, 502);
+            this.groupBox1.TabIndex = 15;
+            this.groupBox1.TabStop = false;
+            // 
+            // tc_ToR
+            // 
+            this.tc_ToR.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tc_ToR.Controls.Add(this.tabPage1);
+            this.tc_ToR.Controls.Add(this.tabPage2);
+            this.tc_ToR.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tc_ToR.Location = new System.Drawing.Point(1, 10);
+            this.tc_ToR.Name = "tc_ToR";
+            this.tc_ToR.SelectedIndex = 0;
+            this.tc_ToR.Size = new System.Drawing.Size(772, 492);
+            this.tc_ToR.TabIndex = 8;
             // 
             // tabPage1
             // 
@@ -127,7 +139,6 @@
             this.btn_Back.TabIndex = 3;
             this.btn_Back.Text = "返回(&B)";
             this.btn_Back.UseVisualStyleBackColor = true;
-            this.btn_Back.Click += new System.EventHandler(this.btn_Back_Click);
             // 
             // btn_Delete
             // 
@@ -139,7 +150,6 @@
             this.btn_Delete.TabIndex = 2;
             this.btn_Delete.Text = "删除(&D)";
             this.btn_Delete.UseVisualStyleBackColor = true;
-            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
             // 
             // btn_Search
             // 
@@ -151,7 +161,6 @@
             this.btn_Search.TabIndex = 1;
             this.btn_Search.Text = "查询(&F)";
             this.btn_Search.UseVisualStyleBackColor = true;
-            this.btn_Search.Click += new System.EventHandler(this.btn_Search_Click);
             // 
             // btn_Add
             // 
@@ -163,7 +172,6 @@
             this.btn_Add.TabIndex = 0;
             this.btn_Add.Text = "添加(&A)";
             this.btn_Add.UseVisualStyleBackColor = true;
-            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
             // 
             // dgv_SWDJ
             // 
@@ -179,7 +187,6 @@
             this.dgv_SWDJ.RowTemplate.Height = 23;
             this.dgv_SWDJ.Size = new System.Drawing.Size(757, 414);
             this.dgv_SWDJ.TabIndex = 0;
-            this.dgv_SWDJ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_SWDJ_CellClick);
             // 
             // tabPage2
             // 
@@ -221,7 +228,6 @@
             this.cbo_Status.Name = "cbo_Status";
             this.cbo_Status.Size = new System.Drawing.Size(143, 25);
             this.cbo_Status.TabIndex = 6;
-            this.cbo_Status.SelectionChangeCommitted += new System.EventHandler(this.Cbo_Status_SelectionChangeCommitted);
             // 
             // label1
             // 
@@ -253,59 +259,40 @@
             this.btn_CD_Search.TabIndex = 1;
             this.btn_CD_Search.Text = "查询(&F)";
             this.btn_CD_Search.UseVisualStyleBackColor = true;
-            this.btn_CD_Search.Click += new System.EventHandler(this.Btn_CD_Search_Click);
             // 
-            // tc_ToR
+            // dgv_GPDJ
             // 
-            this.tc_ToR.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgv_GPDJ.AllowUserToDeleteRows = false;
+            this.dgv_GPDJ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tc_ToR.Controls.Add(this.tabPage1);
-            this.tc_ToR.Controls.Add(this.tabPage2);
-            this.tc_ToR.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tc_ToR.Location = new System.Drawing.Point(1, 10);
-            this.tc_ToR.Name = "tc_ToR";
-            this.tc_ToR.SelectedIndex = 0;
-            this.tc_ToR.Size = new System.Drawing.Size(772, 492);
-            this.tc_ToR.TabIndex = 8;
-            this.tc_ToR.SelectedIndexChanged += new System.EventHandler(this.Tc_ToR_SelectedIndexChanged);
+            this.dgv_GPDJ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_GPDJ.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_GPDJ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_GPDJ.Location = new System.Drawing.Point(2, 44);
+            this.dgv_GPDJ.Name = "dgv_GPDJ";
+            this.dgv_GPDJ.ReadOnly = true;
+            this.dgv_GPDJ.RowTemplate.Height = 23;
+            this.dgv_GPDJ.Size = new System.Drawing.Size(759, 415);
+            this.dgv_GPDJ.TabIndex = 1;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.tc_ToR);
-            this.groupBox1.Location = new System.Drawing.Point(230, -9);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(771, 502);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            // 
-            // pal_LeftMenu
-            // 
-            this.pal_LeftMenu.AutoScroll = true;
-            this.pal_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pal_LeftMenu.Location = new System.Drawing.Point(0, 0);
-            this.pal_LeftMenu.Name = "pal_LeftMenu";
-            this.pal_LeftMenu.Size = new System.Drawing.Size(229, 491);
-            this.pal_LeftMenu.TabIndex = 12;
-            
-            // 
-            // Frm_ToR
+            // Frm_CG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1001, 491);
             this.Controls.Add(this.pal_LeftMenu);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Frm_ToR";
-            this.Text = "移交登记";
+            this.Name = "Frm_CG";
+            this.ShowInTaskbar = false;
+            this.Text = "著录加工";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.Frm_ToR_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).EndInit();
+            this.Load += new System.EventHandler(this.Frm_CG_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.tc_ToR.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -313,37 +300,29 @@
             this.tabPage2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.tc_ToR.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.pal_YJDJ.ResumeLayout(false);
-            this.pal_XTSY.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel pal_YJDJ;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel pal_XTSY;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridView dgv_GPDJ;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView dgv_SWDJ;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabControl tc_ToR;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel pal_LeftMenu;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TabControl tc_ToR;
+        private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox txt_Search;
         private System.Windows.Forms.Button btn_Back;
         private System.Windows.Forms.Button btn_Delete;
         private System.Windows.Forms.Button btn_Search;
         private System.Windows.Forms.Button btn_Add;
+        private System.Windows.Forms.DataGridView dgv_SWDJ;
+        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.TextBox txt_CD_Search;
-        private System.Windows.Forms.Button btn_CD_Search;
         private System.Windows.Forms.ComboBox cbo_Status;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txt_CD_Search;
+        private System.Windows.Forms.Button btn_CD_Search;
+        private System.Windows.Forms.DataGridView dgv_GPDJ;
     }
 }

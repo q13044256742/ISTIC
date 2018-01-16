@@ -26,6 +26,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
             dgv_SWDJ.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_GPDJ.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+
+            //默认查看状态为全部
+            cbo_Status.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -40,7 +43,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             {
                 Name = "ToR",
                 Text = "移交登记",
-                Image = imgs[0]
+                Image = imgs[0],
+                HasNext = true
             });
             CreateKyoPanel.SetPanel(pal_LeftMenu, list);
             //加载二级菜单
@@ -50,6 +54,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 Name = "ace_all",
                 Text = "全部来源单位",
                 Image = Resources.pic1,
+                HasNext = false
             });
 
             string querySql = "SELECT cs_id,cs_name FROM company_source ORDER BY sorting ASC";
@@ -59,7 +64,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 list.Add(new CreateKyoPanel.KyoPanel
                 {
                     Name = table.Rows[i]["cs_id"].ToString(),
-                    Text = table.Rows[i]["cs_name"].ToString()
+                    Text = table.Rows[i]["cs_name"].ToString(),
+                    HasNext = false
                 });
             }
             Panel basicPanel = CreateKyoPanel.SetSubPanel(pal_LeftMenu.Controls.Find("ToR", false)[0] as Panel, list, Element_Click);
@@ -355,7 +361,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tc_ToR_SelectedIndexChanged(object sender, EventArgs e)
+        private void Tc_ToR_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = tc_ToR.SelectedIndex;
             if(index == 1)//光盘
@@ -407,7 +413,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_GPDJ.Rows[_index].Cells["trc_project_amount"].Value = GetInt32(row["trc_project_amount"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_subject_amount"].Value = GetInt32(row["trc_subject_amount"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_file_amount"].Value = 0;//文件数待处理
-                dgv_GPDJ.Rows[_index].Cells["trc_status"].Value = GetInt32(row["trc_status"]) == 0 ? "未读写" : "已读写";
+                dgv_GPDJ.Rows[_index].Cells["trc_status"].Value = GetReadStatus(GetInt32(row["trc_status"]));
                 dgv_GPDJ.Rows[_index].Cells["control"].Value = "读写";
             }
             if (dgv_GPDJ.Columns.Count > 0)
@@ -427,13 +433,23 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_GPDJ, new string[] { "trc_status" });
             DataGridViewStyleHelper.SetLinkStyle(dgv_GPDJ, new string[] { "control" }, false);
+            
+        }
+
+        /// <summary>
+        /// 根据状态id获取光盘的读写状态
+        /// </summary>
+        private string GetReadStatus(int index)
+        {
+            if (index == 1) return "尚未读写";
+            else if (index == 2) return "读写成功";
+            else if (index == 3) return "解析异常";
+            else return string.Empty;
         }
 
         /// <summary>
         /// 将Object对象转换成Int对象
         /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
         private int GetInt32(object _obj)
         {
             int temp = 0;
@@ -446,9 +462,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// <summary>
         /// 光盘页搜索
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btn_CD_Search_Click(object sender, EventArgs e)
+        private void Btn_CD_Search_Click(object sender, EventArgs e)
         {
             string key = txt_CD_Search.Text;
             string queryCondition = null;
@@ -466,7 +480,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             LoadGPDJ(querySql.ToString());
         }
 
-        private void dgv_GPDJ_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void Dgv_GPDJ_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex!=-1 && e.ColumnIndex != -1)
             {
@@ -475,6 +489,22 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     Frm_CD_Read read = new Frm_CD_Read();
                     read.ShowDialog();
                 }
+            }
+        }
+
+        private void Cbo_Status_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            int index = cbo_Status.SelectedIndex;
+            if (index != -1)
+            {
+                StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
+                querySql.Append(" FROM transfer_registraion_cd trc");
+                querySql.Append(" LEFT JOIN(");
+                querySql.Append(" SELECT trp.trp_id, cs_id, cs_name, sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
+                querySql.Append(" ON trc.trp_id = tb.trp_id");
+                if (index != 0) querySql.Append(" WHERE trc_status='" + index + "'");
+                querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, sorting ASC, trc_code ASC");
+                LoadGPDJ(querySql.ToString());
             }
         }
     }

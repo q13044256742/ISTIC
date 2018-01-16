@@ -57,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cataloguing\Frm_CG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cataloguing\Frm_CG.Designer.cs">
+      <DependentUpon>Frm_CG.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm_AddPC.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +89,7 @@
     <Compile Include="Tools\DataGridViewStyleHelper.cs" />
     <Compile Include="Login\UserLogin.cs" />
     <Compile Include="TransferOfRegistration\CD.cs" />
+    <Compile Include="TransferOfRegistration\FileCopyLog.cs" />
     <Compile Include="TransferOfRegistration\Frm_AddCD.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +109,9 @@
       <DependentUpon>Frm_ToR.cs</DependentUpon>
     </Compile>
     <Compile Include="TransferOfRegistration\TransferOfRegistration.cs" />
+    <EmbeddedResource Include="Cataloguing\Frm_CG.resx">
+      <DependentUpon>Frm_CG.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
     </EmbeddedResource>

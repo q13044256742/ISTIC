@@ -149,6 +149,7 @@
             this.btn_Sure.TabIndex = 10;
             this.btn_Sure.Text = "开始读写";
             this.btn_Sure.UseVisualStyleBackColor = true;
+            this.btn_Sure.Click += new System.EventHandler(this.btn_Sure_Click);
             // 
             // Frm_CD_Read
             // 

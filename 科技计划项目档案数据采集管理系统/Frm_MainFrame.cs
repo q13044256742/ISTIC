@@ -19,9 +19,14 @@ namespace 科技计划项目档案数据采集管理系统
         {
             //当前登录人信息
             txt_RealName.Text = user.RealName;
-            if(user.Remark == "1")
+            if("1".Equals(user.Remark))
             {
                 Frm_ToR frm = new Frm_ToR();
+                frm.MdiParent = this;
+                frm.Show();
+            }else if ("2".Equals(user.Remark))
+            {
+                Frm_CG frm = new Frm_CG();
                 frm.MdiParent = this;
                 frm.Show();
             }

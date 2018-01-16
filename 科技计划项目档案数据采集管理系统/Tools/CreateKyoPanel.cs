@@ -79,24 +79,26 @@ namespace 科技计划项目档案数据采集管理系统
                     Location = new Point(80, 26),
                     ForeColor = DEFAULT_LABEL_FORECOLOR
                 };
-                Label arrow = new Label
+                if (kyoPane.HasNext)
                 {
-                    Name = kyoPane.Name + "_ARROW",
-                    Text = "▲",
-                    ForeColor = Color.White,
-                    Location = new Point(207, 25),
-                    Size = new Size(22, 22),
-                    Font = new Font("微软雅黑", 10, FontStyle.Bold)
-                };
-
+                    Label arrow = new Label
+                    {
+                        Name = kyoPane.Name + "_ARROW",
+                        Text = "▲",
+                        ForeColor = Color.White,
+                        Location = new Point(207, 25),
+                        Size = new Size(22, 22),
+                        Font = new Font("微软雅黑", 10, FontStyle.Bold)
+                    };
+                    arrow.MouseClick += Panel_MouseClick;
+                    panel.Controls.Add(arrow);
+                }
                 panel.MouseClick += Panel_MouseClick;
                 box.MouseClick += Panel_MouseClick;
                 label.MouseClick += Panel_MouseClick;
-                arrow.MouseClick += Panel_MouseClick;
 
                 panel.Controls.Add(box);
                 panel.Controls.Add(label);
-                panel.Controls.Add(arrow);
                 parentPanel.Controls.Add(panel);
             }
         }
@@ -127,7 +129,8 @@ namespace 科技计划项目档案数据采集管理系统
                 Left = 0,
                 Top = parentPanel.Top + parentPanel.Height,
                 BorderStyle = BorderStyle.FixedSingle,
-                Name = parentPanel.Name + "_SUB"
+                Name = parentPanel.Name + "_SUB",
+                Tag = false
             };
 
             parentPanel.Click += delegate (object sender, System.EventArgs e)
@@ -147,11 +150,67 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
+        /// 设置三级菜单
+        /// </summary>
+        public static Panel SetThreePanel(Panel parentPanel, List<KyoPanel> list, Action<object, EventArgs> click)
+        {
+            Panel basicPanel = new Panel
+            {
+                Width = parentPanel.Width,
+                Height = list.Count * DEFAULT_SUB_LABEL_HEIGHT,
+                Left = 0,
+                Top = parentPanel.Top + parentPanel.Height,
+                BorderStyle = BorderStyle.FixedSingle,
+                Name = parentPanel.Name + "_THREE"
+            };
+
+            parentPanel.Click += delegate (object sender, System.EventArgs e)
+            {
+                Panel panel = (sender as Panel);
+                Control[] cs = panel.Parent.Controls.Find($"{panel.Name}_THREE", false);
+                if (cs.Length == 0)
+                {
+                    ExpandThree(parentPanel, basicPanel, list, click);
+                }
+                else
+                {
+                    DexpandThree(parentPanel, basicPanel);
+
+                }
+            };
+            ExpandThree(parentPanel, basicPanel, list, click);
+            return basicPanel;
+        }
+
+        /// <summary>
         /// 移除二级菜单并向上合并
         /// </summary>
         /// <param name="parentPanel"></param>
         /// <param name="basicPanel"></param>
         private static void DexpandSub(Panel parentPanel, Panel basicPanel)
+        {
+            Panel _panel = parentPanel.Parent as Panel;
+            //将当前Panel下的所有选项板上移
+            foreach (Control item in _panel.Controls)
+            {
+                if (item.Top > basicPanel.Top)
+                {
+                    item.Top -= basicPanel.Height;
+                }
+            }
+            _panel.Controls.Remove(basicPanel);
+
+            Control[] cs = parentPanel.Controls.Find(parentPanel.Name + "_ARROW", false);
+            if (cs.Length > 0)
+            {
+                cs[0].Text = "▲";
+            }
+        }
+
+        /// <summary>
+        /// 移除三级菜单并向上合并
+        /// </summary>
+        private static void DexpandThree(Panel parentPanel, Panel basicPanel)
         {
             Panel _panel = parentPanel.Parent as Panel;
             //将当前Panel下的所有选项板上移
@@ -215,6 +274,90 @@ namespace 科技计划项目档案数据采集管理系统
                     Location = new Point(77, 13),
                     AutoSize = true
                 };
+                if (kyoPanel.HasNext)
+                {
+                    Label arrow = new Label
+                    {
+                        Name = panel.Name + "_ARROW",
+                        Text = "▲",
+                        ForeColor = Color.White,
+                        Location = new Point(207, 12),
+                        Size = new Size(22, 22),
+                        Font = new Font("微软雅黑", 10, FontStyle.Bold)
+                    };
+                    arrow.Click += new EventHandler(click);
+                    panel.Controls.Add(arrow);
+                }
+
+                _label.Click += new EventHandler(click);
+                panel.Controls.Add(_label);
+            }
+            _panel.Controls.Add(basicPanel);
+
+            //将当前Panel下的所有选项板下移
+            foreach (Control item in _panel.Controls)
+            {
+                if (item != basicPanel)
+                    if (item.Top > parentPanel.Top)
+                    {
+                        item.Top += basicPanel.Height;
+                    }
+            }
+
+            Control[] cs = parentPanel.Controls.Find(parentPanel.Name + "_ARROW", false);
+            if (cs.Length > 0)
+            {
+                cs[0].Text = "▼";
+            }
+        }
+
+        /// <summary>
+        /// 创建三级菜单并展开
+        /// </summary>
+        /// <param name="parentPanel">菜单所属父级</param>
+        /// <param name="basicPanel">菜单容器</param>
+        /// <param name="list">三级菜单列表</param>
+        private static void ExpandThree(Panel parentPanel, Panel basicPanel, List<KyoPanel> list, Action<object, EventArgs> click)
+        {
+            Panel _panel = parentPanel.Parent as Panel;
+            for (int i = 0; i < list.Count; i++)
+            {
+                KyoPanel kyoPanel = list[i];
+                Panel panel = new Panel
+                {
+                    Width = basicPanel.Width,
+                    Height = DEFAULT_SUB_LABEL_HEIGHT,
+                    Left = 0,
+                    Top = i * DEFAULT_SUB_LABEL_HEIGHT,
+                    Tag = false,
+                    Name = kyoPanel.Name,
+                };
+                panel.MouseEnter += Panel_MouseEnter;
+                panel.Click += new EventHandler(click);
+                basicPanel.Controls.Add(panel);
+
+                Label _label = new Label
+                {
+                    Text = kyoPanel.Text,
+                    ForeColor = Color.White,
+                    Location = new Point(77, 13),
+                    AutoSize = true
+                };
+                if (kyoPanel.HasNext)
+                {
+                    Label arrow = new Label
+                    {
+                        Name = panel.Name + "_ARROW",
+                        Text = "▲",
+                        ForeColor = Color.White,
+                        Location = new Point(207, 12),
+                        Size = new Size(22, 22),
+                        Font = new Font("微软雅黑", 10, FontStyle.Bold)
+                    };
+                    arrow.Click += new EventHandler(click);
+                    panel.Controls.Add(arrow);
+                }
+
                 _label.Click += new EventHandler(click);
                 panel.Controls.Add(_label);
             }
@@ -245,10 +388,12 @@ namespace 科技计划项目档案数据采集管理系统
             private string name;
             private string text;
             private Image image;
+            private bool hasNext;
 
             public string Name { get => name; set => name = value; }
             public string Text { get => text; set => text = value; }
             public Image Image { get => image; set => image = value; }
+            public bool HasNext { get => hasNext; set => hasNext = value; }
         }
     }
 }
