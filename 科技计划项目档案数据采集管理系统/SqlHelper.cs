@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -12,8 +11,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 数据连接字符串
         /// </summary>
-        private static string SQL_CONNECT = "Data Source=KYO;Initial Catalog=ISTIC;Persist Security Info=True;User ID=sa;Password=123456";
-
+        static string IPAddress = OperateIniFile.GetInstance().ReadIniData("SQLServer", "IPAddress", "127.0.0.1");
+        static string Username = OperateIniFile.GetInstance().ReadIniData("SQLServer", "Username", "sa");
+        static string Password = OperateIniFile.GetInstance().ReadIniData("SQLServer", "Password", "123456");
+        private static string SQL_CONNECT = $"Data Source={IPAddress};Initial Catalog=ISTIC;Persist Security Info=True;User ID={Username};Password={Password}";
         private static SqlConnection sqlConnection;
 
         /// <summary>

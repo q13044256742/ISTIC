@@ -67,7 +67,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         }
 
-        private void btn_UploadFile_Click(object sender, EventArgs e)
+        private void Btn_UploadFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             DialogResult result = dialog.ShowDialog();
@@ -110,7 +110,6 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 自动生成批次编号
         /// </summary>
-        /// <returns></returns>
         private void CreateBatchCode(string unitCode)
         {
             string querySql;
@@ -206,18 +205,22 @@ namespace 科技计划项目档案数据采集管理系统
                             TrcName = cdName,
                             TrcCode = cdCode,
                             TrpId = registration.Id,//关联批次的主键
-                            TrcRemark = cdRemark
+                            TrcRemark = cdRemark,
+                            TrcStrtus = (int)ReadStatus.NonRead,
+                            TrcPeople = string.Empty,
+                            TrpHandleTime = DateTime.Now
                         };
                         StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
-                        cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_people,trc_handle_time)");
+                        cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_people,trc_handle_time)");
                         cdInfo_querySql.Append(" VALUES(");
                         cdInfo_querySql.Append("'" + Guid.NewGuid().ToString() + "',");
                         cdInfo_querySql.Append("'" + cd.TrcName + "',");
                         cdInfo_querySql.Append("'" + cd.TrcCode + "',");
                         cdInfo_querySql.Append("'" + cd.TrpId + "',");
                         cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
-                        cdInfo_querySql.Append("'" + string.Empty + "',");
-                        cdInfo_querySql.Append("'" + DateTime.Now + "')");
+                        cdInfo_querySql.Append("'" + cd.TrcStrtus + "',");
+                        cdInfo_querySql.Append("'" + cd.TrcPeople + "',");
+                        cdInfo_querySql.Append("'" + cd.TrpHandleTime + "')");
                         SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());
                     }
                 }
@@ -234,6 +237,7 @@ namespace 科技计划项目档案数据采集管理系统
                     basicInfo_QuerySql.Append("trp_remark='" + registration.Remark + "',");
                     basicInfo_QuerySql.Append("trp_cd_amount='" + registration.TrpCdAmount + "',");
                     basicInfo_QuerySql.Append("trp_attachment_id='" + registration.FileUpload + "',");
+                    basicInfo_QuerySql.Append("trp_status=1,");
                     basicInfo_QuerySql.Append("trp_people='" + string.Empty + "',");
                     basicInfo_QuerySql.Append("trp_handle_time='" + DateTime.Now + "'");
                     basicInfo_QuerySql.Append(" WHERE trp_id='" + unitCode + "'");
@@ -253,17 +257,19 @@ namespace 科技计划项目档案数据采集管理系统
                             TrcCode = cdCode,
                             TrpId = unitCode,
                             TrcRemark = cdRemark,
+                            TrcStrtus = (int)ReadStatus.NonRead,
                             TrcPeople = string.Empty,
                             TrpHandleTime = DateTime.Now
                         };
                         StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
-                        cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_people,trc_handle_time)");
+                        cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_people,trc_handle_time)");
                         cdInfo_querySql.Append(" VALUES(");
                         cdInfo_querySql.Append("'" + cd.TrcId + "',");
                         cdInfo_querySql.Append("'" + cd.TrcName + "',");
                         cdInfo_querySql.Append("'" + cd.TrcCode + "',");
                         cdInfo_querySql.Append("'" + cd.TrpId + "',");
                         cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
+                        cdInfo_querySql.Append("'" + cd.TrcStrtus + "',");
                         cdInfo_querySql.Append("'" + cd.TrcPeople + "',");
                         cdInfo_querySql.Append("'" + cd.TrpHandleTime + "')");
                         SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());

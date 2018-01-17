@@ -35,10 +35,10 @@
             this.txt_DS_Path = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.pgb_CD = new System.Windows.Forms.ProgressBar();
-            this.pgb_DS = new System.Windows.Forms.ProgressBar();
             this.label4 = new System.Windows.Forms.Label();
             this.btn_Sure = new System.Windows.Forms.Button();
+            this.pgb_DS = new 科技计划项目档案数据采集管理系统.KyoProgressBar();
+            this.pgb_CD = new 科技计划项目档案数据采集管理系统.KyoProgressBar();
             this.SuspendLayout();
             // 
             // label1
@@ -116,20 +116,6 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "光盘读写进度";
             // 
-            // pgb_CD
-            // 
-            this.pgb_CD.Location = new System.Drawing.Point(39, 187);
-            this.pgb_CD.Name = "pgb_CD";
-            this.pgb_CD.Size = new System.Drawing.Size(403, 23);
-            this.pgb_CD.TabIndex = 7;
-            // 
-            // pgb_DS
-            // 
-            this.pgb_DS.Location = new System.Drawing.Point(39, 249);
-            this.pgb_DS.Name = "pgb_DS";
-            this.pgb_DS.Size = new System.Drawing.Size(403, 23);
-            this.pgb_DS.TabIndex = 9;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -143,13 +129,31 @@
             // 
             // btn_Sure
             // 
-            this.btn_Sure.Location = new System.Drawing.Point(331, 306);
+            this.btn_Sure.Location = new System.Drawing.Point(331, 307);
             this.btn_Sure.Name = "btn_Sure";
             this.btn_Sure.Size = new System.Drawing.Size(111, 31);
             this.btn_Sure.TabIndex = 10;
             this.btn_Sure.Text = "开始读写";
             this.btn_Sure.UseVisualStyleBackColor = true;
-            this.btn_Sure.Click += new System.EventHandler(this.btn_Sure_Click);
+            this.btn_Sure.Click += new System.EventHandler(this.Btn_Sure_Click);
+            // 
+            // pgb_DS
+            // 
+            this.pgb_DS.Location = new System.Drawing.Point(39, 249);
+            this.pgb_DS.Name = "pgb_DS";
+            this.pgb_DS.Size = new System.Drawing.Size(403, 23);
+            this.pgb_DS.TabIndex = 9;
+            this.pgb_DS.TextColor = System.Drawing.Color.Black;
+            this.pgb_DS.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            // 
+            // pgb_CD
+            // 
+            this.pgb_CD.Location = new System.Drawing.Point(39, 187);
+            this.pgb_CD.Name = "pgb_CD";
+            this.pgb_CD.Size = new System.Drawing.Size(403, 23);
+            this.pgb_CD.TabIndex = 7;
+            this.pgb_CD.TextColor = System.Drawing.Color.Black;
+            this.pgb_CD.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             // 
             // Frm_CD_Read
             // 
@@ -190,9 +194,9 @@
         private System.Windows.Forms.TextBox txt_DS_Path;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ProgressBar pgb_CD;
-        private System.Windows.Forms.ProgressBar pgb_DS;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btn_Sure;
+        private KyoProgressBar pgb_CD;
+        private KyoProgressBar pgb_DS;
     }
 }

@@ -50,6 +50,7 @@
             this.pal_LeftMenu = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.btn_CD_Delete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -58,8 +59,6 @@
             this.groupBox3.SuspendLayout();
             this.tc_ToR.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.pal_YJDJ.SuspendLayout();
-            this.pal_XTSY.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgv_GPDJ
@@ -197,6 +196,7 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.btn_CD_Delete);
             this.groupBox3.Controls.Add(this.cbo_Status);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.txt_CD_Search);
@@ -238,7 +238,7 @@
             this.txt_CD_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_CD_Search.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_CD_Search.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_CD_Search.Location = new System.Drawing.Point(429, 16);
+            this.txt_CD_Search.Location = new System.Drawing.Point(356, 16);
             this.txt_CD_Search.Name = "txt_CD_Search";
             this.txt_CD_Search.Size = new System.Drawing.Size(251, 26);
             this.txt_CD_Search.TabIndex = 4;
@@ -247,7 +247,7 @@
             // 
             this.btn_CD_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_CD_Search.AutoSize = true;
-            this.btn_CD_Search.Location = new System.Drawing.Point(686, 13);
+            this.btn_CD_Search.Location = new System.Drawing.Point(613, 12);
             this.btn_CD_Search.Name = "btn_CD_Search";
             this.btn_CD_Search.Size = new System.Drawing.Size(65, 30);
             this.btn_CD_Search.TabIndex = 1;
@@ -282,6 +282,20 @@
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
+            // pal_YJDJ
+            // 
+            this.pal_YJDJ.Location = new System.Drawing.Point(0, 0);
+            this.pal_YJDJ.Name = "pal_YJDJ";
+            this.pal_YJDJ.Size = new System.Drawing.Size(200, 100);
+            this.pal_YJDJ.TabIndex = 0;
+            // 
+            // pal_XTSY
+            // 
+            this.pal_XTSY.Location = new System.Drawing.Point(0, 0);
+            this.pal_XTSY.Name = "pal_XTSY";
+            this.pal_XTSY.Size = new System.Drawing.Size(200, 100);
+            this.pal_XTSY.TabIndex = 0;
+            // 
             // pal_LeftMenu
             // 
             this.pal_LeftMenu.AutoScroll = true;
@@ -290,7 +304,32 @@
             this.pal_LeftMenu.Name = "pal_LeftMenu";
             this.pal_LeftMenu.Size = new System.Drawing.Size(229, 491);
             this.pal_LeftMenu.TabIndex = 12;
-            
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(0, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(100, 23);
+            this.label5.TabIndex = 0;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(0, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(100, 23);
+            this.label4.TabIndex = 0;
+            // 
+            // btn_CD_Delete
+            // 
+            this.btn_CD_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_CD_Delete.AutoSize = true;
+            this.btn_CD_Delete.Location = new System.Drawing.Point(684, 12);
+            this.btn_CD_Delete.Name = "btn_CD_Delete";
+            this.btn_CD_Delete.Size = new System.Drawing.Size(68, 30);
+            this.btn_CD_Delete.TabIndex = 7;
+            this.btn_CD_Delete.Text = "删除(&D)";
+            this.btn_CD_Delete.UseVisualStyleBackColor = true;
+            this.btn_CD_Delete.Click += new System.EventHandler(this.btn_CD_Delete_Click);
             // 
             // Frm_ToR
             // 
@@ -315,8 +354,6 @@
             this.groupBox3.PerformLayout();
             this.tc_ToR.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            this.pal_YJDJ.ResumeLayout(false);
-            this.pal_XTSY.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -345,5 +382,6 @@
         private System.Windows.Forms.Button btn_CD_Search;
         private System.Windows.Forms.ComboBox cbo_Status;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btn_CD_Delete;
     }
 }

@@ -98,6 +98,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     querySql.Append("cs_name,");
                     querySql.Append("trp_name,");
                     querySql.Append("trp_code,");
+                    querySql.Append("trp_status,");
                     querySql.Append("trp_cd_amount");
                     querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
                     querySql.Append(" WHERE com_id='" + panel.Name + "'");
@@ -165,6 +166,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 querySql.Append("cs_name,");
                 querySql.Append("trp_name,");
                 querySql.Append("trp_code,");
+                querySql.Append("trp_status,");
                 querySql.Append("trp_cd_amount");
                 querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN company_source cs ON pc.com_id = cs.cs_id");
                 querySql.Append(" WHERE trp_status=1");
@@ -191,7 +193,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_SWDJ.Rows[index].Cells["trp_code"].Value = row["trp_code"];
                 dgv_SWDJ.Rows[index].Cells["trp_cd_amount"].Value = row["trp_cd_amount"];
                 dgv_SWDJ.Rows[index].Cells["addpc"].Value = "添加";
-                dgv_SWDJ.Rows[index].Cells["submit"].Value = "提交";
+                dgv_SWDJ.Rows[index].Cells["submit"].Value = Convert.ToInt32(row["trp_status"]) == 1 ? "提交" : "已提交";
             }
             //设置最小列宽
             dgv_SWDJ.Columns["cs_name"].MinimumWidth = 200;
@@ -205,6 +207,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
             btn_Back.Enabled = false;
             btn_Add.Enabled = true;
+
+            dgv_SWDJ.Tag = "PC";
         }
 
         /// <summary>
@@ -244,6 +248,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
             btn_Back.Enabled = true;
             btn_Add.Enabled = false;
+
+            dgv_SWDJ.Tag = "CD";
         }
 
         /// <summary>
@@ -282,9 +288,33 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 {
                     object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
                     Frm_AddPC frm = new Frm_AddPC(false, currentRowId.ToString());
-                    if(frm.ShowDialog() == DialogResult.OK)
+                    if (frm.ShowDialog() == DialogResult.OK)
                     {
                         LoadPCDataScoure(null);
+                    }
+                }
+                //提交 - 点击事件
+                else if ("submit".Equals(dgv_SWDJ.Columns[e.ColumnIndex].Name))
+                {
+                    object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
+                    if (currentRowId != null && !"已提交".Equals(dgv_SWDJ.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                    {
+                        //如果当前批次下存在光盘且未读取，或者存在读取失败的记录，则不允许提交
+                        string querySql = $"SELECT COUNT(*) FROM transfer_registraion_cd WHERE trp_id='{currentRowId}' AND trc_status<>{(int)ReadStatus.ReadSuccess}";
+                        int logAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery(querySql));
+                        if (logAmount == 0)
+                        {
+                            if (MessageBox.Show("确定要提交当前选中项吗？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            {
+                                string updateSql = "UPDATE transfer_registration_pc SET trp_status=2 WHERE trp_id='" + currentRowId + "'";
+                                SqlHelper.ExecuteNonQuery(updateSql);
+                                LoadPCDataScoure(null);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("当前批次下存在尚未处理的光盘！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        }
                     }
                 }
             }
@@ -313,15 +343,36 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 if (MessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                 {
                     int deleteAmount = 0;
-                    foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
+                    if ("PC".Equals(dgv_SWDJ.Tag))
                     {
-                        string pid = row.Cells["trp_id"].Value.ToString();
-                        string deleteSql = "DELETE FROM transfer_registration_pc WHERE trp_id = '" + pid + "'";
-                        SqlHelper.ExecuteNonQuery(deleteSql);
-                        deleteAmount++;
+                        foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
+                        {
+                            string pid = row.Cells["trp_id"].Value.ToString();
+                            string deleteSql = $"DELETE FROM transfer_registration_pc WHERE trp_id = '{pid}'";
+                            SqlHelper.ExecuteNonQuery(deleteSql);
+                            deleteAmount++;
+                        }
+                        LoadPCDataScoure(null);
+                    }
+                    else if ("CD".Equals(dgv_SWDJ.Tag))
+                    {
+                        string pid = null;
+                        foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
+                        {
+                            string cid = row.Cells["trc_id"].Value.ToString();
+                            pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{cid}'").ToString();
+
+                            string deleteSql = $"DELETE FROM transfer_registraion_cd WHERE trc_id = '{cid}'";
+                            SqlHelper.ExecuteNonQuery(deleteSql);
+
+                            string updateSql = $"UPDATE transfer_registration_pc SET trp_cd_amount=(SELECT COUNT(*) FROM transfer_registraion_cd WHERE trp_id = '{pid}') WHERE trp_id = '{pid}'";
+                            SqlHelper.ExecuteNonQuery(updateSql);
+
+                            deleteAmount++;
+                        }
+                        LoadCDDataScoure(pid);
                     }
                     MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadPCDataScoure(null);
                 }
             }
             else
@@ -345,7 +396,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 querySql.Append("cs_name,");
                 querySql.Append("trp_name,");
                 querySql.Append("trp_code,");
-                querySql.Append("trp_cd_amount");
+                querySql.Append("trp_cd_amount,");
+                querySql.Append("trp_status");
                 querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN company_source cs ON pc.com_id = cs.cs_id");
                 querySql.Append(" WHERE cs_name LIKE '%" + searchKey + "%' ");
                 querySql.Append("OR trp_code LIKE '%" + searchKey + "%' ");
@@ -505,6 +557,41 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 if (index != 0) querySql.Append(" WHERE trc_status='" + index + "'");
                 querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, sorting ASC, trc_code ASC");
                 LoadGPDJ(querySql.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 光盘列表删除事件
+        /// </summary>
+        private void btn_CD_Delete_Click(object sender, EventArgs e)
+        {
+            int amount = dgv_GPDJ.SelectedRows.Count;
+            if (amount > 0)
+            {
+                if (MessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                {
+                    int deleteAmount = 0;
+                    string pid = null;
+                    foreach (DataGridViewRow row in dgv_GPDJ.SelectedRows)
+                    {
+                        string cid = row.Cells["trc_id"].Value.ToString();
+                        pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{cid}'").ToString();
+
+                        string deleteSql = $"DELETE FROM transfer_registraion_cd WHERE trc_id = '{cid}'";
+                        SqlHelper.ExecuteNonQuery(deleteSql);
+
+                        string updateSql = $"UPDATE transfer_registration_pc SET trp_cd_amount=(SELECT COUNT(*) FROM transfer_registraion_cd WHERE trp_id = '{pid}') WHERE trp_id = '{pid}'";
+                        SqlHelper.ExecuteNonQuery(updateSql);
+
+                        deleteAmount++;
+                    }
+                    LoadGPDJ(null);
+                    MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
     }

@@ -48,12 +48,12 @@
             this.dtp_TransferTime = new System.Windows.Forms.DateTimePicker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgv_CDlist = new System.Windows.Forms.DataGridView();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btn_Save = new System.Windows.Forms.Button();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpmc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpbh = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bz = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_Save = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_CDlist)).BeginInit();
@@ -153,7 +153,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(44, 17);
             this.label9.TabIndex = 15;
-            this.label9.Text = "接受人";
+            this.label9.Text = "接收人";
             // 
             // txt_Receiver
             // 
@@ -209,7 +209,7 @@
             this.btn_UploadFile.TabIndex = 25;
             this.btn_UploadFile.Text = "上传";
             this.btn_UploadFile.UseVisualStyleBackColor = true;
-            this.btn_UploadFile.Click += new System.EventHandler(this.btn_UploadFile_Click);
+            this.btn_UploadFile.Click += new System.EventHandler(this.Btn_UploadFile_Click);
             // 
             // groupBox1
             // 
@@ -279,27 +279,6 @@
             this.dgv_CDlist.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_CellEnter);
             this.dgv_CDlist.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_RowLeave);
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.btn_Save);
-            this.groupBox3.Location = new System.Drawing.Point(6, 530);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(739, 48);
-            this.groupBox3.TabIndex = 28;
-            this.groupBox3.TabStop = false;
-            // 
-            // btn_Save
-            // 
-            this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Save.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.btn_Save.Location = new System.Drawing.Point(658, 13);
-            this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(70, 30);
-            this.btn_Save.TabIndex = 0;
-            this.btn_Save.Text = "保存(&S)";
-            this.btn_Save.UseVisualStyleBackColor = true;
-            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
-            // 
             // id
             // 
             this.id.HeaderText = "编号";
@@ -322,6 +301,27 @@
             this.bz.FillWeight = 250F;
             this.bz.HeaderText = "备注";
             this.bz.Name = "bz";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btn_Save);
+            this.groupBox3.Location = new System.Drawing.Point(6, 530);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(739, 48);
+            this.groupBox3.TabIndex = 28;
+            this.groupBox3.TabStop = false;
+            // 
+            // btn_Save
+            // 
+            this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Save.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.btn_Save.Location = new System.Drawing.Point(658, 13);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(70, 30);
+            this.btn_Save.TabIndex = 0;
+            this.btn_Save.Text = "保存(&S)";
+            this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
             // Frm_AddPC
             // 

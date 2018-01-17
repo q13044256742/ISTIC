@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.TransferOfRegistration
@@ -35,56 +28,22 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             }
         }
 
-        private void btn_Sure_Click(object sender, EventArgs e)
+        private void Btn_Sure_Click(object sender, EventArgs e)
         {
+            if (pgb_CD.Value == pgb_CD.Maximum)
+            {
+                if (MessageBox.Show("此操作会覆盖当前已有文件，是否重新读取？", "温馨提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    return;
+            }
             //光盘读写【备份】
             string sPath = txt_CD_Path.Text;
             if (!string.IsNullOrEmpty(sPath))
             {
                 string[] spSplit = sPath.Split('\\');
                 string tPath = Application.StartupPath + "\\BackupFile\\" + spSplit[spSplit.Length - 1];
-                CopyFile(sPath, tPath);
-                MessageBox.Show("ok");
-            }
-        }
-
-        List<FileCopyLog> list = new List<FileCopyLog>();
-
-        /// <summary>
-        /// 复制文件
-        /// </summary>
-        /// <param name="sPath">源文件路径</param>
-        /// <param name="tPath">目标文件路径</param>
-        private void CopyFile(string sPath, string tPath)
-        {
-            DirectoryInfo directory = new DirectoryInfo(sPath);
-            if (directory.Exists)
-            {
-                FileInfo[] fis = directory.GetFiles();
-                for (int i = 0; i < fis.Length; i++)
-                {
-                    string destFileName = tPath + "\\" + fis[i].Name;
-                    try
-                    {
-                        if (Directory.Exists(tPath))
-                            Directory.Delete(tPath, true);
-                        Directory.CreateDirectory(tPath);
-                        File.Create(destFileName).Close();
-                        fis[i].CopyTo(destFileName, true);
-                    }catch( Exception e)
-                    {
-                        list.Add(new FileCopyLog(destFileName, e.Message));
-                    }
-                }
-
-                DirectoryInfo[] dis = directory.GetDirectories();
-                for (int i = 0; i < dis.Length; i++)
-                {
-                    sPath = sPath + "\\" + dis[i];
-                    tPath = tPath + "\\" + dis[i];
-                    CopyFile(sPath, tPath);
-                }
-
+                btn_Sure.Enabled = false;
+                FolderHelper.GetInstance(pgb_CD).CopyDirectory(sPath, tPath, true);
+                btn_Sure.Enabled = true;
             }
         }
     }

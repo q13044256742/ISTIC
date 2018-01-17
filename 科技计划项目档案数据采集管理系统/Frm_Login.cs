@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.TransferOfRegistration;
+using 科技计划项目档案数据采集管理系统.Properties;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class frm_Login : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_Login : DevExpress.XtraEditors.XtraForm
     {
-        public frm_Login() {
+        public Frm_Login() {
             InitializeComponent();
             InitalForm();
         }

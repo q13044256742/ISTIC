@@ -2,6 +2,25 @@
 
 namespace 科技计划项目档案数据采集管理系统
 {
+    enum ReadStatus
+    {
+        /// <summary>
+        /// 默认
+        /// </summary>
+        Default = 0,
+        /// <summary>
+        /// 尚未读写
+        /// </summary>
+        NonRead = 1,
+        /// <summary>
+        /// 读写成功
+        /// </summary>
+        ReadSuccess = 2,
+        /// <summary>
+        /// 读写异常
+        /// </summary>
+        ReadError = 3
+    }
     class CD
     {
         private string trcId;
@@ -16,6 +35,7 @@ namespace 科技计划项目档案数据采集管理系统
         private int trcElectronicAmount;
         private DateTime trcFinishDate;
         private string trcPeople;
+        private int trcStrtus;
         private DateTime trpHandleTime;
         private string trcRemark;
 
@@ -33,5 +53,6 @@ namespace 科技计划项目档案数据采集管理系统
         public DateTime TrpHandleTime { get => trpHandleTime; set => trpHandleTime = value; }
         public string TrcRemark { get => trcRemark; set => trcRemark = value; }
         public string TrpId { get => trpId; set => trpId = value; }
+        public int TrcStrtus { get => trcStrtus; set => trcStrtus = value; }
     }
 }

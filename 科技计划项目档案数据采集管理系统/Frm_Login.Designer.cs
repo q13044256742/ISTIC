@@ -1,6 +1,6 @@
 ﻿namespace 科技计划项目档案数据采集管理系统
 {
-    partial class frm_Login
+    partial class Frm_Login
     {
         /// <summary>
         /// Required designer variable.

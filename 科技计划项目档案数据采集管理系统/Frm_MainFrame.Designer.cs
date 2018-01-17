@@ -29,7 +29,7 @@
             this.lbl_OtherInfo = new System.Windows.Forms.Label();
             this.txt_RealName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lbl_ExitSystem = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pal_Top = new System.Windows.Forms.Panel();
             this.pal_Top_Info = new System.Windows.Forms.Panel();
@@ -69,21 +69,22 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "欢迎你：";
             // 
-            // linkLabel1
+            // lbl_ExitSystem
             // 
-            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lbl_ExitSystem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel1.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.linkLabel1.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.tuichu;
-            this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel1.Location = new System.Drawing.Point(1118, 30);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(101, 21);
-            this.linkLabel1.TabIndex = 1;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "退出系统";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_ExitSystem.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_ExitSystem.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_ExitSystem.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.tuichu;
+            this.lbl_ExitSystem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl_ExitSystem.Location = new System.Drawing.Point(1118, 30);
+            this.lbl_ExitSystem.Name = "lbl_ExitSystem";
+            this.lbl_ExitSystem.Size = new System.Drawing.Size(101, 21);
+            this.lbl_ExitSystem.TabIndex = 1;
+            this.lbl_ExitSystem.TabStop = true;
+            this.lbl_ExitSystem.Text = "退出系统";
+            this.lbl_ExitSystem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_ExitSystem.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbl_ExitSystem_LinkClicked);
             // 
             // pictureBox1
             // 
@@ -102,7 +103,7 @@
             this.pal_Top.BackgroundImage = global::科技计划项目档案数据采集管理系统.Properties.Resources.top;
             this.pal_Top.Controls.Add(this.pal_Top_Info);
             this.pal_Top.Controls.Add(this.pictureBox1);
-            this.pal_Top.Controls.Add(this.linkLabel1);
+            this.pal_Top.Controls.Add(this.lbl_ExitSystem);
             this.pal_Top.Dock = System.Windows.Forms.DockStyle.Top;
             this.pal_Top.Location = new System.Drawing.Point(0, 0);
             this.pal_Top.Name = "pal_Top";
@@ -145,7 +146,7 @@
 
         #endregion
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel lbl_ExitSystem;
         private System.Windows.Forms.Label lbl_OtherInfo;
         private System.Windows.Forms.Label txt_RealName;
         private System.Windows.Forms.Label label1;
