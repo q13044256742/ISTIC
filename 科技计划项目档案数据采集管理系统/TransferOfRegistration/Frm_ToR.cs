@@ -445,7 +445,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             if (_querySql == null)
             {
 
-                StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
+                StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_status");
                 querySql.Append(" FROM transfer_registraion_cd trc");
                 querySql.Append(" LEFT JOIN(");
                 querySql.Append(" SELECT trp.trp_id, cs_name,sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
@@ -462,8 +462,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_GPDJ.Rows[_index].Cells["cs_name"].Value = row["cs_name"];
                 dgv_GPDJ.Rows[_index].Cells["trc_code"].Value = row["trc_code"];
                 dgv_GPDJ.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
-                dgv_GPDJ.Rows[_index].Cells["trc_project_amount"].Value = GetInt32(row["trc_project_amount"]);
-                dgv_GPDJ.Rows[_index].Cells["trc_subject_amount"].Value = GetInt32(row["trc_subject_amount"]);
+                dgv_GPDJ.Rows[_index].Cells["trc_project_amount"].Value = GetTotalAmount(row["trc_id"]);
+                dgv_GPDJ.Rows[_index].Cells["trc_subject_amount"].Value = GetTotalReceiveAmount(row["trc_id"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_file_amount"].Value = 0;//文件数待处理
                 dgv_GPDJ.Rows[_index].Cells["trc_status"].Value = GetReadStatus(GetInt32(row["trc_status"]));
                 dgv_GPDJ.Rows[_index].Cells["control"].Value = "读写";
@@ -486,6 +486,36 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_GPDJ, new string[] { "trc_status" });
             DataGridViewStyleHelper.SetLinkStyle(dgv_GPDJ, new string[] { "control" }, false);
             
+        }
+
+        /// <summary>
+        /// 根据光盘ID获取项目数+课题数总和
+        /// </summary>
+        private int GetTotalAmount(object trcId)
+        {
+            if (trcId != null)
+            {
+                int proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}'"));
+                int subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id IN(SELECT pi_id FROM project_info WHERE trc_id = '{trcId}')"));
+                return proAmount + subAmount;
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// 根据光盘ID获取项目+课题中已领取数总和
+        /// </summary>
+        private object GetTotalReceiveAmount(object trcId)
+        {
+            int proAmount = 0;
+            int subAmount = 0;
+            if (trcId != null)
+            {
+                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}' AND pi_work_status='{(int)ReceiveStatus.ReceiveSuccess}'"));
+                if (proAmount > 0)
+                    subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id IN(SELECT pi_id FROM project_info WHERE trc_id = '{trcId}') AND si_work_status='{(int)ReceiveStatus.ReceiveSuccess}'"));
+            }
+            return proAmount + subAmount;
         }
 
         /// <summary>

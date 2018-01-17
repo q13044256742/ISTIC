@@ -148,7 +148,7 @@
             this.cbo_CompanyList.Name = "cbo_CompanyList";
             this.cbo_CompanyList.Size = new System.Drawing.Size(185, 25);
             this.cbo_CompanyList.TabIndex = 7;
-            this.cbo_CompanyList.SelectionChangeCommitted += new System.EventHandler(this.cbo_CompanyList_SelectionChangeCommitted);
+            this.cbo_CompanyList.SelectionChangeCommitted += new System.EventHandler(this.Cbo_CompanyList_SelectionChangeCommitted);
             // 
             // Frm_CG
             // 

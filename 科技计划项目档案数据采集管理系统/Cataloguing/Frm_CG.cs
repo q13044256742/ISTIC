@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Properties;
@@ -12,6 +10,10 @@ namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_CG : Form
     {
+        /// <summary>
+        /// 页码顺序记录
+        /// </summary>
+        private string[] LastIdLog;
         public Frm_CG()
         {
             InitializeComponent();
@@ -97,14 +99,14 @@ namespace 科技计划项目档案数据采集管理系统
             //设置最小列宽
             dgv_WorkLog.Columns["cs_name"].MinimumWidth = 200;
             dgv_WorkLog.Columns["trp_name"].MinimumWidth = 250;
+            dgv_WorkLog.Columns["trp_cd_amount"].MinimumWidth = 90;
+            dgv_WorkLog.Columns["trp_control"].MinimumWidth = 100;
             //设置链接按钮样式
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "trp_cd_amount", "trp_control" });
             DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] { "trp_cd_amount", "trp_control" }, true);
 
             dgv_WorkLog.Columns["trp_id"].Visible = false;
-
-            dgv_WorkLog.Tag = "PC";
-
+            LastIdLog = new string[] { string.Empty, $"PC_{csid}" };
         }
 
         /// <summary>
@@ -160,6 +162,7 @@ namespace 科技计划项目档案数据采集管理系统
             if ("CG_LOGIN".Equals(panel.Name))//加工登记
             {
                 LoadPCList(null, null);
+                cbo_CompanyList.SelectedIndex = 0;
             }
         }
 
@@ -176,12 +179,78 @@ namespace 科技计划项目档案数据采集管理系统
                     object trpid = dgv_WorkLog.Rows[e.RowIndex].Cells["trp_id"].Value;
                     LoadCDList(trpid);
                 }
+                //光盘页 - 总数
+                else if ("trc_total_amount".Equals(dgv_WorkLog.Columns[e.ColumnIndex].Name))
+                {
+                    if (0 != Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                    {
+                        object trcid = dgv_WorkLog.Rows[e.RowIndex].Cells["trc_id"].Value;
+                        LoadProjectList(trcid);
+                    }
+                }
+                //项目/课题 - 总数
+                else if ("pi_total_amount".Equals(dgv_WorkLog.Columns[e.ColumnIndex].Name))
+                {
+                    if (0 != Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                    {
+                        object pid = dgv_WorkLog.Rows[e.RowIndex].Cells["pi_id"].Value;
+                        LoadSubjectList(pid);
+                    }
+                }
             }
+        }
+
+        /// <summary>
+        /// 加载课题/子课题列表
+        /// </summary>
+        /// <param name="pid">项目/课题ID</param>
+        private void LoadSubjectList(object pid)
+        {
+            dgv_WorkLog.Rows.Clear();
+            dgv_WorkLog.Columns.Clear();
+
+            dgv_WorkLog.Columns.Add("si_id", "主键");
+            dgv_WorkLog.Columns.Add("si_code", "课题/子课题编号");
+            dgv_WorkLog.Columns.Add("si_name", "课题/子课题名称");
+            dgv_WorkLog.Columns.Add("si_file_amount", "文件数");
+            dgv_WorkLog.Columns.Add("si_control", "操作");
+
+            DataTable table = null;
+            StringBuilder querySql = new StringBuilder("SELECT si_id,si_code,si_name");
+            querySql.Append(" FROM subject_info si");
+            querySql.Append($" WHERE pi_id='{pid}'");
+            table = SqlHelper.ExecuteQuery(querySql.ToString());
+            foreach (DataRow row in table.Rows)
+            {
+                int _index = dgv_WorkLog.Rows.Add();
+                dgv_WorkLog.Rows[_index].Cells["si_id"].Value = row["si_id"];
+                dgv_WorkLog.Rows[_index].Cells["si_code"].Value = row["si_code"];
+                dgv_WorkLog.Rows[_index].Cells["si_name"].Value = row["si_name"];
+                dgv_WorkLog.Rows[_index].Cells["si_file_amount"].Value = 0;
+                dgv_WorkLog.Rows[_index].Cells["si_control"].Value = "加工";
+            }
+            if (dgv_WorkLog.Columns.Count > 0)
+                dgv_WorkLog.Columns[0].Visible = false;
+
+            List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
+            list.AddRange(new KeyValuePair<string, int>[]
+            {
+                new KeyValuePair<string, int>("si_file_amount",90),
+                new KeyValuePair<string, int>("si_control",100),
+            });
+            DataGridViewStyleHelper.SetWidth(dgv_WorkLog, list);
+            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] {"si_control" }, true);
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "si_file_amount" });
+
+            dgv_WorkLog.Columns["si_id"].Visible = false;
+
+            LastIdLog = new string[] { LastIdLog[1], $"Subject_{pid}" };
         }
 
         /// <summary>
         /// 加载光盘列表
         /// </summary>
+        /// <param name="trpId">批次主键</param>
         private void LoadCDList(object trpId)
         {
             dgv_WorkLog.Rows.Clear();
@@ -197,7 +266,7 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_WorkLog.Columns.Add("trc_control", "操作");
 
             DataTable table = null;
-            StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
+            StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_status");
             querySql.Append(" FROM transfer_registraion_cd trc");
             querySql.Append(" LEFT JOIN(");
             querySql.Append(" SELECT trp.trp_id, cs_name,sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
@@ -212,19 +281,13 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_WorkLog.Rows[_index].Cells["cs_name"].Value = row["cs_name"];
                 dgv_WorkLog.Rows[_index].Cells["trc_code"].Value = row["trc_code"];
                 dgv_WorkLog.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
-                dgv_WorkLog.Rows[_index].Cells["trc_total_amount"].Value = GetInt32(row["trc_project_amount"]) + GetInt32(row["trc_subject_amount"]);
-                dgv_WorkLog.Rows[_index].Cells["trc_receive_amount"].Value = 0;//已领取数待处理
+                dgv_WorkLog.Rows[_index].Cells["trc_total_amount"].Value = GetTotalAmount(row["trc_id"]);
+                dgv_WorkLog.Rows[_index].Cells["trc_receive_amount"].Value = GetTotalReceiveAmount(row["trc_id"]);
                 dgv_WorkLog.Rows[_index].Cells["trc_file_amount"].Value = 0;//文件数待处理
                 dgv_WorkLog.Rows[_index].Cells["trc_control"].Value = "加工";
             }
-            if (dgv_WorkLog.Columns.Count > 0)
-                dgv_WorkLog.Columns[0].Visible = false;
 
             List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
-            list.Add(new KeyValuePair<string, int>("cs_name", 250));
-            list.Add(new KeyValuePair<string, int>("trc_code", 200));
-            list.Add(new KeyValuePair<string, int>("trc_name", 200));
-
             list.Add(new KeyValuePair<string, int>("trc_total_amount", 90));
             list.Add(new KeyValuePair<string, int>("trc_receive_amount", 90));
             list.Add(new KeyValuePair<string, int>("trc_file_amount", 90));
@@ -234,7 +297,121 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] { "trc_total_amount", "trc_control" }, true);
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "trc_receive_amount", "trc_file_amount" });
 
-            dgv_WorkLog.Tag = "CD";
+            dgv_WorkLog.Columns["trc_id"].Visible = false;
+            LastIdLog = new string[] { LastIdLog[1], $"CD_{trpId}" };
+        }
+
+        /// <summary>
+        /// 根据光盘ID获取项目+课题中已领取数总和
+        /// </summary>
+        private object GetTotalReceiveAmount(object trcId)
+        {
+            int proAmount = 0;
+            int subAmount = 0;
+            if (trcId != null)
+            {
+                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}' AND pi_work_status='{(int)ReceiveStatus.ReceiveSuccess}'"));
+                if (proAmount >= 0)
+                    subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id IN(SELECT pi_id FROM project_info WHERE trc_id = '{trcId}') AND si_work_status='{(int)ReceiveStatus.ReceiveSuccess}'"));
+            }
+            return proAmount + subAmount;
+        }
+
+        /// <summary>
+        /// 根据光盘ID获取项目数+课题数总和
+        /// </summary>
+        private int GetTotalAmount(object trcId)
+        {
+            if (trcId != null)
+            {
+                int proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}'"));
+                int subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id IN(SELECT pi_id FROM project_info WHERE trc_id = '{trcId}')"));
+                return proAmount + subAmount;
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// 加载光盘下的项目/课题列表
+        /// </summary>
+        /// <param name="trcId">光盘ID</param>
+        private void LoadProjectList(object trcId)
+        {
+            dgv_WorkLog.Rows.Clear();
+            dgv_WorkLog.Columns.Clear();
+
+            dgv_WorkLog.Columns.Add("pi_id", "主键");
+            dgv_WorkLog.Columns.Add("pi_code", "项目/课题编号");
+            dgv_WorkLog.Columns.Add("pi_name", "项目/课题名称");
+            dgv_WorkLog.Columns.Add("pi_company", "承担单位");
+            dgv_WorkLog.Columns.Add("pi_total_amount", "总数");
+            dgv_WorkLog.Columns.Add("pi_receive_amount", "已领取数");
+            dgv_WorkLog.Columns.Add("pi_file_amount", "文件数");
+            dgv_WorkLog.Columns.Add("pi_control", "操作");
+
+            DataTable table = null;
+            StringBuilder querySql = new StringBuilder("SELECT pi_id,pi_code,pi_name,pi_company,pi_work_status");
+            querySql.Append(" FROM project_info pi");
+            querySql.Append($" WHERE trc_id='{trcId}'");
+            table = SqlHelper.ExecuteQuery(querySql.ToString());
+            foreach (DataRow row in table.Rows)
+            {
+                int _index = dgv_WorkLog.Rows.Add();
+                dgv_WorkLog.Rows[_index].Cells["pi_id"].Value = row["pi_id"];
+                dgv_WorkLog.Rows[_index].Cells["pi_code"].Value = row["pi_code"];
+                dgv_WorkLog.Rows[_index].Cells["pi_name"].Value = row["pi_name"];
+                dgv_WorkLog.Rows[_index].Cells["pi_company"].Value = row["pi_company"];
+                dgv_WorkLog.Rows[_index].Cells["pi_total_amount"].Value = GetSubjectAmount(row["pi_id"]);
+                dgv_WorkLog.Rows[_index].Cells["pi_receive_amount"].Value = GetSubjectReceiveAmount(row["pi_id"]);
+                dgv_WorkLog.Rows[_index].Cells["pi_file_amount"].Value = 0;//文件数待处理
+                dgv_WorkLog.Rows[_index].Cells["pi_control"].Value = "加工";
+            }
+            if (dgv_WorkLog.Columns.Count > 0)
+                dgv_WorkLog.Columns[0].Visible = false;
+
+            List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
+            list.Add(new KeyValuePair<string, int>("pi_code", 100));
+            list.Add(new KeyValuePair<string, int>("pi_name", 250));
+            list.Add(new KeyValuePair<string, int>("pi_company", 200));
+
+            list.Add(new KeyValuePair<string, int>("pi_total_amount", 90));
+            list.Add(new KeyValuePair<string, int>("pi_receive_amount", 90));
+            list.Add(new KeyValuePair<string, int>("pi_file_amount", 90));
+            list.Add(new KeyValuePair<string, int>("pi_control", 100));
+            DataGridViewStyleHelper.SetWidth(dgv_WorkLog, list);
+
+            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] { "pi_total_amount", "pi_control" }, true);
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "pi_receive_amount", "pi_file_amount" });
+
+            dgv_WorkLog.Columns["pi_id"].Visible = false;
+
+            LastIdLog = new string[] { LastIdLog[1], $"Project_{trcId}" };
+        }
+
+        /// <summary>
+        ///  根据父级ID获取子级已领取列表
+        /// </summary>
+        private object GetSubjectReceiveAmount(object pid)
+        {
+            int subAmount = 0;
+            if (pid != null)
+            {
+                subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id='{pid}' AND si_work_status='{(int)ReceiveStatus.ReceiveSuccess}'"));
+            }
+            return subAmount;
+        }
+
+        /// <summary>
+        /// 根据父级ID获取子级列表
+        /// </summary>
+        private object GetSubjectAmount(object pid)
+        {
+            int subAmount = 0;
+            if (pid != null)
+            {
+                subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id='{pid}'"));
+            }
+            return subAmount;
         }
 
         /// <summary>
@@ -254,7 +431,15 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_Back_Click(object sender, EventArgs e)
         {
-            if ("CD".Equals(dgv_WorkLog.Tag))
+            if ("CD".Equals(LastIdLog[1].Split('_')[0]))
+            {
+                LoadPCList(null, null);
+            }
+            else if ("Project".Equals(LastIdLog[1].Split('_')[0]))
+            {
+                LoadCDList(LastIdLog[0].Split('_')[1]);
+            }
+            else if ("Subject".Equals(LastIdLog[1].Split('_')[0]))
             {
                 LoadPCList(null, null);
             }
@@ -263,9 +448,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 来源单位切换事件
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cbo_CompanyList_SelectionChangeCommitted(object sender, EventArgs e)
+        private void Cbo_CompanyList_SelectionChangeCommitted(object sender, EventArgs e)
         {
             object csid = cbo_CompanyList.SelectedValue;
             if ("all".Equals(csid))

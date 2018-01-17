@@ -2,6 +2,9 @@
 
 namespace 科技计划项目档案数据采集管理系统
 {
+    /// <summary>
+    /// 光盘读取状态
+    /// </summary>
     enum ReadStatus
     {
         /// <summary>
@@ -20,6 +23,24 @@ namespace 科技计划项目档案数据采集管理系统
         /// 读写异常
         /// </summary>
         ReadError = 3
+    }
+    /// <summary>
+    /// 批次/项目/课题/子课题 领取状态
+    /// </summary>
+    enum ReceiveStatus
+    {
+        /// <summary>
+        /// 默认
+        /// </summary>
+        Default = 0,
+        /// <summary>
+        /// 未领取
+        /// </summary>
+        NonReceive = 1,
+        /// <summary>
+        /// 已领取
+        /// </summary>
+        ReceiveSuccess = 2,
     }
     class CD
     {
