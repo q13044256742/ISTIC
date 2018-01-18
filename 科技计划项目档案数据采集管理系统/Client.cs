@@ -39,8 +39,8 @@ namespace 科技计划项目档案数据采集管理系统
                     KfeByte = _fileByte
                 };
 
-                byte[] _byte = ObjectToBytes(fileEntity);
-                _socket.Send(GetByteWithLength(_byte));
+                byte[] _byte = GetByteWithLength(ObjectToBytes(fileEntity));
+                _socket.Send(_byte);
             }
         }
 
@@ -65,10 +65,17 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 while (true)
                 {
-                    byte[] _byte = new byte[1024 * 1024];
-                    int length = socket.Receive(_byte);
-                    string msg = Encoding.UTF8.GetString(_byte, 0, length);
-                    ShowReceiveMsg("Server", msg);
+                    try
+                    {
+                        byte[] _byte = new byte[1024 * 1024];
+                        int length = socket.Receive(_byte);
+                        string msg = Encoding.UTF8.GetString(_byte, 0, length);
+                        ShowReceiveMsg("Server", msg);
+                    }catch(Exception e)
+                    {
+                        ShowReceiveMsg("Server", e.Message);
+                        Thread.CurrentThread.Abort();
+                    }
                 }
             }).Start();
         }
@@ -90,7 +97,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string ip = "192.168.0.103";
+            string ip = "192.168.249.206";
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _socket.Connect(new IPEndPoint(IPAddress.Parse(ip), 8080));
