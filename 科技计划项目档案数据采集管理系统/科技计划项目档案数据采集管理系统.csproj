@@ -45,6 +45,10 @@
     <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraTreeList.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraVerticalGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="KyoFileEntity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ServerCenter\bin\Debug\KyoFileEntity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -64,6 +68,12 @@
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </Compile>
     <Compile Include="Cataloguing\WorkRegistration.cs" />
+    <Compile Include="Client.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Client.Designer.cs">
+      <DependentUpon>Client.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm_AddPC.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +134,9 @@
     <Compile Include="TransferOfRegistration\TransferOfRegistration.cs" />
     <EmbeddedResource Include="Cataloguing\Frm_CG.resx">
       <DependentUpon>Frm_CG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Client.resx">
+      <DependentUpon>Client.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
