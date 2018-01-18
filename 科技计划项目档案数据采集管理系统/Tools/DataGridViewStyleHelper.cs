@@ -146,5 +146,33 @@ namespace 科技计划项目档案数据采集管理系统
             for (int j = 0; j < indexs.Length; j++)
                 dataGridView.Columns[indexs[j]].DefaultCellStyle = style;
         }
+
+        /// <summary>
+        /// 设置二级标题
+        /// </summary>
+        /// <param name="dgv_WorkingLog"></param>
+        /// <param name="tv"></param>
+        public static void SetTreeViewHeader(HeaderUnitView dgv_WorkingLog, TreeView tv)
+        {
+            dgv_WorkingLog.ColumnTreeView = new TreeView[] { tv };
+            dgv_WorkingLog.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv_WorkingLog.ColumnDeep = 2;
+            dgv_WorkingLog.CellHeight = 25;
+            dgv_WorkingLog.ColumnHeadersHeight = 50;
+            dgv_WorkingLog.RefreshAtHscroll = true;
+        }
+
+        /// <summary>
+        /// 重置表格
+        /// </summary>
+        /// <param name="dataGridView">待重置的表格</param>
+        internal static void ResetDataGridView(HeaderUnitView dataGridView)
+        {
+            dataGridView.DataSource = null;
+            dataGridView.Rows.Clear();
+            dataGridView.Columns.Clear();
+            dataGridView.ColumnTreeView = null;
+            dataGridView.ColumnDeep = 1;
+        }
     }
 }

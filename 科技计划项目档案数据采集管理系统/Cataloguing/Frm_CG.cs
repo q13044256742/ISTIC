@@ -26,8 +26,8 @@ namespace 科技计划项目档案数据采集管理系统
             LoadPCList(null, null);
 
             //列头样式
-            dgv_WorkLog.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-
+            dgv_WorkingLog.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            
             //默认来源单位
             LoadCompanyList();
         }
@@ -56,9 +56,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="csid">来源单位ID</param>
         private void LoadPCList(StringBuilder querySql, object csid)
         {
-            dgv_WorkLog.DataSource = null;
-            dgv_WorkLog.Columns.Clear();
-            dgv_WorkLog.Rows.Clear();
+            DataGridViewStyleHelper.ResetDataGridView(dgv_WorkingLog);
 
             DataTable dataTable = null;
             if (querySql == null)
@@ -77,35 +75,35 @@ namespace 科技计划项目档案数据采集管理系统
             }
             dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
             //将数据源转化成DataGridView表数据
-            dgv_WorkLog.Columns.Add("trp_id", "主键");
-            dgv_WorkLog.Columns.Add("cs_name", "来源单位");
-            dgv_WorkLog.Columns.Add("trp_name", "批次名称");
-            dgv_WorkLog.Columns.Add("trp_code", "批次编号");
-            dgv_WorkLog.Columns.Add("trp_finishtime", "完成时间");
-            dgv_WorkLog.Columns.Add("trp_cd_amount", "光盘数");
-            dgv_WorkLog.Columns.Add("trp_control", "操作");
+            dgv_WorkingLog.Columns.Add("trp_id", "主键");
+            dgv_WorkingLog.Columns.Add("cs_name", "来源单位");
+            dgv_WorkingLog.Columns.Add("trp_name", "批次名称");
+            dgv_WorkingLog.Columns.Add("trp_code", "批次编号");
+            dgv_WorkingLog.Columns.Add("trp_finishtime", "完成时间");
+            dgv_WorkingLog.Columns.Add("trp_cd_amount", "光盘数");
+            dgv_WorkingLog.Columns.Add("trp_control", "操作");
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
                 DataRow row = dataTable.Rows[i];
-                int index = dgv_WorkLog.Rows.Add();
-                dgv_WorkLog.Rows[index].Cells["trp_id"].Value = row["trp_id"];
-                dgv_WorkLog.Rows[index].Cells["cs_name"].Value = row["cs_name"];
-                dgv_WorkLog.Rows[index].Cells["trp_name"].Value = row["trp_name"];
-                dgv_WorkLog.Rows[index].Cells["trp_code"].Value = row["trp_code"];
-                dgv_WorkLog.Rows[index].Cells["trp_finishtime"].Value = null;//完成时间字段待定
-                dgv_WorkLog.Rows[index].Cells["trp_cd_amount"].Value = row["trp_cd_amount"];
-                dgv_WorkLog.Rows[index].Cells["trp_control"].Value = "加工";
+                int index = dgv_WorkingLog.Rows.Add();
+                dgv_WorkingLog.Rows[index].Cells["trp_id"].Value = row["trp_id"];
+                dgv_WorkingLog.Rows[index].Cells["cs_name"].Value = row["cs_name"];
+                dgv_WorkingLog.Rows[index].Cells["trp_name"].Value = row["trp_name"];
+                dgv_WorkingLog.Rows[index].Cells["trp_code"].Value = row["trp_code"];
+                dgv_WorkingLog.Rows[index].Cells["trp_finishtime"].Value = null;//完成时间字段待定
+                dgv_WorkingLog.Rows[index].Cells["trp_cd_amount"].Value = row["trp_cd_amount"];
+                dgv_WorkingLog.Rows[index].Cells["trp_control"].Value = "加工";
             }
             //设置最小列宽
-            dgv_WorkLog.Columns["cs_name"].MinimumWidth = 200;
-            dgv_WorkLog.Columns["trp_name"].MinimumWidth = 250;
-            dgv_WorkLog.Columns["trp_cd_amount"].MinimumWidth = 90;
-            dgv_WorkLog.Columns["trp_control"].MinimumWidth = 100;
+            dgv_WorkingLog.Columns["cs_name"].MinimumWidth = 200;
+            dgv_WorkingLog.Columns["trp_name"].MinimumWidth = 250;
+            dgv_WorkingLog.Columns["trp_cd_amount"].MinimumWidth = 90;
+            dgv_WorkingLog.Columns["trp_control"].MinimumWidth = 100;
             //设置链接按钮样式
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "trp_cd_amount", "trp_control" });
-            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] { "trp_cd_amount", "trp_control" }, true);
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkingLog, new string[] { "trp_cd_amount", "trp_control" });
+            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkingLog, new string[] { "trp_cd_amount", "trp_control" }, true);
 
-            dgv_WorkLog.Columns["trp_id"].Visible = false;
+            dgv_WorkingLog.Columns["trp_id"].Visible = false;
             LastIdLog = new string[] { string.Empty, $"PC_{csid}" };
         }
 
@@ -169,33 +167,46 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 单元格点击事件
         /// </summary>
-        private void dgv_WorkLog_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void Dgv_WorkingLog_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex!=-1 && e.ColumnIndex != -1)
             {
+                object columnName = dgv_WorkingLog.Columns[e.ColumnIndex].Name;
                 //光盘数
-                if ("trp_cd_amount".Equals(dgv_WorkLog.Columns[e.ColumnIndex].Name))
+                if ("trp_cd_amount".Equals(columnName))
                 {
-                    object trpid = dgv_WorkLog.Rows[e.RowIndex].Cells["trp_id"].Value;
+                    object trpid = dgv_WorkingLog.Rows[e.RowIndex].Cells["trp_id"].Value;
                     LoadCDList(trpid);
                 }
                 //光盘页 - 总数
-                else if ("trc_total_amount".Equals(dgv_WorkLog.Columns[e.ColumnIndex].Name))
+                else if ("trc_total_amount".Equals(columnName))
                 {
-                    if (0 != Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                    if (0 != Convert.ToInt32(dgv_WorkingLog.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
                     {
-                        object trcid = dgv_WorkLog.Rows[e.RowIndex].Cells["trc_id"].Value;
+                        object trcid = dgv_WorkingLog.Rows[e.RowIndex].Cells["trc_id"].Value;
                         LoadProjectList(trcid);
                     }
                 }
                 //项目/课题 - 总数
-                else if ("pi_total_amount".Equals(dgv_WorkLog.Columns[e.ColumnIndex].Name))
+                else if ("pi_total_amount".Equals(columnName))
                 {
-                    if (0 != Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                    if (0 != Convert.ToInt32(dgv_WorkingLog.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
                     {
-                        object pid = dgv_WorkLog.Rows[e.RowIndex].Cells["pi_id"].Value;
+                        object pid = dgv_WorkingLog.Rows[e.RowIndex].Cells["pi_id"].Value;
                         LoadSubjectList(pid);
                     }
+                }
+                //光盘 - 加工
+                else if ("trc_control".Equals(columnName))
+                {
+                    WorkRegistration wr = new WorkRegistration
+                    {
+                        WrId = Guid.NewGuid().ToString(),
+                        WrStauts = WorkStatus.NonWork,
+                        WrStartDate = DateTime.Now,
+                        WrType = WorkType.CDWork
+                    };
+                    string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}','{wr.WrStauts}','','','','','')";
                 }
             }
         }
@@ -206,14 +217,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="pid">项目/课题ID</param>
         private void LoadSubjectList(object pid)
         {
-            dgv_WorkLog.Rows.Clear();
-            dgv_WorkLog.Columns.Clear();
+            DataGridViewStyleHelper.ResetDataGridView(dgv_WorkingLog);
 
-            dgv_WorkLog.Columns.Add("si_id", "主键");
-            dgv_WorkLog.Columns.Add("si_code", "课题/子课题编号");
-            dgv_WorkLog.Columns.Add("si_name", "课题/子课题名称");
-            dgv_WorkLog.Columns.Add("si_file_amount", "文件数");
-            dgv_WorkLog.Columns.Add("si_control", "操作");
+            dgv_WorkingLog.Columns.Add("si_id", "主键");
+            dgv_WorkingLog.Columns.Add("si_code", "课题/子课题编号");
+            dgv_WorkingLog.Columns.Add("si_name", "课题/子课题名称");
+            dgv_WorkingLog.Columns.Add("si_file_amount", "文件数");
+            dgv_WorkingLog.Columns.Add("si_control", "操作");
 
             DataTable table = null;
             StringBuilder querySql = new StringBuilder("SELECT si_id,si_code,si_name");
@@ -222,15 +232,15 @@ namespace 科技计划项目档案数据采集管理系统
             table = SqlHelper.ExecuteQuery(querySql.ToString());
             foreach (DataRow row in table.Rows)
             {
-                int _index = dgv_WorkLog.Rows.Add();
-                dgv_WorkLog.Rows[_index].Cells["si_id"].Value = row["si_id"];
-                dgv_WorkLog.Rows[_index].Cells["si_code"].Value = row["si_code"];
-                dgv_WorkLog.Rows[_index].Cells["si_name"].Value = row["si_name"];
-                dgv_WorkLog.Rows[_index].Cells["si_file_amount"].Value = 0;
-                dgv_WorkLog.Rows[_index].Cells["si_control"].Value = "加工";
+                int _index = dgv_WorkingLog.Rows.Add();
+                dgv_WorkingLog.Rows[_index].Cells["si_id"].Value = row["si_id"];
+                dgv_WorkingLog.Rows[_index].Cells["si_code"].Value = row["si_code"];
+                dgv_WorkingLog.Rows[_index].Cells["si_name"].Value = row["si_name"];
+                dgv_WorkingLog.Rows[_index].Cells["si_file_amount"].Value = 0;
+                dgv_WorkingLog.Rows[_index].Cells["si_control"].Value = "加工";
             }
-            if (dgv_WorkLog.Columns.Count > 0)
-                dgv_WorkLog.Columns[0].Visible = false;
+            if (dgv_WorkingLog.Columns.Count > 0)
+                dgv_WorkingLog.Columns[0].Visible = false;
 
             List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
             list.AddRange(new KeyValuePair<string, int>[]
@@ -238,11 +248,11 @@ namespace 科技计划项目档案数据采集管理系统
                 new KeyValuePair<string, int>("si_file_amount",90),
                 new KeyValuePair<string, int>("si_control",100),
             });
-            DataGridViewStyleHelper.SetWidth(dgv_WorkLog, list);
-            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] {"si_control" }, true);
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "si_file_amount" });
+            DataGridViewStyleHelper.SetWidth(dgv_WorkingLog, list);
+            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkingLog, new string[] {"si_control" }, true);
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkingLog, new string[] { "si_file_amount" });
 
-            dgv_WorkLog.Columns["si_id"].Visible = false;
+            dgv_WorkingLog.Columns["si_id"].Visible = false;
 
             LastIdLog = new string[] { LastIdLog[1], $"Subject_{pid}" };
         }
@@ -253,17 +263,33 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="trpId">批次主键</param>
         private void LoadCDList(object trpId)
         {
-            dgv_WorkLog.Rows.Clear();
-            dgv_WorkLog.Columns.Clear();
+            DataGridViewStyleHelper.ResetDataGridView(dgv_WorkingLog);
 
-            dgv_WorkLog.Columns.Add("trc_id", "主键");
-            dgv_WorkLog.Columns.Add("cs_name", "来源单位");
-            dgv_WorkLog.Columns.Add("trc_code", "光盘编号");
-            dgv_WorkLog.Columns.Add("trc_name", "光盘名称");
-            dgv_WorkLog.Columns.Add("trc_total_amount", "总数");
-            dgv_WorkLog.Columns.Add("trc_receive_amount", "已领取数");
-            dgv_WorkLog.Columns.Add("trc_file_amount", "文件数");
-            dgv_WorkLog.Columns.Add("trc_control", "操作");
+            dgv_WorkingLog.Columns.Add("trc_id", "主键");
+            dgv_WorkingLog.Columns.Add("cs_name", "来源单位");
+            dgv_WorkingLog.Columns.Add("trc_code", "光盘编号");
+            dgv_WorkingLog.Columns.Add("trc_name", "光盘名称");
+            dgv_WorkingLog.Columns.Add("trc_total_amount", "总数");
+            dgv_WorkingLog.Columns.Add("trc_receive_amount", "已领取数");
+            dgv_WorkingLog.Columns.Add("trc_file_amount", "文件数");
+            dgv_WorkingLog.Columns.Add("trc_control", "操作");
+
+            //增加TreeView
+            TreeView tv = new TreeView();
+            tv.Nodes.AddRange(new TreeNode[] {
+                new TreeNode("主键"),
+                new TreeNode("来源单位"),
+                new TreeNode("光盘编号"),
+                new TreeNode("光盘名称"),
+                new TreeNode("项目/课题"),
+                new TreeNode("文件数"),
+                new TreeNode("操作"),
+            });
+            tv.Nodes[4].Nodes.AddRange(new TreeNode[] {
+                new TreeNode("总数"),
+                new TreeNode("已领取数"),
+            });
+            DataGridViewStyleHelper.SetTreeViewHeader(dgv_WorkingLog, tv);
 
             DataTable table = null;
             StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_status");
@@ -276,15 +302,15 @@ namespace 科技计划项目档案数据采集管理系统
             table = SqlHelper.ExecuteQuery(querySql.ToString());
             foreach (DataRow row in table.Rows)
             {
-                int _index = dgv_WorkLog.Rows.Add();
-                dgv_WorkLog.Rows[_index].Cells["trc_id"].Value = row["trc_id"];
-                dgv_WorkLog.Rows[_index].Cells["cs_name"].Value = row["cs_name"];
-                dgv_WorkLog.Rows[_index].Cells["trc_code"].Value = row["trc_code"];
-                dgv_WorkLog.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
-                dgv_WorkLog.Rows[_index].Cells["trc_total_amount"].Value = GetTotalAmount(row["trc_id"]);
-                dgv_WorkLog.Rows[_index].Cells["trc_receive_amount"].Value = GetTotalReceiveAmount(row["trc_id"]);
-                dgv_WorkLog.Rows[_index].Cells["trc_file_amount"].Value = 0;//文件数待处理
-                dgv_WorkLog.Rows[_index].Cells["trc_control"].Value = "加工";
+                int _index = dgv_WorkingLog.Rows.Add();
+                dgv_WorkingLog.Rows[_index].Cells["trc_id"].Value = row["trc_id"];
+                dgv_WorkingLog.Rows[_index].Cells["cs_name"].Value = row["cs_name"];
+                dgv_WorkingLog.Rows[_index].Cells["trc_code"].Value = row["trc_code"];
+                dgv_WorkingLog.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
+                dgv_WorkingLog.Rows[_index].Cells["trc_total_amount"].Value = GetTotalAmount(row["trc_id"]);
+                dgv_WorkingLog.Rows[_index].Cells["trc_receive_amount"].Value = GetTotalReceiveAmount(row["trc_id"]);
+                dgv_WorkingLog.Rows[_index].Cells["trc_file_amount"].Value = 0;//文件数待处理
+                dgv_WorkingLog.Rows[_index].Cells["trc_control"].Value = "加工";
             }
 
             List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
@@ -292,12 +318,12 @@ namespace 科技计划项目档案数据采集管理系统
             list.Add(new KeyValuePair<string, int>("trc_receive_amount", 90));
             list.Add(new KeyValuePair<string, int>("trc_file_amount", 90));
             list.Add(new KeyValuePair<string, int>("trc_control", 100));
-            DataGridViewStyleHelper.SetWidth(dgv_WorkLog, list);
+            DataGridViewStyleHelper.SetWidth(dgv_WorkingLog, list);
 
-            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] { "trc_total_amount", "trc_control" }, true);
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "trc_receive_amount", "trc_file_amount" });
+            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkingLog, new string[] { "trc_total_amount", "trc_control" }, true);
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkingLog, new string[] { "trc_receive_amount", "trc_file_amount" });
 
-            dgv_WorkLog.Columns["trc_id"].Visible = false;
+            dgv_WorkingLog.Columns["trc_id"].Visible = false;
             LastIdLog = new string[] { LastIdLog[1], $"CD_{trpId}" };
         }
 
@@ -322,13 +348,12 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private int GetTotalAmount(object trcId)
         {
+            int proAmount = 0;
             if (trcId != null)
             {
-                int proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}'"));
-                int subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id IN(SELECT pi_id FROM project_info WHERE trc_id = '{trcId}')"));
-                return proAmount + subAmount;
+                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}'"));
             }
-            return 0;
+            return proAmount;
         }
 
         /// <summary>
@@ -337,17 +362,32 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="trcId">光盘ID</param>
         private void LoadProjectList(object trcId)
         {
-            dgv_WorkLog.Rows.Clear();
-            dgv_WorkLog.Columns.Clear();
+            DataGridViewStyleHelper.ResetDataGridView(dgv_WorkingLog);
 
-            dgv_WorkLog.Columns.Add("pi_id", "主键");
-            dgv_WorkLog.Columns.Add("pi_code", "项目/课题编号");
-            dgv_WorkLog.Columns.Add("pi_name", "项目/课题名称");
-            dgv_WorkLog.Columns.Add("pi_company", "承担单位");
-            dgv_WorkLog.Columns.Add("pi_total_amount", "总数");
-            dgv_WorkLog.Columns.Add("pi_receive_amount", "已领取数");
-            dgv_WorkLog.Columns.Add("pi_file_amount", "文件数");
-            dgv_WorkLog.Columns.Add("pi_control", "操作");
+            dgv_WorkingLog.Columns.Add("pi_id", "主键");
+            dgv_WorkingLog.Columns.Add("pi_code", "项目/课题编号");
+            dgv_WorkingLog.Columns.Add("pi_name", "项目/课题名称");
+            dgv_WorkingLog.Columns.Add("pi_company", "承担单位");
+            dgv_WorkingLog.Columns.Add("pi_total_amount", "总数");
+            dgv_WorkingLog.Columns.Add("pi_receive_amount", "已领取数");
+            dgv_WorkingLog.Columns.Add("pi_file_amount", "文件数");
+            dgv_WorkingLog.Columns.Add("pi_control", "操作");
+
+            TreeView tree = new TreeView();
+            tree.Nodes.AddRange(new TreeNode[] {
+                new TreeNode("主键"),
+                new TreeNode("项目/课题编号"),
+                new TreeNode( "项目/课题名称"),
+                new TreeNode("承担单位"),
+                new TreeNode("课题/子课题"),
+                new TreeNode("操作"),
+            });
+            tree.Nodes[4].Nodes.AddRange(new TreeNode[]
+            {
+                new TreeNode("总数"),
+                new TreeNode("已领取数"),
+            });
+            DataGridViewStyleHelper.SetTreeViewHeader(dgv_WorkingLog, tree);
 
             DataTable table = null;
             StringBuilder querySql = new StringBuilder("SELECT pi_id,pi_code,pi_name,pi_company,pi_work_status");
@@ -356,18 +396,18 @@ namespace 科技计划项目档案数据采集管理系统
             table = SqlHelper.ExecuteQuery(querySql.ToString());
             foreach (DataRow row in table.Rows)
             {
-                int _index = dgv_WorkLog.Rows.Add();
-                dgv_WorkLog.Rows[_index].Cells["pi_id"].Value = row["pi_id"];
-                dgv_WorkLog.Rows[_index].Cells["pi_code"].Value = row["pi_code"];
-                dgv_WorkLog.Rows[_index].Cells["pi_name"].Value = row["pi_name"];
-                dgv_WorkLog.Rows[_index].Cells["pi_company"].Value = row["pi_company"];
-                dgv_WorkLog.Rows[_index].Cells["pi_total_amount"].Value = GetSubjectAmount(row["pi_id"]);
-                dgv_WorkLog.Rows[_index].Cells["pi_receive_amount"].Value = GetSubjectReceiveAmount(row["pi_id"]);
-                dgv_WorkLog.Rows[_index].Cells["pi_file_amount"].Value = 0;//文件数待处理
-                dgv_WorkLog.Rows[_index].Cells["pi_control"].Value = "加工";
+                int _index = dgv_WorkingLog.Rows.Add();
+                dgv_WorkingLog.Rows[_index].Cells["pi_id"].Value = row["pi_id"];
+                dgv_WorkingLog.Rows[_index].Cells["pi_code"].Value = row["pi_code"];
+                dgv_WorkingLog.Rows[_index].Cells["pi_name"].Value = row["pi_name"];
+                dgv_WorkingLog.Rows[_index].Cells["pi_company"].Value = row["pi_company"];
+                dgv_WorkingLog.Rows[_index].Cells["pi_total_amount"].Value = GetSubjectAmount(row["pi_id"]);
+                dgv_WorkingLog.Rows[_index].Cells["pi_receive_amount"].Value = GetSubjectReceiveAmount(row["pi_id"]);
+                dgv_WorkingLog.Rows[_index].Cells["pi_file_amount"].Value = 0;//文件数待处理
+                dgv_WorkingLog.Rows[_index].Cells["pi_control"].Value = "加工";
             }
-            if (dgv_WorkLog.Columns.Count > 0)
-                dgv_WorkLog.Columns[0].Visible = false;
+            if (dgv_WorkingLog.Columns.Count > 0)
+                dgv_WorkingLog.Columns[0].Visible = false;
 
             List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
             list.Add(new KeyValuePair<string, int>("pi_code", 100));
@@ -378,12 +418,12 @@ namespace 科技计划项目档案数据采集管理系统
             list.Add(new KeyValuePair<string, int>("pi_receive_amount", 90));
             list.Add(new KeyValuePair<string, int>("pi_file_amount", 90));
             list.Add(new KeyValuePair<string, int>("pi_control", 100));
-            DataGridViewStyleHelper.SetWidth(dgv_WorkLog, list);
+            DataGridViewStyleHelper.SetWidth(dgv_WorkingLog, list);
 
-            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] { "pi_total_amount", "pi_control" }, true);
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "pi_receive_amount", "pi_file_amount" });
+            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkingLog, new string[] { "pi_total_amount", "pi_control" }, true);
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkingLog, new string[] { "pi_receive_amount", "pi_file_amount" });
 
-            dgv_WorkLog.Columns["pi_id"].Visible = false;
+            dgv_WorkingLog.Columns["pi_id"].Visible = false;
 
             LastIdLog = new string[] { LastIdLog[1], $"Project_{trcId}" };
         }

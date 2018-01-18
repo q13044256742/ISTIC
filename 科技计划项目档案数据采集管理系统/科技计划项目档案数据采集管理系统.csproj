@@ -63,6 +63,7 @@
     <Compile Include="Cataloguing\Frm_CG.Designer.cs">
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cataloguing\WorkRegistration.cs" />
     <Compile Include="Frm_AddPC.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +81,12 @@
     </Compile>
     <Compile Include="Frm_MainFrame.Designer.cs">
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\HeaderUnitView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Tools\HeaderUnitView.Designer.cs">
+      <DependentUpon>HeaderUnitView.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\User.cs" />
     <Compile Include="Program.cs" />
