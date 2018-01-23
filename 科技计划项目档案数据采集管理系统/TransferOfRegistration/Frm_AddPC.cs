@@ -80,13 +80,10 @@ namespace 科技计划项目档案数据采集管理系统
         private void Frm_AddPC_Load(object sender, EventArgs e)
         {
             //表头设置
-            dgv_CDlist.ColumnHeadersDefaultCellStyle.Font = new Font("微软雅黑", 10f, FontStyle.Bold);
-            dgv_CDlist.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgv_CDlist.ColumnHeadersDefaultCellStyle.BackColor = Color.AliceBlue;
+            dgv_CDlist.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
 
             //列设置
-            dgv_CDlist.DefaultCellStyle.Font = new Font("微软雅黑", 9f);
-            if (string.IsNullOrEmpty(txt_BatchCode.Text))
+            if (string.IsNullOrEmpty(txt_BatchCode.Text) && !"PC".Equals(unitCode))
                 CreateBatchCode(unitCode);
 
             //隐藏光盘列表主键
@@ -112,7 +109,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void CreateBatchCode(string unitCode)
         {
-            string querySql;
+            string querySql = null;
             //自动生成批次编号
             object csid = SqlHelper.ExecuteOnlyOneQuery("SELECT CS_ID FROM company_source WHERE cs_code = '" + unitCode + "'");
             if (csid == null)

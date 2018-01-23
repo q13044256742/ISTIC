@@ -45,6 +45,10 @@
     <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraTreeList.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraVerticalGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="KyoFileEntity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\KyoFileEntity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -63,10 +67,11 @@
     <Compile Include="Cataloguing\Frm_CG.Designer.cs">
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_AddPC.cs">
+    <Compile Include="Cataloguing\WorkRegistration.cs" />
+    <Compile Include="TransferOfRegistration\Frm_AddPC.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_AddPC.Designer.cs">
+    <Compile Include="TransferOfRegistration\Frm_AddPC.Designer.cs">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
     </Compile>
     <Compile Include="Frm_Login.cs">
@@ -80,6 +85,13 @@
     </Compile>
     <Compile Include="Frm_MainFrame.Designer.cs">
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\FilesBackupsHelper.cs" />
+    <Compile Include="Tools\HeaderUnitView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Tools\HeaderUnitView.Designer.cs">
+      <DependentUpon>HeaderUnitView.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\User.cs" />
     <Compile Include="Manager\Frm_Add.cs">
@@ -111,6 +123,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tools\OperateIniFile.cs" />
+    <Compile Include="Tools\SerializeHelper.cs" />
     <Compile Include="TransferOfRegistration\CD.cs" />
     <Compile Include="TransferOfRegistration\FolderHelper.cs" />
     <Compile Include="TransferOfRegistration\FileCopyLog.cs" />
@@ -120,11 +133,11 @@
     <Compile Include="TransferOfRegistration\Frm_AddCD.Designer.cs">
       <DependentUpon>Frm_AddCD.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferOfRegistration\Frm_CD_Read.cs">
+    <Compile Include="TransferOfRegistration\Frm_CDRead.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TransferOfRegistration\Frm_CD_Read.Designer.cs">
-      <DependentUpon>Frm_CD_Read.cs</DependentUpon>
+    <Compile Include="TransferOfRegistration\Frm_CDRead.Designer.cs">
+      <DependentUpon>Frm_CDRead.cs</DependentUpon>
     </Compile>
     <Compile Include="TransferOfRegistration\Frm_ToR.cs">
       <SubType>Form</SubType>
@@ -136,7 +149,7 @@
     <EmbeddedResource Include="Cataloguing\Frm_CG.resx">
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_AddPC.resx">
+    <EmbeddedResource Include="TransferOfRegistration\Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Login.resx">
@@ -167,13 +180,14 @@
     <EmbeddedResource Include="TransferOfRegistration\Frm_AddCD.resx">
       <DependentUpon>Frm_AddCD.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TransferOfRegistration\Frm_CD_Read.resx">
-      <DependentUpon>Frm_CD_Read.cs</DependentUpon>
+    <EmbeddedResource Include="TransferOfRegistration\Frm_CDRead.resx">
+      <DependentUpon>Frm_CDRead.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_ToR.resx">
       <DependentUpon>Frm_ToR.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="bin\Debug\Datas\DataSources.ini" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -213,7 +227,6 @@
     <None Include="Images\c1x.png" />
     <Content Include="Images\top.jpg" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
