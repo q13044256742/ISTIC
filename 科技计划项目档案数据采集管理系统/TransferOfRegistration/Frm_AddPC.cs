@@ -167,7 +167,8 @@ namespace 科技计划项目档案数据采集管理系统
                     Giver = giver,
                     Remark = remark,
                     TrpCdAmount = dgv_CDlist.RowCount - 1,
-                    TrpStatus = 1,
+                    SubmitStrtus = SubmitStatus.NonSubmit,
+                    WorkStatus = WorkStatus.NonWork,
                     FileUpload = fileUpload
                 };
 
@@ -175,7 +176,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if (isAdd)
                 {
                     StringBuilder basicInfo_QuerySql = new StringBuilder("INSERT INTO transfer_registration_pc ");
-                    basicInfo_QuerySql.Append("(trp_id,com_id,trp_name,trp_code,trp_log_data,trp_receiver,trp_giver,trp_remark,trp_cd_amount,trp_attachment_id,trp_status,trp_people,trp_handle_time) VALUES(");
+                    basicInfo_QuerySql.Append("(trp_id,com_id,trp_name,trp_code,trp_log_data,trp_receiver,trp_giver,trp_remark,trp_cd_amount,trp_attachment_id,trp_submit_status,trp_work_status,trp_people,trp_handle_time) VALUES(");
                     basicInfo_QuerySql.Append("'" + registration.Id + "',");
                     basicInfo_QuerySql.Append("'" + registration.SourceUnit + "',");
                     basicInfo_QuerySql.Append("'" + registration.BatchName + "',");
@@ -186,7 +187,8 @@ namespace 科技计划项目档案数据采集管理系统
                     basicInfo_QuerySql.Append("'" + registration.Remark + "',");
                     basicInfo_QuerySql.Append("'" + registration.TrpCdAmount + "',");
                     basicInfo_QuerySql.Append("'" + registration.FileUpload + "',");
-                    basicInfo_QuerySql.Append("'" + registration.TrpStatus + "',");
+                    basicInfo_QuerySql.Append("'" + (int)registration.SubmitStrtus + "',");
+                    basicInfo_QuerySql.Append("'" + (int)registration.WorkStatus + "',");
                     basicInfo_QuerySql.Append("'" + string.Empty + "',");
                     basicInfo_QuerySql.Append("'" + DateTime.Now + "')");
                     SqlHelper.ExecuteNonQuery(basicInfo_QuerySql.ToString());
@@ -197,13 +199,13 @@ namespace 科技计划项目档案数据采集管理系统
                         string cdName = dgv_CDlist.Rows[i].Cells["gpmc"].Value.ToString();
                         string cdCode = dgv_CDlist.Rows[i].Cells["gpbh"].Value.ToString();
                         string cdRemark = GetString(dgv_CDlist.Rows[i].Cells["bz"].Value);
-                        CD cd = new CD()
+                        CDEntity cd = new CDEntity()
                         {
                             TrcName = cdName,
                             TrcCode = cdCode,
                             TrpId = registration.Id,//关联批次的主键
                             TrcRemark = cdRemark,
-                            TrcStrtus = (int)ReadStatus.NonRead,
+                            TrcReadStatus = ReadStatus.NonRead,
                             TrcPeople = string.Empty,
                             TrpHandleTime = DateTime.Now
                         };
@@ -215,7 +217,7 @@ namespace 科技计划项目档案数据采集管理系统
                         cdInfo_querySql.Append("'" + cd.TrcCode + "',");
                         cdInfo_querySql.Append("'" + cd.TrpId + "',");
                         cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcStrtus + "',");
+                        cdInfo_querySql.Append("'" + cd.TrcReadStatus + "',");
                         cdInfo_querySql.Append("'" + cd.TrcPeople + "',");
                         cdInfo_querySql.Append("'" + cd.TrpHandleTime + "')");
                         SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());
@@ -234,7 +236,7 @@ namespace 科技计划项目档案数据采集管理系统
                     basicInfo_QuerySql.Append("trp_remark='" + registration.Remark + "',");
                     basicInfo_QuerySql.Append("trp_cd_amount='" + registration.TrpCdAmount + "',");
                     basicInfo_QuerySql.Append("trp_attachment_id='" + registration.FileUpload + "',");
-                    basicInfo_QuerySql.Append("trp_status=1,");
+                    basicInfo_QuerySql.Append($"trp_submit_status={(int)registration.SubmitStrtus}, trp_work_status={(int)registration.WorkStatus},");
                     basicInfo_QuerySql.Append("trp_people='" + string.Empty + "',");
                     basicInfo_QuerySql.Append("trp_handle_time='" + DateTime.Now + "'");
                     basicInfo_QuerySql.Append(" WHERE trp_id='" + unitCode + "'");
@@ -247,14 +249,14 @@ namespace 科技计划项目档案数据采集管理系统
                         string cdName = dgv_CDlist.Rows[i].Cells["gpmc"].Value.ToString();
                         string cdCode = dgv_CDlist.Rows[i].Cells["gpbh"].Value.ToString();
                         string cdRemark = GetString(dgv_CDlist.Rows[i].Cells["bz"].Value);
-                        CD cd = new CD()
+                        CDEntity cd = new CDEntity()
                         {
                             TrcId = Guid.NewGuid().ToString(),
                             TrcName = cdName,
                             TrcCode = cdCode,
                             TrpId = unitCode,
                             TrcRemark = cdRemark,
-                            TrcStrtus = (int)ReadStatus.NonRead,
+                            TrcReadStatus = ReadStatus.NonRead,
                             TrcPeople = string.Empty,
                             TrpHandleTime = DateTime.Now
                         };
@@ -266,7 +268,7 @@ namespace 科技计划项目档案数据采集管理系统
                         cdInfo_querySql.Append("'" + cd.TrcCode + "',");
                         cdInfo_querySql.Append("'" + cd.TrpId + "',");
                         cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcStrtus + "',");
+                        cdInfo_querySql.Append("'" + (int)cd.TrcReadStatus + "',");
                         cdInfo_querySql.Append("'" + cd.TrcPeople + "',");
                         cdInfo_querySql.Append("'" + cd.TrpHandleTime + "')");
                         SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());

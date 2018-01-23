@@ -68,6 +68,18 @@
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </Compile>
     <Compile Include="Cataloguing\WorkRegistration.cs" />
+    <Compile Include="Frm_MyWork.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_MyWork.Designer.cs">
+      <DependentUpon>Frm_MyWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_ProTypeSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_ProTypeSelect.Designer.cs">
+      <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="TransferOfRegistration\Frm_AddPC.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,7 +118,7 @@
     </Compile>
     <Compile Include="Tools\OperateIniFile.cs" />
     <Compile Include="Tools\SerializeHelper.cs" />
-    <Compile Include="TransferOfRegistration\CD.cs" />
+    <Compile Include="TransferOfRegistration\CDEntity.cs" />
     <Compile Include="TransferOfRegistration\FolderHelper.cs" />
     <Compile Include="TransferOfRegistration\FileCopyLog.cs" />
     <Compile Include="TransferOfRegistration\Frm_AddCD.cs">
@@ -130,6 +142,12 @@
     <Compile Include="TransferOfRegistration\TransferOfRegistration.cs" />
     <EmbeddedResource Include="Cataloguing\Frm_CG.resx">
       <DependentUpon>Frm_CG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_MyWork.resx">
+      <DependentUpon>Frm_MyWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_ProTypeSelect.resx">
+      <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>

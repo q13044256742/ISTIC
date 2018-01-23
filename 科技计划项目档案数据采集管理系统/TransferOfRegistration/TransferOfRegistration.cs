@@ -2,6 +2,42 @@
 
 namespace 科技计划项目档案数据采集管理系统
 {
+    /// <summary>
+    /// 批次提交状态
+    /// </summary>
+    enum SubmitStatus
+    {
+        /// <summary>
+        /// 默认
+        /// </summary>
+        Default = 0,
+        /// <summary>
+        /// 未提交
+        /// </summary>
+        NonSubmit = 1,
+        /// <summary>
+        /// 已提交
+        /// </summary>
+        SubmitSuccess = 2
+    }
+    /// <summary>
+    /// 批次/项目/课题/子课题 领取状态
+    /// </summary>
+    enum ReceiveStatus
+    {
+        /// <summary>
+        /// 默认
+        /// </summary>
+        Default = 0,
+        /// <summary>
+        /// 未领取
+        /// </summary>
+        NonReceive = 1,
+        /// <summary>
+        /// 已领取
+        /// </summary>
+        ReceiveSuccess = 2,
+    }
     class TransferOfRegist
     {
         private string id;
@@ -13,15 +49,8 @@ namespace 科技计划项目档案数据采集管理系统
         private string giver;
         private string remark;
         private string fileUpload;
-        /// <summary>
-        /// 批次状态
-        /// 1：未提交
-        /// 2：已提交
-        /// </summary>
-        private int trpStatus;
-        /// <summary>
-        /// 批次下的光盘数
-        /// </summary>
+        private SubmitStatus submitStrtus;
+        private WorkStatus workStatus;
         private int trpCdAmount;
 
         public string BatchName { get => batchName; set => batchName = value; }
@@ -34,6 +63,7 @@ namespace 科技计划项目档案数据采集管理系统
         public string FileUpload { get => fileUpload; set => fileUpload = value; }
         public string Id { get => id; set => id = value; }
         public int TrpCdAmount { get => trpCdAmount; set => trpCdAmount = value; }
-        public int TrpStatus { get => trpStatus; set => trpStatus = value; }
+        internal SubmitStatus SubmitStrtus { get => submitStrtus; set => submitStrtus = value; }
+        internal WorkStatus WorkStatus { get => workStatus; set => workStatus = value; }
     }
 }

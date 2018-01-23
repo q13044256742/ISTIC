@@ -22,13 +22,13 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 MessageBox.Show("请先将表单补充完整!");
             else
             {
-                CD cd = new CD()
+                CDEntity cd = new CDEntity()
                 {
                     TrcId = Guid.NewGuid().ToString(),
                     TrcName = name,
                     TrcCode = code,
                     TrpId = pid,
-                    TrcStrtus = (int)ReadStatus.NonRead,
+                    TrcReadStatus = ReadStatus.NonRead,
                     TrcRemark = remark
                 };
                 StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
@@ -39,7 +39,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 cdInfo_querySql.Append("'" + cd.TrcCode + "',");
                 cdInfo_querySql.Append("'" + cd.TrpId + "',");
                 cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
-                cdInfo_querySql.Append("'" + cd.TrcStrtus + "',");
+                cdInfo_querySql.Append("'" + (int)cd.TrcReadStatus + "',");
                 cdInfo_querySql.Append("'" + string.Empty + "',");
                 cdInfo_querySql.Append("'" + DateTime.Now + "')");
                 SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());

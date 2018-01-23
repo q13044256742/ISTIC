@@ -24,25 +24,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         ReadError = 3
     }
-    /// <summary>
-    /// 批次/项目/课题/子课题 领取状态
-    /// </summary>
-    enum ReceiveStatus
-    {
-        /// <summary>
-        /// 默认
-        /// </summary>
-        Default = 0,
-        /// <summary>
-        /// 未领取
-        /// </summary>
-        NonReceive = 1,
-        /// <summary>
-        /// 已领取
-        /// </summary>
-        ReceiveSuccess = 2,
-    }
-    class CD
+    class CDEntity
     {
         private string trcId;
         private string trcName;
@@ -56,9 +38,9 @@ namespace 科技计划项目档案数据采集管理系统
         private int trcElectronicAmount;
         private DateTime trcFinishDate;
         private string trcPeople;
-        private int trcStrtus;
         private DateTime trpHandleTime;
         private string trcRemark;
+        private ReadStatus trcReadStatus;
 
         public string TrcId { get => trcId; set => trcId = value; }
         public string TrcName { get => trcName; set => trcName = value; }
@@ -74,6 +56,6 @@ namespace 科技计划项目档案数据采集管理系统
         public DateTime TrpHandleTime { get => trpHandleTime; set => trpHandleTime = value; }
         public string TrcRemark { get => trcRemark; set => trcRemark = value; }
         public string TrpId { get => trpId; set => trpId = value; }
-        public int TrcStrtus { get => trcStrtus; set => trcStrtus = value; }
+        public ReadStatus TrcReadStatus { get => trcReadStatus; set => trcReadStatus = value; }
     }
 }

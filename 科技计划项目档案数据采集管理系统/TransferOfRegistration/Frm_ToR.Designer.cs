@@ -138,7 +138,7 @@
             this.btn_Delete.TabIndex = 2;
             this.btn_Delete.Text = "删除(&D)";
             this.btn_Delete.UseVisualStyleBackColor = true;
-            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
+            this.btn_Delete.Click += new System.EventHandler(this.Btn_Delete_Click);
             // 
             // btn_Search
             // 
@@ -329,7 +329,7 @@
             this.btn_CD_Delete.TabIndex = 7;
             this.btn_CD_Delete.Text = "删除(&D)";
             this.btn_CD_Delete.UseVisualStyleBackColor = true;
-            this.btn_CD_Delete.Click += new System.EventHandler(this.btn_CD_Delete_Click);
+            this.btn_CD_Delete.Click += new System.EventHandler(this.Btn_CD_Delete_Click);
             // 
             // Frm_ToR
             // 

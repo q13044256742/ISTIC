@@ -55,18 +55,20 @@ namespace 科技计划项目档案数据采集管理系统
     /// </summary>
     class WorkRegistration
     {
-        private string wrId;
+        private object wrId;
         private WorkStatus wrStauts;
+        private object wrTrpId;
         private WorkType wrType;
         private DateTime wrStartDate;
         private DateTime wrSubmitDate;
-        private string wrObjId;
+        private object wrObjId;
 
-        public string WrId { get => wrId; set => wrId = value; }
+        public object WrId { get => wrId; set => wrId = value; }
         public DateTime WrStartDate { get => wrStartDate; set => wrStartDate = value; }
         public DateTime WrSubmitDate { get => wrSubmitDate; set => wrSubmitDate = value; }
-        public string WrObjId { get => wrObjId; set => wrObjId = value; }
-        internal WorkStatus WrStauts { get => wrStauts; set => wrStauts = value; }
-        internal WorkType WrType { get => wrType; set => wrType = value; }
+        public object WrObjId { get => wrObjId; set => wrObjId = value; }
+        public object WrTrpId { get => wrTrpId; set => wrTrpId = value; }
+        public WorkStatus WrStauts { get => wrStauts; set => wrStauts = value; }
+        public WorkType WrType { get => wrType; set => wrType = value; }
     }
 }

@@ -98,12 +98,12 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     querySql.Append("cs_name,");
                     querySql.Append("trp_name,");
                     querySql.Append("trp_code,");
-                    querySql.Append("trp_status,");
+                    querySql.Append("trp_submit_status,");
                     querySql.Append("trp_cd_amount");
                     querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
                     querySql.Append(" WHERE com_id='" + panel.Name + "'");
                     querySql.Append(" AND pc.com_id = cs.cs_id");
-                    querySql.Append(" AND trp_status=1");
+                    querySql.Append(" AND trp_submit_status=1");
                     LoadPCDataScoure(querySql.ToString());
 
                     dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery("SELECT cs_code FROM company_source WHERE cs_id ='" + panel.Name + "'");
@@ -161,15 +161,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             //加载实物登记数据【默认加载状态为1（未提交）的数据】
             if (string.IsNullOrEmpty(_querySql))
             {
-                StringBuilder querySql = new StringBuilder("SELECT ");
-                querySql.Append("pc.trp_id,");
-                querySql.Append("cs_name,");
-                querySql.Append("trp_name,");
-                querySql.Append("trp_code,");
-                querySql.Append("trp_status,");
-                querySql.Append("trp_cd_amount");
+                StringBuilder querySql = new StringBuilder("SELECT pc.trp_id, cs_name, trp_name, trp_code,trp_submit_status,trp_cd_amount");
                 querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN company_source cs ON pc.com_id = cs.cs_id");
-                querySql.Append(" WHERE trp_status=1");
+                querySql.Append($" WHERE trp_submit_status={(int)SubmitStatus.NonSubmit}");
                 dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
             }
             else
@@ -193,14 +187,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_SWDJ.Rows[index].Cells["trp_code"].Value = row["trp_code"];
                 dgv_SWDJ.Rows[index].Cells["trp_cd_amount"].Value = row["trp_cd_amount"];
                 dgv_SWDJ.Rows[index].Cells["addpc"].Value = "添加";
-                dgv_SWDJ.Rows[index].Cells["submit"].Value = Convert.ToInt32(row["trp_status"]) == 1 ? "提交" : "已提交";
+                dgv_SWDJ.Rows[index].Cells["submit"].Value = Convert.ToInt32(row["trp_submit_status"]) == 1 ? "提交" : "已提交";
             }
             //设置最小列宽
             dgv_SWDJ.Columns["cs_name"].MinimumWidth = 200;
             dgv_SWDJ.Columns["trp_name"].MinimumWidth = 220;
+
             //设置链接按钮样式
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_SWDJ, new int[] { dgv_SWDJ.Columns.Count - 1, dgv_SWDJ.Columns.Count - 2, dgv_SWDJ.Columns.Count - 3 });
-            DataGridViewStyleHelper.SetLinkStyle(dgv_SWDJ, new int[] {dgv_SWDJ.Columns.Count - 1, dgv_SWDJ.Columns.Count - 2, dgv_SWDJ.Columns.Count - 3 }, true);
+            DataGridViewStyleHelper.SetLinkStyle(dgv_SWDJ, new string[] { "submit", "addpc", "trp_cd_amount" }, true);
             dgv_SWDJ.Columns[2].DefaultCellStyle = new DataGridViewCellStyle { ForeColor = Color.Blue };
 
             dgv_SWDJ.Columns["trp_id"].Visible = false;
@@ -221,13 +215,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             dgv_SWDJ.Columns.Clear();
             dgv_SWDJ.Rows.Clear();
 
-            StringBuilder querySql = new StringBuilder("SELECT ");
-            querySql.Append("trc_id,");
-            querySql.Append("trc_name,");
-            querySql.Append("trc_code,");
-            querySql.Append("trc_remark");
-            querySql.Append(" FROM transfer_registraion_cd");
-            querySql.Append(" WHERE trp_id='" + pid + "'");
+            StringBuilder querySql = new StringBuilder("SELECT trc_id, trc_name, trc_code, trc_remark");
+            querySql.Append($" FROM transfer_registraion_cd WHERE trp_id='{pid}'");
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
 
             //将数据源转化成DataGridView表数据
@@ -306,7 +295,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         {
                             if (MessageBox.Show("确定要提交当前选中项吗？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                string updateSql = "UPDATE transfer_registration_pc SET trp_status=2 WHERE trp_id='" + currentRowId + "'";
+                                string updateSql = $"UPDATE transfer_registration_pc SET trp_submit_status={WorkStatus.NonWork} WHERE trp_id='" + currentRowId + "'";
                                 SqlHelper.ExecuteNonQuery(updateSql);
                                 LoadPCDataScoure(null);
                             }
@@ -335,7 +324,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btn_Delete_Click(object sender, EventArgs e)
+        private void Btn_Delete_Click(object sender, EventArgs e)
         {
             int amount = dgv_SWDJ.SelectedRows.Count;
             if (amount > 0)
@@ -397,7 +386,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 querySql.Append("trp_name,");
                 querySql.Append("trp_code,");
                 querySql.Append("trp_cd_amount,");
-                querySql.Append("trp_status");
+                querySql.Append("trp_submit_status");
                 querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN company_source cs ON pc.com_id = cs.cs_id");
                 querySql.Append(" WHERE cs_name LIKE '%" + searchKey + "%' ");
                 querySql.Append("OR trp_code LIKE '%" + searchKey + "%' ");
@@ -444,7 +433,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             DataTable table = null;
             if (_querySql == null)
             {
-
                 StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_status");
                 querySql.Append(" FROM transfer_registraion_cd trc");
                 querySql.Append(" LEFT JOIN(");
@@ -562,6 +550,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             LoadGPDJ(querySql.ToString());
         }
 
+        /// <summary>
+        /// 光盘页单元格点击事件
+        /// </summary>
         private void Dgv_GPDJ_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex!=-1 && e.ColumnIndex != -1)
@@ -593,7 +584,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// <summary>
         /// 光盘列表删除事件
         /// </summary>
-        private void btn_CD_Delete_Click(object sender, EventArgs e)
+        private void Btn_CD_Delete_Click(object sender, EventArgs e)
         {
             int amount = dgv_GPDJ.SelectedRows.Count;
             if (amount > 0)

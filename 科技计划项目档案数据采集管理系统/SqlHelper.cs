@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -117,6 +118,45 @@ namespace 科技计划项目档案数据采集管理系统
                 sqlCommand.ExecuteNonQuery();
             }
             CloseConnect();
+        }
+
+        /// <summary>
+        /// 执行指定列数返回结果的SQL语句
+        /// </summary>
+        /// <param name="querySql">SQL语句</param>
+        /// <param name="columnSize">读取列数</param>
+        public static List<object[]> ExecuteColumnsQuery(string querySql, int columnSize)
+        {
+            List<object[]> list = new List<object[]>();
+            SqlDataReader sqlDataReader = ExecuteQueryWithReader(querySql);
+            while (sqlDataReader.Read())
+            {
+                object[] _obj = new object[columnSize];
+                for (int i = 0; i < columnSize; i++)
+                    _obj[i] = sqlDataReader.GetValue(i);
+                list.Add(_obj);
+            }
+            sqlDataReader.Close();
+            CloseConnect();
+            return list;
+        }
+
+        /// <summary>
+        /// 获取单列数据
+        /// </summary>
+        /// <param name="querySql">SQL语句</param>
+        public static object[] ExecuteRowsQuery(string querySql)
+        {
+            object[] _obj = null;
+            SqlDataReader sqlDataReader = ExecuteQueryWithReader(querySql);
+            if (sqlDataReader.Read())
+            {
+                _obj = new object[sqlDataReader.FieldCount];
+                sqlDataReader.GetValues(_obj);
+            }
+            sqlDataReader.Close();
+            CloseConnect();
+            return _obj;
         }
     }
 }
