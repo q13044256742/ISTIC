@@ -68,16 +68,10 @@
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </Compile>
     <Compile Include="Cataloguing\WorkRegistration.cs" />
-    <Compile Include="Client.cs">
+    <Compile Include="TransferOfRegistration\Frm_AddPC.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Client.Designer.cs">
-      <DependentUpon>Client.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_AddPC.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_AddPC.Designer.cs">
+    <Compile Include="TransferOfRegistration\Frm_AddPC.Designer.cs">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
     </Compile>
     <Compile Include="Frm_Login.cs">
@@ -137,10 +131,7 @@
     <EmbeddedResource Include="Cataloguing\Frm_CG.resx">
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Client.resx">
-      <DependentUpon>Client.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_AddPC.resx">
+    <EmbeddedResource Include="TransferOfRegistration\Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Login.resx">
@@ -209,9 +200,6 @@
     <None Include="Images\tijiao.png" />
     <None Include="Images\c1x.png" />
     <Content Include="Images\top.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
