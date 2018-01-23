@@ -1,31 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_ProTypeSelect : Form
+    public partial class Frm_ProTypeSelect : DevExpress.XtraEditors.XtraForm
     {
-        public Frm_ProTypeSelect()
+        private WorkType workType;
+        private object objId;
+        public Frm_ProTypeSelect(WorkType workType,object objId)
         {
             InitializeComponent();
+            this.workType = workType;
+            this.objId = objId;
         }
 
         private void Frm_ProTypeSelect_Load(object sender, EventArgs e)
         {
+            string planKey = "dic_key_plan";
+            string querySql = $"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pid=(SELECT dd_id FROM data_dictionary WHERE dd_code = '{planKey}') ORDER BY dd_sort";
+            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            cbo_TypeSelect.DataSource = table;
+            cbo_TypeSelect.DisplayMember = "dd_name";
+            cbo_TypeSelect.ValueMember = "dd_id";
             cbo_TypeSelect.SelectedIndex = 0;
         }
 
         private void btn_Sure_Click(object sender, EventArgs e)
         {
-            Hide();
-            Frm_MyWork frm = new Frm_MyWork(cbo_TypeSelect.SelectedItem.ToString());
+            Frm_MyWork frm = new Frm_MyWork(workType, objId, cbo_TypeSelect.SelectedValue);
             frm.ShowDialog();
+            Hide();
         }
     }
 }

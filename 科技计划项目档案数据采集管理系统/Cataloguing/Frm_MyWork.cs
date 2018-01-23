@@ -6,22 +6,49 @@ namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_MyWork : Form
     {
-        public Frm_MyWork(string planName)
+        /// <summary>
+        /// 开始加工指定的对象
+        /// </summary>
+        /// <param name="workType">对象类型</param>
+        /// <param name="objId">对象主键</param>
+        public Frm_MyWork(WorkType workType, object objId)
         {
             InitializeComponent();
-            InitialForm(planName);
+            InitialForm("DEMO");
         }
+
+        /// <summary>
+        /// 开始加工指定的对象
+        /// </summary>
+        /// <param name="workType">对象类型</param>
+        /// <param name="objId">对象主键</param>
+        /// <param name="planId">计划主键（仅针对光盘/批次加工）</param>
+        public Frm_MyWork(WorkType workType, object objId, object planId)
+        {
+            InitializeComponent();
+            InitialForm(planId);
+        }
+
         List<TabPage> tabList = new List<TabPage>();
-        private void InitialForm(string planName)
+        /// <summary>
+        /// 初始化选项卡
+        /// </summary>
+        /// <param name="planId">计划ID（仅针对纸本/光盘加工）</param>
+        private void InitialForm(object planId)
         {
             foreach (TabPage tab in tab_MenuList.TabPages)
             {
                 tabList.Add(tab);
                 tab_MenuList.TabPages.Remove(tab);
             }
-            ShowTab(false, "plan");
-            lbl_PlanName.Text = planName;
-            tv_DataList.Nodes[0].Text = planName;
+
+            if (planId != null)
+            {
+                ShowTab(false, "plan");
+                string planName = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_name FROM data_dictionary WHERE dd_id='{planId}'").ToString();
+                lbl_PlanName.Text = planName;
+                tv_DataList.Nodes[0].Text = planName;
+            }
         }
 
         /// <summary>

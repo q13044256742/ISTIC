@@ -126,7 +126,7 @@
             this.btn_Back.TabIndex = 3;
             this.btn_Back.Text = "返回(&B)";
             this.btn_Back.UseVisualStyleBackColor = true;
-            this.btn_Back.Click += new System.EventHandler(this.btn_Back_Click);
+            this.btn_Back.Click += new System.EventHandler(this.Btn_Back_Click);
             // 
             // btn_Delete
             // 
@@ -178,7 +178,7 @@
             this.dgv_SWDJ.RowTemplate.Height = 23;
             this.dgv_SWDJ.Size = new System.Drawing.Size(757, 414);
             this.dgv_SWDJ.TabIndex = 0;
-            this.dgv_SWDJ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_SWDJ_CellClick);
+            this.dgv_SWDJ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_SWDJ_CellClick);
             // 
             // tabPage2
             // 

@@ -68,10 +68,10 @@
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </Compile>
     <Compile Include="Cataloguing\WorkRegistration.cs" />
-    <Compile Include="Frm_MyWork.cs">
+    <Compile Include="Cataloguing\Frm_MyWork.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_MyWork.Designer.cs">
+    <Compile Include="Cataloguing\Frm_MyWork.Designer.cs">
       <DependentUpon>Frm_MyWork.cs</DependentUpon>
     </Compile>
     <Compile Include="Frm_ProTypeSelect.cs">
@@ -161,7 +161,7 @@
     <EmbeddedResource Include="Cataloguing\Frm_CG.resx">
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_MyWork.resx">
+    <EmbeddedResource Include="Cataloguing\Frm_MyWork.resx">
       <DependentUpon>Frm_MyWork.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_ProTypeSelect.resx">

@@ -246,7 +246,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void dgv_SWDJ_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void Dgv_SWDJ_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1 && e.ColumnIndex != -1 && e.RowIndex != dgv_SWDJ.RowCount - 1)
             {
@@ -314,7 +314,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btn_Back_Click(object sender, EventArgs e)
+        private void Btn_Back_Click(object sender, EventArgs e)
         {
             LoadPCDataScoure(null);
         }

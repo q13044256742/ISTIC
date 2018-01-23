@@ -46,18 +46,6 @@
             // 
             this.cbo_TypeSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbo_TypeSelect.FormattingEnabled = true;
-            this.cbo_TypeSelect.Items.AddRange(new object[] {
-            "863计划",
-            "973计划",
-            "国家科技支撑计划",
-            "星火计划",
-            "火炬计划",
-            "重点新产品",
-            "科技惠民",
-            "农业科技成果转化资金",
-            "科技基础性工作专项",
-            "重大科学仪器设备开发专项",
-            "国家重大专项"});
             this.cbo_TypeSelect.Location = new System.Drawing.Point(129, 16);
             this.cbo_TypeSelect.Name = "cbo_TypeSelect";
             this.cbo_TypeSelect.Size = new System.Drawing.Size(200, 22);
@@ -75,6 +63,7 @@
             // 
             // Frm_ProTypeSelect
             // 
+            this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(372, 110);
@@ -86,6 +75,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_ProTypeSelect";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "计划类型选择";
             this.Load += new System.EventHandler(this.Frm_ProTypeSelect_Load);
