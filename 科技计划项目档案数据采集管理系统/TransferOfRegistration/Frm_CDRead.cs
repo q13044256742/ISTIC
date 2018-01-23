@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.TransferOfRegistration
 {
-    public partial class Frm_CD_Read : Form
+    public partial class Frm_CDRead : Form
     {
-        public Frm_CD_Read()
+        public Frm_CDRead()
         {
             InitializeComponent();
         }
@@ -42,9 +42,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 string[] spSplit = sPath.Split('\\');
                 string tPath = Application.StartupPath + "\\BackupFile\\" + spSplit[spSplit.Length - 1];
                 btn_Sure.Enabled = false;
-                FolderHelper.GetInstance(pgb_CD).CopyDirectory(sPath, tPath, true);
+                FolderHelper.GetInstance(pgb_CD).CopyDirectory(sPath, tPath, true, SetTipMsg);
                 btn_Sure.Enabled = true;
             }
+        }
+
+        private void SetTipMsg(string msg)
+        {
+            tip.Text = msg;
         }
     }
 }

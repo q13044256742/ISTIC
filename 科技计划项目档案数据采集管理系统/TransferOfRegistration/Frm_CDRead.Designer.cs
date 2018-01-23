@@ -1,6 +1,6 @@
 ﻿namespace 科技计划项目档案数据采集管理系统.TransferOfRegistration
 {
-    partial class Frm_CD_Read
+    partial class Frm_CDRead
     {
         /// <summary>
         /// Required designer variable.
@@ -39,6 +39,9 @@
             this.btn_Sure = new System.Windows.Forms.Button();
             this.pgb_DS = new 科技计划项目档案数据采集管理系统.KyoProgressBar();
             this.pgb_CD = new 科技计划项目档案数据采集管理系统.KyoProgressBar();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tip = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -129,7 +132,7 @@
             // 
             // btn_Sure
             // 
-            this.btn_Sure.Location = new System.Drawing.Point(331, 307);
+            this.btn_Sure.Location = new System.Drawing.Point(331, 305);
             this.btn_Sure.Name = "btn_Sure";
             this.btn_Sure.Size = new System.Drawing.Size(111, 31);
             this.btn_Sure.TabIndex = 10;
@@ -155,11 +158,28 @@
             this.pgb_CD.TextColor = System.Drawing.Color.Black;
             this.pgb_CD.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             // 
-            // Frm_CD_Read
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tip});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 352);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(485, 22);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 11;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tip
+            // 
+            this.tip.Name = "tip";
+            this.tip.Size = new System.Drawing.Size(0, 17);
+            // 
+            // Frm_CDRead
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(485, 359);
+            this.ClientSize = new System.Drawing.Size(485, 374);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btn_Sure);
             this.Controls.Add(this.pgb_DS);
             this.Controls.Add(this.label4);
@@ -176,10 +196,12 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Frm_CD_Read";
+            this.Name = "Frm_CDRead";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "光盘读写";
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,5 +220,7 @@
         private System.Windows.Forms.Button btn_Sure;
         private KyoProgressBar pgb_CD;
         private KyoProgressBar pgb_DS;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tip;
     }
 }

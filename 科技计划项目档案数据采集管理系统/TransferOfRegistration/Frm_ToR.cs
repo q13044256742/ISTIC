@@ -568,7 +568,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             {
                 if ("control".Equals(dgv_GPDJ.Columns[e.ColumnIndex].Name))
                 {
-                    Frm_CD_Read read = new Frm_CD_Read();
+                    Frm_CDRead read = new Frm_CDRead();
                     read.ShowDialog();
                 }
             }

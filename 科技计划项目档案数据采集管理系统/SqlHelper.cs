@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -95,6 +96,26 @@ namespace 科技计划项目档案数据采集管理系统
         {
             SqlCommand sqlCommand = new SqlCommand(nonQuerySql, GetConnect());
             sqlCommand.ExecuteNonQuery();
+            CloseConnect();
+        }
+
+        /// <summary>
+        /// 查询带参数的
+        /// </summary>
+        /// <param name="insertSql">原始SQL语句</param>
+        /// <param name="paramName">参数名称</param>
+        /// <param name="paramType">参数类型</param>
+        /// <param name="paramValue">参数值</param>
+        internal static void ExecuteNonQueryWithParam(string insertSql,string[] paramName, SqlDbType[] paramType, object[] paramValue)
+        {
+            SqlCommand sqlCommand = new SqlCommand(insertSql, GetConnect());
+            for (int i = 0; i < paramName.Length; i++)
+            {
+                SqlParameter sqlParameter = new SqlParameter(paramName[i], paramType[i]);
+                sqlParameter.Value = paramValue[i];
+                sqlCommand.Parameters.Add(sqlParameter);
+                sqlCommand.ExecuteNonQuery();
+            }
             CloseConnect();
         }
     }

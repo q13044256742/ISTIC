@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using KyoFileEntity;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.InteropServices;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -39,7 +40,7 @@ namespace 科技计划项目档案数据采集管理系统
                     KfeByte = _fileByte
                 };
 
-                byte[] _byte = GetByteWithLength(ObjectToBytes(fileEntity));
+                byte[] _byte = GetByteWithLength(SerializeHelper.SerializeToBinary(fileEntity));
                 _socket.Send(_byte);
             }
         }
@@ -97,41 +98,13 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string ip = "192.168.249.206";
+            string ip = "192.168.4.114";//X
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _socket.Connect(new IPEndPoint(IPAddress.Parse(ip), 8080));
             ShowReceiveMsg("Client", "连接服务器成功");
 
             ReceiveMessage(_socket);
-        }
-
-
-        /// <summary> 
-        /// 将一个object对象序列化，返回一个byte[]         
-        /// </summary> 
-        /// <param name="obj">能序列化的对象</param>         
-        /// <returns></returns> 
-        public static byte[] ObjectToBytes(object obj)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                new BinaryFormatter().Serialize(ms, obj);
-                return ms.GetBuffer();
-            }
-        }
-
-        /// <summary> 
-        /// 将一个序列化后的byte[]数组还原         
-        /// </summary>
-        /// <param name="Bytes"></param>         
-        /// <returns></returns> 
-        public static object BytesToObject(byte[] Bytes)
-        {
-            using (MemoryStream ms = new MemoryStream(Bytes))
-            {
-                return new BinaryFormatter().Deserialize(ms);
-            }
         }
 
         private void button3_Click(object sender, EventArgs e)

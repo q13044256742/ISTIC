@@ -92,6 +92,7 @@
     <Compile Include="Frm_MainFrame.Designer.cs">
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\FilesBackupsHelper.cs" />
     <Compile Include="Tools\HeaderUnitView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -110,6 +111,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tools\OperateIniFile.cs" />
+    <Compile Include="Tools\SerializeHelper.cs" />
     <Compile Include="TransferOfRegistration\CD.cs" />
     <Compile Include="TransferOfRegistration\FolderHelper.cs" />
     <Compile Include="TransferOfRegistration\FileCopyLog.cs" />
@@ -119,11 +121,11 @@
     <Compile Include="TransferOfRegistration\Frm_AddCD.Designer.cs">
       <DependentUpon>Frm_AddCD.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferOfRegistration\Frm_CD_Read.cs">
+    <Compile Include="TransferOfRegistration\Frm_CDRead.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TransferOfRegistration\Frm_CD_Read.Designer.cs">
-      <DependentUpon>Frm_CD_Read.cs</DependentUpon>
+    <Compile Include="TransferOfRegistration\Frm_CDRead.Designer.cs">
+      <DependentUpon>Frm_CDRead.cs</DependentUpon>
     </Compile>
     <Compile Include="TransferOfRegistration\Frm_ToR.cs">
       <SubType>Form</SubType>
@@ -161,8 +163,8 @@
     <EmbeddedResource Include="TransferOfRegistration\Frm_AddCD.resx">
       <DependentUpon>Frm_AddCD.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TransferOfRegistration\Frm_CD_Read.resx">
-      <DependentUpon>Frm_CD_Read.cs</DependentUpon>
+    <EmbeddedResource Include="TransferOfRegistration\Frm_CDRead.resx">
+      <DependentUpon>Frm_CDRead.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_ToR.resx">
       <DependentUpon>Frm_ToR.cs</DependentUpon>
