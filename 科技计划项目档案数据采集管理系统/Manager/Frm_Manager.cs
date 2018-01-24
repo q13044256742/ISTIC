@@ -121,7 +121,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
             }
 
-           // button1.Enabled = true;
+            button1.Enabled = true;
         }
       
         //删除
@@ -214,10 +214,27 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             string id = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
             //根据id找到上级列表的pId            
             string querySql = $"SELECT dd_pId FROM data_dictionary where dd_id = '{id}'";
-            string pId = (String)SqlHelper.ExecuteOnlyOneQuery(querySql);
+            string pId = (SqlHelper.ExecuteOnlyOneQuery(querySql)).ToString();
+
             LoadZDDataScoure(pId);
-            //按钮是否显示
-            button1.Enabled=false;
+            dgv_DataList.Tag = pId;
+
+            string sql = $"SELECT level FROM data_dictionary where dd_id = '{pId}'";
+            string b = (SqlHelper.ExecuteOnlyOneQuery(sql)).ToString();
+               
+            if (b == "1") {
+                button1.Enabled = false;
+            }
+
+
+           
+
+
+
+
+
+
+            //  dgv_DataList.Tag = pId;
         }
     }
     
