@@ -29,10 +29,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 HasNext = true
             });
             CreateKyoPanel.SetPanel(pal_LeftMenu, list);
-            list.Clear();
-
-            //string querySql = "SELECT dm_name,dm_code from dictionary_manage";
-            string querySql = "SELECT dd_id,dd_name,dd_code from data_dictionary where level = '1'";
+            list.Clear();           
+            string querySql = "SELECT dd_id,dd_name,dd_code from data_dictionary where level = '1' order by dd_sort";
 
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
             CreateKyoPanel.KyoPanel[] kyoPanels = new CreateKyoPanel.KyoPanel[dataTable.Rows.Count];
@@ -41,10 +39,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 kyoPanels[i] = new CreateKyoPanel.KyoPanel
                 {
                     Name = dataTable.Rows[i]["dd_id"].ToString(),
-                    Text = dataTable.Rows[i]["dd_name"].ToString(),
-                   
-                    //Name = dataTable.Rows[i]["dm_code"].ToString(),
-                    //Text = dataTable.Rows[i]["dm_name"].ToString(),
+                    Text = dataTable.Rows[i]["dd_name"].ToString(),                                    
                     HasNext = false
                 };
             }
@@ -69,7 +64,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             if (!string.IsNullOrEmpty(control.Name))
             {
                 string pId = control.Name;               
-                string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{pId}'";
+                string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{pId}' order by dd_sort";
                 DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
                 dgv_DataList.DataSource = dataTable;
 
@@ -79,6 +74,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             }
         }
 
+        //查询
         private void btn_Search_Click(object sender, EventArgs e)
         {
             int index = cbo_SearchType.SelectedIndex;
@@ -88,92 +84,85 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 queryKey = "dd_name";
             }else if (index == 1) {
                 queryKey = "dd_code";
-            }          
-            string querySql = $"select dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from data_dictionary where {queryKey} = '{searchKey}' and dd_pId='{dgv_DataList.Tag}'";          
-            dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+            }
+            string tag = (dgv_DataList.Tag).ToString();
+
+            if (searchKey != null)
+            {
+                string querySql = $"select dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from data_dictionary" +
+               $" where {queryKey} like '%" + searchKey + "%' and dd_pId='" + tag + "' order by dd_sort";
+                dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+            }
+            else {
+                string querySql = $"select dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from data_dictionary" +
+               $" where dd_pId='" + tag + "' order by dd_sort";
+                dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+            }                             
         }
 
-        private void btn_Add_Click(object sender, EventArgs e)
-        {
-            //获取列表的pId
-            string pId = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();       
-            Frm_Add frm = new Frm_Add(true, pId);        
+        //添加
+        private void Btn_Add_Click(object sender, EventArgs e)
+        {         
+            //获取当前列表的pId
+            string pId = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
+            Frm_Add frm = new Frm_Add(true, pId, null);
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 LoadZDDataScoure(pId);
-            }           
+            }
         }
 
         //加载添加或者更改后的列表】
         private void LoadZDDataScoure(string pId)
         {
-            //DataGridViewStyleHelper.
-            
             if (!string.IsNullOrEmpty(pId))
             {
-                string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{pId}'";
+                string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{pId}' order by dd_sort ";
                 dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
-            }           
+            }
+
+           // button1.Enabled = true;
         }
-
-
-
-
-
-
-        private void btn_update(object sender, EventArgs e)
-        {
-            Frm_Update frm_Update = new Frm_Update();
-            frm_Update.ShowDialog();
-        }
-
+      
+        //删除
         private void btn_del(object sender, EventArgs e)
         {
-            MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            //int amount = dgv_SWDJ.SelectedRows.Count;
-            //if (amount > 0)
-            //{
-            //    if (MessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
-            //    {
-            //        int deleteAmount = 0;
-            //        if ("PC".Equals(dgv_SWDJ.Tag))
-            //        {
-            //            foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
-            //            {
-            //                string pid = row.Cells["trp_id"].Value.ToString();
-            //                string deleteSql = $"DELETE FROM transfer_registration_pc WHERE trp_id = '{pid}'";
-            //                SqlHelper.ExecuteNonQuery(deleteSql);
-            //                deleteAmount++;
-            //            }
-            //            LoadPCDataScoure(null);
-            //        }
-            //        else if ("CD".Equals(dgv_SWDJ.Tag))
-            //        {
-            //            string pid = null;
-            //            foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
-            //            {
-            //                string cid = row.Cells["trc_id"].Value.ToString();
-            //                pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{cid}'").ToString();
-
-            //                string deleteSql = $"DELETE FROM transfer_registraion_cd WHERE trc_id = '{cid}'";
-            //                SqlHelper.ExecuteNonQuery(deleteSql);
-
-            //                string updateSql = $"UPDATE transfer_registration_pc SET trp_cd_amount=(SELECT COUNT(*) FROM transfer_registraion_cd WHERE trp_id = '{pid}') WHERE trp_id = '{pid}'";
-            //                SqlHelper.ExecuteNonQuery(updateSql);
-
-            //                deleteAmount++;
-            //            }
-            //            LoadCDDataScoure(pid);
-            //        }
-            //        MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    }
-            //}
-            //else
-            //{
-            //    MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            //}
+            int amount = dgv_DataList.SelectedRows.Count;
+            if (amount > 0)
+            {
+               
+                if (MessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                {
+                    int deleteAmount = 0;                  
+                    foreach (DataGridViewRow row in dgv_DataList.SelectedRows)
+                    {
+                        string id = row.Cells["dd_id"].Value.ToString();
+                        string sql = $"select count(*) from data_dictionary where dd_pId ='{id}'";
+                        object[] _obj = SqlHelper.ExecuteRowsQuery(sql);
+                        if (_obj.Length == 0)
+                        {
+                            string deleteSql = $"DELETE FROM data_dictionary WHERE dd_id = '{id}'";
+                            SqlHelper.ExecuteNonQuery(deleteSql);
+                        }
+                        else {
+                            string pid_delSql = $"DELETE FROM data_dictionary WHERE dd_pId = '{id}'";
+                            SqlHelper.ExecuteNonQuery(pid_delSql);
+                            string deleteSql = $"DELETE FROM data_dictionary WHERE dd_id = '{id}'";                                                      
+                            SqlHelper.ExecuteNonQuery(deleteSql);
+                        }                      
+                        deleteAmount++;                      
+                    }
+                    //获取当前列表的pId
+                    string pId = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
+                    LoadZDDataScoure(pId);
+                    MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
-
 
         //二级单元格点击事件
         private void dgv_DataList_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -183,17 +172,53 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 if ("名称".Equals(dgv_DataList.Columns[e.ColumnIndex].Name))
                 {
                     object pid = dgv_DataList.Rows[e.RowIndex].Cells["dd_id"].Value;
-
-                    string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{pid}'";
-                    DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-                    dgv_DataList.DataSource = dataTable;
-
+                    string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{pid}' order by dd_sort";
+                    DataTable dataTable = SqlHelper.ExecuteQuery(querySql);                
+                    dgv_DataList.DataSource = dataTable;                                        
                     dgv_DataList.Columns["dd_id"].Visible = false;
-
+                    //按钮是否显示
+                    button1.Enabled = true;
                     //当前列表的pid
                     dgv_DataList.Tag = pid;
                 }
             }
         }
+
+        //修改
+        private void Btn_updateClick(object sender, EventArgs e)
+        {          
+            int amount = dgv_DataList.SelectedRows.Count;
+            if (amount == 1)
+            {                               
+                //获取你所选行的id
+                string id = (dgv_DataList.SelectedRows[0]).Cells["dd_id"].Value.ToString();
+                //获取当前列表的pId
+                string pId = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
+                Console.WriteLine("@check id :" + id+"-- pId :"+pId);
+                Frm_Add frm = new Frm_Add(false, pId, id);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadZDDataScoure(pId);
+                }
+            }
+            else
+                {
+                    MessageBox.Show("请先选择一条要修改的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+            }
+
+        //返回
+        private void Btn_backClick(object sender, EventArgs e)
+        {
+            //获取上级列表的id == 当前列表的pId 
+            string id = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
+            //根据id找到上级列表的pId            
+            string querySql = $"SELECT dd_pId FROM data_dictionary where dd_id = '{id}'";
+            string pId = (String)SqlHelper.ExecuteOnlyOneQuery(querySql);
+            LoadZDDataScoure(pId);
+            //按钮是否显示
+            button1.Enabled=false;
+        }
     }
+    
 }
