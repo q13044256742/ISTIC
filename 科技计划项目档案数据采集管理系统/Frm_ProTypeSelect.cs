@@ -22,14 +22,15 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_TypeSelect.DataSource = table;
             cbo_TypeSelect.DisplayMember = "dd_name";
             cbo_TypeSelect.ValueMember = "dd_id";
-            cbo_TypeSelect.SelectedIndex = 0;
+            if (cbo_TypeSelect.Items.Count > 0)
+                cbo_TypeSelect.SelectedIndex = 0;
         }
 
         private void btn_Sure_Click(object sender, EventArgs e)
         {
             Frm_MyWork frm = new Frm_MyWork(workType, objId, cbo_TypeSelect.SelectedValue);
-            frm.ShowDialog();
             Hide();
+            frm.ShowDialog();
         }
     }
 }

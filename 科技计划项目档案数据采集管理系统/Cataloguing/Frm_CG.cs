@@ -409,7 +409,7 @@ namespace 科技计划项目档案数据采集管理系统
                         else if (typeValue.Contains("课题/子课题"))
                             workType = WorkType.SubjectWork;
 
-                        Frm_MyWork myWork = new Frm_MyWork(workType, objId);
+                        Frm_MyWork myWork = new Frm_MyWork(workType, objId, null);
                         myWork.ShowDialog();
                     }
                 }

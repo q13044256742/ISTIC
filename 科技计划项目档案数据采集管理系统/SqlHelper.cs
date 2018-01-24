@@ -142,7 +142,7 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 获取单列数据
+        /// 获取单行数据
         /// </summary>
         /// <param name="querySql">SQL语句</param>
         public static object[] ExecuteRowsQuery(string querySql)
