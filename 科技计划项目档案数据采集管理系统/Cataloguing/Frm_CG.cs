@@ -403,14 +403,14 @@ namespace 科技计划项目档案数据采集管理系统
                         new Frm_ProTypeSelect(WorkType.PaperWork, objId).ShowDialog();
                     else
                     {
-                        WorkType workType = WorkType.PaperWork; 
-                        if (typeValue.Contains("项目/课题"))
-                            workType = WorkType.ProjectWork;
-                        else if (typeValue.Contains("课题/子课题"))
-                            workType = WorkType.SubjectWork;
+                        //WorkType workType = WorkType.PaperWork; 
+                        //if (typeValue.Contains("项目/课题"))
+                        //    workType = WorkType.ProjectWork;
+                        //else if (typeValue.Contains("课题/子课题"))
+                        //    workType = WorkType.SubjectWork;
 
-                        Frm_MyWork myWork = new Frm_MyWork(workType, objId, null);
-                        myWork.ShowDialog();
+                        //Frm_MyWork myWork = new Frm_MyWork(workType, objId, null);
+                        //myWork.ShowDialog();
                     }
                 }
             }

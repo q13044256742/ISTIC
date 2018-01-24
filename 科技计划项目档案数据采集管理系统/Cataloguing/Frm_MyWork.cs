@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Text;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -31,14 +33,45 @@ namespace 科技计划项目档案数据采集管理系统
                 tab_MenuList.TabPages.Remove(tab);
             }
 
-            if (planId != null)
+            ShowTab("plan", 0);
+            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name,dd_note FROM data_dictionary WHERE dd_id='{planId}'");
+            lbl_JH_Name.Text = _obj[1].ToString();
+            lbl_JH_Name.Tag = _obj[0];
+            lbl_PlanIntroducation.Text = _obj[2].ToString();
+
+            LoadTreeList(lbl_JH_Name.Tag);
+
+            LoadFileList(lbl_JH_Name.Tag);
+        }
+
+        /// <summary>
+        /// 加载当前文件列表
+        /// </summary>
+        /// <param name="planId">计划主键</param>
+        private void LoadFileList(object planId)
+        {
+            string querySql = $"SELECT * FROM processing_file_list WHERE pfl_obj_id='{planId}'";
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
+            for (int i = 0; i < dataTable.Rows.Count; i++)
             {
-                ShowTab("plan", 0);
-                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name,dd_note FROM data_dictionary WHERE dd_id='{planId}'");
-                lbl_JH_Name.Text = _obj[1].ToString();
-                lbl_JH_Name.Tag = _obj[0];
-                lbl_PlanIntroducation.Text = _obj[2].ToString();
-                AddTreeNode(new TreeNode() { Name = Chinese2Spell.GetSpellStringLower(_obj[1].ToString()), Text = _obj[1].ToString() }, null);
+                int index = dgv_JH_FileList.Rows.Add();
+                dgv_JH_FileList.Rows[index].Cells["id"].Value = i + 1;
+                dgv_JH_FileList.Rows[index].Cells["id"].Tag = dataTable.Rows[i]["pfl_id"];
+                dgv_JH_FileList.Rows[index].Cells["stage"].Value = dataTable.Rows[i]["pfl_stage"];
+                dgv_JH_FileList.Rows[index].Cells["categor"].Value = dataTable.Rows[i]["pfl_categor"];
+                dgv_JH_FileList.Rows[index].Cells["name"].Value = dataTable.Rows[i]["pfl_filename"];
+                dgv_JH_FileList.Rows[index].Cells["user"].Value = dataTable.Rows[i]["pfl_user"];
+                dgv_JH_FileList.Rows[index].Cells["filetype"].Value = dataTable.Rows[i]["pfl_type"];
+                dgv_JH_FileList.Rows[index].Cells["secret"].Value = dataTable.Rows[i]["pfl_scert"];
+                dgv_JH_FileList.Rows[index].Cells["page"].Value = dataTable.Rows[i]["pfl_page_amount"];
+                dgv_JH_FileList.Rows[index].Cells["amount"].Value = dataTable.Rows[i]["pfl_amount"];
+                dgv_JH_FileList.Rows[index].Cells["date"].Value = dataTable.Rows[i]["pfl_complete_date"];
+                dgv_JH_FileList.Rows[index].Cells["unit"].Value = dataTable.Rows[i]["pfl_save_location"];
+                dgv_JH_FileList.Rows[index].Cells["carrier"].Value = dataTable.Rows[i]["pfl_carrier"];
+                dgv_JH_FileList.Rows[index].Cells["format"].Value = dataTable.Rows[i]["pfl_file_format"];
+                dgv_JH_FileList.Rows[index].Cells["form"].Value = dataTable.Rows[i]["pfl_file_form"];
+                dgv_JH_FileList.Rows[index].Cells["link"].Value = dataTable.Rows[i]["pfl_file_link"];
+                dgv_JH_FileList.Rows[index].Cells["remark"].Value = dataTable.Rows[i]["pfl_remark"];
             }
         }
 
@@ -103,7 +136,7 @@ namespace 科技计划项目档案数据采集管理系统
 
             //阶段
             DataGridViewComboBoxColumn satgeColumn = dgv_JH_FileList.Columns["stage"] as DataGridViewComboBoxColumn;
-            satgeColumn.Items.AddRange(FileStage.规划阶段.ToString(), FileStage.申报立项阶段.ToString(), FileStage.过程管理阶段.ToString(), FileStage.验收阶段.ToString());
+            satgeColumn.Items.AddRange("规划阶段", "申报立项阶段", "过程管理阶段", "验收阶段");
             satgeColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f), NullValue = satgeColumn.Items[0] };
             //文件类别
             SetCategorByStage(FileStage.规划阶段, dgv_JH_FileList.Rows[0]);
@@ -131,6 +164,7 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_JH_Next.SelectedIndex = 0;
             cbo_JH_XM_HasNext.SelectedIndex = 0;
             cbo_JH_XM_KT_HasNext.SelectedIndex = 0;
+
         }
 
         /// <summary>
@@ -314,36 +348,228 @@ namespace 科技计划项目档案数据采集管理系统
             int maxLength = dgv_JH_FileList.Rows.Count;
             if(maxLength > 1)
             {
-                for (int i = 0; i < maxLength - 2; i++)
+                for (int i = 0; i < maxLength - 1; i++)
                 {
-                    object stage = dgv_JH_FileList.Rows[i].Cells["stage"].Value;
-                    object categor = dgv_JH_FileList.Rows[i].Cells["categor"].Value;
-                    object name = dgv_JH_FileList.Rows[i].Cells["name"].Value;
-                    object user = dgv_JH_FileList.Rows[i].Cells["user"].Value;
-                    object filetype = dgv_JH_FileList.Rows[i].Cells["filetype"].Value;
-                    object secret = dgv_JH_FileList.Rows[i].Cells["secret"].Value;
-                    object page = dgv_JH_FileList.Rows[i].Cells["page"].Value;
-                    object amount = dgv_JH_FileList.Rows[i].Cells["amount"].Value;
-                    object date = dgv_JH_FileList.Rows[i].Cells["date"].Value;
-                    object unit = dgv_JH_FileList.Rows[i].Cells["unit"].Value;
-                    object carrier = dgv_JH_FileList.Rows[i].Cells["carrier"].Value;
-                    object format = dgv_JH_FileList.Rows[i].Cells["format"].Value;
-                    object form = dgv_JH_FileList.Rows[i].Cells["form"].Value;
-                    object link = dgv_JH_FileList.Rows[i].Cells["link"].Value;
-                    object remark = dgv_JH_FileList.Rows[i].Cells["remark"].Value;
-                    object objId = lbl_JH_Name.Tag;
-                    GuiDangStatus status = GuiDangStatus.NonGuiDang;
-
-                    string insertSql = $"INSERT INTO [dbo].[processing_file_list] VALUES ('{Guid.NewGuid().ToString()}' " +
-                        $",{stage},{categor} ,'{name}' ,'{user}' " +
-                        $",{filetype} ,{secret} ,{page} ,{amount} ,'{date}' " +
-                        $",'{unit}' ,'{carrier}',{format} ,{form},'{objId}'" +
-                        $",'{link}' ,'{remark}' ,{(int)status} ,null,'{DateTime.Now}')";
-
-                    SqlHelper.ExecuteNonQuery(insertSql);
+                    DataGridViewRow row = dgv_JH_FileList.Rows[i];
+                    object id = row.Cells["id"].Value;
+                    if (id == null)//新增
+                    {
+                        object pflid = AddFileInfo(row);
+                        row.Cells["id"].Value = row.Index + 1;
+                        row.Cells["id"].Tag = pflid;
+                    }
+                    else//更新
+                    {
+                        object pflid = row.Cells["id"].Tag;
+                        UpdateFileInfo(row);
+                    }
                 }
+                MessageBox.Show("保存成功！");
+                LoadTreeList(lbl_JH_Name.Tag);
             }
         }
 
+        /// <summary>
+        /// 更新文件信息
+        /// </summary>
+        private void UpdateFileInfo(DataGridViewRow row)
+        {
+            
+        }
+
+        /// <summary>
+        /// 新增文件信息
+        /// </summary>
+        private object AddFileInfo(DataGridViewRow row)
+        {
+            object pflid = Guid.NewGuid().ToString();
+            object stage = row.Cells["stage"].Value;
+            object categor = row.Cells["categor"].Value;
+            object name = row.Cells["name"].Value;
+            object user = row.Cells["user"].Value;
+            object filetype = row.Cells["filetype"].Value;
+            object secret = row.Cells["secret"].Value;
+            object page = row.Cells["page"].Value;
+            object amount = row.Cells["amount"].Value;
+            object date = row.Cells["date"].Value;
+            object unit = row.Cells["unit"].Value;
+            object carrier = row.Cells["carrier"].Value;
+            object format = row.Cells["format"].Value;
+            object form = row.Cells["form"].Value;
+            object link = row.Cells["link"].Value;
+            object remark = row.Cells["remark"].Value;
+            object objId = lbl_JH_Name.Tag;
+            GuiDangStatus status = GuiDangStatus.NonGuiDang;
+
+            string insertSql = $"INSERT INTO processing_file_list VALUES ('{pflid}' " +
+                $",'{stage}','{categor}' ,'{name}' ,'{user}' " +
+                $",'{filetype}' ,'{secret}' ,'{page}' ,'{amount}' ,'{date}' " +
+                $",'{unit}' ,'{carrier}','{format}' ,'{form}','{objId}'" +
+                $",'{link}' ,'{remark}' ,{(int)status} ,'kyo','{DateTime.Now}')";
+
+            SqlHelper.ExecuteNonQuery(insertSql);
+            return pflid;
+        }
+
+        /// <summary>
+        /// 加载树
+        /// </summary>
+        /// <param name="planId">计划ID</param>
+        private void LoadTreeList(object planId)
+        {
+            treeView.Nodes.Clear();
+
+            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
+            TreeNode treeNode = new TreeNode()
+            {
+                Name = _obj[0].ToString(),
+                Text = _obj[1].ToString()
+            };
+            //根据【计划】查询【项目/课题】集
+            List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_name FROM project_info WHERE pi_obj_id='{treeNode.Name}'", 2);
+            for (int i = 0; i < list.Count; i++)
+            {
+                TreeNode treeNode2 = new TreeNode()
+                {
+                    Name = list[i][0].ToString(),
+                    Text = list[i][1].ToString()
+                };
+                treeNode.Nodes.Add(treeNode2);
+                //根据【项目/课题】查询【课题/子课题】集
+                List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_name FROM subject_info WHERE pi_id='{treeNode2.Name}'", 2);
+                for (int j = 0; j < list2.Count; j++)
+                {
+                    TreeNode treeNode3 = new TreeNode()
+                    {
+                        Name = list[i][0].ToString(),
+                        Text = list[i][1].ToString()
+                    };
+                    treeNode2.Nodes.Add(treeNode3);
+                }
+            }
+            
+            treeView.Nodes.Add(treeNode);
+        }
+
+        /// <summary>
+        /// 计划 - 选项卡切换事件
+        /// </summary>
+        private void Tab_JH_FileInfo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = tab_JH_FileInfo.SelectedIndex;
+            if (index == 3)//分盒
+            {
+                LoadJHFileBox();
+            }
+        }
+
+        /// <summary>
+        /// 加载计划-案卷盒归档表
+        /// </summary>
+        private void LoadJHFileBox()
+        {
+            lsv_JH_File1.Items.Clear();
+            lsv_JH_File1.Columns.Clear();
+            lsv_JH_File2.Items.Clear();
+            lsv_JH_File2.Columns.Clear();
+
+            lsv_JH_File1.Columns.AddRange(new ColumnHeader[]
+            {
+                    new ColumnHeader{ Name = "jh_file1_id", Text = "主键" },
+                    new ColumnHeader{ Name = "jh_file1_type", Text = "文件类别" },
+                    new ColumnHeader{ Name = "jh_file1_name", Text = "文件名称" }
+            });
+            lsv_JH_File2.Columns.AddRange(new ColumnHeader[]
+            {
+                    new ColumnHeader{ Name = "jh_file2_id", Text = "主键" },
+                    new ColumnHeader{ Name = "jh_file2_type", Text = "文件类别" },
+                    new ColumnHeader{ Name = "jh_file2_name", Text = "文件名称" }
+            });
+
+            //未归档
+            string querySql = $"SELECT pfl_id,pfl_categor,pfl_filename FROM processing_file_list WHERE pfl_obj_id='{lbl_JH_Name.Tag}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                ListViewItem item = lsv_JH_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
+                item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_categor"]));
+                item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
+
+            }
+            //已归档
+            querySql = $"SELECT pfl_id,pfl_categor,pfl_filename FROM processing_file_list WHERE pfl_obj_id='{lbl_JH_Name.Tag}' AND pfl_status={(int)GuiDangStatus.GuiDangSuccess}";
+            DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
+            for (int i = 0; i < _dataTable.Rows.Count; i++)
+            {
+                ListViewItem item = lsv_JH_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
+                item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_categor"]));
+                item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
+
+            }
+            lsv_JH_File2.Columns["jh_file2_id"].Width = lsv_JH_File1.Columns["jh_file1_id"].Width = 0;
+            lsv_JH_File2.Columns["jh_file2_type"].Width = lsv_JH_File1.Columns["jh_file1_type"].Width = 100;
+            lsv_JH_File2.Columns["jh_file2_name"].Width = lsv_JH_File1.Columns["jh_file1_name"].Width = 200;
+        }
+
+        /// <summary>
+        /// 将object对象转换成string
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        private string GetValue(object obj)
+        {
+            return obj == null ? string.Empty : obj.ToString();
+        }
+
+
+        private void Btn_JH_Box_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            if ("btn_JH_Box_Right".Equals(button.Name))
+            {
+                if (lsv_JH_File1.SelectedItems.Count > 0)
+                {
+                    if (MessageBox.Show("是否确认将选中行数据进行归档操作?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    {
+                        string[] ids = new string[lsv_JH_File1.SelectedItems.Count];
+                        StringBuilder updateSql = new StringBuilder($"UPDATE processing_file_list SET pfl_status={GuiDangStatus.GuiDangSuccess} WHERE pfl_id IN (");
+                        for (int i = 0; i < ids.Length; i++)
+                            updateSql.Append($"'{lsv_JH_File1.SelectedItems[i].SubItems["jh_file1_id"].Text}'{(i == ids.Length - 1 ? ")" : ",")}");
+                        SqlHelper.ExecuteNonQuery(updateSql.ToString());
+
+                        MessageBox.Show("操作成功！");
+
+                    }
+                }
+            }
+            else if ("btn_JH_Box_RightAll".Equals(button.Name))
+            {
+
+            }
+            else if ("btn_JH_Box_Left".Equals(button.Name))
+            {
+
+            }
+            else if ("btn_JH_Box_LeftAll".Equals(button.Name))
+            {
+
+            }
+        }
+
+        private void Lbl_JH_Box_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+            Label label = sender as Label;
+            if ("lbl_JH_Box_Add".Equals(label.Name))//新增
+            {
+                cbo_JH_Box.Items.Add(cbo_JH_Box.Items.Count + 1);
+                cbo_JH_Box.SelectedIndex = cbo_JH_Box.Items.Count - 1;
+            }
+            else if ("lbl_JH_Box_Remove".Equals(label.Name))//删除
+            {
+                cbo_JH_Box.Items.RemoveAt(cbo_JH_Box.SelectedIndex);
+                cbo_JH_Box.SelectedIndex = cbo_JH_Box.Items.Count - 1;
+            }
+        }
     }
 }

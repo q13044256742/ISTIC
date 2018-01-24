@@ -17,7 +17,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Frm_ProTypeSelect_Load(object sender, EventArgs e)
         {
             string planKey = "dic_key_plan";
-            string querySql = $"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pid=(SELECT dd_id FROM data_dictionary WHERE dd_code = '{planKey}') ORDER BY dd_sort";
+            string querySql = $"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pid=(SELECT top(1) dd_id FROM data_dictionary WHERE dd_code = '{planKey}') ORDER BY dd_sort";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             cbo_TypeSelect.DataSource = table;
             cbo_TypeSelect.DisplayMember = "dd_name";
