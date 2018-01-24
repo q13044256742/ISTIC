@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cataloguing\FileWorkEntity.cs" />
     <Compile Include="Cataloguing\Frm_CG.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +81,7 @@
     <Compile Include="Frm_ProTypeSelect.Designer.cs">
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\Chinese2Spell.cs" />
     <Compile Include="TransferOfRegistration\Frm_AddPC.cs">
       <SubType>Form</SubType>
     </Compile>
