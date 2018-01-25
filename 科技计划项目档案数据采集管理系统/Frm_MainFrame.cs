@@ -30,11 +30,6 @@ namespace 科技计划项目档案数据采集管理系统
                 Frm_CG frm = new Frm_CG();
                 frm.MdiParent = this;
                 frm.Show();
-            }else if ("6".Equals(user.Remark))
-            {
-                Manager.Frm_Manager frm = new Manager.Frm_Manager();
-                frm.MdiParent = this;
-                frm.Show();
             }
         }
 

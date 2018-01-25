@@ -68,7 +68,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 //保存基本信息                     
                 string dd_name = textBox1.Text.Trim();
                 string dd_code = textBox2.Text.Trim();
-                string dd_sort = textBox3.Text.Trim();
+                int dd_sort = (int)textBox3.Value;
                 string dd_node = textBox4.Text.Trim();
                 string dd_pId = (string)txt_Search.Tag;
 

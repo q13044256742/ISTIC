@@ -28,8 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.pal_LeftMenu = new System.Windows.Forms.Panel();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.列表 = new System.Windows.Forms.GroupBox();
             this.dgv_DataList = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -47,24 +46,15 @@
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pal_LeftMenu
-            // 
-            this.pal_LeftMenu.AutoScroll = true;
-            this.pal_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pal_LeftMenu.Location = new System.Drawing.Point(0, 0);
-            this.pal_LeftMenu.Name = "pal_LeftMenu";
-            this.pal_LeftMenu.Size = new System.Drawing.Size(229, 491);
-            this.pal_LeftMenu.TabIndex = 18;
-            // 
             // 列表
             // 
             this.列表.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.列表.Controls.Add(this.dgv_DataList);
-            this.列表.Location = new System.Drawing.Point(244, 86);
+            this.列表.Location = new System.Drawing.Point(12, 86);
             this.列表.Name = "列表";
-            this.列表.Size = new System.Drawing.Size(745, 402);
+            this.列表.Size = new System.Drawing.Size(977, 402);
             this.列表.TabIndex = 20;
             this.列表.TabStop = false;
             this.列表.Text = "字段列表";
@@ -78,20 +68,20 @@
             this.dgv_DataList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_DataList.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dgv_DataList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_DataList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_DataList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_DataList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_DataList.Location = new System.Drawing.Point(6, 15);
             this.dgv_DataList.Name = "dgv_DataList";
             this.dgv_DataList.ReadOnly = true;
             this.dgv_DataList.RowTemplate.Height = 23;
-            this.dgv_DataList.Size = new System.Drawing.Size(733, 381);
+            this.dgv_DataList.Size = new System.Drawing.Size(965, 381);
             this.dgv_DataList.TabIndex = 1;
             this.dgv_DataList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_DataList_CellClick);
             // 
@@ -109,9 +99,9 @@
             this.groupBox1.Controls.Add(this.cbo_SearchType);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txt_SearchKey);
-            this.groupBox1.Location = new System.Drawing.Point(244, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(742, 55);
+            this.groupBox1.Size = new System.Drawing.Size(974, 55);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "快速检索";
@@ -121,7 +111,7 @@
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.AutoSize = true;
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(672, 24);
+            this.button1.Location = new System.Drawing.Point(904, 24);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(68, 27);
             this.button1.TabIndex = 13;
@@ -133,7 +123,7 @@
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.AutoSize = true;
-            this.button4.Location = new System.Drawing.Point(604, 24);
+            this.button4.Location = new System.Drawing.Point(836, 24);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(68, 27);
             this.button4.TabIndex = 12;
@@ -145,7 +135,7 @@
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.AutoSize = true;
-            this.button3.Location = new System.Drawing.Point(536, 24);
+            this.button3.Location = new System.Drawing.Point(768, 24);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(68, 27);
             this.button3.TabIndex = 11;
@@ -157,7 +147,7 @@
             // 
             this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Add.AutoSize = true;
-            this.btn_Add.Location = new System.Drawing.Point(468, 24);
+            this.btn_Add.Location = new System.Drawing.Point(700, 24);
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(68, 27);
             this.btn_Add.TabIndex = 10;
@@ -220,7 +210,6 @@
             this.ClientSize = new System.Drawing.Size(1001, 491);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.列表);
-            this.Controls.Add(this.pal_LeftMenu);
             this.Name = "Frm_Manager";
             this.Text = "后台管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -234,7 +223,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Panel pal_LeftMenu;
         private System.Windows.Forms.GroupBox 列表;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_Search;

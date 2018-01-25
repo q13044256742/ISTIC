@@ -1,78 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.Properties;
 
 namespace 科技计划项目档案数据采集管理系统.Manager
 {
     public partial class Frm_Manager : Form
     {
-        public Frm_Manager()
+        public Frm_Manager(string name)
         {
             InitializeComponent();
+            InitialForm(name);
+        }
+
+        private void InitialForm(string name)
+        {
+            string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{name}' order by dd_sort";
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
+            dgv_DataList.DataSource = dataTable;
+
+            dgv_DataList.Columns["dd_id"].Visible = false;
+            //当前列表的pid
+            dgv_DataList.Tag = name;
         }
 
         private void Frm_Manager_load(object sender, EventArgs e)
         {
-            Image[] imgs = new Image[] { Resources.pic1, Resources.pic2, Resources.pic3, Resources.pic4, Resources.pic5, Resources.pic6, Resources.pic7, Resources.pic8 };
-            List<CreateKyoPanel.KyoPanel> list = new List<CreateKyoPanel.KyoPanel>();
-            list.Add(new CreateKyoPanel.KyoPanel
-            {
-                Name = "ZD_MANAGER",
-                Text = "字典管理",
-                Image = imgs[0],
-                HasNext = true
-            });
-            CreateKyoPanel.SetPanel(pal_LeftMenu, list);
-            list.Clear();           
-            string querySql = "SELECT dd_id,dd_name,dd_code from data_dictionary where level = '1' order by dd_sort";
-
-            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-            CreateKyoPanel.KyoPanel[] kyoPanels = new CreateKyoPanel.KyoPanel[dataTable.Rows.Count];
-            for (int i = 0; i < kyoPanels.Length; i++)
-            {
-                kyoPanels[i] = new CreateKyoPanel.KyoPanel
-                {
-                    Name = dataTable.Rows[i]["dd_id"].ToString(),
-                    Text = dataTable.Rows[i]["dd_name"].ToString(),                                    
-                    HasNext = false
-                };
-            }
-            list.AddRange(kyoPanels);          
-          
-            Panel parentPanel = pal_LeftMenu.Controls.Find("ZD_MANAGER", false)[0] as Panel;
-            CreateKyoPanel.SetSubPanel(parentPanel, list, Sub_Menu_Click);
+           
         }
 
-
-        /// <summary>
-        /// 二级菜单点击事件（计划/项目/单位...字典）
-        /// </summary>
-        private void Sub_Menu_Click(object sender, EventArgs e)
-        {
-            Control control = null;
-            if (sender is Panel)
-                control = sender as Control;
-            else
-                control = (sender as Control).Parent;
-
-            if (!string.IsNullOrEmpty(control.Name))
-            {
-                string pId = control.Name;               
-                string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{pId}' order by dd_sort";
-                DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-                dgv_DataList.DataSource = dataTable;
-
-                dgv_DataList.Columns["dd_id"].Visible = false;          
-                //当前列表的pid
-               dgv_DataList.Tag = pId;
-            }
-        }
 
         //查询
         private void btn_Search_Click(object sender, EventArgs e)

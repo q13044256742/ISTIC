@@ -30,9 +30,18 @@ namespace 科技计划项目档案数据采集管理系统
                     int i = cbo_Identity.SelectedIndex;
                     user.Remark = i.ToString();
 
-                    Frm_MainFrame fm = new Frm_MainFrame(user);
-                    fm.WindowState = FormWindowState.Maximized;
-                    fm.Show();
+                    if (i == 6)
+                    {
+                        Frm_MainFrameManager fm = new Frm_MainFrameManager(user);
+                        fm.WindowState = FormWindowState.Maximized;
+                        fm.Show();
+                    }
+                    else
+                    {
+                        Frm_MainFrame fm = new Frm_MainFrame(user);
+                        fm.WindowState = FormWindowState.Maximized;
+                        fm.Show();
+                    }
                     Hide();
                 }
                 else
