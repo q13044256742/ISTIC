@@ -754,7 +754,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 案卷归档事件
         /// </summary>
-        private void Btn_JH_Box_Click(object sender, EventArgs e)
+        private void Btn_Box_Click(object sender, EventArgs e)
         {
             Button button = sender as Button;
             //计划
