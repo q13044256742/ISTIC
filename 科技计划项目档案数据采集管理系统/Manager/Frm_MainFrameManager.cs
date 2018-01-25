@@ -115,9 +115,7 @@ namespace 科技计划项目档案数据采集管理系统
 
             if (!string.IsNullOrEmpty(control.Name))
             {
-                Frm_UserInfo frm = new Frm_UserInfo(control.Name);
-                frm.MdiParent = this;
-                frm.Show();
+               
             }
         }
         /// <summary>
