@@ -131,7 +131,7 @@
             this.pal_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.pal_LeftMenu.Location = new System.Drawing.Point(0, 115);
             this.pal_LeftMenu.Name = "pal_LeftMenu";
-            this.pal_LeftMenu.Size = new System.Drawing.Size(229, 626);
+            this.pal_LeftMenu.Size = new System.Drawing.Size(260, 626);
             this.pal_LeftMenu.TabIndex = 19;
             // 
             // Frm_MainFrameManager

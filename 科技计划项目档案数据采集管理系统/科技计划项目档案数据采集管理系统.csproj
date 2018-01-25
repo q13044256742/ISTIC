@@ -75,6 +75,12 @@
     <Compile Include="Cataloguing\Frm_MyWork.Designer.cs">
       <DependentUpon>Frm_MyWork.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manager\Frm_UserInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager\Frm_UserInfo.Designer.cs">
+      <DependentUpon>Frm_UserInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Manager\Frm_MainFrameManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,12 +133,6 @@
     <Compile Include="Manager\Frm_Manager.Designer.cs">
       <DependentUpon>Frm_Manager.cs</DependentUpon>
     </Compile>
-    <Compile Include="Manager\Frm_Update.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Manager\Frm_Update.Designer.cs">
-      <DependentUpon>Frm_Update.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
@@ -179,6 +179,9 @@
     <EmbeddedResource Include="Frm_ProTypeSelect.resx">
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Manager\Frm_UserInfo.resx">
+      <DependentUpon>Frm_UserInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
     </EmbeddedResource>
@@ -193,9 +196,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_Manager.resx">
       <DependentUpon>Frm_Manager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Manager\Frm_Update.resx">
-      <DependentUpon>Frm_Update.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
