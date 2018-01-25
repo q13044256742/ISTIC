@@ -9,11 +9,15 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.Manager
 {
-    public partial class Frm_Update : Form
+    public partial class Frm_UserInfo : Form
     {
-        public Frm_Update()
+
+        public Frm_UserInfo(string name)
         {
-            InitializeComponent();
+            //InitializeComponent();
+            //InitialForm(name);
         }
+
+
     }
 }

@@ -213,7 +213,7 @@
             this.Name = "Frm_Manager";
             this.Text = "后台管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.Frm_Manager_load);
+            
             this.列表.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataList)).EndInit();
             this.groupBox1.ResumeLayout(false);

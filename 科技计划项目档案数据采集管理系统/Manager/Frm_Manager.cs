@@ -23,12 +23,6 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             dgv_DataList.Tag = name;
         }
 
-        private void Frm_Manager_load(object sender, EventArgs e)
-        {
-           
-        }
-
-
         //查询
         private void btn_Search_Click(object sender, EventArgs e)
         {
@@ -46,13 +40,14 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             {
                 string querySql = $"select dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from data_dictionary" +
                $" where {queryKey} like '%" + searchKey + "%' and dd_pId='" + tag + "' order by dd_sort";
-                dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+                dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);            
             }
             else {
                 string querySql = $"select dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from data_dictionary" +
                $" where dd_pId='" + tag + "' order by dd_sort";
                 dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
-            }                             
+            }
+           
         }
 
         //添加
@@ -180,16 +175,6 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             if (b == "1") {
                 button1.Enabled = false;
             }
-
-
-           
-
-
-
-
-
-
-            //  dgv_DataList.Tag = pId;
         }
     }
     

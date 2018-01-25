@@ -59,8 +59,16 @@ namespace 科技计划项目档案数据采集管理系统
                 Image = imgs[0],
                 HasNext = true
             });
+            list.Add(new CreateKyoPanel.KyoPanel
+            {
+                Name = "YH_MANAGER",
+                Text = "用户管理",
+                Image = imgs[0],
+                HasNext = true
+            });
             CreateKyoPanel.SetPanel(pal_LeftMenu, list);
             list.Clear();
+            //字典管理
             string querySql = "SELECT dd_id,dd_name,dd_code from data_dictionary where level = '1' order by dd_sort";
 
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
@@ -74,12 +82,47 @@ namespace 科技计划项目档案数据采集管理系统
                     HasNext = false
                 };
             }
+            //用户管理
+            string user_sql = "SELECT bm_id,bm_name,bm_code from background_management order by bm_sort";
+            DataTable user_dataTable = SqlHelper.ExecuteQuery(user_sql);
+            CreateKyoPanel.KyoPanel[] userPanels = new CreateKyoPanel.KyoPanel[user_dataTable.Rows.Count];
+            for (int i = 0; i < userPanels.Length; i++)
+            {
+                userPanels[i] = new CreateKyoPanel.KyoPanel
+                {
+                    Name = user_dataTable.Rows[i]["bm_id"].ToString(),
+                    Text = user_dataTable.Rows[i]["bm_name"].ToString(),
+                    HasNext = false
+                };
+            }
+
+
             list.AddRange(kyoPanels);
+            list.AddRange(userPanels);
 
             Panel parentPanel = pal_LeftMenu.Controls.Find("ZD_MANAGER", false)[0] as Panel;
             CreateKyoPanel.SetSubPanel(parentPanel, list, Sub_Menu_Click);
+
+            Panel user_parentPanel = pal_LeftMenu.Controls.Find("YH_MANAGER", false)[0] as Panel;
+            CreateKyoPanel.SetSubPanel(user_parentPanel, list, Sub_Menu_Click_bak);
         }
 
+        private void Sub_Menu_Click_bak(object sender, EventArgs e)
+        {
+            Control control = null;
+            if (sender is Panel)
+                control = sender as Control;
+            else
+                control = (sender as Control).Parent;
+
+            if (!string.IsNullOrEmpty(control.Name))
+            {
+                // Manager.Frm_Manager frm = new Manager.Frm_Manager(control.Name);
+                Manager.Frm_UserInfo frm = new Manager.Frm_UserInfo(control.Name);
+                frm.MdiParent = this;
+                frm.Show();
+            }
+        }
         /// <summary>
         /// 二级菜单点击事件（计划/项目/单位...字典）
         /// </summary>
