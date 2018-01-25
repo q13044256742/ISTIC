@@ -459,14 +459,15 @@ namespace 科技计划项目档案数据采集管理系统
             int index = tab_JH_FileInfo.SelectedIndex;
             if (index == 3)//分盒
             {
-                LoadJHFileBox();
+                //LoadJHFileBox();
             }
         }
 
         /// <summary>
         /// 加载计划-案卷盒归档表
         /// </summary>
-        private void LoadJHFileBox()
+        private void LoadJHFileBox(
+            object boxId, object objId)
         {
             lsv_JH_File1.Items.Clear();
             lsv_JH_File1.Columns.Clear();
@@ -487,7 +488,8 @@ namespace 科技计划项目档案数据采集管理系统
             });
 
             //未归档
-            string querySql = $"SELECT pfl_id,pfl_categor,pfl_filename FROM processing_file_list WHERE pfl_obj_id='{lbl_JH_Name.Tag}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
+            string querySql = $"SELECT pfl_id, pfl_categor, pfl_filename FROM processing_file_list WHERE pfl_id IN(" +
+                      $"SELECT pb_file_id FROM processing_box WHERE pb_id = '{boxId}' AND pb_obj_id = '{lbl_JH_Name.Tag}') pfl_status={(int)GuiDangStatus.NonGuiDang}";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
@@ -556,19 +558,59 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
+        /// <summary>
+        /// 计划 - 增加/删除案卷盒
+        /// </summary>
         private void Lbl_JH_Box_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
             Label label = sender as Label;
-            if ("lbl_JH_Box_Add".Equals(label.Name))//新增
+            //计划
+            if (label.Name.Contains("lbl_JH_Box"))
             {
-                cbo_JH_Box.Items.Add(cbo_JH_Box.Items.Count + 1);
-                cbo_JH_Box.SelectedIndex = cbo_JH_Box.Items.Count - 1;
+                if ("lbl_JH_Box_Add".Equals(label.Name))//新增
+                {
+                    int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM processing_box WHERE pb_obj_id='{lbl_JH_Name.Tag}'"));
+                    string gch = txt_JH_Box_GCID.Text;
+                    string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{lbl_JH_Name.Tag}')";
+                    LoadJHBoxList(lbl_JH_Name.Tag);
+                }
+                else if ("lbl_JH_Box_Remove".Equals(label.Name))//删除
+                {
+                    if (MessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        object value = cbo_JH_Box.SelectedValue;
+                        if (value != null)
+                            SqlHelper.ExecuteNonQuery($"UPDATE processing_box SET pb_file_id=null WHERE pb_id='{value}' AND pb_obj_id='{lbl_JH_Name.Tag}'");
+                    }
+                }
+                LoadJHBoxList(lbl_JH_Name.Tag);
+                //默认选中最后一盒
+                if (cbo_JH_Box.Items.Count > 0)
+                    cbo_JH_Box.SelectedIndex = cbo_JH_Box.Items.Count - 1;
             }
-            else if ("lbl_JH_Box_Remove".Equals(label.Name))//删除
+        }
+
+        /// <summary>
+        /// 计划 - 加载案卷盒列表
+        /// </summary>
+        /// <param name="objId">案卷盒所属对象ID</param>
+        private void LoadJHBoxList(object objId)
+        {
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT pb_id,pb_box_id FROM processing_box WHERE pb_obj_id='{objId}'");
+            cbo_JH_Box.DataSource = table;
+            cbo_JH_Box.DisplayMember = "pb_id";
+            cbo_JH_Box.ValueMember = "pb_box_id";
+        }
+
+        private void Cbo_JH_Box_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if ("cbo_JH_Box".Equals(comboBox.Name))
             {
-                cbo_JH_Box.Items.RemoveAt(cbo_JH_Box.SelectedIndex);
-                cbo_JH_Box.SelectedIndex = cbo_JH_Box.Items.Count - 1;
+                object pbId = comboBox.SelectedValue;
+                
+
+
             }
         }
     }

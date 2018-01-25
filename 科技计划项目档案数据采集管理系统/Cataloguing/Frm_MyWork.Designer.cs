@@ -1201,6 +1201,7 @@
             this.cbo_JH_Box.Name = "cbo_JH_Box";
             this.cbo_JH_Box.Size = new System.Drawing.Size(121, 22);
             this.cbo_JH_Box.TabIndex = 1;
+            this.cbo_JH_Box.SelectedIndexChanged += new System.EventHandler(this.Cbo_JH_Box_SelectedIndexChanged);
             // 
             // label54
             // 
