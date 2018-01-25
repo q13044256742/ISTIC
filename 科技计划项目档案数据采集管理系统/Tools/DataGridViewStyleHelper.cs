@@ -31,7 +31,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 设置指定列的宽度
         /// </summary>
         /// <param name="indexs">二维数组，指定列和指定宽度</param>
-        public static void SetWidth(DataGridView dataGridView, List<KeyValuePair<int,int>> keyValue)
+        public static void SetWidth(DataGridView dataGridView, List<KeyValuePair<int, int>> keyValue)
         {
             for (int i = 0; i < keyValue.Count; i++)
                 dataGridView.Columns[keyValue[i].Key].Width = keyValue[i].Value;
@@ -133,6 +133,18 @@ namespace 科技计划项目档案数据采集管理系统
             style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             for (int j = 0; j < indexs.Length; j++)
                 dataGridView.Columns[indexs[j]].DefaultCellStyle = style;
+        }
+
+        /// <summary>
+        /// 获取默认单元格样式(不包含表头)
+        /// </summary>
+        public static DataGridViewCellStyle GetCellStyle()
+        {
+            return new DataGridViewCellStyle()
+            {
+                Alignment = DataGridViewContentAlignment.MiddleLeft,
+                Font = new System.Drawing.Font("宋体", DefaultCellFontSize, System.Drawing.FontStyle.Regular)
+            };
         }
 
         /// <summary>

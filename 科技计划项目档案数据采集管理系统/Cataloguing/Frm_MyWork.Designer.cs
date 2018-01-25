@@ -1122,10 +1122,9 @@
             // 
             // lsv_JH_File2
             // 
-            this.lsv_JH_File2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lsv_JH_File2.CheckBoxes = true;
             this.lsv_JH_File2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lsv_JH_File2.FullRowSelect = true;
+            this.lsv_JH_File2.GridLines = true;
             this.lsv_JH_File2.Location = new System.Drawing.Point(548, 52);
             this.lsv_JH_File2.Name = "lsv_JH_File2";
             this.lsv_JH_File2.Size = new System.Drawing.Size(440, 242);
@@ -1135,10 +1134,9 @@
             // 
             // lsv_JH_File1
             // 
-            this.lsv_JH_File1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lsv_JH_File1.CheckBoxes = true;
             this.lsv_JH_File1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lsv_JH_File1.FullRowSelect = true;
+            this.lsv_JH_File1.GridLines = true;
             this.lsv_JH_File1.HoverSelection = true;
             this.lsv_JH_File1.Location = new System.Drawing.Point(10, 52);
             this.lsv_JH_File1.Name = "lsv_JH_File1";
@@ -1195,13 +1193,11 @@
             this.cbo_JH_Box.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbo_JH_Box.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cbo_JH_Box.FormattingEnabled = true;
-            this.cbo_JH_Box.Items.AddRange(new object[] {
-            "1"});
             this.cbo_JH_Box.Location = new System.Drawing.Point(289, 11);
             this.cbo_JH_Box.Name = "cbo_JH_Box";
             this.cbo_JH_Box.Size = new System.Drawing.Size(121, 22);
             this.cbo_JH_Box.TabIndex = 1;
-            this.cbo_JH_Box.SelectedIndexChanged += new System.EventHandler(this.Cbo_JH_Box_SelectedIndexChanged);
+            this.cbo_JH_Box.SelectionChangeCommitted += new System.EventHandler(this.Cbo_JH_Box_SelectionChangeCommitted);
             // 
             // label54
             // 

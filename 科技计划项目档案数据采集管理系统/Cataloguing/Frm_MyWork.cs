@@ -129,37 +129,61 @@ namespace 科技计划项目档案数据采集管理系统
         {
             //设置表格样式
             dgv_JH_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_JH_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_JH_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
 
             dgv_XM_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_XM_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_XM_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
 
             //阶段
             DataGridViewComboBoxColumn satgeColumn = dgv_JH_FileList.Columns["stage"] as DataGridViewComboBoxColumn;
-            satgeColumn.Items.AddRange("规划阶段", "申报立项阶段", "过程管理阶段", "验收阶段");
-            satgeColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f), NullValue = satgeColumn.Items[0] };
+            satgeColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_jd");
+            satgeColumn.DisplayMember = "dd_name";
+            satgeColumn.ValueMember = "dd_id";
+            satgeColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
+
             //文件类别
-            SetCategorByStage(FileStage.规划阶段, dgv_JH_FileList.Rows[0]);
+            for (int i = 0; i < dgv_JH_FileList.Rows.Count; i++)
+                if (dgv_JH_FileList.Rows[i].Cells["id"].Value != null)
+                {
+                    DataGridViewComboBoxCell satgeCell = (DataGridViewComboBoxCell)dgv_JH_FileList.Rows[i].Cells["stage"];
+                    object stageId = satgeCell.Value;
+                    if (stageId != null)
+                        SetCategorByStage(stageId, dgv_JH_FileList.Rows[i]);
+                }
+
             //文件类型
             DataGridViewComboBoxColumn filetypeColumn = dgv_JH_FileList.Columns["filetype"] as DataGridViewComboBoxColumn;
-            filetypeColumn.Items.AddRange("财务", "管理", "评审", "技术", "汇编");
-            filetypeColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f), NullValue = filetypeColumn.Items[0] };
+            filetypeColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_type");
+            filetypeColumn.DisplayMember = "dd_name";
+            filetypeColumn.ValueMember = "dd_id";
+            filetypeColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
+
             //密级
             DataGridViewComboBoxColumn secretColumn = dgv_JH_FileList.Columns["secret"] as DataGridViewComboBoxColumn;
-            secretColumn.Items.AddRange("公开", "国内", "秘密", "机密", "绝密");
-            secretColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f), NullValue = secretColumn.Items[0] };
+            secretColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_mj");
+            secretColumn.DisplayMember = "dd_name";
+            secretColumn.ValueMember = "dd_id";
+            secretColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
             //载体
             DataGridViewComboBoxColumn carrierColumn = dgv_JH_FileList.Columns["carrier"] as DataGridViewComboBoxColumn;
-            carrierColumn.Items.AddRange("纸质", "电子", "纸质+电子");
-            carrierColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f), NullValue = carrierColumn.Items[0] };
+            carrierColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_zt");
+            carrierColumn.DisplayMember = "dd_name";
+            carrierColumn.ValueMember = "dd_id";
+            carrierColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
             //文件格式
             DataGridViewComboBoxColumn formatColumn = dgv_JH_FileList.Columns["format"] as DataGridViewComboBoxColumn;
-            formatColumn.Items.AddRange("PDF", "DOC", "EXCEL");
-            formatColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f), NullValue = formatColumn.Items[0] };
+            formatColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_format");
+            formatColumn.DisplayMember = "dd_name";
+            formatColumn.ValueMember = "dd_id";
+            formatColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
             //文件形态
             DataGridViewComboBoxColumn formColumn = dgv_JH_FileList.Columns["form"] as DataGridViewComboBoxColumn;
-            formColumn.Items.AddRange("原件", "复印本");
-            formColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f), NullValue = formColumn.Items[0] };
+            formColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_state");
+            formColumn.DisplayMember = "dd_name";
+            formColumn.ValueMember = "dd_id";
+            formColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
 
             cbo_JH_Next.SelectedIndex = 0;
             cbo_JH_XM_HasNext.SelectedIndex = 0;
@@ -170,31 +194,16 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 根据阶段设置相应的文件类别
         /// </summary>
-        /// <param name="fileStage">阶段</param>
-        private void SetCategorByStage(FileStage fileStage, DataGridViewRow dataGridViewRow)
+        /// <param name="jdId">阶段ID</param>
+        private void SetCategorByStage(object jdId, DataGridViewRow dataGridViewRow)
         {
             //文件类别
             DataGridViewComboBoxCell categorCell = dataGridViewRow.Cells["categor"] as DataGridViewComboBoxCell;
-            categorCell.Items.Clear();
-            switch (fileStage)
-            {
-                case FileStage.规划阶段:
-                    for (int i = 1; i <= 5; i++)
-                        categorCell.Items.Add("A"+ i.ToString().PadLeft(2, '0'));
-                    break;
-                case FileStage.申报立项阶段:
-                    for (int i = 1; i <= 8; i++)
-                        categorCell.Items.Add("B" + i.ToString().PadLeft(2, '0'));
-                    break;
-                case FileStage.过程管理阶段:
-                    for (int i = 1; i <= 11; i++)
-                        categorCell.Items.Add("C" + i.ToString().PadLeft(2, '0'));
-                    break;
-                case FileStage.验收阶段:
-                    for (int i = 1; i <= 29; i++)
-                        categorCell.Items.Add("D" + i.ToString().PadLeft(2, '0'));
-                    break;
-            }
+
+            string querySql = $"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_pId='{jdId}'";
+            categorCell.DataSource = SqlHelper.ExecuteQuery(querySql);
+            categorCell.DisplayMember = "dd_name";
+            categorCell.ValueMember = "dd_id";
             categorCell.Style = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f), NullValue = categorCell.Items[0] };
         }
 
@@ -220,8 +229,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void StageComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
-            FileStage fileStage = (FileStage)comboBox.SelectedIndex;
-            SetCategorByStage(fileStage, dgv_JH_FileList.CurrentRow);
+            SetCategorByStage(comboBox.SelectedValue, dgv_JH_FileList.CurrentRow);
 
             comboBox.Leave += new EventHandler(delegate (object obj, EventArgs eve)
             {
@@ -236,7 +244,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void CategorComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
-            SetNameByCategor(comboBox.SelectedItem.ToString(), dgv_JH_FileList.CurrentRow);
+            SetNameByCategor(comboBox.SelectedValue, dgv_JH_FileList.CurrentRow);
 
             comboBox.Leave += new EventHandler(delegate (object obj, EventArgs eve)
             {
@@ -250,17 +258,9 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         /// <param name="catogerCode">文件类别编号</param>
         /// <param name="currentRow">当前行</param>
-        private void SetNameByCategor(string catogerCode, DataGridViewRow currentRow)
+        private void SetNameByCategor(object catogerId, DataGridViewRow currentRow)
         {
-            string value = string.Empty;
-            if (catogerCode.Contains("A"))
-                value = "A--";
-            else if (catogerCode.Contains("B"))
-                value = "B--";
-            else if (catogerCode.Contains("C"))
-                value = "C--";
-            else if (catogerCode.Contains("D"))
-                value = "D--";
+            string value = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_note FROM data_dictionary WHERE dd_id='{catogerId}'"));
             dgv_JH_FileList.CurrentRow.Cells["name"].Value = value;
         }
 
@@ -459,15 +459,17 @@ namespace 科技计划项目档案数据采集管理系统
             int index = tab_JH_FileInfo.SelectedIndex;
             if (index == 3)//分盒
             {
-                //LoadJHFileBox();
+                LoadJHBoxList(lbl_JH_Name.Tag);
+                LoadJHFileBoxTable(cbo_JH_Box.Items[0], lbl_JH_Name.Tag);
             }
         }
 
         /// <summary>
         /// 加载计划-案卷盒归档表
         /// </summary>
-        private void LoadJHFileBox(
-            object boxId, object objId)
+        /// <param name="pbId">案卷盒ID</param>
+        /// <param name="objId">所属对象ID</param>
+        private void LoadJHFileBoxTable(object pbId, object objId)
         {
             lsv_JH_File1.Items.Clear();
             lsv_JH_File1.Columns.Clear();
@@ -488,23 +490,24 @@ namespace 科技计划项目档案数据采集管理系统
             });
 
             //未归档
-            string querySql = $"SELECT pfl_id, pfl_categor, pfl_filename FROM processing_file_list WHERE pfl_id IN(" +
-                      $"SELECT pb_file_id FROM processing_box WHERE pb_id = '{boxId}' AND pb_obj_id = '{lbl_JH_Name.Tag}') pfl_status={(int)GuiDangStatus.NonGuiDang}";
+            string querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary " +
+                $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
                 ListViewItem item = lsv_JH_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
-                item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_categor"]));
+                item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
                 item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
 
             }
             //已归档
-            querySql = $"SELECT pfl_id,pfl_categor,pfl_filename FROM processing_file_list WHERE pfl_obj_id='{lbl_JH_Name.Tag}' AND pfl_status={(int)GuiDangStatus.GuiDangSuccess}";
+            querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(" +
+                $"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}')";
             DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < _dataTable.Rows.Count; i++)
             {
                 ListViewItem item = lsv_JH_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
-                item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_categor"]));
+                item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
                 item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
 
             }
@@ -523,39 +526,66 @@ namespace 科技计划项目档案数据采集管理系统
             return obj == null ? string.Empty : obj.ToString();
         }
 
-
+        /// <summary>
+        /// 案卷归档事件
+        /// </summary>
         private void Btn_JH_Box_Click(object sender, EventArgs e)
         {
             Button button = sender as Button;
-            if ("btn_JH_Box_Right".Equals(button.Name))
+            //计划
+            if (button.Name.Contains("btn_JH_Box"))
             {
-                if (lsv_JH_File1.SelectedItems.Count > 0)
+                if ("btn_JH_Box_Right".Equals(button.Name))
                 {
-                    if (MessageBox.Show("是否确认将选中行数据进行归档操作?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    if (lsv_JH_File1.SelectedItems.Count > 0)
                     {
-                        string[] ids = new string[lsv_JH_File1.SelectedItems.Count];
-                        StringBuilder updateSql = new StringBuilder($"UPDATE processing_file_list SET pfl_status={GuiDangStatus.GuiDangSuccess} WHERE pfl_id IN (");
-                        for (int i = 0; i < ids.Length; i++)
-                            updateSql.Append($"'{lsv_JH_File1.SelectedItems[i].SubItems["jh_file1_id"].Text}'{(i == ids.Length - 1 ? ")" : ",")}");
-                        SqlHelper.ExecuteNonQuery(updateSql.ToString());
+                        if (MessageBox.Show("是否确认将选中行数据进行归档操作?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                        {
+                            int count = lsv_JH_File1.SelectedItems.Count;
+                            object[] _obj = new object[count];
+                            for (int i = 0; i < count; i++)
+                                _obj[i] = lsv_JH_File1.SelectedItems[i].SubItems[0].Text;
+                            SetFileState(_obj, cbo_JH_Box.SelectedValue);
 
-                        MessageBox.Show("操作成功！");
-
+                            MessageBox.Show("操作成功！");
+                        }
                     }
                 }
-            }
-            else if ("btn_JH_Box_RightAll".Equals(button.Name))
-            {
+                else if ("btn_JH_Box_RightAll".Equals(button.Name))
+                {
 
-            }
-            else if ("btn_JH_Box_Left".Equals(button.Name))
-            {
+                }
+                else if ("btn_JH_Box_Left".Equals(button.Name))
+                {
 
-            }
-            else if ("btn_JH_Box_LeftAll".Equals(button.Name))
-            {
+                }
+                else if ("btn_JH_Box_LeftAll".Equals(button.Name))
+                {
 
+                }
+                LoadJHFileBoxTable(cbo_JH_Box.SelectedValue, lbl_JH_Name.Tag);
             }
+        }
+
+        /// <summary>
+        /// 文件归档
+        /// </summary>
+        /// <param name="_obj">待归档文件IDS</param>
+        /// <param name="pbid">案卷盒ID</param>
+        private void SetFileState(object[] _obj, object pbid)
+        {
+            //将文件状态置为已归档
+            StringBuilder updateSql = new StringBuilder($"UPDATE processing_file_list SET pfl_status={(int)GuiDangStatus.GuiDangSuccess} WHERE pfl_id IN (");
+            for (int i = 0; i < _obj.Length; i++)
+                updateSql.Append($"'{_obj[i]}'{(i == _obj.Length - 1 ? ")" : ",")}");
+            SqlHelper.ExecuteNonQuery(updateSql.ToString());
+
+            //当前案卷盒中加入已归档文件ID
+            updateSql = new StringBuilder($"UPDATE processing_box SET pb_files_id='");
+            for (int i = 0; i < _obj.Length; i++)
+                updateSql.Append($"{_obj[i]}{(i == _obj.Length - 1 ? "'" : ",")}");
+            updateSql.Append($" WHERE pb_id='{pbid}'");
+            SqlHelper.ExecuteNonQuery(updateSql.ToString());
         }
 
         /// <summary>
@@ -569,10 +599,11 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 if ("lbl_JH_Box_Add".Equals(label.Name))//新增
                 {
-                    int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM processing_box WHERE pb_obj_id='{lbl_JH_Name.Tag}'"));
+                    //当前已有盒号数量
+                    int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{lbl_JH_Name.Tag}'"));
                     string gch = txt_JH_Box_GCID.Text;
                     string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{lbl_JH_Name.Tag}')";
-                    LoadJHBoxList(lbl_JH_Name.Tag);
+                    SqlHelper.ExecuteNonQuery(insertSql);
                 }
                 else if ("lbl_JH_Box_Remove".Equals(label.Name))//删除
                 {
@@ -580,7 +611,18 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         object value = cbo_JH_Box.SelectedValue;
                         if (value != null)
-                            SqlHelper.ExecuteNonQuery($"UPDATE processing_box SET pb_file_id=null WHERE pb_id='{value}' AND pb_obj_id='{lbl_JH_Name.Tag}'");
+                        {
+                            //将当前盒中文件状态致为未归档
+                            object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{lbl_JH_Name.Tag}'");
+                            string[] _ids = ids.ToString().Split(',');
+                            StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status={(int)GuiDangStatus.NonGuiDang} WHERE pfl_id IN(");
+                            for (int i = 0; i < _ids.Length; i++)
+                                sb.Append(_ids + "" + (_ids.Length - 1 != i ? "," : ")"));
+                            SqlHelper.ExecuteNonQuery(sb.ToString());
+
+                            //删除当前盒信息
+                            SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
+                        }
                     }
                 }
                 LoadJHBoxList(lbl_JH_Name.Tag);
@@ -596,20 +638,26 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="objId">案卷盒所属对象ID</param>
         private void LoadJHBoxList(object objId)
         {
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT pb_id,pb_box_id FROM processing_box WHERE pb_obj_id='{objId}'");
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT pb_id,pb_box_number FROM processing_box WHERE pb_obj_id='{objId}'");
             cbo_JH_Box.DataSource = table;
-            cbo_JH_Box.DisplayMember = "pb_id";
-            cbo_JH_Box.ValueMember = "pb_box_id";
+            cbo_JH_Box.DisplayMember = "pb_box_number";
+            cbo_JH_Box.ValueMember = "pb_id";
         }
 
-        private void Cbo_JH_Box_SelectedIndexChanged(object sender, EventArgs e)
+        /// <summary>
+        /// 案卷盒切换事件
+        /// </summary>
+        private void Cbo_JH_Box_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
             if ("cbo_JH_Box".Equals(comboBox.Name))
             {
                 object pbId = comboBox.SelectedValue;
-                
-
+                //加载归档表
+                LoadJHFileBoxTable(pbId, lbl_JH_Name.Tag);
+                //加载馆藏号
+                object gcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
+                txt_JH_Box_GCID.Text = GetValue(gcId);
 
             }
         }

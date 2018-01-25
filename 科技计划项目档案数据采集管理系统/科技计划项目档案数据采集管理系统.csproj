@@ -88,6 +88,7 @@
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Chinese2Spell.cs" />
+    <Compile Include="Tools\DictionaryHelper.cs" />
     <Compile Include="TransferOfRegistration\Frm_AddPC.cs">
       <SubType>Form</SubType>
     </Compile>
