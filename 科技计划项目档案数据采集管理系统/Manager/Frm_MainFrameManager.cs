@@ -63,26 +63,13 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 Name = "YH_MANAGER",
                 Text = "用户管理",
-                Image = imgs[0],
+                Image = imgs[1],
                 HasNext = true
             });
             CreateKyoPanel.SetPanel(pal_LeftMenu, list);
-            list.Clear();
-            //字典管理
-            string querySql = "SELECT dd_id,dd_name,dd_code from data_dictionary where level = '1' order by dd_sort";
 
-            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-            CreateKyoPanel.KyoPanel[] kyoPanels = new CreateKyoPanel.KyoPanel[dataTable.Rows.Count];
-            for (int i = 0; i < kyoPanels.Length; i++)
-            {
-                kyoPanels[i] = new CreateKyoPanel.KyoPanel
-                {
-                    Name = dataTable.Rows[i]["dd_id"].ToString(),
-                    Text = dataTable.Rows[i]["dd_name"].ToString(),
-                    HasNext = false
-                };
-            }
             //用户管理
+            list = new List<CreateKyoPanel.KyoPanel>();
             string user_sql = "SELECT bm_id,bm_name,bm_code from background_management order by bm_sort";
             DataTable user_dataTable = SqlHelper.ExecuteQuery(user_sql);
             CreateKyoPanel.KyoPanel[] userPanels = new CreateKyoPanel.KyoPanel[user_dataTable.Rows.Count];
@@ -95,16 +82,27 @@ namespace 科技计划项目档案数据采集管理系统
                     HasNext = false
                 };
             }
-
-
-            list.AddRange(kyoPanels);
             list.AddRange(userPanels);
-
-            Panel parentPanel = pal_LeftMenu.Controls.Find("ZD_MANAGER", false)[0] as Panel;
-            CreateKyoPanel.SetSubPanel(parentPanel, list, Sub_Menu_Click);
-
             Panel user_parentPanel = pal_LeftMenu.Controls.Find("YH_MANAGER", false)[0] as Panel;
             CreateKyoPanel.SetSubPanel(user_parentPanel, list, Sub_Menu_Click_bak);
+
+            //字典管理
+            list = new List<CreateKyoPanel.KyoPanel>();
+            string querySql = "SELECT dd_id,dd_name,dd_code from data_dictionary where level = '1' order by dd_sort";
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
+            CreateKyoPanel.KyoPanel[] kyoPanels = new CreateKyoPanel.KyoPanel[dataTable.Rows.Count];
+            for (int i = 0; i < kyoPanels.Length; i++)
+            {
+                kyoPanels[i] = new CreateKyoPanel.KyoPanel
+                {
+                    Name = dataTable.Rows[i]["dd_id"].ToString(),
+                    Text = dataTable.Rows[i]["dd_name"].ToString(),
+                    HasNext = false
+                };
+            }
+            list.AddRange(kyoPanels);
+            Panel parentPanel = pal_LeftMenu.Controls.Find("ZD_MANAGER", false)[0] as Panel;
+            CreateKyoPanel.SetSubPanel(parentPanel, list, Sub_Menu_Click);
         }
 
         private void Sub_Menu_Click_bak(object sender, EventArgs e)
@@ -117,8 +115,7 @@ namespace 科技计划项目档案数据采集管理系统
 
             if (!string.IsNullOrEmpty(control.Name))
             {
-                // Manager.Frm_Manager frm = new Manager.Frm_Manager(control.Name);
-                Manager.Frm_UserInfo frm = new Manager.Frm_UserInfo(control.Name);
+                Frm_UserInfo frm = new Frm_UserInfo(control.Name);
                 frm.MdiParent = this;
                 frm.Show();
             }
