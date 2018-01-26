@@ -142,42 +142,57 @@ namespace 科技计划项目档案数据采集管理系统
             InitialStageList(dgv_JH_XM_FileList.Columns["jh_xm_stage"]);
             InitialStageList(dgv_JH_KT_FileList.Columns["jh_kt_stage"]);
             InitialStageList(dgv_JH_XM_KT_FileList.Columns["jh_xm_kt_stage"]);
+            InitialStageList(dgv_JH_XM_KT_ZKT_FileList.Columns["jh_xm_kt_zkt_stage"]);
+            InitialStageList(dgv_JH_KT_ZKT_FileList.Columns["jh_kt_zkt_stage"]);
+
 
             //文件类别
             InitialCategorList(dgv_JH_FileList, string.Empty);
             InitialCategorList(dgv_JH_XM_FileList, "jh_xm_");
             InitialCategorList(dgv_JH_KT_FileList, "jh_kt_");
-            InitialCategorList(dgv_JH_XM_KT_FileList, "jh_mx_kt_");
+            InitialCategorList(dgv_JH_XM_KT_FileList, "jh_xm_kt_");
+            InitialCategorList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_");
+            InitialCategorList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_");
 
             //文件类型
             InitialTypeList(dgv_JH_FileList, string.Empty);
             InitialTypeList(dgv_JH_XM_FileList, "jh_xm_");
             InitialTypeList(dgv_JH_KT_FileList, "jh_kt_");
-            InitialTypeList(dgv_JH_XM_KT_FileList, "jh_mx_kt_");
+            InitialTypeList(dgv_JH_XM_KT_FileList, "jh_xm_kt_");
+            InitialTypeList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_");
+            InitialTypeList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_");
 
             //密级
             InitialSecretList(dgv_JH_FileList, string.Empty);
             InitialSecretList(dgv_JH_XM_FileList, "jh_xm_");
             InitialSecretList(dgv_JH_KT_FileList, "jh_kt_");
-            InitialSecretList(dgv_JH_XM_KT_FileList, "jh_mx_kt_");
+            InitialSecretList(dgv_JH_XM_KT_FileList, "jh_xm_kt_");
+            InitialSecretList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_");
+            InitialSecretList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_");
 
             //载体
             InitialCarrierList(dgv_JH_FileList, string.Empty);
             InitialCarrierList(dgv_JH_XM_FileList, "jh_xm_");
             InitialCarrierList(dgv_JH_KT_FileList, "jh_kt_");
-            InitialCarrierList(dgv_JH_XM_KT_FileList, "jh_mx_kt_");
+            InitialCarrierList(dgv_JH_XM_KT_FileList, "jh_xm_kt_");
+            InitialCarrierList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_");
+            InitialCarrierList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_");
 
             //文件格式
             InitialFormatList(dgv_JH_FileList, string.Empty);
             InitialFormatList(dgv_JH_XM_FileList, "jh_xm_");
             InitialFormatList(dgv_JH_KT_FileList, "jh_kt_");
-            InitialFormatList(dgv_JH_XM_KT_FileList, "jh_mx_kt_");
+            InitialFormatList(dgv_JH_XM_KT_FileList, "jh_xm_kt_");
+            InitialFormatList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_");
+            InitialFormatList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_");
 
             //文件形态
             InitialFormList(dgv_JH_FileList, string.Empty);
             InitialFormList(dgv_JH_XM_FileList, "jh_xm_");
             InitialFormList(dgv_JH_KT_FileList, "jh_kt_");
-            InitialFormList(dgv_JH_XM_KT_FileList, "jh_mx_kt_");
+            InitialFormList(dgv_JH_XM_KT_FileList, "jh_xm_kt_");
+            InitialFormList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_");
+            InitialFormList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_");
 
             cbo_JH_Next.SelectedIndex = 0;
             cbo_JH_XM_HasNext.SelectedIndex = 0;
@@ -426,11 +441,13 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 ShowTab("plan_project", 1);
                 pal_JH_XM.Tag = lbl_JH_Name.Tag;
+                ResetControls(ControlType.Plan_Project);
             }
             else if (index == 2)//父级 - 课题
             {
                 ShowTab("plan_topic", 1);
                 pal_JH_KT.Tag = lbl_JH_Name.Tag;
+                ResetControls(ControlType.Plan_Topic);
             }
         }
 
@@ -452,6 +469,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     ShowTab("plan_project_topic", 2);
                     pal_JH_XM_KT.Tag = dgv_JH_XM_FileList.Tag;
+                    ResetControls(ControlType.Plan_Project_Topic);
                 }
             }
         }
@@ -474,6 +492,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     ShowTab("plan_project_topic_subtopic", 3);
                     pal_JH_XM_KT_ZKT.Tag = dgv_JH_XM_KT_FileList.Tag;
+                    ResetControls(ControlType.Plan_Project_Topic_Subtopic);
                 }
             }
         }
@@ -496,6 +515,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     ShowTab("plan_topic_subtopic", 2);
                     pal_JH_KT_ZKT.Tag = dgv_JH_KT_FileList.Tag;
+                    ResetControls(ControlType.Plan_Topic_Subtopic);
                 }
             }
         }
@@ -1143,6 +1163,18 @@ namespace 科技计划项目档案数据采集管理系统
                         Tag = (ControlType)list2[j][2]
                     };
                     treeNode2.Nodes.Add(treeNode3);
+
+                    List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_name,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}'", 3);
+                    for(int k = 0; k < list3.Count; k++)
+                    {
+                        TreeNode treeNode4 = new TreeNode()
+                        {
+                            Name = list3[k][0].ToString(),
+                            Text = list3[k][1].ToString(),
+                            Tag = (ControlType)list3[k][2]
+                        };
+                        treeNode3.Nodes.Add(treeNode4);
+                    }
                 }
             }
             
@@ -1234,6 +1266,10 @@ namespace 科技计划项目档案数据采集管理系统
             int index = tab.SelectedIndex;
             if("tab_JH_FileInfo".Equals(tab.Name))
             {
+                if(index == 1)
+                {
+
+                }
                 if(index == 3)
                 {
                     LoadBoxList(lbl_JH_Name.Tag, ControlType.Plan);
@@ -1502,17 +1538,17 @@ namespace 科技计划项目档案数据采集管理系统
                 lsv_JH_KT_ZKT_File2.Items.Clear();
                 lsv_JH_KT_ZKT_File2.Columns.Clear();
 
-                lsv_JH_XM_KT_File1.Columns.AddRange(new ColumnHeader[]
+                lsv_JH_KT_ZKT_File1.Columns.AddRange(new ColumnHeader[]
                 {
-                    new ColumnHeader{ Name = "jh_xm_kt_file1_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_xm_kt_file1_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_xm_kt_file1_name", Text = "文件名称" }
+                    new ColumnHeader{ Name = "jh_kt_zkt_file1_id", Text = "主键" },
+                    new ColumnHeader{ Name = "jh_kt_zkt_file1_type", Text = "文件类别" },
+                    new ColumnHeader{ Name = "jh_kt_zkt_file1_name", Text = "文件名称" }
                 });
-                lsv_JH_XM_KT_File2.Columns.AddRange(new ColumnHeader[]
+                lsv_JH_KT_ZKT_File2.Columns.AddRange(new ColumnHeader[]
                 {
-                    new ColumnHeader{ Name = "jh_xm_kt_file2_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_xm_kt_file2_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_xm_kt_file2_name", Text = "文件名称" }
+                    new ColumnHeader{ Name = "jh_kt_zkt_file2_id", Text = "主键" },
+                    new ColumnHeader{ Name = "jh_kt_zkt_file2_type", Text = "文件类别" },
+                    new ColumnHeader{ Name = "jh_kt_zkt_file2_name", Text = "文件名称" }
                 });
 
                 //未归档
@@ -1521,7 +1557,7 @@ namespace 科技计划项目档案数据采集管理系统
                 DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
                 for(int i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    ListViewItem item = lsv_JH_XM_KT_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
+                    ListViewItem item = lsv_JH_KT_ZKT_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
                     item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
                     item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
 
@@ -1537,13 +1573,63 @@ namespace 科技计划项目档案数据采集管理系统
                     DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
                     for(int i = 0; i < _dataTable.Rows.Count; i++)
                     {
-                        ListViewItem item = lsv_JH_XM_KT_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
+                        ListViewItem item = lsv_JH_KT_ZKT_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
                         item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
                         item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
                     }
-                    lsv_JH_XM_KT_File2.Columns["jh_xm_kt_file2_id"].Width = lsv_JH_XM_KT_File1.Columns["jh_xm_kt_file1_id"].Width = 0;
-                    lsv_JH_XM_KT_File2.Columns["jh_xm_kt_file2_type"].Width = lsv_JH_XM_KT_File1.Columns["jh_xm_kt_file1_type"].Width = 100;
-                    lsv_JH_XM_KT_File2.Columns["jh_xm_kt_file2_name"].Width = lsv_JH_XM_KT_File1.Columns["jh_xm_kt_file1_name"].Width = 200;
+                    lsv_JH_KT_ZKT_File2.Columns[0].Width = lsv_JH_KT_ZKT_File1.Columns[0].Width = 0;
+                    lsv_JH_KT_ZKT_File2.Columns[1].Width = lsv_JH_KT_ZKT_File1.Columns[1].Width = 100;
+                    lsv_JH_KT_ZKT_File2.Columns[2].Width = lsv_JH_KT_ZKT_File1.Columns[2].Width = 200;
+                }
+            }
+            else if(type == ControlType.Plan_Project_Topic_Subtopic)
+            {
+                lsv_JH_XM_KT_ZKT_File1.Items.Clear();
+                lsv_JH_XM_KT_ZKT_File1.Columns.Clear();
+                lsv_JH_XM_KT_ZKT_File2.Items.Clear();
+                lsv_JH_XM_KT_ZKT_File2.Columns.Clear();
+
+                lsv_JH_XM_KT_ZKT_File1.Columns.AddRange(new ColumnHeader[]
+                {
+                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file1_id", Text = "主键" },
+                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file1_type", Text = "文件类别" },
+                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file1_name", Text = "文件名称" }
+                });
+                lsv_JH_XM_KT_ZKT_File2.Columns.AddRange(new ColumnHeader[]
+                {
+                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file2_id", Text = "主键" },
+                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file2_type", Text = "文件类别" },
+                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file2_name", Text = "文件名称" }
+                });
+
+                //未归档
+                string querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary " +
+                    $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
+                DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
+                for(int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    ListViewItem item = lsv_JH_XM_KT_ZKT_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
+                    item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
+                    item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
+                }
+                //已归档
+                object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}'");
+                if(id != null)
+                {
+                    querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
+                    string[] ids = GetValue(id).Split(',');
+                    for(int i = 0; i < ids.Length; i++)
+                        querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
+                    DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
+                    for(int i = 0; i < _dataTable.Rows.Count; i++)
+                    {
+                        ListViewItem item = lsv_JH_XM_KT_ZKT_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
+                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
+                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
+                    }
+                    lsv_JH_XM_KT_ZKT_File2.Columns[0].Width = lsv_JH_XM_KT_ZKT_File1.Columns[0].Width = 0;
+                    lsv_JH_XM_KT_ZKT_File2.Columns[1].Width = lsv_JH_XM_KT_ZKT_File1.Columns[1].Width = 100;
+                    lsv_JH_XM_KT_ZKT_File2.Columns[2].Width = lsv_JH_XM_KT_ZKT_File1.Columns[2].Width = 200;
                 }
             }
         }
@@ -2037,23 +2123,163 @@ namespace 科技计划项目档案数据采集管理系统
                 if(table.Rows.Count > 0)
                 {
                     DataRow row = table.Rows[0];
-                   // dgv_JH_KT_ZKT_FileList.Tag = row["si_id"];
-                    txt_JH_XM_KT_Code.Text = GetValue(row["si_code"]);
-                    txt_JH_XM_KT_Name.Text = GetValue(row["si_name"]);
-                    txt_JH_XM_KT_Type.Text = GetValue(row["si_type"]);
-                    txt_JH_XM_KT_LY.Text = GetValue(row["si_field"]);
-                    txt_JH_XM_KT_ZT.Text = GetValue(row["si_belong"]);
-                    txt_JH_XM_KT_JF.Text = GetValue(row["si_money"]);
-                    dtp_JH_XM_KT_StartTime.Value = DateTime.Parse(GetValue(row["si_start_datetime"]));
-                    dtp_JH_XM_KT_EndTime.Value = DateTime.Parse(GetValue(row["si_end_datetime"]));
-                    txt_JH_XM_KT_Year.Text = GetValue(row["si_year"]);
-                    txt_JH_XM_KT_Unit.Text = GetValue(row["si_company"]);
-                    txt_JH_XM_KT_Province.Text = GetValue(row["si_province"]);
-                    txt_JH_XM_KT_UnitUser.Text = GetValue(row["si_company_user"]);
-                    txt_JH_XM_KT_ProUser.Text = GetValue(row["si_project_user"]);
-                    txt_JH_XM_KT_Intro.Text = GetValue(row["si_introduction"]);
+                    dgv_JH_KT_ZKT_FileList.Tag = row["si_id"];
+                    txt_JH_KT_ZKT_Code.Text = GetValue(row["si_code"]);
+                    txt_JH_KT_ZKT_Name.Text = GetValue(row["si_name"]);
+                    txt_JH_KT_ZKT_Type.Text = GetValue(row["si_type"]);
+                    txt_JH_KT_ZKT_LY.Text = GetValue(row["si_field"]);
+                    txt_JH_KT_ZKT_ZT.Text = GetValue(row["si_belong"]);
+                    txt_JH_KT_ZKT_JF.Text = GetValue(row["si_money"]);
+                    dtp_JH_KT_ZKT_StartTime.Value = DateTime.Parse(GetValue(row["si_start_datetime"]));
+                    dtp_JH_KT_ZKT_EndTime.Value = DateTime.Parse(GetValue(row["si_end_datetime"]));
+                    txt_JH_KT_ZKT_Year.Text = GetValue(row["si_year"]);
+                    txt_JH_KT_ZKT_Unit.Text = GetValue(row["si_company"]);
+                    txt_JH_KT_ZKT_Province.Text = GetValue(row["si_province"]);
+                    txt_JH_KT_ZKT_Unituser.Text = GetValue(row["si_company_user"]);
+                    txt_JH_KT_ZKT_ProUser.Text = GetValue(row["si_project_user"]);
+                    txt_JH_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);
                 }
-                LoadFileList(dgv_JH_XM_KT_FileList, "jh_xm_kt_", projectId);
+                LoadFileList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_", projectId);
+            }
+            else if(type == ControlType.Plan_Project_Topic_Subtopic)
+            {
+                DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM subject_info WHERE si_id='{projectId}'");
+                if(table.Rows.Count > 0)
+                {
+                    DataRow row = table.Rows[0];
+                    dgv_JH_XM_KT_ZKT_FileList.Tag = row["si_id"];
+                    txt_JH_XM_KT_ZKT_Code.Text = GetValue(row["si_code"]);
+                    txt_JH_XM_KT_ZKT_Name.Text = GetValue(row["si_name"]);
+                    txt_JH_XM_KT_ZKT_Type.Text = GetValue(row["si_type"]);
+                    txt_JH_XM_KT_ZKT_LY.Text = GetValue(row["si_field"]);
+                    txt_JH_XM_KT_ZKT_ZT.Text = GetValue(row["si_belong"]);
+                    txt_JH_XM_KT_ZKT_JF.Text = GetValue(row["si_money"]);
+                    dtp_JH_XM_KT_ZKT_StartTime.Value = DateTime.Parse(GetValue(row["si_start_datetime"]));
+                    dtp_JH_XM_KT_ZKT_EndTime.Value = DateTime.Parse(GetValue(row["si_end_datetime"]));
+                    txt_JH_XM_KT_ZKT_Year.Text = GetValue(row["si_year"]);
+                    txt_JH_XM_KT_ZKT_Unit.Text = GetValue(row["si_company"]);
+                    txt_JH_XM_KT_ZKT_Province.Text = GetValue(row["si_province"]);
+                    txt_JH_XM_KT_ZKT_Unituser.Text = GetValue(row["si_company_user"]);
+                    txt_JH_XM_KT_ZKT_Prouser.Text = GetValue(row["si_project_user"]);
+                    txt_JH_XM_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);
+                }
+                LoadFileList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_", projectId);
+            }
+        }
+
+        /// <summary>
+        /// 新增对象事件
+        /// </summary>
+        private void Btn_Add_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            if("btn_JH_XM_Add".Equals(button.Name))
+                ResetControls(ControlType.Plan_Project);
+            else if("btn_JH_KT_Add".Equals(button.Name))
+                ResetControls(ControlType.Plan_Topic);
+            else if("btn_JH_KT_ZKT_Add".Equals(button.Name))
+                ResetControls(ControlType.Plan_Topic_Subtopic);
+            else if("btn_JH_XM_KT_Add".Equals(button.Name))
+                ResetControls(ControlType.Plan_Project_Topic);
+            else if("btn_JH_XM_KT_ZKT_Add".Equals(button.Name))
+                ResetControls(ControlType.Plan_Project_Topic_Subtopic);
+        }
+
+        /// <summary>
+        /// 重置控件为默认状态
+        /// </summary>
+        /// <param name="type">对象类型</param>
+        void ResetControls(ControlType type)
+        {
+            if(type == ControlType.Plan_Project)
+            {
+                dgv_JH_XM_FileList.Tag = null;
+                txt_JH_XM_Code.Clear();
+                txt_JH_XM_Name.Clear();
+                txt_JH_XM_JHType.Clear();
+                txt_JH_XM_LY.Clear();
+                txt_JH_XM_ZT.Clear();
+                txt_JH_XM_JF.ResetText();
+                dtp_JH_XM_StartTime.ResetText();
+                dtp_JH_XM_EndTime.ResetText();
+                txt_JH_XM_LXND.Clear();
+                txt_JH_XM_Unit.Clear();
+                txt_JH_XM_Province.Clear();
+                txt_JH_XM_UnitUser.Clear();
+                txt_JH_XM_ObjUser.Clear();
+                txt_JH_XM_ObjIntroduct.Clear();
+            }
+            else if(type == ControlType.Plan_Topic)
+            {
+                dgv_JH_KT_FileList.Tag = null;
+                txt_JH_KT_Code.Clear();
+                txt_JH_KT_Name.Clear();
+                txt_JH_KT_Type.Clear();
+                txt_JH_KT_LY.Clear();
+                txt_JH_KT_ZT.Clear();
+                txt_JH_KT_JF.ResetText();
+                dtp_JH_KT_StartTime.ResetText();
+                dtp_JH_KT_EndTime.ResetText();
+                txt_JH_KT_Year.Clear();
+                txt_JH_KT_Unit.Clear();
+                txt_JH_KT_Province.Clear();
+                txt_JH_KT_UnitUser.Clear();
+                txt_JH_KT_ProUser.Clear();
+                txt_JH_KT_Intro.Clear();
+            }
+            else if(type == ControlType.Plan_Project_Topic)
+            {
+                dgv_JH_XM_KT_FileList.Tag = null;
+                txt_JH_XM_KT_Code.Clear();
+                txt_JH_XM_KT_Name.Clear();
+                txt_JH_XM_KT_Type.Clear();
+                txt_JH_XM_KT_LY.Clear();
+                txt_JH_XM_KT_ZT.Clear();
+                txt_JH_XM_KT_JF.ResetText();
+                dtp_JH_XM_KT_StartTime.ResetText();
+                dtp_JH_XM_KT_EndTime.ResetText();
+                txt_JH_XM_KT_Year.Clear();
+                txt_JH_XM_KT_Unit.Clear();
+                txt_JH_XM_KT_Province.Clear();
+                txt_JH_XM_KT_UnitUser.Clear();
+                txt_JH_XM_KT_ProUser.Clear();
+                txt_JH_XM_KT_Intro.Clear();
+            }
+            else if(type == ControlType.Plan_Topic_Subtopic)
+            {
+                dgv_JH_KT_ZKT_FileList.Tag = null;
+                txt_JH_KT_ZKT_Code.Clear();
+                txt_JH_KT_ZKT_Name.Clear();
+                txt_JH_KT_ZKT_Type.Clear();
+                txt_JH_KT_ZKT_LY.Clear();
+                txt_JH_KT_ZKT_ZT.Clear();
+                txt_JH_KT_ZKT_JF.ResetText();
+                dtp_JH_KT_ZKT_StartTime.ResetText();
+                dtp_JH_KT_ZKT_EndTime.ResetText();
+                txt_JH_KT_ZKT_Year.Clear();
+                txt_JH_KT_ZKT_Unit.Clear();
+                txt_JH_KT_ZKT_Province.Clear();
+                txt_JH_KT_ZKT_Unituser.Clear();
+                txt_JH_KT_ZKT_ProUser.Clear();
+                txt_JH_KT_ZKT_Intro.Clear();
+            }
+            else if(type == ControlType.Plan_Project_Topic_Subtopic)
+            {
+                dgv_JH_XM_KT_ZKT_FileList.Tag = null;
+                txt_JH_XM_KT_ZKT_Code.Clear();
+                txt_JH_XM_KT_ZKT_Name.Clear();
+                txt_JH_XM_KT_ZKT_Type.Clear();
+                txt_JH_XM_KT_ZKT_LY.Clear();
+                txt_JH_XM_KT_ZKT_ZT.Clear();
+                txt_JH_XM_KT_ZKT_JF.ResetText();
+                dtp_JH_XM_KT_ZKT_StartTime.ResetText();
+                dtp_JH_XM_KT_ZKT_EndTime.ResetText();
+                txt_JH_XM_KT_ZKT_Year.Clear();
+                txt_JH_XM_KT_ZKT_Unit.Clear();
+                txt_JH_XM_KT_ZKT_Province.Clear();
+                txt_JH_XM_KT_ZKT_Unituser.Clear();
+                txt_JH_XM_KT_ZKT_Prouser.Clear();
+                txt_JH_XM_KT_ZKT_Intro.Clear();
             }
         }
     }
