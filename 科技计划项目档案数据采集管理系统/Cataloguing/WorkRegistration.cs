@@ -3,6 +3,40 @@
 namespace 科技计划项目档案数据采集管理系统
 {
     /// <summary>
+    /// 当前操作对象类型
+    /// </summary>
+    enum ControlType
+    {
+        /// <summary>
+        /// 默认
+        /// </summary>
+        Default = 0,
+        /// <summary>
+        /// 计划
+        /// </summary>
+        Plan = 1,
+        /// <summary>
+        /// 计划-项目
+        /// </summary>
+        Plan_Project = 2,
+        /// <summary>
+        /// 计划-课题
+        /// </summary>
+        Plan_Topic = 3,
+        /// <summary>
+        /// 计划-项目-课题
+        /// </summary>
+        Plan_Project_Topic = 4,
+        /// <summary>
+        /// 计划-课题-子课题
+        /// </summary>
+        Plan_Topic_Subtopic = 5,
+        /// <summary>
+        /// 计划-项目-课题-子课题
+        /// </summary>
+        Plan_Project_Topic_Subtopic = 6
+    }
+    /// <summary>
     /// 文件归档状态
     /// </summary>
     enum GuiDangStatus
