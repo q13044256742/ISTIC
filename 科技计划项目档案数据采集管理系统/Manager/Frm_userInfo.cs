@@ -79,8 +79,9 @@ namespace 科技计划项目档案数据采集管理系统
         //加载实时数据
         private void LoadUserDataScoure()
         {
-            string sql = $"select u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id ";
+            string sql = $"select u.ul_id, u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id ";
             u_DataList.DataSource = SqlHelper.ExecuteQuery(sql);
+            u_DataList.Columns["ul_id"].Visible = false;
         }
 
         //删除
