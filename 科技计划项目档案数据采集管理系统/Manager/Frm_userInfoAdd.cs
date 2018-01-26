@@ -33,8 +33,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         //加载更新表单
         private void LoadData(string id)
         {            
-            string sql = $"select u.login_name,u.login_password,u.belong_unit,u.belong_department,u.real_name,u.email,u.telephone,u.cellphone,u.ip_address,u.remark,r.r_name,u.belong_user_group" +
-                $" from user_list u left join role r on u.role_id = r.r_id where ul_id = '{id}'";
+            string sql = $"select u.login_name,u.login_password,u.belong_unit,u.belong_department,u.real_name,u.email,u.telephone,u.cellphone,u.ip_address,u.remark,u.role_id,u.belong_user_group" +
+                $" from user_list u  where ul_id = '{id}'";
             object[] _obj = SqlHelper.ExecuteRowsQuery(sql);
 
             login_name.Text = _obj[0].ToString();
@@ -100,9 +100,10 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 //更新信息
                 else
                 {
-                    //string dd_id = (string)textBox1.Tag;
-                    //string querySql = $"update data_dictionary set dd_name='{dd_name}',dd_code='{dd_code}',dd_sort='{dd_sort}',dd_note='{dd_node}' where dd_id='{dd_id}'";
-                    //SqlHelper.ExecuteQuery(querySql);
+                    string ul_id = login_name.Tag.ToString();
+                    string querySql = $"update user_list set login_name='{_login_name}',login_password='{_password}',belong_unit='{_belong_unit}',belong_department='{_belong_bm}'," +
+                        $" real_name='{_real_name}',email='{_mail}',telephone='{_mobile}',cellphone='{_phone}',ip_address='{_ip}',remark='{_note}',role_id='{r_id}' where ul_id='{ul_id}'";
+                    SqlHelper.ExecuteQuery(querySql);
                 }
                 if (MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                 {

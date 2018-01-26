@@ -119,7 +119,7 @@ namespace 科技计划项目档案数据采集管理系统
             if (amount == 1)
             {
                 //获取你所选行的id
-                string id = (u_DataList.SelectedRows[0]).Cells["ul_id"].Value.ToString();
+                string id = u_DataList.SelectedRows[0].Cells["ul_id"].Value.ToString();
                 Manager.Frm_userInfoAdd frm = new Manager.Frm_userInfoAdd(false, id);
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
