@@ -54,18 +54,18 @@ namespace 科技计划项目档案数据采集管理系统
             List<CreateKyoPanel.KyoPanel> list = new List<CreateKyoPanel.KyoPanel>();
             list.Add(new CreateKyoPanel.KyoPanel
             {
-                Name = "ZD_MANAGER",
-                Text = "字典管理",
-                Image = imgs[0],
-                HasNext = true
-            });
-            list.Add(new CreateKyoPanel.KyoPanel
-            {
                 Name = "YH_MANAGER",
                 Text = "用户管理",
                 Image = imgs[1],
                 HasNext = true
             });
+            list.Add(new CreateKyoPanel.KyoPanel
+            {
+                Name = "ZD_MANAGER",
+                Text = "字典管理",
+                Image = imgs[0],
+                HasNext = true
+            });           
             CreateKyoPanel.SetPanel(pal_LeftMenu, list);
 
             //用户管理
@@ -105,6 +105,7 @@ namespace 科技计划项目档案数据采集管理系统
             CreateKyoPanel.SetSubPanel(parentPanel, list, Sub_Menu_Click);
         }
 
+        //用户管理---二级菜单点击事件  
         private void Sub_Menu_Click_bak(object sender, EventArgs e)
         {
             Control control = null;
@@ -115,14 +116,13 @@ namespace 科技计划项目档案数据采集管理系统
 
             if (!string.IsNullOrEmpty(control.Name))
             {
-                Frm_UserInfo frm = new Frm_UserInfo(control.Name);
+                Frm_userInfo frm = new Frm_userInfo(control.Name);
                 frm.MdiParent = this;
                 frm.Show();
             }
         }
-        /// <summary>
-        /// 二级菜单点击事件（计划/项目/单位...字典）
-        /// </summary>
+      
+        /// 字典管理---二级菜单点击事件  
         private void Sub_Menu_Click(object sender, EventArgs e)
         {
             Control control = null;

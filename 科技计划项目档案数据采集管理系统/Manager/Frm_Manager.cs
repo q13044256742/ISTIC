@@ -114,7 +114,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             }
         }
 
-        //二级单元格点击事件
+        //列表名称点击事件
         private void dgv_DataList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1 && e.ColumnIndex != -1)

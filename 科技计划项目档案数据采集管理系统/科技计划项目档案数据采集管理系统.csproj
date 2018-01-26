@@ -87,6 +87,18 @@
     <Compile Include="Frm_ProTypeSelect.Designer.cs">
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manager\Frm_userInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager\Frm_userInfo.Designer.cs">
+      <DependentUpon>Frm_userInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manager\Frm_userInfoAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager\Frm_userInfoAdd.Designer.cs">
+      <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Chinese2Spell.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
     <Compile Include="TransferOfRegistration\Frm_AddPC.cs">
@@ -172,6 +184,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_ProTypeSelect.resx">
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manager\Frm_userInfo.resx">
+      <DependentUpon>Frm_userInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manager\Frm_userInfoAdd.resx">
+      <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
