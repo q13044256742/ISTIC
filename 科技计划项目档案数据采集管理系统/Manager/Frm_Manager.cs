@@ -47,7 +47,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                $" where dd_pId='" + tag + "' order by dd_sort";
                 dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
             }
-           
+
+            dgv_DataList.Tag = tag;
         }
 
         //添加
@@ -121,7 +122,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             {
                 if ("名称".Equals(dgv_DataList.Columns[e.ColumnIndex].Name))
                 {
-                    object pid = dgv_DataList.Rows[e.RowIndex].Cells["dd_id"].Value;
+                    string pid = dgv_DataList.Rows[e.RowIndex].Cells["dd_id"].Value.ToString();
                     string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{pid}' order by dd_sort";
                     DataTable dataTable = SqlHelper.ExecuteQuery(querySql);                
                     dgv_DataList.DataSource = dataTable;                                        
