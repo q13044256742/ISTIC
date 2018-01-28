@@ -44,6 +44,7 @@ namespace 科技计划项目档案数据采集管理系统
             lbl_JH_Name.Text = _obj[1].ToString();
             lbl_JH_Name.Tag = _obj[0];
             lbl_PlanIntroducation.Text = _obj[2].ToString();
+            dgv_JH_FileList.Tag = _obj[0];
 
             LoadFileList(dgv_JH_FileList, string.Empty, planId);
         }
@@ -1266,9 +1267,13 @@ namespace 科技计划项目档案数据采集管理系统
             int index = tab.SelectedIndex;
             if("tab_JH_FileInfo".Equals(tab.Name))
             {
-                if(index == 1)
+                if(index == 1)//文件核查
                 {
-
+                    object objid = dgv_JH_FileList.Tag;
+                    if (objid != null)
+                    {
+                        LoadFileValidList(dgv_JH_FileValid, objid, "dgv_jh_");
+                    }
                 }
                 if(index == 3)
                 {
@@ -1278,7 +1283,15 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if("tab_JH_XM_FileInfo".Equals(tab.Name))
             {
-                if(index == 3)
+                if (index == 1)//文件核查
+                {
+                    object objid = dgv_JH_XM_FileList.Tag;
+                    if (objid != null)
+                    {
+                        LoadFileValidList(dgv_JH_XM_FileValid, objid, "dgv_jh_xm_");
+                    }
+                }
+                if (index == 3)
                 {
                     LoadBoxList(dgv_JH_XM_FileList.Tag, ControlType.Plan_Project);
                     LoadFileBoxTable(cbo_JH_XM_Box.SelectedValue, dgv_JH_XM_FileList.Tag, ControlType.Plan_Project);
@@ -1317,6 +1330,39 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
+
+        /// <summary>
+        /// 加载文件缺失校验列表
+        /// </summary>
+        /// <param name="dataGridView">待校验表格</param>
+        /// <param name="objid">主键</param>
+        private void LoadFileValidList(DataGridView dataGridView, object objid, string key)
+        {
+            dataGridView.Rows.Clear();
+
+            string querySql = "select dd_name,dd_note from data_dictionary where dd_pId in(" +
+                "select dd_id from data_dictionary where dd_pId = (" +
+                "select dd_id from data_dictionary  where dd_code = 'dic_file_jd')) and dd_name not in(" +
+                $"select dd.dd_name from processing_file_list pfl left join data_dictionary dd on pfl.pfl_categor = dd.dd_id where pfl.pfl_obj_id='{objid}')";
+            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int indexRow = dataGridView.Rows.Add();
+                dataGridView.Rows[indexRow].Cells[key + "id"].Value = i + 1;
+                dataGridView.Rows[indexRow].Cells[key + "categor"].Value = table.Rows[i]["dd_name"];
+                dataGridView.Rows[indexRow].Cells[key + "name"].Value = table.Rows[i]["dd_note"];
+            }
+
+            List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
+            list.Add(new KeyValuePair<string, int>(key + "id", 50));
+            list.Add(new KeyValuePair<string, int>(key + "reason", 100));
+            list.Add(new KeyValuePair<string, int>(key + "categor", 80));
+            list.Add(new KeyValuePair<string, int>(key + "name", 250));
+            DataGridViewStyleHelper.SetWidth(dataGridView, list);
+
+            DataGridViewStyleHelper.SetAlignWithCenter(dataGridView, new string[] { key + "id", key + "categor" });
+        }
+
         /// <summary>
         /// 加载计划-案卷盒归档表
         /// </summary>

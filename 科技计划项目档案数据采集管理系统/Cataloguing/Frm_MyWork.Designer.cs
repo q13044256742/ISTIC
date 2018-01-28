@@ -52,13 +52,6 @@
             this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fileCheck = new System.Windows.Forms.TabPage();
             this.dgv_JH_FileValid = new System.Windows.Forms.DataGridView();
-            this.jh_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_cagetor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_fileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_reason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addPaper = new System.Windows.Forms.TabPage();
             this.textBox37 = new System.Windows.Forms.TextBox();
             this.label51 = new System.Windows.Forms.Label();
@@ -120,13 +113,6 @@
             this.jh_xm_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgv_JH_XM_FileValid = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn28 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn29 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn31 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn32 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn33 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn34 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.textBox40 = new System.Windows.Forms.TextBox();
             this.label56 = new System.Windows.Forms.Label();
@@ -576,6 +562,20 @@
             this.label122 = new System.Windows.Forms.Label();
             this.txt_JH_KT_ZKT_Code = new System.Windows.Forms.TextBox();
             this.label123 = new System.Windows.Forms.Label();
+            this.dgv_jh_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_pcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_pname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dgv_jh_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_xm_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_xm_pcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_xm_pname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_xm_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_xm_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_jh_xm_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dgv_jh_xm_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab_MenuList.SuspendLayout();
             this.plan.SuspendLayout();
             this.tab_JH_FileInfo.SuspendLayout();
@@ -843,59 +843,19 @@
             this.dgv_JH_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_JH_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.jh_id,
-            this.jh_code,
-            this.jh_name,
-            this.jh_cagetor,
-            this.jh_fileName,
-            this.jh_reason,
-            this.jh_remark});
+            this.dgv_jh_id,
+            this.dgv_jh_pcode,
+            this.dgv_jh_pname,
+            this.dgv_jh_categor,
+            this.dgv_jh_name,
+            this.dgv_jh_reason,
+            this.dgv_jh_remark});
             this.dgv_JH_FileValid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_JH_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_JH_FileValid.Name = "dgv_JH_FileValid";
             this.dgv_JH_FileValid.RowTemplate.Height = 23;
             this.dgv_JH_FileValid.Size = new System.Drawing.Size(991, 300);
             this.dgv_JH_FileValid.TabIndex = 0;
-            // 
-            // jh_id
-            // 
-            this.jh_id.HeaderText = "序号";
-            this.jh_id.Name = "jh_id";
-            this.jh_id.ReadOnly = true;
-            // 
-            // jh_code
-            // 
-            this.jh_code.HeaderText = "项目/课题编号";
-            this.jh_code.Name = "jh_code";
-            this.jh_code.ReadOnly = true;
-            // 
-            // jh_name
-            // 
-            this.jh_name.HeaderText = "项目/课题名称";
-            this.jh_name.Name = "jh_name";
-            this.jh_name.ReadOnly = true;
-            // 
-            // jh_cagetor
-            // 
-            this.jh_cagetor.HeaderText = "文件类别";
-            this.jh_cagetor.Name = "jh_cagetor";
-            this.jh_cagetor.ReadOnly = true;
-            // 
-            // jh_fileName
-            // 
-            this.jh_fileName.HeaderText = "文件名称";
-            this.jh_fileName.Name = "jh_fileName";
-            this.jh_fileName.ReadOnly = true;
-            // 
-            // jh_reason
-            // 
-            this.jh_reason.HeaderText = "缺少原因";
-            this.jh_reason.Name = "jh_reason";
-            // 
-            // jh_remark
-            // 
-            this.jh_remark.HeaderText = "备注";
-            this.jh_remark.Name = "jh_remark";
             // 
             // addPaper
             // 
@@ -1351,6 +1311,7 @@
             this.tab_JH_XM_FileInfo.SelectedIndex = 0;
             this.tab_JH_XM_FileInfo.Size = new System.Drawing.Size(999, 330);
             this.tab_JH_XM_FileInfo.TabIndex = 3;
+            this.tab_JH_XM_FileInfo.SelectedIndexChanged += new System.EventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -1496,61 +1457,22 @@
             this.dgv_JH_XM_FileValid.AllowUserToAddRows = false;
             this.dgv_JH_XM_FileValid.AllowUserToDeleteRows = false;
             this.dgv_JH_XM_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_JH_XM_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_JH_XM_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_XM_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn28,
-            this.dataGridViewTextBoxColumn29,
-            this.dataGridViewTextBoxColumn30,
-            this.dataGridViewTextBoxColumn31,
-            this.dataGridViewTextBoxColumn32,
-            this.dataGridViewTextBoxColumn33,
-            this.dataGridViewTextBoxColumn34});
+            this.dgv_jh_xm_id,
+            this.dgv_jh_xm_pcode,
+            this.dgv_jh_xm_pname,
+            this.dgv_jh_xm_categor,
+            this.dgv_jh_xm_name,
+            this.dgv_jh_xm_reason,
+            this.dgv_jh_xm_remark});
             this.dgv_JH_XM_FileValid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_JH_XM_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_JH_XM_FileValid.Name = "dgv_JH_XM_FileValid";
             this.dgv_JH_XM_FileValid.RowTemplate.Height = 23;
             this.dgv_JH_XM_FileValid.Size = new System.Drawing.Size(991, 300);
             this.dgv_JH_XM_FileValid.TabIndex = 0;
-            // 
-            // dataGridViewTextBoxColumn28
-            // 
-            this.dataGridViewTextBoxColumn28.HeaderText = "序号";
-            this.dataGridViewTextBoxColumn28.Name = "dataGridViewTextBoxColumn28";
-            this.dataGridViewTextBoxColumn28.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn29
-            // 
-            this.dataGridViewTextBoxColumn29.HeaderText = "项目/课题编号";
-            this.dataGridViewTextBoxColumn29.Name = "dataGridViewTextBoxColumn29";
-            this.dataGridViewTextBoxColumn29.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn30
-            // 
-            this.dataGridViewTextBoxColumn30.HeaderText = "项目/课题名称";
-            this.dataGridViewTextBoxColumn30.Name = "dataGridViewTextBoxColumn30";
-            this.dataGridViewTextBoxColumn30.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn31
-            // 
-            this.dataGridViewTextBoxColumn31.HeaderText = "文件类别";
-            this.dataGridViewTextBoxColumn31.Name = "dataGridViewTextBoxColumn31";
-            this.dataGridViewTextBoxColumn31.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn32
-            // 
-            this.dataGridViewTextBoxColumn32.HeaderText = "文件名称";
-            this.dataGridViewTextBoxColumn32.Name = "dataGridViewTextBoxColumn32";
-            this.dataGridViewTextBoxColumn32.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn33
-            // 
-            this.dataGridViewTextBoxColumn33.HeaderText = "缺少原因";
-            this.dataGridViewTextBoxColumn33.Name = "dataGridViewTextBoxColumn33";
-            // 
-            // dataGridViewTextBoxColumn34
-            // 
-            this.dataGridViewTextBoxColumn34.HeaderText = "备注";
-            this.dataGridViewTextBoxColumn34.Name = "dataGridViewTextBoxColumn34";
             // 
             // tabPage3
             // 
@@ -5881,6 +5803,96 @@
             this.label123.TabIndex = 39;
             this.label123.Text = "编号:";
             // 
+            // dgv_jh_id
+            // 
+            this.dgv_jh_id.HeaderText = "序号";
+            this.dgv_jh_id.Name = "dgv_jh_id";
+            this.dgv_jh_id.ReadOnly = true;
+            // 
+            // dgv_jh_pcode
+            // 
+            this.dgv_jh_pcode.HeaderText = "项目/课题编号";
+            this.dgv_jh_pcode.Name = "dgv_jh_pcode";
+            this.dgv_jh_pcode.ReadOnly = true;
+            // 
+            // dgv_jh_pname
+            // 
+            this.dgv_jh_pname.HeaderText = "项目/课题名称";
+            this.dgv_jh_pname.Name = "dgv_jh_pname";
+            this.dgv_jh_pname.ReadOnly = true;
+            // 
+            // dgv_jh_categor
+            // 
+            this.dgv_jh_categor.HeaderText = "文件类别";
+            this.dgv_jh_categor.Name = "dgv_jh_categor";
+            this.dgv_jh_categor.ReadOnly = true;
+            // 
+            // dgv_jh_name
+            // 
+            this.dgv_jh_name.HeaderText = "文件名称";
+            this.dgv_jh_name.Name = "dgv_jh_name";
+            this.dgv_jh_name.ReadOnly = true;
+            // 
+            // dgv_jh_reason
+            // 
+            this.dgv_jh_reason.HeaderText = "缺少原因";
+            this.dgv_jh_reason.Items.AddRange(new object[] {
+            "汇编",
+            "其它"});
+            this.dgv_jh_reason.Name = "dgv_jh_reason";
+            this.dgv_jh_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_jh_reason.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // dgv_jh_remark
+            // 
+            this.dgv_jh_remark.HeaderText = "备注";
+            this.dgv_jh_remark.Name = "dgv_jh_remark";
+            // 
+            // dgv_jh_xm_id
+            // 
+            this.dgv_jh_xm_id.HeaderText = "序号";
+            this.dgv_jh_xm_id.Name = "dgv_jh_xm_id";
+            this.dgv_jh_xm_id.ReadOnly = true;
+            // 
+            // dgv_jh_xm_pcode
+            // 
+            this.dgv_jh_xm_pcode.HeaderText = "项目/课题编号";
+            this.dgv_jh_xm_pcode.Name = "dgv_jh_xm_pcode";
+            this.dgv_jh_xm_pcode.ReadOnly = true;
+            // 
+            // dgv_jh_xm_pname
+            // 
+            this.dgv_jh_xm_pname.HeaderText = "项目/课题名称";
+            this.dgv_jh_xm_pname.Name = "dgv_jh_xm_pname";
+            this.dgv_jh_xm_pname.ReadOnly = true;
+            // 
+            // dgv_jh_xm_categor
+            // 
+            this.dgv_jh_xm_categor.HeaderText = "文件类别";
+            this.dgv_jh_xm_categor.Name = "dgv_jh_xm_categor";
+            this.dgv_jh_xm_categor.ReadOnly = true;
+            // 
+            // dgv_jh_xm_name
+            // 
+            this.dgv_jh_xm_name.HeaderText = "文件名称";
+            this.dgv_jh_xm_name.Name = "dgv_jh_xm_name";
+            this.dgv_jh_xm_name.ReadOnly = true;
+            // 
+            // dgv_jh_xm_reason
+            // 
+            this.dgv_jh_xm_reason.HeaderText = "缺少原因";
+            this.dgv_jh_xm_reason.Items.AddRange(new object[] {
+            "汇编",
+            "其它"});
+            this.dgv_jh_xm_reason.Name = "dgv_jh_xm_reason";
+            this.dgv_jh_xm_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_jh_xm_reason.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // dgv_jh_xm_remark
+            // 
+            this.dgv_jh_xm_remark.HeaderText = "备注";
+            this.dgv_jh_xm_remark.Name = "dgv_jh_xm_remark";
+            // 
             // Frm_MyWork
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -6100,13 +6112,6 @@
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.TabPage fileCheck;
         private System.Windows.Forms.DataGridView dgv_JH_FileValid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn jh_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn jh_code;
-        private System.Windows.Forms.DataGridViewTextBoxColumn jh_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn jh_cagetor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn jh_fileName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn jh_reason;
-        private System.Windows.Forms.DataGridViewTextBoxColumn jh_remark;
         private System.Windows.Forms.TextBox textBox37;
         private System.Windows.Forms.Label label51;
         private System.Windows.Forms.TextBox textBox38;
@@ -6140,13 +6145,6 @@
         private System.Windows.Forms.DataGridView dgv_JH_XM_FileList;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridView dgv_JH_XM_FileValid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn28;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn29;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn30;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn31;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn32;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn33;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn34;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TextBox textBox40;
         private System.Windows.Forms.Label label56;
@@ -6535,5 +6533,19 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn jh_xm_kt_zkt_form;
         private System.Windows.Forms.DataGridViewTextBoxColumn jh_xm_kt_zkt_link;
         private System.Windows.Forms.DataGridViewTextBoxColumn jh_xm_kt_zkt_remark;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_pcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_pname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_categor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_name;
+        private System.Windows.Forms.DataGridViewComboBoxColumn dgv_jh_reason;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_remark;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_xm_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_xm_pcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_xm_pname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_xm_categor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_xm_name;
+        private System.Windows.Forms.DataGridViewComboBoxColumn dgv_jh_xm_reason;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_jh_xm_remark;
     }
 }
