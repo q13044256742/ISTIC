@@ -23,17 +23,12 @@ namespace 科技计划项目档案数据采集管理系统
             if (!string.IsNullOrEmpty(loginName) && !string.IsNullOrEmpty(loginPassword))
             {
                 UserLogin userLogin = new UserLogin();
-                bool result = true;//userLogin.IsExist(new User(loginName, loginPassword));
+                bool result = userLogin.IsExist(new User(loginName, loginPassword));
                 if (result)
                 {
-                    //userLogin.GetUser(loginName, loginPassword);
-                    User user = new User()
-                    {
-                        RealName = "kyo"
-                    };
+                    User user = userLogin.GetUser(loginName, loginPassword);
                     int i = cbo_Identity.SelectedIndex;
                     user.Remark = i.ToString();
-
                     if (i == 6)
                     {
                         Frm_MainFrameManager fm = new Frm_MainFrameManager(user);
