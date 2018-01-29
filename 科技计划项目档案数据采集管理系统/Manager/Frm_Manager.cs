@@ -36,18 +36,23 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             }
             string tag = (dgv_DataList.Tag).ToString();
 
-            if (searchKey != null)
-            {
-                string querySql = $"select dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from data_dictionary" +
-               $" where {queryKey} like '%" + searchKey + "%' and dd_pId='" + tag + "' order by dd_sort";
-                dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);            
-            }
-            else {
-                string querySql = $"select dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from data_dictionary" +
-               $" where dd_pId='" + tag + "' order by dd_sort";
-                dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+            if (!string.IsNullOrEmpty(queryKey)) {
+                if (!string.IsNullOrEmpty(searchKey))
+                {
+                    string querySql = $"select dd_id,dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from data_dictionary" +
+                   $" where {queryKey} like '%" + searchKey + "%' and dd_pId='" + tag + "' order by dd_sort";
+                    dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+                    dgv_DataList.Columns["dd_id"].Visible = false;
+                }
+                else {
+                    string querySql = $"select dd_id,dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from data_dictionary" +
+                   $" where dd_pId='" + tag + "' order by dd_sort";
+                    dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+                    dgv_DataList.Columns["dd_id"].Visible = false;
+                }
             }
 
+            cbo_SearchType.Text = null;
             dgv_DataList.Tag = tag;
         }
 
@@ -70,6 +75,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             {
                 string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{pId}' order by dd_sort ";
                 dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+                dgv_DataList.Columns["dd_id"].Visible = false;
             }
 
             button1.Enabled = true;
@@ -173,7 +179,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             string sql = $"SELECT level FROM data_dictionary where dd_id = '{pId}'";
             string b = (SqlHelper.ExecuteOnlyOneQuery(sql)).ToString();
                
-            if (b == "1") {
+            if ( b == "1") {
                 button1.Enabled = false;
             }
         }

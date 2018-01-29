@@ -14,19 +14,7 @@ namespace 科技计划项目档案数据采集管理系统
         public Frm_userInfo(string name)
         {
             InitializeComponent();
-            InitialForm();
-        }
-
-        //初始化表单内容
-        private void InitialForm()
-        {
-            string querySql = $"SELECT u.ul_id, u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id ";
-            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-            u_DataList.DataSource = dataTable;
-            u_DataList.Columns["ul_id"].Visible = false;
-
-            //string ul_id = u_DataList.Columns["ul_id"].ToString();
-            //u_DataList.Tag = ul_id;
+            LoadUserDataScoure();
         }
 
         //查询
@@ -49,21 +37,37 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if (index == 3)
             {
+                queryKey = "cellphone";
+            }
+            else if (index == 4)
+            {
                 queryKey = "belong_unit";
             }
-
-
-            if (searchKey != null)
+            else if (index == 5)
             {
-                string querySql = $"select u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id " +
-               $" where {queryKey} like '%" + searchKey + "%'";
-                u_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+                queryKey = "belong_department";
             }
-            else
+            else if (index == 6)
             {
-                string querySql = $"select u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id ";            
-                u_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+                queryKey = "belong_user_group";
             }
+
+            if (!string.IsNullOrEmpty(queryKey)) { 
+                if (!string.IsNullOrEmpty(searchKey))
+                {
+                    string querySql = $"select u.ul_id,u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id " +
+                   $" where {queryKey} like '%" + searchKey + "%'";
+                    u_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);             
+                    u_DataList.Columns["ul_id"].Visible = false;
+                }
+                else
+                {
+                    string querySql = $"select u.ul_id,u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id ";            
+                    u_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
+                    u_DataList.Columns["ul_id"].Visible = false;
+                }
+            }
+            u_SearchKey.Text = null;
         }
 
         //新增
@@ -78,9 +82,11 @@ namespace 科技计划项目档案数据采集管理系统
 
         //加载实时数据
         private void LoadUserDataScoure()
-        {
-            string sql = $"select u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id ";
-            u_DataList.DataSource = SqlHelper.ExecuteQuery(sql);
+        {           
+            string querySql = $"SELECT u.ul_id, u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id ";
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
+            u_DataList.DataSource = dataTable;
+            u_DataList.Columns["ul_id"].Visible = false;
         }
 
         //删除
