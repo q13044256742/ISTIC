@@ -26,11 +26,25 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_TypeSelect.SelectedIndex = 0;
         }
 
-        private void btn_Sure_Click(object sender, EventArgs e)
+        private void Btn_Sure_Click(object sender, EventArgs e)
         {
-            Frm_MyWork frm = new Frm_MyWork(workType, objId, cbo_TypeSelect.SelectedValue);
             Hide();
-            frm.ShowDialog();
+            object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{cbo_TypeSelect.SelectedValue}'");
+            if("dic_plan_imp".Equals(obj))
+            {
+                Frm_MyWork frm = new Frm_MyWork(WorkType.Default, objId, cbo_TypeSelect.SelectedValue, ControlType.Imp);
+                frm.ShowDialog();
+            }
+            else if("dic_imp_dev".Equals(obj))
+            {
+                Frm_MyWork frm = new Frm_MyWork(WorkType.Default, objId, cbo_TypeSelect.SelectedValue, ControlType.Imp_Dev);
+                frm.ShowDialog();
+            }
+            else
+            {
+                Frm_MyWork frm = new Frm_MyWork(workType, objId, cbo_TypeSelect.SelectedValue, ControlType.Default);
+                frm.ShowDialog();
+            }
         }
     }
 }
