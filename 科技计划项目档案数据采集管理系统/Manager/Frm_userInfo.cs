@@ -51,6 +51,10 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 queryKey = "belong_user_group";
             }
+            else if (index == 7)
+            {
+                queryKey = "ip_address";
+            }
 
             if (!string.IsNullOrEmpty(queryKey)) { 
                 if (!string.IsNullOrEmpty(searchKey))
@@ -66,13 +70,12 @@ namespace 科技计划项目档案数据采集管理系统
                     u_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
                     u_DataList.Columns["ul_id"].Visible = false;
                 }
-            }
-            u_SearchKey.Text = null;
+            }          
         }
 
         //新增
         private void U_btnAdd(object sender, EventArgs e)
-        {            
+        {
             Manager.Frm_userInfoAdd frm = new Manager.Frm_userInfoAdd(true,null);
             if (frm.ShowDialog() == DialogResult.OK)
             {
@@ -83,8 +86,10 @@ namespace 科技计划项目档案数据采集管理系统
         //加载实时数据
         private void LoadUserDataScoure()
         {
-            string sql = $"select u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id ";
+            string sql = $"select u.ul_id,u.login_name as 登录名,u.real_name as 真实姓名,r.r_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join role r on u.role_id = r.r_id ";
             u_DataList.DataSource = SqlHelper.ExecuteQuery(sql);
+            u_DataList.Columns["ul_id"].Visible = false;
+            u_SearchKey.Text = null;
         }
 
         //删除
@@ -104,8 +109,7 @@ namespace 科技计划项目档案数据采集管理系统
                         SqlHelper.ExecuteNonQuery(deleteSql);
                       
                         deleteAmount++;
-                    }
-                    
+                    }                  
                     LoadUserDataScoure();
                     MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

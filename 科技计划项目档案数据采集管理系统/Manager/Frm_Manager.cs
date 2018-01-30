@@ -51,14 +51,14 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                     dgv_DataList.Columns["dd_id"].Visible = false;
                 }
             }
-
-            cbo_SearchType.Text = null;
+           
             dgv_DataList.Tag = tag;
         }
 
         //添加
         private void Btn_Add_Click(object sender, EventArgs e)
-        {         
+        {
+            txt_SearchKey.Text = null;
             //获取当前列表的pId
             string pId = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
             Frm_Add frm = new Frm_Add(true, pId, null);
@@ -77,8 +77,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 dgv_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
                 dgv_DataList.Columns["dd_id"].Visible = false;
             }
-
-            button1.Enabled = true;
+            button1.Enabled = true;       
         }
       
         //删除
@@ -113,6 +112,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                     string pId = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
                     LoadZDDataScoure(pId);
                     MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txt_SearchKey.Text = null;
                 }
             }
             else
@@ -128,6 +128,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             {
                 if ("名称".Equals(dgv_DataList.Columns[e.ColumnIndex].Name))
                 {
+                    txt_SearchKey.Text = null;
                     string pid = dgv_DataList.Rows[e.RowIndex].Cells["dd_id"].Value.ToString();
                     string querySql = $"SELECT dd_id, dd_name as 名称,dd_code as 编码,dd_note as 描述,dd_sort as 排序 from  data_dictionary where dd_pId='{pid}' order by dd_sort";
                     DataTable dataTable = SqlHelper.ExecuteQuery(querySql);                
@@ -150,12 +151,12 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 //获取你所选行的id
                 string id = (dgv_DataList.SelectedRows[0]).Cells["dd_id"].Value.ToString();
                 //获取当前列表的pId
-                string pId = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
-                Console.WriteLine("@check id :" + id+"-- pId :"+pId);
+                string pId = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();              
                 Frm_Add frm = new Frm_Add(false, pId, id);
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     LoadZDDataScoure(pId);
+                    txt_SearchKey.Text = null;
                 }
             }
             else
@@ -182,6 +183,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             if ( b == "1") {
                 button1.Enabled = false;
             }
+
+            txt_SearchKey.Text = null;
         }
     }
     
