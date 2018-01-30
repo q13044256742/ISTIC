@@ -161,7 +161,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label8.Location = new System.Drawing.Point(449, 230);
+            this.label8.Location = new System.Drawing.Point(450, 280);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(69, 19);
             this.label8.TabIndex = 43;
@@ -223,6 +223,7 @@
             this.phone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.phone.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.phone.Location = new System.Drawing.Point(522, 178);
+            this.phone.MaxLength = 7;
             this.phone.Name = "phone";
             this.phone.Size = new System.Drawing.Size(271, 26);
             this.phone.TabIndex = 55;
@@ -233,7 +234,7 @@
             this.ip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ip.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ip.Location = new System.Drawing.Point(522, 226);
+            this.ip.Location = new System.Drawing.Point(522, 277);
             this.ip.Name = "ip";
             this.ip.Size = new System.Drawing.Size(271, 26);
             this.ip.TabIndex = 57;
@@ -326,7 +327,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label11.Location = new System.Drawing.Point(436, 280);
+            this.label11.Location = new System.Drawing.Point(435, 229);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(84, 19);
             this.label11.TabIndex = 66;
@@ -337,7 +338,7 @@
             this.real_name.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.real_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.real_name.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.real_name.Location = new System.Drawing.Point(522, 277);
+            this.real_name.Location = new System.Drawing.Point(522, 226);
             this.real_name.Name = "real_name";
             this.real_name.Size = new System.Drawing.Size(271, 26);
             this.real_name.TabIndex = 67;

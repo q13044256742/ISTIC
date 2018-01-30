@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.Manager
@@ -145,10 +146,69 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 MessageBox.Show("密码输入不一致", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
-
+            else if (string.IsNullOrEmpty(real_name.Text.Trim()))
+            {
+                MessageBox.Show("请输入姓名", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            else if (!IsMobile())
+            {
+                MessageBox.Show("请输入有效手机号", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            else if (!IsPhone())
+            {
+                MessageBox.Show("请输入有效电话号", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            else if (!IsEmail())
+            {
+                MessageBox.Show("请输入正确邮箱", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }    
             return true;
         }
-        
+
+        //邮件校验
+        bool IsEmail()
+        {
+            if (!string.IsNullOrEmpty(mail.Text.Trim())) {
+                return Regex.IsMatch(mail.Text.Trim(), "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\\.[a-zA-Z0-9_-]+$");
+            }
+            return true;
+        }
+
+        //手机号校验
+        bool IsMobile() {
+            if (!string.IsNullOrEmpty(mobile.Text.Trim())) {
+                if (mobile.Text.Trim().Length == 11)
+                {
+                    return Regex.IsMatch(mobile.Text.Trim(), @"^[1]+[3,5]+\d{9}");
+                }
+                else {
+                    return false;
+                }           
+            }
+            return true;   
+        }
+
+        //电话号校验
+        bool IsPhone()
+        {
+            if (!string.IsNullOrEmpty(phone.Text.Trim()))
+            {
+                if (phone.Text.Trim().Length == 7)
+                {
+                    return Regex.IsMatch(phone.Text.Trim(), @"^(\d{3,4}-)?\d{6,8}$");
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         //关闭
         private void U_btnClose(object sender, EventArgs e)
         {

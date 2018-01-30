@@ -13,7 +13,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 数据连接字符串
         /// </summary>
-        static string IPAddress = "172.28.28.2";//OperateIniFile.GetInstance().ReadIniData("SQLServer", "IPAddress", "172.24.139.2");
+        static string IPAddress = "192.168.4.118";//OperateIniFile.GetInstance().ReadIniData("SQLServer", "IPAddress", "172.24.139.2");
         static string Username = "sa";// OperateIniFile.GetInstance().ReadIniData("SQLServer", "Username", "sa");
         static string Password = "123456";// OperateIniFile.GetInstance().ReadIniData("SQLServer", "Password", "123456");
         private static string SQL_CONNECT = $"Data Source={IPAddress};Initial Catalog=ISTIC;Persist Security Info=True;User ID={Username};Password={Password}";
