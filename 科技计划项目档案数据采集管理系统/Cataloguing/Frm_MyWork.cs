@@ -154,47 +154,34 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Frm_MyWork_Load(object sender, EventArgs e)
         {
-            //默认初始化首页表格样式
-            dgv_JH_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            dgv_JH_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            //不同加工种类特殊处理
+            if(workType == WorkType.PaperWork)
+            {
+                dgv_JH_FileList.Columns["link"].Visible = false;
+                btn_JH_OpenFile.Visible = false;
 
-            dgv_JH_XM_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_XM_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            dgv_JH_XM_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_XM_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_JH_XM_FileList.Columns["jh_xm_link"].Visible = false;
+                btn_JH_XM_OpenFile.Visible = false;
 
-            dgv_JH_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            dgv_JH_KT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_KT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_JH_KT_FileList.Columns["jh_kt_link"].Visible = false;
+                btn_JH_KT_OpenFile.Visible = false;
 
-            dgv_JH_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            dgv_JH_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_KT_ZKT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_JH_XM_KT_FileList.Columns["jh_xm_kt_link"].Visible = false;
+                btn_JH_XM_KT_OpenFile.Visible = false;
 
-            dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_XM_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            dgv_JH_XM_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_XM_KT_ZKT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_JH_XM_KT_ZKT_FileList.Columns["jh_xm_kt_zkt_link"].Visible = false;
+                btn_JH_XM_KT_ZKT_OpenFile.Visible = false;
 
-            dgv_JH_XM_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_XM_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            dgv_JH_XM_KT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_JH_XM_KT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_JH_KT_ZKT_FileList.Columns["jh_kt_zkt_link"].Visible = false;
+                btn_JH_KT_ZKT_OpenFile.Visible = false;
 
-            dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_Imp_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_Imp_FileList.Columns["imp_link"].Visible = false;
+                btn_Imp_OpenFile.Visible = false;
 
-            dgv_Imp_Dev_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_Imp_Dev_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            dgv_Imp_Dev_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_Imp_Dev_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-
+                dgv_Imp_Dev_FileList.Columns["imp_dev_link"].Visible = false;
+                btn_Imp_Dev_OpenFile.Visible = false;
+            }
+            
             //阶段
             InitialStageList(dgv_JH_FileList.Columns["stage"]);
             InitialStageList(dgv_JH_XM_FileList.Columns["jh_xm_stage"]);
@@ -844,7 +831,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else
+                        else if(workType== WorkType.CDWork || workType == WorkType.PaperWork)
                             LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
                     }
                 }
@@ -925,7 +912,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else
+                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                             LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
                     }
                 }
@@ -1007,7 +994,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else
+                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                             LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
                     }
                 }
@@ -1089,7 +1076,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else
+                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                             LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
                     }
                 }
@@ -1252,7 +1239,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else
+                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                             LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
                     }
                 }
@@ -1320,7 +1307,7 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("操作成功！");
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else
+                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                             LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
                     }
                 }
@@ -1401,7 +1388,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else
+                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                             LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
                     }
                 }
@@ -2017,7 +2004,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
             //计划
-            else
+            else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
             {
                 object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{sourceId}'");
                 if(_obj == null)
@@ -2095,7 +2082,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project", 2);
                     LoadPageBasicInfo(e.Node.Name, type);
                 }
-                else
+                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Name);
@@ -2119,7 +2106,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project", 2);
                     LoadPageBasicInfo(e.Node.Name, type);
                 }
-                else
+                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Name);
@@ -2145,7 +2132,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project_topic", 3);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
                 }
-                else
+                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Parent.Name);
@@ -2174,7 +2161,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_topic_subtopic", 3);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Topic_Subtopic);
                 }
-                else
+                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                 {
 
                     ShowTab("plan", 0);
@@ -2206,7 +2193,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project_topic_subtopic", 4);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic_Subtopic);
                 }
-                else
+                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                 {
                     tab_MenuList.TabPages.Clear();
 

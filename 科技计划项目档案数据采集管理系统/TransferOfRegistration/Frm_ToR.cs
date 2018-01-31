@@ -136,7 +136,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btn_Add_Click(object sender, EventArgs e)
+        private void Btn_Add_Click(object sender, EventArgs e)
         {
             //获取当前列表所属来源单位id
             string unitCode = dgv_SWDJ.Tag == null ? string.Empty : dgv_SWDJ.Tag.ToString();

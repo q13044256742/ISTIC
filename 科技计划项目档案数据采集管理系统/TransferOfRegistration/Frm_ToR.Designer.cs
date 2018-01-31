@@ -162,7 +162,7 @@
             this.btn_Add.TabIndex = 0;
             this.btn_Add.Text = "添加(&A)";
             this.btn_Add.UseVisualStyleBackColor = true;
-            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
+            this.btn_Add.Click += new System.EventHandler(this.Btn_Add_Click);
             // 
             // dgv_SWDJ
             // 

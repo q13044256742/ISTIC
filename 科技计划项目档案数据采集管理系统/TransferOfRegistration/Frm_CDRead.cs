@@ -22,6 +22,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         private void btn_DS_Choose_Click(object sender, EventArgs e)
         {
             FileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "xml|*.xml";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 txt_DS_Path.Text = dialog.FileName;
@@ -44,6 +45,11 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 btn_Sure.Enabled = false;
                 FolderHelper.GetInstance(pgb_CD).CopyDirectory(sPath, tPath, true, SetTipMsg);
                 btn_Sure.Enabled = true;
+            }
+            string dPath = txt_DS_Path.Text;
+            if(!string.IsNullOrEmpty(dPath))
+            {
+                
             }
         }
 
