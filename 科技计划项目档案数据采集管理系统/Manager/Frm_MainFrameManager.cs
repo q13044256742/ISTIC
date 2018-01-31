@@ -122,7 +122,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
       
-        /// 字典管理---二级菜单点击事件  
+        // 字典管理---二级菜单点击事件  
         private void Sub_Menu_Click(object sender, EventArgs e)
         {
             Control control = null;

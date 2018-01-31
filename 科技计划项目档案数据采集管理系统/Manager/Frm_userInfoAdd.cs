@@ -46,8 +46,20 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             real_name.Text = _obj[4].ToString();
             mail.Text = _obj[5].ToString();
             mobile.Text = _obj[6].ToString();
-            phone.Text = _obj[7].ToString();      
-            ip.Text = _obj[8].ToString();
+            phone.Text = _obj[7].ToString();                 
+            string ip = _obj[8].ToString();
+            string[] array = ip.Split('.');
+            if (array.Length != 0) {
+                ip_1.Text = array[0];
+                ip_2.Text = array[1];
+                ip_3.Text = array[2];
+                ip_4.Text = array[3];
+                ip_5.Text = array[4];
+                ip_6.Text = array[5];
+                ip_7.Text = array[6];
+                ip_8.Text = array[7];
+            }
+          
             note.Text = _obj[9].ToString();
             role_box.SelectedValue = _obj[10].ToString();
             belong_userGroup.SelectedValue = _obj[11].ToString();
@@ -83,7 +95,15 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 string _mobile = mobile.Text.Trim();
                 string _phone = phone.Text.Trim();
                 string _mail = mail.Text.Trim();
-                string _ip = ip.Text.Trim();
+                string _ip_1 = ip_1.Text.Trim();
+                string _ip_2 = ip_2.Text.Trim();
+                string _ip_3 = ip_3.Text.Trim();
+                string _ip_4 = ip_4.Text.Trim();
+                string _ip_5 = ip_5.Text.Trim();
+                string _ip_6 = ip_6.Text.Trim();
+                string _ip_7 = ip_7.Text.Trim();
+                string _ip_8 = ip_8.Text.Trim();
+                string _ip = _ip_1 + '.' + _ip_2 + '.' + _ip_3 + '.' + _ip_4 + '.' + _ip_5 + '.' + _ip_6 + '.' + _ip_7 + '.' + _ip_8;              
                 string _note = note.Text.Trim();            
                 string _real_name = real_name.Text.Trim();
                // string _belong_userGroup = belong_userGroup.SelectedValue.ToString().Trim();
@@ -165,7 +185,12 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             {
                 MessageBox.Show("请输入正确邮箱", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
-            }    
+            }
+            else if (!IsIp())
+            {
+                MessageBox.Show("请输入正确IP", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
             return true;
         }
 
@@ -197,9 +222,9 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         {
             if (!string.IsNullOrEmpty(phone.Text.Trim()))
             {
-                if (phone.Text.Trim().Length == 7)
+                if (phone.Text.Trim().Length == 11)
                 {
-                    return Regex.IsMatch(phone.Text.Trim(), @"^(\d{3,4}-)?\d{6,8}$");
+                    return Regex.IsMatch(phone.Text.Trim(), @"(\d{11})|^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$");
                 }
                 else
                 {
@@ -207,6 +232,26 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 }
             }
             return true;
+        }
+
+        bool IsIp()
+        {                     
+            if (!string.IsNullOrEmpty(ip_1.Text.Trim()) && !string.IsNullOrEmpty(ip_2.Text.Trim()) && !string.IsNullOrEmpty(ip_3.Text.Trim()) && !string.IsNullOrEmpty(ip_4.Text.Trim()) 
+                && !string.IsNullOrEmpty(ip_5.Text.Trim()) && !string.IsNullOrEmpty(ip_6.Text.Trim()) && !string.IsNullOrEmpty(ip_7.Text.Trim()) && !string.IsNullOrEmpty(ip_8.Text.Trim()))
+            {
+                string _ip_1 = ip_1.Text.Trim();
+                string _ip_2 = ip_2.Text.Trim();
+                string _ip_3 = ip_3.Text.Trim();
+                string _ip_4 = ip_4.Text.Trim();
+                string _ip_5 = ip_5.Text.Trim();
+                string _ip_6 = ip_6.Text.Trim();
+                string _ip_7 = ip_7.Text.Trim();
+                string _ip_8 = ip_8.Text.Trim();
+                string _ip = _ip_1 + '.' + _ip_2 + '.' + _ip_3 + '.' + _ip_4 +'.'+ _ip_5 + '.' + _ip_6 + '.' + _ip_7 + '.' + _ip_8;
+                              
+                return Regex.IsMatch(_ip, "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."+ "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$");
+            }
+            return false;
         }
 
         //关闭
