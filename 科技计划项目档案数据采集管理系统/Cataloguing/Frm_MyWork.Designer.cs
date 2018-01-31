@@ -94,7 +94,7 @@
             this.pal_JH_BasicInfo = new System.Windows.Forms.Panel();
             this.lbl_PlanIntroducation = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.cbo_JH_Next = new System.Windows.Forms.ComboBox();
+            this.cbo_JH_HasNext = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_JH_Name = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -633,7 +633,7 @@
             this.lbl_Imp_Box_Add = new System.Windows.Forms.LinkLabel();
             this.cbo_Imp_Box = new System.Windows.Forms.ComboBox();
             this.label132 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pal_Imp_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_Imp_Submit = new System.Windows.Forms.Button();
             this.btn_Imp_Save = new System.Windows.Forms.Button();
             this.btn_Imp_OpenFile = new System.Windows.Forms.Button();
@@ -701,11 +701,11 @@
             this.lbl_Imp_Dev_Box_Add = new System.Windows.Forms.LinkLabel();
             this.cbo_Imp_Dev_Box = new System.Windows.Forms.ComboBox();
             this.label145 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.pal_Imp_Dev_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_Imp_Dev_Submit = new System.Windows.Forms.Button();
             this.btn_Imp_Sub_Save = new System.Windows.Forms.Button();
             this.btn_Imp_Dev_OpenFile = new System.Windows.Forms.Button();
-            this.pal_Imp_Sub = new System.Windows.Forms.Panel();
+            this.pal_Imp_Dev = new System.Windows.Forms.Panel();
             this.txt_Imp_Dev_Unit = new System.Windows.Forms.TextBox();
             this.label151 = new System.Windows.Forms.Label();
             this.txt_Imp_Dev_Name = new System.Windows.Forms.TextBox();
@@ -790,7 +790,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_FileValid)).BeginInit();
             this.tabPage23.SuspendLayout();
             this.tabPage24.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.pal_Imp_BtnGroup.SuspendLayout();
             this.pal_Imp.SuspendLayout();
             this.imp_dev.SuspendLayout();
             this.tab_Imp_Dev_FileInfo.SuspendLayout();
@@ -800,8 +800,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_Dev_FileValid)).BeginInit();
             this.tabPage27.SuspendLayout();
             this.tabPage28.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.pal_Imp_Sub.SuspendLayout();
+            this.pal_Imp_Dev_BtnGroup.SuspendLayout();
+            this.pal_Imp_Dev.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView
@@ -1418,7 +1418,7 @@
             // 
             this.pal_JH_BasicInfo.Controls.Add(this.lbl_PlanIntroducation);
             this.pal_JH_BasicInfo.Controls.Add(this.label5);
-            this.pal_JH_BasicInfo.Controls.Add(this.cbo_JH_Next);
+            this.pal_JH_BasicInfo.Controls.Add(this.cbo_JH_HasNext);
             this.pal_JH_BasicInfo.Controls.Add(this.label1);
             this.pal_JH_BasicInfo.Controls.Add(this.lbl_JH_Name);
             this.pal_JH_BasicInfo.Controls.Add(this.label4);
@@ -1448,20 +1448,20 @@
             this.label5.TabIndex = 6;
             this.label5.Text = "下一级:";
             // 
-            // cbo_JH_Next
+            // cbo_JH_HasNext
             // 
-            this.cbo_JH_Next.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbo_JH_Next.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbo_JH_Next.FormattingEnabled = true;
-            this.cbo_JH_Next.Items.AddRange(new object[] {
+            this.cbo_JH_HasNext.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_JH_HasNext.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbo_JH_HasNext.FormattingEnabled = true;
+            this.cbo_JH_HasNext.Items.AddRange(new object[] {
             "无",
             "项目",
             "课题"});
-            this.cbo_JH_Next.Location = new System.Drawing.Point(133, 191);
-            this.cbo_JH_Next.Name = "cbo_JH_Next";
-            this.cbo_JH_Next.Size = new System.Drawing.Size(105, 24);
-            this.cbo_JH_Next.TabIndex = 7;
-            this.cbo_JH_Next.SelectionChangeCommitted += new System.EventHandler(this.Cbo_JH_Next_SelectionChangeCommitted);
+            this.cbo_JH_HasNext.Location = new System.Drawing.Point(133, 191);
+            this.cbo_JH_HasNext.Name = "cbo_JH_HasNext";
+            this.cbo_JH_HasNext.Size = new System.Drawing.Size(105, 24);
+            this.cbo_JH_HasNext.TabIndex = 7;
+            this.cbo_JH_HasNext.SelectionChangeCommitted += new System.EventHandler(this.Cbo_JH_Next_SelectionChangeCommitted);
             // 
             // label1
             // 
@@ -3452,6 +3452,8 @@
             this.dgv_JH_XM_KT_FileList.RowTemplate.Height = 23;
             this.dgv_JH_XM_KT_FileList.Size = new System.Drawing.Size(985, 294);
             this.dgv_JH_XM_KT_FileList.TabIndex = 0;
+            this.dgv_JH_XM_KT_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
+            this.dgv_JH_XM_KT_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
             // jh_xm_kt_id
             // 
@@ -4394,6 +4396,8 @@
             this.dgv_JH_XM_KT_ZKT_FileList.RowTemplate.Height = 23;
             this.dgv_JH_XM_KT_ZKT_FileList.Size = new System.Drawing.Size(985, 294);
             this.dgv_JH_XM_KT_ZKT_FileList.TabIndex = 0;
+            this.dgv_JH_XM_KT_ZKT_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
+            this.dgv_JH_XM_KT_ZKT_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
             // jh_xm_kt_zkt_id
             // 
@@ -5284,6 +5288,8 @@
             this.dgv_JH_KT_ZKT_FileList.RowTemplate.Height = 23;
             this.dgv_JH_KT_ZKT_FileList.Size = new System.Drawing.Size(985, 294);
             this.dgv_JH_KT_ZKT_FileList.TabIndex = 0;
+            this.dgv_JH_KT_ZKT_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
+            this.dgv_JH_KT_ZKT_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
             // jh_kt_zkt_id
             // 
@@ -6114,7 +6120,7 @@
             // imp
             // 
             this.imp.Controls.Add(this.tab_Imp_FileInfo);
-            this.imp.Controls.Add(this.panel1);
+            this.imp.Controls.Add(this.pal_Imp_BtnGroup);
             this.imp.Controls.Add(this.pal_Imp);
             this.imp.Location = new System.Drawing.Point(4, 26);
             this.imp.Name = "imp";
@@ -6526,6 +6532,7 @@
             this.btn_Imp_Box_LeftAll.TabIndex = 11;
             this.btn_Imp_Box_LeftAll.Text = "<<";
             this.btn_Imp_Box_LeftAll.UseVisualStyleBackColor = true;
+            this.btn_Imp_Box_LeftAll.Click += new System.EventHandler(this.Btn_Box_Click);
             // 
             // btn_Imp_Box_Left
             // 
@@ -6536,6 +6543,7 @@
             this.btn_Imp_Box_Left.TabIndex = 10;
             this.btn_Imp_Box_Left.Text = "<";
             this.btn_Imp_Box_Left.UseVisualStyleBackColor = true;
+            this.btn_Imp_Box_Left.Click += new System.EventHandler(this.Btn_Box_Click);
             // 
             // btn_Imp_Box_RightAll
             // 
@@ -6546,6 +6554,7 @@
             this.btn_Imp_Box_RightAll.TabIndex = 9;
             this.btn_Imp_Box_RightAll.Text = ">>";
             this.btn_Imp_Box_RightAll.UseVisualStyleBackColor = true;
+            this.btn_Imp_Box_RightAll.Click += new System.EventHandler(this.Btn_Box_Click);
             // 
             // btn_Imp_Box_Right
             // 
@@ -6556,6 +6565,7 @@
             this.btn_Imp_Box_Right.TabIndex = 8;
             this.btn_Imp_Box_Right.Text = ">";
             this.btn_Imp_Box_Right.UseVisualStyleBackColor = true;
+            this.btn_Imp_Box_Right.Click += new System.EventHandler(this.Btn_Box_Click);
             // 
             // lsv_Imp_File2
             // 
@@ -6646,17 +6656,17 @@
             this.label132.TabIndex = 0;
             this.label132.Text = "盒号:";
             // 
-            // panel1
+            // pal_Imp_BtnGroup
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.btn_Imp_Submit);
-            this.panel1.Controls.Add(this.btn_Imp_Save);
-            this.panel1.Controls.Add(this.btn_Imp_OpenFile);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 236);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(999, 372);
-            this.panel1.TabIndex = 5;
+            this.pal_Imp_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Submit);
+            this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Save);
+            this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_OpenFile);
+            this.pal_Imp_BtnGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pal_Imp_BtnGroup.Location = new System.Drawing.Point(3, 236);
+            this.pal_Imp_BtnGroup.Name = "pal_Imp_BtnGroup";
+            this.pal_Imp_BtnGroup.Size = new System.Drawing.Size(999, 372);
+            this.pal_Imp_BtnGroup.TabIndex = 5;
             // 
             // btn_Imp_Submit
             // 
@@ -6667,6 +6677,7 @@
             this.btn_Imp_Submit.TabIndex = 9;
             this.btn_Imp_Submit.Text = "提交(&B)";
             this.btn_Imp_Submit.UseVisualStyleBackColor = true;
+            this.btn_Imp_Submit.Click += new System.EventHandler(this.Btn_Submit_Click);
             // 
             // btn_Imp_Save
             // 
@@ -6768,8 +6779,8 @@
             // imp_dev
             // 
             this.imp_dev.Controls.Add(this.tab_Imp_Dev_FileInfo);
-            this.imp_dev.Controls.Add(this.panel3);
-            this.imp_dev.Controls.Add(this.pal_Imp_Sub);
+            this.imp_dev.Controls.Add(this.pal_Imp_Dev_BtnGroup);
+            this.imp_dev.Controls.Add(this.pal_Imp_Dev);
             this.imp_dev.Location = new System.Drawing.Point(4, 26);
             this.imp_dev.Name = "imp_dev";
             this.imp_dev.Size = new System.Drawing.Size(1005, 611);
@@ -7303,17 +7314,17 @@
             this.label145.TabIndex = 0;
             this.label145.Text = "盒号:";
             // 
-            // panel3
+            // pal_Imp_Dev_BtnGroup
             // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.btn_Imp_Dev_Submit);
-            this.panel3.Controls.Add(this.btn_Imp_Sub_Save);
-            this.panel3.Controls.Add(this.btn_Imp_Dev_OpenFile);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 233);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1005, 378);
-            this.panel3.TabIndex = 5;
+            this.pal_Imp_Dev_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Dev_Submit);
+            this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Sub_Save);
+            this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Dev_OpenFile);
+            this.pal_Imp_Dev_BtnGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pal_Imp_Dev_BtnGroup.Location = new System.Drawing.Point(0, 233);
+            this.pal_Imp_Dev_BtnGroup.Name = "pal_Imp_Dev_BtnGroup";
+            this.pal_Imp_Dev_BtnGroup.Size = new System.Drawing.Size(1005, 378);
+            this.pal_Imp_Dev_BtnGroup.TabIndex = 5;
             // 
             // btn_Imp_Dev_Submit
             // 
@@ -7347,23 +7358,23 @@
             this.btn_Imp_Dev_OpenFile.UseVisualStyleBackColor = true;
             this.btn_Imp_Dev_OpenFile.Click += new System.EventHandler(this.Btn_OpenFile_Click);
             // 
-            // pal_Imp_Sub
+            // pal_Imp_Dev
             // 
-            this.pal_Imp_Sub.Controls.Add(this.txt_Imp_Dev_Unit);
-            this.pal_Imp_Sub.Controls.Add(this.label151);
-            this.pal_Imp_Sub.Controls.Add(this.txt_Imp_Dev_Name);
-            this.pal_Imp_Sub.Controls.Add(this.txt_Imp_Dev_Code);
-            this.pal_Imp_Sub.Controls.Add(this.lbl_Imp_Dev_Intro);
-            this.pal_Imp_Sub.Controls.Add(this.label147);
-            this.pal_Imp_Sub.Controls.Add(this.cbo_Imp_Dev_HasNext);
-            this.pal_Imp_Sub.Controls.Add(this.label148);
-            this.pal_Imp_Sub.Controls.Add(this.label149);
-            this.pal_Imp_Sub.Controls.Add(this.label150);
-            this.pal_Imp_Sub.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pal_Imp_Sub.Location = new System.Drawing.Point(0, 0);
-            this.pal_Imp_Sub.Name = "pal_Imp_Sub";
-            this.pal_Imp_Sub.Size = new System.Drawing.Size(1005, 233);
-            this.pal_Imp_Sub.TabIndex = 6;
+            this.pal_Imp_Dev.Controls.Add(this.txt_Imp_Dev_Unit);
+            this.pal_Imp_Dev.Controls.Add(this.label151);
+            this.pal_Imp_Dev.Controls.Add(this.txt_Imp_Dev_Name);
+            this.pal_Imp_Dev.Controls.Add(this.txt_Imp_Dev_Code);
+            this.pal_Imp_Dev.Controls.Add(this.lbl_Imp_Dev_Intro);
+            this.pal_Imp_Dev.Controls.Add(this.label147);
+            this.pal_Imp_Dev.Controls.Add(this.cbo_Imp_Dev_HasNext);
+            this.pal_Imp_Dev.Controls.Add(this.label148);
+            this.pal_Imp_Dev.Controls.Add(this.label149);
+            this.pal_Imp_Dev.Controls.Add(this.label150);
+            this.pal_Imp_Dev.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pal_Imp_Dev.Location = new System.Drawing.Point(0, 0);
+            this.pal_Imp_Dev.Name = "pal_Imp_Dev";
+            this.pal_Imp_Dev.Size = new System.Drawing.Size(1005, 233);
+            this.pal_Imp_Dev.TabIndex = 6;
             // 
             // txt_Imp_Dev_Unit
             // 
@@ -7574,7 +7585,7 @@
             this.tabPage23.PerformLayout();
             this.tabPage24.ResumeLayout(false);
             this.tabPage24.PerformLayout();
-            this.panel1.ResumeLayout(false);
+            this.pal_Imp_BtnGroup.ResumeLayout(false);
             this.pal_Imp.ResumeLayout(false);
             this.pal_Imp.PerformLayout();
             this.imp_dev.ResumeLayout(false);
@@ -7587,9 +7598,9 @@
             this.tabPage27.PerformLayout();
             this.tabPage28.ResumeLayout(false);
             this.tabPage28.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.pal_Imp_Sub.ResumeLayout(false);
-            this.pal_Imp_Sub.PerformLayout();
+            this.pal_Imp_Dev_BtnGroup.ResumeLayout(false);
+            this.pal_Imp_Dev.ResumeLayout(false);
+            this.pal_Imp_Dev.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -7606,7 +7617,7 @@
         private System.Windows.Forms.TabPage addPaper;
         private System.Windows.Forms.TabPage box;
         private System.Windows.Forms.Label lbl_PlanIntroducation;
-        private System.Windows.Forms.ComboBox cbo_JH_Next;
+        private System.Windows.Forms.ComboBox cbo_JH_HasNext;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lbl_JH_Name;
@@ -8178,7 +8189,7 @@
         private System.Windows.Forms.LinkLabel lbl_Imp_Box_Add;
         private System.Windows.Forms.ComboBox cbo_Imp_Box;
         private System.Windows.Forms.Label label132;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pal_Imp_BtnGroup;
         private System.Windows.Forms.Button btn_Imp_Submit;
         private System.Windows.Forms.Button btn_Imp_Save;
         private System.Windows.Forms.Button btn_Imp_OpenFile;
@@ -8223,11 +8234,11 @@
         private System.Windows.Forms.LinkLabel lbl_Imp_Dev_Box_Add;
         private System.Windows.Forms.ComboBox cbo_Imp_Dev_Box;
         private System.Windows.Forms.Label label145;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel pal_Imp_Dev_BtnGroup;
         private System.Windows.Forms.Button btn_Imp_Dev_Submit;
         private System.Windows.Forms.Button btn_Imp_Sub_Save;
         private System.Windows.Forms.Button btn_Imp_Dev_OpenFile;
-        private System.Windows.Forms.Panel pal_Imp_Sub;
+        private System.Windows.Forms.Panel pal_Imp_Dev;
         private System.Windows.Forms.TextBox txt_Imp_Dev_Unit;
         private System.Windows.Forms.Label label151;
         private System.Windows.Forms.TextBox txt_Imp_Dev_Name;
