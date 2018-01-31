@@ -389,11 +389,13 @@ namespace 科技计划项目档案数据采集管理系统
             private string text;
             private Image image;
             private bool hasNext;
+            private string code;
 
             public string Name { get => name; set => name = value; }
             public string Text { get => text; set => text = value; }
             public Image Image { get => image; set => image = value; }
             public bool HasNext { get => hasNext; set => hasNext = value; }
+            public string Code { get => code; set => code = value; }
         }
     }
 }

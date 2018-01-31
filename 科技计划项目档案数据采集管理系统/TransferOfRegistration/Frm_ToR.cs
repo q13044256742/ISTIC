@@ -295,7 +295,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         {
                             if (MessageBox.Show("确定要提交当前选中项吗？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                string updateSql = $"UPDATE transfer_registration_pc SET trp_submit_status={WorkStatus.NonWork} WHERE trp_id='" + currentRowId + "'";
+                                string updateSql = $"UPDATE transfer_registration_pc SET trp_submit_status={(int)ObjectSubmitStatus.SubmitSuccess} WHERE trp_id='{currentRowId}'";
                                 SqlHelper.ExecuteNonQuery(updateSql);
                                 LoadPCDataScoure(null);
                             }
