@@ -87,6 +87,18 @@
     <Compile Include="Frm_ProTypeSelect.Designer.cs">
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manager\Frm_userGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager\Frm_userGroup.Designer.cs">
+      <DependentUpon>Frm_userGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manager\Frm_userGroupAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager\Frm_userGroupAdd.Designer.cs">
+      <DependentUpon>Frm_userGroupAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Manager\Frm_userInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,6 +197,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_ProTypeSelect.resx">
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manager\Frm_userGroup.resx">
+      <DependentUpon>Frm_userGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manager\Frm_userGroupAdd.resx">
+      <DependentUpon>Frm_userGroupAdd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_userInfo.resx">
       <DependentUpon>Frm_userInfo.cs</DependentUpon>

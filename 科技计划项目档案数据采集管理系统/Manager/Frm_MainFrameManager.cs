@@ -116,9 +116,24 @@ namespace 科技计划项目档案数据采集管理系统
 
             if (!string.IsNullOrEmpty(control.Name))
             {
-                Frm_userInfo frm = new Frm_userInfo(control.Name);
-                frm.MdiParent = this;
-                frm.Show();
+                string id = control.Name;
+                string sql = $"select bm_code from background_management where bm_id = '{id}'";
+                string code = (string)SqlHelper.ExecuteOnlyOneQuery(sql);
+             
+                if (!string.IsNullOrEmpty(code)) {
+                    if ("userGroup_ dictionary".Equals(code))//用户组
+                    {
+                        Frm_userGroup frm = new Frm_userGroup(control.Name);
+                        frm.MdiParent = this;
+                        frm.Show();                      
+                    }
+                    else if("userInfo_ dictionary".Equals(code))//用户信息
+                    {
+                        Frm_userInfo frm = new Frm_userInfo(control.Name);
+                        frm.MdiParent = this;
+                        frm.Show();
+                    }
+                }                 
             }
         }
       
