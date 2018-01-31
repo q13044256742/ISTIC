@@ -3,9 +3,27 @@
 namespace 科技计划项目档案数据采集管理系统
 {
     /// <summary>
+    /// 对象提交状态
+    /// </summary>
+    enum ObjectSubmitStatus
+    {
+        /// <summary>
+        /// 默认
+        /// </summary>
+        Default = 0,
+        /// <summary>
+        /// 未提交/未完成
+        /// </summary>
+        NonSubmit = 1,
+        /// <summary>
+        /// 已提交/已完成
+        /// </summary>
+        SubmitSuccess = 2
+    }
+    /// <summary>
     /// 当前操作对象类型
     /// </summary>
-    enum ControlType
+    public enum ControlType
     {
         /// <summary>
         /// 默认
@@ -34,7 +52,23 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 计划-项目-课题-子课题
         /// </summary>
-        Plan_Project_Topic_Subtopic = 6
+        Plan_Project_Topic_Subtopic = 6,
+        /// <summary>
+        /// 重大专项
+        /// </summary>
+        Imp = 7,
+        /// <summary>
+        /// 重大专项信息
+        /// </summary>
+        Imp_Sub = 8,
+        /// <summary>
+        /// 重点研发
+        /// </summary>
+        Imp_Dev = 9,
+        /// <summary>
+        /// 重点研发信息
+        /// </summary>
+        Imp_Dev_Sub = 10
     }
     /// <summary>
     /// 文件归档状态

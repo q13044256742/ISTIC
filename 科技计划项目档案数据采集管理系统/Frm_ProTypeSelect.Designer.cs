@@ -59,7 +59,7 @@
             this.btn_Sure.TabIndex = 2;
             this.btn_Sure.Text = "确定";
             this.btn_Sure.UseVisualStyleBackColor = true;
-            this.btn_Sure.Click += new System.EventHandler(this.btn_Sure_Click);
+            this.btn_Sure.Click += new System.EventHandler(this.Btn_Sure_Click);
             // 
             // Frm_ProTypeSelect
             // 
