@@ -20,7 +20,7 @@ namespace 科技计划项目档案数据采集管理系统
         //加载实时数据
         private void LoadUserGroupDataScoure()
         {
-            string sql = $"select ug_id,ug_name as 用户组名称,ug_code as 编码, ug_note as 说明,ug_sort as 排序 from user_group";
+            string sql = $"select ug_id,ug_name as 用户组名称,ug_code as 编码, ug_note as 说明,ug_sort as 排序 from user_group order by ug_sort";
             userGroup_DataList.DataSource = SqlHelper.ExecuteQuery(sql);
             userGroup_DataList.Columns["ug_id"].Visible = false;
             userGroup_SearchKey.Text = null;
@@ -50,13 +50,13 @@ namespace 科技计划项目档案数据采集管理系统
                 if (!string.IsNullOrEmpty(searchKey))
                 {
                     string querySql = $"select ug_id,ug_name as 用户组名称,ug_code as 编码, ug_note as 说明,ug_sort as 排序 from user_group" +
-                   $" where {queryKey} like '%" + searchKey + "%'";
+                   $" where {queryKey} like '%" + searchKey + "%' order by ug_sort";
                     userGroup_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
                     userGroup_DataList.Columns["ug_id"].Visible = false;
                 }
                 else
                 {
-                    string querySql = $"select ug_id,ug_name as 用户组名称,ug_code as 编码, ug_note as 说明,ug_sort as 排序 from user_group";
+                    string querySql = $"select ug_id,ug_name as 用户组名称,ug_code as 编码, ug_note as 说明,ug_sort as 排序 from user_group order by ug_sort";
                     userGroup_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
                     userGroup_DataList.Columns["ug_id"].Visible = false;
                 }
@@ -66,20 +66,61 @@ namespace 科技计划项目档案数据采集管理系统
 
         //添加
         private void UG_btnAdd(object sender, EventArgs e)
-        {
-
+        {       
+            Manager.Frm_userGroupAdd frm = new Manager.Frm_userGroupAdd(true,null);
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                LoadUserGroupDataScoure();
+            }
         }
 
         //更新
         private void UG_btnUpdate(object sender, EventArgs e)
         {
-
+            int amount = userGroup_DataList.SelectedRows.Count;
+            if (amount == 1)
+            {
+                //获取你所选行的id
+                string id = userGroup_DataList.SelectedRows[0].Cells["ug_id"].Value.ToString();
+               
+                Manager.Frm_userGroupAdd frm = new Manager.Frm_userGroupAdd(false, id);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadUserGroupDataScoure();
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先选择一条要修改的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
 
         //删除
         private void UG_btnDel(object sender, EventArgs e)
         {
+            int amount = userGroup_DataList.SelectedRows.Count;
+            if (amount > 0)
+            {
 
+                if (MessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                {
+                    int deleteAmount = 0;
+                    foreach (DataGridViewRow row in userGroup_DataList.SelectedRows)
+                    {
+                        string id = row.Cells["ug_id"].Value.ToString();
+                        string deleteSql = $"DELETE FROM user_group WHERE ug_id = '{id}'";
+                        SqlHelper.ExecuteNonQuery(deleteSql);
+
+                        deleteAmount++;
+                    }
+                    LoadUserGroupDataScoure();
+                    MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
     }
 }

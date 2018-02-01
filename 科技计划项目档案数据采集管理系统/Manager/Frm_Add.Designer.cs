@@ -40,6 +40,9 @@
             this.btn_Save = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.textBox3)).BeginInit();
             this.SuspendLayout();
             // 
@@ -160,11 +163,47 @@
             this.textBox3.Size = new System.Drawing.Size(377, 21);
             this.textBox3.TabIndex = 24;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label6.ForeColor = System.Drawing.Color.Red;
+            this.label6.Location = new System.Drawing.Point(555, 71);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(16, 19);
+            this.label6.TabIndex = 110;
+            this.label6.Text = "*";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label7.ForeColor = System.Drawing.Color.Red;
+            this.label7.Location = new System.Drawing.Point(555, 122);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(16, 19);
+            this.label7.TabIndex = 111;
+            this.label7.Text = "*";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label8.ForeColor = System.Drawing.Color.Red;
+            this.label8.Location = new System.Drawing.Point(555, 174);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(16, 19);
+            this.label8.TabIndex = 112;
+            this.label8.Text = "*";
+            // 
             // Frm_Add
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(634, 461);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btn_Save);
@@ -200,5 +239,8 @@
         private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NumericUpDown textBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
     }
 }
