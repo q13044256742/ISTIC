@@ -45,7 +45,6 @@
             this.belong_bm = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.phone = new System.Windows.Forms.TextBox();
-            this.belong_userGroup = new System.Windows.Forms.ComboBox();
             this.role_box = new System.Windows.Forms.ComboBox();
             this.login_name = new System.Windows.Forms.TextBox();
             this.password = new System.Windows.Forms.TextBox();
@@ -78,6 +77,7 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.btn_Select = new System.Windows.Forms.Button();
+            this.belong_userGroup = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -203,7 +203,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label10.Location = new System.Drawing.Point(78, 412);
+            this.label10.Location = new System.Drawing.Point(78, 403);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(54, 19);
             this.label10.TabIndex = 45;
@@ -250,16 +250,6 @@
             this.phone.Size = new System.Drawing.Size(271, 26);
             this.phone.TabIndex = 55;
             this.phone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Phone_keyPress);
-            // 
-            // belong_userGroup
-            // 
-            this.belong_userGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.belong_userGroup.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.belong_userGroup.FormattingEnabled = true;
-            this.belong_userGroup.Location = new System.Drawing.Point(136, 335);
-            this.belong_userGroup.Name = "belong_userGroup";
-            this.belong_userGroup.Size = new System.Drawing.Size(271, 24);
-            this.belong_userGroup.TabIndex = 58;
             // 
             // role_box
             // 
@@ -588,7 +578,7 @@
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.label27.ForeColor = System.Drawing.Color.Red;
-            this.label27.Location = new System.Drawing.Point(410, 338);
+            this.label27.Location = new System.Drawing.Point(796, 339);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(16, 19);
             this.label27.TabIndex = 116;
@@ -596,19 +586,31 @@
             // 
             // btn_Select
             // 
-            this.btn_Select.Location = new System.Drawing.Point(441, 334);
+            this.btn_Select.Location = new System.Drawing.Point(719, 334);
             this.btn_Select.Name = "btn_Select";
-            this.btn_Select.Size = new System.Drawing.Size(61, 25);
+            this.btn_Select.Size = new System.Drawing.Size(75, 28);
             this.btn_Select.TabIndex = 117;
             this.btn_Select.Text = "选择";
             this.btn_Select.UseVisualStyleBackColor = true;
             this.btn_Select.Click += new System.EventHandler(this.Btn_Select_Click);
+            // 
+            // belong_userGroup
+            // 
+            this.belong_userGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.belong_userGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.belong_userGroup.Enabled = false;
+            this.belong_userGroup.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.belong_userGroup.Location = new System.Drawing.Point(137, 335);
+            this.belong_userGroup.Name = "belong_userGroup";
+            this.belong_userGroup.Size = new System.Drawing.Size(577, 26);
+            this.belong_userGroup.TabIndex = 118;
             // 
             // Frm_userInfoAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 563);
+            this.Controls.Add(this.belong_userGroup);
             this.Controls.Add(this.btn_Select);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.label26);
@@ -641,7 +643,6 @@
             this.Controls.Add(this.password);
             this.Controls.Add(this.login_name);
             this.Controls.Add(this.role_box);
-            this.Controls.Add(this.belong_userGroup);
             this.Controls.Add(this.phone);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.belong_bm);
@@ -685,7 +686,6 @@
         private System.Windows.Forms.TextBox belong_bm;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox phone;
-        private System.Windows.Forms.ComboBox belong_userGroup;
         private System.Windows.Forms.ComboBox role_box;
         private System.Windows.Forms.TextBox login_name;
         private System.Windows.Forms.TextBox password;
@@ -718,5 +718,6 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Button btn_Select;
+        private System.Windows.Forms.TextBox belong_userGroup;
     }
 }

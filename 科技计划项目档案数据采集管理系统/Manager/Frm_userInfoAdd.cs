@@ -38,9 +38,9 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         {
             string sql = $"select ug_id,ug_name from user_group order by ug_sort";
             DataTable table = SqlHelper.ExecuteQuery(sql);
-            belong_userGroup.DataSource = table;
-            belong_userGroup.DisplayMember = "ug_name";
-            belong_userGroup.ValueMember = "ug_id";
+            //belong_userGroup.DataSource = table;
+            //belong_userGroup.DisplayMember = "ug_name";
+            //belong_userGroup.ValueMember = "ug_id";
         }
 
         //加载更新表单
@@ -74,7 +74,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
           
             note.Text = _obj[9].ToString();
             role_box.SelectedValue = _obj[10].ToString();
-            belong_userGroup.SelectedValue = _obj[11].ToString();
+            belong_userGroup.Text = _obj[11].ToString();
 
             login_name.Tag = id;
         }
@@ -118,7 +118,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 string _ip = _ip_1 + '.' + _ip_2 + '.' + _ip_3 + '.' + _ip_4 + '.' + _ip_5 + '.' + _ip_6 + '.' + _ip_7 + '.' + _ip_8;              
                 string _note = note.Text.Trim();            
                 string _real_name = real_name.Text.Trim();
-                string _belong_userGroup_id = belong_userGroup.SelectedValue.ToString().Trim();
+                string _belong_userGroup_id = belong_userGroup.Text.Trim();
 
                 //新增信息
                 if (isAdd)
