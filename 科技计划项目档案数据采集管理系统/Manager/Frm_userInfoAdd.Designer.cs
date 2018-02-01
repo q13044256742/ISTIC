@@ -602,7 +602,7 @@
             this.btn_Select.TabIndex = 117;
             this.btn_Select.Text = "选择";
             this.btn_Select.UseVisualStyleBackColor = true;
-            this.btn_Select.Click += new System.EventHandler(this.btn_Select_Click);
+            this.btn_Select.Click += new System.EventHandler(this.Btn_Select_Click);
             // 
             // Frm_userInfoAdd
             // 

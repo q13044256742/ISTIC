@@ -427,14 +427,28 @@ namespace 科技计划项目档案数据采集管理系统
                         if(typeValue.Contains("项目/课题"))
                         {
                             object rootId = GetRootId(objId, WorkType.ProjectWork);
-                            Frm_MyWork myWork = new Frm_MyWork(WorkType.ProjectWork, objId, rootId, ControlType.Default);
-                            myWork.ShowDialog();
+                            if(string.IsNullOrEmpty(GetValue(rootId)))
+                            {
+                                MessageBox.Show("无法找到当前项目/课题所属计划。", "操作失败");
+                            }
+                            else
+                            {
+                                Frm_MyWork myWork = new Frm_MyWork(WorkType.ProjectWork, objId, rootId, ControlType.Default);
+                                myWork.ShowDialog();
+                            }
                         }
                         else if(typeValue.Contains("课题/子课题"))
                         {
                             object rootId = GetRootId(objId, WorkType.SubjectWork);
-                            Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, objId, rootId, ControlType.Default);
-                            myWork.ShowDialog();
+                            if(string.IsNullOrEmpty(GetValue(rootId)))
+                            {
+                                MessageBox.Show("无法找到当前课题/子课题所属计划。", "操作失败");
+                            }
+                            else
+                            {
+                                Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, objId, rootId, ControlType.Default);
+                                myWork.ShowDialog();
+                            }
                         }
 
                     }

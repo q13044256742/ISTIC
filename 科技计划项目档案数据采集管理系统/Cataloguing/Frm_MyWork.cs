@@ -2052,7 +2052,55 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
+            //父级（项目/课题）
+            else if(workType == WorkType.ProjectWork)
+            {
+                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{sourceId}'");
+                if(_obj == null)
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
+                treeNode = new TreeNode()
+                {
+                    Name = _obj[0].ToString(),
+                    Text = _obj[1].ToString(),
+                    Tag = ControlType.Plan,
+                };
+                //根据【计划】查询【项目/课题】集
+                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_source_id='{sourceId}'", 3);
+                for(int i = 0; i < list.Count; i++)
+                {
+                    TreeNode treeNode2 = new TreeNode()
+                    {
+                        Name = list[i][0].ToString(),
+                        Text = list[i][1].ToString(),
+                        Tag = (ControlType)list[i][2]
+                    };
+                    treeNode.Nodes.Add(treeNode2);
+                    //根据【项目/课题】查询【课题/子课题】集
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_source_id='{sourceId}'", 3);
+                    for(int j = 0; j < list2.Count; j++)
+                    {
+                        TreeNode treeNode3 = new TreeNode()
+                        {
+                            Name = list2[j][0].ToString(),
+                            Text = list2[j][1].ToString(),
+                            Tag = (ControlType)list2[j][2]
+                        };
+                        treeNode2.Nodes.Add(treeNode3);
 
+                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_source_id='{sourceId}'", 3);
+                        for(int k = 0; k < list3.Count; k++)
+                        {
+                            TreeNode treeNode4 = new TreeNode()
+                            {
+                                Name = list3[k][0].ToString(),
+                                Text = list3[k][1].ToString(),
+                                Tag = (ControlType)list3[k][2]
+                            };
+                            treeNode3.Nodes.Add(treeNode4);
+                        }
+                    }
+                }
+            }
             treeView.Nodes.Add(treeNode);
             treeView.ExpandAll();
             treeView.AfterSelect += TreeView_AfterSelect;

@@ -289,7 +289,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             }
         }
 
-        private void btn_Select_Click(object sender, EventArgs e)
+        private void Btn_Select_Click(object sender, EventArgs e)
         {
             Frm_UserGroupSelect frm = new Frm_UserGroupSelect();
             frm.ShowDialog();
