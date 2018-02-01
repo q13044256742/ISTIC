@@ -158,5 +158,18 @@ namespace 科技计划项目档案数据采集管理系统
             CloseConnect();
             return _obj;
         }
+
+        /// <summary>
+        /// 根据单位ID获取单位名称
+        /// </summary>
+        /// <param name="companyId">来源单位ID</param>
+        /// <returns></returns>
+        public static string GetCompanysNameById(object companyId)
+        {
+            object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_name FROM data_dictionary WHERE dd_id='{companyId}'");
+            if(obj != null)
+                return obj.ToString();
+            return string.Empty;
+        }
     }
 }

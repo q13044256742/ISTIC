@@ -32,16 +32,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_CG));
             this.pal_LeftMenu = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.dgv_WorkingLog = new 科技计划项目档案数据采集管理系统.HeaderUnitView(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cbo_CompanyList = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_Back = new System.Windows.Forms.Button();
             this.txt_Search = new System.Windows.Forms.TextBox();
             this.btn_Search = new System.Windows.Forms.Button();
+            this.dgv_WorkingLog = new 科技计划项目档案数据采集管理系统.HeaderUnitView(this.components);
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_WorkingLog)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_WorkingLog)).BeginInit();
             this.SuspendLayout();
             // 
             // pal_LeftMenu
@@ -66,25 +66,6 @@
             this.groupBox1.Size = new System.Drawing.Size(771, 502);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
-            // 
-            // dgv_WorkingLog
-            // 
-            this.dgv_WorkingLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgv_WorkingLog.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_WorkingLog.CellHeight = 17;
-            this.dgv_WorkingLog.ColumnDeep = 1;
-            this.dgv_WorkingLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_WorkingLog.ColumnTreeView = null;
-            this.dgv_WorkingLog.Location = new System.Drawing.Point(3, 51);
-            this.dgv_WorkingLog.MergeColumnNames = ((System.Collections.Generic.List<string>)(resources.GetObject("dgv_WorkingLog.MergeColumnNames")));
-            this.dgv_WorkingLog.Name = "dgv_WorkingLog";
-            this.dgv_WorkingLog.RefreshAtHscroll = false;
-            this.dgv_WorkingLog.RowTemplate.Height = 23;
-            this.dgv_WorkingLog.Size = new System.Drawing.Size(766, 445);
-            this.dgv_WorkingLog.TabIndex = 15;
-            this.dgv_WorkingLog.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_WorkingLog_CellClick);
             // 
             // groupBox2
             // 
@@ -154,6 +135,27 @@
             this.btn_Search.Text = "查询(&F)";
             this.btn_Search.UseVisualStyleBackColor = true;
             // 
+            // dgv_WorkingLog
+            // 
+            this.dgv_WorkingLog.AllowUserToDeleteRows = false;
+            this.dgv_WorkingLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv_WorkingLog.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_WorkingLog.CellHeight = 17;
+            this.dgv_WorkingLog.ColumnDeep = 1;
+            this.dgv_WorkingLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_WorkingLog.ColumnTreeView = null;
+            this.dgv_WorkingLog.Location = new System.Drawing.Point(3, 51);
+            this.dgv_WorkingLog.MergeColumnNames = ((System.Collections.Generic.List<string>)(resources.GetObject("dgv_WorkingLog.MergeColumnNames")));
+            this.dgv_WorkingLog.Name = "dgv_WorkingLog";
+            this.dgv_WorkingLog.ReadOnly = true;
+            this.dgv_WorkingLog.RefreshAtHscroll = false;
+            this.dgv_WorkingLog.RowTemplate.Height = 23;
+            this.dgv_WorkingLog.Size = new System.Drawing.Size(766, 445);
+            this.dgv_WorkingLog.TabIndex = 15;
+            this.dgv_WorkingLog.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_WorkingLog_CellClick);
+            // 
             // Frm_CG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -167,12 +169,11 @@
             this.Name = "Frm_CG";
             this.ShowInTaskbar = false;
             this.Text = "著录加工";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Frm_CG_Load);
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_WorkingLog)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_WorkingLog)).EndInit();
             this.ResumeLayout(false);
 
         }

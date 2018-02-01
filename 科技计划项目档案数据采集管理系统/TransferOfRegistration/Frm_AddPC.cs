@@ -217,7 +217,7 @@ namespace 科技计划项目档案数据采集管理系统
                         cdInfo_querySql.Append("'" + cd.TrcCode + "',");
                         cdInfo_querySql.Append("'" + cd.TrpId + "',");
                         cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcReadStatus + "',");
+                        cdInfo_querySql.Append("'" + (int)cd.TrcReadStatus + "',");
                         cdInfo_querySql.Append("'" + cd.TrcPeople + "',");
                         cdInfo_querySql.Append("'" + cd.TrpHandleTime + "')");
                         SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());

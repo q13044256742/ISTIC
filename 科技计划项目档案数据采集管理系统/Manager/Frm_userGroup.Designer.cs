@@ -219,6 +219,7 @@
             this.Name = "Frm_userGroup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "用户组";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.userGroup_DataList)).EndInit();
             this.列表.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

@@ -368,7 +368,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 WrObjId = piid,
                                 WrTrpId = trpid
                             };
-                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}')";
+                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}','{(int)ObjectSubmitStatus.NonSubmit}')";
                             SqlHelper.ExecuteNonQuery(insertSql);
 
                             string updateSql = $"UPDATE project_info SET pi_work_status={(int)WorkStatus.WorkSuccess} WHERE pi_id='{wr.WrObjId}'";
@@ -399,7 +399,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 WrObjId = siid,
                                 WrTrpId = trpid
                             };
-                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}')";
+                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}','{(int)ObjectSubmitStatus.NonSubmit}')";
                             SqlHelper.ExecuteNonQuery(insertSql);
 
                             string updateSql = $"UPDATE subject_info SET si_work_status={(int)WorkStatus.WorkSuccess} WHERE si_id='{wr.WrObjId}'";
@@ -423,14 +423,20 @@ namespace 科技计划项目档案数据采集管理系统
                         new Frm_ProTypeSelect(WorkType.PaperWork, objId).ShowDialog();
                     else
                     {
-                        //WorkType workType = WorkType.PaperWork; 
-                        //if (typeValue.Contains("项目/课题"))
-                        //    workType = WorkType.ProjectWork;
-                        //else if (typeValue.Contains("课题/子课题"))
-                        //    workType = WorkType.SubjectWork;
+                        //根据当前id获取根节点ID
+                        if(typeValue.Contains("项目/课题"))
+                        {
+                            object rootId = GetRootId(objId, WorkType.ProjectWork);
+                            Frm_MyWork myWork = new Frm_MyWork(WorkType.ProjectWork, objId, rootId, ControlType.Default);
+                            myWork.ShowDialog();
+                        }
+                        else if(typeValue.Contains("课题/子课题"))
+                        {
+                            object rootId = GetRootId(objId, WorkType.SubjectWork);
+                            Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, objId, rootId, ControlType.Default);
+                            myWork.ShowDialog();
+                        }
 
-                        //Frm_MyWork myWork = new Frm_MyWork(workType, objId, null);
-                        //myWork.ShowDialog();
                     }
                 }
                 //提交质检
@@ -449,13 +455,32 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
         /// <summary>
+        /// 获取指定项目/课题获取其所属计划ID
+        /// </summary>
+        private object GetRootId(object objId, WorkType type)
+        {
+            if(type == WorkType.ProjectWork)
+            {
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{objId}'");
+            }
+            else if(type == WorkType.SubjectWork)
+            {
+                object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM subject_info WHERE si_id='{objId}'");
+                return GetRootId(pid, WorkType.ProjectWork);
+            }
+            return null;
+        }
+
+        /// <summary>
         /// 判断当前加工是否只有一条
         /// </summary>
         /// <returns></returns>
         private bool CheckCanReceive()
         {
             int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(wr_id) FROM work_registration WHERE wr_status={(int)WorkStatus.WorkSuccess} AND wr_submit_status ={(int)ObjectSubmitStatus.NonSubmit}"));
-            return amount == 0 ? true : false;
+            /* 测试注释 */
+            //return amount == 0 ? true : false;
+            return true;
         }
 
         private string GetValue(object value)
@@ -561,7 +586,7 @@ namespace 科技计划项目档案数据采集管理系统
             querySql.Append(" LEFT JOIN(");
             querySql.Append(" SELECT trp.trp_id, cs_name,sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
             querySql.Append(" ON trc.trp_id = tb.trp_id");
-            querySql.Append($" WHERE trc.trp_id='{trpId}' AND trc.trc_status={(int)WorkStatus.NonWork}");
+            querySql.Append($" WHERE trc.trp_id='{trpId}' AND trc.trc_status={(int)WorkStatus.WorkSuccess}");
             querySql.Append(" ORDER BY sorting ASC, trc_code ASC");
             table = SqlHelper.ExecuteQuery(querySql.ToString());
             foreach (DataRow row in table.Rows)
@@ -572,7 +597,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_WorkingLog.Rows[_index].Cells["trc_code"].Value = row["trc_code"];
                 dgv_WorkingLog.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
                 dgv_WorkingLog.Rows[_index].Cells["trc_total_amount"].Value = GetProjectAmount(row["trc_id"]);
-                dgv_WorkingLog.Rows[_index].Cells["trc_receive_amount"].Value = GetTotalReceiveAmount(row["trc_id"]);
+                dgv_WorkingLog.Rows[_index].Cells["trc_receive_amount"].Value = GetReceiveAmount(row["trc_id"]);
                 dgv_WorkingLog.Rows[_index].Cells["trc_file_amount"].Value = 0;//文件数待处理
                 dgv_WorkingLog.Rows[_index].Cells["trc_control"].Value = "加工";
             }
@@ -592,23 +617,20 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 根据光盘ID获取项目+课题中已领取数总和
+        /// 根据光盘ID获取已领取项目总数
         /// </summary>
-        private object GetTotalReceiveAmount(object trcId)
+        private object GetReceiveAmount(object trcId)
         {
             int proAmount = 0;
-            int subAmount = 0;
             if (trcId != null)
             {
-                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}' AND pi_work_status='{(int)ReceiveStatus.ReceiveSuccess}'"));
-                if (proAmount >= 0)
-                    subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id IN(SELECT pi_id FROM project_info WHERE trc_id = '{trcId}') AND si_work_status='{(int)ReceiveStatus.ReceiveSuccess}'"));
+                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}' AND pi_work_status={(int)WorkStatus.WorkSuccess}"));
             }
-            return proAmount + subAmount;
+            return proAmount;
         }
 
         /// <summary>
-        /// 根据光盘ID获取项目数
+        /// 根据光盘ID获取项目总数
         /// </summary>
         private int GetProjectAmount(object trcId)
         {
@@ -644,7 +666,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new TreeNode( "项目/课题名称"),
                 new TreeNode("承担单位"),
                 new TreeNode("课题/子课题"),
-                new TreeNode("操作"),
+                new TreeNode("文件数"),
             });
             tree.Nodes[4].Nodes.AddRange(new TreeNode[]
             {
@@ -654,7 +676,7 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewStyleHelper.SetTreeViewHeader(dgv_WorkingLog, tree);
 
             DataTable table = null;
-            StringBuilder querySql = new StringBuilder("SELECT pi_id,pi_code,pi_name,pi_company,pi_work_status FROM project_info pi");
+            StringBuilder querySql = new StringBuilder("SELECT pi_id,pi_code,pi_name,pi_company_id,pi_work_status FROM project_info pi");
             querySql.Append($" WHERE trc_id='{trcId}' AND pi_work_status={(int)WorkStatus.NonWork}");
             table = SqlHelper.ExecuteQuery(querySql.ToString());
             foreach (DataRow row in table.Rows)
@@ -663,7 +685,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_WorkingLog.Rows[_index].Cells["pi_id"].Value = row["pi_id"];
                 dgv_WorkingLog.Rows[_index].Cells["pi_code"].Value = row["pi_code"];
                 dgv_WorkingLog.Rows[_index].Cells["pi_name"].Value = row["pi_name"];
-                dgv_WorkingLog.Rows[_index].Cells["pi_company"].Value = row["pi_company"];
+                dgv_WorkingLog.Rows[_index].Cells["pi_company"].Value = SqlHelper.GetCompanysNameById(row["pi_company_id"]);
                 dgv_WorkingLog.Rows[_index].Cells["pi_total_amount"].Value = GetSubjectAmount(row["pi_id"]);
                 dgv_WorkingLog.Rows[_index].Cells["pi_receive_amount"].Value = GetSubjectReceiveAmount(row["pi_id"]);
                 dgv_WorkingLog.Rows[_index].Cells["pi_file_amount"].Value = 0;//文件数待处理
@@ -699,7 +721,7 @@ namespace 科技计划项目档案数据采集管理系统
             int subAmount = 0;
             if (pid != null)
             {
-                subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id='{pid}' AND si_work_status='{(int)ReceiveStatus.ReceiveSuccess}'"));
+                subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id='{pid}' AND si_work_status='{(int)WorkStatus.WorkSuccess}'"));
             }
             return subAmount;
         }

@@ -47,7 +47,6 @@ namespace 科技计划项目档案数据采集管理系统
         public static void SetPanel(Panel parentPanel, List<KyoPanel> list)
         {
             parentPanel.BackColor = DEFAULT_BGCOLOR;
-
             for (int i = 0; i < list.Count; i++)
             {
                 KyoPanel kyoPane = list[i];

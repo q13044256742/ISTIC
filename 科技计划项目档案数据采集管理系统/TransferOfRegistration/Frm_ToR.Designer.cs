@@ -39,6 +39,7 @@
             this.dgv_SWDJ = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_CD_Delete = new System.Windows.Forms.Button();
             this.cbo_Status = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txt_CD_Search = new System.Windows.Forms.TextBox();
@@ -50,7 +51,6 @@
             this.pal_LeftMenu = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.btn_CD_Delete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -208,6 +208,18 @@
             this.groupBox3.TabIndex = 13;
             this.groupBox3.TabStop = false;
             // 
+            // btn_CD_Delete
+            // 
+            this.btn_CD_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_CD_Delete.AutoSize = true;
+            this.btn_CD_Delete.Location = new System.Drawing.Point(684, 12);
+            this.btn_CD_Delete.Name = "btn_CD_Delete";
+            this.btn_CD_Delete.Size = new System.Drawing.Size(68, 30);
+            this.btn_CD_Delete.TabIndex = 7;
+            this.btn_CD_Delete.Text = "删除(&D)";
+            this.btn_CD_Delete.UseVisualStyleBackColor = true;
+            this.btn_CD_Delete.Click += new System.EventHandler(this.Btn_CD_Delete_Click);
+            // 
             // cbo_Status
             // 
             this.cbo_Status.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -319,18 +331,6 @@
             this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 0;
             // 
-            // btn_CD_Delete
-            // 
-            this.btn_CD_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_CD_Delete.AutoSize = true;
-            this.btn_CD_Delete.Location = new System.Drawing.Point(684, 12);
-            this.btn_CD_Delete.Name = "btn_CD_Delete";
-            this.btn_CD_Delete.Size = new System.Drawing.Size(68, 30);
-            this.btn_CD_Delete.TabIndex = 7;
-            this.btn_CD_Delete.Text = "删除(&D)";
-            this.btn_CD_Delete.UseVisualStyleBackColor = true;
-            this.btn_CD_Delete.Click += new System.EventHandler(this.Btn_CD_Delete_Click);
-            // 
             // Frm_ToR
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -342,7 +342,6 @@
             this.MinimizeBox = false;
             this.Name = "Frm_ToR";
             this.Text = "移交登记";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Frm_ToR_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).EndInit();
             this.tabPage1.ResumeLayout(false);

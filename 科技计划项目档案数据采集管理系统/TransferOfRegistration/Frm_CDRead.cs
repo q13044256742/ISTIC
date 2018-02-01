@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace 科技计划项目档案数据采集管理系统.TransferOfRegistration
 {
@@ -31,25 +33,29 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
         private void Btn_Sure_Click(object sender, EventArgs e)
         {
-            if (pgb_CD.Value == pgb_CD.Maximum)
-            {
-                if (MessageBox.Show("此操作会覆盖当前已有文件，是否重新读取？", "温馨提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                    return;
-            }
-            //光盘读写【备份】
-            string sPath = txt_CD_Path.Text;
-            if (!string.IsNullOrEmpty(sPath))
-            {
-                string[] spSplit = sPath.Split('\\');
-                string tPath = Application.StartupPath + "\\BackupFile\\" + spSplit[spSplit.Length - 1];
-                btn_Sure.Enabled = false;
-                FolderHelper.GetInstance(pgb_CD).CopyDirectory(sPath, tPath, true, SetTipMsg);
-                btn_Sure.Enabled = true;
-            }
+            //if (pgb_CD.Value == pgb_CD.Maximum)
+            //{
+            //    if (MessageBox.Show("此操作会覆盖当前已有文件，是否重新读取？", "温馨提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            //        return;
+            //}
+            ////光盘读写【备份】
+            //string sPath = txt_CD_Path.Text;
+            //if (!string.IsNullOrEmpty(sPath))
+            //{
+            //    string[] spSplit = sPath.Split('\\');
+            //    string tPath = Application.StartupPath + "\\BackupFile\\" + spSplit[spSplit.Length - 1];
+            //    btn_Sure.Enabled = false;
+            //    FolderHelper.GetInstance(pgb_CD).CopyDirectory(sPath, tPath, true, SetTipMsg);
+            //    btn_Sure.Enabled = true;
+            //}
             string dPath = txt_DS_Path.Text;
             if(!string.IsNullOrEmpty(dPath))
             {
-                
+                //XML文件读写
+                XDocument document = XDocument.Load(dPath);
+                XElement rootElement = document.Root;
+                XElement planElement = rootElement.Element("plans").Element("plan");
+
             }
         }
 
