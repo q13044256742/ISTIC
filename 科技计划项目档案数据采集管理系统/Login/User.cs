@@ -2,10 +2,11 @@
 {
     public class User
     {
+        private string userKey;
         private string loginUserName;
         private string loginPassword;
         private string realName;
-        private string remark;
+        private object remark;
 
         public User() { }
         public User(string loginUserName, string loginPassword)
@@ -17,6 +18,10 @@
         public string LoginUserName { get => loginUserName; set => loginUserName = value; }
         public string LoginPassword { get => loginPassword; set => loginPassword = value; }
         public string RealName { get => realName; set => realName = value; }
-        public string Remark { get => remark; set => remark = value; }
+        public object Remark { get => remark; set => remark = value; }
+        public string UserKey {
+            get => userKey;
+            set => userKey = value;
+        }
     }
 }

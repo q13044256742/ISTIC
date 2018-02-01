@@ -19,21 +19,22 @@ namespace 科技计划项目档案数据采集管理系统
         {
             //当前登录人信息
             txt_RealName.Text = user.RealName;
-            if("1".Equals(user.Remark))
+            int identifier = Convert.ToInt32(user.Remark);
+            if(identifier == 1)
             {
                 Frm_ToR frm = new Frm_ToR();
                 frm.MdiParent = this;
                 frm.WindowState = FormWindowState.Maximized;
                 frm.Show();
             }
-            else if ("2".Equals(user.Remark))
+            else if(identifier == 2)
             {
                 Frm_CG frm = new Frm_CG();
                 frm.MdiParent = this;
                 frm.WindowState = FormWindowState.Maximized;
                 frm.Show();
             }
-            else if("3".Equals(user.Remark))
+            else if(identifier == 3)
             {
                 Frm_QT frm = new Frm_QT();
                 frm.MdiParent = this;

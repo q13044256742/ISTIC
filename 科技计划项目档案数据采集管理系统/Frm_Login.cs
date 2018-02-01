@@ -26,8 +26,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if (result)
                 {
                     User user = userLogin.GetUser(loginName, loginPassword);
+                    UserHelper.GetInstance().User = user;
                     int i = cbo_Identity.SelectedIndex;
-                    user.Remark = i.ToString();
+                    user.Remark = i;
                     if (i == 6)
                     {
                         Frm_MainFrameManager fm = new Frm_MainFrameManager(user);
