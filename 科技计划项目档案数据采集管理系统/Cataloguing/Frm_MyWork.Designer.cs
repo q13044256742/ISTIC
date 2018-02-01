@@ -852,6 +852,7 @@
             this.tab_JH_FileInfo.Controls.Add(this.addPaper);
             this.tab_JH_FileInfo.Controls.Add(this.box);
             this.tab_JH_FileInfo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tab_JH_FileInfo.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tab_JH_FileInfo.Location = new System.Drawing.Point(3, 236);
             this.tab_JH_FileInfo.Name = "tab_JH_FileInfo";
             this.tab_JH_FileInfo.SelectedIndex = 0;

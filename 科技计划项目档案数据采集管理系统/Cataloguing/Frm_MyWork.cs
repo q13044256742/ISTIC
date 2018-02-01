@@ -2055,7 +2055,7 @@ namespace 科技计划项目档案数据采集管理系统
             //父级（项目/课题）
             else if(workType == WorkType.ProjectWork)
             {
-                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{sourceId}'");
+                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}' AND pi_source_id='{sourceId}'");
                 if(_obj == null)
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()
@@ -2138,7 +2138,30 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project", 1);
                     LoadPageBasicInfo(e.Node.Name, type);
                 }
+                else if(workType == WorkType.ProjectWork)
+                {
+                    ShowTab("plan", 0);
+                    LoadPlanPage(e.Node.Parent.Name);
+                    EnableControls(ControlType.Plan, false);
 
+                    ShowTab("plan_project", 1);
+                    LoadPageBasicInfo(e.Node.Name, type);
+                    EnableControls(ControlType.Plan_Project, false);
+                }
+                else if(workType == WorkType.SubjectWork)
+                {
+                    ShowTab("plan", 0);
+                    LoadPlanPage(e.Node.Parent.Parent.Name);
+                    EnableControls(ControlType.Plan, false);
+
+                    ShowTab("plan_project", 1);
+                    LoadPageBasicInfo(e.Node.Parent.Name, type);
+                    EnableControls(ControlType.Plan_Project, false);
+
+                    ShowTab("plan_project_topic", 2);
+                    LoadPageBasicInfo(e.Node.Name, type);
+                    EnableControls(ControlType.Plan_Project_Topic, false);
+                }
             }
             else if(type == ControlType.Plan_Topic)
             {
@@ -2258,7 +2281,7 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadPageBasicInfo(e.Node.Name, type);
                 }
             }
-            else if(type == ControlType.Imp || type== ControlType.Imp_Dev)
+            else if(type == ControlType.Imp || type == ControlType.Imp_Dev)
             {
                 tab_MenuList.TabPages.Clear();
 
@@ -4107,8 +4130,17 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_LY.Text = GetValue(row["pb_belong"]);
                     txt_JH_XM_ZT.Text = GetValue(row["pb_belong_type"]);
                     txt_JH_XM_JF.Text = GetValue(row["pi_money"]);
-                    dtp_JH_XM_StartTime.Value = DateTime.Parse(GetValue(row["pi_start_datetime"]));
-                    dtp_JH_XM_EndTime.Value = DateTime.Parse(GetValue(row["pi_end_datetime"]));
+
+                    string startTime = GetValue(row["pi_start_datetime"]);
+                    DateTime _startTime = new DateTime();
+                    if(DateTime.TryParse(startTime, out _startTime))
+                        dtp_JH_XM_StartTime.Value = _startTime;
+
+                    string endTime = GetValue(row["pi_end_datetime"]);
+                    DateTime _endTime = new DateTime();
+                    if(DateTime.TryParse(endTime, out _endTime))
+                        dtp_JH_XM_EndTime.Value = _endTime;
+
                     txt_JH_XM_LXND.Text = GetValue(row["pi_year"]);
                     cbo_JH_XM_Unit.SelectedValue = GetValue(row["pi_company_id"]);
                     cbo_JH_XM_Province.SelectedValue = GetValue(row["pi_province"]);
@@ -4370,11 +4402,12 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         /// <param name="type">对象类型</param>
         /// <param name="enable">是否可用</param>
+        /// <param name="nextEnable">下一级是否可用</param>
         void EnableControls(ControlType type, bool enable)
         {
             if(type == ControlType.Plan)
             {
-                tab_JH_FileInfo.Enabled = pal_JH_BasicInfo.Enabled = enable;
+                //tab_JH_FileInfo.Enabled = pal_JH_BasicInfo.Enabled = enable;
                 foreach(Control item in pal_JH_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4384,7 +4417,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Project)
             {
-                tab_JH_XM_FileInfo.Enabled = pal_JH_XM.Enabled = enable;
+                //tab_JH_XM_FileInfo.Enabled = pal_JH_XM.Enabled = enable;
                 foreach(Control item in pal_JH_XM_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4394,7 +4427,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Project_Topic)
             {
-                tab_JH_XM_KT_FileInfo.Enabled = pal_JH_XM_KT.Enabled = enable;
+                //tab_JH_XM_KT_FileInfo.Enabled = pal_JH_XM_KT.Enabled = enable;
                 foreach(Control item in pal_JH_XM_KT_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4404,7 +4437,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
-                tab_JH_XM_KT_ZKT_FileInfo.Enabled = pal_JH_XM_KT_ZKT.Enabled = enable;
+                //tab_JH_XM_KT_ZKT_FileInfo.Enabled = pal_JH_XM_KT_ZKT.Enabled = enable;
                 foreach(Control item in pal_JH_XM_KT_ZKT_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4414,7 +4447,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Topic)
             {
-                tab_JH_KT_FileInfo.Enabled = pal_JH_KT.Enabled = enable;
+                //tab_JH_KT_FileInfo.Enabled = pal_JH_KT.Enabled = enable;
                 foreach(Control item in pal_JH_KT_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4424,7 +4457,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
             {
-                tab_JH_KT_ZKT_FileInfo.Enabled = pal_JH_KT_ZKT.Enabled = enable;
+                //tab_JH_KT_ZKT_FileInfo.Enabled = pal_JH_KT_ZKT.Enabled = enable;
                 foreach(Control item in pal_JH_KT_ZKT_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4434,7 +4467,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Imp)
             {
-                tab_Imp_FileInfo.Enabled = pal_Imp.Enabled = enable;
+                //tab_Imp_FileInfo.Enabled = pal_Imp.Enabled = enable;
                 foreach(Control item in pal_Imp_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4444,7 +4477,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Imp_Dev)
             {
-                tab_Imp_Dev_FileInfo.Enabled = pal_Imp_Dev.Enabled = enable;
+                //tab_Imp_Dev_FileInfo.Enabled = pal_Imp_Dev.Enabled = enable;
                 foreach(Control item in pal_Imp_Dev_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
