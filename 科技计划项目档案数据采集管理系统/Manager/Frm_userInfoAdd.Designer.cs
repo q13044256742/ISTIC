@@ -77,6 +77,7 @@
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
+            this.btn_Select = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -593,11 +594,22 @@
             this.label27.TabIndex = 116;
             this.label27.Text = "*";
             // 
+            // btn_Select
+            // 
+            this.btn_Select.Location = new System.Drawing.Point(441, 334);
+            this.btn_Select.Name = "btn_Select";
+            this.btn_Select.Size = new System.Drawing.Size(61, 25);
+            this.btn_Select.TabIndex = 117;
+            this.btn_Select.Text = "选择";
+            this.btn_Select.UseVisualStyleBackColor = true;
+            this.btn_Select.Click += new System.EventHandler(this.btn_Select_Click);
+            // 
             // Frm_userInfoAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 563);
+            this.Controls.Add(this.btn_Select);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.label25);
@@ -705,5 +717,6 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Button btn_Select;
     }
 }
