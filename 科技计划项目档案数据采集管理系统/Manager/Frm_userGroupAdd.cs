@@ -11,9 +11,93 @@ namespace 科技计划项目档案数据采集管理系统.Manager
 {
     public partial class Frm_userGroupAdd : Form
     {
-        public Frm_userGroupAdd()
+        private bool isAdd;
+        private string id;
+
+        public Frm_userGroupAdd(bool isAdd, string id)
         {
             InitializeComponent();
+            this.isAdd = isAdd;
+            this.id = id;
+            if (!isAdd)
+            {
+                LoadData(id);
+            }         
+        }
+
+        //加载更新表单
+        private void LoadData(string id)
+        {
+            string sql = $"select ug_name,ug_code,ug_note,ug_sort" +
+              $" from user_group where ug_id = '{id}'";
+            object[] _obj = SqlHelper.ExecuteRowsQuery(sql);
+
+            ug_name.Text = _obj[0].ToString();
+            ug_code.Text = _obj[1].ToString();
+            ug_note.Text = _obj[2].ToString();
+            ug_sort.Text = _obj[3].ToString();
+
+            ug_name.Tag = id;
+        }
+
+        private void UserGroup_btnSave(object sender, EventArgs e)
+        {
+            if (!ValidData())
+            {
+                return;
+            }
+            if (MessageBox.Show("确定要保存当前数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+            {
+                //保存基本信息
+                string _ug_name = ug_name.Text.Trim();
+                string _ug_code = ug_code.Text.Trim();            
+                string _ug_note = ug_note.Text.Trim();
+                string _ug_sort = ug_sort.Text.Trim();                                      
+                //新增信息
+                if (isAdd)
+                {
+                    string _ug_Id = Guid.NewGuid().ToString();
+                    string querySql = $"insert into user_group " +
+                        $"(ug_id,ug_name,ug_code,ug_note,ug_sort)" +
+                        $"values" +
+                        $"('{_ug_Id}','{_ug_name}','{_ug_code}','{_ug_note}','{_ug_sort}')";
+                    SqlHelper.ExecuteQuery(querySql);
+                }
+                //更新信息
+                else
+                {
+                    string _ug_Id = ug_name.Tag.ToString();
+                    string querySql = $"update user_group set ug_name='{_ug_name}',ug_code='{_ug_code}',ug_note='{_ug_code}',ug_sort='{_ug_sort}'" +
+                        $" where ug_id='{_ug_Id}'";
+                    SqlHelper.ExecuteQuery(querySql);
+                }
+                if (MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+            }
+        }
+
+        private void UserGroup_btnClose(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        // 检验数据的完整性
+        private bool ValidData()
+        {
+            if (string.IsNullOrEmpty(ug_name.Text.Trim()))
+            {
+                MessageBox.Show("请输入用户组名称", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            else if (string.IsNullOrEmpty(ug_code.Text.Trim()))
+            {
+                MessageBox.Show("请输入编码", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }          
+            return true;
         }
     }
 }

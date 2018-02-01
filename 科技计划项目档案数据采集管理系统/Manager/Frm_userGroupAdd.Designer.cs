@@ -37,7 +37,10 @@
             this.ug_note = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.ug_sort = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.ug_sort = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.ug_sort)).BeginInit();
             this.SuspendLayout();
             // 
             // ug_code
@@ -47,7 +50,6 @@
             this.ug_code.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ug_code.Location = new System.Drawing.Point(163, 115);
             this.ug_code.Name = "ug_code";
-            this.ug_code.PasswordChar = '*';
             this.ug_code.Size = new System.Drawing.Size(377, 26);
             this.ug_code.TabIndex = 106;
             // 
@@ -65,7 +67,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label10.Location = new System.Drawing.Point(106, 258);
+            this.label10.Location = new System.Drawing.Point(106, 260);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(54, 19);
             this.label10.TabIndex = 98;
@@ -75,7 +77,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(106, 115);
+            this.label2.Location = new System.Drawing.Point(106, 118);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 19);
             this.label2.TabIndex = 90;
@@ -89,6 +91,7 @@
             this.button1.TabIndex = 89;
             this.button1.Text = "取消(&C)";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.UserGroup_btnClose);
             // 
             // btn_Save
             // 
@@ -98,6 +101,7 @@
             this.btn_Save.TabIndex = 88;
             this.btn_Save.Text = "保存(&S)";
             this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.UserGroup_btnSave);
             // 
             // ug_note
             // 
@@ -112,7 +116,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(61, 55);
+            this.label1.Location = new System.Drawing.Point(61, 57);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 19);
             this.label1.TabIndex = 86;
@@ -122,22 +126,40 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(106, 179);
+            this.label3.Location = new System.Drawing.Point(106, 181);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(54, 19);
             this.label3.TabIndex = 107;
             this.label3.Text = "排序：";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label4.ForeColor = System.Drawing.Color.Red;
+            this.label4.Location = new System.Drawing.Point(543, 59);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(16, 19);
+            this.label4.TabIndex = 109;
+            this.label4.Text = "*";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label5.ForeColor = System.Drawing.Color.Red;
+            this.label5.Location = new System.Drawing.Point(543, 118);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(16, 19);
+            this.label5.TabIndex = 110;
+            this.label5.Text = "*";
+            // 
             // ug_sort
             // 
-            this.ug_sort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ug_sort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ug_sort.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ug_sort.Location = new System.Drawing.Point(163, 178);
+            this.ug_sort.Location = new System.Drawing.Point(163, 181);
             this.ug_sort.Name = "ug_sort";
-            this.ug_sort.PasswordChar = '*';
-            this.ug_sort.Size = new System.Drawing.Size(377, 26);
-            this.ug_sort.TabIndex = 108;
+            this.ug_sort.Size = new System.Drawing.Size(377, 21);
+            this.ug_sort.TabIndex = 111;
             // 
             // Frm_userGroupAdd
             // 
@@ -145,6 +167,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(638, 450);
             this.Controls.Add(this.ug_sort);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.ug_code);
             this.Controls.Add(this.ug_name);
@@ -154,9 +178,11 @@
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.ug_note);
             this.Controls.Add(this.label1);
+            this.MinimizeBox = false;
             this.Name = "Frm_userGroupAdd";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "用户组";
+            ((System.ComponentModel.ISupportInitialize)(this.ug_sort)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,6 +198,8 @@
         private System.Windows.Forms.TextBox ug_note;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox ug_sort;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown ug_sort;
     }
 }
