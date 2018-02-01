@@ -40,11 +40,14 @@
             // 
             // List_all
             // 
+            this.List_all.FullRowSelect = true;
+            this.List_all.GridLines = true;
             this.List_all.Location = new System.Drawing.Point(31, 67);
             this.List_all.Name = "List_all";
             this.List_all.Size = new System.Drawing.Size(211, 257);
             this.List_all.TabIndex = 0;
             this.List_all.UseCompatibleStateImageBehavior = false;
+            this.List_all.View = System.Windows.Forms.View.Details;
             // 
             // button1
             // 
@@ -54,14 +57,18 @@
             this.button1.TabIndex = 2;
             this.button1.Text = ">>>";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // list_select
             // 
+            this.list_select.FullRowSelect = true;
+            this.list_select.GridLines = true;
             this.list_select.Location = new System.Drawing.Point(350, 67);
             this.list_select.Name = "list_select";
             this.list_select.Size = new System.Drawing.Size(211, 257);
             this.list_select.TabIndex = 3;
             this.list_select.UseCompatibleStateImageBehavior = false;
+            this.list_select.View = System.Windows.Forms.View.Details;
             // 
             // button2
             // 
