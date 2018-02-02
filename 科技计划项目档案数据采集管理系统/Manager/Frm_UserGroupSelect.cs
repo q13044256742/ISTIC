@@ -20,19 +20,25 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         //左边
         private void LoadUserGroup_left(string userId)
         {
-           
-            string sql = $"select belong_user_group_id from user_list where ul_id = '{userId}'";
-            string userGroupId = SqlHelper.ExecuteOnlyOneQuery(sql).ToString();
 
+            string sql = $"select belong_user_group_id from user_list where ul_id = '{userId}'";
+            string userGroupId = GetValue(SqlHelper.ExecuteOnlyOneQuery(sql));
             DataTable dataTable = null;
-            string[] userGroupId_list = userGroupId.Split(',');
-            for (int i = 0; i < userGroupId_list.Length; i++)
+            if(string.IsNullOrEmpty(userGroupId))
             {
-                string _sql = $"select ug_id,ug_name from user_group where ug_id != '{userGroupId_list[i]}'";
+
+            }
+            else
+            {
+                string[] userGroupId_list = userGroupId.Split(',');
+                StringBuilder sb = new StringBuilder();
+                for(int i = 0; i < userGroupId_list.Length; i++)
+                {
+                    sb.Append($"'{userGroupId_list[i]}'{(i == userGroupId_list.Length - 1 ? string.Empty : ",")}");
+                }
+                string _sql = $"select ug_id,ug_name from user_group where ug_id not in ({sb.ToString()})";
                 dataTable = SqlHelper.ExecuteQuery(_sql);
             }
-
-
             List_all.Columns.AddRange(new ColumnHeader[]
             {
                 new ColumnHeader{ Name = "id", Text = "主键" },
@@ -98,7 +104,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             int size = List_all.SelectedItems.Count;
             for(int i = 0; i < size; i++)
             {
-                object groupId = List_all.SelectedItems[i].SubItems["id"].Text;
+                object groupId = List_all.SelectedItems[i].SubItems[0].Text;
                 sb.Append($"{groupId}{(i == size - 1 ? string.Empty : ",")}");
             }
             string updateSql = $"UPDATE user_list SET belong_user_goup_id='{sb.ToString()}' where ul_id='{userId}'";
