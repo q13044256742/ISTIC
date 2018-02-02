@@ -825,8 +825,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType== WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -906,8 +906,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -988,8 +988,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1070,8 +1070,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1153,7 +1153,7 @@ namespace 科技计划项目档案数据采集管理系统
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
                         else
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1233,8 +1233,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1301,8 +1301,8 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("操作成功！");
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1382,8 +1382,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1780,7 +1780,7 @@ namespace 科技计划项目档案数据采集管理系统
                     $",'{province}'" +
                     $",'{objuser}'" +
                     $",'{intro}'" +
-                    $",'{(int)WorkStatus.Default}'" +
+                    $",'{(int)WorkStatus.NonWork}'" +
                     $",'{(int)type}'" +
                     $",{(int)ObjectSubmitStatus.NonSubmit}" +
                     $",'{UserHelper.GetInstance().User.UserKey}')";
@@ -1820,7 +1820,7 @@ namespace 科技计划项目档案数据采集管理系统
                     $",'{province}'" +
                     $",'{objuser}'" +
                     $",'{intro}'" +
-                    $",'{(int)WorkStatus.Default}'" +
+                    $",'{(int)WorkStatus.NonWork}'" +
                     $",'{(int)type}'" +
                     $",{(int)ObjectSubmitStatus.NonSubmit}" +
                     $",'{UserHelper.GetInstance().User.UserKey}')";
@@ -1860,7 +1860,7 @@ namespace 科技计划项目档案数据采集管理系统
                     $",'{province}'" +
                     $",'{objuser}'" +
                     $",'{intro}'" +
-                    $",'{(int)WorkStatus.Default}'" +
+                    $",'{(int)WorkStatus.NonWork}'" +
                     $",'{(int)type}'" +
                     $",{(int)ObjectSubmitStatus.NonSubmit}" +
                     $",'{UserHelper.GetInstance().User.UserKey}')";
@@ -2069,6 +2069,30 @@ namespace 科技计划项目档案数据采集管理系统
                         Tag = (ControlType)list[i][2]
                     };
                     treeNode.Nodes.Add(treeNode2);
+                    //根据【项目/课题】查询【课题/子课题】集
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}'", 3);
+                    for(int j = 0; j < list2.Count; j++)
+                    {
+                        TreeNode treeNode3 = new TreeNode()
+                        {
+                            Name = list2[j][0].ToString(),
+                            Text = list2[j][1].ToString(),
+                            Tag = (ControlType)list2[j][2]
+                        };
+                        treeNode2.Nodes.Add(treeNode3);
+
+                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}'", 3);
+                        for(int k = 0; k < list3.Count; k++)
+                        {
+                            TreeNode treeNode4 = new TreeNode()
+                            {
+                                Name = list3[k][0].ToString(),
+                                Text = list3[k][1].ToString(),
+                                Tag = (ControlType)list3[k][2]
+                            };
+                            treeNode3.Nodes.Add(treeNode4);
+                        }
+                    }
                 }
             }
             //子级（课题/子课题）
@@ -2290,7 +2314,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project_topic_subtopic", 4);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic_Subtopic);
                 }
-                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
+                else
                 {
                     tab_MenuList.TabPages.Clear();
 
