@@ -118,6 +118,18 @@
     <Compile Include="Manager\Frm_userInfoAdd.Designer.cs">
       <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
     </Compile>
+    <Compile Include="QualityTesting\Frm_Advice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QualityTesting\Frm_Advice.Designer.cs">
+      <DependentUpon>Frm_Advice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QualityTesting\Frm_MyWorkQT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QualityTesting\Frm_MyWorkQT.Designer.cs">
+      <DependentUpon>Frm_MyWorkQT.cs</DependentUpon>
+    </Compile>
     <Compile Include="QualityTesting\Frm_QT.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -226,6 +238,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_userInfoAdd.resx">
       <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QualityTesting\Frm_Advice.resx">
+      <DependentUpon>Frm_Advice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QualityTesting\Frm_MyWorkQT.resx">
+      <DependentUpon>Frm_MyWorkQT.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="QualityTesting\Frm_QT.resx">
       <DependentUpon>Frm_QT.cs</DependentUpon>

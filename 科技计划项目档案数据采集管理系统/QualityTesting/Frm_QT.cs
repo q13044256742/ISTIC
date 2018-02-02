@@ -117,9 +117,11 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string querySql = $" SELECT wr_id, wr_type,wr_obj_id FROM work_registration wr LEFT JOIN(" +
                             $"SELECT trp_id, cs_id FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id) tb " +
-                            $"ON wr.trp_id = tb.trp_id WHERE wr_submit_status={(int)ObjectSubmitStatus.SubmitSuccess} AND wr_receive_status={(int)ReceiveStatus.NonReceive}";
+                            $"ON wr.trp_id = tb.trp_id WHERE wr_submit_status={(int)ObjectSubmitStatus.SubmitSuccess}";
             if(objid != null)
                 querySql += $" AND wr_id='{objid}'";
+            else
+                querySql += $" AND wr_receive_status={(int)ReceiveStatus.NonReceive}";
             List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 3);
             List<DataTable> resultList = new List<DataTable>();
             for(int i = 0; i < list.Count; i++)
@@ -162,7 +164,6 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return resultList;
         }
-
         /// <summary>
         /// 单元格点击事件
         /// </summary>
@@ -185,7 +186,45 @@ namespace 科技计划项目档案数据采集管理系统
 
                     LoadMyRegList();
                 }
+                //我的质检 -  编辑
+                else if("mr_edit".Equals(columnName))
+                {
+                    object objid = dgv_Plan.Rows[e.RowIndex].Cells["mr_id"].Value;
+                    object planId = GetRootId(objid, WorkType.ProjectWork);
+                    if(planId != null)
+                    {
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.ProjectWork, planId, ControlType.Default);
+                        frm.ShowDialog();
+                    }
+                    else
+                    {
+                        planId = GetRootId(objid, WorkType.SubjectWork);
+                        if(planId != null)
+                        {
+                            Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.SubjectWork, planId, ControlType.Default);
+                            frm.ShowDialog();
+                        }
+                        else
+                            MessageBox.Show("未找到此项目/课题所属计划。");
+                    }
+                }
             }
+        }
+        /// <summary>
+        /// 获取指定项目/课题获取其所属计划ID
+        /// </summary>
+        private object GetRootId(object objId, WorkType type)
+        {
+            if(type == WorkType.ProjectWork)
+            {
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{objId}'");
+            }
+            else if(type == WorkType.SubjectWork)
+            {
+                object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM subject_info WHERE si_id='{objId}'");
+                return GetRootId(pid, WorkType.ProjectWork);
+            }
+            return null;
         }
         /// <summary>
         /// 我的质检列表
