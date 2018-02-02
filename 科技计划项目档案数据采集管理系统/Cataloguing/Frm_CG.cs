@@ -176,38 +176,38 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadWorkList(object unitId, WorkStatus workStatus)
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_WorkingLog);
-            string querySql = $" SELECT wr_type,wr_obj_id FROM work_registration wr LEFT JOIN(" +
+            string querySql = $" SELECT wr_id, wr_type,wr_obj_id FROM work_registration wr LEFT JOIN(" +
                 $"SELECT trp_id, cs_id FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id) tb " +
                 $"ON wr.trp_id = tb.trp_id WHERE wr_status = {(int)workStatus} AND wr_submit_status={(int)ObjectSubmitStatus.NonSubmit}";
             if (unitId != null)
                 querySql += $" AND cs_id='{unitId}'";
-            List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 2);
+            List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 3);
             List<object[]> resultList = new List<object[]>();
             for (int i = 0; i < list.Count; i++)
             {
-                WorkType type = (WorkType)list[i][0];
-                object id = list[i][1];
+                WorkType type = (WorkType)list[i][1];
+                object id = list[i][2];
                 string _querySql = null;
                 switch (type)
                 {
                     case WorkType.PaperWork:
-                        _querySql = $"SELECT trp_id,trp_code,trp_name,cs_name,'纸本加工' FROM transfer_registration_pc LEFT JOIN " +
+                        _querySql = $"SELECT '{list[i][0]}',trp_code,trp_name,cs_name,'纸本加工' FROM transfer_registration_pc LEFT JOIN " +
                             $"company_source ON com_id = cs_id WHERE trp_id='{id}'";
                         break;
                     case WorkType.CDWork:
-                        _querySql = $"SELECT trc_id,trc_code,trc_name,cs_name,'光盘加工' FROM transfer_registraion_cd trc LEFT JOIN(" +
+                        _querySql = $"SELECT '{list[i][0]}',trc_code,trc_name,cs_name,'光盘加工' FROM transfer_registraion_cd trc LEFT JOIN(" +
                             $"SELECT trp_id, cs_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
                             $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{id}'";
                         break;
                     case WorkType.ProjectWork:
-                        _querySql = $"SELECT pi_id,pi_code,pi_name,cs_name,'项目/课题加工' FROM project_info pi " +
+                        _querySql = $"SELECT '{list[i][0]}',pi_code,pi_name,cs_name,'项目/课题加工' FROM project_info pi " +
                             $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
                             $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
                             $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                             $"WHERE pi_id='{id}'";
                         break;
                     case WorkType.SubjectWork:
-                        _querySql = $"SELECT si_id,si_code,si_name,cs_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
+                        _querySql = $"SELECT '{list[i][0]}',si_code,si_name,cs_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
                            $"SELECT pi_id,cs_name FROM project_info pi " +
                            $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
                            $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
@@ -457,14 +457,14 @@ namespace 科技计划项目档案数据采集管理系统
                 else if("submit".Equals(columnName))
                 {
                     //满足提交条件
-                    object objId = dgv_WorkingLog.Rows[e.RowIndex].Cells["id"].Value;
-                    string type = GetValue(dgv_WorkingLog.Rows[e.RowIndex].Cells["type"].Value);
-                    if(type.Contains("光盘"))
+                    if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}' WHERE wr_id='{objId}'";
+                        object objId = dgv_WorkingLog.Rows[e.RowIndex].Cells["id"].Value;
+                        string type = GetValue(dgv_WorkingLog.Rows[e.RowIndex].Cells["type"].Value);
+                        string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{objId}'";
                         SqlHelper.ExecuteNonQuery(updateSql);
+                        LoadWorkList(null, WorkStatus.NonWork);
                     }
-                    LoadWorkList(null, WorkStatus.NonWork);
                 }
             }
         }

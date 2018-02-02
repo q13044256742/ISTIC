@@ -124,6 +124,7 @@
     <Compile Include="QualityTesting\Frm_QT.Designer.cs">
       <DependentUpon>Frm_QT.cs</DependentUpon>
     </Compile>
+    <Compile Include="QualityTesting\QualityTesting.cs" />
     <Compile Include="Tools\Chinese2Spell.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
     <Compile Include="Tools\XmlHelper.cs" />
