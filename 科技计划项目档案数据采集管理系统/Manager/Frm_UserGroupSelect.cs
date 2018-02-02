@@ -143,20 +143,20 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         {
             StringBuilder sb = new StringBuilder();
                       
-            //新选的用户组
+            //移除选的belong_user_group_id
             int size = list_select.SelectedItems.Count;
             for(int i = 0; i < size; i++)
             {
                 list_select.Items.Remove(list_select.SelectedItems[i]);
             }
 
+            //获取剩下的belong_user_group_id
             int amount = list_select.Items.Count;
             for(int i = 0; i < amount; i++)
             {
                 object id = list_select.Items[i].SubItems[0].Text;
                 sb.Append($"{id}{(i == amount - 1 ? string.Empty : ",")}");
             }
-
 
             string updateSql = $"UPDATE user_list SET belong_user_group_id='{sb.ToString()}' where ul_id='{userId}'";
             SqlHelper.ExecuteNonQuery(updateSql);

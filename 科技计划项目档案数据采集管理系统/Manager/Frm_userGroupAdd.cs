@@ -19,10 +19,26 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             InitializeComponent();
             this.isAdd = isAdd;
             this.id = id;
-            if (!isAdd)
+            if (isAdd)
             {
+                Load_sq();
+            }
+            else
+            {
+                Load_sq();
                 LoadData(id);
-            }         
+            }
+        }
+
+        //加载授权模块
+        private void Load_sq()
+        {
+            string m_sql = $"select m_id,m_name from module";
+            SqlHelper.ExecuteRowsQuery(m_sql);
+
+            string o_sql = $"select o_id,o_name from operation";
+            SqlHelper.ExecuteRowsQuery(o_sql);
+
         }
 
         //加载更新表单
