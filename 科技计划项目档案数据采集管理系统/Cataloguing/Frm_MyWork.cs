@@ -13,21 +13,15 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private WorkType workType;
         /// <summary>
-        /// 源数据对象ID
-        /// </summary>
-        private object sourceId;
-        /// <summary>
         /// 开始加工指定的对象
         /// </summary>
         /// <param name="workType">对象类型</param>
-        /// <param name="objId">对象主键</param>
         /// <param name="planId">计划主键（仅针对光盘/批次加工）</param>
-        public Frm_MyWork(WorkType workType, object sourceId, object planId, ControlType type)
+        public Frm_MyWork(WorkType workType, object planId, ControlType type)
         {
             InitializeComponent();
 
             this.workType = workType;
-            this.sourceId = sourceId;
             InitialForm(planId, type);
         }
 
@@ -51,7 +45,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="planId">计划主键</param>
         private void LoadPlanPage(object planId)
         {
-            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_obj_id FROM project_info WHERE pi_id = '{planId}' AND pi_source_id = '{sourceId}'");
+            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_obj_id FROM project_info WHERE pi_id = '{planId}'");
             if(_obj == null)
             {
                 _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name,dd_note FROM data_dictionary WHERE dd_id='{planId}'");
@@ -831,8 +825,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType== WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -912,8 +906,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -994,8 +988,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1076,8 +1070,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1159,7 +1153,7 @@ namespace 科技计划项目档案数据采集管理系统
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
                         else
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1239,8 +1233,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1307,8 +1301,8 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("操作成功！");
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1388,8 +1382,8 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                        else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                            LoadTreeList(lbl_JH_Name.Tag, ControlType.Default);
+                        else
+                            LoadTreeList(dgv_JH_FileList.Tag, ControlType.Default);
                     }
                 }
                 else if(fileIndex == 1)//文件核查
@@ -1696,7 +1690,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object code = lbl_JH_Name.Text;
                 object name = lbl_JH_Name.Text;
                 SqlHelper.ExecuteNonQuery($"INSERT INTO project_info(pi_id,pi_code,pi_name,pi_obj_id,pi_categor,pi_submit_status,pi_source_id)" +
-                            $" VALUES('{primaryKey}','{code}','{name}','{parentId}','{(int)ControlType.Plan}','{(int)ObjectSubmitStatus.NonSubmit}','{sourceId}')");
+                            $" VALUES('{primaryKey}','{code}','{name}','{parentId}','{(int)ControlType.Plan}','{(int)ObjectSubmitStatus.NonSubmit}','{UserHelper.GetInstance().User.UserKey}')");
             }
             else if(type == ControlType.Plan_Project)
             {
@@ -1721,7 +1715,7 @@ namespace 科技计划项目档案数据采集管理系统
                     "VALUES" +
                     $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{jf}','{starttime}'" +
                     $",'{endtime}','{year}','{unit}','{unituser}'" +
-                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type},{(int)ObjectSubmitStatus.NonSubmit},'{sourceId}')";
+                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type},{(int)ObjectSubmitStatus.NonSubmit},'{UserHelper.GetInstance().User.UserKey}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1748,7 +1742,7 @@ namespace 科技计划项目档案数据采集管理系统
                     "VALUES" +
                     $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{jf}','{starttime}'" +
                     $",'{endtime}','{year}','{unit}','{unituser}'" +
-                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}','{(int)type}','{(int)ObjectSubmitStatus.NonSubmit}','{sourceId}')";
+                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}','{(int)type}','{(int)ObjectSubmitStatus.NonSubmit}','{UserHelper.GetInstance().User.UserKey}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1786,10 +1780,10 @@ namespace 科技计划项目档案数据采集管理系统
                     $",'{province}'" +
                     $",'{objuser}'" +
                     $",'{intro}'" +
-                    $",'{(int)WorkStatus.Default}'" +
+                    $",'{(int)WorkStatus.NonWork}'" +
                     $",'{(int)type}'" +
                     $",{(int)ObjectSubmitStatus.NonSubmit}" +
-                    $",'{sourceId}')";
+                    $",'{UserHelper.GetInstance().User.UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
@@ -1826,10 +1820,10 @@ namespace 科技计划项目档案数据采集管理系统
                     $",'{province}'" +
                     $",'{objuser}'" +
                     $",'{intro}'" +
-                    $",'{(int)WorkStatus.Default}'" +
+                    $",'{(int)WorkStatus.NonWork}'" +
                     $",'{(int)type}'" +
                     $",{(int)ObjectSubmitStatus.NonSubmit}" +
-                    $",'{sourceId}')";
+                    $",'{UserHelper.GetInstance().User.UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
@@ -1866,10 +1860,10 @@ namespace 科技计划项目档案数据采集管理系统
                     $",'{province}'" +
                     $",'{objuser}'" +
                     $",'{intro}'" +
-                    $",'{(int)WorkStatus.Default}'" +
+                    $",'{(int)WorkStatus.NonWork}'" +
                     $",'{(int)type}'" +
                     $",{(int)ObjectSubmitStatus.NonSubmit}" +
-                    $",'{sourceId}')";
+                    $",'{UserHelper.GetInstance().User.UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Imp_Dev)
@@ -1887,7 +1881,7 @@ namespace 科技计划项目档案数据采集管理系统
                     $",'{(int)ControlType.Imp_Dev}'" +
                     $",'{(int)SubmitStatus.NonSubmit}'" +
                     $",'{parentId}'" +
-                    $",'{sourceId}')";
+                    $",'{UserHelper.GetInstance().User.UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             return primaryKey;
@@ -1955,7 +1949,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = ControlType.Imp
                 };
                 //根据重大专项查询具体专项信息
-                DataTable table = SqlHelper.ExecuteQuery($"SELECT imp_id,imp_code FROM imp_dev_info WHERE imp_obj_id='{treeNode.Name}' AND imp_source_id='{sourceId}'");
+                DataTable table = SqlHelper.ExecuteQuery($"SELECT imp_id,imp_code FROM imp_dev_info WHERE imp_obj_id='{treeNode.Name}' AND imp_source_id='{UserHelper.GetInstance().User.UserKey}'");
                 foreach(DataRow row in table.Rows)
                 {
                     TreeNode treeNode2 = new TreeNode()
@@ -1966,7 +1960,7 @@ namespace 科技计划项目档案数据采集管理系统
                     };
                     treeNode.Nodes.Add(treeNode2);
                     //根据【专项信息】查询【项目/课题】集
-                    List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode2.Name}' AND pi_source_id='{sourceId}'", 3);
+                    List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode2.Name}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                     for(int i = 0; i < list.Count; i++)
                     {
                         TreeNode treeNode3 = new TreeNode()
@@ -1977,7 +1971,7 @@ namespace 科技计划项目档案数据采集管理系统
                         };
                         treeNode2.Nodes.Add(treeNode3);
                         //根据【项目/课题】查询【课题/子课题】集
-                        List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_source_id='{sourceId}'", 3);
+                        List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                         for(int j = 0; j < list2.Count; j++)
                         {
                             TreeNode treeNode4 = new TreeNode()
@@ -1988,7 +1982,7 @@ namespace 科技计划项目档案数据采集管理系统
                             };
                             treeNode3.Nodes.Add(treeNode4);
 
-                            List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode4.Name}' AND si_source_id='{sourceId}'", 3);
+                            List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode4.Name}' AND si_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                             for(int k = 0; k < list3.Count; k++)
                             {
                                 TreeNode treeNode5 = new TreeNode()
@@ -2006,7 +2000,7 @@ namespace 科技计划项目档案数据采集管理系统
             //计划
             else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
             {
-                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{sourceId}'");
+                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
                 if(_obj == null)
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()
@@ -2016,7 +2010,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = ControlType.Plan,
                 };
                 //根据【计划】查询【项目/课题】集
-                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_source_id='{sourceId}'", 3);
+                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                 for(int i = 0; i < list.Count; i++)
                 {
                     TreeNode treeNode2 = new TreeNode()
@@ -2027,7 +2021,7 @@ namespace 科技计划项目档案数据采集管理系统
                     };
                     treeNode.Nodes.Add(treeNode2);
                     //根据【项目/课题】查询【课题/子课题】集
-                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_source_id='{sourceId}'", 3);
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                     for(int j = 0; j < list2.Count; j++)
                     {
                         TreeNode treeNode3 = new TreeNode()
@@ -2038,7 +2032,7 @@ namespace 科技计划项目档案数据采集管理系统
                         };
                         treeNode2.Nodes.Add(treeNode3);
 
-                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_source_id='{sourceId}'", 3);
+                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                         for(int k = 0; k < list3.Count; k++)
                         {
                             TreeNode treeNode4 = new TreeNode()
@@ -2055,7 +2049,7 @@ namespace 科技计划项目档案数据采集管理系统
             //父级（项目/课题）
             else if(workType == WorkType.ProjectWork)
             {
-                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{sourceId}'");
+                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}'");
                 if(_obj == null)
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()
@@ -2065,7 +2059,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = ControlType.Plan,
                 };
                 //根据【计划】查询【项目/课题】集
-                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_source_id='{sourceId}'", 3);
+                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                 for(int i = 0; i < list.Count; i++)
                 {
                     TreeNode treeNode2 = new TreeNode()
@@ -2076,7 +2070,7 @@ namespace 科技计划项目档案数据采集管理系统
                     };
                     treeNode.Nodes.Add(treeNode2);
                     //根据【项目/课题】查询【课题/子课题】集
-                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_source_id='{sourceId}'", 3);
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}'", 3);
                     for(int j = 0; j < list2.Count; j++)
                     {
                         TreeNode treeNode3 = new TreeNode()
@@ -2087,7 +2081,56 @@ namespace 科技计划项目档案数据采集管理系统
                         };
                         treeNode2.Nodes.Add(treeNode3);
 
-                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_source_id='{sourceId}'", 3);
+                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}'", 3);
+                        for(int k = 0; k < list3.Count; k++)
+                        {
+                            TreeNode treeNode4 = new TreeNode()
+                            {
+                                Name = list3[k][0].ToString(),
+                                Text = list3[k][1].ToString(),
+                                Tag = (ControlType)list3[k][2]
+                            };
+                            treeNode3.Nodes.Add(treeNode4);
+                        }
+                    }
+                }
+            }
+            //子级（课题/子课题）
+            else if(workType == WorkType.SubjectWork)
+            {
+                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}'");
+                if(_obj == null)
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
+                treeNode = new TreeNode()
+                {
+                    Name = _obj[0].ToString(),
+                    Text = _obj[1].ToString(),
+                    Tag = ControlType.Plan,
+                };
+                //根据【计划】查询【项目/课题】集
+                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}'", 3);
+                for(int i = 0; i < list.Count; i++)
+                {
+                    TreeNode treeNode2 = new TreeNode()
+                    {
+                        Name = list[i][0].ToString(),
+                        Text = list[i][1].ToString(),
+                        Tag = (ControlType)list[i][2]
+                    };
+                    treeNode.Nodes.Add(treeNode2);
+                    //根据【项目/课题】查询【课题/子课题】集
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}'", 3);
+                    for(int j = 0; j < list2.Count; j++)
+                    {
+                        TreeNode treeNode3 = new TreeNode()
+                        {
+                            Name = list2[j][0].ToString(),
+                            Text = list2[j][1].ToString(),
+                            Tag = (ControlType)list2[j][2]
+                        };
+                        treeNode2.Nodes.Add(treeNode3);
+
+                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}'", 3);
                         for(int k = 0; k < list3.Count; k++)
                         {
                             TreeNode treeNode4 = new TreeNode()
@@ -2138,7 +2181,26 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project", 1);
                     LoadPageBasicInfo(e.Node.Name, type);
                 }
+                else if(workType == WorkType.ProjectWork)
+                {
+                    ShowTab("plan", 0);
+                    LoadPlanPage(e.Node.Parent.Name);
+                    EnableControls(ControlType.Plan, false);
 
+                    ShowTab("plan_project", 1);
+                    LoadPageBasicInfo(e.Node.Name, type);
+                    EnableControls(ControlType.Plan_Project, false);
+                }
+                else if(workType == WorkType.SubjectWork)
+                {
+                    ShowTab("plan", 0);
+                    LoadPlanPage(e.Node.Parent.Name);
+                    EnableControls(ControlType.Plan, false);
+
+                    ShowTab("plan_project", 1);
+                    LoadPageBasicInfo(e.Node.Name, type);
+                    EnableControls(ControlType.Plan_Project, false);
+                }
             }
             else if(type == ControlType.Plan_Topic)
             {
@@ -2181,6 +2243,17 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
                 }
                 else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
+                {
+                    ShowTab("plan", 0);
+                    LoadPlanPage(e.Node.Parent.Parent.Name);
+
+                    ShowTab("plan_project", 1);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project);
+
+                    ShowTab("plan_project_topic", 2);
+                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
+                }
+                else if(workType == WorkType.ProjectWork || workType == WorkType.SubjectWork)
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Parent.Name);
@@ -2241,7 +2314,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project_topic_subtopic", 4);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic_Subtopic);
                 }
-                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
+                else
                 {
                     tab_MenuList.TabPages.Clear();
 
@@ -2258,7 +2331,7 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadPageBasicInfo(e.Node.Name, type);
                 }
             }
-            else if(type == ControlType.Imp || type== ControlType.Imp_Dev)
+            else if(type == ControlType.Imp || type == ControlType.Imp_Dev)
             {
                 tab_MenuList.TabPages.Clear();
 
@@ -2285,7 +2358,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="name"></param>
         private void LoadImpInfo(object objId)
         {
-            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id,imp_name,imp_intro,imp_submit_status FROM imp_info WHERE imp_obj_id='{objId}' AND imp_source_id='{sourceId}'");
+            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id,imp_name,imp_intro,imp_submit_status FROM imp_info WHERE imp_obj_id='{objId}' AND imp_source_id='{UserHelper.GetInstance().User.UserKey}'");
             if(_obj == null)
                 _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name,dd_note FROM data_dictionary WHERE dd_id='{objId}'");
             else
@@ -4107,8 +4180,17 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_LY.Text = GetValue(row["pb_belong"]);
                     txt_JH_XM_ZT.Text = GetValue(row["pb_belong_type"]);
                     txt_JH_XM_JF.Text = GetValue(row["pi_money"]);
-                    dtp_JH_XM_StartTime.Value = DateTime.Parse(GetValue(row["pi_start_datetime"]));
-                    dtp_JH_XM_EndTime.Value = DateTime.Parse(GetValue(row["pi_end_datetime"]));
+
+                    string startTime = GetValue(row["pi_start_datetime"]);
+                    DateTime _startTime = new DateTime();
+                    if(DateTime.TryParse(startTime, out _startTime))
+                        dtp_JH_XM_StartTime.Value = _startTime;
+
+                    string endTime = GetValue(row["pi_end_datetime"]);
+                    DateTime _endTime = new DateTime();
+                    if(DateTime.TryParse(endTime, out _endTime))
+                        dtp_JH_XM_EndTime.Value = _endTime;
+
                     txt_JH_XM_LXND.Text = GetValue(row["pi_year"]);
                     cbo_JH_XM_Unit.SelectedValue = GetValue(row["pi_company_id"]);
                     cbo_JH_XM_Province.SelectedValue = GetValue(row["pi_province"]);
@@ -4134,8 +4216,17 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_KT_LY.Text = GetValue(row["pb_belong"]);
                     txt_JH_KT_ZT.Text = GetValue(row["pb_belong_type"]);
                     txt_JH_KT_JF.Text = GetValue(row["pi_money"]);
-                    dtp_JH_KT_StartTime.Value = DateTime.Parse(GetValue(row["pi_start_datetime"]));
-                    dtp_JH_KT_EndTime.Value = DateTime.Parse(GetValue(row["pi_end_datetime"]));
+
+                    string startTime = GetValue(row["pi_start_datetime"]);
+                    DateTime _startTime = new DateTime();
+                    if(DateTime.TryParse(startTime, out _startTime))
+                        dtp_JH_KT_StartTime.Value = _startTime;
+
+                    string endTime = GetValue(row["pi_end_datetime"]);
+                    DateTime _endTime = new DateTime();
+                    if(DateTime.TryParse(endTime, out _endTime))
+                        dtp_JH_KT_EndTime.Value = _endTime;
+
                     txt_JH_KT_Year.Text = GetValue(row["pi_year"]);
                     cbo_JH_KT_Unit.SelectedValue = GetValue(row["pi_company_id"]);
                     cbo_JH_KT_Province.SelectedValue = GetValue(row["pi_province"]);
@@ -4161,8 +4252,17 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_KT_LY.Text = GetValue(row["si_field"]);
                     txt_JH_XM_KT_ZT.Text = GetValue(row["si_belong"]);
                     txt_JH_XM_KT_JF.Text = GetValue(row["si_money"]);
-                    dtp_JH_XM_KT_StartTime.Value = DateTime.Parse(GetValue(row["si_start_datetime"]));
-                    dtp_JH_XM_KT_EndTime.Value = DateTime.Parse(GetValue(row["si_end_datetime"]));
+
+                    string startTime = GetValue(row["si_start_datetime"]);
+                    DateTime _startTime = new DateTime();
+                    if(DateTime.TryParse(startTime, out _startTime))
+                        dtp_JH_XM_KT_StartTime.Value = _startTime;
+
+                    string endTime = GetValue(row["si_end_datetime"]);
+                    DateTime _endTime = new DateTime();
+                    if(DateTime.TryParse(endTime, out _endTime))
+                        dtp_JH_XM_KT_EndTime.Value = _endTime;
+
                     txt_JH_XM_KT_Year.Text = GetValue(row["si_year"]);
                     cbo_JH_XM_KT_Unit.SelectedValue = GetValue(row["si_company"]);
                     cbo_JH_XM_KT_Province.SelectedValue = GetValue(row["si_province"]);
@@ -4188,8 +4288,17 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_KT_ZKT_LY.Text = GetValue(row["si_field"]);
                     txt_JH_KT_ZKT_ZT.Text = GetValue(row["si_belong"]);
                     txt_JH_KT_ZKT_JF.Text = GetValue(row["si_money"]);
-                    dtp_JH_KT_ZKT_StartTime.Value = DateTime.Parse(GetValue(row["si_start_datetime"]));
-                    dtp_JH_KT_ZKT_EndTime.Value = DateTime.Parse(GetValue(row["si_end_datetime"]));
+
+                    string startTime = GetValue(row["si_start_datetime"]);
+                    DateTime _startTime = new DateTime();
+                    if(DateTime.TryParse(startTime, out _startTime))
+                        dtp_JH_KT_ZKT_StartTime.Value = _startTime;
+
+                    string endTime = GetValue(row["si_end_datetime"]);
+                    DateTime _endTime = new DateTime();
+                    if(DateTime.TryParse(endTime, out _endTime))
+                        dtp_JH_KT_ZKT_EndTime.Value = _endTime;
+
                     txt_JH_KT_ZKT_Year.Text = GetValue(row["si_year"]);
                     cbo_JH_KT_ZKT_Unit.SelectedValue = GetValue(row["si_company"]);
                     cbo_JH_KT_ZKT_Province.SelectedValue = GetValue(row["si_province"]);
@@ -4215,8 +4324,17 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_KT_ZKT_LY.Text = GetValue(row["si_field"]);
                     txt_JH_XM_KT_ZKT_ZT.Text = GetValue(row["si_belong"]);
                     txt_JH_XM_KT_ZKT_JF.Text = GetValue(row["si_money"]);
-                    dtp_JH_XM_KT_ZKT_StartTime.Value = DateTime.Parse(GetValue(row["si_start_datetime"]));
-                    dtp_JH_XM_KT_ZKT_EndTime.Value = DateTime.Parse(GetValue(row["si_end_datetime"]));
+
+                    string startTime = GetValue(row["si_start_datetime"]);
+                    DateTime _startTime = new DateTime();
+                    if(DateTime.TryParse(startTime, out _startTime))
+                        dtp_JH_XM_KT_ZKT_StartTime.Value = _startTime;
+
+                    string endTime = GetValue(row["si_end_datetime"]);
+                    DateTime _endTime = new DateTime();
+                    if(DateTime.TryParse(endTime, out _endTime))
+                        dtp_JH_XM_KT_ZKT_EndTime.Value = _endTime;
+
                     txt_JH_XM_KT_ZKT_Year.Text = GetValue(row["si_year"]);
                     cbo_JH_XM_KT_ZKT_Unit.SelectedValue = GetValue(row["si_company"]);
                     cbo_JH_XM_KT_ZKT_Province.SelectedValue = GetValue(row["si_province"]);
@@ -4370,11 +4488,12 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         /// <param name="type">对象类型</param>
         /// <param name="enable">是否可用</param>
+        /// <param name="nextEnable">下一级是否可用</param>
         void EnableControls(ControlType type, bool enable)
         {
             if(type == ControlType.Plan)
             {
-                tab_JH_FileInfo.Enabled = pal_JH_BasicInfo.Enabled = enable;
+                //tab_JH_FileInfo.Enabled = pal_JH_BasicInfo.Enabled = enable;
                 foreach(Control item in pal_JH_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4384,7 +4503,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Project)
             {
-                tab_JH_XM_FileInfo.Enabled = pal_JH_XM.Enabled = enable;
+                //tab_JH_XM_FileInfo.Enabled = pal_JH_XM.Enabled = enable;
                 foreach(Control item in pal_JH_XM_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4394,7 +4513,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Project_Topic)
             {
-                tab_JH_XM_KT_FileInfo.Enabled = pal_JH_XM_KT.Enabled = enable;
+                //tab_JH_XM_KT_FileInfo.Enabled = pal_JH_XM_KT.Enabled = enable;
                 foreach(Control item in pal_JH_XM_KT_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4404,7 +4523,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
-                tab_JH_XM_KT_ZKT_FileInfo.Enabled = pal_JH_XM_KT_ZKT.Enabled = enable;
+                //tab_JH_XM_KT_ZKT_FileInfo.Enabled = pal_JH_XM_KT_ZKT.Enabled = enable;
                 foreach(Control item in pal_JH_XM_KT_ZKT_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4414,7 +4533,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Topic)
             {
-                tab_JH_KT_FileInfo.Enabled = pal_JH_KT.Enabled = enable;
+                //tab_JH_KT_FileInfo.Enabled = pal_JH_KT.Enabled = enable;
                 foreach(Control item in pal_JH_KT_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4424,7 +4543,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
             {
-                tab_JH_KT_ZKT_FileInfo.Enabled = pal_JH_KT_ZKT.Enabled = enable;
+                //tab_JH_KT_ZKT_FileInfo.Enabled = pal_JH_KT_ZKT.Enabled = enable;
                 foreach(Control item in pal_JH_KT_ZKT_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4434,7 +4553,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Imp)
             {
-                tab_Imp_FileInfo.Enabled = pal_Imp.Enabled = enable;
+                //tab_Imp_FileInfo.Enabled = pal_Imp.Enabled = enable;
                 foreach(Control item in pal_Imp_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
@@ -4444,7 +4563,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Imp_Dev)
             {
-                tab_Imp_Dev_FileInfo.Enabled = pal_Imp_Dev.Enabled = enable;
+                //tab_Imp_Dev_FileInfo.Enabled = pal_Imp_Dev.Enabled = enable;
                 foreach(Control item in pal_Imp_Dev_BtnGroup.Controls)
                 {
                     item.Enabled = enable;

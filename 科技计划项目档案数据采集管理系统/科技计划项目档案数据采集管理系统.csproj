@@ -75,6 +75,7 @@
     <Compile Include="Cataloguing\Frm_MyWork.Designer.cs">
       <DependentUpon>Frm_MyWork.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login\UserHelper.cs" />
     <Compile Include="Manager\Frm_MainFrameManager.cs">
       <SubType>Form</SubType>
     </Compile>

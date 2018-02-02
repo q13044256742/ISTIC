@@ -450,8 +450,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_GPDJ.Rows[_index].Cells["cs_name"].Value = row["cs_name"];
                 dgv_GPDJ.Rows[_index].Cells["trc_code"].Value = row["trc_code"];
                 dgv_GPDJ.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
-                dgv_GPDJ.Rows[_index].Cells["trc_project_amount"].Value = GetTotalAmount(row["trc_id"]);
-                dgv_GPDJ.Rows[_index].Cells["trc_subject_amount"].Value = GetTotalReceiveAmount(row["trc_id"]);
+                dgv_GPDJ.Rows[_index].Cells["trc_project_amount"].Value = GetProjectAmount(row["trc_id"]);
+                dgv_GPDJ.Rows[_index].Cells["trc_subject_amount"].Value = GetSubjectAmount(row["trc_id"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_file_amount"].Value = 0;//文件数待处理
                 dgv_GPDJ.Rows[_index].Cells["trc_status"].Value = GetReadStatus(GetInt32(row["trc_status"]));
                 dgv_GPDJ.Rows[_index].Cells["control"].Value = "读写";
@@ -460,14 +460,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_GPDJ.Columns[0].Visible = false;
 
             List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
-            list.Add(new KeyValuePair<string, int>("cs_name", 250));
+            list.Add(new KeyValuePair<string, int>("cs_name", 350));
             list.Add(new KeyValuePair<string, int>("trc_code", 200));
-            list.Add(new KeyValuePair<string, int>("trc_name", 200));
+            list.Add(new KeyValuePair<string, int>("trc_name", 300));
 
             list.Add(new KeyValuePair<string, int>("trc_project_amount", 90));
             list.Add(new KeyValuePair<string, int>("trc_subject_amount", 90));
             list.Add(new KeyValuePair<string, int>("trc_file_amount", 90));
-            list.Add(new KeyValuePair<string, int>("control", 100));
+            //list.Add(new KeyValuePair<string, int>("control", 100));
             list.Add(new KeyValuePair<string, int>("trc_status", 100));
             DataGridViewStyleHelper.SetWidth(dgv_GPDJ, list);
 
@@ -477,33 +477,29 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         }
 
         /// <summary>
-        /// 根据光盘ID获取项目数+课题数总和
+        /// 根据光盘ID获取项目数总和
         /// </summary>
-        private int GetTotalAmount(object trcId)
+        private int GetProjectAmount(object trcId)
         {
             if (trcId != null)
             {
                 int proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}'"));
-                int subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id IN(SELECT pi_id FROM project_info WHERE trc_id = '{trcId}')"));
-                return proAmount + subAmount;
+                return proAmount;
             }
             return 0;
         }
 
         /// <summary>
-        /// 根据光盘ID获取项目+课题中已领取数总和
+        /// 根据光盘ID获取课题数总和
         /// </summary>
-        private object GetTotalReceiveAmount(object trcId)
+        private object GetSubjectAmount(object trcId)
         {
-            int proAmount = 0;
-            int subAmount = 0;
-            if (trcId != null)
+            int amount = 0;
+            if(trcId != null)
             {
-                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}' AND pi_work_status='{(int)ReceiveStatus.ReceiveSuccess}'"));
-                if (proAmount > 0)
-                    subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id IN(SELECT pi_id FROM project_info WHERE trc_id = '{trcId}') AND si_work_status='{(int)ReceiveStatus.ReceiveSuccess}'"));
+                amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(si_id) FROM subject_info WHERE pi_id IN(SELECT pi_id FROM project_info WHERE trc_id='{trcId}')"));
             }
-            return proAmount + subAmount;
+            return amount;
         }
 
         /// <summary>
@@ -557,10 +553,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             if(e.RowIndex!=-1 && e.ColumnIndex != -1)
             {
+                object trcId = dgv_GPDJ.Rows[e.RowIndex].Cells["trc_id"].Value;
                 if ("control".Equals(dgv_GPDJ.Columns[e.ColumnIndex].Name))
                 {
-                    Frm_CDRead read = new Frm_CDRead();
-                    read.ShowDialog();
+                    Frm_CDRead read = new Frm_CDRead(trcId);
+                    if(read.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadGPDJ(null);
+                    }
                 }
             }
         }

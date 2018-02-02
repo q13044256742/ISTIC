@@ -433,7 +433,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork myWork = new Frm_MyWork(WorkType.ProjectWork, objId, rootId, ControlType.Default);
+                                Frm_MyWork myWork = new Frm_MyWork(WorkType.ProjectWork, rootId, ControlType.Default);
                                 myWork.ShowDialog();
                             }
                         }
@@ -446,7 +446,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, objId, rootId, ControlType.Default);
+                                Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, rootId, ControlType.Default);
                                 myWork.ShowDialog();
                             }
                         }
