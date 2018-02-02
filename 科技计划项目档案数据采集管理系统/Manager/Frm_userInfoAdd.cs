@@ -21,32 +21,18 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             this.isAdd = isAdd;
             this.id = id;
 
-            if (isAdd) {
-                Load_role();
-                LoadUserGroup();
+            if (isAdd) {              
             }               
             else {
-                Load_role();
-                LoadUserGroup();
                 LoadData(id);
             }
                 
-        }
-
-        //加载用户组
-        private void LoadUserGroup()
-        {
-            string sql = $"select ug_id,ug_name from user_group order by ug_sort";
-            DataTable table = SqlHelper.ExecuteQuery(sql);
-            //belong_userGroup.DataSource = table;
-            //belong_userGroup.DisplayMember = "ug_name";
-            //belong_userGroup.ValueMember = "ug_id";
-        }
+        }      
 
         //加载更新表单
         private void LoadData(string id)
         {            
-            string sql = $"select u.login_name,u.login_password,u.belong_unit,u.belong_department,u.real_name,u.email,u.telephone,u.cellphone,u.ip_address,u.remark,u.role_id,u.belong_user_group_id" +
+            string sql = $"select u.login_name,u.login_password,u.belong_unit,u.belong_department,u.real_name,u.email,u.telephone,u.cellphone,u.ip_address,u.remark" +
                 $" from user_list u where ul_id = '{id}'";
             object[] _obj = SqlHelper.ExecuteRowsQuery(sql);
 
@@ -72,21 +58,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 ip_8.Text = array[7];
             }
           
-            note.Text = _obj[9].ToString();
-            role_box.SelectedValue = _obj[10].ToString();
-            belong_userGroup.Text = _obj[11].ToString();
-
+            note.Text = _obj[9].ToString();           
             login_name.Tag = id;
-        }
-
-        //加载角色
-        private void Load_role()
-        {
-            string sql = $"select r_name,r_id from role";
-            DataTable table = SqlHelper.ExecuteQuery(sql);
-            role_box.DataSource = table;
-            role_box.DisplayMember = "r_name";
-            role_box.ValueMember = "r_id";
         }
 
         //保存
@@ -101,7 +74,6 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 //保存基本信息
                 string _login_name = login_name.Text.Trim();
                 string _password = password.Text.Trim();
-                string r_id = role_box.SelectedValue.ToString().Trim();
                 string _belong_unit = belong_unit.Text.Trim();
                 string _belong_bm = belong_bm.Text.Trim();
                 string _mobile = mobile.Text.Trim();
@@ -118,16 +90,15 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 string _ip = _ip_1 + '.' + _ip_2 + '.' + _ip_3 + '.' + _ip_4 + '.' + _ip_5 + '.' + _ip_6 + '.' + _ip_7 + '.' + _ip_8;              
                 string _note = note.Text.Trim();            
                 string _real_name = real_name.Text.Trim();
-                string _belong_userGroup_id = belong_userGroup.Text.Trim();
-
+            
                 //新增信息
                 if (isAdd)
                 {
                     string _uId = Guid.NewGuid().ToString();
                     string querySql = $"insert into user_list " +
-                        $"(ul_id,login_name,login_password,belong_unit,belong_department,real_name,email,telephone,cellphone,ip_address,remark,role_id,belong_user_group_id)" +
+                        $"(ul_id,login_name,login_password,belong_unit,belong_department,real_name,email,telephone,cellphone,ip_address,remark)" +
                         $"values" +
-                        $"('{_uId}','{_login_name}','{_password}','{_belong_unit}','{_belong_bm}','{_real_name}','{_mail}','{_mobile}','{_phone}','{_ip}','{_note}','{r_id}','{_belong_userGroup_id}')";
+                        $"('{_uId}','{_login_name}','{_password}','{_belong_unit}','{_belong_bm}','{_real_name}','{_mail}','{_mobile}','{_phone}','{_ip}','{_note}')";
                     SqlHelper.ExecuteQuery(querySql);
                 }
                 //更新信息
@@ -135,7 +106,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 {
                     string ul_id = login_name.Tag.ToString();
                     string querySql = $"update user_list set login_name='{_login_name}',login_password='{_password}',belong_unit='{_belong_unit}',belong_department='{_belong_bm}'," +
-                        $" real_name='{_real_name}',email='{_mail}',telephone='{_mobile}',cellphone='{_phone}',ip_address='{_ip}',remark='{_note}',role_id='{r_id}',belong_user_group_id='{_belong_userGroup_id}' where ul_id='{ul_id}'";
+                        $" real_name='{_real_name}',email='{_mail}',telephone='{_mobile}',cellphone='{_phone}',ip_address='{_ip}',remark='{_note}' where ul_id='{ul_id}'";
                     SqlHelper.ExecuteQuery(querySql);
                 }
                 if (MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
@@ -181,6 +152,16 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             else if (string.IsNullOrEmpty(real_name.Text.Trim()))
             {
                 MessageBox.Show("请输入姓名", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            else if (string.IsNullOrEmpty(belong_unit.Text.Trim()))
+            {
+                MessageBox.Show("请输入所属单位", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            else if (string.IsNullOrEmpty(belong_bm.Text.Trim()))
+            {
+                MessageBox.Show("请输入所属部门", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
             else if (!IsMobile())
@@ -246,6 +227,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             return true;
         }
 
+        //ip校验
         bool IsIp()
         {                     
             if (!string.IsNullOrEmpty(ip_1.Text.Trim()) && !string.IsNullOrEmpty(ip_2.Text.Trim()) && !string.IsNullOrEmpty(ip_3.Text.Trim()) && !string.IsNullOrEmpty(ip_4.Text.Trim()) 
@@ -287,12 +269,6 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             {
                 e.Handled = true;
             }
-        }
-
-        private void Btn_Select_Click(object sender, EventArgs e)
-        {
-            Frm_UserGroupSelect frm = new Frm_UserGroupSelect(id);
-            frm.ShowDialog();
-        }
+        }      
     }
 }
