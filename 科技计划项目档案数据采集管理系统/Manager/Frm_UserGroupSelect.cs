@@ -145,11 +145,17 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                       
             //新选的用户组
             int size = list_select.SelectedItems.Count;
-            //for (int i = 0; i < size; i++)
-            //{
-            //    object groupId = list_select.SelectedItems[i].SubItems[0].Text;
-            //    sb.Append($"{groupId}{(i == size - 1 ? string.Empty : ",")}");               
-            //}
+            for(int i = 0; i < size; i++)
+            {
+                list_select.Items.Remove(list_select.SelectedItems[i]);
+            }
+
+            int amount = list_select.Items.Count;
+            for(int i = 0; i < amount; i++)
+            {
+                object id = list_select.Items[i].SubItems[0].Text;
+                sb.Append($"{id}{(i == amount - 1 ? string.Empty : ",")}");
+            }
 
 
             string updateSql = $"UPDATE user_list SET belong_user_group_id='{sb.ToString()}' where ul_id='{userId}'";
