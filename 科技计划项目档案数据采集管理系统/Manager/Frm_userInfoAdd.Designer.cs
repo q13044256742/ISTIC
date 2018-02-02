@@ -39,13 +39,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.belong_bm = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.phone = new System.Windows.Forms.TextBox();
-            this.role_box = new System.Windows.Forms.ComboBox();
             this.login_name = new System.Windows.Forms.TextBox();
             this.password = new System.Windows.Forms.TextBox();
             this.real_password = new System.Windows.Forms.TextBox();
@@ -72,17 +69,15 @@
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.btn_Select = new System.Windows.Forms.Button();
-            this.belong_userGroup = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(719, 486);
+            this.button1.Location = new System.Drawing.Point(718, 446);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(76, 29);
             this.button1.TabIndex = 35;
@@ -92,7 +87,7 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(637, 486);
+            this.btn_Save.Location = new System.Drawing.Point(636, 446);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(76, 29);
             this.btn_Save.TabIndex = 34;
@@ -103,7 +98,7 @@
             // note
             // 
             this.note.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.note.Location = new System.Drawing.Point(136, 390);
+            this.note.Location = new System.Drawing.Point(135, 349);
             this.note.Multiline = true;
             this.note.Name = "note";
             this.note.Size = new System.Drawing.Size(659, 60);
@@ -153,7 +148,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(438, 140);
+            this.label5.Location = new System.Drawing.Point(437, 140);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(84, 19);
             this.label5.TabIndex = 40;
@@ -189,42 +184,22 @@
             this.label8.TabIndex = 43;
             this.label8.Text = "IP地址：";
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label9.Location = new System.Drawing.Point(35, 338);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(99, 19);
-            this.label9.TabIndex = 44;
-            this.label9.Text = "所属用户组：";
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label10.Location = new System.Drawing.Point(78, 403);
+            this.label10.Location = new System.Drawing.Point(79, 350);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(54, 19);
             this.label10.TabIndex = 45;
             this.label10.Text = "备注：";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label13.Location = new System.Drawing.Point(466, 94);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(54, 19);
-            this.label13.TabIndex = 49;
-            this.label13.Text = "角色：";
             // 
             // belong_bm
             // 
             this.belong_bm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.belong_bm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.belong_bm.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.belong_bm.Location = new System.Drawing.Point(525, 136);
+            this.belong_bm.Location = new System.Drawing.Point(524, 137);
             this.belong_bm.Name = "belong_bm";
             this.belong_bm.Size = new System.Drawing.Size(271, 26);
             this.belong_bm.TabIndex = 51;
@@ -250,16 +225,6 @@
             this.phone.Size = new System.Drawing.Size(271, 26);
             this.phone.TabIndex = 55;
             this.phone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Phone_keyPress);
-            // 
-            // role_box
-            // 
-            this.role_box.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.role_box.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.role_box.FormattingEnabled = true;
-            this.role_box.Location = new System.Drawing.Point(523, 92);
-            this.role_box.Name = "role_box";
-            this.role_box.Size = new System.Drawing.Size(271, 24);
-            this.role_box.TabIndex = 59;
             // 
             // login_name
             // 
@@ -329,7 +294,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label11.Location = new System.Drawing.Point(437, 234);
+            this.label11.Location = new System.Drawing.Point(437, 95);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(84, 19);
             this.label11.TabIndex = 66;
@@ -340,7 +305,7 @@
             this.real_name.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.real_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.real_name.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.real_name.Location = new System.Drawing.Point(524, 230);
+            this.real_name.Location = new System.Drawing.Point(524, 92);
             this.real_name.Name = "real_name";
             this.real_name.Size = new System.Drawing.Size(271, 26);
             this.real_name.TabIndex = 67;
@@ -540,23 +505,12 @@
             this.label23.TabIndex = 112;
             this.label23.Text = "*";
             // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label24.ForeColor = System.Drawing.Color.Red;
-            this.label24.Location = new System.Drawing.Point(797, 95);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(16, 19);
-            this.label24.TabIndex = 113;
-            this.label24.Text = "*";
-            // 
             // label25
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.label25.ForeColor = System.Drawing.Color.Red;
-            this.label25.Location = new System.Drawing.Point(798, 234);
+            this.label25.Location = new System.Drawing.Point(798, 96);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(16, 19);
             this.label25.TabIndex = 114;
@@ -573,49 +527,37 @@
             this.label26.TabIndex = 115;
             this.label26.Text = "*";
             // 
-            // label27
+            // label9
             // 
-            this.label27.AutoSize = true;
-            this.label27.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label27.ForeColor = System.Drawing.Color.Red;
-            this.label27.Location = new System.Drawing.Point(796, 339);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(16, 19);
-            this.label27.TabIndex = 116;
-            this.label27.Text = "*";
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label9.ForeColor = System.Drawing.Color.Red;
+            this.label9.Location = new System.Drawing.Point(410, 141);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(16, 19);
+            this.label9.TabIndex = 116;
+            this.label9.Text = "*";
             // 
-            // btn_Select
+            // label13
             // 
-            this.btn_Select.Location = new System.Drawing.Point(719, 334);
-            this.btn_Select.Name = "btn_Select";
-            this.btn_Select.Size = new System.Drawing.Size(75, 28);
-            this.btn_Select.TabIndex = 117;
-            this.btn_Select.Text = "选择";
-            this.btn_Select.UseVisualStyleBackColor = true;
-            this.btn_Select.Click += new System.EventHandler(this.Btn_Select_Click);
-            // 
-            // belong_userGroup
-            // 
-            this.belong_userGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.belong_userGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.belong_userGroup.Enabled = false;
-            this.belong_userGroup.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.belong_userGroup.Location = new System.Drawing.Point(137, 335);
-            this.belong_userGroup.Name = "belong_userGroup";
-            this.belong_userGroup.Size = new System.Drawing.Size(577, 26);
-            this.belong_userGroup.TabIndex = 118;
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label13.ForeColor = System.Drawing.Color.Red;
+            this.label13.Location = new System.Drawing.Point(798, 141);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(16, 19);
+            this.label13.TabIndex = 117;
+            this.label13.Text = "*";
             // 
             // Frm_userInfoAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(857, 563);
-            this.Controls.Add(this.belong_userGroup);
-            this.Controls.Add(this.btn_Select);
-            this.Controls.Add(this.label27);
+            this.ClientSize = new System.Drawing.Size(857, 517);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.label25);
-            this.Controls.Add(this.label24);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.label21);
@@ -642,13 +584,10 @@
             this.Controls.Add(this.real_password);
             this.Controls.Add(this.password);
             this.Controls.Add(this.login_name);
-            this.Controls.Add(this.role_box);
             this.Controls.Add(this.phone);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.belong_bm);
-            this.Controls.Add(this.label13);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -680,13 +619,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox belong_bm;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox phone;
-        private System.Windows.Forms.ComboBox role_box;
         private System.Windows.Forms.TextBox login_name;
         private System.Windows.Forms.TextBox password;
         private System.Windows.Forms.TextBox real_password;
@@ -713,11 +649,9 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Button btn_Select;
-        private System.Windows.Forms.TextBox belong_userGroup;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label13;
     }
 }
