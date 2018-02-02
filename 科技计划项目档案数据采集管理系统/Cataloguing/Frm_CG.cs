@@ -179,35 +179,35 @@ namespace 科技计划项目档案数据采集管理系统
             string querySql = $" SELECT wr_id, wr_type,wr_obj_id FROM work_registration wr LEFT JOIN(" +
                 $"SELECT trp_id, cs_id FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id) tb " +
                 $"ON wr.trp_id = tb.trp_id WHERE wr_status = {(int)workStatus} AND wr_submit_status={(int)ObjectSubmitStatus.NonSubmit}";
-            if (unitId != null)
+            if(unitId != null)
                 querySql += $" AND cs_id='{unitId}'";
             List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 3);
             List<object[]> resultList = new List<object[]>();
-            for (int i = 0; i < list.Count; i++)
+            for(int i = 0; i < list.Count; i++)
             {
                 WorkType type = (WorkType)list[i][1];
                 object id = list[i][2];
                 string _querySql = null;
-                switch (type)
+                switch(type)
                 {
                     case WorkType.PaperWork:
-                        _querySql = $"SELECT '{list[i][0]}',trp_code,trp_name,cs_name,'纸本加工' FROM transfer_registration_pc LEFT JOIN " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',trp_code,trp_name,cs_name,'纸本加工' FROM transfer_registration_pc LEFT JOIN " +
                             $"company_source ON com_id = cs_id WHERE trp_id='{id}'";
                         break;
                     case WorkType.CDWork:
-                        _querySql = $"SELECT '{list[i][0]}',trc_code,trc_name,cs_name,'光盘加工' FROM transfer_registraion_cd trc LEFT JOIN(" +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',trc_code,trc_name,cs_name,'光盘加工' FROM transfer_registraion_cd trc LEFT JOIN(" +
                             $"SELECT trp_id, cs_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
                             $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{id}'";
                         break;
                     case WorkType.ProjectWork:
-                        _querySql = $"SELECT '{list[i][0]}',pi_code,pi_name,cs_name,'项目/课题加工' FROM project_info pi " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',pi_code,pi_name,cs_name,'项目/课题加工' FROM project_info pi " +
                             $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
                             $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
                             $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                             $"WHERE pi_id='{id}'";
                         break;
                     case WorkType.SubjectWork:
-                        _querySql = $"SELECT '{list[i][0]}',si_code,si_name,cs_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',si_code,si_name,cs_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
                            $"SELECT pi_id,cs_name FROM project_info pi " +
                            $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
                            $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
@@ -219,7 +219,7 @@ namespace 科技计划项目档案数据采集管理系统
                         break;
                 }
                 object[] _obj = SqlHelper.ExecuteRowsQuery(_querySql);
-                if (_obj != null)
+                if(_obj != null)
                     resultList.Add(_obj);
             }
 
@@ -230,14 +230,15 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_WorkingLog.Columns.Add("type", "加工类型");
             dgv_WorkingLog.Columns.Add("edit", "操作");
             dgv_WorkingLog.Columns.Add("submit", "提交");
-            for (int i = 0; i < resultList.Count; i++)
+            for(int i = 0; i < resultList.Count; i++)
             {
                 int index = dgv_WorkingLog.Rows.Add();
-                dgv_WorkingLog.Rows[index].Cells["id"].Value = resultList[i][0];
-                dgv_WorkingLog.Rows[index].Cells["code"].Value = resultList[i][1];
-                dgv_WorkingLog.Rows[index].Cells["name"].Value = resultList[i][2];
-                dgv_WorkingLog.Rows[index].Cells["cs_name"].Value = resultList[i][3];
-                dgv_WorkingLog.Rows[index].Cells["type"].Value = resultList[i][4];
+                dgv_WorkingLog.Rows[index].Cells["id"].Tag = resultList[i][0];
+                dgv_WorkingLog.Rows[index].Cells["id"].Value = resultList[i][1];
+                dgv_WorkingLog.Rows[index].Cells["code"].Value = resultList[i][2];
+                dgv_WorkingLog.Rows[index].Cells["name"].Value = resultList[i][3];
+                dgv_WorkingLog.Rows[index].Cells["cs_name"].Value = resultList[i][4];
+                dgv_WorkingLog.Rows[index].Cells["type"].Value = resultList[i][5];
                 dgv_WorkingLog.Rows[index].Cells["edit"].Value = "编辑";
                 dgv_WorkingLog.Rows[index].Cells["submit"].Value = "提交质检";
             }
@@ -368,7 +369,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 WrObjId = piid,
                                 WrTrpId = trpid
                             };
-                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}','{(int)ObjectSubmitStatus.NonSubmit}')";
+                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}','{(int)ObjectSubmitStatus.NonSubmit}','{(int)ReceiveStatus.NonReceive}')";
                             SqlHelper.ExecuteNonQuery(insertSql);
 
                             string updateSql = $"UPDATE project_info SET pi_work_status={(int)WorkStatus.WorkSuccess} WHERE pi_id='{wr.WrObjId}'";
@@ -399,7 +400,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 WrObjId = siid,
                                 WrTrpId = trpid
                             };
-                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}','{(int)ObjectSubmitStatus.NonSubmit}')";
+                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}','{(int)ObjectSubmitStatus.NonSubmit}','{(int)ReceiveStatus.NonReceive}')";
                             SqlHelper.ExecuteNonQuery(insertSql);
 
                             string updateSql = $"UPDATE subject_info SET si_work_status={(int)WorkStatus.WorkSuccess} WHERE si_id='{wr.WrObjId}'";
