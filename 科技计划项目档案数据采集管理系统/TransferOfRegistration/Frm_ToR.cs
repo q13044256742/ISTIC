@@ -460,14 +460,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_GPDJ.Columns[0].Visible = false;
 
             List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
-            list.Add(new KeyValuePair<string, int>("cs_name", 350));
+            list.Add(new KeyValuePair<string, int>("cs_name", 250));
             list.Add(new KeyValuePair<string, int>("trc_code", 200));
-            list.Add(new KeyValuePair<string, int>("trc_name", 300));
+            list.Add(new KeyValuePair<string, int>("trc_name", 200));
 
             list.Add(new KeyValuePair<string, int>("trc_project_amount", 90));
             list.Add(new KeyValuePair<string, int>("trc_subject_amount", 90));
             list.Add(new KeyValuePair<string, int>("trc_file_amount", 90));
-            //list.Add(new KeyValuePair<string, int>("control", 100));
+            list.Add(new KeyValuePair<string, int>("control", 100));
             list.Add(new KeyValuePair<string, int>("trc_status", 100));
             DataGridViewStyleHelper.SetWidth(dgv_GPDJ, list);
 
