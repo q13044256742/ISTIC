@@ -37,6 +37,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             string m_sql = $"select m_id,m_name from module order by m_sort";
             object[] _obj = SqlHelper.ExecuteRowsQuery(m_sql);
 
+           //object a =  SqlHelper.ExecuteColumnsQuery(m_sql,7);
+
             if (_obj != null)
             {
                 for (int i = 0; i < _obj.Length; i++)
