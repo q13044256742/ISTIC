@@ -457,18 +457,58 @@ namespace 科技计划项目档案数据采集管理系统
                 //提交质检
                 else if("submit".Equals(columnName))
                 {
+                    object objId = dgv_WorkingLog.Rows[e.RowIndex].Cells["id"].Tag;
                     //满足提交条件
-                    if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    if(CanSubmitToQT(objId))
                     {
-                        object objId = dgv_WorkingLog.Rows[e.RowIndex].Cells["id"].Value;
-                        string type = GetValue(dgv_WorkingLog.Rows[e.RowIndex].Cells["type"].Value);
-                        string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{objId}'";
-                        SqlHelper.ExecuteNonQuery(updateSql);
-                        LoadWorkList(null, WorkStatus.NonWork);
+                        if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                        {
+                            string type = GetValue(dgv_WorkingLog.Rows[e.RowIndex].Cells["type"].Value);
+                            string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{objId}'";
+                            SqlHelper.ExecuteNonQuery(updateSql);
+                            LoadWorkList(null, WorkStatus.NonWork);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("当前项目/课题下尚有未提交的数据。", "提交失败");
                     }
                 }
             }
         }
+        /// <summary>
+        /// 根据指定ID查看是否其所属项目/课题是否全部提交
+        /// </summary>
+        /// <param name="objId">Work_Reg登记表主键</param>
+        private bool CanSubmitToQT(object objId)
+        {
+            int amount = 0;
+            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT wr_type, wr_obj_id FROM work_registration WHERE wr_id='{objId}'");
+            if(!string.IsNullOrEmpty(GetValue(_obj)))
+            {
+                object rootId = GetRootId(_obj[1], (WorkType)_obj[0]);
+                List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}'", 2);
+                for(int i = 0; i < _obj2.Count; i++)
+                {
+                    if(Convert.ToInt32(_obj2[i][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                        amount++;
+                    List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_submit_status FROM subject_info WHERE pi_id='{_obj2[i][0]}'", 2);
+                    for(int j = 0; j < _obj3.Count; j++)
+                    {
+                        if(Convert.ToInt32(_obj3[j][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                            amount++;
+                        List<object[]> _obj4 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_submit_status FROM subject_info WHERE pi_id='{_obj3[j][0]}'", 2);
+                        for(int k = 0; k < _obj4.Count; k++)
+                        {
+                            if(Convert.ToInt32(_obj4[k][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                                amount++;
+                        }
+                    }
+                }
+            }
+            return amount == 0 ? true : false;
+        }
+
         /// <summary>
         /// 获取指定项目/课题获取其所属计划ID
         /// </summary>

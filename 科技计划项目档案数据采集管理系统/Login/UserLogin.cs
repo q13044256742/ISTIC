@@ -35,6 +35,7 @@ namespace 科技计划项目档案数据采集管理系统
                 user.LoginPassword = reader["login_password"].ToString();
                 user.RealName = reader["real_name"].ToString();
                 user.UserKey = reader["ul_id"].ToString();
+                user.Company = reader["belong_unit"].ToString();
             }
             reader.Close();
             SqlHelper.CloseConnect();

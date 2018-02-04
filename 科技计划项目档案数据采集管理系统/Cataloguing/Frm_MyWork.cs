@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -1911,7 +1912,11 @@ namespace 科技计划项目档案数据采集管理系统
             object secret = row.Cells[key + "secret"].Value;
             object page = row.Cells[key + "page"].Value;
             object amount = row.Cells[key + "amount"].Value;
-            object date = row.Cells[key + "date"].Value;
+
+            DateTime date = DateTime.Now;
+            string _date = GetValue(row.Cells[key + "date"].Value);
+            DateTime.TryParse(_date, out date);
+
             object unit = row.Cells[key + "unit"].Value;
             object carrier = row.Cells[key + "carrier"].Value;
             object format = row.Cells[key + "format"].Value;
@@ -2185,21 +2190,17 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Name);
-                    EnableControls(ControlType.Plan, false);
 
                     ShowTab("plan_project", 1);
                     LoadPageBasicInfo(e.Node.Name, type);
-                    EnableControls(ControlType.Plan_Project, false);
                 }
                 else if(workType == WorkType.SubjectWork)
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Name);
-                    EnableControls(ControlType.Plan, false);
 
                     ShowTab("plan_project", 1);
                     LoadPageBasicInfo(e.Node.Name, type);
-                    EnableControls(ControlType.Plan_Project, false);
                 }
             }
             else if(type == ControlType.Plan_Topic)
@@ -2395,7 +2396,10 @@ namespace 科技计划项目档案数据采集管理系统
             if("tab_JH_FileInfo".Equals(tab.Name))
             {
                 object objid = dgv_JH_FileList.Tag;
-                if(index == 1)//文件核查
+                btn_JH_OpenFile.Visible = false;
+                if(index == 0)
+                    btn_JH_OpenFile.Visible = true;
+                else if(index == 1)//文件核查
                 {
                     if(objid != null)
                     {
@@ -2418,6 +2422,11 @@ namespace 科技计划项目档案数据采集管理系统
                             txt_JH_AJ_User.Text = GetValue(row["pt_user"]);
                             txt_JH_AJ_Unit.Text = GetValue(row["pt_unit"]);
                         }
+                        else
+                        {
+                            txt_JH_AJ_User.Text = UserHelper.GetInstance().User.RealName;
+                            txt_JH_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
+                        }
                     }
                 }
                 else if(index == 3)
@@ -2429,7 +2438,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if("tab_JH_XM_FileInfo".Equals(tab.Name))
             {
                 object objid = dgv_JH_XM_FileList.Tag;
-                if(index == 1)//文件核查
+                btn_JH_XM_OpenFile.Visible = false;
+                if(index == 0)
+                    btn_JH_XM_OpenFile.Visible = true;
+                else if(index == 1)//文件核查
                 {
                     if(objid != null)
                     {
@@ -2452,6 +2464,11 @@ namespace 科技计划项目档案数据采集管理系统
                             txt_JH_XM_AJ_User.Text = GetValue(row["pt_user"]);
                             txt_JH_XM_AJ_Unit.Text = GetValue(row["pt_unit"]);
                         }
+                        else
+                        {
+                            txt_JH_XM_AJ_User.Text = UserHelper.GetInstance().User.RealName;
+                            txt_JH_XM_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
+                        }
                     }
                 }
                 else if(index == 3)
@@ -2463,7 +2480,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if("tab_JH_KT_FileInfo".Equals(tab.Name))
             {
                 object objid = dgv_JH_KT_FileList.Tag;
-                if(index == 1)//文件核查
+                btn_JH_KT_OpenFile.Visible = false;
+                if(index == 0)
+                    btn_JH_KT_OpenFile.Visible = true;
+                else if(index == 1)//文件核查
                 {
                     if(objid != null)
                     {
@@ -2486,6 +2506,11 @@ namespace 科技计划项目档案数据采集管理系统
                             txt_JH_KT_AJ_User.Text = GetValue(row["pt_user"]);
                             txt_JH_KT_AJ_Unit.Text = GetValue(row["pt_unit"]);
                         }
+                        else
+                        {
+                            txt_JH_KT_AJ_User.Text = UserHelper.GetInstance().User.RealName;
+                            txt_JH_KT_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
+                        }
                     }
                 }
                 else if(index == 3)
@@ -2497,7 +2522,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if("tab_JH_XM_KT_FileInfo".Equals(tab.Name))
             {
                 object objid = dgv_JH_XM_KT_FileList.Tag;
-                if(index == 1)//文件核查
+                btn_JH_XM_KT_OpenFile.Visible = false;
+                if(index == 0)
+                    btn_JH_XM_KT_OpenFile.Visible = true;
+                else if(index == 1)//文件核查
                 {
                     if(objid != null)
                     {
@@ -2520,6 +2548,11 @@ namespace 科技计划项目档案数据采集管理系统
                             txt_JH_XM_KT_AJ_User.Text = GetValue(row["pt_user"]);
                             txt_JH_XM_KT_AJ_Unit.Text = GetValue(row["pt_unit"]);
                         }
+                        else
+                        {
+                            txt_JH_XM_KT_AJ_User.Text = UserHelper.GetInstance().User.RealName;
+                            txt_JH_XM_KT_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
+                        }
                     }
                 }
                 else if(index == 3)
@@ -2531,7 +2564,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if("tab_JH_XM_KT_ZKT_FileInfo".Equals(tab.Name))
             {
                 object objid = dgv_JH_XM_KT_ZKT_FileList.Tag;
-                if(index == 1)//文件核查
+                btn_JH_XM_KT_ZKT_OpenFile.Visible = false;
+                if(index == 0)
+                    btn_JH_XM_KT_ZKT_OpenFile.Visible = true;
+                else if(index == 1)//文件核查
                 {
                     if(objid != null)
                     {
@@ -2554,6 +2590,11 @@ namespace 科技计划项目档案数据采集管理系统
                             txt_JH_XM_KT_ZKT_AJ_User.Text = GetValue(row["pt_user"]);
                             txt_JH_XM_KT_ZKT_AJ_Unit.Text = GetValue(row["pt_unit"]);
                         }
+                        else
+                        {
+                            txt_JH_XM_KT_ZKT_AJ_User.Text = UserHelper.GetInstance().User.RealName;
+                            txt_JH_XM_KT_ZKT_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
+                        }
                     }
                 }
                 else if(index == 3)
@@ -2565,7 +2606,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if("tab_JH_KT_ZKT_FileInfo".Equals(tab.Name))
             {
                 object objid = dgv_JH_KT_ZKT_FileList.Tag;
-                if(index == 1)//文件核查
+                btn_JH_KT_ZKT_OpenFile.Visible = false;
+                if(index == 0)
+                    btn_JH_KT_ZKT_OpenFile.Visible = true;
+                else if(index == 1)//文件核查
                 {
                     if(objid != null)
                     {
@@ -2588,6 +2632,11 @@ namespace 科技计划项目档案数据采集管理系统
                             txt_JH_KT_ZKT_AJ_User.Text = GetValue(row["pt_user"]);
                             txt_JH_KT_ZKT_AJ_Unit.Text = GetValue(row["pt_unit"]);
                         }
+                        else
+                        {
+                            txt_JH_KT_ZKT_AJ_User.Text = UserHelper.GetInstance().User.RealName;
+                            txt_JH_KT_ZKT_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
+                        }
                     }
                 }
                 else if(index == 3)
@@ -2599,7 +2648,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if("tab_Imp_FileInfo".Equals(tab.Name))
             {
                 object objid = dgv_Imp_FileList.Tag;
-                if(index == 1)//文件核查
+                btn_Imp_OpenFile.Visible = false;
+                if(index == 0)
+                    btn_Imp_OpenFile.Visible = true;
+                else if(index == 1)//文件核查
                 {
                     if(objid != null)
                     {
@@ -2622,6 +2674,11 @@ namespace 科技计划项目档案数据采集管理系统
                             txt_Imp_AJ_User.Text = GetValue(row["pt_user"]);
                             txt_Imp_AJ_Unit.Text = GetValue(row["pt_unit"]);
                         }
+                        else
+                        {
+                            txt_Imp_AJ_User.Text = UserHelper.GetInstance().User.RealName;
+                            txt_Imp_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
+                        }
                     }
                 }
                 else if(index == 3)
@@ -2633,7 +2690,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if("tab_Imp_Dev_FileInfo".Equals(tab.Name))
             {
                 object objid = dgv_Imp_Dev_FileList.Tag;
-                if(index == 1)//文件核查
+                btn_Imp_Dev_OpenFile.Visible = false;
+                if(index == 0)
+                    btn_Imp_Dev_OpenFile.Visible = true;
+                else if(index == 1)//文件核查
                 {
                     if(objid != null)
                     {
@@ -2655,6 +2715,11 @@ namespace 科技计划项目档案数据采集管理系统
                             txt_Imp_Dev_AJ_Secret.Text = GetValue(row["pt_secret"]);
                             txt_Imp_Dev_AJ_User.Text = GetValue(row["pt_user"]);
                             txt_Imp_Dev_AJ_Unit.Text = GetValue(row["pt_unit"]);
+                        }
+                        else
+                        {
+                            txt_Imp_Dev_AJ_User.Text = UserHelper.GetInstance().User.RealName;
+                            txt_Imp_Dev_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
                         }
                     }
                 }
@@ -4674,6 +4739,29 @@ namespace 科技计划项目档案数据采集管理系统
             ShowTab("imp_dev", _index + 1);
             LoadPageBasicInfo(value, ControlType.Imp_Sub);
             pal_Imp_Dev.Tag = lbl_Imp_Name.Tag;
+        }
+        /// <summary>
+        /// 文件链接点击事件
+        /// </summary>
+        private void Dgv_FileList_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView view = sender as DataGridView;
+            string columnName = view.CurrentCell.OwningColumn.Name;
+            if(columnName.Contains("link"))
+            {
+                string path = GetValue(view.CurrentCell.Value);
+                if(!string.IsNullOrEmpty(path))
+                {
+                    if(File.Exists(path))
+                    {
+                        System.Diagnostics.Process.Start("Explorer.exe", path);
+                    }
+                    else
+                    {
+                        MessageBox.Show("文件不存在。");
+                    }
+                }
+            }
         }
     }
 }
