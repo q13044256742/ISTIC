@@ -41,6 +41,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.ug_sort = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.ug_sort)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +50,7 @@
             this.ug_code.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ug_code.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ug_code.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ug_code.Location = new System.Drawing.Point(169, 89);
+            this.ug_code.Location = new System.Drawing.Point(170, 89);
             this.ug_code.Name = "ug_code";
             this.ug_code.Size = new System.Drawing.Size(422, 26);
             this.ug_code.TabIndex = 106;
@@ -59,7 +60,7 @@
             this.ug_name.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ug_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ug_name.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ug_name.Location = new System.Drawing.Point(169, 48);
+            this.ug_name.Location = new System.Drawing.Point(170, 48);
             this.ug_name.Name = "ug_name";
             this.ug_name.Size = new System.Drawing.Size(422, 26);
             this.ug_name.TabIndex = 105;
@@ -86,7 +87,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(577, 443);
+            this.button1.Location = new System.Drawing.Point(515, 490);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(76, 29);
             this.button1.TabIndex = 89;
@@ -96,7 +97,7 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(495, 443);
+            this.btn_Save.Location = new System.Drawing.Point(433, 490);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(76, 29);
             this.btn_Save.TabIndex = 88;
@@ -138,7 +139,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.Color.Red;
-            this.label4.Location = new System.Drawing.Point(617, 50);
+            this.label4.Location = new System.Drawing.Point(597, 55);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(16, 19);
             this.label4.TabIndex = 109;
@@ -149,7 +150,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(617, 89);
+            this.label5.Location = new System.Drawing.Point(597, 94);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(16, 19);
             this.label5.TabIndex = 110;
@@ -172,11 +173,21 @@
             this.label6.TabIndex = 112;
             this.label6.Text = "用户组授权：";
             // 
+            // treeView1
+            // 
+            this.treeView1.CheckBoxes = true;
+            this.treeView1.Location = new System.Drawing.Point(169, 267);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(260, 192);
+            this.treeView1.TabIndex = 113;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            // 
             // Frm_userGroupAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(708, 498);
+            this.ClientSize = new System.Drawing.Size(709, 549);
+            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.ug_sort);
             this.Controls.Add(this.label5);
@@ -194,6 +205,7 @@
             this.Name = "Frm_userGroupAdd";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "用户组";
+          
             ((System.ComponentModel.ISupportInitialize)(this.ug_sort)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -214,5 +226,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown ug_sort;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }

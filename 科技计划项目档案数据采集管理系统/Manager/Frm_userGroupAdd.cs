@@ -33,12 +33,46 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         //加载授权模块
         private void Load_sq()
         {
-            string m_sql = $"select m_id,m_name from module";
-            SqlHelper.ExecuteRowsQuery(m_sql);
+            TreeNode rootNode = new TreeNode("平台菜单");
+            string m_sql = $"select m_id,m_name from module order by m_sort";
+            object[] _obj = SqlHelper.ExecuteRowsQuery(m_sql);
 
-            string o_sql = $"select o_id,o_name from operation";
-            SqlHelper.ExecuteRowsQuery(o_sql);
+            if (_obj != null)
+            {
+                for (int i = 0; i < _obj.Length; i++)
+                {
+                    TreeNode node = new TreeNode()
+                    {
+                        Name = GetValue(_obj[0]),
+                        Text = GetValue(_obj[1])
+                    };
+                    string o_sql = $"select o_id,o_name from operation order by o_sort";
+                    object[] _obj2 = SqlHelper.ExecuteRowsQuery(o_sql);
+                    if (_obj2 != null)
+                    {
+                        for (int j = 0; j < _obj2.Length; j++)
+                        {
+                            TreeNode node2 = new TreeNode()
+                            {
+                                Name = GetValue(_obj2[0]),
+                                Text = GetValue(_obj2[1])
+                            };
+                            node.Nodes.Add(node2);
+                        }
+                        rootNode.Nodes.Add(node);
+                    }
+                    rootNode.Nodes.Add(node);
+                }
+                treeView1.Nodes.Add(rootNode);
+            }
 
+
+        }
+
+        //把object对象转换为string
+        private string GetValue(object obj)
+        {
+            return obj == null ? string.Empty : obj.ToString();
         }
 
         //加载更新表单
@@ -48,14 +82,18 @@ namespace 科技计划项目档案数据采集管理系统.Manager
               $" from user_group where ug_id = '{id}'";
             object[] _obj = SqlHelper.ExecuteRowsQuery(sql);
 
-            ug_name.Text = _obj[0].ToString();
-            ug_code.Text = _obj[1].ToString();
-            ug_note.Text = _obj[2].ToString();
-            ug_sort.Text = _obj[3].ToString();
+            if (_obj != null)
+            {
+                ug_name.Text = _obj[0].ToString();
+                ug_code.Text = _obj[1].ToString();
+                ug_note.Text = _obj[2].ToString();
+                ug_sort.Text = _obj[3].ToString();
 
-            ug_name.Tag = id;
+                ug_name.Tag = id;
+            }      
         }
 
+        //保存
         private void UserGroup_btnSave(object sender, EventArgs e)
         {
             if (!ValidData())
@@ -68,7 +106,10 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 string _ug_name = ug_name.Text.Trim();
                 string _ug_code = ug_code.Text.Trim();            
                 string _ug_note = ug_note.Text.Trim();
-                string _ug_sort = ug_sort.Text.Trim();                                      
+                string _ug_sort = ug_sort.Text.Trim();
+
+                // string _ug_module_id = 
+               
                 //新增信息
                 if (isAdd)
                 {
@@ -95,6 +136,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             }
         }
 
+        //取消
         private void UserGroup_btnClose(object sender, EventArgs e)
         {
             Close();
@@ -114,6 +156,19 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 return false;
             }          
             return true;
+        }     
+
+        //加载说选的节点
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            MessageBox.Show(e.Node.Name);
+
+            if ("查看".Equals(e.Node.Name))
+            {
+
+            }
+
+
         }
     }
 }

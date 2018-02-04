@@ -46,15 +46,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if (index == 5)
             {
                 queryKey = "belong_department";
-            }
-            else if (index == 6)
-            {
-                queryKey = "belong_user_group";
-            }
-            else if (index == 7)
-            {
-                queryKey = "ip_address";
-            }
+            }                      
 
             if (!string.IsNullOrEmpty(queryKey)) { 
                 if (!string.IsNullOrEmpty(searchKey))
