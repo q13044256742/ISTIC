@@ -263,7 +263,7 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_Plan.Rows[index].Cells["mr_fileamount"].Value = 0;
 
                     dgv_Plan.Rows[index].Cells["mr_edit"].Value = "编辑";
-                    dgv_Plan.Rows[index].Cells["mr_submit"].Value = "提交";
+                    dgv_Plan.Rows[index].Cells["mr_submit"].Value = "返工/提交";
                 }
             }
 

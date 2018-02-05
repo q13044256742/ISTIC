@@ -73,7 +73,7 @@ namespace 科技计划项目档案数据采集管理系统
             dataGridView.Rows.Clear();
             string querySql = $"SELECT * FROM processing_file_list WHERE pfl_obj_id='{parentId}'";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-            for (int i = 0; i < dataTable.Rows.Count; i++)
+            for(int i = 0; i < dataTable.Rows.Count; i++)
             {
                 int index = dataGridView.Rows.Add();
                 dataGridView.Rows[index].Cells[key + "id"].Value = i + 1;
@@ -86,7 +86,9 @@ namespace 科技计划项目档案数据采集管理系统
                 dataGridView.Rows[index].Cells[key + "secret"].Value = dataTable.Rows[i]["pfl_scert"];
                 dataGridView.Rows[index].Cells[key + "page"].Value = dataTable.Rows[i]["pfl_page_amount"];
                 dataGridView.Rows[index].Cells[key + "amount"].Value = dataTable.Rows[i]["pfl_amount"];
-                dataGridView.Rows[index].Cells[key + "date"].Value = dataTable.Rows[i]["pfl_complete_date"];
+                object _date = dataTable.Rows[i]["pfl_complete_date"];
+                if(_date != null)
+                    dataGridView.Rows[index].Cells[key + "date"].Value = Convert.ToDateTime(_date).ToShortDateString();
                 dataGridView.Rows[index].Cells[key + "unit"].Value = dataTable.Rows[i]["pfl_save_location"];
                 dataGridView.Rows[index].Cells[key + "carrier"].Value = dataTable.Rows[i]["pfl_carrier"];
                 dataGridView.Rows[index].Cells[key + "format"].Value = dataTable.Rows[i]["pfl_file_format"];
