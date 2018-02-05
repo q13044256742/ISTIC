@@ -13,15 +13,16 @@ namespace 科技计划项目档案数据采集管理系统
         /// 当前加工类型
         /// </summary>
         private WorkType workType;
+        private object trpId;
         /// <summary>
         /// 开始加工指定的对象
         /// </summary>
         /// <param name="workType">对象类型</param>
         /// <param name="planId">计划主键（仅针对光盘/批次加工）</param>
-        public Frm_MyWork(WorkType workType, object planId, ControlType type)
+        public Frm_MyWork(WorkType workType, object planId, object trpId,ControlType type)
         {
             InitializeComponent();
-
+            this.trpId = trpId;
             this.workType = workType;
             InitialForm(planId, type);
         }
@@ -796,7 +797,7 @@ namespace 科技计划项目档案数据采集管理系统
                     object objId = dgv_JH_FileList.Tag;
                     if(objId == null)
                     {
-                        objId = AddProjectBasicInfo(lbl_JH_Name.Tag, ControlType.Plan);
+                        objId = AddProjectBasicInfo(trpId, ControlType.Plan);
                         dgv_JH_FileList.Tag = objId;
                     }
                     else
@@ -2015,10 +2016,12 @@ namespace 科技计划项目档案数据采集管理系统
             else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
             {
                 object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
-                if(_obj == null)
-                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
+                if(_obj == null && trpId != null)
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{trpId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
                 if(_obj == null)
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}'");
+                if(_obj == null)
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()
                 {
                     Name = _obj[0].ToString(),

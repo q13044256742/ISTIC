@@ -189,7 +189,9 @@ namespace 科技计划项目档案数据采集管理系统
                 else if("mr_edit".Equals(columnName))
                 {
                     object objid = dgv_Plan.Rows[e.RowIndex].Cells["mr_id"].Value;
-                    object planId = GetRootId(objid, WorkType.ProjectWork);
+                    object wrid = dgv_Plan.Rows[e.RowIndex].Cells["mr_code"].Tag;
+                    WorkType type = (WorkType)Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_type FROM work_registration WHERE wr_id='{wrid}'"));
+                    object planId = GetRootId(objid, type);
                     if(planId != null)
                         new Frm_MyWorkQT(WorkType.ProjectWork, planId, ControlType.Default, false).ShowDialog();
                     else
@@ -221,6 +223,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private object GetRootId(object objId, WorkType type)
         {
+            if(type == WorkType.PaperWork)
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
+            else if(type == WorkType.CDWork)
+                return SqlHelper.ExecuteOnlyOneQuery($"");
             if(type == WorkType.ProjectWork)
             {
                 return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{objId}'");
@@ -259,6 +265,7 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_Plan.Rows[index].Cells["mr_id"].Value = row[1];
                     dgv_Plan.Rows[index].Cells["mr_unit"].Value = row[4];
                     dgv_Plan.Rows[index].Cells["mr_code"].Value = row[2];
+                    dgv_Plan.Rows[index].Cells["mr_code"].Tag = row[0];
                     dgv_Plan.Rows[index].Cells["mr_name"].Value = row[3];
                     dgv_Plan.Rows[index].Cells["mr_fileamount"].Value = 0;
 

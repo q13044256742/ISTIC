@@ -2247,7 +2247,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project", 2);
                     LoadPageBasicInfo(e.Node.Name, type);
                 }
-                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
+                else
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Name);
@@ -2273,18 +2273,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project_topic", 3);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
                 }
-                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                {
-                    ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Parent.Name);
-
-                    ShowTab("plan_project", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project);
-
-                    ShowTab("plan_project_topic", 2);
-                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
-                }
-                else if(workType == WorkType.ProjectWork || workType == WorkType.SubjectWork)
+                else
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Parent.Name);
@@ -2313,7 +2302,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_topic_subtopic", 3);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Topic_Subtopic);
                 }
-                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
+                else
                 {
 
                     ShowTab("plan", 0);

@@ -32,17 +32,17 @@ namespace 科技计划项目档案数据采集管理系统
             object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{cbo_TypeSelect.SelectedValue}'");
             if("dic_plan_imp".Equals(obj))
             {
-                Frm_MyWork frm = new Frm_MyWork(WorkType.Default, cbo_TypeSelect.SelectedValue, ControlType.Imp);
+                Frm_MyWork frm = new Frm_MyWork(WorkType.Default, cbo_TypeSelect.SelectedValue, objId, ControlType.Imp);
                 frm.ShowDialog();
             }
             else if("dic_imp_dev".Equals(obj))
             {
-                Frm_MyWork frm = new Frm_MyWork(WorkType.Default, cbo_TypeSelect.SelectedValue, ControlType.Imp_Dev);
+                Frm_MyWork frm = new Frm_MyWork(WorkType.Default, cbo_TypeSelect.SelectedValue, objId, ControlType.Imp_Dev);
                 frm.ShowDialog();
             }
             else
             {
-                Frm_MyWork frm = new Frm_MyWork(workType, cbo_TypeSelect.SelectedValue, ControlType.Default);
+                Frm_MyWork frm = new Frm_MyWork(workType, cbo_TypeSelect.SelectedValue, objId, ControlType.Default);
                 frm.ShowDialog();
             }
         }

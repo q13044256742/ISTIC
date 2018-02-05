@@ -562,7 +562,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork myWork = new Frm_MyWork(WorkType.ProjectWork, rootId, ControlType.Default);
+                                Frm_MyWork myWork = new Frm_MyWork(WorkType.ProjectWork, rootId, null, ControlType.Default);
                                 myWork.ShowDialog();
                             }
                         }
@@ -575,7 +575,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, rootId, ControlType.Default);
+                                Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, rootId, null, ControlType.Default);
                                 myWork.ShowDialog();
                             }
                         }
@@ -688,6 +688,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private object GetRootId(object objId, WorkType type)
         {
+            if(type == WorkType.PaperWork)
+            {
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
+            }
             if(type == WorkType.ProjectWork)
             {
                 return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{objId}'");
