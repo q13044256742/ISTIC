@@ -69,8 +69,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             object unitCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT cs_code FROM company_source WHERE cs_id =" +
                 $"(SELECT com_id FROM transfer_registration_pc WHERE trp_id='{pid}')");
-            int index = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM transfer_registraion_cd "));
-            //txt_CDCode.Text = CreateBatchCode(unitCode, );
+            int index = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM transfer_registraion_cd WHERE trp_id='{pid}'"));
+            txt_CDCode.Text = CreateBatchCode(unitCode, index + 1);
         }
 
         /// <summary>
