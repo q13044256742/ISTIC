@@ -120,7 +120,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(objid != null)
                 querySql += $" AND wr_id='{objid}'";
             else
-                querySql += $" AND wr_receive_status={(int)ReceiveStatus.ReceiveSuccess} AND wr_receive_status={(int)ReceiveStatus.NonReceive}";
+                querySql += $" AND wr_receive_status={(int)ReceiveStatus.NonReceive}";
             List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 3);
             List<DataTable> resultList = new List<DataTable>();
             for(int i = 0; i < list.Count; i++)
