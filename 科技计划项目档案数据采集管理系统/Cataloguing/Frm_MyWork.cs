@@ -2008,6 +2008,8 @@ namespace 科技计划项目档案数据采集管理系统
                 object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
                 if(_obj == null)
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
+                if(_obj == null)
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}'");
                 treeNode = new TreeNode()
                 {
                     Name = _obj[0].ToString(),

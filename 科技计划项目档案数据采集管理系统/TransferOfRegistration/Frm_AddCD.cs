@@ -64,5 +64,28 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             string name = Convert.ToString(SqlHelper.ExecuteOnlyOneQuery(querySql));
             lbl_PCName.Text = name;
         }
+
+        private void Txt_CDCode_Enter(object sender, EventArgs e)
+        {
+            object unitCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT cs_code FROM company_source WHERE cs_id =" +
+                $"(SELECT com_id FROM transfer_registration_pc WHERE trp_id='{pid}')");
+            int index = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM transfer_registraion_cd "));
+            //txt_CDCode.Text = CreateBatchCode(unitCode, );
+        }
+
+        /// <summary>
+        /// 自动生成批次编号
+        /// </summary>
+        private string CreateBatchCode(object unitCode, int index)
+        {
+            string querySql = null;
+            //自动生成批次编号
+            object csid = SqlHelper.ExecuteOnlyOneQuery("SELECT CS_ID FROM company_source WHERE cs_code = '" + unitCode + "'");
+            querySql = "SELECT COUNT(*) FROM transfer_registration_pc WHERE com_id=('" + csid + "')";
+            string amountStr = (Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery(querySql)) + 1).ToString();
+            amountStr = amountStr.Length == 3 ? amountStr : (amountStr.Length == 2 ? "0" + amountStr : "00" + amountStr);
+
+            return unitCode.ToString() + DateTime.Now.Year + amountStr + "-" + index.ToString().PadLeft(3, '0');
+        }
     }
 }
