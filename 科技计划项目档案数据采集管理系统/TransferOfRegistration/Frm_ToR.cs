@@ -308,7 +308,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 }
             }
         }
-
         /// <summary>
         /// 返回上一页
         /// </summary>
@@ -318,7 +317,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             LoadPCDataScoure(null);
         }
-
         /// <summary>
         /// 删除选中数据
         /// </summary>
@@ -434,11 +432,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             if (_querySql == null)
             {
                 StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_status");
-                querySql.Append(" FROM transfer_registraion_cd trc");
-                querySql.Append(" LEFT JOIN(");
+                querySql.Append(" FROM transfer_registraion_cd trc LEFT JOIN(");
                 querySql.Append(" SELECT trp.trp_id, cs_name,sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
-                querySql.Append(" ON trc.trp_id = tb.trp_id");
-                querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, sorting ASC, trc_code ASC");
+                querySql.Append(" ON trc.trp_id = tb.trp_id ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END,trc_status ASC, sorting ASC");
                 table = SqlHelper.ExecuteQuery(querySql.ToString());
             }
             else
@@ -541,7 +537,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             querySql.Append(" SELECT trp.trp_id, cs_name,sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
             querySql.Append(" ON trc.trp_id = tb.trp_id");
             querySql.Append(queryCondition);
-            querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, sorting ASC, trc_code ASC");
+            querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, sorting ASC");
 
             LoadGPDJ(querySql.ToString());
         }
@@ -576,7 +572,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 querySql.Append(" SELECT trp.trp_id, cs_id, cs_name, sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
                 querySql.Append(" ON trc.trp_id = tb.trp_id");
                 if (index != 0) querySql.Append(" WHERE trc_status='" + index + "'");
-                querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, sorting ASC, trc_code ASC");
+                querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, sorting ASC");
                 LoadGPDJ(querySql.ToString());
             }
         }

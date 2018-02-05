@@ -4263,8 +4263,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_ObjUser.Text = GetValue(row["pi_project_user"]);
                     txt_JH_XM_ObjIntroduct.Text = GetValue(row["pi_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["pi_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
+                    EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_XM_FileList, "jh_xm_", projectId);
             }
@@ -4299,8 +4298,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_KT_ProUser.Text = GetValue(row["pi_project_user"]);
                     txt_JH_KT_Intro.Text = GetValue(row["pi_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["pi_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
+                    EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_KT_FileList, "jh_kt_", projectId);
             }
@@ -4335,8 +4333,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_KT_ProUser.Text = GetValue(row["si_project_user"]);
                     txt_JH_XM_KT_Intro.Text = GetValue(row["si_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["si_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
+                    EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_XM_KT_FileList, "jh_xm_kt_", projectId);
             }
@@ -4371,8 +4368,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_KT_ZKT_ProUser.Text = GetValue(row["si_project_user"]);
                     txt_JH_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["si_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
+                    EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_", projectId);
             }
@@ -4407,8 +4403,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_KT_ZKT_Prouser.Text = GetValue(row["si_project_user"]);
                     txt_JH_XM_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["si_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
+                    EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_", projectId);
             }
@@ -4420,12 +4415,9 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Imp_Dev_Code.Text = GetValue(_obj[1]);
                     txt_Imp_Dev_Name.Text = GetValue(_obj[2]);
                     txt_Imp_Dev_Unit.Text = GetValue(_obj[3]);
-
                     dgv_Imp_Dev_FileList.Tag = GetValue(_obj[0]);
                     LoadFileList(dgv_Imp_Dev_FileList, "imp_dev_", GetValue(_obj[0]));
-
-                    if((ObjectSubmitStatus)_obj[6] == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(ControlType.Imp_Dev, false);
+                    EnableControls(ControlType.Imp_Dev, (ObjectSubmitStatus)_obj[6] != ObjectSubmitStatus.SubmitSuccess);
                 }
                 else
                 {

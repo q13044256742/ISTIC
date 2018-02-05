@@ -16,7 +16,6 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void InitialForm()
         {
-            dgv_Plan.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
         }
 
         private void Frm_QT_Load(object sender, EventArgs e)
@@ -192,20 +191,27 @@ namespace 科技计划项目档案数据采集管理系统
                     object objid = dgv_Plan.Rows[e.RowIndex].Cells["mr_id"].Value;
                     object planId = GetRootId(objid, WorkType.ProjectWork);
                     if(planId != null)
-                    {
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.ProjectWork, planId, ControlType.Default);
-                        frm.ShowDialog();
-                    }
+                        new Frm_MyWorkQT(WorkType.ProjectWork, planId, ControlType.Default, false).ShowDialog();
                     else
                     {
                         planId = GetRootId(objid, WorkType.SubjectWork);
                         if(planId != null)
-                        {
-                            Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.SubjectWork, planId, ControlType.Default);
-                            frm.ShowDialog();
-                        }
+                            new Frm_MyWorkQT(WorkType.SubjectWork, planId, ControlType.Default, false).ShowDialog();
                         else
                             MessageBox.Show("未找到此项目/课题所属计划。");
+                    }
+                }
+                //质检 - 提交（返工）
+                else if("mr_submit".Equals(columnName))
+                {
+                    object wmid = dgv_Plan.Rows[e.RowIndex].Cells["mr_id"].Tag;
+                    if(wmid != null)
+                    {
+                        if(MessageBox.Show("确定要将选中的数据返工吗?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)ObjectSubmitStatus.Back} WHERE wm_id='{wmid}'");
+                            LoadMyRegList();
+                        }
                     }
                 }
             }
@@ -241,15 +247,15 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Plan.Columns.Add("mr_edit", "编辑");
             dgv_Plan.Columns.Add("mr_submit", "提交");
 
-            object wrId = SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_id FROM work_myreg WHERE wm_user='{UserHelper.GetInstance().User.UserKey}' AND wm_status='{(int)QualityStatus.NonQuality}'");
-            if(wrId != null)
+            List<object[]> wmIds = SqlHelper.ExecuteColumnsQuery($"SELECT wm_id, wr_id FROM work_myreg WHERE wm_user='{UserHelper.GetInstance().User.UserKey}' AND wm_status='{(int)QualityStatus.NonQuality}'", 2);
+            for(int i = 0; i < wmIds.Count; i++)
             {
-
-                List<DataTable> list = GetObjectListById(wrId);
-                for(int i = 0; i < list.Count; i++)
+                List<DataTable> list = GetObjectListById(wmIds[i][1]);
+                for(int j = 0; j < list.Count; j++)
                 {
-                    DataRow row = list[i].Rows[0];
+                    DataRow row = list[j].Rows[0];
                     int index = dgv_Plan.Rows.Add();
+                    dgv_Plan.Rows[index].Cells["mr_id"].Tag = wmIds[i][0];
                     dgv_Plan.Rows[index].Cells["mr_id"].Value = row[1];
                     dgv_Plan.Rows[index].Cells["mr_unit"].Value = row[4];
                     dgv_Plan.Rows[index].Cells["mr_code"].Value = row[2];
