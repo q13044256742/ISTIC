@@ -1915,8 +1915,15 @@ namespace 科技计划项目档案数据采集管理系统
 
             DateTime date = DateTime.Now;
             string _date = GetValue(row.Cells[key + "date"].Value);
-            DateTime.TryParse(_date, out date);
+            if(!string.IsNullOrEmpty(_date))
+            {
+                if(_date.Length == 6)
+                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-01";
+                if(_date.Length == 8)
+                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + _date.Substring(6, 2);
+                DateTime.TryParse(_date, out date);
 
+            }
             object unit = row.Cells[key + "unit"].Value;
             object carrier = row.Cells[key + "carrier"].Value;
             object format = row.Cells[key + "format"].Value;
@@ -2744,7 +2751,8 @@ namespace 科技计划项目档案数据采集管理系统
             string querySql = "select dd_name,dd_note from data_dictionary where dd_pId in(" +
                 "select dd_id from data_dictionary where dd_pId = (" +
                 "select dd_id from data_dictionary  where dd_code = 'dic_file_jd')) and dd_name not in(" +
-                $"select dd.dd_name from processing_file_list pfl left join data_dictionary dd on pfl.pfl_categor = dd.dd_id where pfl.pfl_obj_id='{objid}')";
+                $"select dd.dd_name from processing_file_list pfl left join data_dictionary dd on pfl.pfl_categor = dd.dd_id where pfl.pfl_obj_id='{objid}')" +
+                $" ORDER BY dd_name";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < table.Rows.Count; i++)
             {

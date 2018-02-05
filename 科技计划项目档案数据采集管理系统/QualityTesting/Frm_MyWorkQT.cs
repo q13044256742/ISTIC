@@ -1932,7 +1932,17 @@ namespace 科技计划项目档案数据采集管理系统
             object secret = row.Cells[key + "secret"].Value;
             object page = row.Cells[key + "page"].Value;
             object amount = row.Cells[key + "amount"].Value;
-            object date = row.Cells[key + "date"].Value;
+            DateTime date = DateTime.Now;
+            string _date = GetValue(row.Cells[key + "date"].Value);
+            if(!string.IsNullOrEmpty(_date))
+            {
+                if(_date.Length == 6)
+                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-01";
+                if(_date.Length == 8)
+                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + _date.Substring(6, 2);
+                DateTime.TryParse(_date, out date);
+
+            }
             object unit = row.Cells[key + "unit"].Value;
             object carrier = row.Cells[key + "carrier"].Value;
             object format = row.Cells[key + "format"].Value;
