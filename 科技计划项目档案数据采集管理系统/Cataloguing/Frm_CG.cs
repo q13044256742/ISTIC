@@ -613,7 +613,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 MessageBox.Show("无法找到当前项目/课题所属计划。", "操作失败");
                             }
                             else
-                                new Frm_MyWork(WorkType.ProjectWork, rootId, null, ControlType.Default).ShowDialog();
+                                new Frm_MyWork(WorkType.ProjectWork, rootId, objId, ControlType.Default).ShowDialog();
                         }
                         else if(typeValue.Contains("课题/子课题"))
                         {
@@ -624,7 +624,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, rootId, null, ControlType.Default);
+                                Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, rootId, objId, ControlType.Default);
                                 myWork.ShowDialog();
                             }
                         }
@@ -775,8 +775,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(wr_id) FROM work_registration WHERE wr_status={(int)WorkStatus.WorkSuccess} AND wr_submit_status ={(int)ObjectSubmitStatus.NonSubmit} AND wr_source_id='{UserHelper.GetInstance().User.UserKey}'"));
             /* 测试注释 */
-            //return amount == 0 ? true : false;
-            return true;
+            return amount == 0 ? true : false;
         }
 
         private string GetValue(object value)

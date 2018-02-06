@@ -2100,30 +2100,34 @@ namespace 科技计划项目档案数据采集管理系统
                         Text = list[i][1].ToString(),
                         Tag = (ControlType)list[i][2]
                     };
-                    treeNode.Nodes.Add(treeNode2);
-                    //根据【项目/课题】查询【课题/子课题】集
-                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code", 3);
-                    for(int j = 0; j < list2.Count; j++)
+                    if(treeNode2.Name.Equals(trpId))
                     {
-                        TreeNode treeNode3 = new TreeNode()
+                        treeNode.Nodes.Add(treeNode2);
+                        //根据【项目/课题】查询【课题/子课题】集
+                        List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code", 3);
+                        for(int j = 0; j < list2.Count; j++)
                         {
-                            Name = list2[j][0].ToString(),
-                            Text = list2[j][1].ToString(),
-                            Tag = (ControlType)list2[j][2]
-                        };
-                        treeNode2.Nodes.Add(treeNode3);
-
-                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code", 3);
-                        for(int k = 0; k < list3.Count; k++)
-                        {
-                            TreeNode treeNode4 = new TreeNode()
+                            TreeNode treeNode3 = new TreeNode()
                             {
-                                Name = list3[k][0].ToString(),
-                                Text = list3[k][1].ToString(),
-                                Tag = (ControlType)list3[k][2]
+                                Name = list2[j][0].ToString(),
+                                Text = list2[j][1].ToString(),
+                                Tag = (ControlType)list2[j][2]
                             };
-                            treeNode3.Nodes.Add(treeNode4);
+                            treeNode2.Nodes.Add(treeNode3);
+
+                            List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code", 3);
+                            for(int k = 0; k < list3.Count; k++)
+                            {
+                                TreeNode treeNode4 = new TreeNode()
+                                {
+                                    Name = list3[k][0].ToString(),
+                                    Text = list3[k][1].ToString(),
+                                    Tag = (ControlType)list3[k][2]
+                                };
+                                treeNode3.Nodes.Add(treeNode4);
+                            }
                         }
+                        break;
                     }
                 }
             }
@@ -2149,9 +2153,8 @@ namespace 科技计划项目档案数据采集管理系统
                         Text = list[i][1].ToString(),
                         Tag = (ControlType)list[i][2]
                     };
-                    treeNode.Nodes.Add(treeNode2);
                     //根据【项目/课题】查询【课题/子课题】集
-                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}'", 3);
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                     for(int j = 0; j < list2.Count; j++)
                     {
                         TreeNode treeNode3 = new TreeNode()
@@ -2160,18 +2163,23 @@ namespace 科技计划项目档案数据采集管理系统
                             Text = list2[j][1].ToString(),
                             Tag = (ControlType)list2[j][2]
                         };
-                        treeNode2.Nodes.Add(treeNode3);
-
-                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}'", 3);
-                        for(int k = 0; k < list3.Count; k++)
+                        //【当前定位为课题子课题，则只取一条即可】
+                        if(treeNode3.Name.Equals(trpId))
                         {
-                            TreeNode treeNode4 = new TreeNode()
+                            treeNode.Nodes.Add(treeNode2);
+                            treeNode2.Nodes.Add(treeNode3);
+                            List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 3);
+                            for(int k = 0; k < list3.Count; k++)
                             {
-                                Name = list3[k][0].ToString(),
-                                Text = list3[k][1].ToString(),
-                                Tag = (ControlType)list3[k][2]
-                            };
-                            treeNode3.Nodes.Add(treeNode4);
+                                TreeNode treeNode4 = new TreeNode()
+                                {
+                                    Name = list3[k][0].ToString(),
+                                    Text = list3[k][1].ToString(),
+                                    Tag = (ControlType)list3[k][2]
+                                };
+                                treeNode3.Nodes.Add(treeNode4);
+                            }
+                            break;
                         }
                     }
                 }
