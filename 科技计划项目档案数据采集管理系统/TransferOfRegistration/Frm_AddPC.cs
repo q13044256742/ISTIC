@@ -251,22 +251,20 @@ namespace 科技计划项目档案数据采集管理系统
                             TrcName = cdName,
                             TrcCode = cdCode,
                             TrpId = unitCode,
-                            TrcRemark = cdRemark,
-                            TrcReadStatus = ReadStatus.NonRead,
-                            TrcPeople = string.Empty,
-                            TrpHandleTime = DateTime.Now
+                            TrcRemark = cdRemark
                         };
                         StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
-                        cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_people,trc_handle_time)");
+                        cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_complete_status,trc_people,trc_handle_time)");
                         cdInfo_querySql.Append(" VALUES(");
                         cdInfo_querySql.Append("'" + cd.TrcId + "',");
                         cdInfo_querySql.Append("'" + cd.TrcName + "',");
                         cdInfo_querySql.Append("'" + cd.TrcCode + "',");
                         cdInfo_querySql.Append("'" + cd.TrpId + "',");
                         cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
-                        cdInfo_querySql.Append("'" + (int)cd.TrcReadStatus + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcPeople + "',");
-                        cdInfo_querySql.Append("'" + cd.TrpHandleTime + "')");
+                        cdInfo_querySql.Append("'" + (int)ReadStatus.NonRead + "',");
+                        cdInfo_querySql.Append("'" + (int)WorkStatus.NonWork + "',");
+                        cdInfo_querySql.Append("'" + UserHelper.GetInstance().User.UserKey + "',");
+                        cdInfo_querySql.Append("'" + DateTime.Now + "')");
                         SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());
                     }
                 }

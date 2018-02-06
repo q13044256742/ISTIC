@@ -226,11 +226,9 @@ namespace 科技计划项目档案数据采集管理系统
             if(type == WorkType.PaperWork)
                 return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
             else if(type == WorkType.CDWork)
-                return SqlHelper.ExecuteOnlyOneQuery($"");
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
             if(type == WorkType.ProjectWork)
-            {
                 return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{objId}'");
-            }
             else if(type == WorkType.SubjectWork)
             {
                 object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM subject_info WHERE si_id='{objId}'");
@@ -267,8 +265,7 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_Plan.Rows[index].Cells["mr_code"].Value = row[2];
                     dgv_Plan.Rows[index].Cells["mr_code"].Tag = row[0];
                     dgv_Plan.Rows[index].Cells["mr_name"].Value = row[3];
-                    dgv_Plan.Rows[index].Cells["mr_fileamount"].Value = 0;
-
+                    dgv_Plan.Rows[index].Cells["mr_fileamount"].Value = GetFileAmountByPID(row[1]);
                     dgv_Plan.Rows[index].Cells["mr_edit"].Value = "编辑";
                     dgv_Plan.Rows[index].Cells["mr_submit"].Value = "返工/提交";
                 }
@@ -276,11 +273,37 @@ namespace 科技计划项目档案数据采集管理系统
 
             dgv_Plan.Columns["mr_id"].Visible = false;
 
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_Plan, new string[] { "mr_fileamount" });
             List<KeyValuePair<string, int>> keyValueList = new List<KeyValuePair<string, int>>();
             keyValueList.Add(new KeyValuePair<string, int>("mr_name", 250));
+            keyValueList.Add(new KeyValuePair<string, int>("mr_fileamount", 80));
+            keyValueList.Add(new KeyValuePair<string, int>("mr_edit", 100));
+            keyValueList.Add(new KeyValuePair<string, int>("mr_submit", 100));
             DataGridViewStyleHelper.SetWidth(dgv_Plan, keyValueList);
 
             DataGridViewStyleHelper.SetLinkStyle(dgv_Plan, new string[] { "mr_edit", "mr_submit" }, false);
+        }
+        /// <summary>
+        /// 根据计划ID获取其下所有文件总数
+        /// </summary>
+        private object GetFileAmountByPID(object pid)
+        {
+            object objid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{pid}'");
+            int totalAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{objid}'"));
+            List<object[]> _obj1 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objid}'", 1);
+            for(int i = 0; i < _obj1.Count; i++)
+            {
+                totalAmount += Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{_obj1[i][0]}'"));
+                List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{_obj1[i][0]}'", 1);
+                for(int j = 0; j < _obj2.Count; j++)
+                {
+                    totalAmount += Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{_obj2[j][0]}'"));
+                    List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{_obj2[j][0]}'", 1);
+                    for(int k = 0; k < _obj3.Count; k++)
+                        totalAmount += Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{_obj3[k][0]}'"));
+                }
+            }
+            return totalAmount;
         }
     }
 }

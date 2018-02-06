@@ -2031,14 +2031,18 @@ namespace 科技计划项目档案数据采集管理系统
             //计划
             else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
             {
-                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
+                object[] _obj = null;
+                if(workType == WorkType.CDWork)
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE trc_id='{planId}'");
+                else
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
                 if(_obj == null)
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()
                 {
-                    Name = _obj[0].ToString(),
-                    Text = _obj[1].ToString(),
-                    Tag = ControlType.Plan,
+                    Name = GetValue(_obj[0]),
+                    Text = GetValue(_obj[1]),
+                    Tag = ControlType.Plan
                 };
                 //根据【计划】查询【项目/课题】集
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
@@ -2216,21 +2220,17 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Name);
-                    EnableControls(ControlType.Plan, false);
 
                     ShowTab("plan_project", 1);
                     LoadPageBasicInfo(e.Node.Name, type);
-                    EnableControls(ControlType.Plan_Project, false);
                 }
                 else if(workType == WorkType.SubjectWork)
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Name);
-                    EnableControls(ControlType.Plan, false);
 
                     ShowTab("plan_project", 1);
                     LoadPageBasicInfo(e.Node.Name, type);
-                    EnableControls(ControlType.Plan_Project, false);
                 }
             }
             else if(type == ControlType.Plan_Topic)
@@ -2381,11 +2381,6 @@ namespace 科技计划项目档案数据采集管理系统
             object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id,imp_name,imp_intro,imp_submit_status FROM imp_info WHERE imp_obj_id='{objId}' AND imp_source_id='{UserHelper.GetInstance().User.UserKey}'");
             if(_obj == null)
                 _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name,dd_note FROM data_dictionary WHERE dd_id='{objId}'");
-            else
-            {
-                if((ObjectSubmitStatus)_obj[3] == ObjectSubmitStatus.SubmitSuccess)
-                    EnableControls(ControlType.Imp, false);
-            }
             if(_obj != null)
             {
                 lbl_Imp_Name.Tag = GetValue(_obj[0]);
@@ -4217,9 +4212,6 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_UnitUser.Text = GetValue(row["pi_company_user"]);
                     txt_JH_XM_ObjUser.Text = GetValue(row["pi_project_user"]);
                     txt_JH_XM_ObjIntroduct.Text = GetValue(row["pi_introduction"]);
-                    ObjectSubmitStatus status = (ObjectSubmitStatus)row["pi_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
                 }
                 LoadFileList(dgv_JH_XM_FileList, "jh_xm_", projectId);
             }
@@ -4253,9 +4245,6 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_KT_UnitUser.Text = GetValue(row["pi_company_user"]);
                     txt_JH_KT_ProUser.Text = GetValue(row["pi_project_user"]);
                     txt_JH_KT_Intro.Text = GetValue(row["pi_introduction"]);
-                    ObjectSubmitStatus status = (ObjectSubmitStatus)row["pi_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
                 }
                 LoadFileList(dgv_JH_KT_FileList, "jh_kt_", projectId);
             }
@@ -4289,9 +4278,6 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_KT_UnitUser.Text = GetValue(row["si_company_user"]);
                     txt_JH_XM_KT_ProUser.Text = GetValue(row["si_project_user"]);
                     txt_JH_XM_KT_Intro.Text = GetValue(row["si_introduction"]);
-                    ObjectSubmitStatus status = (ObjectSubmitStatus)row["si_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
                 }
                 LoadFileList(dgv_JH_XM_KT_FileList, "jh_xm_kt_", projectId);
             }
@@ -4325,9 +4311,6 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_KT_ZKT_Unituser.Text = GetValue(row["si_company_user"]);
                     txt_JH_KT_ZKT_ProUser.Text = GetValue(row["si_project_user"]);
                     txt_JH_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);
-                    ObjectSubmitStatus status = (ObjectSubmitStatus)row["si_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
                 }
                 LoadFileList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_", projectId);
             }
@@ -4361,9 +4344,6 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_KT_ZKT_Unituser.Text = GetValue(row["si_company_user"]);
                     txt_JH_XM_KT_ZKT_Prouser.Text = GetValue(row["si_project_user"]);
                     txt_JH_XM_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);
-                    ObjectSubmitStatus status = (ObjectSubmitStatus)row["si_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
                 }
                 LoadFileList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_", projectId);
             }
@@ -4378,9 +4358,6 @@ namespace 科技计划项目档案数据采集管理系统
 
                     dgv_Imp_Dev_FileList.Tag = GetValue(_obj[0]);
                     LoadFileList(dgv_Imp_Dev_FileList, "imp_dev_", GetValue(_obj[0]));
-
-                    if((ObjectSubmitStatus)_obj[6] == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(ControlType.Imp_Dev, false);
                 }
                 else
                 {
@@ -4509,89 +4486,89 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         /// <param name="enable">是否可用</param>
         /// <param name="nextEnable">下一级是否可用</param>
-        void EnableControls(ControlType type, bool enable)
-        {
-            if(type == ControlType.Plan)
-            {
-                //tab_JH_FileInfo.Enabled = pal_JH_BasicInfo.Enabled = enable;
-                foreach(Control item in pal_JH_BtnGroup.Controls)
-                {
-                    item.Enabled = enable;
-                    if(item.Name.Contains("Submit"))
-                        item.Text = enable ? "提交" : "已提交";
-                }
-            }
-            else if(type == ControlType.Plan_Project)
-            {
-                //tab_JH_XM_FileInfo.Enabled = pal_JH_XM.Enabled = enable;
-                foreach(Control item in pal_JH_XM_BtnGroup.Controls)
-                {
-                    item.Enabled = enable;
-                    if(item.Name.Contains("Submit"))
-                        item.Text = enable ? "提交" : "已提交";
-                }
-            }
-            else if(type == ControlType.Plan_Project_Topic)
-            {
-                //tab_JH_XM_KT_FileInfo.Enabled = pal_JH_XM_KT.Enabled = enable;
-                foreach(Control item in pal_JH_XM_KT_BtnGroup.Controls)
-                {
-                    item.Enabled = enable;
-                    if(item.Name.Contains("Submit"))
-                        item.Text = enable ? "提交" : "已提交";
-                }
-            }
-            else if(type == ControlType.Plan_Project_Topic_Subtopic)
-            {
-                //tab_JH_XM_KT_ZKT_FileInfo.Enabled = pal_JH_XM_KT_ZKT.Enabled = enable;
-                foreach(Control item in pal_JH_XM_KT_ZKT_BtnGroup.Controls)
-                {
-                    item.Enabled = enable;
-                    if(item.Name.Contains("Submit"))
-                        item.Text = enable ? "提交" : "已提交";
-                }
-            }
-            else if(type == ControlType.Plan_Topic)
-            {
-                //tab_JH_KT_FileInfo.Enabled = pal_JH_KT.Enabled = enable;
-                foreach(Control item in pal_JH_KT_BtnGroup.Controls)
-                {
-                    item.Enabled = enable;
-                    if(item.Name.Contains("Submit"))
-                        item.Text = enable ? "提交" : "已提交";
-                }
-            }
-            else if(type == ControlType.Plan_Topic_Subtopic)
-            {
-                //tab_JH_KT_ZKT_FileInfo.Enabled = pal_JH_KT_ZKT.Enabled = enable;
-                foreach(Control item in pal_JH_KT_ZKT_BtnGroup.Controls)
-                {
-                    item.Enabled = enable;
-                    if(item.Name.Contains("Submit"))
-                        item.Text = enable ? "提交" : "已提交";
-                }
-            }
-            else if(type == ControlType.Imp)
-            {
-                //tab_Imp_FileInfo.Enabled = pal_Imp.Enabled = enable;
-                foreach(Control item in pal_Imp_BtnGroup.Controls)
-                {
-                    item.Enabled = enable;
-                    if(item.Name.Contains("Submit"))
-                        item.Text = enable ? "提交" : "已提交";
-                }
-            }
-            else if(type == ControlType.Imp_Dev)
-            {
-                //tab_Imp_Dev_FileInfo.Enabled = pal_Imp_Dev.Enabled = enable;
-                foreach(Control item in pal_Imp_Dev_BtnGroup.Controls)
-                {
-                    item.Enabled = enable;
-                    if(item.Name.Contains("Submit"))
-                        item.Text = enable ? "提交" : "已提交";
-                }
-            }
-        }
+        //void EnableControls(ControlType type, bool enable)
+        //{
+        //    if(type == ControlType.Plan)
+        //    {
+        //        //tab_JH_FileInfo.Enabled = pal_JH_BasicInfo.Enabled = enable;
+        //        foreach(Control item in pal_JH_BtnGroup.Controls)
+        //        {
+        //            item.Enabled = enable;
+        //            if(item.Name.Contains("Submit"))
+        //                item.Text = enable ? "提交" : "已提交";
+        //        }
+        //    }
+        //    else if(type == ControlType.Plan_Project)
+        //    {
+        //        //tab_JH_XM_FileInfo.Enabled = pal_JH_XM.Enabled = enable;
+        //        foreach(Control item in pal_JH_XM_BtnGroup.Controls)
+        //        {
+        //            item.Enabled = enable;
+        //            if(item.Name.Contains("Submit"))
+        //                item.Text = enable ? "提交" : "已提交";
+        //        }
+        //    }
+        //    else if(type == ControlType.Plan_Project_Topic)
+        //    {
+        //        //tab_JH_XM_KT_FileInfo.Enabled = pal_JH_XM_KT.Enabled = enable;
+        //        foreach(Control item in pal_JH_XM_KT_BtnGroup.Controls)
+        //        {
+        //            item.Enabled = enable;
+        //            if(item.Name.Contains("Submit"))
+        //                item.Text = enable ? "提交" : "已提交";
+        //        }
+        //    }
+        //    else if(type == ControlType.Plan_Project_Topic_Subtopic)
+        //    {
+        //        //tab_JH_XM_KT_ZKT_FileInfo.Enabled = pal_JH_XM_KT_ZKT.Enabled = enable;
+        //        foreach(Control item in pal_JH_XM_KT_ZKT_BtnGroup.Controls)
+        //        {
+        //            item.Enabled = enable;
+        //            if(item.Name.Contains("Submit"))
+        //                item.Text = enable ? "提交" : "已提交";
+        //        }
+        //    }
+        //    else if(type == ControlType.Plan_Topic)
+        //    {
+        //        //tab_JH_KT_FileInfo.Enabled = pal_JH_KT.Enabled = enable;
+        //        foreach(Control item in pal_JH_KT_BtnGroup.Controls)
+        //        {
+        //            item.Enabled = enable;
+        //            if(item.Name.Contains("Submit"))
+        //                item.Text = enable ? "提交" : "已提交";
+        //        }
+        //    }
+        //    else if(type == ControlType.Plan_Topic_Subtopic)
+        //    {
+        //        //tab_JH_KT_ZKT_FileInfo.Enabled = pal_JH_KT_ZKT.Enabled = enable;
+        //        foreach(Control item in pal_JH_KT_ZKT_BtnGroup.Controls)
+        //        {
+        //            item.Enabled = enable;
+        //            if(item.Name.Contains("Submit"))
+        //                item.Text = enable ? "提交" : "已提交";
+        //        }
+        //    }
+        //    else if(type == ControlType.Imp)
+        //    {
+        //        //tab_Imp_FileInfo.Enabled = pal_Imp.Enabled = enable;
+        //        foreach(Control item in pal_Imp_BtnGroup.Controls)
+        //        {
+        //            item.Enabled = enable;
+        //            if(item.Name.Contains("Submit"))
+        //                item.Text = enable ? "提交" : "已提交";
+        //        }
+        //    }
+        //    else if(type == ControlType.Imp_Dev)
+        //    {
+        //        //tab_Imp_Dev_FileInfo.Enabled = pal_Imp_Dev.Enabled = enable;
+        //        foreach(Control item in pal_Imp_Dev_BtnGroup.Controls)
+        //        {
+        //            item.Enabled = enable;
+        //            if(item.Name.Contains("Submit"))
+        //                item.Text = enable ? "提交" : "已提交";
+        //        }
+        //    }
+        //}
         /// <summary>
         /// 删除事件
         /// </summary>
@@ -4626,7 +4603,6 @@ namespace 科技计划项目档案数据采集管理系统
                     if(objId != null)
                     {
                         SqlHelper.ExecuteNonQuery($"UPDATE project_info SET pi_submit_status='{(int)ObjectSubmitStatus.SubmitSuccess}' WHERE pi_id='{objId}'");
-                        EnableControls(ControlType.Plan_Project, false);
                     }
                     else
                         MessageBox.Show("请先保存数据.");
@@ -4637,7 +4613,6 @@ namespace 科技计划项目档案数据采集管理系统
                     if(objId != null)
                     {
                         SqlHelper.ExecuteNonQuery($"UPDATE project_info SET pi_submit_status='{(int)ObjectSubmitStatus.SubmitSuccess}' WHERE pi_id='{objId}'");
-                        EnableControls(ControlType.Plan_Topic, false);
                     }
                     else
                         MessageBox.Show("请先保存数据.");
@@ -4648,7 +4623,6 @@ namespace 科技计划项目档案数据采集管理系统
                     if(objId != null)
                     {
                         SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_submit_status='{(int)ObjectSubmitStatus.SubmitSuccess}' WHERE si_id='{objId}'");
-                        EnableControls(ControlType.Plan_Project_Topic, false);
                     }
                     else
                         MessageBox.Show("请先保存数据.");
@@ -4659,7 +4633,6 @@ namespace 科技计划项目档案数据采集管理系统
                     if(objId != null)
                     {
                         SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_submit_status='{(int)ObjectSubmitStatus.SubmitSuccess}' WHERE si_id='{objId}'");
-                        EnableControls(ControlType.Plan_Project_Topic_Subtopic, false);
                     }
                     else
                         MessageBox.Show("请先保存数据.");
@@ -4670,7 +4643,6 @@ namespace 科技计划项目档案数据采集管理系统
                     if(objId != null)
                     {
                         SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_submit_status='{(int)ObjectSubmitStatus.SubmitSuccess}' WHERE si_id='{objId}'");
-                        EnableControls(ControlType.Plan_Topic_Subtopic, false);
                     }
                     else
                         MessageBox.Show("请先保存数据.");
@@ -4681,7 +4653,6 @@ namespace 科技计划项目档案数据采集管理系统
                     if(objId != null)
                     {
                         SqlHelper.ExecuteNonQuery($"UPDATE imp_dev_info SET imp_submit_status='{(int)ObjectSubmitStatus.SubmitSuccess}' WHERE imp_id='{objId}'");
-                        EnableControls(ControlType.Imp_Dev, false);
                     }
                 }
             }

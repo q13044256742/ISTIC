@@ -1,7 +1,7 @@
 USE [ISTIC]
 GO
 
-/****** Object:  Table [dbo].[module]    Script Date: 2018/2/6 11:25:35 ******/
+/****** Object:  Table [dbo].[module]    Script Date: 2018/2/6 14:37:11 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[module](
 	[m_code] [varchar](200) NOT NULL,
 	[m_sort] [varchar](200) NULL,
 	[userGroup_id] [varchar](200) NULL,
-	[m_extend_3] [varchar](200) NULL,
+	[state] [varchar](200) NULL,
 	[m_extend_4] [varchar](200) NULL,
 	[m_extend_5] [varchar](200) NULL,
 PRIMARY KEY CLUSTERED 

@@ -4664,7 +4664,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_Submit_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("提交后不可再修改，确认要提交当前对象信息吗?", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            if(MessageBox.Show("提交前请先确保所有数据已保存，继续提交吗?", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
                 Button button = sender as Button;
                 object objId = null;
