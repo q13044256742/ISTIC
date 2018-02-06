@@ -2033,9 +2033,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 object[] _obj = null;
                 if(workType == WorkType.CDWork)
-                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE trc_id='{planId}'");
-                else
-                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE trc_id='{planId}'") ?? SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name FROM project_info WHERE pi_obj_id='{planId}'");
                 if(_obj == null)
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()
@@ -2045,7 +2043,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = ControlType.Plan
                 };
                 //根据【计划】查询【项目/课题】集
-                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
+                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                 for(int i = 0; i < list.Count; i++)
                 {
                     TreeNode treeNode2 = new TreeNode()
@@ -2056,7 +2054,7 @@ namespace 科技计划项目档案数据采集管理系统
                     };
                     treeNode.Nodes.Add(treeNode2);
                     //根据【项目/课题】查询【课题/子课题】集
-                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                     for(int j = 0; j < list2.Count; j++)
                     {
                         TreeNode treeNode3 = new TreeNode()
@@ -2067,7 +2065,7 @@ namespace 科技计划项目档案数据采集管理系统
                         };
                         treeNode2.Nodes.Add(treeNode3);
 
-                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
+                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                         for(int k = 0; k < list3.Count; k++)
                         {
                             TreeNode treeNode4 = new TreeNode()
@@ -2094,7 +2092,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = ControlType.Plan,
                 };
                 //根据【计划】查询【项目/课题】集
-                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
+                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'", 3);
                 for(int i = 0; i < list.Count; i++)
                 {
                     TreeNode treeNode2 = new TreeNode()

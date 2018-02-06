@@ -21,8 +21,8 @@ namespace 科技计划项目档案数据采集管理系统
         private void Frm_QT_Load(object sender, EventArgs e)
         {
             LoadLeftMenu();
-
             LoadWaitQTList();
+            dgv_Plan.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
         }
         /// <summary>
         /// 加载左侧菜单栏
@@ -226,7 +226,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(type == WorkType.PaperWork)
                 return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
             else if(type == WorkType.CDWork)
-                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}'");
             if(type == WorkType.ProjectWork)
                 return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{objId}'");
             else if(type == WorkType.SubjectWork)
