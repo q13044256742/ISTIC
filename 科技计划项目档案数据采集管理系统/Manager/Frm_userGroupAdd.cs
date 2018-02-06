@@ -19,46 +19,12 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             InitializeComponent();
             this.isAdd = isAdd;
             this.id = id;
-            if (isAdd)
+
+            if (!isAdd)
             {
-               // Load_sq();
-            }
-            else
-            {
-               // Load_sq();
                 LoadData(id);
-            }
+            }         
         }
-
-        //加载授权模块
-        //private void Load_sq()
-        //{
-        //    TreeNode rootNode = new TreeNode("平台菜单");
-        //    string m_sql = $"select DISTINCT m_name from module order by m_sort";
-        //    List<object[]> _obj = SqlHelper.ExecuteColumnsQuery(m_sql, 2);
-
-        //    for (int i = 0; i < _obj.Count; i++)
-        //    {
-        //        TreeNode node = new TreeNode()
-        //        {
-        //           // Name = GetValue(_obj[i][0]),
-        //            Text = GetValue(_obj[i][1])
-        //        };
-                
-        //        TreeNode node2 = new TreeNode("查看");
-        //        node2.Name = "view";
-        //        TreeNode node3 = new TreeNode("修改");
-        //        node3.Name = "edit";
-
-        //        node.Nodes.Add(node2);
-        //        node.Nodes.Add(node3);
-
-        //        rootNode.Nodes.Add(node);
-        //    }
-        //    treeView1.Nodes.Add(rootNode);
-
-
-        //}
 
         //把object对象转换为string
         private string GetValue(object obj)
@@ -80,23 +46,6 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 ug_note.Text = _obj[2].ToString();
                 ug_sort.Text = _obj[3].ToString();
 
-               
-                //string m_ids =_obj[4].ToString();
-                //string[] mId_list = m_ids.Split(',');
-                //StringBuilder mId_sb = new StringBuilder();
-                //for (int i = 0; i < mId_list.Length; i++)
-                //{
-                //    mId_sb.Append($"'{mId_list[i]}'{(i == mId_list.Length - 1 ? string.Empty : ",")}");
-                //}
-                
-                //TreeNode[] ts =  treeView1.Nodes.Find("id",true);
-                //if (ts.Length > 0)
-                //{
-                //    TreeNode treeNode = ts[0];
-                //    treeNode.Checked = true;
-                //}
-
-
                 ug_name.Tag = id;
             }      
         }
@@ -116,40 +65,6 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 string _ug_note = ug_note.Text.Trim();
                 string _ug_sort = ug_sort.Text.Trim();
 
-                //StringBuilder mId_sb = new StringBuilder();
-                //StringBuilder oId_sb = new StringBuilder();
-                //int index = 0;
-                //int count = 0;
-                //for (int i = 0; i < treeView1.Nodes.Count; i++)
-                //{
-                //    TreeNode root = treeView1.Nodes[i];
-                //    //if (root.Checked)
-                //    //{
-                //    //    mId_sb.Append(root.Name + ",");
-                //    //}
-
-                //    for (int j = 0;j < root.Nodes.Count; j++)
-                //    {
-                //        TreeNode node = root.Nodes[j];
-                //        if (node.Checked)
-                //        {                          
-                //           // mId_sb.Append($"{node.Name}{(index == root.Nodes.Count - 1 ? string.Empty : ",")}");
-                                                                                   
-                //            for (int k = 0; k < node.Nodes.Count; k++)
-                //            {
-                //                TreeNode node2 = node.Nodes[k];
-                //                if (node2.Checked)
-                //                {
-                //                    count++;
-                //                    oId_sb.Append($"{node2.Name}{(count == node.Nodes.Count - 1? string.Empty : ",")}");
-                //                }
-                //            }
-                //        }                      
-                //    }
-                //}
-
-               // Console.WriteLine("@ check m_id : "+mId_sb.ToString()+" -- o_id : "+oId_sb.ToString());
-
                 //新增信息
                 if (isAdd)
                 {
@@ -159,28 +74,12 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                         $"values" +
                         $"('{_ug_Id}','{_ug_name}','{_ug_code}','{_ug_note}','{_ug_sort}')";
                     SqlHelper.ExecuteQuery(querySql);
-
-                    //if (string.IsNullOrEmpty(mId_sb.ToString()))
-                    //{                      
-                    //    string[] mId_list = mId_sb.ToString().Split(',');
-
-                    //    StringBuilder m_id_sb = new StringBuilder();
-                    //    for (int i = 0; i < mId_list.Length; i++)
-                    //    {
-                    //        m_id_sb.Append($"'{mId_list[i]}'{(i == mId_list.Length - 1 ? string.Empty : ",")}");
-                    //    }
-
-
-
-
-                    //}
-
                 }
                 //更新信息
                 else
                 {
                     string _ug_Id = ug_name.Tag.ToString();
-                    string querySql = $"update user_group set ug_name='{_ug_name}',ug_code='{_ug_code}',ug_note='{_ug_code}',ug_sort='{_ug_sort}'" +
+                    string querySql = $"update user_group set ug_name='{_ug_name}',ug_code='{_ug_code}',ug_note='{_ug_note}',ug_sort='{_ug_sort}'" +
                         $" where ug_id='{_ug_Id}'";
                     SqlHelper.ExecuteQuery(querySql);
                 }
@@ -213,20 +112,5 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             }          
             return true;
         }     
-
-        //加载说选的节点
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            //MessageBox.Show(e.Node.Name);
-
-            if (e.Node.IsSelected)
-            {
-                if (e.Node.Level == 2)
-                {
-                    e.Node.Checked = true;
-                }
-
-            }
-        }
     }
 }

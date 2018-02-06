@@ -37,18 +37,17 @@
             // treeView1
             // 
             this.treeView1.CheckBoxes = true;
-            this.treeView1.Location = new System.Drawing.Point(136, 62);
+            this.treeView1.Location = new System.Drawing.Point(124, 49);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(196, 230);
+            this.treeView1.Size = new System.Drawing.Size(237, 315);
             this.treeView1.TabIndex = 114;
- 
             this.treeView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.treeView_MouseClick);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(64, 62);
+            this.label6.Location = new System.Drawing.Point(64, 49);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 19);
             this.label6.TabIndex = 115;
@@ -56,7 +55,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(326, 341);
+            this.button1.Location = new System.Drawing.Point(285, 413);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(76, 29);
             this.button1.TabIndex = 117;
@@ -66,7 +65,7 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(244, 341);
+            this.btn_Save.Location = new System.Drawing.Point(203, 413);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(76, 29);
             this.btn_Save.TabIndex = 116;
@@ -78,7 +77,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(467, 415);
+            this.ClientSize = new System.Drawing.Size(432, 476);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.label6);
