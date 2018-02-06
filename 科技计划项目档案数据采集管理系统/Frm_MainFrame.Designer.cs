@@ -26,6 +26,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_MainFrame));
             this.lbl_OtherInfo = new System.Windows.Forms.Label();
             this.txt_RealName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -130,6 +131,7 @@
             this.Controls.Add(this.pal_Top);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "Frm_MainFrame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
