@@ -550,13 +550,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         object planId  = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
                         if(planId != null)//项目/课题
-                        {
-                            new Frm_MyWork(WorkType.ProjectWork, planId, null, ControlType.Default).ShowDialog();
-                        }
+                            new Frm_MyWork(WorkType.CDWork, planId, null, ControlType.Default).ShowDialog();
                         else//纸本
-                        {
-                            new Frm_ProTypeSelect(WorkType.PaperWork, objId).ShowDialog();
-                        }
+                            new Frm_ProTypeSelect(WorkType.CDWork, objId).ShowDialog();
                     }
                     else if(typeValue.Contains("纸本"))
                         new Frm_ProTypeSelect(WorkType.PaperWork, objId).ShowDialog();
