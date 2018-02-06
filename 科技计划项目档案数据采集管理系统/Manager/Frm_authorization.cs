@@ -23,7 +23,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         private void Load_sq()
         {
             TreeNode rootNode = new TreeNode("平台菜单");
-            string m_sql = $"select DISTINCT m_code,m_name from module";
+            //模块数据（state 为MODULE） 
+            string m_sql = $"select m_code,m_name from module where state = 'MODULE' order by m_sort";
             List<object[]> _obj = SqlHelper.ExecuteColumnsQuery(m_sql, 2);
 
             for (int i = 0; i < _obj.Count; i++)
@@ -59,12 +60,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 for (int i=0;i < select_module_list.Count;i++)
                 {
                     TreeNode node = root.Nodes[i];
-                    string name = node.Text;
-                   
-                    if (name.Equals(select_module_list[i][0]))
-                    {
-                        node.Checked = true;                     
-                    }
+                    node.Checked = true;                                      
 
                     string module_id = GetValue(select_module_list[i][1]);
 
@@ -75,23 +71,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                     {
                         for (int j = 0;j < select_operation_list.Count;j++)
                         {
-                            TreeNode node2 = node.Nodes[j];
-                            string o_name = node2.Name;
-
-                            if ("view".Equals(o_name))
-                            {                              
-                                if ("1".Equals(select_operation_list[j][0]))
-                                {
-                                    node2.Checked = true;
-                                }                                                         
-                            }
-                            else if ("edit".Equals(o_name))
-                            {                             
-                                if ("1".Equals(select_operation_list[j][1]))
-                                {
-                                    node2.Checked = true;
-                                }                                                             
-                            }                       
+                            TreeNode node2 = node.Nodes[j];                        
+                            node2.Checked = true;                                                                                                                                  
                         }
                     }
                 }
