@@ -13,7 +13,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             InitializeComponent();
         }
 
-        private void btn_Save_Click(object sender, System.EventArgs e)
+        private void Btn_Save_Click(object sender, System.EventArgs e)
         {
             string name = txt_CDName.Text.Trim();
             string code = txt_CDCode.Text.Trim();
@@ -28,18 +28,18 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     TrcName = name,
                     TrcCode = code,
                     TrpId = pid,
-                    TrcReadStatus = ReadStatus.NonRead,
                     TrcRemark = remark
                 };
                 StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
-                cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_people,trc_handle_time)");
+                cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_complete_status,trc_people,trc_handle_time)");
                 cdInfo_querySql.Append(" VALUES(");
                 cdInfo_querySql.Append("'" + cd.TrcId + "',");
                 cdInfo_querySql.Append("'" + cd.TrcName + "',");
                 cdInfo_querySql.Append("'" + cd.TrcCode + "',");
                 cdInfo_querySql.Append("'" + cd.TrpId + "',");
                 cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
-                cdInfo_querySql.Append("'" + (int)cd.TrcReadStatus + "',");
+                cdInfo_querySql.Append("'" + (int)ReadStatus.NonRead + "',");
+                cdInfo_querySql.Append("'" + (int)WorkStatus.NonWork + "',");
                 cdInfo_querySql.Append("'" + string.Empty + "',");
                 cdInfo_querySql.Append("'" + DateTime.Now + "')");
                 SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());

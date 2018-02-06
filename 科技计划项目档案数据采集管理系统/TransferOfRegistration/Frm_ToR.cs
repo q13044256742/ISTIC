@@ -452,7 +452,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_GPDJ.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
                 dgv_GPDJ.Rows[_index].Cells["trc_project_amount"].Value = GetProjectAmount(row["trc_id"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_subject_amount"].Value = GetSubjectAmount(row["trc_id"]);
-                dgv_GPDJ.Rows[_index].Cells["trc_file_amount"].Value = 0;//文件数待处理
+                dgv_GPDJ.Rows[_index].Cells["trc_file_amount"].Value = GetFileAmount(row["trc_id"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_status"].Value = GetReadStatus(GetInt32(row["trc_status"]));
                 dgv_GPDJ.Rows[_index].Cells["control"].Value = "读写";
             }
@@ -475,7 +475,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             DataGridViewStyleHelper.SetLinkStyle(dgv_GPDJ, new string[] { "control" }, false);
             
         }
-
+        /// <summary>
+        /// 根据光盘ID获取文件数
+        /// </summary>
+        /// <param name="cdid">光盘ID</param>
+        private object GetFileAmount(object cdid)
+        {
+            return SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{cdid}'");
+        }
         /// <summary>
         /// 根据光盘ID获取项目数总和
         /// </summary>

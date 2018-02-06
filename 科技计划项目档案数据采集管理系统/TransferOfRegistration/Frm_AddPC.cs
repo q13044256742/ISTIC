@@ -135,7 +135,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 保存/更新
         /// </summary>
-        private void btn_Save_Click(object sender, EventArgs e)
+        private void Btn_Save_Click(object sender, EventArgs e)
         {
             if(!ValidData())
             {
@@ -203,21 +203,19 @@ namespace 科技计划项目档案数据采集管理系统
                             TrcCode = cdCode,
                             TrpId = registration.Id,//关联批次的主键
                             TrcRemark = cdRemark,
-                            TrcReadStatus = ReadStatus.NonRead,
-                            TrcPeople = string.Empty,
-                            TrpHandleTime = DateTime.Now
                         };
                         StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
-                        cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_people,trc_handle_time)");
+                        cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_complete_status,trc_people,trc_handle_time)");
                         cdInfo_querySql.Append(" VALUES(");
                         cdInfo_querySql.Append("'" + Guid.NewGuid().ToString() + "',");
                         cdInfo_querySql.Append("'" + cd.TrcName + "',");
                         cdInfo_querySql.Append("'" + cd.TrcCode + "',");
                         cdInfo_querySql.Append("'" + cd.TrpId + "',");
                         cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
-                        cdInfo_querySql.Append("'" + (int)cd.TrcReadStatus + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcPeople + "',");
-                        cdInfo_querySql.Append("'" + cd.TrpHandleTime + "')");
+                        cdInfo_querySql.Append("'" + (int)ReadStatus.NonRead + "',");
+                        cdInfo_querySql.Append("'" + (int)WorkStatus.NonWork + "',");
+                        cdInfo_querySql.Append("'" + UserHelper.GetInstance().User.UserKey + "',");
+                        cdInfo_querySql.Append("'" + DateTime.Now + "')");
                         SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());
                     }
                 }

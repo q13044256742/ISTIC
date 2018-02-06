@@ -429,7 +429,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 $"{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}')";
                             SqlHelper.ExecuteNonQuery(insertSql);
 
-                            string updateSql = $"UPDATE transfer_registraion_cd SET trc_status={(int)WorkStatus.WorkSuccess} WHERE trc_id='{wr.WrObjId}'";
+                            string updateSql = $"UPDATE transfer_registraion_cd SET trc_complete_status={(int)WorkStatus.WorkSuccess} WHERE trc_id='{trcid}'";
                             SqlHelper.ExecuteNonQuery(updateSql);
 
                             //跳转到我的加工页面
@@ -547,7 +547,17 @@ namespace 科技计划项目档案数据采集管理系统
                     object objId = dgv_WorkLog.Rows[e.RowIndex].Cells["id"].Value;
                     string typeValue = dgv_WorkLog.Rows[e.RowIndex].Cells["type"].Value.ToString();
                     if(typeValue.Contains("光盘"))
-                        new Frm_ProTypeSelect(WorkType.CDWork, objId).ShowDialog();
+                    {
+                        object planId  = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
+                        if(planId != null)//项目/课题
+                        {
+                            new Frm_MyWork(WorkType.ProjectWork, planId, null, ControlType.Default).ShowDialog();
+                        }
+                        else//纸本
+                        {
+                            new Frm_ProTypeSelect(WorkType.PaperWork, objId).ShowDialog();
+                        }
+                    }
                     else if(typeValue.Contains("纸本"))
                         new Frm_ProTypeSelect(WorkType.PaperWork, objId).ShowDialog();
                     else
@@ -561,10 +571,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 MessageBox.Show("无法找到当前项目/课题所属计划。", "操作失败");
                             }
                             else
-                            {
-                                Frm_MyWork myWork = new Frm_MyWork(WorkType.ProjectWork, rootId, null, ControlType.Default);
-                                myWork.ShowDialog();
-                            }
+                                new Frm_MyWork(WorkType.ProjectWork, rootId, null, ControlType.Default).ShowDialog();
                         }
                         else if(typeValue.Contains("课题/子课题"))
                         {
@@ -776,7 +783,7 @@ namespace 科技计划项目档案数据采集管理系统
             LastIdLog = new string[] { LastIdLog[1], $"Subject_{pid}" };
         }
         /// <summary>
-        /// 加载指定批次下且未领取的光盘列表
+        /// 光盘列表
         /// </summary>
         /// <param name="trpId">批次主键</param>
         private void LoadCDList(object trpId)
@@ -815,7 +822,7 @@ namespace 科技计划项目档案数据采集管理系统
             querySql.Append(" LEFT JOIN(");
             querySql.Append(" SELECT trp.trp_id, cs_name,sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
             querySql.Append(" ON trc.trp_id = tb.trp_id");
-            querySql.Append($" WHERE trc.trp_id='{trpId}' AND trc.trc_status={(int)WorkStatus.WorkSuccess}");
+            querySql.Append($" WHERE trc.trp_id='{trpId}' AND trc.trc_complete_status={(int)WorkStatus.NonWork}");
             querySql.Append(" ORDER BY sorting ASC, trc_code ASC");
             table = SqlHelper.ExecuteQuery(querySql.ToString());
             foreach (DataRow row in table.Rows)
@@ -831,7 +838,7 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_WorkLog.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
                     dgv_WorkLog.Rows[_index].Cells["trc_total_amount"].Value = totalAmount;
                     dgv_WorkLog.Rows[_index].Cells["trc_receive_amount"].Value = receiveAmount;
-                    dgv_WorkLog.Rows[_index].Cells["trc_file_amount"].Value = 0;//文件数待处理
+                    dgv_WorkLog.Rows[_index].Cells["trc_file_amount"].Value = GetFileAmount(row["trc_id"]);
                     dgv_WorkLog.Rows[_index].Cells["trc_control"].Value = "加工";
                 }
             }
@@ -848,6 +855,14 @@ namespace 科技计划项目档案数据采集管理系统
 
             dgv_WorkLog.Columns["trc_id"].Visible = false;
             LastIdLog = new string[] { LastIdLog[1], $"CD_{trpId}" };
+        }
+        /// <summary>
+        /// 根据光盘ID获取文件数
+        /// </summary>
+        /// <param name="cdid">光盘ID</param>
+        private object GetFileAmount(object cdid)
+        {
+            return SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{cdid}'");
         }
         /// <summary>
         /// 根据光盘ID获取已领取项目总数
