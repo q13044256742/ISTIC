@@ -13,15 +13,16 @@ namespace 科技计划项目档案数据采集管理系统
         /// 当前加工类型
         /// </summary>
         private WorkType workType;
+        private object trpId;
         /// <summary>
         /// 开始加工指定的对象
         /// </summary>
         /// <param name="workType">对象类型</param>
         /// <param name="planId">计划主键（仅针对光盘/批次加工）</param>
-        public Frm_MyWork(WorkType workType, object planId, ControlType type)
+        public Frm_MyWork(WorkType workType, object planId, object trpId,ControlType type)
         {
             InitializeComponent();
-
+            this.trpId = trpId;
             this.workType = workType;
             InitialForm(planId, type);
         }
@@ -73,7 +74,7 @@ namespace 科技计划项目档案数据采集管理系统
             dataGridView.Rows.Clear();
             string querySql = $"SELECT * FROM processing_file_list WHERE pfl_obj_id='{parentId}'";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-            for (int i = 0; i < dataTable.Rows.Count; i++)
+            for(int i = 0; i < dataTable.Rows.Count; i++)
             {
                 int index = dataGridView.Rows.Add();
                 dataGridView.Rows[index].Cells[key + "id"].Value = i + 1;
@@ -86,7 +87,9 @@ namespace 科技计划项目档案数据采集管理系统
                 dataGridView.Rows[index].Cells[key + "secret"].Value = dataTable.Rows[i]["pfl_scert"];
                 dataGridView.Rows[index].Cells[key + "page"].Value = dataTable.Rows[i]["pfl_page_amount"];
                 dataGridView.Rows[index].Cells[key + "amount"].Value = dataTable.Rows[i]["pfl_amount"];
-                dataGridView.Rows[index].Cells[key + "date"].Value = dataTable.Rows[i]["pfl_complete_date"];
+                object _date = dataTable.Rows[i]["pfl_complete_date"];
+                if(_date != null)
+                    dataGridView.Rows[index].Cells[key + "date"].Value = Convert.ToDateTime(_date).ToShortDateString();
                 dataGridView.Rows[index].Cells[key + "unit"].Value = dataTable.Rows[i]["pfl_save_location"];
                 dataGridView.Rows[index].Cells[key + "carrier"].Value = dataTable.Rows[i]["pfl_carrier"];
                 dataGridView.Rows[index].Cells[key + "format"].Value = dataTable.Rows[i]["pfl_file_format"];
@@ -794,7 +797,7 @@ namespace 科技计划项目档案数据采集管理系统
                     object objId = dgv_JH_FileList.Tag;
                     if(objId == null)
                     {
-                        objId = AddProjectBasicInfo(lbl_JH_Name.Tag, ControlType.Plan);
+                        objId = AddProjectBasicInfo(trpId, ControlType.Plan);
                         dgv_JH_FileList.Tag = objId;
                     }
                     else
@@ -1915,8 +1918,15 @@ namespace 科技计划项目档案数据采集管理系统
 
             DateTime date = DateTime.Now;
             string _date = GetValue(row.Cells[key + "date"].Value);
-            DateTime.TryParse(_date, out date);
+            if(!string.IsNullOrEmpty(_date))
+            {
+                if(_date.Length == 6)
+                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-01";
+                if(_date.Length == 8)
+                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + _date.Substring(6, 2);
+                DateTime.TryParse(_date, out date);
 
+            }
             object unit = row.Cells[key + "unit"].Value;
             object carrier = row.Cells[key + "carrier"].Value;
             object format = row.Cells[key + "format"].Value;
@@ -2006,6 +2016,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
             {
                 object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{planId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
+                if(_obj == null && trpId != null)
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{trpId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
+                if(_obj == null)
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}'");
                 if(_obj == null)
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()
@@ -2742,7 +2756,8 @@ namespace 科技计划项目档案数据采集管理系统
             string querySql = "select dd_name,dd_note from data_dictionary where dd_pId in(" +
                 "select dd_id from data_dictionary where dd_pId = (" +
                 "select dd_id from data_dictionary  where dd_code = 'dic_file_jd')) and dd_name not in(" +
-                $"select dd.dd_name from processing_file_list pfl left join data_dictionary dd on pfl.pfl_categor = dd.dd_id where pfl.pfl_obj_id='{objid}')";
+                $"select dd.dd_name from processing_file_list pfl left join data_dictionary dd on pfl.pfl_categor = dd.dd_id where pfl.pfl_obj_id='{objid}')" +
+                $" ORDER BY dd_name";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < table.Rows.Count; i++)
             {
@@ -4263,8 +4278,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_ObjUser.Text = GetValue(row["pi_project_user"]);
                     txt_JH_XM_ObjIntroduct.Text = GetValue(row["pi_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["pi_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
+                    EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_XM_FileList, "jh_xm_", projectId);
             }
@@ -4299,8 +4313,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_KT_ProUser.Text = GetValue(row["pi_project_user"]);
                     txt_JH_KT_Intro.Text = GetValue(row["pi_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["pi_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
+                    EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_KT_FileList, "jh_kt_", projectId);
             }
@@ -4335,8 +4348,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_KT_ProUser.Text = GetValue(row["si_project_user"]);
                     txt_JH_XM_KT_Intro.Text = GetValue(row["si_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["si_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
+                    EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_XM_KT_FileList, "jh_xm_kt_", projectId);
             }
@@ -4371,8 +4383,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_KT_ZKT_ProUser.Text = GetValue(row["si_project_user"]);
                     txt_JH_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["si_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
+                    EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_", projectId);
             }
@@ -4407,8 +4418,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_JH_XM_KT_ZKT_Prouser.Text = GetValue(row["si_project_user"]);
                     txt_JH_XM_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["si_submit_status"];
-                    if(status == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(type, false);
+                    EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_", projectId);
             }
@@ -4420,12 +4430,9 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Imp_Dev_Code.Text = GetValue(_obj[1]);
                     txt_Imp_Dev_Name.Text = GetValue(_obj[2]);
                     txt_Imp_Dev_Unit.Text = GetValue(_obj[3]);
-
                     dgv_Imp_Dev_FileList.Tag = GetValue(_obj[0]);
                     LoadFileList(dgv_Imp_Dev_FileList, "imp_dev_", GetValue(_obj[0]));
-
-                    if((ObjectSubmitStatus)_obj[6] == ObjectSubmitStatus.SubmitSuccess)
-                        EnableControls(ControlType.Imp_Dev, false);
+                    EnableControls(ControlType.Imp_Dev, (ObjectSubmitStatus)_obj[6] != ObjectSubmitStatus.SubmitSuccess);
                 }
                 else
                 {

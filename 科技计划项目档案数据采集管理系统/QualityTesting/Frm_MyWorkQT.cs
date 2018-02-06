@@ -12,15 +12,17 @@ namespace 科技计划项目档案数据采集管理系统
         /// 当前加工类型
         /// </summary>
         private WorkType workType;
+        private bool isBackWork;
         /// <summary>
         /// 开始加工指定的对象
         /// </summary>
         /// <param name="workType">对象类型</param>
-        /// <param name="planId">计划主键（仅针对光盘/批次加工）</param>
-        public Frm_MyWorkQT(WorkType workType, object planId, ControlType type)
+        /// <param name="planId">计划主键</param>
+        /// <param name="isBackWork">是否是质检返工</param>
+        public Frm_MyWorkQT(WorkType workType, object planId, ControlType type, bool isBackWork)
         {
             InitializeComponent();
-
+            this.isBackWork = isBackWork;
             this.workType = workType;
             InitialForm(planId, type);
         }
@@ -585,14 +587,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_OpenFile_Click(object sender, EventArgs e)
         {
-
             Button button = sender as Button;
             if("btn_JH_OpenFile".Equals(button.Name))
             {
                 object id = dgv_JH_FileList.Tag;
                 string name = lbl_JH_Name.Text;
                 int index = tab_JH_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1);
+                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
                 frm.ShowDialog();
             }
             else if("btn_JH_XM_OpenFile".Equals(button.Name))
@@ -600,7 +601,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = dgv_JH_XM_FileList.Tag;
                 string name = txt_JH_XM_Name.Text;
                 int index = tab_JH_XM_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1);
+                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
                 frm.ShowDialog();
             }
             else if("btn_JH_XM_KT_OpenFile".Equals(button.Name))
@@ -608,7 +609,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = dgv_JH_XM_KT_FileList.Tag;
                 string name = txt_JH_XM_KT_Name.Text;
                 int index = tab_JH_XM_KT_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1);
+                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
                 frm.ShowDialog();
             }
             else if("btn_JH_XM_KT_ZKT_OpenFile".Equals(button.Name))
@@ -616,7 +617,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = dgv_JH_XM_KT_ZKT_FileList.Tag;
                 string name = txt_JH_XM_KT_ZKT_Name.Text;
                 int index = tab_JH_XM_KT_ZKT_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1);
+                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
                 frm.ShowDialog();
             }
             else if("btn_JH_KT_OpenFile".Equals(button.Name))
@@ -624,7 +625,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = dgv_JH_KT_FileList.Tag;
                 string name = txt_JH_KT_Name.Text;
                 int index = tab_JH_KT_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1);
+                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
                 frm.ShowDialog();
             }
             else if("btn_JH_KT_ZKT_OpenFile".Equals(button.Name))
@@ -632,7 +633,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = dgv_JH_KT_ZKT_FileList.Tag;
                 string name = txt_JH_KT_ZKT_Name.Text;
                 int index = tab_JH_KT_ZKT_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1);
+                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
                 frm.ShowDialog();
             }
             else if("btn_Imp_OpenFile".Equals(button.Name))
@@ -640,7 +641,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = dgv_Imp_FileList.Tag;
                 string name = lbl_Imp_Name.Text;
                 int index = tab_Imp_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1);
+                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
                 frm.ShowDialog();
             }
             else if("btn_Imp_Dev_OpenFile".Equals(button.Name))
@@ -648,7 +649,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = dgv_Imp_Dev_FileList.Tag;
                 string name = txt_Imp_Dev_Name.Text;
                 int index = tab_Imp_Dev_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1);
+                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
                 frm.ShowDialog();
             }
         }
@@ -1931,7 +1932,17 @@ namespace 科技计划项目档案数据采集管理系统
             object secret = row.Cells[key + "secret"].Value;
             object page = row.Cells[key + "page"].Value;
             object amount = row.Cells[key + "amount"].Value;
-            object date = row.Cells[key + "date"].Value;
+            DateTime date = DateTime.Now;
+            string _date = GetValue(row.Cells[key + "date"].Value);
+            if(!string.IsNullOrEmpty(_date))
+            {
+                if(_date.Length == 6)
+                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-01";
+                if(_date.Length == 8)
+                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + _date.Substring(6, 2);
+                DateTime.TryParse(_date, out date);
+
+            }
             object unit = row.Cells[key + "unit"].Value;
             object carrier = row.Cells[key + "carrier"].Value;
             object format = row.Cells[key + "format"].Value;
@@ -2236,7 +2247,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project", 2);
                     LoadPageBasicInfo(e.Node.Name, type);
                 }
-                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
+                else
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Name);
@@ -2262,18 +2273,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project_topic", 3);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
                 }
-                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
-                {
-                    ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Parent.Name);
-
-                    ShowTab("plan_project", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project);
-
-                    ShowTab("plan_project_topic", 2);
-                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
-                }
-                else if(workType == WorkType.ProjectWork || workType == WorkType.SubjectWork)
+                else
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node.Parent.Parent.Name);
@@ -2302,7 +2302,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_topic_subtopic", 3);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Topic_Subtopic);
                 }
-                else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
+                else
                 {
 
                     ShowTab("plan", 0);

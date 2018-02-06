@@ -10,11 +10,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private object objId;
 
-        public Frm_Advice(object objId, string objName, int type)
+        public Frm_Advice(object objId, string objName, int type, bool isBackWork)
         {
             this.objId = objId;
             InitializeComponent();
-            InitialForm(objName, objId, type);
+            InitialForm(objName, objId, type, isBackWork);
         }
         /// <summary>
         /// 初始化窗体
@@ -22,7 +22,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="objName">对象名</param>
         /// <param name="objId">对象ID</param>
         /// <param name="type">意见类型</param>
-        private void InitialForm(string objName, object objId, int type)
+        private void InitialForm(string objName, object objId, int type, bool isBackWork)
         {
             cbo_AdviceType.SelectedIndex = type;
             lbl_ObjName.Text = objName;
@@ -31,6 +31,11 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 lbl_ObjName.Tag = _obj[0];
                 txt_Advice.Text = GetValue(_obj[1]);
+            }
+            if(isBackWork)
+            {
+                btn_Sure.Visible = btn_Delete.Visible = false;
+                txt_Advice.ReadOnly = true;
             }
         }
         /// <summary>

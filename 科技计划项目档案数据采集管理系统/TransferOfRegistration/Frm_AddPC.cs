@@ -119,9 +119,7 @@ namespace 科技计划项目档案数据采集管理系统
 
             querySql = "SELECT COUNT(*) FROM transfer_registration_pc WHERE com_id=('" + csid + "')";
             string amountStr = (Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery(querySql)) + 1).ToString();
-            amountStr = amountStr.Length == 3 ? amountStr : (amountStr.Length == 2 ? "0" + amountStr : "00" + amountStr);
-
-            txt_BatchCode.Text = unitCode + DateTime.Now.Year + amountStr;
+            txt_BatchCode.Text = unitCode + DateTime.Now.Year + amountStr.PadLeft(3, '0');
         }
 
         private void btn_Save_MouseEnter(object sender, EventArgs e)
@@ -304,9 +302,12 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 if ("gpbh".Equals(dgv_CDlist.Columns[e.ColumnIndex].Name))
                 {
-                    string number = dgv_CDlist.RowCount - 1 < 10 ? "0" + (dgv_CDlist.RowCount - 1) : (dgv_CDlist.RowCount - 1).ToString();
-                    string pcCode = txt_BatchCode.Text + "-" + number;
-                    dgv_CDlist.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = pcCode;
+                    if(dgv_CDlist.Rows[e.RowIndex].Cells["gpmc"].Value != null)
+                    {
+                        int index = dgv_CDlist.RowCount - 1;
+                        string pcCode = txt_BatchCode.Text + "-" + index.ToString().PadLeft(3, '0');
+                        dgv_CDlist.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = pcCode;
+                    }
                 }
             }
         }

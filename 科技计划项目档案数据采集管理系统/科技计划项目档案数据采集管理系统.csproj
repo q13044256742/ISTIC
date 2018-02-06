@@ -330,6 +330,7 @@
     <None Include="Images\chaxun.png" />
     <None Include="Images\tijiao.png" />
     <None Include="Images\c1x.png" />
+    <None Include="Images\logo.ico" />
     <Content Include="Images\top.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

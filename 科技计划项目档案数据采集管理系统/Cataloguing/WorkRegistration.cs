@@ -18,7 +18,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 已提交/已完成
         /// </summary>
-        SubmitSuccess = 2
+        SubmitSuccess = 2,
+        /// <summary>
+        /// 已返工
+        /// </summary>
+        Back = 3
     }
     /// <summary>
     /// 当前操作对象类型
@@ -148,6 +152,9 @@ namespace 科技计划项目档案数据采集管理系统
         private DateTime wrStartDate;
         private DateTime wrSubmitDate;
         private object wrObjId;
+        private ObjectSubmitStatus submitStatus;
+        private ReceiveStatus receiveStatus;
+        private string sourceId;
 
         public object WrId { get => wrId; set => wrId = value; }
         public DateTime WrStartDate { get => wrStartDate; set => wrStartDate = value; }
@@ -156,5 +163,8 @@ namespace 科技计划项目档案数据采集管理系统
         public object WrTrpId { get => wrTrpId; set => wrTrpId = value; }
         public WorkStatus WrStauts { get => wrStauts; set => wrStauts = value; }
         public WorkType WrType { get => wrType; set => wrType = value; }
+        public string SourceId { get => sourceId; set => sourceId = value; }
+        public ObjectSubmitStatus SubmitStatus { get => submitStatus; set => submitStatus = value; }
+        public ReceiveStatus ReceiveStatus { get => receiveStatus; set => receiveStatus = value; }
     }
 }

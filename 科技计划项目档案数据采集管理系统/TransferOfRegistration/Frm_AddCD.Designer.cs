@@ -87,6 +87,7 @@
             this.txt_CDCode.Name = "txt_CDCode";
             this.txt_CDCode.Size = new System.Drawing.Size(361, 23);
             this.txt_CDCode.TabIndex = 4;
+            this.txt_CDCode.Enter += new System.EventHandler(this.Txt_CDCode_Enter);
             // 
             // txt_CDRemark
             // 
