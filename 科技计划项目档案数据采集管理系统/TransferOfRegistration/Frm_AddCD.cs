@@ -82,10 +82,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             //自动生成批次编号
             object csid = SqlHelper.ExecuteOnlyOneQuery("SELECT CS_ID FROM company_source WHERE cs_code = '" + unitCode + "'");
             querySql = "SELECT COUNT(*) FROM transfer_registration_pc WHERE com_id=('" + csid + "')";
-            string amountStr = (Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery(querySql)) + 1).ToString();
-            amountStr = amountStr.Length == 3 ? amountStr : (amountStr.Length == 2 ? "0" + amountStr : "00" + amountStr);
-
-            return unitCode.ToString() + DateTime.Now.Year + amountStr + "-" + index.ToString().PadLeft(3, '0');
+            object amountStr = SqlHelper.ExecuteOnlyOneQuery(querySql);
+            return unitCode.ToString() + DateTime.Now.Year + amountStr.ToString().PadLeft(3, '0') + "-" + index.ToString().PadLeft(3, '0');
         }
     }
 }

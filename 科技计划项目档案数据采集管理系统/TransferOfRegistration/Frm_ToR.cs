@@ -10,6 +10,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 {
     public partial class Frm_ToR : Form
     {
+        private object currentUnit;
         public Frm_ToR()
         {
             InitializeComponent();
@@ -88,24 +89,18 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     LoadPCDataScoure(null);
                 else if (tc_ToR.SelectedIndex == 1)
                     LoadGPDJ(null);
+                currentUnit = null;
             }
             else
             {
                 if (tc_ToR.SelectedIndex == 0)
                 {
                     StringBuilder querySql = new StringBuilder("SELECT ");
-                    querySql.Append("pc.trp_id,");
-                    querySql.Append("cs_name,");
-                    querySql.Append("trp_name,");
-                    querySql.Append("trp_code,");
-                    querySql.Append("trp_submit_status,");
-                    querySql.Append("trp_cd_amount");
+                    querySql.Append("pc.trp_id, cs_name, trp_name, trp_code, trp_submit_status, trp_cd_amount");
                     querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
                     querySql.Append(" WHERE com_id='" + panel.Name + "'");
-                    querySql.Append(" AND pc.com_id = cs.cs_id");
-                    querySql.Append(" AND trp_submit_status=1");
+                    querySql.Append(" AND pc.com_id = cs.cs_id AND trp_submit_status=1");
                     LoadPCDataScoure(querySql.ToString());
-
                     dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery("SELECT cs_code FROM company_source WHERE cs_id ='" + panel.Name + "'");
                 }
                 else if(tc_ToR.SelectedIndex == 1)
@@ -119,8 +114,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, sorting ASC, trc_code ASC");
                     LoadGPDJ(querySql.ToString());
                 }
+                currentUnit = panel.Name;
             }
-
             //当前Panel为选中状态
             foreach (Panel item in panel.Parent.Controls)
             {
@@ -153,9 +148,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// <param name="querySql">待加载的数据SQL</param>
         private void LoadPCDataScoure(string _querySql)
         {
-            dgv_SWDJ.DataSource = null;
-            dgv_SWDJ.Columns.Clear();
-            dgv_SWDJ.Rows.Clear();
+            DataGridViewStyleHelper.ResetDataGridView(dgv_SWDJ);
 
             DataTable dataTable = null;
             //加载实物登记数据【默认加载状态为1（未提交）的数据】
@@ -269,7 +262,18 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     Frm_AddCD frm = new Frm_AddCD(currentRowId.ToString());
                     if (frm.ShowDialog() == DialogResult.OK)
                     {
-                        LoadPCDataScoure(null);
+                        if(currentUnit != null)
+                        {
+                            StringBuilder querySql = new StringBuilder("SELECT ");
+                            querySql.Append("pc.trp_id, cs_name, trp_name, trp_code, trp_submit_status, trp_cd_amount");
+                            querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
+                            querySql.Append(" WHERE pc.com_id = cs.cs_id AND trp_submit_status=1");
+                            querySql.Append(" AND com_id='" + currentUnit + "'");
+                            LoadPCDataScoure(querySql.ToString());
+                            dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery($"SELECT cs_code FROM company_source WHERE cs_id ='{currentUnit}'");
+                        }
+                        else
+                            LoadPCDataScoure(null);
                     }
                 }
                 //批次名称-点击事件
