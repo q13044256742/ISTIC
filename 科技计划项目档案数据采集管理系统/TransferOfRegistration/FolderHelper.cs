@@ -11,7 +11,6 @@ namespace 科技计划项目档案数据采集管理系统
     {
         private static FolderHelper _folderHelper;
         private ProgressBar progressBar;
-
         public FolderHelper(ProgressBar progressBar)
         {
             this.progressBar = progressBar;
@@ -54,25 +53,22 @@ namespace 科技计划项目档案数据采集管理系统
 
                 if (!Directory.Exists(saveDirPath)) Directory.CreateDirectory(saveDirPath);
                 File.Copy(file, pFilePath, true);
-
                 progressBar.Value += 1;
                 if (progressBar.Value == progressBar.Maximum)
                 {
                     MessageBox.Show(text: $"本次共读取文件{progressBar.Value}个", caption: "读写完毕", buttons: MessageBoxButtons.OK, icon: MessageBoxIcon.Asterisk);
 
-                    new System.Threading.Thread(delegate ()
-                    {
-                        FilesBackupsHelper.GetInstance()
-                            .DeleteFile(progressBar.Tag)
-                            .UploadFile(progressBar.Tag, SetTipMsg);
-                        FilesBackupsHelper.GetInstance().AnalyticalFile(progressBar.Tag);
-                        SetTipMsg(">>数据库备份完毕，请等待服务器解析文件。");
-                    }).Start();
-
-                    MessageBox.Show("已将文件信息备份至数据库！");
+                    //new System.Threading.Thread(delegate ()
+                    //{
+                    //    FilesBackupsHelper.GetInstance()
+                    //        .DeleteFile(progressBar.Tag)
+                    //        .UploadFile(progressBar.Tag, SetTipMsg);
+                    //FilesBackupsHelper.GetInstance().AnalyticalFile(progressBar.Tag);
+                    //    SetTipMsg(">>数据库备份完毕，请等待服务器解析文件。");
+                    //}).Start();
+                    //MessageBox.Show("已将文件信息备份至数据库！");
                 }
             }
-
             string[] dirs = Directory.GetDirectories(sourceDirPath);
             foreach (string dir in dirs)
             {
