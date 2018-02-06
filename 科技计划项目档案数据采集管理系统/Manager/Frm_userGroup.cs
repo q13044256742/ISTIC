@@ -107,9 +107,36 @@ namespace 科技计划项目档案数据采集管理系统
                     int deleteAmount = 0;
                     foreach (DataGridViewRow row in userGroup_DataList.SelectedRows)
                     {
+                        //删除用户组（user_group）表
                         string id = row.Cells["ug_id"].Value.ToString();
                         string deleteSql = $"DELETE FROM user_group WHERE ug_id = '{id}'";
                         SqlHelper.ExecuteNonQuery(deleteSql);
+
+                        //删除模块（module）表
+                        string m_sql = $"select m_id from module where userGroup_id ='{id}'";
+                        List<object[]> m_ids = SqlHelper.ExecuteColumnsQuery(m_sql,1);
+                        if (m_ids != null)
+                        {
+                            for (int i = 0;i < m_ids.Count;i++)
+                            {
+                                string m_id = GetValue(m_ids[i][0]);
+                                string del_m_sql = $"delete from module where m_id = '{m_id}'";
+                                SqlHelper.ExecuteQuery(del_m_sql);
+
+                                //删除权限（operation）表
+                                string op_sql = $"select o_id from operation where module_id = '{m_id}'";
+                                List<object[]> o_ids = SqlHelper.ExecuteColumnsQuery(op_sql, 1);
+                                if (o_ids != null)
+                                {
+                                    for (int j = 0;j < o_ids.Count;j++)
+                                    {
+                                        string o_id = GetValue(o_ids[j][0]);
+                                        string del_o_sql = $"delete from operation where o_id = '{o_id}'";
+                                        SqlHelper.ExecuteQuery(del_o_sql);
+                                    }
+                                }
+                            }                                                    
+                        }
 
                         deleteAmount++;
                     }
@@ -121,6 +148,34 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
+        }
+
+        //授权
+        private void Btn_authorization(object sender, EventArgs e)
+        {
+            int amount = userGroup_DataList.SelectedRows.Count;
+            if (amount == 1)
+            {
+                //获取你所选行的id
+                string id = userGroup_DataList.SelectedRows[0].Cells["ug_id"].Value.ToString();
+
+                Manager.Frm_authorization frm = new Manager.Frm_authorization(id);
+                frm.ShowDialog();
+
+                //加载实时数据
+                LoadUserGroupDataScoure();
+            }
+            else
+            {
+                MessageBox.Show("请先选择一条数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+
+        //把object对象转换为string
+        private string GetValue(object obj)
+        {
+            return obj == null ? string.Empty : obj.ToString();
         }
     }
 }

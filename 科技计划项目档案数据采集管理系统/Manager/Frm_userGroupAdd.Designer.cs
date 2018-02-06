@@ -40,8 +40,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.ug_sort = new System.Windows.Forms.NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
-            this.treeView1 = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.ug_sort)).BeginInit();
             this.SuspendLayout();
             // 
@@ -163,32 +161,11 @@
             this.ug_sort.Size = new System.Drawing.Size(422, 21);
             this.ug_sort.TabIndex = 111;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(67, 267);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(99, 19);
-            this.label6.TabIndex = 112;
-            this.label6.Text = "用户组授权：";
-            // 
-            // treeView1
-            // 
-            this.treeView1.CheckBoxes = true;
-            this.treeView1.Location = new System.Drawing.Point(169, 267);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(260, 192);
-            this.treeView1.TabIndex = 113;
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            // 
             // Frm_userGroupAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 549);
-            this.Controls.Add(this.treeView1);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.ug_sort);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -205,7 +182,6 @@
             this.Name = "Frm_userGroupAdd";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "用户组";
-          
             ((System.ComponentModel.ISupportInitialize)(this.ug_sort)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -225,7 +201,5 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown ug_sort;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TreeView treeView1;
     }
 }
