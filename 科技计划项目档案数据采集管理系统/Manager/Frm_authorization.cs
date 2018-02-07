@@ -24,7 +24,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         {
             TreeNode rootNode = new TreeNode("平台菜单");
             //模块数据（state 为MODULE） 
-            string m_sql = $"select m_code,m_name from module where state = 'MODULE' order by m_sort";
+            string m_sql = $"select m_id,m_name from module where state = 'MODULE' order by m_sort";
             List<object[]> _obj = SqlHelper.ExecuteColumnsQuery(m_sql, 2);
 
             for (int i = 0; i < _obj.Count; i++)
@@ -39,9 +39,12 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 node2.Name = "view";
                 TreeNode node3 = new TreeNode("修改");
                 node3.Name = "edit";
+                TreeNode node4 = new TreeNode("删除");
+                node4.Name = "del";
 
                 node.Nodes.Add(node2);
                 node.Nodes.Add(node3);
+                node.Nodes.Add(node4);
 
                 rootNode.Nodes.Add(node);
             }
@@ -60,21 +63,36 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 for (int i=0;i < select_module_list.Count;i++)
                 {
                     TreeNode node = root.Nodes[i];
-                    node.Checked = true;                                      
 
-                    string module_id = GetValue(select_module_list[i][1]);
+                    // if (node.Name.Equals(GetValue(select_module_list[i][1])))
 
-                    string o_sql = $"select o_view,o_edit from operation where module_id = '{module_id}'";
-                    List<object[]> select_operation_list = SqlHelper.ExecuteColumnsQuery(o_sql, 2);
-
-                    if (select_operation_list.Count != 0)
+                    TreeNode[] nodes = node.Nodes.Find(GetValue(select_module_list[i][1]),true);
+                    for (int a = 0;a < nodes.Length;a++)
                     {
-                        for (int j = 0;j < select_operation_list.Count;j++)
-                        {
-                            TreeNode node2 = node.Nodes[j];                        
-                            node2.Checked = true;                                                                                                                                  
-                        }
+                        nodes[a].Checked = true;
                     }
+                   // node.Checked = true;
+
+                   
+
+
+
+                        //string module_id = GetValue(select_module_list[i][1]);
+
+                        //string o_sql = $"select o_view,o_edit,o_del from operation where module_id = '{module_id}'";
+                        //List<object[]> select_operation_list = SqlHelper.ExecuteColumnsQuery(o_sql, 3);
+
+                        //if (select_operation_list.Count != 0)
+                        //{
+                        //    for (int j = 0;j < select_operation_list.Count;j++)
+                        //    {
+                        //        TreeNode node2 = node.Nodes[j];                        
+                        //        node2.Checked = true;                                                                                                                                  
+                        //    }
+                        //}
+
+
+                   
                 }
             }                                   
         }
@@ -128,7 +146,11 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                         string userGroup_id = userId;
                         string m_id = Guid.NewGuid().ToString();
                         string m_name = node.Text;
-                        string m_code = node.Name;
+
+                        string code_sql = $"select m_code from module where m_id = '{node.Name}'";
+                        string m_code = GetValue(SqlHelper.ExecuteOnlyOneQuery(code_sql)); 
+
+                        //string m_code = node.Name;
                        
                         string node_sql = $"insert into module (m_id,m_name,m_code,userGroup_id)values('{m_id}','{m_name}','{m_code}','{userGroup_id}')";
                         SqlHelper.ExecuteQuery(node_sql);
@@ -141,14 +163,19 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                                 string o_id = Guid.NewGuid().ToString();
                                 if ("view".Equals(node2.Name))
                                 {
-                                    string sql = $"insert into operation (o_id,o_view,o_edit,module_id)values('{o_id}','1','0','{m_id}')";
+                                    string sql = $"insert into operation (o_id,o_view,o_edit,module_id,o_del)values('{o_id}','1','0','{m_id}','0')";
                                     SqlHelper.ExecuteQuery(sql);
                                 }
                                 else if ("edit".Equals(node2.Name))
                                 {
-                                    string sql = $"insert into operation (o_id,o_view,o_edit,module_id)values('{o_id}','0','1','{m_id}')";
+                                    string sql = $"insert into operation (o_id,o_view,o_edit,module_id,o_del)values('{o_id}','0','1','{m_id}','0')";
                                     SqlHelper.ExecuteQuery(sql);
-                                }                                
+                                }
+                                else if ("del".Equals(node2.Name))
+                                {
+                                    string sql = $"insert into operation (o_id,o_view,o_edit,module_id,o_del)values('{o_id}','0','0','{m_id}','1')";
+                                    SqlHelper.ExecuteQuery(sql);
+                                }
                             }
                         }
                     }
