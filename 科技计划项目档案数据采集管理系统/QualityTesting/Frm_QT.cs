@@ -33,8 +33,8 @@ namespace 科技计划项目档案数据采集管理系统
             list.Add(new CreateKyoPanel.KyoPanel()
             {
                 Name = "QT_ZLJG",
-                Text = "著录加工",
-                Image = Resources.pic6,
+                Text = "档案质检",
+                Image = Resources.pic1,
                 HasNext = true
             });
             CreateKyoPanel.SetPanel(pal_LeftMenu, list);
@@ -176,7 +176,6 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return amount;
         }
-
         /// <summary>
         /// 获取【项目|课题】下的子课题数
         /// </summary>
@@ -189,7 +188,6 @@ namespace 科技计划项目档案数据采集管理系统
                 amount += Convert.ToInt32($"SELECT COUNT(si_id) FROM subject_info WHERE pi_id='{list[i][0]}'");
             return amount;
         }
-
         /// <summary>
         /// 根据加工登记主键获取对应项目/课题信息
         /// 0:wr_id 1:wr_type 2:wr_obj_id 3:code 4:name 5:cs_name
@@ -351,7 +349,8 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Plan.Columns.Add("mr_edit", "编辑");
             dgv_Plan.Columns.Add("mr_submit", "提交");
 
-            List<object[]> wmIds = SqlHelper.ExecuteColumnsQuery($"SELECT wm_id, wr_id FROM work_myreg WHERE wm_user='{UserHelper.GetInstance().User.UserKey}' AND wm_status='{(int)QualityStatus.NonQuality}'", 2);
+            List<object[]> wmIds = SqlHelper.ExecuteColumnsQuery($"SELECT wm_id, wr_id FROM work_myreg WHERE wm_user='{UserHelper.GetInstance().User.UserKey}' " +
+                $"AND wm_status='{(int)QualityStatus.NonQuality}'", 2);
             for(int i = 0; i < wmIds.Count; i++)
             {
                 List<DataTable> list = GetObjectListById(wmIds[i][1]);
@@ -392,6 +391,8 @@ namespace 科技计划项目档案数据采集管理系统
         private object GetFileAmountByPID(object pid)
         {
             object objid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{pid}'");
+            if(objid == null)
+                objid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{pid}'");
             int totalAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{objid}'"));
             List<object[]> _obj1 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objid}'", 1);
             for(int i = 0; i < _obj1.Count; i++)

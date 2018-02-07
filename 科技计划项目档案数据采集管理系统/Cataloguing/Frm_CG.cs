@@ -688,7 +688,7 @@ namespace 科技计划项目档案数据采集管理系统
                         if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                         {
                             object wmid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_name"].Tag;
-                            SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)WorkStatus.NonWork} WHERE wm_id='{wmid}'");
+                            //SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)WorkStatus.NonWork} WHERE wm_id='{wmid}'");
 
                             string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{wrid}'";
                             SqlHelper.ExecuteNonQuery(updateSql);
@@ -712,8 +712,13 @@ namespace 科技计划项目档案数据采集管理系统
             object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT wr_type, wr_obj_id FROM work_registration WHERE wr_id='{objId}'");
             if(!string.IsNullOrEmpty(GetValue(_obj)))
             {
-                object rootId = GetRootId(_obj[1], (WorkType)_obj[0]);
-                List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'", 2);
+                WorkType type = (WorkType)_obj[0];
+                object rootId = GetRootId(_obj[1], type);
+                List<object[]> _obj2 = new List<object[]>();
+                if(type == WorkType.SubjectWork)
+                    _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}'",2);
+                else
+                    _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'", 2);
                 for(int i = 0; i < _obj2.Count; i++)
                 {
                     if(Convert.ToInt32(_obj2[i][1]) == (int)ObjectSubmitStatus.NonSubmit)
