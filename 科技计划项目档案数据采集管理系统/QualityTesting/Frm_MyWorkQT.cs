@@ -1784,27 +1784,12 @@ namespace 科技计划项目档案数据采集管理系统
                 string objuser = txt_JH_XM_KT_ProUser.Text;
                 string intro = txt_JH_XM_KT_Intro.Text;
 
-                string insertSql = "INSERT INTO subject_info VALUES " +
-                    $"('{primaryKey}'" +
-                    $",'{parentId}'" +
-                    $",'{code}'" +
-                    $",'{name}'" +
-                    $",'{planType}'" +
-                    $",'{ly}'" +
-                    $",'{zt}'" +
-                    $",'{jf}'" +
-                    $",'{starttime}'" +
-                    $",'{endtime}'" +
-                    $",'{year}'" +
-                    $",'{unit}'" +
-                    $",'{unituser}'" +
-                    $",'{province}'" +
-                    $",'{objuser}'" +
-                    $",'{intro}'" +
-                    $",'{(int)WorkStatus.NonWork}'" +
-                    $",'{(int)type}'" +
-                    $",{(int)ObjectSubmitStatus.NonSubmit}" +
-                    $",'{UserHelper.GetInstance().User.UserKey}')";
+                string insertSql = "INSERT INTO subject_info(si_id, pi_id, si_code, si_name, si_type, si_field, si_belong, si_money, si_start_datetime," +
+                    "si_end_datetime, si_year, si_company, si_company_user, si_province, si_project_user, si_introduction, si_work_status, si_categor, si_submit_status," +
+                    "si_worker_id) VALUES " +
+                    $"('{primaryKey}','{parentId}','{code}','{name}','{planType}','{ly}','{zt}','{jf}'" +
+                    $",'{starttime}','{endtime}','{year}','{unit}','{unituser}','{province}','{objuser}'" +
+                    $",'{intro}','{(int)WorkStatus.NonWork}','{(int)type}',{(int)ObjectSubmitStatus.NonSubmit},'{UserHelper.GetInstance().User.UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
@@ -1824,27 +1809,12 @@ namespace 科技计划项目档案数据采集管理系统
                 string objuser = txt_JH_KT_ZKT_ProUser.Text;
                 string intro = txt_JH_KT_ZKT_Intro.Text;
 
-                string insertSql = "INSERT INTO subject_info VALUES " +
-                    $"('{primaryKey}'" +
-                    $",'{parentId}'" +
-                    $",'{code}'" +
-                    $",'{name}'" +
-                    $",'{planType}'" +
-                    $",'{ly}'" +
-                    $",'{zt}'" +
-                    $",'{jf}'" +
-                    $",'{starttime}'" +
-                    $",'{endtime}'" +
-                    $",'{year}'" +
-                    $",'{unit}'" +
-                    $",'{unituser}'" +
-                    $",'{province}'" +
-                    $",'{objuser}'" +
-                    $",'{intro}'" +
-                    $",'{(int)WorkStatus.NonWork}'" +
-                    $",'{(int)type}'" +
-                    $",{(int)ObjectSubmitStatus.NonSubmit}" +
-                    $",'{UserHelper.GetInstance().User.UserKey}')";
+                string insertSql = "INSERT INTO subject_info(si_id, pi_id, si_code, si_name, si_type, si_field, si_belong, si_money, si_start_datetime," +
+                    "si_end_datetime, si_year, si_company, si_company_user, si_province, si_project_user, si_introduction, si_work_status, si_categor, si_submit_status," +
+                    "si_worker_id) VALUES " +
+                    $"('{primaryKey}','{parentId}','{code}','{name}','{planType}','{ly}','{zt}','{jf}'" +
+                    $",'{starttime}','{endtime}','{year}','{unit}','{unituser}','{province}','{objuser}'" +
+                    $",'{intro}','{(int)WorkStatus.NonWork}','{(int)type}',{(int)ObjectSubmitStatus.NonSubmit},'{UserHelper.GetInstance().User.UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
@@ -1864,27 +1834,12 @@ namespace 科技计划项目档案数据采集管理系统
                 object province = cbo_JH_XM_KT_ZKT_Province.SelectedValue;
                 string intro = txt_JH_XM_KT_ZKT_Intro.Text;
 
-                string insertSql = "INSERT INTO subject_info VALUES " +
-                    $"('{primaryKey}'" +
-                    $",'{parentId}'" +
-                    $",'{code}'" +
-                    $",'{name}'" +
-                    $",'{planType}'" +
-                    $",'{ly}'" +
-                    $",'{zt}'" +
-                    $",'{jf}'" +
-                    $",'{starttime}'" +
-                    $",'{endtime}'" +
-                    $",'{year}'" +
-                    $",'{unit}'" +
-                    $",'{unituser}'" +
-                    $",'{province}'" +
-                    $",'{objuser}'" +
-                    $",'{intro}'" +
-                    $",'{(int)WorkStatus.NonWork}'" +
-                    $",'{(int)type}'" +
-                    $",{(int)ObjectSubmitStatus.NonSubmit}" +
-                    $",'{UserHelper.GetInstance().User.UserKey}')";
+                string insertSql = "INSERT INTO subject_info(si_id, pi_id, si_code, si_name, si_type, si_field, si_belong, si_money, si_start_datetime," +
+                    "si_end_datetime, si_year, si_company, si_company_user, si_province, si_project_user, si_introduction, si_work_status, si_categor, si_submit_status," +
+                    "si_worker_id) VALUES " +
+                    $"('{primaryKey}','{parentId}','{code}','{name}','{planType}','{ly}','{zt}','{jf}'" +
+                    $",'{starttime}','{endtime}','{year}','{unit}','{unituser}','{province}','{objuser}'" +
+                    $",'{intro}','{(int)WorkStatus.NonWork}','{(int)type}',{(int)ObjectSubmitStatus.NonSubmit},'{UserHelper.GetInstance().User.UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Imp_Dev)
@@ -2033,7 +1988,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 object[] _obj = null;
                 if(workType == WorkType.CDWork)
-                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE trc_id='{planId}'") ?? SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name FROM project_info WHERE pi_obj_id='{planId}'");
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}'") ?? SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE trc_id='{planId}'") ?? SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name FROM project_info WHERE pi_obj_id='{planId}'");
                 if(_obj == null)
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()

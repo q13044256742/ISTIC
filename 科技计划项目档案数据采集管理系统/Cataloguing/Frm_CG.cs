@@ -428,7 +428,7 @@ namespace 科技计划项目档案数据采集管理系统
                             string insertSql = $"INSERT INTO work_registration VALUES('" +
                                 $"{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}')";
                             SqlHelper.ExecuteNonQuery(insertSql);
-                            
+
                             SqlHelper.ExecuteNonQuery($"UPDATE transfer_registraion_cd SET trc_complete_status={(int)WorkStatus.WorkSuccess} WHERE trc_id='{trcid}'");
                             //领取光盘的同时 - 领取其下所有未领取的项目/课题/子课题
                             object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{trcid}'");
@@ -588,7 +588,7 @@ namespace 科技计划项目档案数据采集管理系统
                     string typeValue = dgv_WorkLog.Rows[e.RowIndex].Cells["type"].Value.ToString();
                     if(typeValue.Contains("光盘"))
                     {
-                        object planId  = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
+                        object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
                         if(planId != null)//项目/课题
                             new Frm_MyWork(WorkType.CDWork, planId, null, ControlType.Default).ShowDialog();
                         else
@@ -683,21 +683,14 @@ namespace 科技计划项目档案数据采集管理系统
                 else if("bk_submit".Equals(columnName))
                 {
                     object wrid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_code"].Tag;
-                    if(CanSubmitToQT(wrid))
+                    if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                        {
-                            object wmid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_name"].Tag;
-                            //SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)WorkStatus.NonWork} WHERE wm_id='{wmid}'");
+                        object wmid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_name"].Tag;
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)WorkStatus.WorkSuccessFromBack} WHERE wm_id='{wmid}'");
 
-                            string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{wrid}'";
-                            SqlHelper.ExecuteNonQuery(updateSql);
-                            LoadWorkBackList();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("当前项目/课题下尚有未提交的数据。", "提交失败");
+                        string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{wrid}'";
+                        SqlHelper.ExecuteNonQuery(updateSql);
+                        LoadWorkBackList();
                     }
                 }
             }

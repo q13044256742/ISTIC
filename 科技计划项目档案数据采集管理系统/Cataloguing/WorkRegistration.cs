@@ -112,7 +112,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 已返工
         /// </summary>
-        BackWork = 3
+        BackWork = 3,
+        /// <summary>
+        /// [返工]已加工
+        /// </summary>
+        WorkSuccessFromBack = 4
     }
     /// <summary>
     /// 加工类型
