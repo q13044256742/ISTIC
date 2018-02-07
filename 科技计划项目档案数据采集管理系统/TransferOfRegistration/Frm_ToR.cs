@@ -488,12 +488,10 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         private int GetProjectAmount(object trcId)
         {
+            int proAmount = 0;
             if (trcId != null)
-            {
-                int proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE trc_id='{trcId}'"));
-                return proAmount;
-            }
-            return 0;
+                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE pi_obj_id=(SELECT pi_id FROM project_info WHERE trc_id='{trcId}')"));
+            return proAmount;
         }
 
         /// <summary>
@@ -503,9 +501,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             int amount = 0;
             if(trcId != null)
-            {
-                amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(si_id) FROM subject_info WHERE pi_id IN(SELECT pi_id FROM project_info WHERE trc_id='{trcId}')"));
-            }
+                amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(si_id) FROM subject_info WHERE pi_id IN " +
+                    $"(SELECT pi_id FROM project_info WHERE pi_obj_id=" +
+                    $"(SELECT pi_id FROM project_info WHERE trc_id='{trcId}'))"));
             return amount;
         }
 

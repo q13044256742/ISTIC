@@ -25,7 +25,7 @@ namespace DotNet.Utilities
                 var rootEle = doc.DocumentElement;
                 rootEle?.SetAttribute("type", type);
             }
-            catch(Exception e)
+            catch(Exception)
             {
 
             }
@@ -50,7 +50,7 @@ namespace DotNet.Utilities
                 if(xn != null && xn.Attributes != null)
                     value = (attribute.Equals("") ? xn.InnerText : xn.Attributes[attribute].Value);
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 
             }
