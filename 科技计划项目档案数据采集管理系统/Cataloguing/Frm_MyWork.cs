@@ -4759,7 +4759,9 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
-
+        /// <summary>
+        /// 下拉框切换事件
+        /// </summary>
         private void Cbo_Imp_HasNext_SelectionChangeCommitted(object sender, EventArgs e)
         {
             int _index = tab_MenuList.SelectedIndex;

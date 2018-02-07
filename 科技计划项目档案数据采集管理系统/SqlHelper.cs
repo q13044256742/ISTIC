@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System; 
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -18,7 +18,7 @@ namespace 科技计划项目档案数据采集管理系统
         static string Password = OperateIniFile.GetInstance().ReadIniData("SQLServer", "Password", "123456");
         private static string SQL_CONNECT = $"Data Source={IPAddress};Initial Catalog=ISTIC;Persist Security Info=True;User ID={Username};Password={Password}";
 
-        private static SqlConnection sqlConnection;
+        private static SqlConnection sqlConnection; 
 
 
         /// <summary>
@@ -31,11 +31,9 @@ namespace 科技计划项目档案数据采集管理系统
             OpenConnect();
             return sqlConnection;
         }
-
-
         /// <summary>
         /// 打开数据库连接
-        /// </summary>
+        /// </summary> 
         public static void OpenConnect()
         {
             if (sqlConnection != null && sqlConnection.State == ConnectionState.Closed)
@@ -112,7 +110,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="paramValue">参数值</param>
         internal static void ExecuteNonQueryWithParam(string insertSql,string[] paramName, SqlDbType[] paramType, object[] paramValue)
         {
-            SqlCommand sqlCommand = new SqlCommand(insertSql, GetConnect());
+            SqlCommand sqlCommand = new SqlCommand(insertSql, GetConnect( ));
             for (int i = 0; i < paramName.Length; i++)
             {
                 SqlParameter sqlParameter = new SqlParameter(paramName[i], paramType[i]);

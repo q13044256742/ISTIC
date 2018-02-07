@@ -47,7 +47,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             List_all.Columns.AddRange(new ColumnHeader[]
             {
                 new ColumnHeader{ Name = "id", Text = "主键" },
-                new ColumnHeader{ Name = "type", Text = "用户组名称" }
+                new ColumnHeader{ Name = "type", Text = "用户组名称"}
             });
             for(int i = 0; i < dataTable.Rows.Count; i++)
             {
@@ -81,7 +81,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             list_select.Columns.AddRange(new ColumnHeader[]
            {
                 new ColumnHeader{ Name = "id", Text = "主键" },
-                new ColumnHeader{ Name = "type", Text = "用户组名称" }
+                new ColumnHeader{ Name = "type", Text = "用户组名称"}
            });
 
             for (int i = 0; i < dataTable.Rows.Count; i++)
