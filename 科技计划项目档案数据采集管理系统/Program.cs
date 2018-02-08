@@ -8,9 +8,6 @@ namespace 科技计划项目档案数据采集管理系统
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main() {
             Application.EnableVisualStyles();
@@ -20,7 +17,6 @@ namespace 科技计划项目档案数据采集管理系统
             SkinManager.EnableFormSkins();
             UserLookAndFeel.Default.SetSkinStyle("DevExpress Style");
             Application.Run(new Frm_Login());
-            //Application.Run(new Client());
         }
     }
 }
