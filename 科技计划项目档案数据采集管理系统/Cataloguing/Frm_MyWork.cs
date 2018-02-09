@@ -837,9 +837,10 @@ namespace 科技计划项目档案数据采集管理系统
                                 else//更新
                                 {
                                     object pflid = row.Cells["id"].Tag;
-                                    UpdateFileInfo(row);
+                                    UpdateFileInfo(string.Empty, row);
                                 }
                             }
+                            SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
                             MessageBox.Show("文件列表信息保存成功！");
                         }
                         if(workType == WorkType.Default)
@@ -893,35 +894,38 @@ namespace 科技计划项目档案数据采集管理系统
                     else
                     {
                         //根据主键是否存在判断是更新还是新增
-                        if(dgv_JH_XM_FileList.Tag != null)//更新
+                        object objId = dgv_JH_XM_FileList.Tag;
+                        if(objId != null)//更新
                             UpdateProjectBasicInfo(dgv_JH_XM_FileList.Tag, ControlType.Plan_Project);
                         else//新增
                         {
-                            //保存基本信息
-                            object pid = AddProjectBasicInfo(pal_JH_XM.Tag, ControlType.Plan_Project);
-                            dgv_JH_XM_FileList.Tag = pid;
+                            objId = AddProjectBasicInfo(pal_JH_XM.Tag, ControlType.Plan_Project);
+                            dgv_JH_XM_FileList.Tag = objId;
                         }
                         //保存文件列表
                         if(CheckFileListComplete(dgv_JH_XM_FileList,"jh_xm_"))
                         {
                             int maxLength = dgv_JH_XM_FileList.Rows.Count;
                             if(maxLength > 1)
+                            {
                                 for(int i = 0; i < maxLength - 1; i++)
                                 {
                                     DataGridViewRow row = dgv_JH_XM_FileList.Rows[i];
                                     object id = row.Cells["jh_xm_id"].Value;
                                     if(id == null)//新增
                                     {
-                                        object pflid = AddFileInfo("jh_xm_", row, dgv_JH_XM_FileList.Tag);
+                                        object pflid = AddFileInfo("jh_xm_", row, objId);
                                         row.Cells["jh_xm_id"].Value = row.Index + 1;
                                         row.Cells["jh_xm_id"].Tag = pflid;
                                     }
                                     else//更新
                                     {
                                         object pflid = row.Cells["jh_xm_id"].Tag;
-                                        UpdateFileInfo(row);
+                                        UpdateFileInfo("jh_xm_", row);
                                     }
                                 }
+                                SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
+                            }
                             MessageBox.Show("操作成功！");
                         }
                         if(workType == WorkType.Default)
@@ -974,36 +978,38 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("课题编号不能为空");
                     else
                     {
-                        //根据主键是否存在判断是更新还是新增
-                        if(dgv_JH_KT_FileList.Tag != null)//更新
-                            UpdateProjectBasicInfo(dgv_JH_KT_FileList.Tag, ControlType.Plan_Topic);
+                        object objId = dgv_JH_KT_FileList.Tag;
+                        if(objId != null)//更新
+                            UpdateProjectBasicInfo(objId, ControlType.Plan_Topic);
                         else//新增
                         {
-                            //保存基本信息
-                            object pid = AddProjectBasicInfo(pal_JH_KT.Tag, ControlType.Plan_Topic);
-                            dgv_JH_KT_FileList.Tag = pid;
+                            objId = AddProjectBasicInfo(pal_JH_KT.Tag, ControlType.Plan_Topic);
+                            dgv_JH_KT_FileList.Tag = objId;
                         }
                         //保存文件列表
                         if(CheckFileListComplete(dgv_JH_KT_FileList, "jh_kt_"))
                         {
                             int maxLength = dgv_JH_KT_FileList.Rows.Count;
                             if(maxLength > 1)
+                            {
                                 for(int i = 0; i < maxLength - 1; i++)
                                 {
                                     DataGridViewRow row = dgv_JH_KT_FileList.Rows[i];
                                     object id = row.Cells["jh_kt_id"].Value;
                                     if(id == null)//新增
                                     {
-                                        object pflid = AddFileInfo("jh_kt_", row, dgv_JH_KT_FileList.Tag);
+                                        object pflid = AddFileInfo("jh_kt_", row, objId);
                                         row.Cells["jh_kt_id"].Value = row.Index + 1;
                                         row.Cells["jh_kt_id"].Tag = pflid;
                                     }
                                     else//更新
                                     {
                                         object pflid = row.Cells["jh_kt_id"].Tag;
-                                        UpdateFileInfo(row);
+                                        UpdateFileInfo("jh_kt_", row);
                                     }
                                 }
+                                SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
+                            }
                             MessageBox.Show("操作成功！");
                         }
                         if(workType == WorkType.Default)
@@ -1056,36 +1062,39 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("课题编号不能为空");
                     else
                     {
-                        //根据主键是否存在判断是更新还是新增
-                        if(dgv_JH_XM_KT_FileList.Tag != null)//更新
-                            UpdateProjectBasicInfo(dgv_JH_XM_KT_FileList.Tag, ControlType.Plan_Project_Topic);
+                        object objId = dgv_JH_XM_KT_FileList.Tag;
+                        if(objId != null)//更新
+                            UpdateProjectBasicInfo(objId, ControlType.Plan_Project_Topic);
                         else//新增
                         {
                             //保存基本信息
-                            object pid = AddProjectBasicInfo(pal_JH_XM_KT.Tag, ControlType.Plan_Project_Topic);
-                            dgv_JH_XM_KT_FileList.Tag = pid;
+                            objId = AddProjectBasicInfo(pal_JH_XM_KT.Tag, ControlType.Plan_Project_Topic);
+                            dgv_JH_XM_KT_FileList.Tag = objId;
                         }
                         //保存文件列表
                         if(CheckFileListComplete(dgv_JH_XM_KT_FileList, "jh_xm_kt_"))
                         {
                             int maxLength = dgv_JH_XM_KT_FileList.Rows.Count;
                             if(maxLength > 1)
+                            {
                                 for(int i = 0; i < maxLength - 1; i++)
                                 {
                                     DataGridViewRow row = dgv_JH_XM_KT_FileList.Rows[i];
                                     object id = row.Cells["jh_xm_kt_id"].Value;
                                     if(id == null)//新增
                                     {
-                                        object pflid = AddFileInfo("jh_xm_kt_", row, dgv_JH_XM_KT_FileList.Tag);
+                                        object pflid = AddFileInfo("jh_xm_kt_", row, objId);
                                         row.Cells["jh_xm_kt_id"].Value = row.Index + 1;
                                         row.Cells["jh_xm_kt_id"].Tag = pflid;
                                     }
                                     else//更新
                                     {
                                         object pflid = row.Cells["jh_xm_kt_id"].Tag;
-                                        UpdateFileInfo(row);
+                                        UpdateFileInfo("jh_xm_kt_", row);
                                     }
                                 }
+                                SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
+                            }
                             MessageBox.Show("操作成功！");
                         }
                         if(workType == WorkType.Default)
@@ -1138,36 +1147,39 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("课题编号不能为空");
                     else
                     {
-                        //根据主键是否存在判断是更新还是新增
-                        if(dgv_JH_KT_ZKT_FileList.Tag != null)//更新
-                            UpdateProjectBasicInfo(dgv_JH_KT_ZKT_FileList.Tag, ControlType.Plan_Topic_Subtopic);
+                        object objId = dgv_JH_KT_ZKT_FileList.Tag;
+                        if(objId != null)//更新
+                            UpdateProjectBasicInfo(objId, ControlType.Plan_Topic_Subtopic);
                         else//新增
                         {
                             //保存基本信息
-                            object pid = AddProjectBasicInfo(pal_JH_KT_ZKT.Tag, ControlType.Plan_Topic_Subtopic);
-                            dgv_JH_KT_ZKT_FileList.Tag = pid;
+                            objId = AddProjectBasicInfo(pal_JH_KT_ZKT.Tag, ControlType.Plan_Topic_Subtopic);
+                            dgv_JH_KT_ZKT_FileList.Tag = objId;
                         }
                         //保存文件列表
                         if(CheckFileListComplete(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_"))
                         {
                             int maxLength = dgv_JH_KT_ZKT_FileList.Rows.Count;
                             if(maxLength > 1)
+                            {
                                 for(int i = 0; i < maxLength - 1; i++)
                                 {
                                     DataGridViewRow row = dgv_JH_KT_ZKT_FileList.Rows[i];
                                     object id = row.Cells["jh_kt_zkt_id"].Value;
                                     if(id == null)//新增
                                     {
-                                        object pflid = AddFileInfo("jh_kt_zkt_", row, dgv_JH_KT_ZKT_FileList.Tag);
+                                        object pflid = AddFileInfo("jh_kt_zkt_", row, objId);
                                         row.Cells["jh_kt_zkt_id"].Value = row.Index + 1;
                                         row.Cells["jh_kt_zkt_id"].Tag = pflid;
                                     }
                                     else//更新
                                     {
                                         object pflid = row.Cells["jh_kt_zkt_id"].Tag;
-                                        UpdateFileInfo(row);
+                                        UpdateFileInfo("jh_kt_zkt_", row);
                                     }
                                 }
+                                SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
+                            }
                             MessageBox.Show("操作成功！");
                         }
                         if(workType == WorkType.Default)
@@ -1220,35 +1232,38 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("课题编号不能为空");
                     else
                     {
-                        //根据主键是否存在判断是更新还是新增
-                        if(dgv_JH_XM_KT_ZKT_FileList.Tag != null)//更新
-                            UpdateProjectBasicInfo(dgv_JH_XM_KT_ZKT_FileList.Tag, ControlType.Plan_Project_Topic_Subtopic);
+                        object objId = dgv_JH_XM_KT_ZKT_FileList.Tag;
+                        if(objId != null)//更新
+                            UpdateProjectBasicInfo(objId, ControlType.Plan_Project_Topic_Subtopic);
                         else//新增
                         {
-                            object pid = AddProjectBasicInfo(pal_JH_XM_KT_ZKT.Tag, ControlType.Plan_Project_Topic_Subtopic);
-                            dgv_JH_XM_KT_ZKT_FileList.Tag = pid;
+                            objId = AddProjectBasicInfo(pal_JH_XM_KT_ZKT.Tag, ControlType.Plan_Project_Topic_Subtopic);
+                            dgv_JH_XM_KT_ZKT_FileList.Tag = objId;
                         }
                         //保存文件列表
                         if(CheckFileListComplete(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_"))
                         {
                             int maxLength = dgv_JH_XM_KT_ZKT_FileList.Rows.Count;
                             if(maxLength > 1)
+                            {
                                 for(int i = 0; i < maxLength - 1; i++)
                                 {
                                     DataGridViewRow row = dgv_JH_XM_KT_ZKT_FileList.Rows[i];
                                     object id = row.Cells["jh_xm_kt_zkt_id"].Value;
                                     if(id == null)//新增
                                     {
-                                        object pflid = AddFileInfo("jh_xm_kt_zkt_", row, dgv_JH_KT_ZKT_FileList.Tag);
+                                        object pflid = AddFileInfo("jh_xm_kt_zkt_", row, objId);
                                         row.Cells["jh_xm_kt_zkt_id"].Value = row.Index + 1;
                                         row.Cells["jh_xm_kt_zkt_id"].Tag = pflid;
                                     }
                                     else//更新
                                     {
                                         object pflid = row.Cells["jh_xm_kt_zkt_id"].Tag;
-                                        UpdateFileInfo(row);
+                                        UpdateFileInfo("jh_xm_kt_zkt_", row);
                                     }
                                 }
+                                SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
+                            }
                             MessageBox.Show("操作成功！");
                         }
                         if(workType == WorkType.Default)
@@ -1293,7 +1308,6 @@ namespace 科技计划项目档案数据采集管理系统
             //重大专项/研发
             else if("btn_Imp_Save".Equals(button.Name))
             {
-
                 int fileIndex = tab_Imp_FileInfo.SelectedIndex;
                 if(fileIndex == 0)
                 {
@@ -1302,23 +1316,27 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         int maxLength = dgv_Imp_FileList.Rows.Count;
                         if(maxLength > 1)
+                        {
+                            object objId = dgv_Imp_FileList.Tag;
                             for(int i = 0; i < maxLength - 1; i++)
                             {
                                 DataGridViewRow row = dgv_Imp_FileList.Rows[i];
                                 object id = row.Cells["imp_id"].Value;
                                 if(id == null)//新增
                                 {
-                                    object pflid = AddFileInfo("imp_", row, dgv_Imp_FileList.Tag);
+                                    object pflid = AddFileInfo("imp_", row, objId);
                                     row.Cells["imp_id"].Value = row.Index + 1;
                                     row.Cells["imp_id"].Tag = pflid;
                                 }
                                 else//更新
                                 {
                                     object pflid = row.Cells["imp_id"].Tag;
-                                    UpdateFileInfo(row);
+                                    UpdateFileInfo("imp_", row);
                                 }
                             }
-                        MessageBox.Show("操作成功！");
+                            SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
+                            MessageBox.Show("操作成功！");
+                        }
                         if(workType == WorkType.Default)
                             LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
                         else
@@ -1369,35 +1387,38 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("编号不能为空");
                     else
                     {
-                        //根据主键是否存在判断是更新还是新增
-                        if(dgv_Imp_Dev_FileList.Tag != null)//更新
-                            UpdateProjectBasicInfo(dgv_Imp_Dev_FileList.Tag, ControlType.Imp_Dev);
+                        object objId = dgv_Imp_Dev_FileList.Tag;
+                        if(objId != null)//更新
+                            UpdateProjectBasicInfo(objId, ControlType.Imp_Dev);
                         else//新增
                         {
-                            object pid = AddProjectBasicInfo(pal_Imp_Dev.Tag, ControlType.Imp_Dev);
-                            dgv_Imp_Dev_FileList.Tag = pid;
+                            objId = AddProjectBasicInfo(pal_Imp_Dev.Tag, ControlType.Imp_Dev);
+                            dgv_Imp_Dev_FileList.Tag = objId;
                         }
                         //保存文件列表
                         if(CheckFileListComplete(dgv_Imp_Dev_FileList, "imp_dev_"))
                         {
                             int maxLength = dgv_Imp_Dev_FileList.Rows.Count;
                             if(maxLength > 1)
+                            {
                                 for(int i = 0; i < maxLength - 1; i++)
                                 {
                                     DataGridViewRow row = dgv_Imp_Dev_FileList.Rows[i];
                                     object id = row.Cells["imp_dev_id"].Value;
                                     if(id == null)//新增
                                     {
-                                        object pflid = AddFileInfo("imp_dev_", row, dgv_Imp_Dev_FileList.Tag);
+                                        object pflid = AddFileInfo("imp_dev_", row, objId);
                                         row.Cells["imp_dev_id"].Value = row.Index + 1;
                                         row.Cells["imp_dev_id"].Tag = pflid;
                                     }
                                     else//更新
                                     {
                                         object pflid = row.Cells["imp_dev_id"].Tag;
-                                        UpdateFileInfo(row);
+                                        UpdateFileInfo("imp_dev_", row);
                                     }
                                 }
+                                SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
+                            }
                             MessageBox.Show("操作成功！");
                         }
                         if(workType == WorkType.Default)
@@ -1864,9 +1885,54 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 更新文件信息
         /// </summary>
-        private void UpdateFileInfo(DataGridViewRow row)
+        private void UpdateFileInfo(string key, DataGridViewRow row)
         {
-            
+            object pflid = row.Cells[key + "id"].Tag;
+            object stage = row.Cells[key + "stage"].Value;
+            object categor = row.Cells[key + "categor"].Value;
+            object name = row.Cells[key + "name"].Value;
+            object user = row.Cells[key + "user"].Value;
+            object type = row.Cells[key + "type"].Value;
+            object secret = row.Cells[key + "secret"].Value;
+            object page = row.Cells[key + "page"].Value;
+            object amount = row.Cells[key + "amount"].Value;
+            DateTime date = DateTime.Now;
+            string _date = GetValue(row.Cells[key + "date"].Value);
+            if(!string.IsNullOrEmpty(_date))
+            {
+                if(_date.Length == 6)
+                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-01";
+                if(_date.Length == 8)
+                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + _date.Substring(6, 2);
+                DateTime.TryParse(_date, out date);
+            }
+            object unit = row.Cells[key + "unit"].Value;
+            object carrier = row.Cells[key + "carrier"].Value;
+            object format = row.Cells[key + "format"].Value;
+            object form = row.Cells[key + "form"].Value;
+            object link = row.Cells[key + "link"].Value;
+            object remark = row.Cells[key + "remark"].Value;
+
+            string updateSql = "UPDATE processing_file_list SET " +
+                $"pfl_stage = '{stage}'" +
+                $",pfl_categor = '{categor}'" +
+                $",pfl_filename = '{name}'" +
+                $",pfl_user = '{user}'" +
+                $",pfl_type = '{type}'" +
+                $",pfl_scert = '{secret}'" +
+                $",pfl_page_amount = '{page}'" +
+                $",pfl_amount = '{amount}'" +
+                $",pfl_complete_date = '{date}'" +
+                $",pfl_save_location = '{unit}'" +
+                $",pfl_carrier = '{carrier}'" +
+                $",pfl_file_format = '{format}'" +
+                $",pfl_file_form = '{form}'" +
+                $",pfl_file_link = '{link}'" +
+                $",pfl_remark = '{remark}'" +
+                $",pfl_modify_user = '{UserHelper.GetInstance().User.UserKey}'" +
+                $",pfl_handle_time = '{DateTime.Now}'" +
+                $" WHERE pfl_id = '{pflid}'";
+            SqlHelper.ExecuteNonQuery(updateSql);
         }
         /// <summary>
         /// 新增文件信息
