@@ -4702,5 +4702,14 @@ namespace 科技计划项目档案数据采集管理系统
             }
             view.EndUpdate();
         }
+        /// <summary>
+        /// 设置来源单位Code
+        /// </summary>
+        public void SetUnitSourceId(object Code)
+        {
+            if(Code != null)
+                treeView.Tag = Code;
+        }
+
     }
 }

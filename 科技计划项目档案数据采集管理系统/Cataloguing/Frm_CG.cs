@@ -307,26 +307,26 @@ namespace 科技计划项目档案数据采集管理系统
                 switch(type)
                 {
                     case WorkType.PaperWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',trp_code,trp_name,cs_name,'纸本加工' FROM transfer_registration_pc LEFT JOIN " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',trp_code,trp_name,cs_code,cs_name,'纸本加工' FROM transfer_registration_pc LEFT JOIN " +
                             $"company_source ON com_id = cs_id WHERE trp_id='{id}'";
                         break;
                     case WorkType.CDWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',trc_code,trc_name,cs_name,'光盘加工' FROM transfer_registraion_cd trc LEFT JOIN(" +
-                            $"SELECT trp_id, cs_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',trc_code,trc_name,cs_code,cs_name,'光盘加工' FROM transfer_registraion_cd trc LEFT JOIN(" +
+                            $"SELECT trp_id, cs_code, cs_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
                             $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{id}'";
                         break;
                     case WorkType.ProjectWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',pi_code,pi_name,cs_name,'项目/课题加工' FROM project_info pi " +
-                            $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
-                            $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',pi_code,pi_name,cs_code,cs_name,'项目/课题加工' FROM project_info pi " +
+                            $"LEFT JOIN(SELECT trc_id, cs_code, cs_name FROM transfer_registraion_cd trc " +
+                            $"LEFT JOIN(SELECT trp_id, cs_code, cs_name FROM transfer_registration_pc trp " +
                             $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
-                            $"WHERE pi_id='{id}'";
+                            $"WHERE pi_id=(SELECT pi_obj_id FROM project_info WHERE pi_id='{id}')";
                         break;
                     case WorkType.SubjectWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',si_code,si_name,cs_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',si_code,si_name,cs_code,cs_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
                            $"SELECT pi_id,cs_name FROM project_info pi " +
-                           $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
-                           $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
+                           $"LEFT JOIN(SELECT trc_id, cs_code, cs_name FROM transfer_registraion_cd trc " +
+                           $"LEFT JOIN(SELECT trp_id, cs_code, cs_name FROM transfer_registration_pc trp " +
                            $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                            $") tb3 ON tb3.pi_id = si.pi_id WHERE si.si_id='{id}'";
                         break;
@@ -353,8 +353,9 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_WorkLog.Rows[index].Cells["id"].Value = resultList[i][1];
                 dgv_WorkLog.Rows[index].Cells["code"].Value = resultList[i][2];
                 dgv_WorkLog.Rows[index].Cells["name"].Value = resultList[i][3];
-                dgv_WorkLog.Rows[index].Cells["cs_name"].Value = resultList[i][4];
-                dgv_WorkLog.Rows[index].Cells["type"].Value = resultList[i][5];
+                dgv_WorkLog.Rows[index].Cells["cs_name"].Tag = resultList[i][4];
+                dgv_WorkLog.Rows[index].Cells["cs_name"].Value = resultList[i][5];
+                dgv_WorkLog.Rows[index].Cells["type"].Value = resultList[i][6];
                 dgv_WorkLog.Rows[index].Cells["edit"].Value = "编辑";
                 dgv_WorkLog.Rows[index].Cells["submit"].Value = "提交质检";
             }
@@ -585,7 +586,7 @@ namespace 科技计划项目档案数据采集管理系统
                 else if("edit".Equals(columnName))
                 {
                     object objId = dgv_WorkLog.Rows[e.RowIndex].Cells["id"].Value;
-                    string typeValue = dgv_WorkLog.Rows[e.RowIndex].Cells["type"].Value.ToString();
+                    string typeValue = GetValue(dgv_WorkLog.Rows[e.RowIndex].Cells["type"].Value);
                     if(typeValue.Contains("光盘"))
                     {
                         object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
@@ -613,7 +614,11 @@ namespace 科技计划项目档案数据采集管理系统
                                 MessageBox.Show("无法找到当前项目/课题所属计划。", "操作失败");
                             }
                             else
-                                new Frm_MyWork(WorkType.ProjectWork, rootId, objId, ControlType.Default).ShowDialog();
+                            {
+                                Frm_MyWork frm = new Frm_MyWork(WorkType.ProjectWork, rootId, objId, ControlType.Default);
+                                frm.SetUnitSourceId(dgv_WorkLog.Rows[e.RowIndex].Cells["cs_name"].Tag);
+                                frm.ShowDialog();
+                            }
                         }
                         else if(typeValue.Contains("课题/子课题"))
                         {
