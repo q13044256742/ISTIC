@@ -51,28 +51,13 @@
             this.mail = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.real_name = new System.Windows.Forms.TextBox();
-            this.ip_4 = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.ip_2 = new System.Windows.Forms.TextBox();
-            this.ip_3 = new System.Windows.Forms.TextBox();
-            this.ip_1 = new System.Windows.Forms.TextBox();
-            this.ip_5 = new System.Windows.Forms.TextBox();
-            this.ip_7 = new System.Windows.Forms.TextBox();
-            this.ip_6 = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.ip_8 = new System.Windows.Forms.TextBox();
-            this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.ip_input = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -310,168 +295,6 @@
             this.real_name.Size = new System.Drawing.Size(271, 26);
             this.real_name.TabIndex = 67;
             // 
-            // ip_4
-            // 
-            this.ip_4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ip_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ip_4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ip_4.Location = new System.Drawing.Point(352, 283);
-            this.ip_4.MaxLength = 3;
-            this.ip_4.Name = "ip_4";
-            this.ip_4.Size = new System.Drawing.Size(55, 26);
-            this.ip_4.TabIndex = 71;
-            this.ip_4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Phone_keyPress);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label12.Location = new System.Drawing.Point(192, 282);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(13, 19);
-            this.label12.TabIndex = 72;
-            this.label12.Text = ".";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label15.Location = new System.Drawing.Point(336, 282);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(13, 19);
-            this.label15.TabIndex = 73;
-            this.label15.Text = ".";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label16.Location = new System.Drawing.Point(264, 282);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(13, 19);
-            this.label16.TabIndex = 74;
-            this.label16.Text = ".";
-            // 
-            // ip_2
-            // 
-            this.ip_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ip_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ip_2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ip_2.Location = new System.Drawing.Point(208, 283);
-            this.ip_2.MaxLength = 3;
-            this.ip_2.Name = "ip_2";
-            this.ip_2.Size = new System.Drawing.Size(53, 26);
-            this.ip_2.TabIndex = 75;
-            this.ip_2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Phone_keyPress);
-            // 
-            // ip_3
-            // 
-            this.ip_3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ip_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ip_3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ip_3.Location = new System.Drawing.Point(280, 283);
-            this.ip_3.MaxLength = 3;
-            this.ip_3.Name = "ip_3";
-            this.ip_3.Size = new System.Drawing.Size(53, 26);
-            this.ip_3.TabIndex = 76;
-            this.ip_3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Phone_keyPress);
-            // 
-            // ip_1
-            // 
-            this.ip_1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ip_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ip_1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ip_1.Location = new System.Drawing.Point(136, 283);
-            this.ip_1.MaxLength = 3;
-            this.ip_1.Name = "ip_1";
-            this.ip_1.Size = new System.Drawing.Size(53, 26);
-            this.ip_1.TabIndex = 77;
-            this.ip_1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Phone_keyPress);
-            // 
-            // ip_5
-            // 
-            this.ip_5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ip_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ip_5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ip_5.Location = new System.Drawing.Point(525, 283);
-            this.ip_5.MaxLength = 3;
-            this.ip_5.Name = "ip_5";
-            this.ip_5.Size = new System.Drawing.Size(53, 26);
-            this.ip_5.TabIndex = 84;
-            // 
-            // ip_7
-            // 
-            this.ip_7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ip_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ip_7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ip_7.Location = new System.Drawing.Point(669, 283);
-            this.ip_7.MaxLength = 3;
-            this.ip_7.Name = "ip_7";
-            this.ip_7.Size = new System.Drawing.Size(53, 26);
-            this.ip_7.TabIndex = 83;
-            // 
-            // ip_6
-            // 
-            this.ip_6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ip_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ip_6.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ip_6.Location = new System.Drawing.Point(597, 283);
-            this.ip_6.MaxLength = 3;
-            this.ip_6.Name = "ip_6";
-            this.ip_6.Size = new System.Drawing.Size(53, 26);
-            this.ip_6.TabIndex = 82;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label17.Location = new System.Drawing.Point(653, 282);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(13, 19);
-            this.label17.TabIndex = 81;
-            this.label17.Text = ".";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label18.Location = new System.Drawing.Point(725, 282);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(13, 19);
-            this.label18.TabIndex = 80;
-            this.label18.Text = ".";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label19.Location = new System.Drawing.Point(581, 282);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(13, 19);
-            this.label19.TabIndex = 79;
-            this.label19.Text = ".";
-            // 
-            // ip_8
-            // 
-            this.ip_8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ip_8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ip_8.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ip_8.Location = new System.Drawing.Point(741, 283);
-            this.ip_8.MaxLength = 3;
-            this.ip_8.Name = "ip_8";
-            this.ip_8.Size = new System.Drawing.Size(53, 26);
-            this.ip_8.TabIndex = 78;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label20.Location = new System.Drawing.Point(457, 287);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(24, 19);
-            this.label20.TabIndex = 85;
-            this.label20.Text = "至";
-            // 
             // label21
             // 
             this.label21.AutoSize = true;
@@ -516,17 +339,6 @@
             this.label25.TabIndex = 114;
             this.label25.Text = "*";
             // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label26.ForeColor = System.Drawing.Color.Red;
-            this.label26.Location = new System.Drawing.Point(797, 287);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(16, 19);
-            this.label26.TabIndex = 115;
-            this.label26.Text = "*";
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -549,33 +361,28 @@
             this.label13.TabIndex = 117;
             this.label13.Text = "*";
             // 
+            // ip_input
+            // 
+            this.ip_input.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ip_input.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ip_input.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ip_input.Location = new System.Drawing.Point(136, 286);
+            this.ip_input.Name = "ip_input";
+            this.ip_input.Size = new System.Drawing.Size(658, 26);
+            this.ip_input.TabIndex = 118;
+            // 
             // Frm_userInfoAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 517);
+            this.Controls.Add(this.ip_input);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.label26);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.label21);
-            this.Controls.Add(this.label20);
-            this.Controls.Add(this.ip_5);
-            this.Controls.Add(this.ip_7);
-            this.Controls.Add(this.ip_6);
-            this.Controls.Add(this.label17);
-            this.Controls.Add(this.label18);
-            this.Controls.Add(this.label19);
-            this.Controls.Add(this.ip_8);
-            this.Controls.Add(this.ip_1);
-            this.Controls.Add(this.ip_3);
-            this.Controls.Add(this.ip_2);
-            this.Controls.Add(this.label16);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.ip_4);
             this.Controls.Add(this.real_name);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.mail);
@@ -631,27 +438,12 @@
         private System.Windows.Forms.TextBox mail;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox real_name;
-        private System.Windows.Forms.TextBox ip_4;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox ip_2;
-        private System.Windows.Forms.TextBox ip_3;
-        private System.Windows.Forms.TextBox ip_1;
-        private System.Windows.Forms.TextBox ip_5;
-        private System.Windows.Forms.TextBox ip_7;
-        private System.Windows.Forms.TextBox ip_6;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox ip_8;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox ip_input;
     }
 }

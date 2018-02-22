@@ -35,16 +35,15 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         //加载更新表单
         private void LoadData(string id)
         {
-            string sql = $"select ug_name,ug_code,ug_note,ug_sort" +
+            string sql = $"select ug_name,ug_note,ug_sort" +
               $" from user_group where ug_id = '{id}'";
             object[] _obj = SqlHelper.ExecuteRowsQuery(sql);
 
             if (_obj != null)
             {
-                ug_name.Text = _obj[0].ToString();
-                ug_code.Text = _obj[1].ToString();
-                ug_note.Text = _obj[2].ToString();
-                ug_sort.Text = _obj[3].ToString();
+                ug_name.Text = _obj[0].ToString();             
+                ug_note.Text = _obj[1].ToString();
+                ug_sort.Text = _obj[2].ToString();
 
                 ug_name.Tag = id;
             }      
@@ -61,7 +60,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             {
                 //保存基本信息
                 string _ug_name = ug_name.Text.Trim();
-                string _ug_code = ug_code.Text.Trim();            
+               // string _ug_code = ug_code.Text.Trim();            
                 string _ug_note = ug_note.Text.Trim();
                 string _ug_sort = ug_sort.Text.Trim();
 
@@ -69,6 +68,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 if (isAdd)
                 {
                     string _ug_Id = Guid.NewGuid().ToString();
+                    string _ug_code = Guid.NewGuid().ToString();
                     string querySql = $"insert into user_group " +
                         $"(ug_id,ug_name,ug_code,ug_note,ug_sort)" +
                         $"values" +
@@ -79,7 +79,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 else
                 {
                     string _ug_Id = ug_name.Tag.ToString();
-                    string querySql = $"update user_group set ug_name='{_ug_name}',ug_code='{_ug_code}',ug_note='{_ug_note}',ug_sort='{_ug_sort}'" +
+                    string querySql = $"update user_group set ug_name='{_ug_name}',ug_note='{_ug_note}',ug_sort='{_ug_sort}'" +
                         $" where ug_id='{_ug_Id}'";
                     SqlHelper.ExecuteQuery(querySql);
                 }
@@ -105,11 +105,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 MessageBox.Show("请输入用户组名称", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
-            else if (string.IsNullOrEmpty(ug_code.Text.Trim()))
-            {
-                MessageBox.Show("请输入编码", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return false;
-            }          
+              
             return true;
         }     
     }

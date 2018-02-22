@@ -20,7 +20,7 @@ namespace 科技计划项目档案数据采集管理系统
         //加载实时数据
         private void LoadUserGroupDataScoure()
         {
-            string sql = $"select ug_id,ug_name as 用户组名称,ug_code as 编码, ug_note as 说明,ug_sort as 排序 from user_group order by ug_sort";
+            string sql = $"select ug_id,ug_name as 用户组名称, ug_note as 说明,ug_sort as 排序 from user_group order by ug_sort";
             userGroup_DataList.DataSource = SqlHelper.ExecuteQuery(sql);
             userGroup_DataList.Columns["ug_id"].Visible = false;
             userGroup_SearchKey.Text = null;
@@ -38,10 +38,6 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if (index == 1)
             {
-                queryKey = "ug_code";
-            }
-            else if (index == 2)
-            {
                 queryKey = "ug_note";
             }
 
@@ -49,14 +45,14 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 if (!string.IsNullOrEmpty(searchKey))
                 {
-                    string querySql = $"select ug_id,ug_name as 用户组名称,ug_code as 编码, ug_note as 说明,ug_sort as 排序 from user_group" +
+                    string querySql = $"select ug_id,ug_name as 用户组名称,ug_note as 说明,ug_sort as 排序 from user_group" +
                    $" where {queryKey} like '%" + searchKey + "%' order by ug_sort";
                     userGroup_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
                     userGroup_DataList.Columns["ug_id"].Visible = false;
                 }
                 else
                 {
-                    string querySql = $"select ug_id,ug_name as 用户组名称,ug_code as 编码, ug_note as 说明,ug_sort as 排序 from user_group order by ug_sort";
+                    string querySql = $"select ug_id,ug_name as 用户组名称,ug_note as 说明,ug_sort as 排序 from user_group order by ug_sort";
                     userGroup_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
                     userGroup_DataList.Columns["ug_id"].Visible = false;
                 }

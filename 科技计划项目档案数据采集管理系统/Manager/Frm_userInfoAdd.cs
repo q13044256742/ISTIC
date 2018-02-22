@@ -25,8 +25,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             }               
             else {
                 LoadData(id);
-            }
-                
+            }             
         }      
 
         //加载更新表单
@@ -45,19 +44,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             mail.Text = _obj[5].ToString();
             mobile.Text = _obj[6].ToString();
             phone.Text = _obj[7].ToString();                 
-            string ip = _obj[8].ToString();
-            string[] array = ip.Split('.');
-            if (array.Length != 0) {
-                ip_1.Text = array[0];
-                ip_2.Text = array[1];
-                ip_3.Text = array[2];
-                ip_4.Text = array[3];
-                ip_5.Text = array[4];
-                ip_6.Text = array[5];
-                ip_7.Text = array[6];
-                ip_8.Text = array[7];
-            }
-          
+            ip_input.Text = _obj[8].ToString();                            
             note.Text = _obj[9].ToString();           
             login_name.Tag = id;
         }
@@ -79,15 +66,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 string _mobile = mobile.Text.Trim();
                 string _phone = phone.Text.Trim();
                 string _mail = mail.Text.Trim();
-                string _ip_1 = ip_1.Text.Trim();
-                string _ip_2 = ip_2.Text.Trim();
-                string _ip_3 = ip_3.Text.Trim();
-                string _ip_4 = ip_4.Text.Trim();
-                string _ip_5 = ip_5.Text.Trim();
-                string _ip_6 = ip_6.Text.Trim();
-                string _ip_7 = ip_7.Text.Trim();
-                string _ip_8 = ip_8.Text.Trim();
-                string _ip = _ip_1 + '.' + _ip_2 + '.' + _ip_3 + '.' + _ip_4 + '.' + _ip_5 + '.' + _ip_6 + '.' + _ip_7 + '.' + _ip_8;              
+              
+                string _ip = ip_input.Text.Trim();
                 string _note = note.Text.Trim();            
                 string _real_name = real_name.Text.Trim();
             
@@ -114,8 +94,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                     DialogResult = DialogResult.OK;
                     Close();
                 }
-            }
-         
+            }        
         }
       
         // 检验数据的完整性
@@ -230,22 +209,14 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         //ip校验
         bool IsIp()
         {                     
-            if (!string.IsNullOrEmpty(ip_1.Text.Trim()) && !string.IsNullOrEmpty(ip_2.Text.Trim()) && !string.IsNullOrEmpty(ip_3.Text.Trim()) && !string.IsNullOrEmpty(ip_4.Text.Trim()) 
-                && !string.IsNullOrEmpty(ip_5.Text.Trim()) && !string.IsNullOrEmpty(ip_6.Text.Trim()) && !string.IsNullOrEmpty(ip_7.Text.Trim()) && !string.IsNullOrEmpty(ip_8.Text.Trim()))
-            {
-                string _ip_1 = ip_1.Text.Trim();
-                string _ip_2 = ip_2.Text.Trim();
-                string _ip_3 = ip_3.Text.Trim();
-                string _ip_4 = ip_4.Text.Trim();
-                string _ip_5 = ip_5.Text.Trim();
-                string _ip_6 = ip_6.Text.Trim();
-                string _ip_7 = ip_7.Text.Trim();
-                string _ip_8 = ip_8.Text.Trim();
-                string _ip = _ip_1 + '.' + _ip_2 + '.' + _ip_3 + '.' + _ip_4 +'.'+ _ip_5 + '.' + _ip_6 + '.' + _ip_7 + '.' + _ip_8;
-                              
-                return Regex.IsMatch(_ip, "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."+ "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$");
+            if (!string.IsNullOrEmpty(ip_input.Text.Trim()))
+            {               
+                string _ip = ip_input.Text.Trim();                                          
+                return Regex.IsMatch(_ip, "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)" +"-"+ "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."+ "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$") ||
+                       Regex.IsMatch(_ip, "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)" + "-" + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\," + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."+ "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."+ "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."+"(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)" + "-" + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."+ "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."+ "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."+ "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$") ||
+                       Regex.IsMatch(_ip, "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)" + "-" + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\," + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)" + "-" + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\," + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)" + "-" + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."+"(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$");
             }
-            return false;
+            return true;
         }
 
         //关闭

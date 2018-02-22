@@ -56,16 +56,30 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 Name = "YH_MANAGER",
                 Text = "用户管理",
-                Image = imgs[1],
+                Image = imgs[0],
                 HasNext = true
             });
             list.Add(new CreateKyoPanel.KyoPanel
             {
                 Name = "ZD_MANAGER",
                 Text = "字典管理",
-                Image = imgs[0],
+                Image = imgs[1],
                 HasNext = true
-            });           
+            });
+            list.Add(new CreateKyoPanel.KyoPanel
+            {
+                Name = "AQ_MANAGER",
+                Text = "安全监控",
+                Image = imgs[4],
+                HasNext = true
+            });
+            list.Add(new CreateKyoPanel.KyoPanel
+            {
+                Name = "MB_MANAGER",
+                Text = "模板管理",
+                Image = imgs[3],
+                HasNext = true
+            });
             CreateKyoPanel.SetPanel(pal_LeftMenu, list);
 
             //用户管理

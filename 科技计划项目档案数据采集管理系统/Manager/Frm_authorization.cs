@@ -35,8 +35,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                     Text = GetValue(_obj[i][1])
                 };
 
-                TreeNode node2 = new TreeNode("查看");
-                node2.Name = "view";
+                TreeNode node2 = new TreeNode("新增");
+                node2.Name = "add";
                 TreeNode node3 = new TreeNode("修改");
                 node3.Name = "edit";
                 TreeNode node4 = new TreeNode("删除");
@@ -71,7 +71,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                             node.Checked = true;
 
                             string module_id = GetValue(select_module_list[i][0]);
-                            string o_sql = $"select o_view,o_edit,o_del from operation where module_id = '{module_id}'";
+                            string o_sql = $"select o_add,o_edit,o_del from operation where module_id = '{module_id}'";
                             List<object[]> select_operation_list = SqlHelper.ExecuteColumnsQuery(o_sql, 3);
 
                             if (select_operation_list.Count != 0)
@@ -82,7 +82,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                                    
                                     if ("1".Equals(select_operation_list[j][0]))
                                     {
-                                        tree_name = "view";
+                                        tree_name = "add";
                                     }
                                     else if ("1".Equals(select_operation_list[j][1]))
                                     {
@@ -171,19 +171,19 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                             if (node2.Checked)
                             {
                                 string o_id = Guid.NewGuid().ToString();
-                                if ("view".Equals(node2.Name))
+                                if ("add".Equals(node2.Name))
                                 {
-                                    string sql = $"insert into operation (o_id,o_view,o_edit,module_id,o_del)values('{o_id}','1','0','{m_id}','0')";
+                                    string sql = $"insert into operation (o_id,o_add,o_edit,module_id,o_del)values('{o_id}','1','0','{m_id}','0')";
                                     SqlHelper.ExecuteQuery(sql);
                                 }
                                 else if ("edit".Equals(node2.Name))
                                 {
-                                    string sql = $"insert into operation (o_id,o_view,o_edit,module_id,o_del)values('{o_id}','0','1','{m_id}','0')";
+                                    string sql = $"insert into operation (o_id,o_add,o_edit,module_id,o_del)values('{o_id}','0','1','{m_id}','0')";
                                     SqlHelper.ExecuteQuery(sql);
                                 }
                                 else if ("del".Equals(node2.Name))
                                 {
-                                    string sql = $"insert into operation (o_id,o_view,o_edit,module_id,o_del)values('{o_id}','0','0','{m_id}','1')";
+                                    string sql = $"insert into operation (o_id,o_add,o_edit,module_id,o_del)values('{o_id}','0','0','{m_id}','1')";
                                     SqlHelper.ExecuteQuery(sql);
                                 }
                             }
