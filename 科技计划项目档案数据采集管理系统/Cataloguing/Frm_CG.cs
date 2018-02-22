@@ -307,26 +307,26 @@ namespace 科技计划项目档案数据采集管理系统
                 switch(type)
                 {
                     case WorkType.PaperWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',trp_code,trp_name,cs_name,'纸本加工' FROM transfer_registration_pc LEFT JOIN " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',trp_code,trp_name,cs_code,cs_name,'纸本加工' FROM transfer_registration_pc LEFT JOIN " +
                             $"company_source ON com_id = cs_id WHERE trp_id='{id}'";
                         break;
                     case WorkType.CDWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',trc_code,trc_name,cs_name,'光盘加工' FROM transfer_registraion_cd trc LEFT JOIN(" +
-                            $"SELECT trp_id, cs_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',trc_code,trc_name,cs_code,cs_name,'光盘加工' FROM transfer_registraion_cd trc LEFT JOIN(" +
+                            $"SELECT trp_id, cs_code, cs_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
                             $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{id}'";
                         break;
                     case WorkType.ProjectWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',pi_code,pi_name,cs_name,'项目/课题加工' FROM project_info pi " +
-                            $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
-                            $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',pi_code,pi_name,cs_code,cs_name,'项目/课题加工' FROM project_info pi " +
+                            $"LEFT JOIN(SELECT trc_id, cs_code, cs_name FROM transfer_registraion_cd trc " +
+                            $"LEFT JOIN(SELECT trp_id, cs_code, cs_name FROM transfer_registration_pc trp " +
                             $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
-                            $"WHERE pi_id='{id}'";
+                            $"WHERE pi_id=(SELECT pi_obj_id FROM project_info WHERE pi_id='{id}')";
                         break;
                     case WorkType.SubjectWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',si_code,si_name,cs_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',si_code,si_name,cs_code,cs_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
                            $"SELECT pi_id,cs_name FROM project_info pi " +
-                           $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
-                           $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
+                           $"LEFT JOIN(SELECT trc_id, cs_code, cs_name FROM transfer_registraion_cd trc " +
+                           $"LEFT JOIN(SELECT trp_id, cs_code, cs_name FROM transfer_registration_pc trp " +
                            $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                            $") tb3 ON tb3.pi_id = si.pi_id WHERE si.si_id='{id}'";
                         break;
@@ -353,8 +353,9 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_WorkLog.Rows[index].Cells["id"].Value = resultList[i][1];
                 dgv_WorkLog.Rows[index].Cells["code"].Value = resultList[i][2];
                 dgv_WorkLog.Rows[index].Cells["name"].Value = resultList[i][3];
-                dgv_WorkLog.Rows[index].Cells["cs_name"].Value = resultList[i][4];
-                dgv_WorkLog.Rows[index].Cells["type"].Value = resultList[i][5];
+                dgv_WorkLog.Rows[index].Cells["cs_name"].Tag = resultList[i][4];
+                dgv_WorkLog.Rows[index].Cells["cs_name"].Value = resultList[i][5];
+                dgv_WorkLog.Rows[index].Cells["type"].Value = resultList[i][6];
                 dgv_WorkLog.Rows[index].Cells["edit"].Value = "编辑";
                 dgv_WorkLog.Rows[index].Cells["submit"].Value = "提交质检";
             }
@@ -428,7 +429,7 @@ namespace 科技计划项目档案数据采集管理系统
                             string insertSql = $"INSERT INTO work_registration VALUES('" +
                                 $"{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}')";
                             SqlHelper.ExecuteNonQuery(insertSql);
-                            
+
                             SqlHelper.ExecuteNonQuery($"UPDATE transfer_registraion_cd SET trc_complete_status={(int)WorkStatus.WorkSuccess} WHERE trc_id='{trcid}'");
                             //领取光盘的同时 - 领取其下所有未领取的项目/课题/子课题
                             object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{trcid}'");
@@ -585,10 +586,10 @@ namespace 科技计划项目档案数据采集管理系统
                 else if("edit".Equals(columnName))
                 {
                     object objId = dgv_WorkLog.Rows[e.RowIndex].Cells["id"].Value;
-                    string typeValue = dgv_WorkLog.Rows[e.RowIndex].Cells["type"].Value.ToString();
+                    string typeValue = GetValue(dgv_WorkLog.Rows[e.RowIndex].Cells["type"].Value);
                     if(typeValue.Contains("光盘"))
                     {
-                        object planId  = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
+                        object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
                         if(planId != null)//项目/课题
                             new Frm_MyWork(WorkType.CDWork, planId, null, ControlType.Default).ShowDialog();
                         else
@@ -613,7 +614,11 @@ namespace 科技计划项目档案数据采集管理系统
                                 MessageBox.Show("无法找到当前项目/课题所属计划。", "操作失败");
                             }
                             else
-                                new Frm_MyWork(WorkType.ProjectWork, rootId, objId, ControlType.Default).ShowDialog();
+                            {
+                                Frm_MyWork frm = new Frm_MyWork(WorkType.ProjectWork, rootId, objId, ControlType.Default);
+                                frm.SetUnitSourceId(dgv_WorkLog.Rows[e.RowIndex].Cells["cs_name"].Tag);
+                                frm.ShowDialog();
+                            }
                         }
                         else if(typeValue.Contains("课题/子课题"))
                         {
@@ -683,21 +688,14 @@ namespace 科技计划项目档案数据采集管理系统
                 else if("bk_submit".Equals(columnName))
                 {
                     object wrid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_code"].Tag;
-                    if(CanSubmitToQT(wrid))
+                    if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                        {
-                            object wmid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_name"].Tag;
-                            SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)WorkStatus.NonWork} WHERE wm_id='{wmid}'");
+                        object wmid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_name"].Tag;
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)WorkStatus.WorkSuccessFromBack} WHERE wm_id='{wmid}'");
 
-                            string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{wrid}'";
-                            SqlHelper.ExecuteNonQuery(updateSql);
-                            LoadWorkBackList();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("当前项目/课题下尚有未提交的数据。", "提交失败");
+                        string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{wrid}'";
+                        SqlHelper.ExecuteNonQuery(updateSql);
+                        LoadWorkBackList();
                     }
                 }
             }
@@ -712,8 +710,13 @@ namespace 科技计划项目档案数据采集管理系统
             object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT wr_type, wr_obj_id FROM work_registration WHERE wr_id='{objId}'");
             if(!string.IsNullOrEmpty(GetValue(_obj)))
             {
-                object rootId = GetRootId(_obj[1], (WorkType)_obj[0]);
-                List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'", 2);
+                WorkType type = (WorkType)_obj[0];
+                object rootId = GetRootId(_obj[1], type);
+                List<object[]> _obj2 = new List<object[]>();
+                if(type == WorkType.SubjectWork)
+                    _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}'",2);
+                else
+                    _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'", 2);
                 for(int i = 0; i < _obj2.Count; i++)
                 {
                     if(Convert.ToInt32(_obj2[i][1]) == (int)ObjectSubmitStatus.NonSubmit)

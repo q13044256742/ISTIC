@@ -33,8 +33,8 @@ namespace 科技计划项目档案数据采集管理系统
             list.Add(new CreateKyoPanel.KyoPanel()
             {
                 Name = "QT_ZLJG",
-                Text = "著录加工",
-                Image = Resources.pic6,
+                Text = "档案质检",
+                Image = Resources.pic1,
                 HasNext = true
             });
             CreateKyoPanel.SetPanel(pal_LeftMenu, list);
@@ -81,37 +81,117 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadWaitQTList()
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_Plan);
-            List<DataTable> resultList = GetObjectListById(null);
+            DataGridViewStyleHelper.ResetDataGridView(dgv_Project);
 
-            dgv_Plan.Columns.Add("wt_id", "主键");
-            dgv_Plan.Columns.Add("wt_code", "编号");
-            dgv_Plan.Columns.Add("wt_name", "名称");
-            dgv_Plan.Columns.Add("wt_unit", "来源单位");
-            dgv_Plan.Columns.Add("wt_edit", "操作");
+            dgv_Plan.Columns.Add("plan_id", "主键");
+            dgv_Plan.Columns.Add("plan_code", "编号");
+            dgv_Plan.Columns.Add("plan_name", "名称");
+            dgv_Plan.Columns.Add("plan_unit", "来源单位");
+            dgv_Plan.Columns.Add("plan_edit", "操作");
+
+            dgv_Project.Columns.Add("project_id", "主键");
+            dgv_Project.Columns.Add("project_unit", "来源单位");
+            dgv_Project.Columns.Add("project_code", "项目/课题编号");
+            dgv_Project.Columns.Add("project_name", "项目/课题名称");
+            dgv_Project.Columns.Add("project_subamount", "课题/子课题数");
+            dgv_Project.Columns.Add("project_fileamount", "文件数");
+            dgv_Project.Columns.Add("project_edit", "操作");
+
+            List<DataTable> resultList = GetObjectListById(null);
             for(int i = 0; i < resultList.Count; i++)
             {
-                DataRow row = resultList[i].Rows[0];
-                int index = dgv_Plan.Rows.Add();
-                dgv_Plan.Rows[index].Cells["wt_id"].Value = row[0];
-                dgv_Plan.Rows[index].Cells["wt_code"].Value = row[2];
-                dgv_Plan.Rows[index].Cells["wt_name"].Value = row[3];
-                dgv_Plan.Rows[index].Cells["wt_unit"].Value = row[4];
-                dgv_Plan.Rows[index].Cells["wt_edit"].Value = "质检";
+                if(resultList[i].Rows.Count > 0)
+                {
+                    DataRow row = resultList[i].Rows[0];
+                    WorkType type = (WorkType)Convert.ToInt32(row[1]);
+                    if(type == WorkType.PaperWork || type == WorkType.CDWork)
+                    {
+                        int index = dgv_Plan.Rows.Add();
+                        dgv_Plan.Rows[index].Cells["plan_id"].Value = row[0];
+                        dgv_Plan.Rows[index].Cells["plan_id"].Tag = row[2];
+                        dgv_Plan.Rows[index].Cells["plan_code"].Value = row[3];
+                        dgv_Plan.Rows[index].Cells["plan_name"].Value = row[4];
+                        dgv_Plan.Rows[index].Cells["plan_unit"].Value = row[5];
+                        dgv_Plan.Rows[index].Cells["plan_edit"].Value = "质检";
+                    }
+                    else if(type == WorkType.ProjectWork)
+                    {
+                        int index = dgv_Project.Rows.Add();
+                        dgv_Project.Rows[index].Cells["project_id"].Value = row[0];
+                        dgv_Project.Rows[index].Cells["project_id"].Tag = row[2];
+                        dgv_Project.Rows[index].Cells["project_code"].Value = row[3];
+                        dgv_Project.Rows[index].Cells["project_name"].Value = row[4];
+                        dgv_Project.Rows[index].Cells["project_unit"].Value = row[5];
+                        dgv_Project.Rows[index].Cells["project_subamount"].Value = GetSubjectAmountByProjectId(row[0]);
+                        dgv_Project.Rows[index].Cells["project_fileamount"].Value = GetFileAmountByProjectId(row[0]);
+                        dgv_Project.Rows[index].Cells["project_edit"].Value = "质检";
+                    }
+                    else if(type == WorkType.SubjectWork)
+                    {
+                        int index = dgv_Project.Rows.Add();
+                        dgv_Project.Rows[index].Cells["project_id"].Value = row[0];
+                        dgv_Project.Rows[index].Cells["project_id"].Tag = row[2];
+                        dgv_Project.Rows[index].Cells["project_code"].Value = row[3];
+                        dgv_Project.Rows[index].Cells["project_name"].Value = row[4];
+                        dgv_Project.Rows[index].Cells["project_unit"].Value = row[5];
+                        dgv_Project.Rows[index].Cells["project_subamount"].Value = 0;
+                        dgv_Project.Rows[index].Cells["project_fileamount"].Value = 0;
+                        dgv_Project.Rows[index].Cells["project_edit"].Value = "质检";
+                    }
+                }
             }
-            dgv_Plan.Columns["wt_id"].Visible = false;
+            dgv_Plan.Columns["plan_id"].Visible = false;
+            dgv_Project.Columns["project_id"].Visible = false;
 
-            DataGridViewStyleHelper.SetLinkStyle(dgv_Plan, new string[] { "wt_edit" }, false);
+            DataGridViewStyleHelper.SetLinkStyle(dgv_Plan, new string[] { "plan_edit" }, false);
+            DataGridViewStyleHelper.SetLinkStyle(dgv_Project, new string[] { "project_edit" }, false);
 
-            List<KeyValuePair<string, int>> keyValue = new List<KeyValuePair<string, int>>();
-            keyValue.Add(new KeyValuePair<string, int>("wt_name", 200));
-            keyValue.Add(new KeyValuePair<string, int>("wt_edit", 100));
+            List<KeyValuePair<string, int>> keyValue = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("plan_name", 200),
+                new KeyValuePair<string, int>("plan_edit", 100)
+            };
             DataGridViewStyleHelper.SetWidth(dgv_Plan, keyValue);
+            List<KeyValuePair<string, int>> _keyValue = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("project_name", 200),
+                new KeyValuePair<string, int>("project_edit", 100)
+            };
+            DataGridViewStyleHelper.SetWidth(dgv_Project, _keyValue);
+        }
+        /// <summary>
+        /// 获取【项目|课题】下的文件总数
+        /// </summary>
+        private object GetFileAmountByProjectId(object proId)
+        {
+            int amount = 0;
+            amount += Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{proId}'"));
+            List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{proId}'", 1);
+            for(int i = 0; i < list.Count; i++)
+            {
+                amount += Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{list[i][0]}'"));
+                List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{list[i][0]}'", 1);
+                for(int j = 0; j < list2.Count; j++)
+                    amount += Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{list2[j][0]}'"));
+            }
+            return amount;
+        }
+        /// <summary>
+        /// 获取【项目|课题】下的子课题数
+        /// </summary>
+        private object GetSubjectAmountByProjectId(object proId)
+        {
+            int amount = 0;
+            List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{proId}'", 1);
+            amount += list.Count;
+            for(int i = 0; i < list.Count; i++)
+                amount += Convert.ToInt32($"SELECT COUNT(si_id) FROM subject_info WHERE pi_id='{list[i][0]}'");
+            return amount;
         }
         /// <summary>
         /// 根据加工登记主键获取对应项目/课题信息
+        /// 0:wr_id 1:wr_type 2:wr_obj_id 3:code 4:name 5:cs_name
         /// </summary>
-        /// <param name="objid"></param>
-        /// <returns></returns>
         private static List<DataTable> GetObjectListById(object objid)
         {
             string querySql = $" SELECT wr_id, wr_type,wr_obj_id FROM work_registration wr LEFT JOIN(" +
@@ -126,33 +206,32 @@ namespace 科技计划项目档案数据采集管理系统
             for(int i = 0; i < list.Count; i++)
             {
                 WorkType type = (WorkType)list[i][1];
-                object id = list[i][2];
                 string _querySql = null;
                 switch(type)
                 {
                     case WorkType.PaperWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',trp_code,trp_name,cs_name FROM transfer_registration_pc LEFT JOIN " +
-                            $"company_source ON com_id = cs_id WHERE trp_id='{id}'";
+                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',trp_code,trp_name,cs_name FROM transfer_registration_pc LEFT JOIN " +
+                            $"company_source ON com_id = cs_id WHERE trp_id='{list[i][2]}'";
                         break;
                     case WorkType.CDWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',trc_code,trc_name,cs_name FROM transfer_registraion_cd trc LEFT JOIN(" +
+                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',trc_code,trc_name,cs_name FROM transfer_registraion_cd trc LEFT JOIN(" +
                             $"SELECT trp_id, cs_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
-                            $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{id}'";
+                            $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{list[i][2]}'";
                         break;
                     case WorkType.ProjectWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',pi_code,pi_name,cs_name FROM project_info pi " +
+                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',pi_code,pi_name,cs_name FROM project_info pi " +
                             $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
                             $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
                             $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
-                            $"WHERE pi_id='{id}'";
+                            $"WHERE pi_id='{list[i][2]}'";
                         break;
                     case WorkType.SubjectWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',si_code,si_name,cs_name FROM subject_info si LEFT JOIN(" +
+                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',si_code,si_name,cs_name FROM subject_info si LEFT JOIN(" +
                            $"SELECT pi_id,cs_name FROM project_info pi " +
                            $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
                            $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
                            $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
-                           $") tb3 ON tb3.pi_id = si.pi_id WHERE si.si_id='{id}'";
+                           $") tb3 ON tb3.pi_id = si.pi_id WHERE si.si_id='{list[i][2]}'";
                         break;
                     default:
                         _querySql = string.Empty;
@@ -164,25 +243,20 @@ namespace 科技计划项目档案数据采集管理系统
             return resultList;
         }
         /// <summary>
-        /// 单元格点击事件
+        /// 【计划/专项】单元格点击事件
         /// </summary>
         private void Dgv_Plan_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex != -1 && e.ColumnIndex != -1)
             {
                 object columnName = dgv_Plan.Columns[e.ColumnIndex].Name;
-                //待质检 - 质检
-                if("wt_edit".Equals(columnName))
+                //待质检 - 【计划/专项】质检
+                if("plan_edit".Equals(columnName))
                 {
-                    object objid = dgv_Plan.Rows[e.RowIndex].Cells["wt_id"].Value;
-                    string updateSql = $"UPDATE work_registration SET wr_receive_status={(int)ReceiveStatus.ReceiveSuccess} WHERE wr_id='{objid}'";
-                    SqlHelper.ExecuteNonQuery(updateSql);
-
-                    string primaryKey = Guid.NewGuid().ToString();
-                    string insertSql = $"INSERT INTO work_myreg(wm_id,wr_id,wm_status,wm_user)" +
-                        $" VALUES('{primaryKey}','{objid}','{(int)QualityStatus.NonQuality}','{UserHelper.GetInstance().User.UserKey}')";
-                    SqlHelper.ExecuteNonQuery(insertSql);
-
+                    object objid = dgv_Plan.Rows[e.RowIndex].Cells["plan_id"].Value;
+                    SqlHelper.ExecuteNonQuery($"UPDATE work_registration SET wr_receive_status={(int)ReceiveStatus.ReceiveSuccess} WHERE wr_id='{objid}'");
+                    SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id,wr_id,wm_status,wm_user)" +
+                        $" VALUES('{Guid.NewGuid().ToString()}','{objid}','{(int)QualityStatus.NonQuality}','{UserHelper.GetInstance().User.UserKey}')");
                     LoadMyRegList();
                 }
                 //我的质检 -  编辑
@@ -193,7 +267,7 @@ namespace 科技计划项目档案数据采集管理系统
                     WorkType type = (WorkType)Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_type FROM work_registration WHERE wr_id='{wrid}'"));
                     object planId = GetRootId(objid, type);
                     if(planId != null)
-                        new Frm_MyWorkQT(WorkType.ProjectWork, planId, ControlType.Default, false).ShowDialog();
+                        new Frm_MyWorkQT(type, objid, ControlType.Default, false).ShowDialog();
                     else
                     {
                         planId = GetRootId(objid, WorkType.SubjectWork);
@@ -203,7 +277,7 @@ namespace 科技计划项目档案数据采集管理系统
                             MessageBox.Show("未找到此项目/课题所属计划。");
                     }
                 }
-                //质检 - 提交（返工）
+                //我的质检 - 提交（返工）
                 else if("mr_submit".Equals(columnName))
                 {
                     object wmid = dgv_Plan.Rows[e.RowIndex].Cells["mr_id"].Tag;
@@ -215,6 +289,30 @@ namespace 科技计划项目档案数据采集管理系统
                             LoadMyRegList();
                         }
                     }
+                }
+            }
+        }
+        /// <summary>
+        /// 【项目/课题】单元格点击事件
+        /// </summary>
+        private void Dgv_Project_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex!=-1 && e.ColumnIndex != -1)
+            {
+                object columnName = dgv_Project.Columns[e.ColumnIndex].Name;
+                //领取此条质检
+                if("project_edit".Equals(columnName))
+                {
+                    //同时将当前项目|课题下所有子课题领取
+                    object objid = dgv_Project.Rows[e.RowIndex].Cells["project_id"].Value;
+                    GetAllProjectByPid(objid);
+                    //更新加工记录表状态
+                    SqlHelper.ExecuteNonQuery($"UPDATE work_registration SET wr_receive_status={(int)ReceiveStatus.ReceiveSuccess} WHERE wr_id='{objid}'");
+                    //添加我的质检记录
+                    SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id,wr_id,wm_status,wm_user)" +
+                        $" VALUES('{Guid.NewGuid().ToString()}','{objid}','{(int)QualityStatus.NonQuality}','{UserHelper.GetInstance().User.UserKey}')");
+
+                    LoadMyRegList();
                 }
             }
         }
@@ -251,23 +349,27 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Plan.Columns.Add("mr_edit", "编辑");
             dgv_Plan.Columns.Add("mr_submit", "提交");
 
-            List<object[]> wmIds = SqlHelper.ExecuteColumnsQuery($"SELECT wm_id, wr_id FROM work_myreg WHERE wm_user='{UserHelper.GetInstance().User.UserKey}' AND wm_status='{(int)QualityStatus.NonQuality}'", 2);
+            List<object[]> wmIds = SqlHelper.ExecuteColumnsQuery($"SELECT wm_id, wr_id FROM work_myreg WHERE wm_user='{UserHelper.GetInstance().User.UserKey}' " +
+                $"AND wm_status='{(int)QualityStatus.NonQuality}'", 2);
             for(int i = 0; i < wmIds.Count; i++)
             {
                 List<DataTable> list = GetObjectListById(wmIds[i][1]);
                 for(int j = 0; j < list.Count; j++)
                 {
-                    DataRow row = list[j].Rows[0];
-                    int index = dgv_Plan.Rows.Add();
-                    dgv_Plan.Rows[index].Cells["mr_id"].Tag = wmIds[i][0];
-                    dgv_Plan.Rows[index].Cells["mr_id"].Value = row[1];
-                    dgv_Plan.Rows[index].Cells["mr_unit"].Value = row[4];
-                    dgv_Plan.Rows[index].Cells["mr_code"].Value = row[2];
-                    dgv_Plan.Rows[index].Cells["mr_code"].Tag = row[0];
-                    dgv_Plan.Rows[index].Cells["mr_name"].Value = row[3];
-                    dgv_Plan.Rows[index].Cells["mr_fileamount"].Value = GetFileAmountByPID(row[1]);
-                    dgv_Plan.Rows[index].Cells["mr_edit"].Value = "编辑";
-                    dgv_Plan.Rows[index].Cells["mr_submit"].Value = "返工/提交";
+                    if(list[j].Rows.Count > 0)
+                    {
+                        DataRow row = list[j].Rows[0];
+                        int index = dgv_Plan.Rows.Add();
+                        dgv_Plan.Rows[index].Cells["mr_id"].Tag = wmIds[i][0];
+                        dgv_Plan.Rows[index].Cells["mr_code"].Tag = row[0];
+                        dgv_Plan.Rows[index].Cells["mr_id"].Value = row[2];
+                        dgv_Plan.Rows[index].Cells["mr_code"].Value = row[3];
+                        dgv_Plan.Rows[index].Cells["mr_name"].Value = row[4];
+                        dgv_Plan.Rows[index].Cells["mr_unit"].Value = row[5];
+                        dgv_Plan.Rows[index].Cells["mr_fileamount"].Value = GetFileAmountByPID(row[2]);
+                        dgv_Plan.Rows[index].Cells["mr_edit"].Value = "编辑";
+                        dgv_Plan.Rows[index].Cells["mr_submit"].Value = "返工/提交";
+                    }
                 }
             }
 
@@ -289,6 +391,8 @@ namespace 科技计划项目档案数据采集管理系统
         private object GetFileAmountByPID(object pid)
         {
             object objid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{pid}'");
+            if(objid == null)
+                objid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{pid}'");
             int totalAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{objid}'"));
             List<object[]> _obj1 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objid}'", 1);
             for(int i = 0; i < _obj1.Count; i++)
@@ -304,6 +408,21 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
             return totalAmount;
+        }
+        /// <summary>
+        /// 领取当前及下属所有课题信息
+        /// </summary>
+        private void GetAllProjectByPid(object objid)
+        {
+            SqlHelper.ExecuteNonQuery($"UPDATE project_info SET pi_checker_id='{UserHelper.GetInstance().User.UserKey}' WHERE pi_id='{objid}'");
+            List<object[]> _obj = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{objid}'", 1);
+            for(int i = 0; i < _obj.Count; i++)
+            {
+                SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_checker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj[i][0]}'");
+                List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{_obj[i][0]}'", 1);
+                for(int j = 0; j < _obj2.Count; j++)
+                    SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_checker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj2[j][0]}'");
+            }
         }
     }
 }
