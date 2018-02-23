@@ -67,12 +67,11 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
         private void Txt_CDCode_Enter(object sender, EventArgs e)
         {
-            object unitCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT cs_code FROM company_source WHERE cs_id =" +
+            object unitCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id =" +
                 $"(SELECT com_id FROM transfer_registration_pc WHERE trp_id='{pid}')");
             int index = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM transfer_registraion_cd WHERE trp_id='{pid}'"));
             txt_CDCode.Text = CreateBatchCode(unitCode, index + 1);
         }
-
         /// <summary>
         /// 自动生成批次编号
         /// </summary>
@@ -80,7 +79,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             string querySql = null;
             //自动生成批次编号
-            object csid = SqlHelper.ExecuteOnlyOneQuery("SELECT CS_ID FROM company_source WHERE cs_code = '" + unitCode + "'");
+            object csid = SqlHelper.ExecuteOnlyOneQuery("SELECT dd_id FROM data_dictionary WHERE dd_code = '" + unitCode + "'");
             querySql = "SELECT COUNT(*) FROM transfer_registration_pc WHERE com_id=('" + csid + "')";
             object amountStr = SqlHelper.ExecuteOnlyOneQuery(querySql);
             return unitCode.ToString() + DateTime.Now.Year + amountStr.ToString().PadLeft(3, '0') + "-" + index.ToString().PadLeft(3, '0');

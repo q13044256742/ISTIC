@@ -82,7 +82,7 @@
             // txt_BatchCode
             // 
             this.txt_BatchCode.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_BatchCode.Location = new System.Drawing.Point(477, 29);
+            this.txt_BatchCode.Location = new System.Drawing.Point(110, 65);
             this.txt_BatchCode.Name = "txt_BatchCode";
             this.txt_BatchCode.Size = new System.Drawing.Size(239, 23);
             this.txt_BatchCode.TabIndex = 3;
@@ -91,7 +91,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(406, 32);
+            this.label2.Location = new System.Drawing.Point(36, 68);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(56, 17);
             this.label2.TabIndex = 2;
@@ -101,7 +101,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(36, 68);
+            this.label3.Location = new System.Drawing.Point(406, 32);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 17);
             this.label3.TabIndex = 4;
@@ -112,9 +112,9 @@
             this.cbo_SourceUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbo_SourceUnit.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cbo_SourceUnit.FormattingEnabled = true;
-            this.cbo_SourceUnit.Location = new System.Drawing.Point(110, 65);
+            this.cbo_SourceUnit.Location = new System.Drawing.Point(477, 28);
             this.cbo_SourceUnit.Name = "cbo_SourceUnit";
-            this.cbo_SourceUnit.Size = new System.Drawing.Size(269, 25);
+            this.cbo_SourceUnit.Size = new System.Drawing.Size(248, 25);
             this.cbo_SourceUnit.TabIndex = 6;
             this.cbo_SourceUnit.SelectionChangeCommitted += new System.EventHandler(this.cbo_SourceUnit_SelectionChangeCommitted);
             // 
