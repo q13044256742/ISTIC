@@ -58,19 +58,25 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 HasNext = false
             });
 
-            string querySql = "SELECT cs_id,cs_name FROM company_source ORDER BY sorting ASC";
+            string querySql = "SELECT dd_id, dd_name FROM data_dictionary WHERE dd_pId=" +
+                "(SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_key_company_source') ORDER BY dd_sort";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < table.Rows.Count; i++)
             {
                 list.Add(new CreateKyoPanel.KyoPanel
                 {
-                    Name = table.Rows[i]["cs_id"].ToString(),
-                    Text = table.Rows[i]["cs_name"].ToString(),
+                    Name = GetValue(table.Rows[i]["dd_id"]),
+                    Text = GetValue(table.Rows[i]["cs_name"]),
                     HasNext = false
                 });
             }
             Panel basicPanel = CreateKyoPanel.SetSubPanel(pal_LeftMenu.Controls.Find("ToR", false)[0] as Panel, list, Element_Click);
 
+        }
+
+        private string GetValue(object v)
+        {
+            return v == null ? string.Empty : v.ToString();
         }
 
         /// <summary>
