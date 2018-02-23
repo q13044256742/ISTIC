@@ -28,48 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.template_DataList = new System.Windows.Forms.DataGridView();
             this.列表 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Btn_save_temp = new System.Windows.Forms.Button();
             this.Btn_edit_temp = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.template_DataList)).BeginInit();
-            this.列表.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // template_DataList
-            // 
-            this.template_DataList.AllowUserToAddRows = false;
-            this.template_DataList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.template_DataList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.template_DataList.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            this.template_DataList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.template_DataList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.template_DataList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.template_DataList.Location = new System.Drawing.Point(6, 15);
-            this.template_DataList.Name = "template_DataList";
-            this.template_DataList.ReadOnly = true;
-            this.template_DataList.RowTemplate.Height = 23;
-            this.template_DataList.Size = new System.Drawing.Size(965, 393);
-            this.template_DataList.TabIndex = 1;
             // 
             // 列表
             // 
             this.列表.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.列表.Controls.Add(this.template_DataList);
             this.列表.Location = new System.Drawing.Point(12, 69);
             this.列表.Name = "列表";
             this.列表.Size = new System.Drawing.Size(977, 414);
@@ -122,8 +92,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "模板管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            ((System.ComponentModel.ISupportInitialize)(this.template_DataList)).EndInit();
-            this.列表.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -131,8 +99,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView template_DataList;
         private System.Windows.Forms.GroupBox 列表;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button Btn_save_temp;
