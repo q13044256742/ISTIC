@@ -257,26 +257,26 @@ namespace 科技计划项目档案数据采集管理系统
             switch(type)
             {
                 case WorkType.PaperWork:
-                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',trp_code,trp_name,cs_name FROM transfer_registration_pc LEFT JOIN " +
+                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',trp_code,trp_name,dd_name FROM transfer_registration_pc LEFT JOIN " +
                         $"company_source ON com_id = cs_id WHERE trp_id='{id}'";
                     break;
                 case WorkType.CDWork:
-                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',trc_code,trc_name,cs_name FROM transfer_registraion_cd trc LEFT JOIN(" +
-                        $"SELECT trp_id, cs_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
+                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',trc_code,trc_name,dd_name FROM transfer_registraion_cd trc LEFT JOIN(" +
+                        $"SELECT trp_id, dd_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
                         $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{id}'";
                     break;
                 case WorkType.ProjectWork:
-                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',pi_code,pi_name,cs_name FROM project_info pi " +
-                        $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
-                        $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
+                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',pi_code,pi_name,dd_name FROM project_info pi " +
+                        $"LEFT JOIN(SELECT trc_id, dd_name FROM transfer_registraion_cd trc " +
+                        $"LEFT JOIN(SELECT trp_id, dd_name FROM transfer_registration_pc trp " +
                         $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                         $"WHERE pi_id='{id}'";
                     break;
                 case WorkType.SubjectWork:
-                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',si_code,si_name,cs_name FROM subject_info si LEFT JOIN(" +
-                       $"SELECT pi_id,cs_name FROM project_info pi " +
-                       $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
-                       $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
+                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',si_code,si_name,dd_name FROM subject_info si LEFT JOIN(" +
+                       $"SELECT pi_id,dd_name FROM project_info pi " +
+                       $"LEFT JOIN(SELECT trc_id, dd_name FROM transfer_registraion_cd trc " +
+                       $"LEFT JOIN(SELECT trp_id, dd_name FROM transfer_registration_pc trp " +
                        $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                        $") tb3 ON tb3.pi_id = si.pi_id WHERE si.si_id='{id}'";
                     break;
@@ -624,7 +624,7 @@ namespace 科技计划项目档案数据采集管理系统
                             else
                             {
                                 Frm_MyWork frm = new Frm_MyWork(WorkType.ProjectWork, rootId, objId, ControlType.Default);
-                                frm.SetUnitSourceId(dgv_WorkLog.Rows[e.RowIndex].Cells["cs_name"].Tag);
+                                frm.SetUnitSourceId(dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag);
                                 frm.ShowDialog();
                             }
                         }

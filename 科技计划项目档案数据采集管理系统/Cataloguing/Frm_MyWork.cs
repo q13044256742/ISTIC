@@ -2944,36 +2944,45 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         private void LoadFileBoxTable(object pbId, object objId, ControlType type)
         {
+            string GCID = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'"));
             if(type == ControlType.Plan)
             {
+                txt_JH_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_File1,lsv_JH_File2, "jh", pbId, objId);
             }
             else if(type == ControlType.Plan_Project)
             {
+                txt_JH_XM_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_XM_File1, lsv_JH_XM_File2, "jh_xm", pbId, objId);
             }
             else if(type == ControlType.Plan_Topic)
             {
+                txt_JH_KT_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_KT_File1, lsv_JH_KT_File2, "jh_kt", pbId, objId);
             }
             else if(type == ControlType.Plan_Project_Topic)
             {
+                txt_JH_XM_KT_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_XM_KT_File1, lsv_JH_XM_KT_File2, "jh_xm_kt", pbId, objId);
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
             {
+                txt_JH_KT_ZKT_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_KT_ZKT_File1, lsv_JH_KT_ZKT_File2, "jh_kt_zkt", pbId, objId);
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
+                txt_JH_XM_KT_ZKT_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_XM_KT_ZKT_File1, lsv_JH_XM_KT_ZKT_File2, "jh_xm_kt_zkt", pbId, objId);
             }
             else if(type == ControlType.Imp)
             {
+                txt_Imp_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_Imp_File1, lsv_Imp_File2, "imp", pbId, objId);
             }
             else if(type == ControlType.Imp_Dev)
             {
+                txt_Imp_Dev_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_Imp_Dev_File1, lsv_Imp_Dev_File2, "imp_dev", pbId, objId);
             }
 
@@ -3594,8 +3603,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = txt_JH_Box_GCID.Text;
-                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}')";
+                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_JH_Box_Remove".Equals(label.Name))//删除
@@ -3639,8 +3648,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = txt_JH_XM_Box_GCID.Text;
-                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}')";
+                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_JH_XM_Box_Remove".Equals(label.Name))//删除
@@ -3684,8 +3693,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = txt_JH_XM_KT_Box_GCID.Text;
-                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}')";
+                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_JH_XM_KT_Box_Remove".Equals(label.Name))//删除
@@ -3726,8 +3735,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = txt_JH_XM_KT_ZKT_Box_GCID.Text;
-                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}')";
+                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_JH_XM_KT_ZKT_Box_Remove".Equals(label.Name))//删除
@@ -3768,8 +3777,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = txt_JH_KT_Box_GCID.Text;
-                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}')";
+                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_JH_KT_Box_Remove".Equals(label.Name))//删除
@@ -3810,8 +3819,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = txt_JH_KT_ZKT_Box_GCID.Text;
-                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}')";
+                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_JH_KT_ZKT_Box_Remove".Equals(label.Name))//删除
@@ -3852,8 +3861,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = txt_Imp_Box_GCID.Text;
-                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}')";
+                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Imp_Box_Remove".Equals(label.Name))//删除
@@ -3894,8 +3903,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = txt_Imp_Dev_Box_GCID.Text;
-                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}')";
+                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Imp_Dev_Box_Remove".Equals(label.Name))//删除
@@ -3941,10 +3950,7 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_JH_Box.DisplayMember = "pb_box_number";
                 cbo_JH_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
-                {
                     cbo_JH_Box.SelectedIndex = 0;
-                    txt_JH_Box_GCID.Text = $"{unitCode}{GetGCAmount(unitCode)}";
-                }
             }
             else if(type == ControlType.Plan_Project)
             {
