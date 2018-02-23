@@ -84,7 +84,7 @@ namespace 科技计划项目档案数据采集管理系统
 
             //用户管理
             list = new List<CreateKyoPanel.KyoPanel>();
-            string user_sql = "SELECT bm_id,bm_name,bm_code from background_management order by bm_sort";
+            string user_sql = "SELECT bm_id,bm_name,bm_code from background_management where bm_type = 'YH_MANAGER' order by bm_sort";
             DataTable user_dataTable = SqlHelper.ExecuteQuery(user_sql);
             CreateKyoPanel.KyoPanel[] userPanels = new CreateKyoPanel.KyoPanel[user_dataTable.Rows.Count];
             for (int i = 0; i < userPanels.Length; i++)
@@ -117,6 +117,59 @@ namespace 科技计划项目档案数据采集管理系统
             list.AddRange(kyoPanels);
             Panel parentPanel = pal_LeftMenu.Controls.Find("ZD_MANAGER", false)[0] as Panel;
             CreateKyoPanel.SetSubPanel(parentPanel, list, Sub_Menu_Click);
+
+
+
+            //模板管理
+            list = new List<CreateKyoPanel.KyoPanel>();
+            string querySql_mb = "SELECT bm_id,bm_name,bm_code from background_management where bm_type = 'MB_MANAGER' order by bm_sort";
+            DataTable dataTable_mb = SqlHelper.ExecuteQuery(querySql_mb);
+            CreateKyoPanel.KyoPanel[] kyoPanels_mb = new CreateKyoPanel.KyoPanel[dataTable_mb.Rows.Count];
+            for (int i = 0; i < kyoPanels_mb.Length; i++)
+            {
+                kyoPanels_mb[i] = new CreateKyoPanel.KyoPanel
+                {
+                    Name = dataTable_mb.Rows[i]["bm_id"].ToString(),
+                    Text = dataTable_mb.Rows[i]["bm_name"].ToString(),
+                    HasNext = false
+                };
+            }
+            list.AddRange(kyoPanels_mb);
+            Panel parentPanel_mb = pal_LeftMenu.Controls.Find("MB_MANAGER", false)[0] as Panel;
+            CreateKyoPanel.SetSubPanel(parentPanel_mb, list, Sub_Menu_Click_mb);
+        }
+
+        //模板管理---二级菜单点击事件  
+        private void Sub_Menu_Click_mb(object sender, EventArgs e)
+        {
+            Control control = null;
+            if (sender is Panel)
+                control = sender as Control;
+            else
+                control = (sender as Control).Parent;
+
+            if (!string.IsNullOrEmpty(control.Name))
+            {
+                string id = control.Name;
+                string sql = $"select bm_code from background_management where bm_id = '{id}'";
+                string code = (string)SqlHelper.ExecuteOnlyOneQuery(sql);
+
+                if (!string.IsNullOrEmpty(code))
+                {
+                    if ("confirm_letter".Equals(code))//接收确认函
+                    {
+                        Manager.Frm_template frm_Template = new Manager.Frm_template();
+                        frm_Template.MdiParent = this;
+                        frm_Template.Show();
+                    }
+                    else if ("rush_orders".Equals(code))//催报单
+                    {
+                        //Frm_userInfo frm = new Frm_userInfo(control.Name);
+                        //frm.MdiParent = this;
+                        //frm.Show();
+                    }
+                }
+            }
         }
 
         //用户管理---二级菜单点击事件  
