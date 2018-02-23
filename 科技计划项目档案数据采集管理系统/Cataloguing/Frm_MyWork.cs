@@ -14,6 +14,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private WorkType workType;
         private object trpId;
+        public object planCode;
         /// <summary>
         /// 开始加工指定的对象
         /// </summary>
@@ -704,6 +705,7 @@ namespace 科技计划项目档案数据采集管理系统
                         ResetControls(ControlType.Plan_Project);
                         pal_JH_XM.Tag = dgv_JH_FileList.Tag;
                         txt_JH_XM_Type.Text = lbl_JH_Name.Text;
+                        txt_JH_XM_Code.Text = DateTime.Now.Year + GetValue(planCode);
                         InitialDrowDownList(ControlType.Plan_Project);
                     }
                     else if(index == 2)//父级 - 课题
@@ -712,6 +714,7 @@ namespace 科技计划项目档案数据采集管理系统
                         ResetControls(ControlType.Plan_Topic);
                         pal_JH_KT.Tag = dgv_JH_FileList.Tag;
                         txt_JH_KT_Type.Text = lbl_JH_Name.Text;
+                        txt_JH_XM_Code.Text = DateTime.Now.Year + GetValue(planCode);
                         InitialDrowDownList(ControlType.Plan_Topic);
                     }
                 }
@@ -739,6 +742,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ResetControls(ControlType.Plan_Project_Topic);
                     pal_JH_XM_KT.Tag = dgv_JH_XM_FileList.Tag;
                     txt_JH_XM_KT_Type.Text = lbl_JH_Name.Text;
+                    txt_JH_XM_KT_Code.Text = txt_JH_XM_Code.Text;
                     InitialDrowDownList(ControlType.Plan_Project_Topic);
                 }
             }
@@ -765,6 +769,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ResetControls(ControlType.Plan_Project_Topic_Subtopic);
                     pal_JH_XM_KT_ZKT.Tag = dgv_JH_XM_KT_FileList.Tag;
                     txt_JH_XM_KT_ZKT_Type.Text = lbl_JH_Name.Text;
+                    txt_JH_XM_KT_ZKT_Code.Text = txt_JH_XM_KT_Code.Text;
                     InitialDrowDownList(ControlType.Plan_Project_Topic_Subtopic);
                 }
             }
@@ -791,6 +796,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ResetControls(ControlType.Plan_Topic_Subtopic);
                     pal_JH_KT_ZKT.Tag = dgv_JH_KT_FileList.Tag;
                     txt_JH_KT_ZKT_Type.Text = lbl_JH_Name.Text;
+                    txt_JH_KT_ZKT_Code.Text = txt_JH_KT_Code.Text;
                     InitialDrowDownList(ControlType.Plan_Topic_Subtopic);
                 }
             }
@@ -1728,10 +1734,9 @@ namespace 科技计划项目档案数据采集管理系统
             string primaryKey = Guid.NewGuid().ToString();
             if(type == ControlType.Plan)
             {
-                object code = lbl_JH_Name.Text;
                 object name = lbl_JH_Name.Text;
                 SqlHelper.ExecuteNonQuery($"INSERT INTO project_info(pi_id,pi_code,pi_name,pi_obj_id,pi_categor,pi_submit_status,pi_worker_id)" +
-                            $" VALUES('{primaryKey}','{code}','{name}','{parentId}','{(int)ControlType.Plan}','{(int)ObjectSubmitStatus.NonSubmit}','{UserHelper.GetInstance().User.UserKey}')");
+                            $" VALUES('{primaryKey}','{planCode}','{name}','{parentId}','{(int)ControlType.Plan}','{(int)ObjectSubmitStatus.NonSubmit}','{UserHelper.GetInstance().User.UserKey}')");
             }
             else if(type == ControlType.Plan_Project)
             {
@@ -4044,7 +4049,6 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         private void LoadPageBasicInfo(object projectId, ControlType type)
         {
-            //InitialDrowDownList(type);
             if(type == ControlType.Plan_Project)
             {
                 DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM project_info WHERE pi_id='{projectId}'");

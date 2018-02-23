@@ -597,7 +597,11 @@ namespace 科技计划项目档案数据采集管理系统
                             if(planId == null)
                                 new Frm_ProTypeSelect(WorkType.CDWork, objId).ShowDialog();
                             else
-                                new Frm_MyWork(WorkType.CDWork, planId, objId, ControlType.Default).ShowDialog();
+                            {
+                                Frm_MyWork frm = new Frm_MyWork(WorkType.CDWork, planId, objId, ControlType.Default);
+                                frm.planCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_code FROM project_info WHERE pi_id='{planId}'"));
+                                frm.ShowDialog();
+                            }
                         }
                     }
                     else if(typeValue.Contains("纸本"))

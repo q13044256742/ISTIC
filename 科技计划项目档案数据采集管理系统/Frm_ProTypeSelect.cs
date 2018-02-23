@@ -43,6 +43,7 @@ namespace 科技计划项目档案数据采集管理系统
             else
             {
                 Frm_MyWork frm = new Frm_MyWork(workType, cbo_TypeSelect.SelectedValue, objId, ControlType.Default);
+                frm.planCode = obj;
                 frm.ShowDialog();
             }
         }
