@@ -274,7 +274,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(type == ControlType.Plan_Project)
             {
                 DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                    "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_source')");
+                    "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_work')");
                 cbo_JH_XM_Unit.DataSource = dataTable;
                 cbo_JH_XM_Unit.DisplayMember = "dd_name";
                 cbo_JH_XM_Unit.ValueMember = "dd_id";
@@ -288,7 +288,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if(type == ControlType.Plan_Topic)
             {
                 DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_source')");
+                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_work')");
                 cbo_JH_KT_Unit.DataSource = dataTable;
                 cbo_JH_KT_Unit.DisplayMember = "dd_name";
                 cbo_JH_KT_Unit.ValueMember = "dd_id";
@@ -302,7 +302,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if(type == ControlType.Plan_Project_Topic)
             {
                 DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_source')");
+                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_work')");
                 cbo_JH_XM_KT_Unit.DataSource = dataTable;
                 cbo_JH_XM_KT_Unit.DisplayMember = "dd_name";
                 cbo_JH_XM_KT_Unit.ValueMember = "dd_id";
@@ -316,7 +316,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
                 DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_source')");
+                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_work')");
                 cbo_JH_XM_KT_ZKT_Unit.DataSource = dataTable;
                 cbo_JH_XM_KT_ZKT_Unit.DisplayMember = "dd_name";
                 cbo_JH_XM_KT_ZKT_Unit.ValueMember = "dd_id";
@@ -330,7 +330,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if(type == ControlType.Plan_Topic_Subtopic)
             {
                 DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_source')");
+                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_work')");
                 cbo_JH_KT_ZKT_Unit.DataSource = dataTable;
                 cbo_JH_KT_ZKT_Unit.DisplayMember = "dd_name";
                 cbo_JH_KT_ZKT_Unit.ValueMember = "dd_id";
@@ -4044,6 +4044,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         private void LoadPageBasicInfo(object projectId, ControlType type)
         {
+            //InitialDrowDownList(type);
             if(type == ControlType.Plan_Project)
             {
                 DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM project_info WHERE pi_id='{projectId}'");

@@ -37,9 +37,9 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadData(string unitCode)
         {
             //加载批次信息
-            StringBuilder querySql = new StringBuilder("SELECT * FROM transfer_registration_pc pc,company_source cs");
+            StringBuilder querySql = new StringBuilder("SELECT * FROM transfer_registration_pc pc,data_dictionary dd");
             querySql.Append(" WHERE pc.trp_id = '" + unitCode + "'");
-            querySql.Append(" AND pc.com_id = cs.cs_id");
+            querySql.Append(" AND pc.com_id = dd.dd_id");
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
             LoadCompanySource();
             if (dataTable.Rows.Count > 0)
@@ -97,11 +97,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LoadCompanySource()
         {
-            string querySql = "SELECT cs_id,cs_name FROM company_source ORDER BY sorting ASC";
-            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            DataTable table = SqlHelper.GetCompanyList();
             cbo_SourceUnit.DataSource = table;
-            cbo_SourceUnit.DisplayMember = "cs_name";
-            cbo_SourceUnit.ValueMember = "cs_id";
+            cbo_SourceUnit.DisplayMember = "dd_name";
+            cbo_SourceUnit.ValueMember = "dd_id";
         }
 
         /// <summary>
@@ -111,7 +110,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string querySql = null;
             //自动生成批次编号
-            object csid = SqlHelper.ExecuteOnlyOneQuery("SELECT CS_ID FROM company_source WHERE cs_code = '" + unitCode + "'");
+            object csid = SqlHelper.ExecuteOnlyOneQuery("SELECT dd_id FROM data_dictionary WHERE dd_code = '" + unitCode + "'");
             if (csid == null)
                 cbo_SourceUnit.SelectedIndex = 0;
             else
@@ -307,8 +306,6 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
-
-
         /// <summary>
         /// 来源单位变化时，批次编号同步变化
         /// </summary>
@@ -317,11 +314,14 @@ namespace 科技计划项目档案数据采集管理系统
             string unitId = cbo_SourceUnit.SelectedValue == null ? string.Empty : cbo_SourceUnit.SelectedValue.ToString();
             if (!string.IsNullOrEmpty(unitId))
             {
-                string unitCode = SqlHelper.ExecuteOnlyOneQuery("SELECT cs_code FROM company_source WHERE cs_id='" + unitId + "'").ToString();
+                string unitCode = GetValue(SqlHelper.ExecuteOnlyOneQuery("SELECT dd_code FROM data_dictionary WHERE dd_id='" + unitId + "'"));
                 CreateBatchCode(unitCode);
             }
         }
-
+        private string GetValue(object v)
+        {
+            return v == null ? string.Empty : v.ToString();
+        }
         private void dgv_CDlist_RowLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1 && e.ColumnIndex != -1)
@@ -329,7 +329,6 @@ namespace 科技计划项目档案数据采集管理系统
                 //暂时搁置
             }
         }
-
         /// <summary>
         /// 将Object对象转换成String形式
         /// </summary>

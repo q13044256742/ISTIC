@@ -37,15 +37,14 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LoadCompanyList()
         {
-            string querySql = "SELECT cs_id,cs_name FROM company_source ORDER BY sorting ASC";
-            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            DataTable table = SqlHelper.GetCompanyList();
             DataRow dataRow = table.NewRow();
-            dataRow["cs_id"] = "all";
-            dataRow["cs_name"] = "全部来源单位";
+            dataRow["dd_id"] = "all";
+            dataRow["dd_name"] = "全部来源单位";
             table.Rows.InsertAt(dataRow, 0);
             cbo_CompanyList.DataSource = table;
-            cbo_CompanyList.DisplayMember = "cs_name";
-            cbo_CompanyList.ValueMember = "cs_id";
+            cbo_CompanyList.DisplayMember = "dd_name";
+            cbo_CompanyList.ValueMember = "dd_id";
             cbo_CompanyList.SelectedIndex = 0;
         }
 
@@ -62,16 +61,16 @@ namespace 科技计划项目档案数据采集管理系统
             if(querySql == null)
             {
                 //加载实物登记数据【默认加载状态为2（已提交）的数据】
-                querySql = new StringBuilder("SELECT pc.trp_id, cs_name, trp_name, trp_code, trp_cd_amount");
-                querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN company_source cs ON pc.com_id = cs.cs_id");
+                querySql = new StringBuilder("SELECT pc.trp_id, dd_name, trp_name, trp_code, trp_cd_amount");
+                querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN data_dictionary dd ON pc.com_id = dd.dd_id");
                 querySql.Append($" WHERE trp_submit_status={(int)SubmitStatus.SubmitSuccess} AND trp_work_status={(int)WorkStatus.NonWork}");
                 if(csid != null)
-                    querySql.Append($" AND cs.cs_id='{csid}'");
+                    querySql.Append($" AND dd.dd_id='{csid}'");
             }
             dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
             //将数据源转化成DataGridView表数据
             dgv_WorkLog.Columns.Add("trp_id", "主键");
-            dgv_WorkLog.Columns.Add("cs_name", "来源单位");
+            dgv_WorkLog.Columns.Add("dd_name", "来源单位");
             dgv_WorkLog.Columns.Add("trp_name", "批次名称");
             dgv_WorkLog.Columns.Add("trp_code", "批次编号");
             dgv_WorkLog.Columns.Add("trp_finishtime", "完成时间");
@@ -82,7 +81,7 @@ namespace 科技计划项目档案数据采集管理系统
                 DataRow row = dataTable.Rows[i];
                 int index = dgv_WorkLog.Rows.Add();
                 dgv_WorkLog.Rows[index].Cells["trp_id"].Value = row["trp_id"];
-                dgv_WorkLog.Rows[index].Cells["cs_name"].Value = row["cs_name"];
+                dgv_WorkLog.Rows[index].Cells["dd_name"].Value = row["dd_name"];
                 dgv_WorkLog.Rows[index].Cells["trp_name"].Value = row["trp_name"];
                 dgv_WorkLog.Rows[index].Cells["trp_code"].Value = row["trp_code"];
                 dgv_WorkLog.Rows[index].Cells["trp_finishtime"].Value = null;//完成时间字段待定
@@ -90,7 +89,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_WorkLog.Rows[index].Cells["trp_control"].Value = "加工";
             }
             //设置最小列宽
-            dgv_WorkLog.Columns["cs_name"].MinimumWidth = 200;
+            dgv_WorkLog.Columns["dd_name"].MinimumWidth = 200;
             dgv_WorkLog.Columns["trp_name"].MinimumWidth = 250;
             dgv_WorkLog.Columns["trp_cd_amount"].MinimumWidth = 90;
             dgv_WorkLog.Columns["trp_control"].MinimumWidth = 100;
@@ -293,10 +292,10 @@ namespace 科技计划项目档案数据采集管理系统
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_WorkLog);
             string querySql = $" SELECT wr_id, wr_type,wr_obj_id FROM work_registration wr LEFT JOIN(" +
-                $"SELECT trp_id, cs_id FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id) tb ON wr.trp_id = tb.trp_id " +
+                $"SELECT trp_id, dd_id FROM transfer_registration_pc LEFT JOIN data_dictionary ON com_id = dd_id) tb ON wr.trp_id = tb.trp_id " +
                 $"WHERE wr_status = {(int)workStatus} AND wr_submit_status={(int)ObjectSubmitStatus.NonSubmit} AND wr_source_id='{UserHelper.GetInstance().User.UserKey}'";
             if(unitId != null)
-                querySql += $" AND cs_id='{unitId}'";
+                querySql += $" AND dd_id='{unitId}'";
             List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 3);
             List<object[]> resultList = new List<object[]>();
             for(int i = 0; i < list.Count; i++)
@@ -307,27 +306,27 @@ namespace 科技计划项目档案数据采集管理系统
                 switch(type)
                 {
                     case WorkType.PaperWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',trp_code,trp_name,cs_code,cs_name,'纸本加工' FROM transfer_registration_pc LEFT JOIN " +
-                            $"company_source ON com_id = cs_id WHERE trp_id='{id}'";
+                        _querySql = $"SELECT '{list[i][0]}','{id}',trp_code,trp_name,dd_code,dd_name,'纸本加工' FROM transfer_registration_pc LEFT JOIN " +
+                            $"data_dictionary ON com_id = dd_id WHERE trp_id='{id}'";
                         break;
                     case WorkType.CDWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',trc_code,trc_name,cs_code,cs_name,'光盘加工' FROM transfer_registraion_cd trc LEFT JOIN(" +
-                            $"SELECT trp_id, cs_code, cs_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',trc_code,trc_name,dd_code,dd_name,'光盘加工' FROM transfer_registraion_cd trc LEFT JOIN(" +
+                            $"SELECT trp_id, dd_code, dd_name FROM transfer_registration_pc LEFT JOIN data_dictionary ON com_id = dd_id ) tb1 " +
                             $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{id}'";
                         break;
                     case WorkType.ProjectWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',pi_code,pi_name,cs_code,cs_name,'项目/课题加工' FROM project_info pi " +
-                            $"LEFT JOIN(SELECT trc_id, cs_code, cs_name FROM transfer_registraion_cd trc " +
-                            $"LEFT JOIN(SELECT trp_id, cs_code, cs_name FROM transfer_registration_pc trp " +
-                            $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',pi_code,pi_name,dd_code,dd_name,'项目/课题加工' FROM project_info pi " +
+                            $"LEFT JOIN(SELECT trc_id, dd_code, dd_name FROM transfer_registraion_cd trc " +
+                            $"LEFT JOIN(SELECT trp_id, dd_code, dd_name FROM transfer_registration_pc trp " +
+                            $"LEFT JOIN data_dictionary ON dd_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                             $"WHERE pi_id=(SELECT pi_obj_id FROM project_info WHERE pi_id='{id}')";
                         break;
                     case WorkType.SubjectWork:
-                        _querySql = $"SELECT '{list[i][0]}','{id}',si_code,si_name,cs_code,cs_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
-                           $"SELECT pi_id,cs_name FROM project_info pi " +
-                           $"LEFT JOIN(SELECT trc_id, cs_code, cs_name FROM transfer_registraion_cd trc " +
-                           $"LEFT JOIN(SELECT trp_id, cs_code, cs_name FROM transfer_registration_pc trp " +
-                           $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
+                        _querySql = $"SELECT '{list[i][0]}','{id}',si_code,si_name,dd_code,dd_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
+                           $"SELECT pi_id,dd_name FROM project_info pi " +
+                           $"LEFT JOIN(SELECT trc_id, dd_code, dd_name FROM transfer_registraion_cd trc " +
+                           $"LEFT JOIN(SELECT trp_id, dd_code, dd_name FROM transfer_registration_pc trp " +
+                           $"LEFT JOIN data_dictionary ON dd_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                            $") tb3 ON tb3.pi_id = si.pi_id WHERE si.si_id='{id}'";
                         break;
                     default:
@@ -342,7 +341,7 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_WorkLog.Columns.Add("id", "主键");
             dgv_WorkLog.Columns.Add("code", "编号");
             dgv_WorkLog.Columns.Add("name", "名称");
-            dgv_WorkLog.Columns.Add("cs_name", "来源单位");
+            dgv_WorkLog.Columns.Add("dd_name", "来源单位");
             dgv_WorkLog.Columns.Add("type", "加工类型");
             dgv_WorkLog.Columns.Add("edit", "操作");
             dgv_WorkLog.Columns.Add("submit", "提交");
@@ -353,8 +352,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_WorkLog.Rows[index].Cells["id"].Value = resultList[i][1];
                 dgv_WorkLog.Rows[index].Cells["code"].Value = resultList[i][2];
                 dgv_WorkLog.Rows[index].Cells["name"].Value = resultList[i][3];
-                dgv_WorkLog.Rows[index].Cells["cs_name"].Tag = resultList[i][4];
-                dgv_WorkLog.Rows[index].Cells["cs_name"].Value = resultList[i][5];
+                dgv_WorkLog.Rows[index].Cells["dd_name"].Tag = resultList[i][4];
+                dgv_WorkLog.Rows[index].Cells["dd_name"].Value = resultList[i][5];
                 dgv_WorkLog.Rows[index].Cells["type"].Value = resultList[i][6];
                 dgv_WorkLog.Rows[index].Cells["edit"].Value = "编辑";
                 dgv_WorkLog.Rows[index].Cells["submit"].Value = "提交质检";
@@ -851,7 +850,7 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewStyleHelper.ResetDataGridView(dgv_WorkLog);
 
             dgv_WorkLog.Columns.Add("trc_id", "主键");
-            dgv_WorkLog.Columns.Add("cs_name", "来源单位");
+            dgv_WorkLog.Columns.Add("dd_name", "来源单位");
             dgv_WorkLog.Columns.Add("trc_code", "光盘编号");
             dgv_WorkLog.Columns.Add("trc_name", "光盘名称");
             dgv_WorkLog.Columns.Add("trc_total_amount", "总数");
@@ -877,13 +876,13 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewStyleHelper.SetTreeViewHeader(dgv_WorkLog, tv);
 
             DataTable table = null;
-            StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_status");
+            StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_status");
             querySql.Append(" FROM transfer_registraion_cd trc");
             querySql.Append(" LEFT JOIN(");
-            querySql.Append(" SELECT trp.trp_id, cs_name,sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
+            querySql.Append(" SELECT trp.trp_id, dd_name, dd_sort FROM transfer_registration_pc trp, data_dictionary dd WHERE trp.com_id = dd.dd_id ) tb");
             querySql.Append(" ON trc.trp_id = tb.trp_id");
             querySql.Append($" WHERE trc.trp_id='{trpId}' AND trc.trc_complete_status={(int)WorkStatus.NonWork}");
-            querySql.Append(" ORDER BY sorting ASC, trc_code ASC");
+            querySql.Append(" ORDER BY dd_sort ASC, trc_code ASC");
             table = SqlHelper.ExecuteQuery(querySql.ToString());
             foreach (DataRow row in table.Rows)
             {
@@ -893,7 +892,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     int _index = dgv_WorkLog.Rows.Add();
                     dgv_WorkLog.Rows[_index].Cells["trc_id"].Value = row["trc_id"];
-                    dgv_WorkLog.Rows[_index].Cells["cs_name"].Value = row["cs_name"];
+                    dgv_WorkLog.Rows[_index].Cells["dd_name"].Value = row["dd_name"];
                     dgv_WorkLog.Rows[_index].Cells["trc_code"].Value = row["trc_code"];
                     dgv_WorkLog.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
                     dgv_WorkLog.Rows[_index].Cells["trc_total_amount"].Value = totalAmount;

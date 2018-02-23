@@ -168,9 +168,16 @@ namespace 科技计划项目档案数据采集管理系统
         public static string GetCompanysNameById(object companyId)
         {
             object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_name FROM data_dictionary WHERE dd_id='{companyId}'");
-            if(obj != null)
-                return obj.ToString();
-            return string.Empty;
+            return obj == null ? string.Empty : obj.ToString();
+        }
+        /// <summary>
+        /// 获取来源单位列表
+        /// </summary>
+        public static DataTable GetCompanyList()
+        {
+            string key = "dic_key_company_source";
+            string querySql = $"SELECT * FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary WHERE dd_code='{key}')";
+            return ExecuteQuery(querySql);
         }
     }
 }
