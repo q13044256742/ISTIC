@@ -15,6 +15,7 @@ namespace 科技计划项目档案数据采集管理系统
         private WorkType workType;
         private object trpId;
         public object planCode;
+        public object unitCode;
         /// <summary>
         /// 开始加工指定的对象
         /// </summary>
@@ -2545,6 +2546,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         else
                         {
+                            txt_JH_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
                             txt_JH_AJ_Name.Text = lbl_JH_Name.Text;
                             txt_JH_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_JH_AJ_User.Text = UserHelper.GetInstance().User.RealName;
@@ -2589,6 +2591,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         else
                         {
+                            txt_JH_XM_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
                             txt_JH_XM_AJ_Name.Text = txt_JH_XM_Name.Text;
                             txt_JH_XM_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_JH_XM_AJ_User.Text = UserHelper.GetInstance().User.RealName;
@@ -2633,6 +2636,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         else
                         {
+                            txt_JH_KT_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
                             txt_JH_KT_AJ_Name.Text = txt_JH_KT_Name.Text;
                             txt_JH_KT_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_JH_KT_AJ_User.Text = UserHelper.GetInstance().User.RealName;
@@ -2677,6 +2681,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         else
                         {
+                            txt_JH_XM_KT_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
                             txt_JH_XM_KT_AJ_Name.Text = txt_JH_XM_KT_Name.Text;
                             txt_JH_XM_KT_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_JH_XM_KT_AJ_User.Text = UserHelper.GetInstance().User.RealName;
@@ -2721,6 +2726,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         else
                         {
+                            txt_JH_XM_KT_ZKT_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
                             txt_JH_XM_KT_ZKT_AJ_Name.Text = txt_JH_XM_KT_ZKT_Name.Text;
                             txt_JH_XM_KT_ZKT_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_JH_XM_KT_ZKT_AJ_User.Text = UserHelper.GetInstance().User.RealName;
@@ -2765,6 +2771,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         else
                         {
+                            txt_JH_KT_ZKT_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
                             txt_JH_KT_ZKT_AJ_Name.Text = txt_JH_KT_ZKT_Name.Text;
                             txt_JH_KT_ZKT_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_JH_KT_ZKT_AJ_User.Text = UserHelper.GetInstance().User.RealName;
@@ -2809,6 +2816,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         else
                         {
+                            txt_Imp_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
                             txt_Imp_AJ_Name.Text = lbl_Imp_Name.Text;
                             txt_Imp_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_Imp_AJ_User.Text = UserHelper.GetInstance().User.RealName;
@@ -2853,6 +2861,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         else
                         {
+                            txt_Imp_Dev_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
                             txt_Imp_Dev_AJ_Name.Text = txt_Imp_Dev_Name.Text;
                             txt_Imp_Dev_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_Imp_Dev_AJ_User.Text = UserHelper.GetInstance().User.RealName;
@@ -2867,6 +2876,16 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
+        /// <summary>
+        /// 获取当前计划下案卷总数
+        /// </summary>
+        /// <param name="planCode">计划编号</param>
+        private object GetAJAmount(object planCode)
+        {
+            int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pt_id) FROM processing_tag WHERE pt_code='{planCode}'"));
+            return (amount + 1).ToString().PadLeft(6, '0');
+        }
+
         /// <summary>
         /// 获取最高密级
         /// </summary>
@@ -3922,7 +3941,10 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_JH_Box.DisplayMember = "pb_box_number";
                 cbo_JH_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
+                {
                     cbo_JH_Box.SelectedIndex = 0;
+                    txt_JH_Box_GCID.Text = $"{unitCode}{GetGCAmount(unitCode)}";
+                }
             }
             else if(type == ControlType.Plan_Project)
             {
@@ -3981,6 +4003,13 @@ namespace 科技计划项目档案数据采集管理系统
                     cbo_Imp_Dev_Box.SelectedIndex = 0;
             }
         }
+
+        private object GetGCAmount(object unitCode)
+        {
+            int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_id) FROM processing_box WHERE pb_unit_id='{unitCode}'"));
+            return (amount + 1).ToString().PadLeft(6, '0');
+        }
+
         /// <summary>
         /// 案卷盒切换事件
         /// </summary>
