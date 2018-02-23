@@ -32,6 +32,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Btn_save_temp = new System.Windows.Forms.Button();
             this.Btn_edit_temp = new System.Windows.Forms.Button();
+            this.temp_richTextBox = new System.Windows.Forms.RichTextBox();
+            this.列表.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,6 +42,7 @@
             this.列表.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.列表.Controls.Add(this.temp_richTextBox);
             this.列表.Location = new System.Drawing.Point(12, 69);
             this.列表.Name = "列表";
             this.列表.Size = new System.Drawing.Size(977, 414);
@@ -81,6 +84,14 @@
             this.Btn_edit_temp.Text = "编辑";
             this.Btn_edit_temp.UseVisualStyleBackColor = true;
             // 
+            // temp_richTextBox
+            // 
+            this.temp_richTextBox.Location = new System.Drawing.Point(30, 38);
+            this.temp_richTextBox.Name = "temp_richTextBox";
+            this.temp_richTextBox.Size = new System.Drawing.Size(903, 307);
+            this.temp_richTextBox.TabIndex = 0;
+            this.temp_richTextBox.Text = "";
+            // 
             // Frm_template
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -92,6 +103,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "模板管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.列表.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -103,5 +115,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button Btn_save_temp;
         private System.Windows.Forms.Button Btn_edit_temp;
+        private System.Windows.Forms.RichTextBox temp_richTextBox;
     }
 }

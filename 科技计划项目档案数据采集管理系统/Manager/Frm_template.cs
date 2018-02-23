@@ -14,6 +14,14 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         public Frm_template()
         {
             InitializeComponent();
+            LoadDataScoure();
+        }
+
+        private void LoadDataScoure()
+        {
+            string sql = $"";
+            //temp_richTextBox.DataSource = SqlHelper.ExecuteQuery(sql);
+           
         }
     }
 }
