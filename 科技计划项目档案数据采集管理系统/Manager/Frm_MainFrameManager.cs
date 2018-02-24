@@ -150,25 +150,29 @@ namespace 科技计划项目档案数据采集管理系统
 
             if (!string.IsNullOrEmpty(control.Name))
             {
-                string id = control.Name;
-                string sql = $"select bm_code from background_management where bm_id = '{id}'";
-                string code = (string)SqlHelper.ExecuteOnlyOneQuery(sql);
+                //string id = control.Name;
+                //string sql = $"select bm_code from background_management where bm_id = '{id}'";
+                //string code = (string)SqlHelper.ExecuteOnlyOneQuery(sql);
 
-                if (!string.IsNullOrEmpty(code))
-                {
-                    if ("confirm_letter".Equals(code))//接收确认函
-                    {
-                        Manager.Frm_template frm_Template = new Manager.Frm_template();
-                        frm_Template.MdiParent = this;
-                        frm_Template.Show();
-                    }
-                    else if ("rush_orders".Equals(code))//催报单
-                    {
-                        //Frm_userInfo frm = new Frm_userInfo(control.Name);
-                        //frm.MdiParent = this;
-                        //frm.Show();
-                    }
-                }
+                //if (!string.IsNullOrEmpty(code))
+                //{
+                //    if ("confirm_letter".Equals(code))//接收确认函
+                //    {
+                //        Manager.Frm_template frm_Template = new Manager.Frm_template(control.Name);
+                //        frm_Template.MdiParent = this;
+                //        frm_Template.Show();
+                //    }
+                //    else if ("rush_orders".Equals(code))//催报单
+                //    {
+                //        //Frm_userInfo frm = new Frm_userInfo(control.Name);
+                //        //frm.MdiParent = this;
+                //        //frm.Show();
+                //    }
+                //}
+
+                Manager.Frm_template frm_Template = new Manager.Frm_template(control.Name);
+                frm_Template.MdiParent = this;
+                frm_Template.Show();
             }
         }
 
