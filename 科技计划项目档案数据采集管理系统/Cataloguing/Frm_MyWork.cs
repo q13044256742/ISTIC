@@ -2882,7 +2882,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="planCode">计划编号</param>
         private object GetAJAmount(object planCode)
         {
-            int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pt_id) FROM processing_tag WHERE pt_code='{planCode}'"));
+            int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pt_id) FROM processing_tag WHERE pt_code LIKE '{planCode}%'"));
             return (amount + 1).ToString().PadLeft(6, '0');
         }
 
@@ -3036,8 +3036,13 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 querySql = $"SELECT pfl_id, dd_name, pfl_filename, pfl_complete_date FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
                 string[] ids = GetValue(id).Split(',');
+                string sortString = null;
                 for(int i = 0; i < ids.Length; i++)
+                {
                     querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
+                    sortString += $"{ids[i]}{(i == ids.Length - 1 ? string.Empty : ",")}";
+                }
+                querySql += $" ORDER BY CHARINDEX(pfl_id,'{sortString}')";
                 DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
                 for(int i = 0; i < _dataTable.Rows.Count; i++)
                 {
@@ -4654,7 +4659,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_XM_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_XM_File2, false);
-                SaveListSort(lsv_JH_XM_File2, cbo_JH_Box.SelectedValue);
+                SaveListSort(lsv_JH_XM_File2, cbo_JH_XM_Box.SelectedValue);
             }
             //计划-项目-课题
             if(nameValue.Contains("btn_JH_XM_KT_Box"))
@@ -4663,7 +4668,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_XM_KT_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_XM_KT_File2, false);
-                SaveListSort(lsv_JH_XM_KT_File2, cbo_JH_Box.SelectedValue);
+                SaveListSort(lsv_JH_XM_KT_File2, cbo_JH_XM_KT_Box.SelectedValue);
             }
             //计划-项目-课题-子课题
             if(nameValue.Contains("btn_JH_XM_KT_ZKT_Box"))
@@ -4672,7 +4677,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_XM_KT_ZKT_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_XM_KT_ZKT_File2, false);
-                SaveListSort(lsv_JH_XM_KT_ZKT_File2, cbo_JH_Box.SelectedValue);
+                SaveListSort(lsv_JH_XM_KT_ZKT_File2, cbo_JH_XM_KT_ZKT_Box.SelectedValue);
             }
             //计划-课题
             if(nameValue.Contains("btn_JH_KT_Box"))
@@ -4681,7 +4686,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_KT_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_KT_File2, false);
-                SaveListSort(lsv_JH_KT_File2, cbo_JH_Box.SelectedValue);
+                SaveListSort(lsv_JH_KT_File2, cbo_JH_KT_Box.SelectedValue);
             }
             //计划-课题-子课题
             if(nameValue.Contains("btn_JH_KT_ZKT_Box"))
@@ -4690,7 +4695,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_KT_ZKT_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_KT_ZKT_File2, false);
-                SaveListSort(lsv_JH_KT_ZKT_File2, cbo_JH_Box.SelectedValue);
+                SaveListSort(lsv_JH_KT_ZKT_File2, cbo_JH_KT_ZKT_Box.SelectedValue);
             }
             //重大专项
             if(nameValue.Contains("btn_Imp_Box"))
@@ -4699,7 +4704,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_Imp_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_Imp_File2, false);
-                SaveListSort(lsv_Imp_File2, cbo_JH_Box.SelectedValue);
+                SaveListSort(lsv_Imp_File2, cbo_Imp_Box.SelectedValue);
             }
             //重大专项-信息
             if(nameValue.Contains("btn_Imp_Dev_Box"))
@@ -4708,7 +4713,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_Imp_Dev_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_Imp_Dev_File2, false);
-                SaveListSort(lsv_Imp_Dev_File2, cbo_JH_Box.SelectedValue);
+                SaveListSort(lsv_Imp_Dev_File2, cbo_Imp_Dev_Box.SelectedValue);
             }
         }
         /// <summary>
