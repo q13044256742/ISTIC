@@ -3031,7 +3031,7 @@ namespace 科技计划项目档案数据采集管理系统
                 });
             }
             //已归档
-            object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}'");
+            object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}'");
             if(id != null)
             {
                 querySql = $"SELECT pfl_id, dd_name, pfl_filename, pfl_complete_date FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
@@ -3068,7 +3068,6 @@ namespace 科技计划项目档案数据采集管理系统
                 _formatDate = Convert.ToDateTime(value).ToString(format);
             return _formatDate;
         }
-
         /// <summary>
         /// 将object对象转换成string
         /// </summary>
