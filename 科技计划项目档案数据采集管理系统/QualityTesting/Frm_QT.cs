@@ -190,12 +190,12 @@ namespace 科技计划项目档案数据采集管理系统
         }
         /// <summary>
         /// 根据加工登记主键获取对应项目/课题信息
-        /// 0:wr_id 1:wr_type 2:wr_obj_id 3:code 4:name 5:cs_name
+        /// 0:wr_id 1:wr_type 2:wr_obj_id 3:code 4:name 5:dd_name
         /// </summary>
         private static List<DataTable> GetObjectListById(object objid)
         {
             string querySql = $" SELECT wr_id, wr_type,wr_obj_id FROM work_registration wr LEFT JOIN(" +
-                            $"SELECT trp_id, cs_id FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id) tb " +
+                            $"SELECT trp_id, dd_id FROM transfer_registration_pc LEFT JOIN data_dictionary ON com_id = dd_id) tb " +
                             $"ON wr.trp_id = tb.trp_id WHERE wr_submit_status={(int)ObjectSubmitStatus.SubmitSuccess}";
             if(objid != null)
                 querySql += $" AND wr_id='{objid}'";
@@ -210,27 +210,27 @@ namespace 科技计划项目档案数据采集管理系统
                 switch(type)
                 {
                     case WorkType.PaperWork:
-                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',trp_code,trp_name,cs_name FROM transfer_registration_pc LEFT JOIN " +
-                            $"company_source ON com_id = cs_id WHERE trp_id='{list[i][2]}'";
+                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',trp_code,trp_name,dd_name FROM transfer_registration_pc LEFT JOIN " +
+                            $"data_dictionary ON com_id = dd_id WHERE trp_id='{list[i][2]}'";
                         break;
                     case WorkType.CDWork:
-                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',trc_code,trc_name,cs_name FROM transfer_registraion_cd trc LEFT JOIN(" +
-                            $"SELECT trp_id, cs_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
+                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',trc_code,trc_name,dd_name FROM transfer_registraion_cd trc LEFT JOIN(" +
+                            $"SELECT trp_id, dd_name FROM transfer_registration_pc LEFT JOIN data_dictionary ON com_id = dd_id ) tb1 " +
                             $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{list[i][2]}'";
                         break;
                     case WorkType.ProjectWork:
-                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',pi_code,pi_name,cs_name FROM project_info pi " +
-                            $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
-                            $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
-                            $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
+                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',pi_code,pi_name,dd_name FROM project_info pi " +
+                            $"LEFT JOIN(SELECT trc_id, dd_name FROM transfer_registraion_cd trc " +
+                            $"LEFT JOIN(SELECT trp_id, dd_name FROM transfer_registration_pc trp " +
+                            $"LEFT JOIN data_dictionary ON dd_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                             $"WHERE pi_id='{list[i][2]}'";
                         break;
                     case WorkType.SubjectWork:
-                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',si_code,si_name,cs_name FROM subject_info si LEFT JOIN(" +
-                           $"SELECT pi_id,cs_name FROM project_info pi " +
-                           $"LEFT JOIN(SELECT trc_id, cs_name FROM transfer_registraion_cd trc " +
-                           $"LEFT JOIN(SELECT trp_id, cs_name FROM transfer_registration_pc trp " +
-                           $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
+                        _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',si_code,si_name,dd_name FROM subject_info si LEFT JOIN(" +
+                           $"SELECT pi_id,dd_name FROM project_info pi " +
+                           $"LEFT JOIN(SELECT trc_id, dd_name FROM transfer_registraion_cd trc " +
+                           $"LEFT JOIN(SELECT trp_id, dd_name FROM transfer_registration_pc trp " +
+                           $"LEFT JOIN data_dictionary ON dd_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                            $") tb3 ON tb3.pi_id = si.pi_id WHERE si.si_id='{list[i][2]}'";
                         break;
                     default:

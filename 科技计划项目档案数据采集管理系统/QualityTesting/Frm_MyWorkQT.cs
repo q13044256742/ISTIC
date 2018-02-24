@@ -80,6 +80,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dataGridView.Rows[index].Cells[key + "id"].Value = i + 1;
                 dataGridView.Rows[index].Cells[key + "id"].Tag = dataTable.Rows[i]["pfl_id"];
                 dataGridView.Rows[index].Cells[key + "stage"].Value = dataTable.Rows[i]["pfl_stage"];
+                SetCategorByStage(dataTable.Rows[i]["pfl_stage"], dataGridView.Rows[index], key);
                 dataGridView.Rows[index].Cells[key + "categor"].Value = dataTable.Rows[i]["pfl_categor"];
                 dataGridView.Rows[index].Cells[key + "name"].Value = dataTable.Rows[i]["pfl_filename"];
                 dataGridView.Rows[index].Cells[key + "user"].Value = dataTable.Rows[i]["pfl_user"];
@@ -87,7 +88,9 @@ namespace 科技计划项目档案数据采集管理系统
                 dataGridView.Rows[index].Cells[key + "secret"].Value = dataTable.Rows[i]["pfl_scert"];
                 dataGridView.Rows[index].Cells[key + "page"].Value = dataTable.Rows[i]["pfl_page_amount"];
                 dataGridView.Rows[index].Cells[key + "amount"].Value = dataTable.Rows[i]["pfl_amount"];
-                dataGridView.Rows[index].Cells[key + "date"].Value = dataTable.Rows[i]["pfl_complete_date"];
+                object _date = dataTable.Rows[i]["pfl_complete_date"];
+                if(_date != null)
+                    dataGridView.Rows[index].Cells[key + "date"].Value = Convert.ToDateTime(_date).ToString("yyyyMMdd");
                 dataGridView.Rows[index].Cells[key + "unit"].Value = dataTable.Rows[i]["pfl_save_location"];
                 dataGridView.Rows[index].Cells[key + "carrier"].Value = dataTable.Rows[i]["pfl_carrier"];
                 dataGridView.Rows[index].Cells[key + "format"].Value = dataTable.Rows[i]["pfl_file_format"];
@@ -265,72 +268,56 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void InitialDrowDownList(ControlType type)
         {
+            DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
+                "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_work')");
+            DataTable _dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
+                "SELECT dd_id FROM data_dictionary where dd_code = 'dic_xzqy_province')");
             if(type == ControlType.Plan_Project)
             {
-                DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                    "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_source')");
                 cbo_JH_XM_Unit.DataSource = dataTable;
                 cbo_JH_XM_Unit.DisplayMember = "dd_name";
                 cbo_JH_XM_Unit.ValueMember = "dd_id";
 
-                DataTable _dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                    "SELECT dd_id FROM data_dictionary where dd_code = 'dic_xzqy_province')");
                 cbo_JH_XM_Province.DataSource = _dataTable;
                 cbo_JH_XM_Province.DisplayMember = "dd_name";
                 cbo_JH_XM_Province.ValueMember = "dd_id";
             }
             else if(type == ControlType.Plan_Topic)
             {
-                DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_source')");
                 cbo_JH_KT_Unit.DataSource = dataTable;
                 cbo_JH_KT_Unit.DisplayMember = "dd_name";
                 cbo_JH_KT_Unit.ValueMember = "dd_id";
 
-                DataTable _dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                   "SELECT dd_id FROM data_dictionary where dd_code = 'dic_xzqy_province')");
                 cbo_JH_KT_Province.DataSource = _dataTable;
                 cbo_JH_KT_Province.DisplayMember = "dd_name";
                 cbo_JH_KT_Province.ValueMember = "dd_id";
             }
             else if(type == ControlType.Plan_Project_Topic)
             {
-                DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_source')");
                 cbo_JH_XM_KT_Unit.DataSource = dataTable;
                 cbo_JH_XM_KT_Unit.DisplayMember = "dd_name";
                 cbo_JH_XM_KT_Unit.ValueMember = "dd_id";
 
-                DataTable _dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                   "SELECT dd_id FROM data_dictionary where dd_code = 'dic_xzqy_province')");
                 cbo_JH_XM_Province.DataSource = _dataTable;
                 cbo_JH_XM_Province.DisplayMember = "dd_name";
                 cbo_JH_XM_Province.ValueMember = "dd_id";
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
-                DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_source')");
                 cbo_JH_XM_KT_ZKT_Unit.DataSource = dataTable;
                 cbo_JH_XM_KT_ZKT_Unit.DisplayMember = "dd_name";
                 cbo_JH_XM_KT_ZKT_Unit.ValueMember = "dd_id";
 
-                DataTable _dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                  "SELECT dd_id FROM data_dictionary where dd_code = 'dic_xzqy_province')");
                 cbo_JH_XM_KT_ZKT_Province.DataSource = _dataTable;
                 cbo_JH_XM_KT_ZKT_Province.DisplayMember = "dd_name";
                 cbo_JH_XM_KT_ZKT_Province.ValueMember = "dd_id";
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
             {
-                DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                     "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_source')");
                 cbo_JH_KT_ZKT_Unit.DataSource = dataTable;
                 cbo_JH_KT_ZKT_Unit.DisplayMember = "dd_name";
                 cbo_JH_KT_ZKT_Unit.ValueMember = "dd_id";
 
-                DataTable _dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                 "SELECT dd_id FROM data_dictionary where dd_code = 'dic_xzqy_province')");
                 cbo_JH_KT_ZKT_Province.DataSource = _dataTable;
                 cbo_JH_KT_ZKT_Province.DisplayMember = "dd_name";
                 cbo_JH_KT_ZKT_Province.ValueMember = "dd_id";
@@ -389,7 +376,6 @@ namespace 科技计划项目档案数据采集管理系统
         private void InitialCategorList(DataGridView dataGridView, string key)
         {
             for(int i = 0; i < dataGridView.Rows.Count; i++)
-            //if(dataGridView.Rows[i].Cells[key + "id"].Value != null)
             {
                 DataGridViewComboBoxCell satgeCell = (DataGridViewComboBoxCell)dataGridView.Rows[i].Cells[key + "stage"];
                 object stageId = satgeCell.Value;
@@ -418,7 +404,7 @@ namespace 科技计划项目档案数据采集管理系统
             //文件类别
             DataGridViewComboBoxCell categorCell = dataGridViewRow.Cells[key + "categor"] as DataGridViewComboBoxCell;
 
-            string querySql = $"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_pId='{jdId}'";
+            string querySql = $"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_pId='{jdId}' ORDER BY dd_sort";
             categorCell.DataSource = SqlHelper.ExecuteQuery(querySql);
             categorCell.DisplayMember = "dd_name";
             categorCell.ValueMember = "dd_id";
@@ -2682,445 +2668,116 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         private void LoadFileBoxTable(object pbId, object objId, ControlType type)
         {
+            string GCID = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'"));
             if(type == ControlType.Plan)
             {
-                lsv_JH_File1.Items.Clear();
-                lsv_JH_File1.Columns.Clear();
-                lsv_JH_File2.Items.Clear();
-                lsv_JH_File2.Columns.Clear();
-
-                lsv_JH_File1.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_file1_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_file1_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_file1_name", Text = "文件名称" }
-                });
-                lsv_JH_File2.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_file2_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_file2_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_file2_name", Text = "文件名称" }
-                });
-
-                //未归档
-                string querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary " +
-                    $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
-                DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-                for(int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    ListViewItem item = lsv_JH_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
-
-                }
-                //已归档
-                object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}'");
-                if(id != null)
-                {
-                    querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
-                    string[] ids = GetValue(id).Split(',');
-                    for(int i = 0; i < ids.Length; i++)
-                        querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
-                    DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
-                    for(int i = 0; i < _dataTable.Rows.Count; i++)
-                    {
-                        ListViewItem item = lsv_JH_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
-
-                    }
-                }
-                lsv_JH_File2.Columns["jh_file2_id"].Width = lsv_JH_File1.Columns["jh_file1_id"].Width = 0;
-                lsv_JH_File2.Columns["jh_file2_type"].Width = lsv_JH_File1.Columns["jh_file1_type"].Width = 100;
-                lsv_JH_File2.Columns["jh_file2_name"].Width = lsv_JH_File1.Columns["jh_file1_name"].Width = 200;
+                txt_JH_Box_GCID.Text = GCID;
+                LoadFileBoxTableInstance(lsv_JH_File1, lsv_JH_File2, "jh", pbId, objId);
             }
             else if(type == ControlType.Plan_Project)
             {
-                if(pbId != null && !string.IsNullOrEmpty(txt_JH_XM_Code.Text))
-                {
-                    string _gcd = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{pbId}'").ToString().PadLeft(3, '0');
-                    txt_JH_XM_Box_GCID.Text = txt_JH_XM_Code.Text + _gcd;
-                }
-                lsv_JH_XM_File1.Items.Clear();
-                lsv_JH_XM_File1.Columns.Clear();
-                lsv_JH_XM_File2.Items.Clear();
-                lsv_JH_XM_File2.Columns.Clear();
-
-                lsv_JH_XM_File1.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_xm_file1_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_xm_file1_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_xm_file1_name", Text = "文件名称" }
-                });
-                lsv_JH_XM_File2.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_xm_file2_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_xm_file2_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_xm_file2_name", Text = "文件名称" }
-                });
-
-                //未归档
-                string querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary " +
-                    $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
-                DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-                for(int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    ListViewItem item = lsv_JH_XM_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
-
-                }
-                //已归档
-                object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}'");
-                if(id != null)
-                {
-                    querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
-                    string[] ids = GetValue(id).Split(',');
-                    for(int i = 0; i < ids.Length; i++)
-                        querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
-                    DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
-                    for(int i = 0; i < _dataTable.Rows.Count; i++)
-                    {
-                        ListViewItem item = lsv_JH_XM_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
-                    }
-                }
-                lsv_JH_XM_File2.Columns["jh_xm_file2_id"].Width = lsv_JH_XM_File1.Columns["jh_xm_file1_id"].Width = 0;
-                lsv_JH_XM_File2.Columns["jh_xm_file2_type"].Width = lsv_JH_XM_File1.Columns["jh_xm_file1_type"].Width = 100;
-                lsv_JH_XM_File2.Columns["jh_xm_file2_name"].Width = lsv_JH_XM_File1.Columns["jh_xm_file1_name"].Width = 200;
+                txt_JH_XM_Box_GCID.Text = GCID;
+                LoadFileBoxTableInstance(lsv_JH_XM_File1, lsv_JH_XM_File2, "jh_xm", pbId, objId);
             }
             else if(type == ControlType.Plan_Topic)
             {
-                if(pbId != null && !string.IsNullOrEmpty(txt_JH_KT_Code.Text))
-                {
-                    string _gcd = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{pbId}'").ToString().PadLeft(3, '0');
-                    txt_JH_KT_Box_GCID.Text = txt_JH_KT_Code.Text + _gcd;
-                }
-                lsv_JH_KT_File1.Items.Clear();
-                lsv_JH_KT_File1.Columns.Clear();
-                lsv_JH_KT_File2.Items.Clear();
-                lsv_JH_KT_File2.Columns.Clear();
-
-                lsv_JH_KT_File1.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_kt_file1_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_kt_file1_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_kt_file1_name", Text = "文件名称" }
-                });
-                lsv_JH_KT_File2.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_kt_file2_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_kt_file2_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_kt_file2_name", Text = "文件名称" }
-                });
-
-                //未归档
-                string querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary " +
-                    $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
-                DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-                for(int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    ListViewItem item = lsv_JH_KT_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
-
-                }
-                //已归档
-                object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}'");
-                if(id != null)
-                {
-                    querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
-                    string[] ids = GetValue(id).Split(',');
-                    for(int i = 0; i < ids.Length; i++)
-                        querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
-                    DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
-                    for(int i = 0; i < _dataTable.Rows.Count; i++)
-                    {
-                        ListViewItem item = lsv_JH_KT_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
-
-                    }
-                }
-                lsv_JH_KT_File2.Columns["jh_kt_file2_id"].Width = lsv_JH_KT_File1.Columns["jh_kt_file1_id"].Width = 0;
-                lsv_JH_KT_File2.Columns["jh_kt_file2_type"].Width = lsv_JH_KT_File1.Columns["jh_kt_file1_type"].Width = 100;
-                lsv_JH_KT_File2.Columns["jh_kt_file2_name"].Width = lsv_JH_KT_File1.Columns["jh_kt_file1_name"].Width = 200;
+                txt_JH_KT_Box_GCID.Text = GCID;
+                LoadFileBoxTableInstance(lsv_JH_KT_File1, lsv_JH_KT_File2, "jh_kt", pbId, objId);
             }
             else if(type == ControlType.Plan_Project_Topic)
             {
-                if(pbId != null && !string.IsNullOrEmpty(txt_JH_XM_KT_Code.Text))
-                {
-                    string _gcd = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{pbId}'").ToString().PadLeft(3, '0');
-                    txt_JH_XM_KT_Box_GCID.Text = txt_JH_XM_KT_Code.Text + _gcd;
-                }
-                lsv_JH_XM_KT_File1.Items.Clear();
-                lsv_JH_XM_KT_File1.Columns.Clear();
-                lsv_JH_XM_KT_File2.Items.Clear();
-                lsv_JH_XM_KT_File2.Columns.Clear();
-
-                lsv_JH_XM_KT_File1.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_xm_kt_file1_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_xm_kt_file1_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_xm_kt_file1_name", Text = "文件名称" }
-                });
-                lsv_JH_XM_KT_File2.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_xm_kt_file2_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_xm_kt_file2_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_xm_kt_file2_name", Text = "文件名称" }
-                });
-
-                //未归档
-                string querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary " +
-                    $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
-                DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-                for(int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    ListViewItem item = lsv_JH_XM_KT_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
-
-                }
-                //已归档
-                object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}'");
-                if(id != null)
-                {
-                    querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
-                    string[] ids = GetValue(id).Split(',');
-                    for(int i = 0; i < ids.Length; i++)
-                        querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
-                    DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
-                    for(int i = 0; i < _dataTable.Rows.Count; i++)
-                    {
-                        ListViewItem item = lsv_JH_XM_KT_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
-                    }
-                }
-                lsv_JH_XM_KT_File2.Columns["jh_xm_kt_file2_id"].Width = lsv_JH_XM_KT_File1.Columns["jh_xm_kt_file1_id"].Width = 0;
-                lsv_JH_XM_KT_File2.Columns["jh_xm_kt_file2_type"].Width = lsv_JH_XM_KT_File1.Columns["jh_xm_kt_file1_type"].Width = 100;
-                lsv_JH_XM_KT_File2.Columns["jh_xm_kt_file2_name"].Width = lsv_JH_XM_KT_File1.Columns["jh_xm_kt_file1_name"].Width = 200;
+                txt_JH_XM_KT_Box_GCID.Text = GCID;
+                LoadFileBoxTableInstance(lsv_JH_XM_KT_File1, lsv_JH_XM_KT_File2, "jh_xm_kt", pbId, objId);
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
             {
-                if(pbId != null && !string.IsNullOrEmpty(txt_JH_KT_ZKT_Code.Text))
-                {
-                    string _gcd = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{pbId}'").ToString().PadLeft(3, '0');
-                    txt_JH_KT_ZKT_Box_GCID.Text = txt_JH_KT_ZKT_Code.Text + _gcd;
-                }
-                lsv_JH_KT_ZKT_File1.Items.Clear();
-                lsv_JH_KT_ZKT_File1.Columns.Clear();
-                lsv_JH_KT_ZKT_File2.Items.Clear();
-                lsv_JH_KT_ZKT_File2.Columns.Clear();
-
-                lsv_JH_KT_ZKT_File1.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_kt_zkt_file1_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_kt_zkt_file1_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_kt_zkt_file1_name", Text = "文件名称" }
-                });
-                lsv_JH_KT_ZKT_File2.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_kt_zkt_file2_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_kt_zkt_file2_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_kt_zkt_file2_name", Text = "文件名称" }
-                });
-
-                //未归档
-                string querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary " +
-                    $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
-                DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-                for(int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    ListViewItem item = lsv_JH_KT_ZKT_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
-
-                }
-                //已归档
-                object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}'");
-                if(id != null)
-                {
-                    querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
-                    string[] ids = GetValue(id).Split(',');
-                    for(int i = 0; i < ids.Length; i++)
-                        querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
-                    DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
-                    for(int i = 0; i < _dataTable.Rows.Count; i++)
-                    {
-                        ListViewItem item = lsv_JH_KT_ZKT_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
-                    }
-                }
-                lsv_JH_KT_ZKT_File2.Columns[0].Width = lsv_JH_KT_ZKT_File1.Columns[0].Width = 0;
-                lsv_JH_KT_ZKT_File2.Columns[1].Width = lsv_JH_KT_ZKT_File1.Columns[1].Width = 100;
-                lsv_JH_KT_ZKT_File2.Columns[2].Width = lsv_JH_KT_ZKT_File1.Columns[2].Width = 200;
+                txt_JH_KT_ZKT_Box_GCID.Text = GCID;
+                LoadFileBoxTableInstance(lsv_JH_KT_ZKT_File1, lsv_JH_KT_ZKT_File2, "jh_kt_zkt", pbId, objId);
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
-                if(pbId != null && !string.IsNullOrEmpty(txt_JH_XM_KT_ZKT_Code.Text))
-                {
-                    string _gcd = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{pbId}'").ToString().PadLeft(3, '0');
-                    txt_JH_XM_KT_ZKT_Box_GCID.Text = txt_JH_XM_KT_ZKT_Code.Text + _gcd;
-                }
-                lsv_JH_XM_KT_ZKT_File1.Items.Clear();
-                lsv_JH_XM_KT_ZKT_File1.Columns.Clear();
-                lsv_JH_XM_KT_ZKT_File2.Items.Clear();
-                lsv_JH_XM_KT_ZKT_File2.Columns.Clear();
-
-                lsv_JH_XM_KT_ZKT_File1.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file1_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file1_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file1_name", Text = "文件名称" }
-                });
-                lsv_JH_XM_KT_ZKT_File2.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file2_id", Text = "主键" },
-                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file2_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "jh_xm_kt_zkt_file2_name", Text = "文件名称" }
-                });
-
-                //未归档
-                string querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary " +
-                    $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
-                DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-                for(int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    ListViewItem item = lsv_JH_XM_KT_ZKT_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
-                }
-                //已归档
-                object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}'");
-                if(id != null)
-                {
-                    querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
-                    string[] ids = GetValue(id).Split(',');
-                    for(int i = 0; i < ids.Length; i++)
-                        querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
-                    DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
-                    for(int i = 0; i < _dataTable.Rows.Count; i++)
-                    {
-                        ListViewItem item = lsv_JH_XM_KT_ZKT_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
-                    }
-                }
-                lsv_JH_XM_KT_ZKT_File2.Columns[0].Width = lsv_JH_XM_KT_ZKT_File1.Columns[0].Width = 0;
-                lsv_JH_XM_KT_ZKT_File2.Columns[1].Width = lsv_JH_XM_KT_ZKT_File1.Columns[1].Width = 100;
-                lsv_JH_XM_KT_ZKT_File2.Columns[2].Width = lsv_JH_XM_KT_ZKT_File1.Columns[2].Width = 200;
+                txt_JH_XM_KT_ZKT_Box_GCID.Text = GCID;
+                LoadFileBoxTableInstance(lsv_JH_XM_KT_ZKT_File1, lsv_JH_XM_KT_ZKT_File2, "jh_xm_kt_zkt", pbId, objId);
             }
             else if(type == ControlType.Imp)
             {
-                lsv_Imp_File1.Items.Clear();
-                lsv_Imp_File1.Columns.Clear();
-                lsv_Imp_File2.Items.Clear();
-                lsv_Imp_File2.Columns.Clear();
-
-                lsv_Imp_File1.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "imp_file1_id", Text = "主键" },
-                    new ColumnHeader{ Name = "imp_file1_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "imp_file1_name", Text = "文件名称" }
-                });
-                lsv_Imp_File2.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "imp_file2_id", Text = "主键" },
-                    new ColumnHeader{ Name = "imp_file2_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "imp_file2_name", Text = "文件名称" }
-                });
-
-                //未归档
-                string querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary " +
-                    $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
-                DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-                for(int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    ListViewItem item = lsv_Imp_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
-                }
-                //已归档
-                object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}'");
-                if(id != null)
-                {
-                    querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
-                    string[] ids = GetValue(id).Split(',');
-                    for(int i = 0; i < ids.Length; i++)
-                        querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
-                    DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
-                    for(int i = 0; i < _dataTable.Rows.Count; i++)
-                    {
-                        ListViewItem item = lsv_Imp_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
-                    }
-                }
-                lsv_Imp_File2.Columns[0].Width = lsv_Imp_File1.Columns[0].Width = 0;
-                lsv_Imp_File2.Columns[1].Width = lsv_Imp_File1.Columns[1].Width = 100;
-                lsv_Imp_File2.Columns[2].Width = lsv_Imp_File1.Columns[2].Width = 200;
+                txt_Imp_Box_GCID.Text = GCID;
+                LoadFileBoxTableInstance(lsv_Imp_File1, lsv_Imp_File2, "imp", pbId, objId);
             }
             else if(type == ControlType.Imp_Dev)
             {
-                if(pbId != null && !string.IsNullOrEmpty(txt_Imp_Dev_Code.Text))
-                {
-                    string _gcd = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{pbId}'").ToString().PadLeft(3, '0');
-                    txt_Imp_Dev_Box_GCID.Text = txt_Imp_Dev_Code.Text + _gcd;
-                }
-
-                lsv_Imp_Dev_File1.Items.Clear();
-                lsv_Imp_Dev_File1.Columns.Clear();
-                lsv_Imp_Dev_File2.Items.Clear();
-                lsv_Imp_Dev_File2.Columns.Clear();
-
-                lsv_Imp_Dev_File1.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "imp_dev_file1_id", Text = "主键" },
-                    new ColumnHeader{ Name = "imp_dev_file1_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "imp_dev_file1_name", Text = "文件名称" }
-                });
-                lsv_Imp_Dev_File2.Columns.AddRange(new ColumnHeader[]
-                {
-                    new ColumnHeader{ Name = "imp_dev_file2_id", Text = "主键" },
-                    new ColumnHeader{ Name = "imp_dev_file2_type", Text = "文件类别" },
-                    new ColumnHeader{ Name = "imp_dev_file2_name", Text = "文件名称" }
-                });
-
-                //未归档
-                string querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary " +
-                    $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang}";
-                DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-                for(int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    ListViewItem item = lsv_Imp_Dev_File1.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["dd_name"]));
-                    item.SubItems.Add(GetValue(dataTable.Rows[i]["pfl_filename"]));
-                }
-                //已归档
-                object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}' AND pb_obj_id = '{objId}'");
-                if(id != null)
-                {
-                    querySql = $"SELECT pfl_id,dd_name,pfl_filename FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
-                    string[] ids = GetValue(id).Split(',');
-                    for(int i = 0; i < ids.Length; i++)
-                        querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
-                    DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
-                    for(int i = 0; i < _dataTable.Rows.Count; i++)
-                    {
-                        ListViewItem item = lsv_Imp_Dev_File2.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["dd_name"]));
-                        item.SubItems.Add(GetValue(_dataTable.Rows[i]["pfl_filename"]));
-                    }
-                }
-                lsv_Imp_Dev_File2.Columns[0].Width = lsv_Imp_Dev_File1.Columns[0].Width = 0;
-                lsv_Imp_Dev_File2.Columns[1].Width = lsv_Imp_Dev_File1.Columns[1].Width = 100;
-                lsv_Imp_Dev_File2.Columns[2].Width = lsv_Imp_Dev_File1.Columns[2].Width = 200;
+                txt_Imp_Dev_Box_GCID.Text = GCID;
+                LoadFileBoxTableInstance(lsv_Imp_Dev_File1, lsv_Imp_Dev_File2, "imp_dev", pbId, objId);
             }
+        }
+        /// <summary>
+        /// 加载案卷盒归档表
+        /// </summary>
+        /// <param name="leftView">待归档列表</param>
+        /// <param name="rightView">已归档列表</param>
+        /// <param name="key">关键字</param>
+        /// <param name="pbId">盒ID</param>
+        /// <param name="objId">所属对象ID</param>
+        private void LoadFileBoxTableInstance(ListView leftView, ListView rightView, string key, object pbId, object objId)
+        {
+            leftView.Items.Clear();
+            leftView.Columns.Clear();
+            rightView.Items.Clear();
+            rightView.Columns.Clear();
 
+            leftView.Columns.AddRange(new ColumnHeader[]
+            {
+                    new ColumnHeader{ Name = $"{key}_file1_id", Text = "主键", Width = 0},
+                    new ColumnHeader{ Name = $"{key}_file1_type", Text = "文件类别", TextAlign = HorizontalAlignment.Center ,Width = 75},
+                    new ColumnHeader{ Name = $"{key}_file1_name", Text = "文件名称", Width = 250},
+                    new ColumnHeader{ Name = $"{key}_file1_date", Text = "形成日期", Width = 100}
+            });
+            rightView.Columns.AddRange(new ColumnHeader[]
+            {
+                    new ColumnHeader{ Name = $"{key}_file2_id", Text = "主键", Width = 0},
+                    new ColumnHeader{ Name = $"{key}_file2_type", Text = "文件类别", TextAlign = HorizontalAlignment.Center ,Width = 75},
+                    new ColumnHeader{ Name = $"{key}_file2_name", Text = "文件名称", Width = 250},
+                    new ColumnHeader{ Name = $"{key}_file2_date", Text = "形成日期", Width = 100}
+            });
+            //未归档
+            string querySql = $"SELECT pfl_id, dd_name, pfl_filename, pfl_complete_date FROM processing_file_list LEFT JOIN data_dictionary " +
+                $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang} ORDER BY pfl_complete_date";
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
+            for(int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                ListViewItem item = leftView.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
+                item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
+                {
+                        new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["dd_name"]) },
+                        new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["pfl_filename"]) },
+                        new ListViewItem.ListViewSubItem(){ Text = GetDateValue(dataTable.Rows[i]["pfl_complete_date"], "yyyy-MM-dd") },
+                });
+            }
+            //已归档
+            object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}'");
+            if(id != null)
+            {
+                querySql = $"SELECT pfl_id, dd_name, pfl_filename, pfl_complete_date FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
+                string[] ids = GetValue(id).Split(',');
+                string sortString = null;
+                for(int i = 0; i < ids.Length; i++)
+                {
+                    querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
+                    sortString += $"{ids[i]}{(i == ids.Length - 1 ? string.Empty : ",")}";
+                }
+                querySql += $" ORDER BY CHARINDEX(pfl_id,'{sortString}')";
+                DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
+                for(int i = 0; i < _dataTable.Rows.Count; i++)
+                {
+                    ListViewItem item = rightView.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
+                    item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
+                    {
+                        new ListViewItem.ListViewSubItem(){ Text = GetValue(_dataTable.Rows[i]["dd_name"]) },
+                        new ListViewItem.ListViewSubItem(){ Text = GetValue(_dataTable.Rows[i]["pfl_filename"]) },
+                        new ListViewItem.ListViewSubItem(){ Text = GetDateValue(_dataTable.Rows[i]["pfl_complete_date"], "yyyy-MM-dd") },
+                    });
+                }
+            }
         }
         /// <summary>
         /// 将object对象转换成string
@@ -3130,6 +2787,18 @@ namespace 科技计划项目档案数据采集管理系统
         private string GetValue(object obj)
         {
             return obj == null ? string.Empty : obj.ToString();
+        }
+        /// <summary>
+        /// 将指定文本转换成指定日期格式
+        /// </summary>
+        /// <param name="date">待转换的日期对象</param>
+        /// <param name="format">转换格式</param>
+        private string GetDateValue(object date, string format)
+        {
+            string _formatDate = null, value = GetValue(date);
+            if(!string.IsNullOrEmpty(value))
+                _formatDate = Convert.ToDateTime(value).ToString(format);
+            return _formatDate;
         }
         /// <summary>
         /// 案卷归档事件
@@ -4120,11 +3789,48 @@ namespace 科技计划项目档案数据采集管理系统
         private void Tab_MenuList_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = tab_MenuList.SelectedIndex;
-            if (index != -1) {
+            if(index != -1)
+            {
                 string currentPageName = tab_MenuList.TabPages[index].Name;
                 if("plan".Equals(currentPageName))
                 {
-                    
+                    dgv_JH_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                    dgv_JH_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                }
+                else if("plan_project".Equals(currentPageName))
+                {
+                    dgv_JH_XM_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                    dgv_JH_XM_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                }
+                else if("plan_project_topic".Equals(currentPageName))
+                {
+                    dgv_JH_XM_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                    dgv_JH_XM_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                }
+                else if("plan_project_topic_subtopic".Equals(currentPageName))
+                {
+                    dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                    dgv_JH_XM_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                }
+                else if("plan_topic_subtopic".Equals(currentPageName))
+                {
+                    dgv_JH_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                    dgv_JH_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                }
+                else if("plan_topic".Equals(currentPageName))
+                {
+                    dgv_JH_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                    dgv_JH_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                }
+                else if("imp".Equals(currentPageName))
+                {
+                    dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                    dgv_Imp_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                }
+                else if("imp_dev".Equals(currentPageName))
+                {
+                    dgv_Imp_Dev_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                    dgv_Imp_Dev_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
                 }
             }
         }
