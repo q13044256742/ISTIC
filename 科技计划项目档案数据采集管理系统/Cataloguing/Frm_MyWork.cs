@@ -4645,6 +4645,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_File2, false);
+                SaveListSort(lsv_JH_File2, cbo_JH_Box.SelectedValue);
             }
             //计划-项目
             if(nameValue.Contains("btn_JH_XM_Box"))
@@ -4653,6 +4654,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_XM_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_XM_File2, false);
+                SaveListSort(lsv_JH_XM_File2, cbo_JH_Box.SelectedValue);
             }
             //计划-项目-课题
             if(nameValue.Contains("btn_JH_XM_KT_Box"))
@@ -4661,6 +4663,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_XM_KT_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_XM_KT_File2, false);
+                SaveListSort(lsv_JH_XM_KT_File2, cbo_JH_Box.SelectedValue);
             }
             //计划-项目-课题-子课题
             if(nameValue.Contains("btn_JH_XM_KT_ZKT_Box"))
@@ -4669,6 +4672,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_XM_KT_ZKT_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_XM_KT_ZKT_File2, false);
+                SaveListSort(lsv_JH_XM_KT_ZKT_File2, cbo_JH_Box.SelectedValue);
             }
             //计划-课题
             if(nameValue.Contains("btn_JH_KT_Box"))
@@ -4677,6 +4681,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_KT_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_KT_File2, false);
+                SaveListSort(lsv_JH_KT_File2, cbo_JH_Box.SelectedValue);
             }
             //计划-课题-子课题
             if(nameValue.Contains("btn_JH_KT_ZKT_Box"))
@@ -4685,6 +4690,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_JH_KT_ZKT_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_KT_ZKT_File2, false);
+                SaveListSort(lsv_JH_KT_ZKT_File2, cbo_JH_Box.SelectedValue);
             }
             //重大专项
             if(nameValue.Contains("btn_Imp_Box"))
@@ -4693,6 +4699,7 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_Imp_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_Imp_File2, false);
+                SaveListSort(lsv_Imp_File2, cbo_JH_Box.SelectedValue);
             }
             //重大专项-信息
             if(nameValue.Contains("btn_Imp_Dev_Box"))
@@ -4701,8 +4708,21 @@ namespace 科技计划项目档案数据采集管理系统
                     MoveListViewItem(lsv_Imp_Dev_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_Imp_Dev_File2, false);
+                SaveListSort(lsv_Imp_Dev_File2, cbo_JH_Box.SelectedValue);
             }
         }
+        /// <summary>
+        /// 保存新的顺序
+        /// </summary>
+        private void SaveListSort(ListView listView, object pbid)
+        {
+            StringBuilder builder = new StringBuilder();
+            for(int i = 0; i < listView.Items.Count; i++)
+                builder.Append(listView.Items[i].SubItems[0].Text + ",");
+            string ids = builder.Remove(builder.Length - 1, 1).ToString();
+            SqlHelper.ExecuteNonQuery($"UPDATE processing_box SET pb_files_id='{ids}' WHERE pb_id='{pbid}'");
+        }
+
         /// <summary>
         /// 上下移动已归档列表中的项
         /// </summary>
