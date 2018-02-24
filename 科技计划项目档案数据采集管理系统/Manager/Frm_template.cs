@@ -30,6 +30,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             {
                 temp_title.Text = GetValue(_obj[0]);
                 temp_content.Text = GetValue(_obj[1]);
+               
             }
         }
      
@@ -48,9 +49,9 @@ namespace 科技计划项目档案数据采集管理系统.Manager
 
                 //保存基本信息
                 string t_Id = Guid.NewGuid().ToString();
-                string title = temp_title.Text.Trim();                         
-                string content = temp_content.Text.Trim();  
-          
+                string title = temp_title.Text.Trim();
+                string content = temp_content.Text.Trim();               
+
                 //新增信息                                        
                 string querySql = $"insert into temp " +
                     $"(t_id,t_title,t_content,mb_manager_id)" +
