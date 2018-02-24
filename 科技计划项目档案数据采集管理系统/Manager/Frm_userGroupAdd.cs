@@ -39,11 +39,11 @@ namespace 科技计划项目档案数据采集管理系统.Manager
               $" from user_group where ug_id = '{id}'";
             object[] _obj = SqlHelper.ExecuteRowsQuery(sql);
 
-            if (_obj != null)
+            if (!string.IsNullOrEmpty(GetValue(_obj)))
             {
-                ug_name.Text = _obj[0].ToString();             
-                ug_note.Text = _obj[1].ToString();
-                ug_sort.Text = _obj[2].ToString();
+                ug_name.Text = GetValue(_obj[0]);             
+                ug_note.Text = GetValue(_obj[1]);
+                ug_sort.Text = GetValue(_obj[2]);
 
                 ug_name.Tag = id;
             }      
