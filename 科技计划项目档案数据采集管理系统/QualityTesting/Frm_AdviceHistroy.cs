@@ -4,32 +4,31 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_AdviceBW : Form
+    public partial class Frm_AdviceHistroy : DevExpress.XtraEditors.XtraForm
     {
         /// <summary>
         /// 当前对象所属ID
         /// </summary>
         private object objId;
-        public Frm_AdviceBW(object objId, object objName)
+        public Frm_AdviceHistroy(object objId, object objName)
         {
             this.objId = objId;
             InitializeComponent();
             lbl_ObjName.Text = GetValue(objName);
         }
         /// <summary>
-        /// 加载当前意见
+        /// 加载历史意见
         /// </summary>
         private void Frm_Advice_Load(object sender, EventArgs e)
         {
-            string querySql = $"SELECT a.qa_type, a.qa_advice FROM quality_advices a WHERE qa_time = " +
-                $"(SELECT MAX(qa_time) FROM quality_advices WHERE qa_type = a.qa_type) " +
-                $"WHERE qa_obj_id='{objId}' ORDER BY a.qa_type";
-            List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 2);
+            string querySql = $"SELECT qa_type, qa_advice, qa_time FROM quality_advices WHERE qa_obj_id='{objId}' ORDER BY qa_type, qa_time";
+            List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 3);
             for(int i = 0; i < list.Count; i++)
             {
                 int index = dgv_BW.Rows.Add();
                 dgv_BW.Rows[index].Cells[0].Value = GetTypeValue(list[i][0]);
                 dgv_BW.Rows[index].Cells[1].Value = list[i][1];
+                dgv_BW.Rows[index].Cells[2].Value = list[i][2];
             }
         }
         /// <summary>

@@ -136,6 +136,12 @@
     <Compile Include="Manager\Frm_userInfoAdd.Designer.cs">
       <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
     </Compile>
+    <Compile Include="QualityTesting\Frm_AdviceHistroy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QualityTesting\Frm_AdviceHistroy.Designer.cs">
+      <DependentUpon>Frm_AdviceHistroy.cs</DependentUpon>
+    </Compile>
     <Compile Include="QualityTesting\Frm_AdviceBW.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -271,6 +277,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_userInfoAdd.resx">
       <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QualityTesting\Frm_AdviceHistroy.resx">
+      <DependentUpon>Frm_AdviceHistroy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="QualityTesting\Frm_AdviceBW.resx">
       <DependentUpon>Frm_AdviceBW.cs</DependentUpon>

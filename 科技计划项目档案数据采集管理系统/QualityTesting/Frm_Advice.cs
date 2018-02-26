@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_Advice : Form
+    public partial class Frm_Advice : DevExpress.XtraEditors.XtraForm
     {
         /// <summary>
         /// 当前对象所属ID
@@ -63,19 +63,10 @@ namespace 科技计划项目档案数据采集管理系统
             if(index != -1)
             {
                 object advice = txt_Advice.Text;
-                object qaid = lbl_ObjName.Tag;
-                if(qaid == null)
-                {
-                    string primaryKey = Guid.NewGuid().ToString();
-                    string insertSql = $"INSERT INTO quality_advices VALUES('{primaryKey}','{UserHelper.GetInstance().User.UserKey}','{DateTime.Now}','{objId}','{advice}',{index})";
-                    SqlHelper.ExecuteNonQuery(insertSql);
-                    lbl_ObjName.Tag = primaryKey;
-                }
-                else
-                {
-                    string updateSql = $"UPDATE quality_advices SET qa_user='{UserHelper.GetInstance().User.UserKey}',qa_time='{DateTime.Now}',qa_advice='{advice}' WHERE qa_id='{qaid}'";
-                    SqlHelper.ExecuteNonQuery(updateSql);
-                }
+                string primaryKey = Guid.NewGuid().ToString();
+                string insertSql = $"INSERT INTO quality_advices VALUES('{primaryKey}','{UserHelper.GetInstance().User.UserKey}','{DateTime.Now}','{objId}','{advice}',{index})";
+                SqlHelper.ExecuteNonQuery(insertSql);
+                lbl_ObjName.Tag = primaryKey;
                 btn_Delete.Enabled = true;
                 MessageBox.Show("保存成功。");
             }
@@ -116,8 +107,16 @@ namespace 科技计划项目档案数据采集管理系统
         /// </returns>
         private object[] GetAdvice(object id, int type)
         {
-            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT qa_id, qa_advice FROM quality_advices WHERE qa_obj_id='{id}' AND qa_user='{UserHelper.GetInstance().User.UserKey}' AND qa_type={type}");
+            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT qa_id, qa_advice FROM quality_advices WHERE qa_obj_id='{id}' AND qa_user='{UserHelper.GetInstance().User.UserKey}' AND qa_type={type} ORDER BY qa_time DESC");
             return _obj ?? null;
+        }
+        /// <summary>
+        /// 历史意见
+        /// </summary>
+        private void Btn_HistroyOpinion_Click(object sender, EventArgs e)
+        {
+            Frm_AdviceHistroy frm = new Frm_AdviceHistroy(objId, lbl_ObjName.Text);
+            frm.ShowDialog();
         }
     }
 }

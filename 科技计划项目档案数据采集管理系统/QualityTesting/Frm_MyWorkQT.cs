@@ -582,64 +582,80 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = dgv_JH_FileList.Tag;
                 string name = lbl_JH_Name.Text;
                 int index = tab_JH_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
-                frm.ShowDialog();
+                if(isBackWork)
+                    new Frm_AdviceBW(id, name).Show();
+                else
+                    new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork).Show();
             }
             else if("btn_JH_XM_OpenFile".Equals(button.Name))
             {
                 object id = dgv_JH_XM_FileList.Tag;
                 string name = txt_JH_XM_Name.Text;
                 int index = tab_JH_XM_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
-                frm.ShowDialog();
+                if(isBackWork)
+                    new Frm_AdviceBW(id, name).Show();
+                else
+                    new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork).Show();
             }
             else if("btn_JH_XM_KT_OpenFile".Equals(button.Name))
             {
                 object id = dgv_JH_XM_KT_FileList.Tag;
                 string name = txt_JH_XM_KT_Name.Text;
                 int index = tab_JH_XM_KT_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
-                frm.ShowDialog();
+                if(isBackWork)
+                    new Frm_AdviceBW(id, name).Show();
+                else
+                    new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork).Show();
             }
             else if("btn_JH_XM_KT_ZKT_OpenFile".Equals(button.Name))
             {
                 object id = dgv_JH_XM_KT_ZKT_FileList.Tag;
                 string name = txt_JH_XM_KT_ZKT_Name.Text;
                 int index = tab_JH_XM_KT_ZKT_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
-                frm.ShowDialog();
+                if(isBackWork)
+                    new Frm_AdviceBW(id, name).Show();
+                else
+                    new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork).Show();
             }
             else if("btn_JH_KT_OpenFile".Equals(button.Name))
             {
                 object id = dgv_JH_KT_FileList.Tag;
                 string name = txt_JH_KT_Name.Text;
                 int index = tab_JH_KT_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
-                frm.ShowDialog();
+                if(isBackWork)
+                    new Frm_AdviceBW(id, name).Show();
+                else
+                    new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork).Show();
             }
             else if("btn_JH_KT_ZKT_OpenFile".Equals(button.Name))
             {
                 object id = dgv_JH_KT_ZKT_FileList.Tag;
                 string name = txt_JH_KT_ZKT_Name.Text;
                 int index = tab_JH_KT_ZKT_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
-                frm.ShowDialog();
+                if(isBackWork)
+                    new Frm_AdviceBW(id, name).Show();
+                else
+                    new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork).Show();
             }
             else if("btn_Imp_OpenFile".Equals(button.Name))
             {
                 object id = dgv_Imp_FileList.Tag;
                 string name = lbl_Imp_Name.Text;
                 int index = tab_Imp_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
-                frm.ShowDialog();
+                if(isBackWork)
+                    new Frm_AdviceBW(id, name).Show();
+                else
+                    new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork).Show();
             }
             else if("btn_Imp_Dev_OpenFile".Equals(button.Name))
             {
                 object id = dgv_Imp_Dev_FileList.Tag;
                 string name = txt_Imp_Dev_Name.Text;
                 int index = tab_Imp_Dev_FileInfo.SelectedIndex;
-                Frm_Advice frm = new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork);
-                frm.ShowDialog();
+                if(isBackWork)
+                    new Frm_AdviceBW(id, name).Show();
+                else
+                    new Frm_Advice(id, name, index == 0 ? index : index + 1, isBackWork).Show();
             }
         }
 

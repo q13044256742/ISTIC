@@ -31,6 +31,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_HistroyOpinion = new System.Windows.Forms.Button();
             this.cbo_AdviceType = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btn_Delete = new System.Windows.Forms.Button();
@@ -44,6 +45,7 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btn_HistroyOpinion);
             this.panel1.Controls.Add(this.cbo_AdviceType);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btn_Delete);
@@ -57,6 +59,16 @@ namespace 科技计划项目档案数据采集管理系统
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(541, 340);
             this.panel1.TabIndex = 0;
+            // 
+            // btn_HistroyOpinion
+            // 
+            this.btn_HistroyOpinion.Location = new System.Drawing.Point(427, 13);
+            this.btn_HistroyOpinion.Name = "btn_HistroyOpinion";
+            this.btn_HistroyOpinion.Size = new System.Drawing.Size(82, 31);
+            this.btn_HistroyOpinion.TabIndex = 12;
+            this.btn_HistroyOpinion.Text = "历史意见";
+            this.btn_HistroyOpinion.UseVisualStyleBackColor = true;
+            this.btn_HistroyOpinion.Click += new System.EventHandler(this.Btn_HistroyOpinion_Click);
             // 
             // cbo_AdviceType
             // 
@@ -149,10 +161,11 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // Frm_Advice
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Appearance.Options.UseFont = true;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(541, 340);
             this.Controls.Add(this.panel1);
+            this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -177,5 +190,6 @@ namespace 科技计划项目档案数据采集管理系统
         private System.Windows.Forms.Button btn_Delete;
         private System.Windows.Forms.ComboBox cbo_AdviceType;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btn_HistroyOpinion;
     }
 }

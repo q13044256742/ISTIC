@@ -1,6 +1,6 @@
 ﻿namespace 科技计划项目档案数据采集管理系统
 {
-    partial class Frm_AdviceBW
+    partial class Frm_AdviceHistroy
     {
         /// <summary>
         /// Required designer variable.
@@ -33,6 +33,7 @@
             this.dgv_BW = new System.Windows.Forms.DataGridView();
             this.bw_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bw_text = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bw_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbl_ObjName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
@@ -47,7 +48,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(541, 340);
+            this.panel1.Size = new System.Drawing.Size(868, 496);
             this.panel1.TabIndex = 0;
             // 
             // dgv_BW
@@ -56,7 +57,7 @@
             this.dgv_BW.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -65,12 +66,13 @@
             this.dgv_BW.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_BW.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.bw_type,
-            this.bw_text});
-            this.dgv_BW.Location = new System.Drawing.Point(13, 48);
+            this.bw_text,
+            this.bw_date});
+            this.dgv_BW.Location = new System.Drawing.Point(15, 56);
             this.dgv_BW.Name = "dgv_BW";
             this.dgv_BW.ReadOnly = true;
             this.dgv_BW.RowTemplate.Height = 23;
-            this.dgv_BW.Size = new System.Drawing.Size(514, 280);
+            this.dgv_BW.Size = new System.Drawing.Size(839, 426);
             this.dgv_BW.TabIndex = 7;
             // 
             // bw_type
@@ -82,16 +84,23 @@
             // 
             // bw_text
             // 
-            this.bw_text.FillWeight = 150F;
+            this.bw_text.FillWeight = 200F;
             this.bw_text.HeaderText = "意见";
             this.bw_text.Name = "bw_text";
             this.bw_text.ReadOnly = true;
+            // 
+            // bw_date
+            // 
+            this.bw_date.FillWeight = 50F;
+            this.bw_date.HeaderText = "填写日期";
+            this.bw_date.Name = "bw_date";
+            this.bw_date.ReadOnly = true;
             // 
             // lbl_ObjName
             // 
             this.lbl_ObjName.AutoSize = true;
             this.lbl_ObjName.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_ObjName.Location = new System.Drawing.Point(124, 18);
+            this.lbl_ObjName.Location = new System.Drawing.Point(145, 21);
             this.lbl_ObjName.Name = "lbl_ObjName";
             this.lbl_ObjName.Size = new System.Drawing.Size(0, 17);
             this.lbl_ObjName.TabIndex = 6;
@@ -100,24 +109,24 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(11, 16);
+            this.label1.Location = new System.Drawing.Point(13, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(107, 19);
             this.label1.TabIndex = 5;
-            this.label1.Text = "当前质检对象：";
+            this.label1.Text = "所属质检对象：";
             // 
-            // Frm_AdviceBW
+            // Frm_AdviceHistroy
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 340);
+            this.ClientSize = new System.Drawing.Size(868, 496);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Frm_AdviceBW";
+            this.Name = "Frm_AdviceHistroy";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "质检意见";
+            this.Text = "历史质检意见";
             this.Load += new System.EventHandler(this.Frm_Advice_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -134,5 +143,6 @@
         private System.Windows.Forms.DataGridView dgv_BW;
         private System.Windows.Forms.DataGridViewTextBoxColumn bw_type;
         private System.Windows.Forms.DataGridViewTextBoxColumn bw_text;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bw_date;
     }
 }
