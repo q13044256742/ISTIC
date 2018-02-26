@@ -150,6 +150,7 @@ namespace 科技计划项目档案数据采集管理系统
 
             List<KeyValuePair<string, int>> keyValue = new List<KeyValuePair<string, int>>
             {
+                new KeyValuePair<string, int>("plan_qtcount", 100),
                 new KeyValuePair<string, int>("plan_name", 200),
                 new KeyValuePair<string, int>("plan_edit", 100)
             };
@@ -160,6 +161,8 @@ namespace 科技计划项目档案数据采集管理系统
                 new KeyValuePair<string, int>("project_edit", 100)
             };
             DataGridViewStyleHelper.SetWidth(dgv_Project, _keyValue);
+
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_Plan, new string[] { "plan_qtcount" });
         }
         /// <summary>
         /// 获取【项目|课题】下的文件总数

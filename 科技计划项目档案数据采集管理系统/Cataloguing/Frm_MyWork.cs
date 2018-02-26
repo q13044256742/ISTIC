@@ -66,6 +66,10 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_JH_Name.Tag = GetValue(_obj[2]);
                 LoadFileList(dgv_JH_FileList, string.Empty, GetValue(_obj[0]));
             }
+            dgv_JH_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_JH_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_JH_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_JH_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
         }
         /// <summary>
         /// 加载指定表格的文件列表
@@ -2507,6 +2511,10 @@ namespace 科技计划项目档案数据采集管理系统
                     cbo_Imp_HasNext.ValueMember = "dd_id";
                 }
             }
+            dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Imp_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
         }
         /// <summary>
         /// 文件信息选项卡切换事件
@@ -2885,15 +2893,10 @@ namespace 科技计划项目档案数据采集管理系统
             int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pt_id) FROM processing_tag WHERE pt_code LIKE '{planCode}%'"));
             return (amount + 1).ToString().PadLeft(6, '0');
         }
-
         /// <summary>
         /// 获取最高密级
         /// </summary>
-        private string GetMaxSecretById(object objid)
-        {
-            return GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT TOP(1) dd_name FROM processing_file_list LEFT JOIN data_dictionary ON pfl_scert = dd_id WHERE pfl_obj_id = '{objid}' ORDER BY dd_sort DESC"));
-        }
-
+        private string GetMaxSecretById(object objid) => GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT TOP(1) dd_name FROM processing_file_list LEFT JOIN data_dictionary ON pfl_scert = dd_id WHERE pfl_obj_id = '{objid}' ORDER BY dd_sort DESC"));
         /// <summary>
         /// 加载文件缺失校验列表
         /// </summary>
@@ -3073,10 +3076,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        private string GetValue(object obj)
-        {
-            return obj == null ? string.Empty : obj.ToString();
-        }
+        private string GetValue(object obj) => obj == null ? string.Empty : obj.ToString();
         /// <summary>
         /// 案卷归档事件
         /// </summary>
@@ -4019,7 +4019,6 @@ namespace 科技计划项目档案数据采集管理系统
             int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_id) FROM processing_box WHERE pb_unit_id='{unitCode}'"));
             return (amount + 1).ToString().PadLeft(6, '0');
         }
-
         /// <summary>
         /// 案卷盒切换事件
         /// </summary>
@@ -4073,11 +4072,75 @@ namespace 科技计划项目档案数据采集管理系统
         private void Tab_MenuList_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = tab_MenuList.SelectedIndex;
-            if (index != -1) {
+            if(index != -1)
+            {
                 string currentPageName = tab_MenuList.TabPages[index].Name;
                 if("plan".Equals(currentPageName))
                 {
-                    
+                }
+                else if("plan_project".Equals(currentPageName))
+                {
+                    if(string.IsNullOrEmpty(txt_JH_XM_Code.Text))
+                    {
+                        dgv_JH_XM_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_JH_XM_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                        dgv_JH_XM_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_JH_XM_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                    }
+                }
+                else if("plan_project_topic".Equals(currentPageName))
+                {
+                    if(string.IsNullOrEmpty(txt_JH_XM_KT_Code.Text))
+                    {
+                        dgv_JH_XM_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_JH_XM_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                        dgv_JH_XM_KT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_JH_XM_KT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                    }
+                }
+                else if("plan_project_topic_subtopic".Equals(currentPageName))
+                {
+                    if(string.IsNullOrEmpty(txt_JH_XM_KT_ZKT_Code.Text))
+                    {
+                        dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_JH_XM_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                        dgv_JH_XM_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_JH_XM_KT_ZKT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                    }
+                }
+                else if("plan_topic_subtopic".Equals(currentPageName))
+                {
+                    if(string.IsNullOrEmpty(txt_JH_KT_ZKT_Code.Text))
+                    {
+                        dgv_JH_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_JH_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                        dgv_JH_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_JH_KT_ZKT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                    }
+                }
+                else if("plan_topic".Equals(currentPageName))
+                {
+                    if(string.IsNullOrEmpty(txt_JH_KT_Code.Text))
+                    {
+                        dgv_JH_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_JH_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                        dgv_JH_KT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_JH_KT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                    }
+                }
+                else if("imp".Equals(currentPageName))
+                {
+
+                }
+                else if("imp_dev".Equals(currentPageName))
+                {
+                    if(string.IsNullOrEmpty(txt_Imp_Dev_Code.Text))
+                    {
+                        dgv_Imp_Dev_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_Imp_Dev_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                        dgv_Imp_Dev_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                        dgv_Imp_Dev_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                    }
                 }
             }
         }
@@ -4122,6 +4185,11 @@ namespace 科技计划项目档案数据采集管理系统
                     EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_XM_FileList, "jh_xm_", projectId);
+
+                dgv_JH_XM_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_JH_XM_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_JH_XM_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_JH_XM_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             }
             else if(type == ControlType.Plan_Topic)
             {
@@ -4157,6 +4225,11 @@ namespace 科技计划项目档案数据采集管理系统
                     EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_KT_FileList, "jh_kt_", projectId);
+
+                dgv_JH_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_JH_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_JH_KT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_JH_KT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             }
             else if(type == ControlType.Plan_Project_Topic)
             {
@@ -4192,6 +4265,11 @@ namespace 科技计划项目档案数据采集管理系统
                     EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_XM_KT_FileList, "jh_xm_kt_", projectId);
+
+                dgv_JH_XM_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_JH_XM_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_JH_XM_KT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_JH_XM_KT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
             {
@@ -4227,6 +4305,11 @@ namespace 科技计划项目档案数据采集管理系统
                     EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_", projectId);
+
+                dgv_JH_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_JH_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_JH_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_JH_KT_ZKT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
@@ -4262,6 +4345,11 @@ namespace 科技计划项目档案数据采集管理系统
                     EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
                 LoadFileList(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_", projectId);
+
+                dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_JH_XM_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_JH_XM_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_JH_XM_KT_ZKT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             }
             else if(type == ControlType.Imp_Sub)
             {
@@ -4284,6 +4372,10 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
                 cbo_Imp_Dev_HasNext.SelectedIndex = 0;
+                dgv_Imp_Dev_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_Imp_Dev_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_Imp_Dev_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_Imp_Dev_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             }
         }
         /// <summary>

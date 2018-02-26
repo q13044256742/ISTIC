@@ -103,6 +103,7 @@
             this.cbo_JH_Box = new System.Windows.Forms.ComboBox();
             this.label54 = new System.Windows.Forms.Label();
             this.pal_JH_BtnGroup = new System.Windows.Forms.Panel();
+            this.btn_JH_AddFile = new System.Windows.Forms.Button();
             this.btn_JH_Submit = new System.Windows.Forms.Button();
             this.btn_JH_Save = new System.Windows.Forms.Button();
             this.btn_JH_OpenFile = new System.Windows.Forms.Button();
@@ -719,6 +720,13 @@
             this.label148 = new System.Windows.Forms.Label();
             this.label149 = new System.Windows.Forms.Label();
             this.label150 = new System.Windows.Forms.Label();
+            this.btn_JH_XM_AddFile = new System.Windows.Forms.Button();
+            this.btn_JH_KT_AddFile = new System.Windows.Forms.Button();
+            this.btn_JH_XM_KT_AddFile = new System.Windows.Forms.Button();
+            this.btn_JH_XM_KT_ZKT_AddFile = new System.Windows.Forms.Button();
+            this.btn_JH_KT_ZKT_AddFile = new System.Windows.Forms.Button();
+            this.btn_Imp_AddFile = new System.Windows.Forms.Button();
+            this.btn_Imp_Dev_AddFile = new System.Windows.Forms.Button();
             this.tab_MenuList.SuspendLayout();
             this.plan.SuspendLayout();
             this.tab_JH_FileInfo.SuspendLayout();
@@ -1393,6 +1401,7 @@
             // pal_JH_BtnGroup
             // 
             this.pal_JH_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_AddFile);
             this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_Submit);
             this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_Save);
             this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_OpenFile);
@@ -1401,6 +1410,17 @@
             this.pal_JH_BtnGroup.Name = "pal_JH_BtnGroup";
             this.pal_JH_BtnGroup.Size = new System.Drawing.Size(999, 372);
             this.pal_JH_BtnGroup.TabIndex = 2;
+            // 
+            // btn_JH_AddFile
+            // 
+            this.btn_JH_AddFile.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_JH_AddFile.Location = new System.Drawing.Point(110, 334);
+            this.btn_JH_AddFile.Name = "btn_JH_AddFile";
+            this.btn_JH_AddFile.Size = new System.Drawing.Size(98, 33);
+            this.btn_JH_AddFile.TabIndex = 10;
+            this.btn_JH_AddFile.Text = "新增文件";
+            this.btn_JH_AddFile.UseVisualStyleBackColor = true;
+            this.btn_JH_AddFile.Click += new System.EventHandler(this.Btn_JH_AddFile_Click);
             // 
             // btn_JH_Submit
             // 
@@ -1426,9 +1446,9 @@
             // btn_JH_OpenFile
             // 
             this.btn_JH_OpenFile.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_JH_OpenFile.Location = new System.Drawing.Point(6, 335);
+            this.btn_JH_OpenFile.Location = new System.Drawing.Point(6, 334);
             this.btn_JH_OpenFile.Name = "btn_JH_OpenFile";
-            this.btn_JH_OpenFile.Size = new System.Drawing.Size(98, 31);
+            this.btn_JH_OpenFile.Size = new System.Drawing.Size(98, 33);
             this.btn_JH_OpenFile.TabIndex = 0;
             this.btn_JH_OpenFile.Text = "质检意见";
             this.btn_JH_OpenFile.UseVisualStyleBackColor = true;
@@ -2060,6 +2080,7 @@
             // pal_JH_XM_BtnGroup
             // 
             this.pal_JH_XM_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_AddFile);
             this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_Add);
             this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_Submit);
             this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_Save);
@@ -2998,6 +3019,7 @@
             // pal_JH_KT_BtnGroup
             // 
             this.pal_JH_KT_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_AddFile);
             this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_Add);
             this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_Submit);
             this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_Save);
@@ -3933,6 +3955,7 @@
             // pal_JH_XM_KT_BtnGroup
             // 
             this.pal_JH_XM_KT_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_JH_XM_KT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_AddFile);
             this.pal_JH_XM_KT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_Add);
             this.pal_JH_XM_KT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_Submit);
             this.pal_JH_XM_KT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_Save);
@@ -4868,6 +4891,7 @@
             // pal_JH_XM_KT_ZKT_BtnGroup
             // 
             this.pal_JH_XM_KT_ZKT_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_ZKT_AddFile);
             this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_ZKT_Add);
             this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_ZKT_Submit);
             this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_ZKT_Save);
@@ -5779,6 +5803,7 @@
             // pal_JH_KT_ZKT_BtnGroup
             // 
             this.pal_JH_KT_ZKT_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_JH_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_KT_ZKT_AddFile);
             this.pal_JH_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_KT_ZKT_Add);
             this.pal_JH_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_KT_ZKT_Submit);
             this.pal_JH_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_KT_ZKT_Save);
@@ -6692,6 +6717,7 @@
             // pal_Imp_BtnGroup
             // 
             this.pal_Imp_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_AddFile);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Submit);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Save);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_OpenFile);
@@ -7367,6 +7393,7 @@
             // pal_Imp_Dev_BtnGroup
             // 
             this.pal_Imp_Dev_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Dev_AddFile);
             this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Dev_Submit);
             this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Sub_Save);
             this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Dev_OpenFile);
@@ -7524,6 +7551,78 @@
             this.label150.Size = new System.Drawing.Size(40, 20);
             this.label150.TabIndex = 4;
             this.label150.Text = "简介:";
+            // 
+            // btn_JH_XM_AddFile
+            // 
+            this.btn_JH_XM_AddFile.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_JH_XM_AddFile.Location = new System.Drawing.Point(110, 335);
+            this.btn_JH_XM_AddFile.Name = "btn_JH_XM_AddFile";
+            this.btn_JH_XM_AddFile.Size = new System.Drawing.Size(98, 31);
+            this.btn_JH_XM_AddFile.TabIndex = 11;
+            this.btn_JH_XM_AddFile.Text = "新增文件";
+            this.btn_JH_XM_AddFile.UseVisualStyleBackColor = true;
+            this.btn_JH_XM_AddFile.Click += new System.EventHandler(this.Btn_JH_AddFile_Click);
+            // 
+            // btn_JH_KT_AddFile
+            // 
+            this.btn_JH_KT_AddFile.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_JH_KT_AddFile.Location = new System.Drawing.Point(108, 335);
+            this.btn_JH_KT_AddFile.Name = "btn_JH_KT_AddFile";
+            this.btn_JH_KT_AddFile.Size = new System.Drawing.Size(98, 31);
+            this.btn_JH_KT_AddFile.TabIndex = 12;
+            this.btn_JH_KT_AddFile.Text = "新增文件";
+            this.btn_JH_KT_AddFile.UseVisualStyleBackColor = true;
+            this.btn_JH_KT_AddFile.Click += new System.EventHandler(this.Btn_JH_AddFile_Click);
+            // 
+            // btn_JH_XM_KT_AddFile
+            // 
+            this.btn_JH_XM_KT_AddFile.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_JH_XM_KT_AddFile.Location = new System.Drawing.Point(110, 335);
+            this.btn_JH_XM_KT_AddFile.Name = "btn_JH_XM_KT_AddFile";
+            this.btn_JH_XM_KT_AddFile.Size = new System.Drawing.Size(98, 31);
+            this.btn_JH_XM_KT_AddFile.TabIndex = 12;
+            this.btn_JH_XM_KT_AddFile.Text = "新增文件";
+            this.btn_JH_XM_KT_AddFile.UseVisualStyleBackColor = true;
+            // 
+            // btn_JH_XM_KT_ZKT_AddFile
+            // 
+            this.btn_JH_XM_KT_ZKT_AddFile.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_JH_XM_KT_ZKT_AddFile.Location = new System.Drawing.Point(110, 335);
+            this.btn_JH_XM_KT_ZKT_AddFile.Name = "btn_JH_XM_KT_ZKT_AddFile";
+            this.btn_JH_XM_KT_ZKT_AddFile.Size = new System.Drawing.Size(98, 31);
+            this.btn_JH_XM_KT_ZKT_AddFile.TabIndex = 13;
+            this.btn_JH_XM_KT_ZKT_AddFile.Text = "新增文件";
+            this.btn_JH_XM_KT_ZKT_AddFile.UseVisualStyleBackColor = true;
+            // 
+            // btn_JH_KT_ZKT_AddFile
+            // 
+            this.btn_JH_KT_ZKT_AddFile.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_JH_KT_ZKT_AddFile.Location = new System.Drawing.Point(110, 335);
+            this.btn_JH_KT_ZKT_AddFile.Name = "btn_JH_KT_ZKT_AddFile";
+            this.btn_JH_KT_ZKT_AddFile.Size = new System.Drawing.Size(98, 31);
+            this.btn_JH_KT_ZKT_AddFile.TabIndex = 14;
+            this.btn_JH_KT_ZKT_AddFile.Text = "新增文件";
+            this.btn_JH_KT_ZKT_AddFile.UseVisualStyleBackColor = true;
+            // 
+            // btn_Imp_AddFile
+            // 
+            this.btn_Imp_AddFile.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_Imp_AddFile.Location = new System.Drawing.Point(110, 335);
+            this.btn_Imp_AddFile.Name = "btn_Imp_AddFile";
+            this.btn_Imp_AddFile.Size = new System.Drawing.Size(98, 31);
+            this.btn_Imp_AddFile.TabIndex = 15;
+            this.btn_Imp_AddFile.Text = "新增文件";
+            this.btn_Imp_AddFile.UseVisualStyleBackColor = true;
+            // 
+            // btn_Imp_Dev_AddFile
+            // 
+            this.btn_Imp_Dev_AddFile.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_Imp_Dev_AddFile.Location = new System.Drawing.Point(110, 335);
+            this.btn_Imp_Dev_AddFile.Name = "btn_Imp_Dev_AddFile";
+            this.btn_Imp_Dev_AddFile.Size = new System.Drawing.Size(98, 31);
+            this.btn_Imp_Dev_AddFile.TabIndex = 16;
+            this.btn_Imp_Dev_AddFile.Text = "新增文件";
+            this.btn_Imp_Dev_AddFile.UseVisualStyleBackColor = true;
             // 
             // Frm_MyWorkQT
             // 
@@ -8333,5 +8432,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_imp_dev_name;
         private System.Windows.Forms.DataGridViewComboBoxColumn dgv_imp_dev_reason;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_imp_dev_remark;
+        private System.Windows.Forms.Button btn_JH_AddFile;
+        private System.Windows.Forms.Button btn_JH_XM_AddFile;
+        private System.Windows.Forms.Button btn_JH_KT_AddFile;
+        private System.Windows.Forms.Button btn_JH_XM_KT_AddFile;
+        private System.Windows.Forms.Button btn_JH_XM_KT_ZKT_AddFile;
+        private System.Windows.Forms.Button btn_JH_KT_ZKT_AddFile;
+        private System.Windows.Forms.Button btn_Imp_AddFile;
+        private System.Windows.Forms.Button btn_Imp_Dev_AddFile;
     }
 }

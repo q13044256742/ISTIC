@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_AdviceBW : Form
+    public partial class Frm_AdviceBW : DevExpress.XtraEditors.XtraForm
     {
         /// <summary>
         /// 当前对象所属ID

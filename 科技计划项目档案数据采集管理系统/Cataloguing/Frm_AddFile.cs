@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_AddFile : Form
+    public partial class Frm_AddFile : DevExpress.XtraEditors.XtraForm
     {
         private DataGridView view;
         private object key;
