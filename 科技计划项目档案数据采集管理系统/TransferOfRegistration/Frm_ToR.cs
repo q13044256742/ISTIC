@@ -552,7 +552,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             querySql.Append(" SELECT trp.trp_id, dd_name,sorting FROM transfer_registration_pc trp, data_dictionary cs WHERE trp.com_id = cs.dd_id ) tb");
             querySql.Append(" ON trc.trp_id = tb.trp_id");
             querySql.Append(queryCondition);
-            querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, sorting ASC");
+            querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort ASC");
 
             LoadGPDJ(querySql.ToString());
         }
