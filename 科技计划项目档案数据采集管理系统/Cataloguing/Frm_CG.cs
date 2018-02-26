@@ -247,7 +247,7 @@ namespace 科技计划项目档案数据采集管理系统
         private static object[] GetObjectListById(object objid)
         {
             string querySql = $" SELECT wr_id, wr_type,wr_obj_id FROM work_registration wr LEFT JOIN(" +
-                            $"SELECT trp_id, cs_id FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id) tb " +
+                            $"SELECT trp_id, dd_id FROM transfer_registration_pc LEFT JOIN data_dictionary ON com_id = dd_id) tb " +
                             $"ON wr.trp_id = tb.trp_id WHERE wr_id='{objid}'";
             object[] list = SqlHelper.ExecuteRowsQuery(querySql);
             List<DataTable> resultList = new List<DataTable>();
@@ -258,18 +258,18 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 case WorkType.PaperWork:
                     _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',trp_code,trp_name,dd_name FROM transfer_registration_pc LEFT JOIN " +
-                        $"company_source ON com_id = cs_id WHERE trp_id='{id}'";
+                        $"data_dictionary ON com_id = dd_id WHERE trp_id='{id}'";
                     break;
                 case WorkType.CDWork:
                     _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',trc_code,trc_name,dd_name FROM transfer_registraion_cd trc LEFT JOIN(" +
-                        $"SELECT trp_id, dd_name FROM transfer_registration_pc LEFT JOIN company_source ON com_id = cs_id ) tb1 " +
+                        $"SELECT trp_id, dd_name FROM transfer_registration_pc LEFT JOIN data_dictionary ON com_id = dd_id ) tb1 " +
                         $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{id}'";
                     break;
                 case WorkType.ProjectWork:
                     _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',pi_code,pi_name,dd_name FROM project_info pi " +
                         $"LEFT JOIN(SELECT trc_id, dd_name FROM transfer_registraion_cd trc " +
                         $"LEFT JOIN(SELECT trp_id, dd_name FROM transfer_registration_pc trp " +
-                        $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
+                        $"LEFT JOIN data_dictionary ON dd_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                         $"WHERE pi_id='{id}'";
                     break;
                 case WorkType.SubjectWork:
@@ -277,7 +277,7 @@ namespace 科技计划项目档案数据采集管理系统
                        $"SELECT pi_id,dd_name FROM project_info pi " +
                        $"LEFT JOIN(SELECT trc_id, dd_name FROM transfer_registraion_cd trc " +
                        $"LEFT JOIN(SELECT trp_id, dd_name FROM transfer_registration_pc trp " +
-                       $"LEFT JOIN company_source ON cs_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
+                       $"LEFT JOIN data_dictionary ON dd_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                        $") tb3 ON tb3.pi_id = si.pi_id WHERE si.si_id='{id}'";
                     break;
             }
@@ -323,7 +323,7 @@ namespace 科技计划项目档案数据采集管理系统
                         break;
                     case WorkType.SubjectWork:
                         _querySql = $"SELECT '{list[i][0]}','{id}',si_code,si_name,dd_code,dd_name,'课题/子课题加工' FROM subject_info si LEFT JOIN(" +
-                           $"SELECT pi_id,dd_name FROM project_info pi " +
+                           $"SELECT pi_id, dd_code, dd_name FROM project_info pi " +
                            $"LEFT JOIN(SELECT trc_id, dd_code, dd_name FROM transfer_registraion_cd trc " +
                            $"LEFT JOIN(SELECT trp_id, dd_code, dd_name FROM transfer_registration_pc trp " +
                            $"LEFT JOIN data_dictionary ON dd_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
