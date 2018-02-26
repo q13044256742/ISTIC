@@ -87,6 +87,7 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Plan.Columns.Add("plan_code", "编号");
             dgv_Plan.Columns.Add("plan_name", "名称");
             dgv_Plan.Columns.Add("plan_unit", "来源单位");
+            dgv_Plan.Columns.Add("plan_qtcount", "质检次数");
             dgv_Plan.Columns.Add("plan_edit", "操作");
 
             dgv_Project.Columns.Add("project_id", "主键");
@@ -108,6 +109,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         int index = dgv_Plan.Rows.Add();
                         dgv_Plan.Rows[index].Cells["plan_id"].Value = row[0];
+                        dgv_Plan.Rows[index].Cells["plan_qtcount"].Value = SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_qtcount FROM work_registration WHERE wr_id='{row[0]}'");
                         dgv_Plan.Rows[index].Cells["plan_id"].Tag = row[2];
                         dgv_Plan.Rows[index].Cells["plan_code"].Value = row[3];
                         dgv_Plan.Rows[index].Cells["plan_name"].Value = row[4];

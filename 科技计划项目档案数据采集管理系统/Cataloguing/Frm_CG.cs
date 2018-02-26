@@ -426,7 +426,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 SourceId = UserHelper.GetInstance().User.UserKey
                             };
                             string insertSql = $"INSERT INTO work_registration VALUES('" +
-                                $"{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}')";
+                                $"{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}',0)";
                             SqlHelper.ExecuteNonQuery(insertSql);
 
                             SqlHelper.ExecuteNonQuery($"UPDATE transfer_registraion_cd SET trc_complete_status={(int)WorkStatus.WorkSuccess} WHERE trc_id='{trcid}'");
@@ -701,7 +701,8 @@ namespace 科技计划项目档案数据采集管理系统
                         object wmid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_name"].Tag;
                         SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)WorkStatus.WorkSuccessFromBack} WHERE wm_id='{wmid}'");
 
-                        string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{wrid}'";
+                        object qtCount = SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_qtcount FROM work_registration WHERE wr_id='{wrid}'");
+                        string updateSql = $"UPDATE work_registration SET wr_qtcount='{(qtCount == null ? 1 : (Convert.ToInt32(qtCount) + 1))}', wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{wrid}'";
                         SqlHelper.ExecuteNonQuery(updateSql);
                         LoadWorkBackList();
                     }

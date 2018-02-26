@@ -271,12 +271,12 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         if(currentUnit != null)
                         {
                             StringBuilder querySql = new StringBuilder("SELECT ");
-                            querySql.Append("pc.trp_id, cs_name, trp_name, trp_code, trp_submit_status, trp_cd_amount");
-                            querySql.Append(" FROM transfer_registration_pc pc,company_source cs");
-                            querySql.Append(" WHERE pc.com_id = cs.cs_id AND trp_submit_status=1");
+                            querySql.Append("pc.trp_id, dd_name, trp_name, trp_code, trp_submit_status, trp_cd_amount");
+                            querySql.Append(" FROM transfer_registration_pc pc,data_dictionary cs");
+                            querySql.Append(" WHERE pc.com_id = cs.dd_id AND trp_submit_status=1");
                             querySql.Append(" AND com_id='" + currentUnit + "'");
                             LoadPCDataScoure(querySql.ToString());
-                            dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery($"SELECT cs_code FROM company_source WHERE cs_id ='{currentUnit}'");
+                            dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery($"SELECT cs_code FROM data_dictionary WHERE dd_id ='{currentUnit}'");
                         }
                         else
                             LoadPCDataScoure(null);
@@ -390,13 +390,13 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             {
                 StringBuilder querySql = new StringBuilder("SELECT ");
                 querySql.Append("pc.trp_id,");
-                querySql.Append("cs_name,");
+                querySql.Append("dd_name,");
                 querySql.Append("trp_name,");
                 querySql.Append("trp_code,");
                 querySql.Append("trp_cd_amount,");
                 querySql.Append("trp_submit_status");
-                querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN company_source cs ON pc.com_id = cs.cs_id");
-                querySql.Append(" WHERE cs_name LIKE '%" + searchKey + "%' ");
+                querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN data_dictionary cs ON pc.com_id = cs.dd_id");
+                querySql.Append(" WHERE dd_name LIKE '%" + searchKey + "%' ");
                 querySql.Append("OR trp_code LIKE '%" + searchKey + "%' ");
                 querySql.Append("OR trp_name LIKE '%" + searchKey + "%'");
                 LoadPCDataScoure(querySql.ToString());
@@ -544,15 +544,15 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             string key = txt_CD_Search.Text;
             string queryCondition = null;
             if (!string.IsNullOrEmpty(key))
-                queryCondition = " WHERE cs_name LIKE '%" + key + "%' OR trc_code LIKE '%" + key + "%' OR trc_name LIKE '%" + key + "%'";
+                queryCondition = " WHERE dd_name LIKE '%" + key + "%' OR trc_code LIKE '%" + key + "%' OR trc_name LIKE '%" + key + "%'";
 
-            StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
+            StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
             querySql.Append(" FROM transfer_registraion_cd trc");
             querySql.Append(" LEFT JOIN(");
-            querySql.Append(" SELECT trp.trp_id, cs_name,sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
+            querySql.Append(" SELECT trp.trp_id, dd_name,sorting FROM transfer_registration_pc trp, data_dictionary cs WHERE trp.com_id = cs.dd_id ) tb");
             querySql.Append(" ON trc.trp_id = tb.trp_id");
             querySql.Append(queryCondition);
-            querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, sorting ASC");
+            querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, sorting ASC");
 
             LoadGPDJ(querySql.ToString());
         }
@@ -581,13 +581,13 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             int index = cbo_Status.SelectedIndex;
             if (index != -1)
             {
-                StringBuilder querySql = new StringBuilder("SELECT trc_id,cs_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
+                StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
                 querySql.Append(" FROM transfer_registraion_cd trc");
                 querySql.Append(" LEFT JOIN(");
-                querySql.Append(" SELECT trp.trp_id, cs_id, cs_name, sorting FROM transfer_registration_pc trp, company_source cs WHERE trp.com_id = cs.cs_id ) tb");
+                querySql.Append(" SELECT trp.trp_id, dd_id, dd_name, dd_sort FROM transfer_registration_pc trp, data_dictionary cs WHERE trp.com_id = cs.dd_id ) tb");
                 querySql.Append(" ON trc.trp_id = tb.trp_id");
                 if (index != 0) querySql.Append(" WHERE trc_status='" + index + "'");
-                querySql.Append(" ORDER BY CASE WHEN cs_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, sorting ASC");
+                querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort ASC");
                 LoadGPDJ(querySql.ToString());
             }
         }

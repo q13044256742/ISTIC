@@ -81,7 +81,7 @@ namespace 科技计划项目档案数据采集管理系统
             "文件核查",
             "案卷信息",
             "案卷盒"});
-            this.cbo_AdviceType.Location = new System.Drawing.Point(130, 49);
+            this.cbo_AdviceType.Location = new System.Drawing.Point(121, 50);
             this.cbo_AdviceType.Name = "cbo_AdviceType";
             this.cbo_AdviceType.Size = new System.Drawing.Size(137, 25);
             this.cbo_AdviceType.TabIndex = 11;
@@ -91,7 +91,7 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(39, 52);
+            this.label2.Location = new System.Drawing.Point(36, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(79, 19);
             this.label2.TabIndex = 10;
@@ -100,7 +100,7 @@ namespace 科技计划项目档案数据采集管理系统
             // btn_Delete
             // 
             this.btn_Delete.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Delete.Location = new System.Drawing.Point(273, 289);
+            this.btn_Delete.Location = new System.Drawing.Point(273, 295);
             this.btn_Delete.Name = "btn_Delete";
             this.btn_Delete.Size = new System.Drawing.Size(73, 33);
             this.btn_Delete.TabIndex = 9;
@@ -111,7 +111,7 @@ namespace 科技计划项目档案数据采集管理系统
             // btn_Sure
             // 
             this.btn_Sure.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Sure.Location = new System.Drawing.Point(194, 289);
+            this.btn_Sure.Location = new System.Drawing.Point(194, 295);
             this.btn_Sure.Name = "btn_Sure";
             this.btn_Sure.Size = new System.Drawing.Size(73, 33);
             this.btn_Sure.TabIndex = 8;
@@ -123,9 +123,9 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.txt_Advice.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_Advice.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_Advice.Location = new System.Drawing.Point(130, 94);
+            this.txt_Advice.Location = new System.Drawing.Point(121, 95);
             this.txt_Advice.Name = "txt_Advice";
-            this.txt_Advice.Size = new System.Drawing.Size(383, 173);
+            this.txt_Advice.Size = new System.Drawing.Size(407, 190);
             this.txt_Advice.TabIndex = 4;
             this.txt_Advice.Text = "";
             // 
@@ -133,7 +133,7 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(39, 94);
+            this.label3.Location = new System.Drawing.Point(36, 94);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 19);
             this.label3.TabIndex = 7;
@@ -143,7 +143,7 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.lbl_ObjName.AutoSize = true;
             this.lbl_ObjName.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_ObjName.Location = new System.Drawing.Point(124, 18);
+            this.lbl_ObjName.Location = new System.Drawing.Point(121, 19);
             this.lbl_ObjName.Name = "lbl_ObjName";
             this.lbl_ObjName.Size = new System.Drawing.Size(32, 17);
             this.lbl_ObjName.TabIndex = 6;
@@ -153,7 +153,7 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(11, 16);
+            this.label1.Location = new System.Drawing.Point(8, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(107, 19);
             this.label1.TabIndex = 5;
