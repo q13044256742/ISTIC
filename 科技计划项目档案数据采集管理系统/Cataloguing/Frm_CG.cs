@@ -460,7 +460,7 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("请先完成当前已领取且尚未完成的加工项。", "领取失败");
                 }
                 //批次 - 加工
-                /*else if("trp_control".Equals(columnName))
+                else if("trp_control".Equals(columnName))
                 {
                     if(CheckCanReceive())
                     {
@@ -479,7 +479,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 ReceiveStatus = ReceiveStatus.NonReceive,
                                 SourceId = UserHelper.GetInstance().User.UserKey
                             };
-                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}')";
+                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}',0)";
                             SqlHelper.ExecuteNonQuery(insertSql);
 
                             string updateSql = $"UPDATE transfer_registration_pc SET trp_work_status={(int)WorkStatus.WorkSuccess} WHERE trp_id='{wr.WrTrpId}'";
@@ -492,7 +492,7 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else
                         MessageBox.Show("请先完成当前已领取且尚未完成的加工项。", "领取失败");
-                }*/
+                }
                 //项目/课题 - 加工
                 else if("pi_control".Equals(columnName))
                 {
