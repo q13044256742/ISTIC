@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -21,17 +16,30 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             this.isAdd = isAdd;
             this.id = id;
 
-            if (isAdd) {              
+            if (isAdd) {
+                LoadRole();
             }               
             else {
+                LoadRole();
                 LoadData(id);
             }             
-        }      
+        }
 
+        //加载角色
+        private void LoadRole()
+        {
+            string key = "dic_key_role";
+            string querySql = $"SELECT * FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary WHERE dd_code='{key}')";
+            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            role_select.DataSource = table;
+            role_select.DisplayMember = "dd_name";
+            role_select.ValueMember = "dd_id";
+        }
+      
         //加载更新表单
         private void LoadData(string id)
         {            
-            string sql = $"select u.login_name,u.login_password,u.belong_unit,u.belong_department,u.real_name,u.email,u.telephone,u.cellphone,u.ip_address,u.remark" +
+            string sql = $"select u.login_name,u.login_password,u.belong_unit,u.belong_department,u.real_name,u.email,u.telephone,u.cellphone,u.ip_address,u.remark,role_id" +
                 $" from user_list u where ul_id = '{id}'";
             object[] _obj = SqlHelper.ExecuteRowsQuery(sql);
 
@@ -45,7 +53,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             mobile.Text = _obj[6].ToString();
             phone.Text = _obj[7].ToString();                 
             ip_input.Text = _obj[8].ToString();                            
-            note.Text = _obj[9].ToString();           
+            note.Text = _obj[9].ToString();
+            role_select.SelectedValue = _obj[10].ToString();
             login_name.Tag = id;
         }
 
@@ -65,8 +74,8 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 string _belong_bm = belong_bm.Text.Trim();
                 string _mobile = mobile.Text.Trim();
                 string _phone = phone.Text.Trim();
-                string _mail = mail.Text.Trim();
-              
+                string _mail = mail.Text.Trim();              
+                string _role_id = role_select.SelectedValue.ToString();
                 string _ip = ip_input.Text.Trim();
                 string _note = note.Text.Trim();            
                 string _real_name = real_name.Text.Trim();
@@ -76,9 +85,9 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 {
                     string _uId = Guid.NewGuid().ToString();
                     string querySql = $"insert into user_list " +
-                        $"(ul_id,login_name,login_password,belong_unit,belong_department,real_name,email,telephone,cellphone,ip_address,remark)" +
+                        $"(ul_id,login_name,login_password,belong_unit,belong_department,real_name,role_id,email,telephone,cellphone,ip_address,remark)" +
                         $"values" +
-                        $"('{_uId}','{_login_name}','{_password}','{_belong_unit}','{_belong_bm}','{_real_name}','{_mail}','{_mobile}','{_phone}','{_ip}','{_note}')";
+                        $"('{_uId}','{_login_name}','{_password}','{_belong_unit}','{_belong_bm}','{_real_name}','{_role_id}','{_mail}','{_mobile}','{_phone}','{_ip}','{_note}')";
                     SqlHelper.ExecuteQuery(querySql);
                 }
                 //更新信息
@@ -86,7 +95,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 {
                     string ul_id = login_name.Tag.ToString();
                     string querySql = $"update user_list set login_name='{_login_name}',login_password='{_password}',belong_unit='{_belong_unit}',belong_department='{_belong_bm}'," +
-                        $" real_name='{_real_name}',email='{_mail}',telephone='{_mobile}',cellphone='{_phone}',ip_address='{_ip}',remark='{_note}' where ul_id='{ul_id}'";
+                        $" real_name='{_real_name}',role_id='{_role_id}',email='{_mail}',telephone='{_mobile}',cellphone='{_phone}',ip_address='{_ip}',remark='{_note}' where ul_id='{ul_id}'";
                     SqlHelper.ExecuteQuery(querySql);
                 }
                 if (MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
@@ -141,6 +150,11 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             else if (string.IsNullOrEmpty(belong_bm.Text.Trim()))
             {
                 MessageBox.Show("请输入所属部门", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            else if (string.IsNullOrEmpty(role_select.SelectedValue.ToString()))
+            {
+                MessageBox.Show("请选择角色", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
             else if (!IsMobile())
@@ -240,6 +254,6 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             {
                 e.Handled = true;
             }
-        }      
+        }
     }
 }
