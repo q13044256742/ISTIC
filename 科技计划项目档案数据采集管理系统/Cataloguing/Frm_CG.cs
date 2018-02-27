@@ -398,61 +398,67 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
                 //光盘 - 加工
-                /*else if("trc_control".Equals(columnName))
+                else if("trc_control".Equals(columnName))
                 {
                     if(CheckCanReceive())
                     {
-                        object trcid = dgv_WorkLog.Rows[e.RowIndex].Cells["trc_id"].Value;
-                        string msg = $"本张光盘包括{GetProjectAmount(trcid)}个项目，{GetSubjectAmountWithProject(trcid)}个课题；是否开始加工？";
-                        if(MessageBox.Show(msg, "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                        int totalAmount = Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells["trc_total_amount"].Value);
+                        if(totalAmount == 0)
                         {
-                            object trpId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
-                            WorkRegistration wr = new WorkRegistration
+                            object trcid = dgv_WorkLog.Rows[e.RowIndex].Cells["trc_id"].Value;
+                            string msg = $"本张光盘包括{GetProjectAmount(trcid)}个项目，{GetSubjectAmountWithProject(trcid)}个课题；是否开始加工？";
+                            if(MessageBox.Show(msg, "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                             {
-                                WrId = Guid.NewGuid().ToString(),
-                                WrStauts = WorkStatus.WorkSuccess,
-                                WrStartDate = DateTime.Now,
-                                WrType = WorkType.CDWork,
-                                WrTrpId = trpId,
-                                WrObjId = trcid,
-                                SubmitStatus = ObjectSubmitStatus.NonSubmit,
-                                ReceiveStatus = ReceiveStatus.NonReceive,
-                                SourceId = UserHelper.GetInstance().User.UserKey
-                            };
-                            string insertSql = $"INSERT INTO work_registration VALUES('" +
-                                $"{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}',0)";
-                            SqlHelper.ExecuteNonQuery(insertSql);
-
-                            SqlHelper.ExecuteNonQuery($"UPDATE transfer_registraion_cd SET trc_complete_status={(int)WorkStatus.WorkSuccess} WHERE trc_id='{trcid}'");
-                            //领取光盘的同时 - 领取其下所有未领取的项目/课题/子课题
-                            object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{trcid}'");
-                            //【计划】
-                            SqlHelper.ExecuteOnlyOneQuery($"UPDATE project_info SET pi_work_status={(int)WorkStatus.WorkSuccess}, pi_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE pi_id='{pid}'");
-                            //【项目/课题】
-                            List<object[]> _obj1 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{pid}' AND pi_work_status={(int)WorkStatus.NonWork}", 1);
-                            for(int i = 0; i < _obj1.Count; i++)
-                            {
-                                SqlHelper.ExecuteOnlyOneQuery($"UPDATE project_info SET pi_work_status={(int)WorkStatus.WorkSuccess}, pi_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE pi_id='{_obj1[i][0]}'");
-                                //【课题/子课题】
-                                List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{_obj1[i][0]}' AND si_work_status={(int)WorkStatus.NonWork}", 1);
-                                for(int j = 0; j < _obj2.Count; j++)
+                                object trpId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
+                                WorkRegistration wr = new WorkRegistration
                                 {
-                                    SqlHelper.ExecuteOnlyOneQuery($"UPDATE subject_info SET si_work_status={(int)WorkStatus.WorkSuccess}, si_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj2[j][0]}'");
-                                    //【子课题】
-                                    List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{_obj2[j][0]}' AND si_work_status={(int)WorkStatus.NonWork}", 1);
-                                    for(int k = 0; k < _obj3.Count; k++)
+                                    WrId = Guid.NewGuid().ToString(),
+                                    WrStauts = WorkStatus.WorkSuccess,
+                                    WrStartDate = DateTime.Now,
+                                    WrType = WorkType.CDWork,
+                                    WrTrpId = trpId,
+                                    WrObjId = trcid,
+                                    SubmitStatus = ObjectSubmitStatus.NonSubmit,
+                                    ReceiveStatus = ReceiveStatus.NonReceive,
+                                    SourceId = UserHelper.GetInstance().User.UserKey
+                                };
+                                string insertSql = $"INSERT INTO work_registration VALUES('" +
+                                    $"{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}',0)";
+                                SqlHelper.ExecuteNonQuery(insertSql);
+
+                                SqlHelper.ExecuteNonQuery($"UPDATE transfer_registraion_cd SET trc_complete_status={(int)WorkStatus.WorkSuccess} WHERE trc_id='{trcid}'");
+                                //领取光盘的同时 - 领取其下所有未领取的项目 / 课题 / 子课题
+                                object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{trcid}'");
+                                //【计划】
+                                SqlHelper.ExecuteOnlyOneQuery($"UPDATE project_info SET pi_work_status={(int)WorkStatus.WorkSuccess}, pi_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE pi_id='{pid}'");
+                                //【项目 / 课题】
+                                List<object[]> _obj1 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{pid}' AND pi_work_status={(int)WorkStatus.NonWork}", 1);
+                                for(int i = 0; i < _obj1.Count; i++)
+                                {
+                                    SqlHelper.ExecuteOnlyOneQuery($"UPDATE project_info SET pi_work_status={(int)WorkStatus.WorkSuccess}, pi_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE pi_id='{_obj1[i][0]}'");
+                                    //【课题 / 子课题】
+                                    List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{_obj1[i][0]}' AND si_work_status={(int)WorkStatus.NonWork}", 1);
+                                    for(int j = 0; j < _obj2.Count; j++)
                                     {
-                                        SqlHelper.ExecuteOnlyOneQuery($"UPDATE subject_info SET si_work_status={(int)WorkStatus.WorkSuccess}, si_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj3[k][0]}'");
+                                        SqlHelper.ExecuteOnlyOneQuery($"UPDATE subject_info SET si_work_status={(int)WorkStatus.WorkSuccess}, si_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj2[j][0]}'");
+                                        //【子课题】
+                                        List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{_obj2[j][0]}' AND si_work_status={(int)WorkStatus.NonWork}", 1);
+                                        for(int k = 0; k < _obj3.Count; k++)
+                                        {
+                                            SqlHelper.ExecuteOnlyOneQuery($"UPDATE subject_info SET si_work_status={(int)WorkStatus.WorkSuccess}, si_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj3[k][0]}'");
+                                        }
                                     }
                                 }
+                                //跳转到我的加工页面
+                                LoadWorkList(null, WorkStatus.WorkSuccess);
                             }
-                            //跳转到我的加工页面
-                            LoadWorkList(null, WorkStatus.WorkSuccess);
                         }
+                        else
+                            MessageBox.Show("此操作不被允许！", "领取失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else
                         MessageBox.Show("请先完成当前已领取且尚未完成的加工项。", "领取失败");
-                }*/
+                }
                 //批次 - 加工
                 /*else if("trp_control".Equals(columnName))
                 {
