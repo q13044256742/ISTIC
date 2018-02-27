@@ -259,11 +259,21 @@ namespace 科技计划项目档案数据采集管理系统
             InitialFormList(dgv_Imp_Dev_FileList, "imp_dev_");
 
             //来源单位/省份 下拉列表
-            InitialDrowDownList(ControlType.Plan_Project);
-            InitialDrowDownList(ControlType.Plan_Project_Topic);
-            InitialDrowDownList(ControlType.Plan_Project_Topic_Subtopic);
-            InitialDrowDownList(ControlType.Plan_Topic);
-            InitialDrowDownList(ControlType.Plan_Topic_Subtopic);
+            //InitialDrowDownList(ControlType.Plan_Project);
+            //InitialDrowDownList(ControlType.Plan_Project_Topic);
+            //InitialDrowDownList(ControlType.Plan_Project_Topic_Subtopic);
+            //InitialDrowDownList(ControlType.Plan_Topic);
+            //InitialDrowDownList(ControlType.Plan_Topic_Subtopic);
+            
+            //文件核查原因列表
+            InitialLostReasonList(dgv_JH_FileValid, "dgv_jh_");
+            InitialLostReasonList(dgv_JH_XM_FileValid, "dgv_jh_xm_");
+            InitialLostReasonList(dgv_JH_KT_FileValid, "dgv_jh_kt_");
+            InitialLostReasonList(dgv_JH_XM_KT_FileValid, "dgv_jh_xm_kt_");
+            InitialLostReasonList(dgv_JH_XM_KT_ZKT_FileValid, "dgv_jh_xm_kt_zkt_");
+            InitialLostReasonList(dgv_JH_KT_ZKT_FileValid, "dgv_jh_kt_zkt_");
+            InitialLostReasonList(dgv_Imp_FileValid, "dgv_imp_");
+            InitialLostReasonList(dgv_Imp_Dev_FileValid, "dgv_imp_dev_");
 
             cbo_JH_HasNext.SelectedIndex = 0;
             cbo_JH_XM_HasNext.SelectedIndex = 0;
@@ -271,7 +281,19 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_JH_KT_HasNext.SelectedIndex = 0;
         }
         /// <summary>
-        /// 初始化下拉框数据
+        /// 初始化文件核查原因
+        /// </summary>
+        private void InitialLostReasonList(DataGridView view, string key)
+        {
+            string code = "dic_file_lostreason";
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary WHERE dd_code='{code}')");
+            DataGridViewComboBoxColumn comboBoxColumn = view.Columns[key + "reason"] as DataGridViewComboBoxColumn;
+            comboBoxColumn.DataSource = table;
+            comboBoxColumn.DisplayMember = "dd_name";
+            comboBoxColumn.ValueMember = "dd_id";
+        }
+        /// <summary>
+        /// 初始化下拉框数据（承担单位/省份）
         /// </summary>
         private void InitialDrowDownList(ControlType type)
         {
@@ -305,9 +327,9 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_JH_XM_KT_Unit.DisplayMember = "dd_name";
                 cbo_JH_XM_KT_Unit.ValueMember = "dd_id";
 
-                cbo_JH_XM_Province.DataSource = _dataTable;
-                cbo_JH_XM_Province.DisplayMember = "dd_name";
-                cbo_JH_XM_Province.ValueMember = "dd_id";
+                cbo_JH_XM_KT_Province.DataSource = _dataTable;
+                cbo_JH_XM_KT_Province.DisplayMember = "dd_name";
+                cbo_JH_XM_KT_Province.ValueMember = "dd_id";
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
@@ -2700,28 +2722,17 @@ namespace 科技计划项目档案数据采集管理系统
         {
             dataGridView.Rows.Clear();
 
-            string querySql = "select dd_name,dd_note from data_dictionary where dd_pId in(" +
-                "select dd_id from data_dictionary where dd_pId = (" +
-                "select dd_id from data_dictionary  where dd_code = 'dic_file_jd')) and dd_name not in(" +
-                $"select dd.dd_name from processing_file_list pfl left join data_dictionary dd on pfl.pfl_categor = dd.dd_id where pfl.pfl_obj_id='{objid}')";
-            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM processing_file_lost WHERE pfo_obj_id='{objid}' ORDER BY pfo_categor");
             for (int i = 0; i < table.Rows.Count; i++)
             {
                 int indexRow = dataGridView.Rows.Add();
                 dataGridView.Rows[indexRow].Cells[key + "id"].Value = i + 1;
-                dataGridView.Rows[indexRow].Cells[key + "categor"].Value = table.Rows[i]["dd_name"];
-                dataGridView.Rows[indexRow].Cells[key + "name"].Value = table.Rows[i]["dd_note"];
-
-                string queryReasonSql = $"SELECT pfo_id, pfo_reason, pfo_remark FROM processing_file_lost WHERE pfo_obj_id='{objid}' AND pfo_categor='{table.Rows[i]["dd_name"]}'";
-                object[] _obj = SqlHelper.ExecuteRowsQuery(queryReasonSql);
-                if(_obj != null)
-                {
-                    dataGridView.Rows[indexRow].Cells[key + "id"].Tag = GetValue(_obj[0]);
-                    dataGridView.Rows[indexRow].Cells[key + "reason"].Value = GetValue(_obj[1]);
-                    dataGridView.Rows[indexRow].Cells[key + "remark"].Value = GetValue(_obj[2]);
-                }
+                dataGridView.Rows[indexRow].Cells[key + "categor"].Value = table.Rows[i]["pfo_categor"];
+                dataGridView.Rows[indexRow].Cells[key + "name"].Value = table.Rows[i]["pfo_name"];
+                dataGridView.Rows[indexRow].Cells[key + "id"].Tag = table.Rows[i]["pfo_id"];
+                dataGridView.Rows[indexRow].Cells[key + "reason"].Value = table.Rows[i]["pfo_reason"];
+                dataGridView.Rows[indexRow].Cells[key + "remark"].Value = table.Rows[i]["pfo_remark"];
             }
-
 
             List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
             list.Add(new KeyValuePair<string, int>(key + "id", 50));
@@ -3935,6 +3946,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         private void LoadPageBasicInfo(object projectId, ControlType type)
         {
+            InitialDrowDownList(type);
             if(type == ControlType.Plan_Project)
             {
                 DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM project_info WHERE pi_id='{projectId}'");
