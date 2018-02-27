@@ -377,7 +377,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
-
         /// <summary>
         /// 搜索
         /// </summary>
@@ -404,7 +403,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             else
                 LoadPCDataScoure(null);
         }
-
         /// <summary>
         /// 选项卡切换事件
         /// </summary>
@@ -419,7 +417,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     LoadGPDJ(null);
             }
         }
-
         /// <summary>
         /// 加载光盘列表
         /// </summary>
@@ -485,10 +482,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// 根据光盘ID获取文件数
         /// </summary>
         /// <param name="cdid">光盘ID</param>
-        private object GetFileAmount(object cdid)
-        {
-            return SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{cdid}'");
-        }
+        private object GetFileAmount(object cdid) => SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{cdid}'");
         /// <summary>
         /// 根据光盘ID获取项目数总和
         /// </summary>
@@ -499,7 +493,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE pi_obj_id=(SELECT pi_id FROM project_info WHERE trc_id='{trcId}')"));
             return proAmount;
         }
-
         /// <summary>
         /// 根据光盘ID获取课题数总和
         /// </summary>
@@ -512,7 +505,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     $"(SELECT pi_id FROM project_info WHERE trc_id='{trcId}'))"));
             return amount;
         }
-
         /// <summary>
         /// 根据状态id获取光盘的读写状态
         /// </summary>
@@ -523,7 +515,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             else if (index == 3) return "解析异常";
             else return string.Empty;
         }
-
         /// <summary>
         /// 将Object对象转换成Int对象
         /// </summary>
@@ -535,7 +526,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             int.TryParse(_obj.ToString(), out temp);
             return temp;
         }
-
         /// <summary>
         /// 光盘页搜索
         /// </summary>
@@ -556,7 +546,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
             LoadGPDJ(querySql.ToString());
         }
-
         /// <summary>
         /// 光盘页单元格点击事件
         /// </summary>

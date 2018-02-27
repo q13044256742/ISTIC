@@ -17,6 +17,10 @@ namespace 科技计划项目档案数据采集管理系统
         public object planCode;
         public object unitCode;
         /// <summary>
+        /// 禁用背景色
+        /// </summary>
+        private System.Drawing.Color DisEnbleColor = System.Drawing.Color.Gray;
+        /// <summary>
         /// 开始加工指定的对象
         /// </summary>
         /// <param name="workType">对象类型</param>
@@ -47,7 +51,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// 加载计划页面
         /// </summary>
         /// <param name="planId">计划主键</param>
-        private void LoadPlanPage(object planId)
+        /// <param name="color">节点背景色</param>
+        private void LoadPlanPage(object planId, System.Drawing.Color color)
         {
             object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_obj_id FROM project_info WHERE pi_id = '{planId}'");
             if(_obj== null)
@@ -70,6 +75,7 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_JH_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_JH_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_JH_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            pal_JH_BtnGroup.Enabled = !(color == DisEnbleColor);
         }
         /// <summary>
         /// 加载指定表格的文件列表
@@ -2246,35 +2252,44 @@ namespace 科技计划项目档案数据采集管理系统
             //子级（课题/子课题）
             else if(workType == WorkType.SubjectWork)
             {
-                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}'");
+                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_worker_id FROM project_info WHERE pi_id='{planId}'");
                 if(_obj == null)
-                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id, dd_name,'{UserHelper.GetInstance().User.UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()
                 {
-                    Name = _obj[0].ToString(),
-                    Text = _obj[1].ToString(),
-                    Tag = ControlType.Plan,
+                    Name = GetValue(_obj[0]),
+                    Text = GetValue(_obj[1]),
+                    Tag = ControlType.Plan
                 };
+                //如果当前任务并非登录人加工，则无法编辑【文字置灰】
+                if(!UserHelper.GetInstance().User.UserKey.Equals(_obj[2]))
+                    treeNode.ForeColor = DisEnbleColor;
                 //根据【计划】查询【项目/课题】集
-                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}'", 3);
+                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_code, pi_categor, pi_worker_id FROM project_info WHERE pi_obj_id='{treeNode.Name}'", 4);
                 for(int i = 0; i < list.Count; i++)
                 {
                     TreeNode treeNode2 = new TreeNode()
                     {
-                        Name = list[i][0].ToString(),
-                        Text = list[i][1].ToString(),
+                        Name = GetValue(list[i][0]),
+                        Text = GetValue(list[i][1]),
                         Tag = (ControlType)list[i][2]
                     };
+                    //如果当前任务并非登录人加工，则无法编辑【文字置灰】
+                    if(!UserHelper.GetInstance().User.UserKey.Equals(list[i][3]))
+                        treeNode2.ForeColor = DisEnbleColor;
                     //根据【项目/课题】查询【课题/子课题】集
-                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 3);
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id, si_code, si_categor, si_worker_id FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 4);
                     for(int j = 0; j < list2.Count; j++)
                     {
                         TreeNode treeNode3 = new TreeNode()
                         {
-                            Name = list2[j][0].ToString(),
-                            Text = list2[j][1].ToString(),
+                            Name = GetValue(list2[j][0]),
+                            Text = GetValue(list2[j][1]),
                             Tag = (ControlType)list2[j][2]
                         };
+                        //如果当前任务并非登录人加工，则无法编辑【文字置灰】
+                        if(!UserHelper.GetInstance().User.UserKey.Equals(list2[j][3]))
+                            treeNode3.ForeColor = DisEnbleColor;
                         //【当前定位为课题子课题，则只取一条即可】
                         if(treeNode3.Name.Equals(trpId))
                         {
@@ -2310,7 +2325,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(type == ControlType.Plan)
             {
                 ShowTab("plan", 0);
-                LoadPlanPage(e.Node.Name);
+                LoadPlanPage(e.Node.Name, e.Node.ForeColor);
             }
             else if(type == ControlType.Plan_Project)
             {
@@ -2321,34 +2336,35 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadImpInfo(e.Node.Parent.Parent.Name);
 
                     ShowTab("imp_dev", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Imp_Sub);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_project", 2);
-                    LoadPageBasicInfo(e.Node.Name, type);
+                    LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
                 }
                 else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                 {
                     ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Name);
+                    LoadPlanPage(e.Node.Parent.Name, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_project", 1);
-                    LoadPageBasicInfo(e.Node.Name, type);
+                    LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
                 }
                 else if(workType == WorkType.ProjectWork)
                 {
                     ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Name);
+                    LoadPlanPage(e.Node.Parent.Name, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_project", 1);
-                    LoadPageBasicInfo(e.Node.Name, type);
+                    LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
                 }
                 else if(workType == WorkType.SubjectWork)
                 {
+
                     ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Name);
+                    LoadPlanPage(e.Node.Parent.Name, e.Node.ForeColor);
 
                     ShowTab("plan_project", 1);
-                    LoadPageBasicInfo(e.Node.Name, type);
+                    LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
                 }
             }
             else if(type == ControlType.Plan_Topic)
@@ -2360,18 +2376,18 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadImpInfo(e.Node.Parent.Parent.Name);
 
                     ShowTab("imp_sub", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Imp_Sub);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_project", 2);
-                    LoadPageBasicInfo(e.Node.Name, type);
+                    LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
                 }
                 else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                 {
                     ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Name);
+                    LoadPlanPage(e.Node.Parent.Name, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_topic", 1);
-                    LoadPageBasicInfo(e.Node.Name, type);
+                    LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
                 }
             }
             else if(type == ControlType.Plan_Project_Topic)
@@ -2383,35 +2399,35 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadImpInfo(e.Node.Parent.Parent.Parent.Name);
 
                     ShowTab("imp_dev", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub);
+                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.Parent.ForeColor);
 
                     ShowTab("plan_project", 2);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_project_topic", 3);
-                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
+                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic, e.Node.ForeColor);
                 }
                 else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                 {
                     ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Parent.Name);
+                    LoadPlanPage(e.Node.Parent.Parent.Name, e.Node.Parent.Parent.ForeColor);
 
                     ShowTab("plan_project", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_project_topic", 2);
-                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
+                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic, e.Node.ForeColor);
                 }
                 else if(workType == WorkType.ProjectWork || workType == WorkType.SubjectWork)
                 {
                     ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Parent.Name);
+                    LoadPlanPage(e.Node.Parent.Parent.Name, e.Node.Parent.Parent.ForeColor);
 
                     ShowTab("plan_project", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_project_topic", 2);
-                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
+                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic, e.Node.ForeColor);
                 }
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
@@ -2423,25 +2439,25 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadImpInfo(e.Node.Parent.Parent.Parent.Name);
 
                     ShowTab("imp_dev", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub);
+                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.Parent.ForeColor);
 
                     ShowTab("plan_topic", 2);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Topic);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Topic, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_topic_subtopic", 3);
-                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Topic_Subtopic);
+                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Topic_Subtopic, e.Node.ForeColor);
                 }
                 else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                 {
 
                     ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Parent.Name);
+                    LoadPlanPage(e.Node.Parent.Parent.Name, e.Node.Parent.Parent.ForeColor);
 
                     ShowTab("plan_topic", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Topic);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Topic, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_topic_subtopic", 2);
-                    LoadPageBasicInfo(e.Node.Name, type);
+                    LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
                 }
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
@@ -2452,32 +2468,32 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadImpInfo(e.Node.Parent.Parent.Parent.Name);
 
                     ShowTab("imp_dev", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub);
+                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.Parent.ForeColor);
 
                     ShowTab("plan_project", 2);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project, e.Node.Parent.ForeColor);
 
                     ShowTab("plan_project_topic", 3);
-                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
+                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic, e.Node.ForeColor);
 
                     ShowTab("plan_project_topic_subtopic", 4);
-                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic_Subtopic);
+                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic_Subtopic, e.Node.ForeColor);
                 }
                 else
                 {
                     tab_MenuList.TabPages.Clear();
 
                     ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Parent.Parent.Name);
+                    LoadPlanPage(e.Node.Parent.Parent.Parent.Name, e.Node.Parent.Parent.Parent.ForeColor);
 
                     ShowTab("plan_project", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Plan_Project);
+                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Plan_Project,e.Node.Parent.Parent.ForeColor);
 
                     ShowTab("plan_project_topic", 2);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project_Topic);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project_Topic,e.Node.Parent.ForeColor);
 
                     ShowTab("plan_project_topic_subtopic", 3);
-                    LoadPageBasicInfo(e.Node.Name, type);
+                    LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
                 }
             }
             else if(type == ControlType.Imp || type == ControlType.Imp_Dev)
@@ -2496,7 +2512,7 @@ namespace 科技计划项目档案数据采集管理系统
                 LoadImpInfo(e.Node.Parent.Name);
 
                 ShowTab("imp_dev", 1);
-                LoadPageBasicInfo(e.Node.Name, type);
+                LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
             }
             if(tab_MenuList.TabPages.Count > 0)
                 tab_MenuList.SelectedIndex = tab_MenuList.TabPages.Count - 1;
@@ -4171,8 +4187,9 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         /// <param name="planId">【项目/课题】ID</param>
         /// <param name="type">对象类型</param>
-        private void LoadPageBasicInfo(object projectId, ControlType type)
+        private void LoadPageBasicInfo(object projectId, ControlType type, System.Drawing.Color color)
         {
+            InitialDrowDownList(type);
             if(type == ControlType.Plan_Project)
             {
                 DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM project_info WHERE pi_id='{projectId}'");
@@ -4212,6 +4229,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
                 dgv_JH_XM_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 dgv_JH_XM_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+                pal_JH_XM_BtnGroup.Enabled = !(color == DisEnbleColor);
             }
             else if(type == ControlType.Plan_Topic)
             {
@@ -4252,6 +4271,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
                 dgv_JH_KT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 dgv_JH_KT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+                pal_JH_KT_BtnGroup.Enabled = !(color == DisEnbleColor);
             }
             else if(type == ControlType.Plan_Project_Topic)
             {
@@ -4292,6 +4313,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
                 dgv_JH_XM_KT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 dgv_JH_XM_KT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+                pal_JH_XM_KT_BtnGroup.Enabled = !(color == DisEnbleColor);
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
             {
@@ -4332,6 +4355,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
                 dgv_JH_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 dgv_JH_KT_ZKT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+                pal_JH_KT_ZKT_BtnGroup.Enabled = !(color == DisEnbleColor);
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
@@ -4372,6 +4397,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
                 dgv_JH_XM_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 dgv_JH_XM_KT_ZKT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+                pal_JH_XM_KT_ZKT_BtnGroup.Enabled = !(color == DisEnbleColor);
             }
             else if(type == ControlType.Imp_Sub)
             {
@@ -4398,6 +4425,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Imp_Dev_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
                 dgv_Imp_Dev_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 dgv_Imp_Dev_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+                pal_Imp_Dev_BtnGroup.Enabled = !(color == DisEnbleColor);
             }
         }
         /// <summary>
@@ -4701,7 +4730,7 @@ namespace 科技计划项目档案数据采集管理系统
             int _index = tab_MenuList.SelectedIndex;
             object value = cbo_Imp_HasNext.SelectedValue;
             ShowTab("imp_dev", _index + 1);
-            LoadPageBasicInfo(value, ControlType.Imp_Sub);
+            LoadPageBasicInfo(value, ControlType.Imp_Sub, System.Drawing.Color.Black);
             pal_Imp_Dev.Tag = lbl_Imp_Name.Tag;
         }
         /// <summary>
@@ -4718,7 +4747,8 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(File.Exists(path))
                     {
-                        System.Diagnostics.Process.Start("Explorer.exe", path);
+                        if(MessageBox.Show("是否打开此文件？", "温馨提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            System.Diagnostics.Process.Start("Explorer.exe", path);
                     }
                     else
                     {
@@ -4840,7 +4870,6 @@ namespace 科技计划项目档案数据采集管理系统
             string ids = builder.Remove(builder.Length - 1, 1).ToString();
             SqlHelper.ExecuteNonQuery($"UPDATE processing_box SET pb_files_id='{ids}' WHERE pb_id='{pbid}'");
         }
-
         /// <summary>
         /// 上下移动已归档列表中的项
         /// </summary>

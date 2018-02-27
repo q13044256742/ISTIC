@@ -179,5 +179,29 @@ namespace 科技计划项目档案数据采集管理系统
             string querySql = $"SELECT * FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary WHERE dd_code='{key}')";
             return ExecuteQuery(querySql);
         }
+        /// <summary>
+        /// 通过类型获取对应来源单位ID和NAME
+        /// </summary>
+        public static object[] GetCompanyByParam(object id, object workType)
+        {
+            WorkType type = (WorkType)Convert.ToInt32(workType);
+            string querySql = null;
+            if(type == WorkType.ProjectWork)
+            {
+                object trcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id= (SELECT pi_obj_id FROM project_info WHERE pi_id='{id}')");
+                object trpid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
+                object comid = SqlHelper.ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpid}'");
+                querySql = $"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
+            }
+            else if(type == WorkType.SubjectWork)
+            {
+                object piid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM subject_info WHERE si_id='{id}'");
+                object trcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id= (SELECT pi_obj_id FROM project_info WHERE pi_id='{piid}')");
+                object trpid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
+                object comid = SqlHelper.ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpid}'");
+                querySql = $"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
+            }
+            return SqlHelper.ExecuteRowsQuery(querySql);
+        }
     }
 }
