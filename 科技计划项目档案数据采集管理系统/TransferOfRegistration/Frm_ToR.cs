@@ -537,9 +537,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 queryCondition = " WHERE dd_name LIKE '%" + key + "%' OR trc_code LIKE '%" + key + "%' OR trc_name LIKE '%" + key + "%'";
 
             StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
-            querySql.Append(" FROM transfer_registraion_cd trc");
-            querySql.Append(" LEFT JOIN(");
-            querySql.Append(" SELECT trp.trp_id, dd_name,sorting FROM transfer_registration_pc trp, data_dictionary cs WHERE trp.com_id = cs.dd_id ) tb");
+            querySql.Append(" FROM transfer_registraion_cd trc LEFT JOIN(");
+            querySql.Append(" SELECT trp.trp_id, dd_name, dd_sort FROM transfer_registration_pc trp, data_dictionary cs WHERE trp.com_id = cs.dd_id ) tb");
             querySql.Append(" ON trc.trp_id = tb.trp_id");
             querySql.Append(queryCondition);
             querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort ASC");

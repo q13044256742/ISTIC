@@ -403,6 +403,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(CheckCanReceive())
                     {
                         int totalAmount = Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells["trc_total_amount"].Value);
+                        //不能直接领取结构化光盘
                         if(totalAmount == 0)
                         {
                             object trcid = dgv_WorkLog.Rows[e.RowIndex].Cells["trc_id"].Value;
