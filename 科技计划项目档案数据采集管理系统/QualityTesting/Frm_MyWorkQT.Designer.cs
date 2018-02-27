@@ -2943,6 +2943,7 @@
             // 
             // lsv_JH_KT_File2
             // 
+            this.lsv_JH_KT_File2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lsv_JH_KT_File2.FullRowSelect = true;
             this.lsv_JH_KT_File2.GridLines = true;
             this.lsv_JH_KT_File2.Location = new System.Drawing.Point(548, 52);
@@ -2954,6 +2955,7 @@
             // 
             // lsv_JH_KT_File1
             // 
+            this.lsv_JH_KT_File1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lsv_JH_KT_File1.FullRowSelect = true;
             this.lsv_JH_KT_File1.GridLines = true;
             this.lsv_JH_KT_File1.Location = new System.Drawing.Point(10, 52);
@@ -3890,6 +3892,7 @@
             // 
             // lsv_JH_XM_KT_File2
             // 
+            this.lsv_JH_XM_KT_File2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lsv_JH_XM_KT_File2.FullRowSelect = true;
             this.lsv_JH_XM_KT_File2.GridLines = true;
             this.lsv_JH_XM_KT_File2.Location = new System.Drawing.Point(548, 52);
@@ -3901,6 +3904,7 @@
             // 
             // lsv_JH_XM_KT_File1
             // 
+            this.lsv_JH_XM_KT_File1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lsv_JH_XM_KT_File1.FullRowSelect = true;
             this.lsv_JH_XM_KT_File1.GridLines = true;
             this.lsv_JH_XM_KT_File1.Location = new System.Drawing.Point(10, 52);
@@ -4836,6 +4840,7 @@
             // 
             // lsv_JH_XM_KT_ZKT_File2
             // 
+            this.lsv_JH_XM_KT_ZKT_File2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lsv_JH_XM_KT_ZKT_File2.FullRowSelect = true;
             this.lsv_JH_XM_KT_ZKT_File2.GridLines = true;
             this.lsv_JH_XM_KT_ZKT_File2.Location = new System.Drawing.Point(548, 52);
@@ -4847,6 +4852,7 @@
             // 
             // lsv_JH_XM_KT_ZKT_File1
             // 
+            this.lsv_JH_XM_KT_ZKT_File1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lsv_JH_XM_KT_ZKT_File1.FullRowSelect = true;
             this.lsv_JH_XM_KT_ZKT_File1.GridLines = true;
             this.lsv_JH_XM_KT_ZKT_File1.Location = new System.Drawing.Point(10, 52);

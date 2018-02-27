@@ -261,16 +261,38 @@ namespace 科技计划项目档案数据采集管理系统
             InitialFormList(dgv_Imp_Dev_FileList, "imp_dev_");
 
             //来源单位/省份 下拉列表
-            InitialDrowDownList(ControlType.Plan_Project);
-            InitialDrowDownList(ControlType.Plan_Project_Topic);
-            InitialDrowDownList(ControlType.Plan_Project_Topic_Subtopic);
-            InitialDrowDownList(ControlType.Plan_Topic);
-            InitialDrowDownList(ControlType.Plan_Topic_Subtopic);
+            //InitialDrowDownList(ControlType.Plan_Project);
+            //InitialDrowDownList(ControlType.Plan_Project_Topic);
+            //InitialDrowDownList(ControlType.Plan_Project_Topic_Subtopic);
+            //InitialDrowDownList(ControlType.Plan_Topic);
+            //InitialDrowDownList(ControlType.Plan_Topic_Subtopic);
+
+            //文件核查原因列表
+            InitialLostReasonList(dgv_JH_FileValid, "dgv_jh_");
+            InitialLostReasonList(dgv_JH_XM_FileValid, "dgv_jh_xm_");
+            InitialLostReasonList(dgv_JH_KT_FileValid, "dgv_jh_kt_");
+            InitialLostReasonList(dgv_JH_XM_KT_FileValid, "dgv_jh_xm_kt_");
+            InitialLostReasonList(dgv_JH_XM_KT_ZKT_FileValid, "dgv_jh_xm_kt_zkt_");
+            InitialLostReasonList(dgv_JH_KT_ZKT_FileValid, "dgv_jh_kt_zkt_");
+            InitialLostReasonList(dgv_Imp_FileValid, "dgv_imp_");
+            InitialLostReasonList(dgv_Imp_Dev_FileValid, "dgv_imp_dev_");
 
             cbo_JH_HasNext.SelectedIndex = 0;
             cbo_JH_XM_HasNext.SelectedIndex = 0;
             cbo_JH_XM_KT_HasNext.SelectedIndex = 0;
             cbo_JH_KT_HasNext.SelectedIndex = 0;
+        }
+        /// <summary>
+        /// 初始化文件核查原因
+        /// </summary>
+        private void InitialLostReasonList(DataGridView view, string key)
+        {
+            string code = "dic_file_lostreason";
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary WHERE dd_code='{code}')");
+            DataGridViewComboBoxColumn comboBoxColumn = view.Columns[key + "reason"] as DataGridViewComboBoxColumn;
+            comboBoxColumn.DataSource = table;
+            comboBoxColumn.DisplayMember = "dd_name";
+            comboBoxColumn.ValueMember = "dd_id";
         }
         /// <summary>
         /// 初始化下拉框数据
@@ -3252,7 +3274,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, false);
                         }
                     }
-                    LoadFileBoxTable(value, dgv_JH_KT_FileList.Tag, ControlType.Plan_Project);
+                    LoadFileBoxTable(value, dgv_JH_KT_FileList.Tag, ControlType.Plan_Topic);
                 }
                 else
                     MessageBox.Show("请先添加案卷盒。", "保存失败");
