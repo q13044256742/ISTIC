@@ -36,18 +36,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.belong_bm = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.phone = new System.Windows.Forms.TextBox();
             this.login_name = new System.Windows.Forms.TextBox();
             this.password = new System.Windows.Forms.TextBox();
             this.real_password = new System.Windows.Forms.TextBox();
             this.belong_unit = new System.Windows.Forms.TextBox();
-            this.mobile = new System.Windows.Forms.TextBox();
             this.mail = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.real_name = new System.Windows.Forms.TextBox();
@@ -58,6 +54,13 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.ip_input = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.phone = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.mobile = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.role_select = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // button1
@@ -139,16 +142,6 @@
             this.label5.TabIndex = 40;
             this.label5.Text = "所属部门：";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(79, 185);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(54, 19);
-            this.label6.TabIndex = 41;
-            this.label6.Text = "手机：";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -188,28 +181,6 @@
             this.belong_bm.Name = "belong_bm";
             this.belong_bm.Size = new System.Drawing.Size(271, 26);
             this.belong_bm.TabIndex = 51;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label14.Location = new System.Drawing.Point(467, 186);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(54, 19);
-            this.label14.TabIndex = 54;
-            this.label14.Text = "电话：";
-            // 
-            // phone
-            // 
-            this.phone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.phone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.phone.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.phone.Location = new System.Drawing.Point(524, 182);
-            this.phone.MaxLength = 11;
-            this.phone.Name = "phone";
-            this.phone.Size = new System.Drawing.Size(271, 26);
-            this.phone.TabIndex = 55;
-            this.phone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Phone_keyPress);
             // 
             // login_name
             // 
@@ -252,18 +223,6 @@
             this.belong_unit.Name = "belong_unit";
             this.belong_unit.Size = new System.Drawing.Size(271, 26);
             this.belong_unit.TabIndex = 63;
-            // 
-            // mobile
-            // 
-            this.mobile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.mobile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mobile.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.mobile.Location = new System.Drawing.Point(136, 182);
-            this.mobile.MaxLength = 11;
-            this.mobile.Name = "mobile";
-            this.mobile.Size = new System.Drawing.Size(271, 26);
-            this.mobile.TabIndex = 64;
-            this.mobile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Phone_keyPress);
             // 
             // mail
             // 
@@ -371,11 +330,91 @@
             this.ip_input.Size = new System.Drawing.Size(658, 26);
             this.ip_input.TabIndex = 118;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label12.Location = new System.Drawing.Point(78, 189);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(54, 19);
+            this.label12.TabIndex = 123;
+            this.label12.Text = "角色：";
+            // 
+            // phone
+            // 
+            this.phone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.phone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.phone.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.phone.Location = new System.Drawing.Point(524, 234);
+            this.phone.MaxLength = 11;
+            this.phone.Name = "phone";
+            this.phone.Size = new System.Drawing.Size(271, 26);
+            this.phone.TabIndex = 126;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label14.Location = new System.Drawing.Point(467, 238);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(54, 19);
+            this.label14.TabIndex = 125;
+            this.label14.Text = "电话：";
+            // 
+            // mobile
+            // 
+            this.mobile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.mobile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mobile.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.mobile.Location = new System.Drawing.Point(524, 186);
+            this.mobile.MaxLength = 11;
+            this.mobile.Name = "mobile";
+            this.mobile.Size = new System.Drawing.Size(271, 26);
+            this.mobile.TabIndex = 128;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label6.Location = new System.Drawing.Point(467, 189);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(54, 19);
+            this.label6.TabIndex = 127;
+            this.label6.Text = "手机：";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.label15.ForeColor = System.Drawing.Color.Red;
+            this.label15.Location = new System.Drawing.Point(410, 189);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(16, 19);
+            this.label15.TabIndex = 129;
+            this.label15.Text = "*";
+            // 
+            // role_select
+            // 
+            this.role_select.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.role_select.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.role_select.FormattingEnabled = true;
+            this.role_select.Location = new System.Drawing.Point(136, 185);
+            this.role_select.Name = "role_select";
+            this.role_select.Size = new System.Drawing.Size(270, 25);
+            this.role_select.TabIndex = 130;
+            // 
             // Frm_userInfoAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 517);
+            this.Controls.Add(this.role_select);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.mobile);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.phone);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.ip_input);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label9);
@@ -386,18 +425,14 @@
             this.Controls.Add(this.real_name);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.mail);
-            this.Controls.Add(this.mobile);
             this.Controls.Add(this.belong_unit);
             this.Controls.Add(this.real_password);
             this.Controls.Add(this.password);
             this.Controls.Add(this.login_name);
-            this.Controls.Add(this.phone);
-            this.Controls.Add(this.label14);
             this.Controls.Add(this.belong_bm);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -423,18 +458,14 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox belong_bm;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox phone;
         private System.Windows.Forms.TextBox login_name;
         private System.Windows.Forms.TextBox password;
         private System.Windows.Forms.TextBox real_password;
         private System.Windows.Forms.TextBox belong_unit;
-        private System.Windows.Forms.TextBox mobile;
         private System.Windows.Forms.TextBox mail;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox real_name;
@@ -445,5 +476,12 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox ip_input;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox phone;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox mobile;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox role_select;
     }
 }

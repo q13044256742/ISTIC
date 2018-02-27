@@ -187,12 +187,11 @@
             this.u_SearchType.Items.AddRange(new object[] {
             "登录名",
             "真实姓名",
+            "角色",
             "手机",
             "电话",
             "所属单位",
-            "所属部门",
-            "所属用户组",
-            "邮箱"});
+            "所属部门"});
             this.u_SearchType.Location = new System.Drawing.Point(54, 28);
             this.u_SearchType.Name = "u_SearchType";
             this.u_SearchType.Size = new System.Drawing.Size(97, 20);

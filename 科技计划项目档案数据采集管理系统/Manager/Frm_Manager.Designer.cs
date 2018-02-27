@@ -179,8 +179,7 @@
             this.cbo_SearchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbo_SearchType.FormattingEnabled = true;
             this.cbo_SearchType.Items.AddRange(new object[] {
-            "名称",
-            "编码"});
+            "名称"});
             this.cbo_SearchType.Location = new System.Drawing.Point(54, 28);
             this.cbo_SearchType.Name = "cbo_SearchType";
             this.cbo_SearchType.Size = new System.Drawing.Size(97, 20);
