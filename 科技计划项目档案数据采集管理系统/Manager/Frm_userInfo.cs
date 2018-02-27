@@ -33,20 +33,25 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if (index == 2)
             {
-                queryKey = "telephone";
+                queryKey = "dd_name";
             }
             else if (index == 3)
             {
-                queryKey = "cellphone";
+                queryKey = "telephone";
             }
             else if (index == 4)
             {
-                queryKey = "belong_unit";
+                queryKey = "cellphone";
             }
             else if (index == 5)
             {
+                queryKey = "belong_unit";
+            }
+            else if (index == 6)
+            {
                 queryKey = "belong_department";
-            }                      
+            }
+           
 
             if (!string.IsNullOrEmpty(queryKey)) { 
                 if (!string.IsNullOrEmpty(searchKey))
