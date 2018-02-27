@@ -42,16 +42,15 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         private void LoadData(string pId,string id)
         {
             string querySql = $"SELECT dd_name FROM data_dictionary where dd_id = '{pId}'";
-            string dataSql = $"SELECT dd_name,dd_code,dd_sort,dd_note FROM data_dictionary where dd_id = '{id}'";
+            string dataSql = $"SELECT dd_name,dd_sort,dd_note FROM data_dictionary where dd_id = '{id}'";
             String dd_name = (String)SqlHelper.ExecuteOnlyOneQuery(querySql);
             object[] _obj = SqlHelper.ExecuteRowsQuery(dataSql);
 
             //给文本框赋值
             txt_Search.Text = dd_name;
-            textBox1.Text = _obj[0].ToString();
-            textBox2.Text = _obj[1].ToString();
-            textBox3.Text = _obj[2].ToString();
-            textBox4.Text = _obj[3].ToString();          
+            textBox1.Text = _obj[0].ToString();           
+            textBox3.Text = _obj[1].ToString();
+            textBox4.Text = _obj[2].ToString();          
             txt_Search.Tag = pId;
             textBox1.Tag = id;
         }
@@ -67,7 +66,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             {
                 //保存基本信息                     
                 string dd_name = textBox1.Text.Trim();
-                string dd_code = textBox2.Text.Trim();
+                string dd_code = Guid.NewGuid().ToString();
                 int dd_sort = (int)textBox3.Value;
                 string dd_node = textBox4.Text.Trim();
                 string dd_pId = (string)txt_Search.Tag;
@@ -83,7 +82,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 else
                 {
                     string dd_id = (string)textBox1.Tag;
-                    string querySql = $"update data_dictionary set dd_name='{dd_name}',dd_code='{dd_code}',dd_sort='{dd_sort}',dd_note='{dd_node}' where dd_id='{dd_id}'";
+                    string querySql = $"update data_dictionary set dd_name='{dd_name}',dd_sort='{dd_sort}',dd_note='{dd_node}' where dd_id='{dd_id}'";
                     SqlHelper.ExecuteQuery(querySql);
                 }
                 if (MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
@@ -99,7 +98,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         /// </summary>
         private bool ValidData()
         {          
-            if (string.IsNullOrEmpty(textBox1.Text.Trim()) || string.IsNullOrEmpty(textBox2.Text.Trim()))
+            if (string.IsNullOrEmpty(textBox1.Text.Trim()))
                 return false;
             return true;
         }
