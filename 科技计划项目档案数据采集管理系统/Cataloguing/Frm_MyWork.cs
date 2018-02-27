@@ -315,9 +315,9 @@ namespace 科技计划项目档案数据采集管理系统
 
                 DataTable _dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
                    "SELECT dd_id FROM data_dictionary where dd_code = 'dic_xzqy_province')");
-                cbo_JH_XM_Province.DataSource = _dataTable;
-                cbo_JH_XM_Province.DisplayMember = "dd_name";
-                cbo_JH_XM_Province.ValueMember = "dd_id";
+                cbo_JH_XM_KT_Province.DataSource = _dataTable;
+                cbo_JH_XM_KT_Province.DisplayMember = "dd_name";
+                cbo_JH_XM_KT_Province.ValueMember = "dd_id";
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
