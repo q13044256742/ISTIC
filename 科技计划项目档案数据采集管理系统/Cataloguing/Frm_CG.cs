@@ -58,10 +58,8 @@ namespace 科技计划项目档案数据采集管理系统
             DataTable dataTable = null;
             if(querySql == null)
             {
-                //加载实物登记数据【默认加载状态为2（已提交）的数据】
                 querySql = new StringBuilder("SELECT pc.trp_id, dd_name, trp_name, trp_code, trp_cd_amount");
                 querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN data_dictionary dd ON pc.com_id = dd.dd_id");
-                querySql.Append($" WHERE trp_submit_status={(int)SubmitStatus.SubmitSuccess} AND trp_work_status={(int)WorkStatus.NonWork}");
                 if(csid != null)
                     querySql.Append($" AND dd.dd_id='{csid}'");
             }
@@ -357,14 +355,17 @@ namespace 科技计划项目档案数据采集管理系统
         private object GetTypeValue(object index)
         {
             WorkType type = (WorkType)Convert.ToInt32(index);
-            if(type == WorkType.ProjectWork)
+            if(type == WorkType.PaperWork)
+                return "纸本加工";
+            else if(type == WorkType.CDWork)
+                return "光盘加工";
+            else if(type == WorkType.ProjectWork)
                 return "项目/课题加工";
             else if(type == WorkType.SubjectWork)
                 return "课题/子课题加工";
             else
                 return null;
         }
-
         /// <summary>
         /// 单元格点击事件
         /// </summary>
@@ -465,31 +466,26 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(CheckCanReceive())
                     {
-                        if(MessageBox.Show("是否确认加工当前选中批次？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                        int totalAmount = Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells["trp_cd_amount"].Value);
+                        if(totalAmount == 0)
                         {
-                            object trpid = dgv_WorkLog.Rows[e.RowIndex].Cells["trp_id"].Value;
-                            WorkRegistration wr = new WorkRegistration
+                            if(MessageBox.Show("是否确认加工当前选中批次？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                             {
-                                WrId = Guid.NewGuid().ToString(),
-                                WrStauts = WorkStatus.WorkSuccess,
-                                WrStartDate = DateTime.Now,
-                                WrType = WorkType.PaperWork,
-                                WrTrpId = trpid,
-                                WrObjId = trpid,
-                                SubmitStatus = ObjectSubmitStatus.NonSubmit,
-                                ReceiveStatus = ReceiveStatus.NonReceive,
-                                SourceId = UserHelper.GetInstance().User.UserKey
-                            };
-                            string insertSql = $"INSERT INTO work_registration VALUES('{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}',0)";
-                            SqlHelper.ExecuteNonQuery(insertSql);
+                                object trpid = dgv_WorkLog.Rows[e.RowIndex].Cells["trp_id"].Value;
+                                object primaryKey = Guid.NewGuid().ToString();
+                                string insertSql = $"INSERT INTO work_registration VALUES('{primaryKey}',{(int)WorkStatus.WorkSuccess},'{trpid}',{(int)WorkType.PaperWork}," +
+                                    $"'{DateTime.Now}',null,'{trpid}',{(int)ObjectSubmitStatus.NonSubmit},{(int)ReceiveStatus.NonReceive},'{UserHelper.GetInstance().User.UserKey}',0)";
+                                SqlHelper.ExecuteNonQuery(insertSql);
 
-                            string updateSql = $"UPDATE transfer_registration_pc SET trp_work_status={(int)WorkStatus.WorkSuccess} WHERE trp_id='{wr.WrTrpId}'";
-                            SqlHelper.ExecuteNonQuery(updateSql);
+                                string updateSql = $"UPDATE transfer_registration_pc SET trp_work_status={(int)WorkStatus.WorkSuccess} WHERE trp_id='{trpid}'";
+                                SqlHelper.ExecuteNonQuery(updateSql);
 
-                            //跳转到我的加工页面
-                            LoadWorkList(null, WorkStatus.WorkSuccess);
-
+                                //跳转到我的加工页面
+                                LoadWorkList(null, WorkStatus.WorkSuccess);
+                            }
                         }
+                        else
+                            MessageBox.Show("此操作不被允许！", "领取失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else
                         MessageBox.Show("请先完成当前已领取且尚未完成的加工项。", "领取失败");

@@ -186,7 +186,19 @@ namespace 科技计划项目档案数据采集管理系统
         {
             WorkType type = (WorkType)Convert.ToInt32(workType);
             string querySql = null;
-            if(type == WorkType.ProjectWork)
+            if(type == WorkType.PaperWork)
+            {
+                object comid = SqlHelper.ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{id}'");
+                querySql = $"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
+            }
+            else if(type== WorkType.CDWork)
+            {
+                object trpid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{id}'");
+                object comid = SqlHelper.ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpid}'");
+                querySql = $"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
+
+            }
+            else if(type == WorkType.ProjectWork)
             {
                 object trcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id= (SELECT pi_obj_id FROM project_info WHERE pi_id='{id}')");
                 object trpid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
