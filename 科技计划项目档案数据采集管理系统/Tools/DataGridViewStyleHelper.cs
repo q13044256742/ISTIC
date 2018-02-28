@@ -191,11 +191,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// 重置表格
         /// </summary>
         /// <param name="dataGridView">待重置的表格</param>
-        public static void ResetDataGridView(DataGridView dataGridView)
+        /// <param name="dataGridView">是否包括表头</param>
+        public static void ResetDataGridView(DataGridView dataGridView, bool includeHeader)
         {
             dataGridView.DataSource = null;
             dataGridView.Rows.Clear();
-            dataGridView.Columns.Clear();
+            if(includeHeader)
+                dataGridView.Columns.Clear();
         }
     }
 }

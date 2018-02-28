@@ -80,8 +80,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LoadWaitQTList()
         {
-            DataGridViewStyleHelper.ResetDataGridView(dgv_Plan);
-            DataGridViewStyleHelper.ResetDataGridView(dgv_Project);
+            DataGridViewStyleHelper.ResetDataGridView(dgv_Plan, true);
+            DataGridViewStyleHelper.ResetDataGridView(dgv_Project, true);
 
             dgv_Plan.Columns.Add("plan_id", "主键");
             dgv_Plan.Columns.Add("plan_code", "编号");
@@ -344,7 +344,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LoadMyRegList()
         {
-            DataGridViewStyleHelper.ResetDataGridView(dgv_Plan);
+            DataGridViewStyleHelper.ResetDataGridView(dgv_Plan, true);
 
             dgv_Plan.Columns.Add("mr_id", string.Empty);
             dgv_Plan.Columns.Add("mr_unit", "来源单位");

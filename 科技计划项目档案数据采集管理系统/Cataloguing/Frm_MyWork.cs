@@ -4132,7 +4132,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if("plan_project".Equals(currentPageName))
                 {
-                    if(string.IsNullOrEmpty(txt_JH_XM_Code.Text))
+                    if(string.IsNullOrEmpty(txt_JH_XM_Name.Text))
                     {
                         dgv_JH_XM_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                         dgv_JH_XM_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -4142,7 +4142,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if("plan_project_topic".Equals(currentPageName))
                 {
-                    if(string.IsNullOrEmpty(txt_JH_XM_KT_Code.Text))
+                    if(string.IsNullOrEmpty(txt_JH_XM_KT_Name.Text))
                     {
                         dgv_JH_XM_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                         dgv_JH_XM_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -4152,7 +4152,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if("plan_project_topic_subtopic".Equals(currentPageName))
                 {
-                    if(string.IsNullOrEmpty(txt_JH_XM_KT_ZKT_Code.Text))
+                    if(string.IsNullOrEmpty(txt_JH_XM_KT_ZKT_Name.Text))
                     {
                         dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                         dgv_JH_XM_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -4162,7 +4162,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if("plan_topic_subtopic".Equals(currentPageName))
                 {
-                    if(string.IsNullOrEmpty(txt_JH_KT_ZKT_Code.Text))
+                    if(string.IsNullOrEmpty(txt_JH_KT_ZKT_Name.Text))
                     {
                         dgv_JH_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                         dgv_JH_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -4172,7 +4172,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if("plan_topic".Equals(currentPageName))
                 {
-                    if(string.IsNullOrEmpty(txt_JH_KT_Code.Text))
+                    if(string.IsNullOrEmpty(txt_JH_KT_Name.Text))
                     {
                         dgv_JH_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                         dgv_JH_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -4186,7 +4186,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if("imp_dev".Equals(currentPageName))
                 {
-                    if(string.IsNullOrEmpty(txt_Imp_Dev_Code.Text))
+                    if(string.IsNullOrEmpty(txt_Imp_Dev_Name.Text))
                     {
                         dgv_Imp_Dev_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                         dgv_Imp_Dev_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -4197,7 +4197,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
         /// <summary>
-        /// 根据ID加载指定对象的基本信息和文件列表
+        /// 加载基本信息和文件列表
         /// </summary>
         /// <param name="planId">【项目/课题】ID</param>
         /// <param name="type">对象类型</param>
@@ -4211,6 +4211,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     DataRow row = table.Rows[0];
                     dgv_JH_XM_FileList.Tag = row["pi_id"];
+                    pal_JH_XM.Tag = row["pi_obj_id"];
                     txt_JH_XM_Code.Text = GetValue(row["pi_code"]);
                     txt_JH_XM_Name.Text = GetValue(row["pi_name"]);
                     txt_JH_XM_Type.Text = GetValue(row["pi_type"]);
@@ -4253,6 +4254,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     DataRow row = table.Rows[0];
                     dgv_JH_KT_FileList.Tag = row["pi_id"];
+                    pal_JH_KT.Tag = row["pi_obj_id"];
                     txt_JH_KT_Code.Text = GetValue(row["pi_code"]);
                     txt_JH_KT_Name.Text = GetValue(row["pi_name"]);
                     txt_JH_KT_Type.Text = GetValue(row["pi_type"]);
@@ -4295,6 +4297,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     DataRow row = table.Rows[0];
                     dgv_JH_XM_KT_FileList.Tag = row["si_id"];
+                    pal_JH_XM_KT.Tag = row["pi_id"];
                     txt_JH_XM_KT_Code.Text = GetValue(row["si_code"]);
                     txt_JH_XM_KT_Name.Text = GetValue(row["si_name"]);
                     txt_JH_XM_KT_Type.Text = GetValue(row["si_type"]);
@@ -4337,6 +4340,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     DataRow row = table.Rows[0];
                     dgv_JH_KT_ZKT_FileList.Tag = row["si_id"];
+                    pal_JH_KT_ZKT.Tag = row["pi_id"];
                     txt_JH_KT_ZKT_Code.Text = GetValue(row["si_code"]);
                     txt_JH_KT_ZKT_Name.Text = GetValue(row["si_name"]);
                     txt_JH_KT_ZKT_Type.Text = GetValue(row["si_type"]);
@@ -4379,6 +4383,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     DataRow row = table.Rows[0];
                     dgv_JH_XM_KT_ZKT_FileList.Tag = row["si_id"];
+                    pal_JH_XM_KT_ZKT.Tag = row["pi_id"];
                     txt_JH_XM_KT_ZKT_Code.Text = GetValue(row["si_code"]);
                     txt_JH_XM_KT_ZKT_Name.Text = GetValue(row["si_name"]);
                     txt_JH_XM_KT_ZKT_Type.Text = GetValue(row["si_type"]);
@@ -4469,9 +4474,10 @@ namespace 科技计划项目档案数据采集管理系统
             if(type == ControlType.Plan_Project)
             {
                 dgv_JH_XM_FileList.Tag = null;
+                DataGridViewStyleHelper.ResetDataGridView(dgv_JH_XM_FileList, false);
+                DataGridViewStyleHelper.ResetDataGridView(dgv_JH_XM_FileValid, false);
                 txt_JH_XM_Code.Clear();
                 txt_JH_XM_Name.Clear();
-                txt_JH_XM_Type.Clear();
                 txt_JH_XM_LY.Clear();
                 txt_JH_XM_ZT.Clear();
                 txt_JH_XM_JF.ResetText();
@@ -4485,9 +4491,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if(type == ControlType.Plan_Topic)
             {
                 dgv_JH_KT_FileList.Tag = null;
+                DataGridViewStyleHelper.ResetDataGridView(dgv_JH_KT_FileList, false);
+                DataGridViewStyleHelper.ResetDataGridView(dgv_JH_KT_FileValid, false);
                 txt_JH_KT_Code.Clear();
                 txt_JH_KT_Name.Clear();
-                txt_JH_KT_Type.Clear();
                 txt_JH_KT_LY.Clear();
                 txt_JH_KT_ZT.Clear();
                 txt_JH_KT_JF.ResetText();
@@ -4501,9 +4508,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if(type == ControlType.Plan_Project_Topic)
             {
                 dgv_JH_XM_KT_FileList.Tag = null;
+                DataGridViewStyleHelper.ResetDataGridView(dgv_JH_XM_KT_FileList, false);
+                DataGridViewStyleHelper.ResetDataGridView(dgv_JH_XM_KT_FileValid, false);
                 txt_JH_XM_KT_Code.Clear();
                 txt_JH_XM_KT_Name.Clear();
-                txt_JH_XM_KT_Type.Clear();
                 txt_JH_XM_KT_LY.Clear();
                 txt_JH_XM_KT_ZT.Clear();
                 txt_JH_XM_KT_JF.ResetText();
@@ -4517,9 +4525,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if(type == ControlType.Plan_Topic_Subtopic)
             {
                 dgv_JH_KT_ZKT_FileList.Tag = null;
+                DataGridViewStyleHelper.ResetDataGridView(dgv_JH_KT_ZKT_FileList, false);
+                DataGridViewStyleHelper.ResetDataGridView(dgv_JH_KT_ZKT_FileList, false);
                 txt_JH_KT_ZKT_Code.Clear();
                 txt_JH_KT_ZKT_Name.Clear();
-                txt_JH_KT_ZKT_Type.Clear();
                 txt_JH_KT_ZKT_LY.Clear();
                 txt_JH_KT_ZKT_ZT.Clear();
                 txt_JH_KT_ZKT_JF.ResetText();
@@ -4533,9 +4542,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
                 dgv_JH_XM_KT_ZKT_FileList.Tag = null;
+                DataGridViewStyleHelper.ResetDataGridView(dgv_JH_XM_KT_ZKT_FileList, false);
+                DataGridViewStyleHelper.ResetDataGridView(dgv_JH_XM_KT_ZKT_FileValid, false);
                 txt_JH_XM_KT_ZKT_Code.Clear();
                 txt_JH_XM_KT_ZKT_Name.Clear();
-                txt_JH_XM_KT_ZKT_Type.Clear();
                 txt_JH_XM_KT_ZKT_LY.Clear();
                 txt_JH_XM_KT_ZKT_ZT.Clear();
                 txt_JH_XM_KT_ZKT_JF.ResetText();
@@ -4548,6 +4558,8 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Imp_Dev)
             {
+                DataGridViewStyleHelper.ResetDataGridView(dgv_Imp_Dev_FileList, false);
+                DataGridViewStyleHelper.ResetDataGridView(dgv_Imp_Dev_FileValid, false);
                 txt_Imp_Dev_Code.Clear();
                 txt_Imp_Dev_Name.Clear();
                 txt_Imp_Dev_Unit.Clear();

@@ -154,7 +154,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// <param name="querySql">待加载的数据SQL</param>
         private void LoadPCDataScoure(string _querySql)
         {
-            DataGridViewStyleHelper.ResetDataGridView(dgv_SWDJ);
+            DataGridViewStyleHelper.ResetDataGridView(dgv_SWDJ, true);
 
             DataTable dataTable = null;
             //加载实物登记数据【默认加载状态为1（未提交）的数据】
