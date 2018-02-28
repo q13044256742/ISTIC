@@ -459,20 +459,41 @@ namespace 科技计划项目档案数据采集管理系统
                         int totalAmount = Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells["trp_cd_amount"].Value);
                         if(totalAmount == 0)
                         {
-                            if(MessageBox.Show("是否确认加工当前选中批次？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                            object trpid = dgv_WorkLog.Rows[e.RowIndex].Cells["trp_id"].Value;
+                            //如果当前纸本加工尚未被首次领取，则判断当前登录人是否是【管理员】，否则不允许领取
+                            object completeUser = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_complete_user FROM transfer_registration_pc WHERE trp_id='{trpid}'");
+                            if(completeUser == null)
                             {
-                                object trpid = dgv_WorkLog.Rows[e.RowIndex].Cells["trp_id"].Value;
-                                object primaryKey = Guid.NewGuid().ToString();
-                                string insertSql = $"INSERT INTO work_registration VALUES('{primaryKey}',{(int)WorkStatus.WorkSuccess},'{trpid}',{(int)WorkType.PaperWork}," +
-                                    $"'{DateTime.Now}',null,'{trpid}',{(int)ObjectSubmitStatus.NonSubmit},{(int)ReceiveStatus.NonReceive},'{UserHelper.GetInstance().User.UserKey}',0)";
-                                SqlHelper.ExecuteNonQuery(insertSql);
-                                /* ----------------------------【管理员】拥有此批次首次领取权限---------------------------- */
-                                object userId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_complete_user FROM transfer_registration_pc WHERE trp_id='{trpid}'") ?? UserHelper.GetInstance().User.UserKey;
-                                string updateSql = $"UPDATE transfer_registration_pc SET trp_work_status={(int)WorkStatus.WorkSuccess}, trp_complete_user='{userId}' WHERE trp_id='{trpid}'";
-                                SqlHelper.ExecuteNonQuery(updateSql);
+                                if(UserHelper.GetInstance().GetUserRole() == UserRole.Worker)
+                                {
+                                    if(MessageBox.Show("是否确认加工当前选中批次？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                                    {
+                                        object primaryKey = Guid.NewGuid().ToString();
+                                        string insertSql = $"INSERT INTO work_registration VALUES('{primaryKey}',{(int)WorkStatus.WorkSuccess},'{trpid}',{(int)WorkType.PaperWork}," +
+                                            $"'{DateTime.Now}',null,'{trpid}',{(int)ObjectSubmitStatus.NonSubmit},{(int)ReceiveStatus.NonReceive},'{UserHelper.GetInstance().User.UserKey}',0)";
+                                        SqlHelper.ExecuteNonQuery(insertSql);
+                                        string updateSql = $"UPDATE transfer_registration_pc SET trp_work_status={(int)WorkStatus.WorkSuccess}, trp_complete_user='{UserHelper.GetInstance().User.UserKey}' WHERE trp_id='{trpid}'";
+                                        SqlHelper.ExecuteNonQuery(updateSql);
 
-                                //跳转到我的加工页面
-                                LoadWorkList(null, WorkStatus.WorkSuccess);
+                                        //跳转到我的加工页面
+                                        LoadWorkList(null, WorkStatus.WorkSuccess);
+                                    }
+                                }
+                                else//非管理人员不允许首次领取
+                                    MessageBox.Show("此操作不被允许！", "领取失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            }
+                            else//非首次领取，则可直接以普通用户身份领取【继承管理员的加工】
+                            {
+                                if(MessageBox.Show("是否确认加工当前选中批次？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                                {
+                                    object primaryKey = Guid.NewGuid().ToString();
+                                    string insertSql = $"INSERT INTO work_registration VALUES('{primaryKey}',{(int)WorkStatus.WorkSuccess},'{trpid}',{(int)WorkType.PaperWork}," +
+                                        $"'{DateTime.Now}',null,'{trpid}',{(int)ObjectSubmitStatus.NonSubmit},{(int)ReceiveStatus.NonReceive},'{UserHelper.GetInstance().User.UserKey}',0)";
+                                    SqlHelper.ExecuteNonQuery(insertSql);
+
+                                    //跳转到我的加工页面
+                                    LoadWorkList(null, WorkStatus.WorkSuccess);
+                                }
                             }
                         }
                         else

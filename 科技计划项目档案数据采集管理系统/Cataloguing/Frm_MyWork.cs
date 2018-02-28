@@ -32,7 +32,6 @@ namespace 科技计划项目档案数据采集管理系统
             this.workType = workType;
             InitialForm(planId, type);
         }
-
         List<TabPage> tabList = new List<TabPage>();
         /// <summary>
         /// 初始化选项卡
