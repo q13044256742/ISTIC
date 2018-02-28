@@ -671,8 +671,9 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("此操作不被允许！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     else if(workType == WorkType.PaperWork)
                     {
-                        //【管理员】不允许提交质检
-                        if(UserHelper.GetInstance().GetUserRole() != UserRole.Worker)
+                        object completeUser = SqlHelper.ExecuteOnlyOneQuery("SELECT trp_complete_user FROM transfer_registration_pc WHERE trp_id=" +
+                            $"(SELECT trp_id FROM work_registration WHERE wr_id='{objId}')");
+                        if(UserHelper.GetInstance().User.UserKey.Equals(completeUser))//仅【管理员】可以提交纸本加工
                         {
                             if(CanSubmitToQT(objId))
                             {
