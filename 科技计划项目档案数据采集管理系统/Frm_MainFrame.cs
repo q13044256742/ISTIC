@@ -21,7 +21,7 @@ namespace 科技计划项目档案数据采集管理系统
             txt_RealName.Text = user.RealName;
             int identifier = Convert.ToInt32(user.Remark);
             if(identifier == 1)
-            {
+            {              
                 Frm_ToR frm = new Frm_ToR();
                 frm.MdiParent = this;
                 frm.WindowState = FormWindowState.Maximized;
@@ -37,6 +37,13 @@ namespace 科技计划项目档案数据采集管理系统
             else if(identifier == 3)
             {
                 Frm_QT frm = new Frm_QT();
+                frm.MdiParent = this;
+                frm.WindowState = FormWindowState.Maximized;
+                frm.Show();
+            }
+            else if (identifier == 5)//档案接收
+            {             
+                FileReceive.Frm_FileReceive frm = new FileReceive.Frm_FileReceive();
                 frm.MdiParent = this;
                 frm.WindowState = FormWindowState.Maximized;
                 frm.Show();
