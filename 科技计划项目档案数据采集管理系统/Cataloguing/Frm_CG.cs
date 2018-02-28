@@ -275,7 +275,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 加工中列表
         /// </summary>
         /// <param name="unitId">来源单位（默认全部）</param>
-        /// <param name="nonWork">加工状态</param>
+        /// <param name="workStatus">加工状态</param>
         private void LoadWorkList(object unitId, WorkStatus workStatus)
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_WorkLog);
@@ -476,8 +476,9 @@ namespace 科技计划项目档案数据采集管理系统
                                 string insertSql = $"INSERT INTO work_registration VALUES('{primaryKey}',{(int)WorkStatus.WorkSuccess},'{trpid}',{(int)WorkType.PaperWork}," +
                                     $"'{DateTime.Now}',null,'{trpid}',{(int)ObjectSubmitStatus.NonSubmit},{(int)ReceiveStatus.NonReceive},'{UserHelper.GetInstance().User.UserKey}',0)";
                                 SqlHelper.ExecuteNonQuery(insertSql);
-
-                                string updateSql = $"UPDATE transfer_registration_pc SET trp_work_status={(int)WorkStatus.WorkSuccess} WHERE trp_id='{trpid}'";
+                                /* ----------------------------【管理员】拥有此批次首次领取权限---------------------------- */
+                                object userId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_complete_user FROM transfer_registration_pc WHERE trp_id='{trpid}'") ?? UserHelper.GetInstance().User.UserKey;
+                                string updateSql = $"UPDATE transfer_registration_pc SET trp_work_status={(int)WorkStatus.WorkSuccess}, trp_complete_user='{userId}' WHERE trp_id='{trpid}'";
                                 SqlHelper.ExecuteNonQuery(updateSql);
 
                                 //跳转到我的加工页面
@@ -583,7 +584,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork frm = new Frm_MyWork(WorkType.CDWork, planId, objId, ControlType.Default);
+                                Frm_MyWork frm = new Frm_MyWork(WorkType.CDWork, planId, objId, ControlType.Plan);
                                 frm.planCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_code FROM project_info WHERE pi_id='{planId}'"));
                                 frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
                                 frm.ShowDialog();
@@ -591,7 +592,29 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     else if(typeValue.Contains("纸本"))
-                        new Frm_ProTypeSelect(WorkType.PaperWork, objId).ShowDialog();
+                    {
+                        //new Frm_ProTypeSelect(WorkType.PaperWork, objId).ShowDialog();
+                        object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
+                        if(planId != null)//项目/课题
+                            new Frm_MyWork(WorkType.CDWork, planId, null, ControlType.Default).ShowDialog();
+                        else
+                        {
+                            planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}'");
+                            if(planId == null)
+                            {
+                                Frm_ProTypeSelect frm = new Frm_ProTypeSelect(WorkType.CDWork, objId);
+                                frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
+                                frm.ShowDialog();
+                            }
+                            else
+                            {
+                                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork, planId, objId, ControlType.Plan);
+                                frm.planCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_code FROM project_info WHERE pi_id='{planId}'"));
+                                frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
+                                frm.ShowDialog();
+                            }
+                        }
+                    }
                     else
                     {
                         //根据当前id获取根节点ID
@@ -628,12 +651,36 @@ namespace 科技计划项目档案数据采集管理系统
                 //提交质检
                 else if("submit".Equals(columnName))
                 {
+                    object objId = dgv_WorkLog.Rows[e.RowIndex].Cells["id"].Tag;
                     WorkType workType = (WorkType)dgv_WorkLog.Rows[e.RowIndex].Cells["type"].Tag;
                     if(workType == WorkType.SubjectWork)
-                        MessageBox.Show("课题/子课题无法单独提交。", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        MessageBox.Show("此操作不被允许！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    else if(workType == WorkType.PaperWork)
+                    {
+                        object completeUser = SqlHelper.ExecuteOnlyOneQuery("SELECT trp_complete_user FROM transfer_registration_pc WHERE trp_id=" +
+                            $"(SELECT trp_id FROM work_registration WHERE wr_id='{objId}')");
+                        if(UserHelper.GetInstance().User.UserKey.Equals(completeUser))
+                        {
+                            if(CanSubmitToQT(objId))
+                            {
+                                if(MessageBox.Show("确定要将当前批次提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                                {
+                                    string type = GetValue(dgv_WorkLog.Rows[e.RowIndex].Cells["type"].Value);
+                                    string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{objId}'";
+                                    SqlHelper.ExecuteNonQuery(updateSql);
+                                    LoadWorkList(null, WorkStatus.NonWork);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("当前项目/课题下尚有未提交的数据。", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            }
+                        }
+                        else//仅【管理员】可以提交纸本加工
+                            MessageBox.Show("此操作不被允许！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    }
                     else
                     {
-                        object objId = dgv_WorkLog.Rows[e.RowIndex].Cells["id"].Tag;
                         if(CanSubmitToQT(objId))
                         {
                             if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
@@ -701,45 +748,59 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="objId">Work_Reg登记表主键</param>
         private bool CanSubmitToQT(object objId)
         {
-            int amount = 0;
             object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT wr_type, wr_obj_id FROM work_registration WHERE wr_id='{objId}'");
             if(!string.IsNullOrEmpty(GetValue(_obj)))
             {
                 WorkType type = (WorkType)_obj[0];
                 object rootId = GetRootId(_obj[1], type);
                 List<object[]> _obj2 = new List<object[]>();
-                if(type == WorkType.SubjectWork)
-                    _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}'",2);
-                else
-                    _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'", 2);
-                for(int i = 0; i < _obj2.Count; i++)
+                if(type == WorkType.PaperWork)
                 {
-                    if(Convert.ToInt32(_obj2[i][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                    _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}'", 2);
+                    for(int i = 0; i < _obj2.Count; i++)
                     {
-                        amount++;
-                        break;
-                    }
-                    List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_submit_status FROM subject_info WHERE pi_id='{_obj2[i][0]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 2);
-                    for(int j = 0; j < _obj3.Count; j++)
-                    {
-                        if(Convert.ToInt32(_obj3[j][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                        if(Convert.ToInt32(_obj2[i][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                            return false;
+                        List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_submit_status FROM subject_info WHERE pi_id='{_obj2[i][0]}'", 2);
+                        for(int j = 0; j < _obj3.Count; j++)
                         {
-                            amount++;
-                            break;
-                        }
-                        List<object[]> _obj4 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_submit_status FROM subject_info WHERE pi_id='{_obj3[j][0]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 2);
-                        for(int k = 0; k < _obj4.Count; k++)
-                        {
-                            if(Convert.ToInt32(_obj4[k][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                            if(Convert.ToInt32(_obj3[j][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                                return false;
+                            List<object[]> _obj4 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_submit_status FROM subject_info WHERE pi_id='{_obj3[j][0]}'", 2);
+                            for(int k = 0; k < _obj4.Count; k++)
                             {
-                                amount++;
-                                break;
+                                if(Convert.ToInt32(_obj4[k][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                                    return false;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if(type == WorkType.SubjectWork)
+                        _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}'", 2);
+                    else
+                        _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'", 2);
+                    for(int i = 0; i < _obj2.Count; i++)
+                    {
+                        if(Convert.ToInt32(_obj2[i][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                            return false;
+                        List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_submit_status FROM subject_info WHERE pi_id='{_obj2[i][0]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 2);
+                        for(int j = 0; j < _obj3.Count; j++)
+                        {
+                            if(Convert.ToInt32(_obj3[j][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                                return false;
+                            List<object[]> _obj4 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_submit_status FROM subject_info WHERE pi_id='{_obj3[j][0]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 2);
+                            for(int k = 0; k < _obj4.Count; k++)
+                            {
+                                if(Convert.ToInt32(_obj4[k][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                                    return false;
                             }
                         }
                     }
                 }
             }
-            return amount == 0 ? true : false;
+            return true;
         }
         /// <summary>
         /// 获取指定项目/课题获取其所属计划ID
@@ -752,7 +813,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == WorkType.PaperWork)
             {
-                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}'");
             }
             if(type == WorkType.ProjectWork)
             {
