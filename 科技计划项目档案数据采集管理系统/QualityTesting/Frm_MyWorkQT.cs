@@ -2210,12 +2210,12 @@ namespace 科技计划项目档案数据采集管理系统
             }
             treeView.Nodes.Add(treeNode);
             treeView.ExpandAll();
-            treeView.AfterSelect += TreeView_AfterSelect;
+            treeView.NodeMouseClick += TreeView_NodeMouseClick;
         }
         /// <summary>
         /// 目录树点击事件
         /// </summary>
-        private void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             ControlType type = (ControlType)e.Node.Tag;
             if(type == ControlType.Plan)

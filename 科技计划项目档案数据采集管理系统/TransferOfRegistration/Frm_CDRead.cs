@@ -78,7 +78,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         $"VALUES('{primaryKey}','Z0120180201-{index}','测试数据{index}号','{(int)WorkStatus.NonWork}','{mainKey}','{(int)ControlType.Plan_Project}','{(int)ObjectSubmitStatus.NonSubmit}','{adminId}')";
                     SqlHelper.ExecuteNonQuery(insertSql);
                     //5条【课题/子课题】信息
-                    for(int j = 0; j < 5; j++)
+                    for(int j = 0; j < (i == 2 ? 15 : 5); j++)
                     {
                         string _index = j.ToString().PadLeft(3, '0');
                         string _primaryKey = Guid.NewGuid().ToString();

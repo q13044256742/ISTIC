@@ -8,6 +8,8 @@
         private string realName;
         private object remark;
         private string company;
+        private string role;
+        private object[] group;
 
         public User() { }
         public User(string loginUserName, string loginPassword)
@@ -42,5 +44,13 @@
         /// 所属单位
         /// </summary>
         public string Company { get => company; set => company = value; }
+        /// <summary>
+        /// 用户所属组
+        /// </summary>
+        public object[] Group { get => group; set => group = value; }
+        /// <summary>
+        /// 所属角色
+        /// </summary>
+        public string Role { get => role; set => role = value; }
     }
 }
