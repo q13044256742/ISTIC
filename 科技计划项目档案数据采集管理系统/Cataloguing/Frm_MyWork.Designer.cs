@@ -7565,6 +7565,7 @@
             this.btn_Imp_Dev_Submit.TabIndex = 9;
             this.btn_Imp_Dev_Submit.Text = "提交(&B)";
             this.btn_Imp_Dev_Submit.UseVisualStyleBackColor = true;
+            this.btn_Imp_Dev_Submit.Click += new System.EventHandler(this.Btn_Submit_Click);
             // 
             // btn_Imp_Sub_Save
             // 

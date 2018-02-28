@@ -36,6 +36,7 @@ namespace 科技计划项目档案数据采集管理系统
                 Frm_MyWork frm = new Frm_MyWork(WorkType.Default, cbo_TypeSelect.SelectedValue, objId, ControlType.Imp);
                 frm.planCode = obj;
                 frm.unitCode = unitCode;
+                frm.DEV_TYPE = 0;
                 frm.ShowDialog();
             }
             else if("dic_imp_dev".Equals(obj))
@@ -43,6 +44,7 @@ namespace 科技计划项目档案数据采集管理系统
                 Frm_MyWork frm = new Frm_MyWork(WorkType.Default, cbo_TypeSelect.SelectedValue, objId, ControlType.Imp_Dev);
                 frm.planCode = obj;
                 frm.unitCode = unitCode;
+                frm.DEV_TYPE = 1;
                 frm.ShowDialog();
             }
             else
