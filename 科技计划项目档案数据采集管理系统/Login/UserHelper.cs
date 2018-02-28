@@ -15,6 +15,20 @@
         }
 
         public User User { get => user; set => user = value; }
-
+        /// <summary>
+        /// 获取当前登录用户的身份
+        /// -1：未知
+        /// 0：普通用户
+        /// 1：加工管理
+        /// </summary>
+        private int GetUserRole()
+        {
+            object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{GetInstance().User.Role}'");
+            if("dic_key_role_ordinary".Equals(obj))
+                return 0;
+            else if("dic_key_role_manager".Equals(obj))
+                return 1;
+            return -1;
+        }
     }
 }

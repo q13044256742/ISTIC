@@ -36,10 +36,14 @@ namespace 科技计划项目档案数据采集管理系统
                 user.RealName = reader["real_name"].ToString();
                 user.UserKey = reader["ul_id"].ToString();
                 user.Company = reader["belong_unit"].ToString();
+                user.Role = reader["role_id"].ToString();
+                user.Group = GetGroupId(reader["belong_user_group_id"]);
             }
             reader.Close();
             SqlHelper.CloseConnect();
             return user;
         }
+
+        private string[] GetGroupId(object ids) => ids == null ? null : ids.ToString().Split(',');
     }
 }
