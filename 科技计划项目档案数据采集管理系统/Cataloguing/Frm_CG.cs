@@ -377,8 +377,11 @@ namespace 科技计划项目档案数据采集管理系统
                 //光盘数
                 if("trp_cd_amount".Equals(columnName))
                 {
-                    object trpid = dgv_WorkLog.Rows[e.RowIndex].Cells["trp_id"].Value;
-                    LoadCDList(trpid);
+                    if(!dgv_WorkLog.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.Equals(0))
+                    {
+                        object trpid = dgv_WorkLog.Rows[e.RowIndex].Cells["trp_id"].Value;
+                        LoadCDList(trpid);
+                    }
                 }
                 //光盘页 - 总数
                 else if("trc_total_amount".Equals(columnName))
@@ -462,7 +465,7 @@ namespace 科技计划项目档案数据采集管理系统
                             object trpid = dgv_WorkLog.Rows[e.RowIndex].Cells["trp_id"].Value;
                             //如果当前纸本加工尚未被首次领取，则判断当前登录人是否是【管理员】，否则不允许领取
                             object completeUser = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_complete_user FROM transfer_registration_pc WHERE trp_id='{trpid}'");
-                            if(completeUser == null)
+                            if(string.IsNullOrEmpty(GetValue(completeUser)))
                             {
                                 if(UserHelper.GetInstance().GetUserRole() == UserRole.Worker)
                                 {
@@ -668,9 +671,8 @@ namespace 科技计划项目档案数据采集管理系统
                         MessageBox.Show("此操作不被允许！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     else if(workType == WorkType.PaperWork)
                     {
-                        object completeUser = SqlHelper.ExecuteOnlyOneQuery("SELECT trp_complete_user FROM transfer_registration_pc WHERE trp_id=" +
-                            $"(SELECT trp_id FROM work_registration WHERE wr_id='{objId}')");
-                        if(UserHelper.GetInstance().User.UserKey.Equals(completeUser))
+                        //【管理员】不允许提交质检
+                        if(UserHelper.GetInstance().GetUserRole() != UserRole.Worker)
                         {
                             if(CanSubmitToQT(objId))
                             {
@@ -687,7 +689,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 MessageBox.Show("当前项目/课题下尚有未提交的数据。", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             }
                         }
-                        else//仅【管理员】可以提交纸本加工
+                        else
                             MessageBox.Show("此操作不被允许！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else

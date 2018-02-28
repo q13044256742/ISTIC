@@ -2027,6 +2027,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
+            treeView.SelectedNode = null;
             TreeNode treeNode = null;
             //重大专项/重点研发
             if(workType == WorkType.Default)
@@ -2155,8 +2156,10 @@ namespace 科技计划项目档案数据采集管理系统
                 };
                 if(!UserHelper.GetInstance().User.UserKey.Equals(_obj[2]))
                     treeNode.ForeColor = DisEnbleColor;
+                //【管理员】查看其他人的任务，【普通用户】只能查看自己的任务
+                object queryCondition = UserHelper.GetInstance().GetUserRole() == UserRole.Worker ? string.Empty : $"AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'";
                 //根据【计划】查询【项目/课题】集
-                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_code, pi_categor, pi_worker_id FROM project_info WHERE pi_obj_id='{treeNode.Name}'", 4);
+                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_code, pi_categor, pi_worker_id FROM project_info WHERE pi_obj_id='{treeNode.Name}'{queryCondition}", 4);
                 for(int i = 0; i < list.Count; i++)
                 {
                     TreeNode treeNode2 = new TreeNode()
@@ -2168,8 +2171,9 @@ namespace 科技计划项目档案数据采集管理系统
                     if(!UserHelper.GetInstance().User.UserKey.Equals(list[i][3]))
                         treeNode2.ForeColor = DisEnbleColor;
                     treeNode.Nodes.Add(treeNode2);
+                    queryCondition = UserHelper.GetInstance().GetUserRole() == UserRole.Worker ? string.Empty : $"AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'";
                     //根据【项目/课题】查询【课题/子课题】集
-                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id, si_code, si_categor, si_worker_id FROM subject_info WHERE pi_id='{treeNode2.Name}'", 4);
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id, si_code, si_categor, si_worker_id FROM subject_info WHERE pi_id='{treeNode2.Name}'{queryCondition}", 4);
                     for(int j = 0; j < list2.Count; j++)
                     {
                         TreeNode treeNode3 = new TreeNode()
@@ -2182,7 +2186,7 @@ namespace 科技计划项目档案数据采集管理系统
                             treeNode3.ForeColor = DisEnbleColor;
                         treeNode2.Nodes.Add(treeNode3);
 
-                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id, si_code, si_categor, si_worker_id FROM subject_info WHERE pi_id='{treeNode3.Name}'", 4);
+                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id, si_code, si_categor, si_worker_id FROM subject_info WHERE pi_id='{treeNode3.Name}'{queryCondition}", 4);
                         for(int k = 0; k < list3.Count; k++)
                         {
                             TreeNode treeNode4 = new TreeNode()
@@ -2316,13 +2320,20 @@ namespace 科技计划项目档案数据采集管理系统
             }
             treeView.Nodes.Add(treeNode);
             treeView.ExpandAll();
-            treeView.AfterSelect += TreeView_AfterSelect;
+            treeView.NodeMouseClick += TreeView_NodeMouseClick;
             treeView.EndUpdate();
+            //默认加载计划页面
+            if(treeView.Nodes.Count > 0)
+            {
+                TreeNode node = treeView.Nodes[0];
+                ShowTab("plan", 0);
+                LoadPlanPage(node.Name, node.ForeColor);
+            }
         }
         /// <summary>
         /// 目录树点击事件
         /// </summary>
-        private void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             ControlType type = (ControlType)e.Node.Tag;
             if(type == ControlType.Plan)
