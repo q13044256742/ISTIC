@@ -412,23 +412,13 @@ namespace 科技计划项目档案数据采集管理系统
                             if(MessageBox.Show(msg, "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                             {
                                 object trpId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
-                                WorkRegistration wr = new WorkRegistration
-                                {
-                                    WrId = Guid.NewGuid().ToString(),
-                                    WrStauts = WorkStatus.WorkSuccess,
-                                    WrStartDate = DateTime.Now,
-                                    WrType = WorkType.CDWork,
-                                    WrTrpId = trpId,
-                                    WrObjId = trcid,
-                                    SubmitStatus = ObjectSubmitStatus.NonSubmit,
-                                    ReceiveStatus = ReceiveStatus.NonReceive,
-                                    SourceId = UserHelper.GetInstance().User.UserKey
-                                };
+                                object primaryKey = Guid.NewGuid().ToString();
                                 string insertSql = $"INSERT INTO work_registration VALUES('" +
-                                    $"{wr.WrId}',{(int)wr.WrStauts},'{wr.WrTrpId}',{(int)wr.WrType},'{wr.WrStartDate}',null,'{wr.WrObjId}',{(int)wr.SubmitStatus},{(int)wr.ReceiveStatus},'{wr.SourceId}',0)";
+                                    $"{primaryKey}',{(int)WorkStatus.WorkSuccess},'{trpId}',{(int)WorkType.CDWork},'{DateTime.Now}',null,'{trcid}',{(int)ObjectSubmitStatus.NonSubmit}," +
+                                    $"{(int)ReceiveStatus.NonReceive},'{UserHelper.GetInstance().User.UserKey}',0)";
                                 SqlHelper.ExecuteNonQuery(insertSql);
 
-                                SqlHelper.ExecuteNonQuery($"UPDATE transfer_registraion_cd SET trc_complete_status={(int)WorkStatus.WorkSuccess} WHERE trc_id='{trcid}'");
+                                SqlHelper.ExecuteNonQuery($"UPDATE transfer_registraion_cd SET trc_complete_status={(int)WorkStatus.WorkSuccess}, trc_complete_user='{UserHelper.GetInstance().User.UserKey}' WHERE trc_id='{trcid}'");
                                 //领取光盘的同时 - 领取其下所有未领取的项目 / 课题 / 子课题
                                 object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{trcid}'");
                                 //【计划】
@@ -930,28 +920,28 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewStyleHelper.SetTreeViewHeader(dgv_WorkLog, tv);
 
             DataTable table = null;
-            StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_status");
-            querySql.Append(" FROM transfer_registraion_cd trc");
-            querySql.Append(" LEFT JOIN(");
+            StringBuilder querySql = new StringBuilder("SELECT trc_id, dd_name, trc_code, trc_name, trc_status, trc_complete_status");
+            querySql.Append(" FROM transfer_registraion_cd trc LEFT JOIN(");
             querySql.Append(" SELECT trp.trp_id, dd_name, dd_sort FROM transfer_registration_pc trp, data_dictionary dd WHERE trp.com_id = dd.dd_id ) tb");
             querySql.Append($" ON trc.trp_id = tb.trp_id WHERE trc.trp_id='{trpId}' ORDER BY dd_sort ASC, trc_code ASC");
             table = SqlHelper.ExecuteQuery(querySql.ToString());
-            foreach (DataRow row in table.Rows)
+            foreach(DataRow row in table.Rows)
             {
                 int totalAmount = GetProjectAmount(row["trc_id"]);
                 int receiveAmount = GetReceiveAmount(row["trc_id"]);
-                if(totalAmount == 0 || totalAmount != receiveAmount)
-                {
-                    int _index = dgv_WorkLog.Rows.Add();
-                    dgv_WorkLog.Rows[_index].Cells["trc_id"].Value = row["trc_id"];
-                    dgv_WorkLog.Rows[_index].Cells["dd_name"].Value = row["dd_name"];
-                    dgv_WorkLog.Rows[_index].Cells["trc_code"].Value = row["trc_code"];
-                    dgv_WorkLog.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
-                    dgv_WorkLog.Rows[_index].Cells["trc_total_amount"].Value = totalAmount;
-                    dgv_WorkLog.Rows[_index].Cells["trc_receive_amount"].Value = receiveAmount;
-                    dgv_WorkLog.Rows[_index].Cells["trc_file_amount"].Value = GetFileAmount(row["trc_id"]);
-                    dgv_WorkLog.Rows[_index].Cells["trc_control"].Value = "加工";
-                }
+                WorkStatus status = (WorkStatus)Convert.ToInt32(row["trc_complete_status"]);
+                //如果是非结构化 且 已被领取，则不显示
+                if(totalAmount == 0 && status == WorkStatus.WorkSuccess)
+                    continue;
+                int _index = dgv_WorkLog.Rows.Add();
+                dgv_WorkLog.Rows[_index].Cells["trc_id"].Value = row["trc_id"];
+                dgv_WorkLog.Rows[_index].Cells["dd_name"].Value = row["dd_name"];
+                dgv_WorkLog.Rows[_index].Cells["trc_code"].Value = row["trc_code"];
+                dgv_WorkLog.Rows[_index].Cells["trc_name"].Value = row["trc_name"];
+                dgv_WorkLog.Rows[_index].Cells["trc_total_amount"].Value = totalAmount;
+                dgv_WorkLog.Rows[_index].Cells["trc_receive_amount"].Value = receiveAmount;
+                dgv_WorkLog.Rows[_index].Cells["trc_file_amount"].Value = GetFileAmount(row["trc_id"]);
+                dgv_WorkLog.Rows[_index].Cells["trc_control"].Value = "加工";
             }
 
             List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
