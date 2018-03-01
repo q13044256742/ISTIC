@@ -4487,7 +4487,8 @@ namespace 科技计划项目档案数据采集管理系统
                         txt_Imp_Dev_Name.Text = GetValue(obj[2]);
                     }
                 }
-                tab_MenuList.TabPages["imp_dev"].Text = "研发信息";
+                if(DEV_TYPE == 1)
+                    tab_MenuList.TabPages["imp_dev"].Text = "研发信息";
                 cbo_Imp_Dev_HasNext.SelectedIndex = 0;
                 dgv_Imp_Dev_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 dgv_Imp_Dev_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();

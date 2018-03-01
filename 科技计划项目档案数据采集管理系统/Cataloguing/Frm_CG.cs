@@ -47,7 +47,7 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_CompanyList.SelectedIndex = 0;
         }
         /// <summary>
-        /// 加载批次列表
+        /// 待加工批次列表
         /// </summary>
         /// <param name="querySql">指定的查询语句</param>
         /// <param name="csid">来源单位ID</param>
@@ -62,6 +62,7 @@ namespace 科技计划项目档案数据采集管理系统
                 querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN data_dictionary dd ON pc.com_id = dd.dd_id");
                 if(csid != null)
                     querySql.Append($" AND dd.dd_id='{csid}'");
+                querySql.Append($" WHERE trp_complete_status IS NULL OR trp_complete_status<>{(int)ObjectSubmitStatus.SubmitSuccess}");
             }
             dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
             //将数据源转化成DataGridView表数据
@@ -696,6 +697,10 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 if(MessageBox.Show("确定要将当前批次提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                                 {
+                                    //将批次状态置为已完成
+                                    object trpId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM work_registration WHERE wr_id='{objId}'");
+                                    SqlHelper.ExecuteNonQuery($"UPDATE transfer_registration_pc SET trp_complete_status={(int)ObjectSubmitStatus.SubmitSuccess} WHERE trp_id='{trpId}'");
+                                    //将登记表状态改为完成
                                     string type = GetValue(dgv_WorkLog.Rows[e.RowIndex].Cells["type"].Value);
                                     string updateSql = $"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{objId}'";
                                     SqlHelper.ExecuteNonQuery(updateSql);
