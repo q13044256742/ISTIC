@@ -281,8 +281,11 @@ namespace 科技计划项目档案数据采集管理系统
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_WorkLog);
             string querySql = $" SELECT wr_id, wr_type,wr_obj_id FROM work_registration wr LEFT JOIN(" +
-                $"SELECT trp_id, dd_id FROM transfer_registration_pc LEFT JOIN data_dictionary ON com_id = dd_id) tb ON wr.trp_id = tb.trp_id " +
-                $"WHERE wr_status = {(int)workStatus} AND wr_submit_status={(int)ObjectSubmitStatus.NonSubmit} AND wr_source_id='{UserHelper.GetInstance().User.UserKey}'";
+                $"SELECT trp_id, dd_id, trp_complete_status FROM transfer_registration_pc LEFT JOIN data_dictionary ON com_id = dd_id) tb ON wr.trp_id = tb.trp_id " +
+                $"WHERE wr_status = {(int)workStatus} " +
+                $"AND wr_submit_status={(int)ObjectSubmitStatus.NonSubmit} " +
+                $"AND wr_source_id='{UserHelper.GetInstance().User.UserKey}' " +
+                $"AND (trp_complete_status IS NULL OR trp_complete_status<>{(int)ObjectSubmitStatus.SubmitSuccess})";
             if(unitId != null)
                 querySql += $" AND dd_id='{unitId}'";
             List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 3);
