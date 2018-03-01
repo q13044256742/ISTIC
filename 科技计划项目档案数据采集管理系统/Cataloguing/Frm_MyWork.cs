@@ -468,7 +468,9 @@ namespace 科技计划项目档案数据采集管理系统
             categorCell.DataSource = SqlHelper.ExecuteQuery(querySql);
             categorCell.DisplayMember = "dd_name";
             categorCell.ValueMember = "dd_id";
-            categorCell.Style = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f), NullValue = categorCell.Items[0] };
+            categorCell.Style = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
+            if(categorCell.Items.Count > 0)
+                categorCell.Style.NullValue = categorCell.Items[0];
         }
         /// <summary>
         /// 单元格事件绑定
@@ -1357,9 +1359,12 @@ namespace 科技计划项目档案数据采集管理系统
                 if(fileIndex == 0)
                 {
                     //保存/更新基本信息
-                    object impId = pal_Imp.Tag;
+                    object impId = dgv_Imp_FileList.Tag;
                     if(impId == null)
+                    {
                         impId = AddProjectBasicInfo(trpId, ControlType.Imp);
+                        dgv_Imp_FileList.Tag = impId;
+                    }
                     else
                         UpdateProjectBasicInfo(impId, ControlType.Imp);
                     //保存文件列表
@@ -2421,10 +2426,10 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("imp", 0);
                     LoadImpInfo(e.Node.Parent.Parent.Name);
 
-                    ShowTab("imp_sub", 1);
+                    ShowTab("imp_dev", 1);
                     LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.ForeColor);
 
-                    ShowTab("plan_project", 2);
+                    ShowTab("plan_topic", 2);
                     LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
                 }
                 else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
@@ -2582,10 +2587,11 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_Imp_Name.Tag = GetValue(_obj[0]);
                 lbl_Imp_Name.Text = GetValue(_obj[1]);
                 lbl_Imp_Intro.Text = GetValue(_obj[2]);
-
-                dgv_Imp_FileList.Tag = GetValue(_obj[0]);
-                LoadFileList(dgv_Imp_FileList, "imp_", GetValue(_obj[0]));
-
+                if(DEV_TYPE != -1)
+                {
+                    dgv_Imp_FileList.Tag = GetValue(_obj[0]);
+                    LoadFileList(dgv_Imp_FileList, "imp_", GetValue(_obj[0]));
+                }
             }
             //加载下拉列表
             if(cbo_Imp_HasNext.DataSource == null)
@@ -2596,7 +2602,10 @@ namespace 科技计划项目档案数据采集管理系统
                 if(DEV_TYPE == 0)//重点研发
                     key = "dic_plan_imp";
                 else if(DEV_TYPE == 1)
+                {
                     key = "dic_imp_dev";
+                    tab_MenuList.TabPages["imp"].Text = "国家重点研发计划";
+                }
                 DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM data_dictionary WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='{key}') ORDER BY dd_sort");
                 cbo_Imp_HasNext.DataSource = table;
                 cbo_Imp_HasNext.DisplayMember = "dd_name";
@@ -4478,6 +4487,7 @@ namespace 科技计划项目档案数据采集管理系统
                         txt_Imp_Dev_Name.Text = GetValue(obj[2]);
                     }
                 }
+                tab_MenuList.TabPages["imp_dev"].Text = "研发信息";
                 cbo_Imp_Dev_HasNext.SelectedIndex = 0;
                 dgv_Imp_Dev_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 dgv_Imp_Dev_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -4801,11 +4811,21 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Cbo_Imp_HasNext_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            int _index = tab_MenuList.SelectedIndex;
-            object value = cbo_Imp_HasNext.SelectedValue;
-            ShowTab("imp_dev", _index + 1);
-            LoadPageBasicInfo(value, ControlType.Imp_Sub, System.Drawing.Color.Black);
-            pal_Imp_Dev.Tag = lbl_Imp_Name.Tag;
+            object id = dgv_Imp_FileList.Tag;
+            if(id != null)
+            {
+                int _index = tab_MenuList.SelectedIndex;
+                object value = cbo_Imp_HasNext.SelectedValue;
+                ShowTab("imp_dev", _index + 1);
+                LoadPageBasicInfo(value, ControlType.Imp_Sub, System.Drawing.Color.Black);
+                pal_Imp_Dev.Tag = id;
+            }
+            else
+            {
+                MessageBox.Show("请先保存当前信息！", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                if(cbo_Imp_HasNext.Items.Count > 0)
+                    cbo_Imp_HasNext.SelectedIndex = 0;
+            }
         }
         /// <summary>
         /// 文件链接点击事件
