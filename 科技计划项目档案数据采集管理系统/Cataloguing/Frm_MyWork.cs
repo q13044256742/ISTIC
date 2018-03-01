@@ -4816,10 +4816,26 @@ namespace 科技计划项目档案数据采集管理系统
             if(id != null)
             {
                 int _index = tab_MenuList.SelectedIndex;
-                object value = cbo_Imp_HasNext.SelectedValue;
                 ShowTab("imp_dev", _index + 1);
-                LoadPageBasicInfo(value, ControlType.Imp_Sub, System.Drawing.Color.Black);
+                ResetControls(ControlType.Imp_Dev);
+
+                object value = cbo_Imp_HasNext.SelectedValue;
+                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{value}'");
+                if(_obj.Length > 0)
+                {
+                    txt_Imp_Dev_Code.Text = GetValue(_obj[0]);
+                    txt_Imp_Dev_Name.Text = GetValue(_obj[1]);
+                }
                 pal_Imp_Dev.Tag = id;
+                dgv_Imp_Dev_FileList.Tag = null;
+
+                dgv_Imp_Dev_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_Imp_Dev_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+                dgv_Imp_Dev_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                dgv_Imp_Dev_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+                if(DEV_TYPE == 1)
+                    tab_MenuList.TabPages["imp_dev"].Text = "研发信息";
             }
             else
             {
