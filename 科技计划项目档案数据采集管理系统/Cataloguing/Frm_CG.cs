@@ -682,10 +682,10 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         WorkType _type = WorkType.Default;
                         //重点研发
-                        object completeUser = SqlHelper.ExecuteOnlyOneQuery("SELECT imp_complete_user FROM imp_info WHERE imp_obj_id=" +
+                        object completeUser = SqlHelper.ExecuteOnlyOneQuery("SELECT imp_source_id FROM imp_info WHERE imp_obj_id=" +
                             $"(SELECT trp_id FROM work_registration WHERE wr_id='{objId}')");
                         //普通
-                        if(completeUser == null)
+                        if(string.IsNullOrEmpty(GetValue(completeUser)))
                         {
                             completeUser = SqlHelper.ExecuteOnlyOneQuery("SELECT trp_complete_user FROM transfer_registration_pc WHERE trp_id=" +
                             $"(SELECT trp_id FROM work_registration WHERE wr_id='{objId}')");
@@ -789,20 +789,18 @@ namespace 科技计划项目档案数据采集管理系统
                 object[] imp = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_submit_status FROM imp_info WHERE imp_obj_id=(SELECT trp_id FROM work_registration WHERE wr_id='{objId}')");
                 if(imp != null)
                 {
-                    ObjectSubmitStatus status = (ObjectSubmitStatus)Convert.ToInt32(imp[1]);
-                    if(status == ObjectSubmitStatus.NonSubmit)
+                    if((ObjectSubmitStatus)Convert.ToInt32(imp[1]) == ObjectSubmitStatus.NonSubmit)
                         return false;
                     else
                     {
-                        object[] obj1 = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_submit_status FROM imp_dev_info WHERE imp_obj_id='{imp[0]}'");
-                        if(obj1 != null)
+                        List<object[]> obj1 = SqlHelper.ExecuteColumnsQuery($"SELECT imp_id, imp_submit_status FROM imp_dev_info WHERE imp_obj_id='{imp[0]}'", 2);
+                        for(int m = 0; m < obj1.Count; m++)
                         {
-                            status = (ObjectSubmitStatus)Convert.ToInt32(obj1[1]);
-                            if(status == ObjectSubmitStatus.NonSubmit)
+                            if((ObjectSubmitStatus)Convert.ToInt32(obj1[m][1]) == ObjectSubmitStatus.NonSubmit)
                                 return false;
                             else
                             {
-                                List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_obj_id='{obj1[0]}'", 2);
+                                List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_obj_id='{obj1[m][0]}'", 2);
                                 for(int i = 0; i < _obj2.Count; i++)
                                 {
                                     if(Convert.ToInt32(_obj2[i][1]) == (int)ObjectSubmitStatus.NonSubmit)

@@ -81,7 +81,9 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_JH_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_JH_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_JH_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
             pal_JH_BtnGroup.Enabled = !(color == DisEnbleColor);
+            tab_MenuList.TabPages["plan"].Tag = planId;
         }
         /// <summary>
         /// 加载指定表格的文件列表
@@ -2576,8 +2578,13 @@ namespace 科技计划项目档案数据采集管理系统
                 ShowTab("imp_dev", 1);
                 LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
             }
-            if(tab_MenuList.TabPages.Count > 0)
-                tab_MenuList.SelectedIndex = tab_MenuList.TabPages.Count - 1;
+            int count = tab_MenuList.TabPages.Count;
+            if(count > 0)
+            {
+                //if(tab_MenuList.SelectedIndex != count - 1)
+                //if(!e.Node.Name.Equals(tab_MenuList.TabPages[count - 1].Tag))
+                    tab_MenuList.SelectedIndex = count - 1;
+            }
         }
         /// <summary>
         /// 加载Imp/Dev基本信息
@@ -2612,7 +2619,7 @@ namespace 科技计划项目档案数据采集管理系统
                     key = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{key}'");
                 if(DEV_TYPE == 0)//重点研发
                     key = "dic_plan_imp";
-                else if(DEV_TYPE == 1)
+                else if(DEV_TYPE == 1 || "dic_imp_dev".Equals(key))
                 {
                     key = "dic_imp_dev";
                     tab_MenuList.TabPages["imp"].Text = "国家重点研发计划";
@@ -2626,6 +2633,8 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Imp_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+            tab_MenuList.TabPages["imp"].Tag = objId;
         }
         /// <summary>
         /// 文件信息选项卡切换事件
@@ -4305,6 +4314,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
 
                 pal_JH_XM_BtnGroup.Enabled = !(color == DisEnbleColor);
+
+                tab_MenuList.TabPages["plan_project"].Tag = projectId;
             }
             else if(type == ControlType.Plan_Topic)
             {
@@ -4348,6 +4359,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_KT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
 
                 pal_JH_KT_BtnGroup.Enabled = !(color == DisEnbleColor);
+                tab_MenuList.TabPages["plan_topic"].Tag = projectId;
             }
             else if(type == ControlType.Plan_Project_Topic)
             {
@@ -4391,6 +4403,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_KT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
 
                 pal_JH_XM_KT_BtnGroup.Enabled = !(color == DisEnbleColor);
+                tab_MenuList.TabPages["plan_project_topic"].Tag = projectId;
             }
             else if(type == ControlType.Plan_Topic_Subtopic)
             {
@@ -4434,6 +4447,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_KT_ZKT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
 
                 pal_JH_KT_ZKT_BtnGroup.Enabled = !(color == DisEnbleColor);
+                tab_MenuList.TabPages["plan_topic_subtopic"].Tag = projectId;
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
@@ -4477,6 +4491,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_KT_ZKT_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
 
                 pal_JH_XM_KT_ZKT_BtnGroup.Enabled = !(color == DisEnbleColor);
+                tab_MenuList.TabPages["plan_project_topic_subtopic"].Tag = projectId;
             }
             else if(type == ControlType.Imp_Sub)
             {
@@ -4507,6 +4522,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Imp_Dev_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
 
                 pal_Imp_Dev_BtnGroup.Enabled = !(color == DisEnbleColor);
+                tab_MenuList.TabPages["imp_dev"].Tag = projectId;
             }
         }
         /// <summary>
