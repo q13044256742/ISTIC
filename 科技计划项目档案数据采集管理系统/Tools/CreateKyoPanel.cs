@@ -262,7 +262,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = false,
                     Name = kyoPanel.Name,
                 };
-                panel.MouseEnter += Panel_MouseEnter;
+                panel.MouseDown += Panel_MouseEnter;
                 panel.Click += new EventHandler(click);
                 basicPanel.Controls.Add(panel);
 
@@ -331,7 +331,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = false,
                     Name = kyoPanel.Name,
                 };
-                panel.MouseEnter += Panel_MouseEnter;
+                panel.MouseDown += Panel_MouseEnter;
                 panel.Click += new EventHandler(click);
                 basicPanel.Controls.Add(panel);
 

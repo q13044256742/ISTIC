@@ -1,4 +1,7 @@
-﻿namespace 科技计划项目档案数据采集管理系统
+﻿using System;
+using System.Windows.Forms;
+
+namespace 科技计划项目档案数据采集管理系统
 {
     partial class Frm_QT
     {
@@ -28,25 +31,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pal_LeftMenu = new System.Windows.Forms.Panel();
             this.dgv_Imp = new System.Windows.Forms.DataGridView();
             this.tab_Menulist = new System.Windows.Forms.TabControl();
-            this.dgv_MyReg = new System.Windows.Forms.DataGridView();
             this.imp = new System.Windows.Forms.TabPage();
             this.imp_dev = new System.Windows.Forms.TabPage();
             this.dgv_Imp_Dev = new System.Windows.Forms.DataGridView();
             this.project = new System.Windows.Forms.TabPage();
             this.dgv_Project = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).BeginInit();
             this.dgv_MyReg = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).BeginInit();
             this.tab_Menulist.SuspendLayout();
             this.imp.SuspendLayout();
             this.imp_dev.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_Dev)).BeginInit();
             this.project.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).BeginInit();
             this.SuspendLayout();
             // 
             // pal_LeftMenu
@@ -61,6 +62,7 @@
             // 
             this.dgv_Imp.AllowUserToDeleteRows = false;
             this.dgv_Imp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_Imp.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_Imp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Imp.Location = new System.Drawing.Point(3, 3);
@@ -70,20 +72,6 @@
             this.dgv_Imp.Size = new System.Drawing.Size(744, 447);
             this.dgv_Imp.TabIndex = 2;
             this.dgv_Imp.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Imp_CellClick);
-            // 
-            // dgv_MyReg
-            // 
-            this.dgv_MyReg.AllowUserToDeleteRows = false;
-            this.dgv_MyReg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_MyReg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_MyReg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_MyReg.Location = new System.Drawing.Point(237, 0);
-            this.dgv_MyReg.Name = "dgv_MyReg";
-            this.dgv_MyReg.ReadOnly = true;
-            this.dgv_MyReg.RowTemplate.Height = 23;
-            this.dgv_MyReg.Size = new System.Drawing.Size(758, 487);
-            this.dgv_MyReg.TabIndex = 2;
-            this.dgv_MyReg.Visible = false;
             // 
             // tab_Menulist
             // 
@@ -126,14 +114,6 @@
             this.dgv_Imp_Dev.AllowUserToDeleteRows = false;
             this.dgv_Imp_Dev.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Imp_Dev.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Imp_Dev.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_Imp_Dev.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp_Dev.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Imp_Dev.Location = new System.Drawing.Point(3, 3);
@@ -157,6 +137,8 @@
             // dgv_Project
             // 
             this.dgv_Project.AllowUserToDeleteRows = false;
+            this.dgv_Project.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_Project.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_Project.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Project.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Project.Location = new System.Drawing.Point(0, 0);
@@ -165,6 +147,21 @@
             this.dgv_Project.RowTemplate.Height = 23;
             this.dgv_Project.Size = new System.Drawing.Size(750, 453);
             this.dgv_Project.TabIndex = 0;
+            // 
+            // dgv_MyReg
+            // 
+            this.dgv_MyReg.AllowUserToDeleteRows = false;
+            this.dgv_MyReg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_MyReg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_MyReg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_MyReg.Location = new System.Drawing.Point(237, 0);
+            this.dgv_MyReg.Name = "dgv_MyReg";
+            this.dgv_MyReg.ReadOnly = true;
+            this.dgv_MyReg.RowTemplate.Height = 23;
+            this.dgv_MyReg.Size = new System.Drawing.Size(758, 487);
+            this.dgv_MyReg.TabIndex = 2;
+            this.dgv_MyReg.Visible = false;
+            this.dgv_MyReg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_MyReg_CellClick);
             // 
             // Frm_QT
             // 
@@ -187,10 +184,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_Dev)).EndInit();
             this.project.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).EndInit();
             this.ResumeLayout(false);
 
         }
-
         #endregion
 
         private System.Windows.Forms.Panel pal_LeftMenu;

@@ -108,6 +108,7 @@
             this.cbo_JH_Box = new System.Windows.Forms.ComboBox();
             this.label54 = new System.Windows.Forms.Label();
             this.pal_JH_BtnGroup = new System.Windows.Forms.Panel();
+            this.btn_JH_QTReason = new System.Windows.Forms.Button();
             this.btn_JH_AddFile = new System.Windows.Forms.Button();
             this.btn_JH_Submit = new System.Windows.Forms.Button();
             this.btn_JH_Save = new System.Windows.Forms.Button();
@@ -648,6 +649,7 @@
             this.cbo_Imp_Box = new System.Windows.Forms.ComboBox();
             this.label132 = new System.Windows.Forms.Label();
             this.pal_Imp_BtnGroup = new System.Windows.Forms.Panel();
+            this.btn_Imp_QTReason = new System.Windows.Forms.Button();
             this.btn_Imp_AddFile = new System.Windows.Forms.Button();
             this.btn_Imp_Submit = new System.Windows.Forms.Button();
             this.btn_Imp_Save = new System.Windows.Forms.Button();
@@ -1438,6 +1440,7 @@
             // pal_JH_BtnGroup
             // 
             this.pal_JH_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_QTReason);
             this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_AddFile);
             this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_Submit);
             this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_Save);
@@ -1447,6 +1450,16 @@
             this.pal_JH_BtnGroup.Name = "pal_JH_BtnGroup";
             this.pal_JH_BtnGroup.Size = new System.Drawing.Size(999, 372);
             this.pal_JH_BtnGroup.TabIndex = 2;
+            // 
+            // btn_JH_QTReason
+            // 
+            this.btn_JH_QTReason.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_JH_QTReason.Location = new System.Drawing.Point(182, 334);
+            this.btn_JH_QTReason.Name = "btn_JH_QTReason";
+            this.btn_JH_QTReason.Size = new System.Drawing.Size(82, 32);
+            this.btn_JH_QTReason.TabIndex = 11;
+            this.btn_JH_QTReason.Text = "质检意见";
+            this.btn_JH_QTReason.UseVisualStyleBackColor = true;
             // 
             // btn_JH_AddFile
             // 
@@ -6846,6 +6859,7 @@
             // pal_Imp_BtnGroup
             // 
             this.pal_Imp_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_QTReason);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_AddFile);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Submit);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Save);
@@ -6856,10 +6870,22 @@
             this.pal_Imp_BtnGroup.Size = new System.Drawing.Size(999, 372);
             this.pal_Imp_BtnGroup.TabIndex = 5;
             // 
+            // btn_Imp_QTReason
+            // 
+            this.btn_Imp_QTReason.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_Imp_QTReason.Location = new System.Drawing.Point(188, 333);
+            this.btn_Imp_QTReason.Name = "btn_Imp_QTReason";
+            this.btn_Imp_QTReason.Size = new System.Drawing.Size(82, 32);
+            this.btn_Imp_QTReason.TabIndex = 73;
+            this.btn_Imp_QTReason.Text = "质检意见";
+            this.btn_Imp_QTReason.UseVisualStyleBackColor = true;
+            this.btn_Imp_QTReason.Visible = false;
+            this.btn_Imp_QTReason.Click += new System.EventHandler(this.Btn_Imp_QTReason_Click);
+            // 
             // btn_Imp_AddFile
             // 
             this.btn_Imp_AddFile.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_Imp_AddFile.Location = new System.Drawing.Point(110, 335);
+            this.btn_Imp_AddFile.Location = new System.Drawing.Point(100, 333);
             this.btn_Imp_AddFile.Name = "btn_Imp_AddFile";
             this.btn_Imp_AddFile.Size = new System.Drawing.Size(82, 32);
             this.btn_Imp_AddFile.TabIndex = 72;
@@ -6892,9 +6918,9 @@
             // btn_Imp_OpenFile
             // 
             this.btn_Imp_OpenFile.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_Imp_OpenFile.Location = new System.Drawing.Point(6, 335);
+            this.btn_Imp_OpenFile.Location = new System.Drawing.Point(12, 333);
             this.btn_Imp_OpenFile.Name = "btn_Imp_OpenFile";
-            this.btn_Imp_OpenFile.Size = new System.Drawing.Size(98, 31);
+            this.btn_Imp_OpenFile.Size = new System.Drawing.Size(82, 32);
             this.btn_Imp_OpenFile.TabIndex = 0;
             this.btn_Imp_OpenFile.Text = "选取文件";
             this.btn_Imp_OpenFile.UseVisualStyleBackColor = true;
@@ -8524,5 +8550,7 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn imp_dev_form;
         private System.Windows.Forms.DataGridViewTextBoxColumn imp_dev_link;
         private System.Windows.Forms.DataGridViewTextBoxColumn imp_dev_remark;
+        private System.Windows.Forms.Button btn_JH_QTReason;
+        private System.Windows.Forms.Button btn_Imp_QTReason;
     }
 }

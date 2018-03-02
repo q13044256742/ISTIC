@@ -16,7 +16,11 @@
         /// <summary>
         /// 已质检
         /// </summary>
-        QualitySuccess = 2
+        QualitySuccess = 2,
+        /// <summary>
+        /// 质检通过
+        /// </summary>
+        QualityFinish = 3
     }
     class QualityTesting
     {

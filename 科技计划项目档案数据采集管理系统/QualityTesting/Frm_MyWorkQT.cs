@@ -12,6 +12,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// 当前加工类型
         /// </summary>
         private WorkType workType;
+        private ControlType controlType;
+        /// <summary>
+        /// 我的质检记录表主键
+        /// </summary>
+        public object WMID;
         /// <summary>
         /// 是否是质检返工
         /// </summary>
@@ -22,12 +27,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="workType">对象类型</param>
         /// <param name="planId">计划主键</param>
         /// <param name="isBackWork">是否是质检返工</param>
-        public Frm_MyWorkQT(WorkType workType, object planId, ControlType type, bool isBackWork)
+        public Frm_MyWorkQT(WorkType workType, object planId, ControlType controlType, bool isBackWork)
         {
             InitializeComponent();
             this.isBackWork = isBackWork;
             this.workType = workType;
-            InitialForm(planId, type);
+            this.controlType = controlType;
+            InitialForm(planId, controlType);
         }
 
         List<TabPage> tabList = new List<TabPage>();
@@ -2003,57 +2009,70 @@ namespace 科技计划项目档案数据采集管理系统
             //重大专项/重点研发
             if(workType == WorkType.Default)
             {
-                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
-                treeNode = new TreeNode()
+                if(type == ControlType.Imp)
                 {
-                    Name = _obj[0].ToString(),
-                    Text = _obj[1].ToString(),
-                    Tag = ControlType.Imp
-                };
-                //根据重大专项查询具体专项信息
-                DataTable table = SqlHelper.ExecuteQuery($"SELECT imp_id,imp_code FROM imp_dev_info WHERE imp_obj_id='{treeNode.Name}' AND imp_source_id='{UserHelper.GetInstance().User.UserKey}'");
-                foreach(DataRow row in table.Rows)
-                {
-                    TreeNode treeNode2 = new TreeNode()
+                    object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_code FROM imp_info WHERE imp_id='{planId}'");
+                    treeNode = new TreeNode()
                     {
-                        Name = row["imp_id"].ToString(),
-                        Text = row["imp_code"].ToString(),
-                        Tag = ControlType.Imp_Sub
+                        Name = GetValue(_obj[0]),
+                        Text = GetValue(_obj[1]),
+                        Tag = type
                     };
-                    treeNode.Nodes.Add(treeNode2);
-                    //根据【专项信息】查询【项目/课题】集
-                    List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode2.Name}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
-                    for(int i = 0; i < list.Count; i++)
+                }
+                else
+                {
+                    object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
+                    treeNode = new TreeNode()
                     {
-                        TreeNode treeNode3 = new TreeNode()
+                        Name = _obj[0].ToString(),
+                        Text = _obj[1].ToString(),
+                        Tag = ControlType.Imp
+                    };
+                    //根据重大专项查询具体专项信息
+                    DataTable table = SqlHelper.ExecuteQuery($"SELECT imp_id,imp_code FROM imp_dev_info WHERE imp_obj_id='{treeNode.Name}' AND imp_source_id='{UserHelper.GetInstance().User.UserKey}'");
+                    foreach(DataRow row in table.Rows)
+                    {
+                        TreeNode treeNode2 = new TreeNode()
                         {
-                            Name = list[i][0].ToString(),
-                            Text = list[i][1].ToString(),
-                            Tag = (ControlType)list[i][2]
+                            Name = row["imp_id"].ToString(),
+                            Text = row["imp_code"].ToString(),
+                            Tag = ControlType.Imp_Sub
                         };
-                        treeNode2.Nodes.Add(treeNode3);
-                        //根据【项目/课题】查询【课题/子课题】集
-                        List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
-                        for(int j = 0; j < list2.Count; j++)
+                        treeNode.Nodes.Add(treeNode2);
+                        //根据【专项信息】查询【项目/课题】集
+                        List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode2.Name}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
+                        for(int i = 0; i < list.Count; i++)
                         {
-                            TreeNode treeNode4 = new TreeNode()
+                            TreeNode treeNode3 = new TreeNode()
                             {
-                                Name = list2[j][0].ToString(),
-                                Text = list2[j][1].ToString(),
-                                Tag = (ControlType)list2[j][2]
+                                Name = list[i][0].ToString(),
+                                Text = list[i][1].ToString(),
+                                Tag = (ControlType)list[i][2]
                             };
-                            treeNode3.Nodes.Add(treeNode4);
-
-                            List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode4.Name}' AND si_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
-                            for(int k = 0; k < list3.Count; k++)
+                            treeNode2.Nodes.Add(treeNode3);
+                            //根据【项目/课题】查询【课题/子课题】集
+                            List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
+                            for(int j = 0; j < list2.Count; j++)
                             {
-                                TreeNode treeNode5 = new TreeNode()
+                                TreeNode treeNode4 = new TreeNode()
                                 {
-                                    Name = list3[k][0].ToString(),
-                                    Text = list3[k][1].ToString(),
-                                    Tag = (ControlType)list3[k][2]
+                                    Name = list2[j][0].ToString(),
+                                    Text = list2[j][1].ToString(),
+                                    Tag = (ControlType)list2[j][2]
                                 };
-                                treeNode4.Nodes.Add(treeNode5);
+                                treeNode3.Nodes.Add(treeNode4);
+
+                                List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode4.Name}' AND si_source_id='{UserHelper.GetInstance().User.UserKey}'", 3);
+                                for(int k = 0; k < list3.Count; k++)
+                                {
+                                    TreeNode treeNode5 = new TreeNode()
+                                    {
+                                        Name = list3[k][0].ToString(),
+                                        Text = list3[k][1].ToString(),
+                                        Tag = (ControlType)list3[k][2]
+                                    };
+                                    treeNode4.Nodes.Add(treeNode5);
+                                }
                             }
                         }
                     }
@@ -2211,6 +2230,16 @@ namespace 科技计划项目档案数据采集管理系统
             treeView.Nodes.Add(treeNode);
             treeView.ExpandAll();
             treeView.NodeMouseClick += TreeView_NodeMouseClick;
+
+            if(treeView.Nodes.Count > 0)
+            {
+                TreeNode node = treeView.Nodes[0];
+                if(type == ControlType.Imp)
+                {
+                    ShowTab("imp", 0);
+                    LoadImpInfo(node.Name);
+                }
+            }
         }
         /// <summary>
         /// 目录树点击事件
@@ -2380,7 +2409,7 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadPageBasicInfo(e.Node.Name, type);
                 }
             }
-            else if(type == ControlType.Imp || type == ControlType.Imp_Dev)
+            else if(type == ControlType.Imp)
             {
                 tab_MenuList.TabPages.Clear();
 
@@ -2388,7 +2417,7 @@ namespace 科技计划项目档案数据采集管理系统
                 LoadImpInfo(e.Node.Name);
 
             }
-            else if(type == ControlType.Imp_Sub || type == ControlType.Imp_Dev_Sub)
+            else if(type == ControlType.Imp_Dev)
             {
                 tab_MenuList.TabPages.Clear();
 
@@ -2402,36 +2431,48 @@ namespace 科技计划项目档案数据采集管理系统
                 tab_MenuList.SelectedIndex = tab_MenuList.TabPages.Count - 1;
         }
         /// <summary>
-        /// 加载Imp/Dev基本信息
+        /// 加载Imp基本信息
         /// </summary>
-        /// <param name="name"></param>
         private void LoadImpInfo(object objId)
         {
-            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id,imp_name,imp_intro,imp_submit_status FROM imp_info WHERE imp_obj_id='{objId}' AND imp_source_id='{UserHelper.GetInstance().User.UserKey}'");
-            if(_obj == null)
-                _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name,dd_note FROM data_dictionary WHERE dd_id='{objId}'");
-            if(_obj != null)
+            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name, imp_intro, imp_type FROM imp_info WHERE imp_id='{objId}'");
+            lbl_Imp_Name.Tag = GetValue(_obj[0]);
+            lbl_Imp_Name.Text = GetValue(_obj[1]);
+            lbl_Imp_Intro.Text = GetValue(_obj[2]);
+
+            dgv_Imp_FileList.Tag = GetValue(_obj[0]);
+            LoadFileList(dgv_Imp_FileList, "imp_", GetValue(_obj[0]));
+
+            //加载下拉列表
+            if(cbo_Imp_HasNext.DataSource == null)
             {
-                lbl_Imp_Name.Tag = GetValue(_obj[0]);
-                lbl_Imp_Name.Text = GetValue(_obj[1]);
-                lbl_Imp_Intro.Text = GetValue(_obj[2]);
-
-                dgv_Imp_FileList.Tag = GetValue(_obj[0]);
-                LoadFileList(dgv_Imp_FileList, "imp_", GetValue(_obj[0]));
-
-                //加载下拉列表
-                if(cbo_Imp_HasNext.DataSource == null)
+                int type = Convert.ToInt32(_obj[3]);
+                string key = null;
+                if(type == 0)//重点研发
+                    key = "dic_plan_imp";
+                else if(type == 1)
                 {
-                    DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM data_dictionary WHERE dd_pId = '{objId}' ORDER BY dd_sort");
-                    cbo_Imp_HasNext.DataSource = table;
-                    cbo_Imp_HasNext.DisplayMember = "dd_name";
-                    cbo_Imp_HasNext.ValueMember = "dd_id";
+                    key = "dic_imp_dev";
+                    tab_MenuList.TabPages["imp"].Text = "国家重点研发计划";
                 }
+                DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM data_dictionary WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='{key}') ORDER BY dd_sort");
+                cbo_Imp_HasNext.DataSource = table;
+                cbo_Imp_HasNext.DisplayMember = "dd_name";
+                cbo_Imp_HasNext.ValueMember = "dd_id";
             }
             dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_Imp_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+            if(controlType == ControlType.Imp)
+            {
+                cbo_Imp_HasNext.Enabled = false;
+                int index = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM work_rework WHERE wr_obj_id='{objId}'"));
+                bool isBacked = index == 0 ? false : true;
+                if(isBacked)
+                    EnabledBtnGroup(controlType, true);
+            }
         }
         /// <summary>
         /// 文件信息选项卡切换事件
@@ -4483,6 +4524,56 @@ namespace 科技计划项目档案数据采集管理系统
                 new Frm_AddFile(dgv_Imp_FileList, "imp_").ShowDialog();
             else if("btn_Imp_Dev_AddFile".Equals(name))
                 new Frm_AddFile(dgv_Imp_Dev_FileList, "imp_dev_").ShowDialog();
+        }
+        /// <summary>
+        /// 返工 点击事件
+        /// </summary>
+        private void Btn_Imp_BackWork_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("确定将当前数据返工吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                string name = (sender as Control).Name;
+                if("btn_Imp_BackWork".Equals(name))
+                {
+                    object impId = dgv_Imp_FileList.Tag;
+                    object primaryKey = Guid.NewGuid().ToString();
+                    object worker = GetWorkById(ControlType.Imp, impId);
+                    string insertSql = "INSERT INTO work_rework(wr_id, wm_id, wr_obj_id, wr_type, wr_checker, wr_worker, wr_checkdate) " +
+                        $"VALUES ('{primaryKey}', '{WMID}', '{impId}', '{(int)controlType}', '{UserHelper.GetInstance().User.UserKey}', '{worker}', '{DateTime.Now}')";
+                    SqlHelper.ExecuteNonQuery(insertSql);
+                    //将当前对象状态置为未提交
+                    SqlHelper.ExecuteNonQuery($"UPDATE imp_info SET imp_submit_status={(int)ObjectSubmitStatus.NonSubmit} WHERE imp_id='{impId}'");
+                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualitySuccess} WHERE wm_id='{WMID}'");
+                    EnabledBtnGroup(controlType, true);
+                }
+            }
+        }
+        /// <summary>
+        /// 根据类别和ID获取对应加工人
+        /// </summary>
+        /// <param name="type">数据类型</param>
+        /// <param name="id">主键</param>
+        /// <returns>加工人ID</returns>
+        private object GetWorkById(ControlType type, object id)
+        {
+            if(type == ControlType.Imp)
+            {
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_source_id FROM imp_info WHERE imp_id='{id}'");
+            }
+            return null;
+        }
+        /// <summary>
+        /// 已返工 禁用按钮
+        /// </summary>
+        /// <param name="controlType">页面类型</param>
+        /// <param name="disEnable">是否禁用</param>
+        private void EnabledBtnGroup(ControlType controlType, bool disEnable)
+        {
+            if(controlType == ControlType.Imp)
+            {
+                pal_Imp_BtnGroup.Enabled = !disEnable;
+                btn_Imp_BackWork.Text = disEnable ? "已返工" : "返工";
+            }
         }
     }
 }

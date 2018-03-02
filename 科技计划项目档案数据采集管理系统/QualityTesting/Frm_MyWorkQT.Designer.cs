@@ -644,7 +644,7 @@
             this.label132 = new System.Windows.Forms.Label();
             this.pal_Imp_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_Imp_AddFile = new System.Windows.Forms.Button();
-            this.btn_Imp_Submit = new System.Windows.Forms.Button();
+            this.btn_Imp_BackWork = new System.Windows.Forms.Button();
             this.btn_Imp_Save = new System.Windows.Forms.Button();
             this.btn_Imp_OpenFile = new System.Windows.Forms.Button();
             this.pal_Imp = new System.Windows.Forms.Panel();
@@ -1429,7 +1429,7 @@
             this.btn_JH_Submit.Name = "btn_JH_Submit";
             this.btn_JH_Submit.Size = new System.Drawing.Size(76, 30);
             this.btn_JH_Submit.TabIndex = 9;
-            this.btn_JH_Submit.Text = "提交(&B)";
+            this.btn_JH_Submit.Text = "返工";
             this.btn_JH_Submit.UseVisualStyleBackColor = true;
             // 
             // btn_JH_Save
@@ -6776,7 +6776,7 @@
             // 
             this.pal_Imp_BtnGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_AddFile);
-            this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Submit);
+            this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_BackWork);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Save);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_OpenFile);
             this.pal_Imp_BtnGroup.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -6795,16 +6795,16 @@
             this.btn_Imp_AddFile.Text = "新增文件";
             this.btn_Imp_AddFile.UseVisualStyleBackColor = true;
             // 
-            // btn_Imp_Submit
+            // btn_Imp_BackWork
             // 
-            this.btn_Imp_Submit.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Imp_Submit.Location = new System.Drawing.Point(913, 334);
-            this.btn_Imp_Submit.Name = "btn_Imp_Submit";
-            this.btn_Imp_Submit.Size = new System.Drawing.Size(76, 30);
-            this.btn_Imp_Submit.TabIndex = 9;
-            this.btn_Imp_Submit.Text = "提交(&B)";
-            this.btn_Imp_Submit.UseVisualStyleBackColor = true;
-            this.btn_Imp_Submit.Click += new System.EventHandler(this.Btn_Submit_Click);
+            this.btn_Imp_BackWork.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Imp_BackWork.Location = new System.Drawing.Point(913, 334);
+            this.btn_Imp_BackWork.Name = "btn_Imp_BackWork";
+            this.btn_Imp_BackWork.Size = new System.Drawing.Size(76, 30);
+            this.btn_Imp_BackWork.TabIndex = 9;
+            this.btn_Imp_BackWork.Text = "返工";
+            this.btn_Imp_BackWork.UseVisualStyleBackColor = true;
+            this.btn_Imp_BackWork.Click += new System.EventHandler(this.Btn_Imp_BackWork_Click);
             // 
             // btn_Imp_Save
             // 
@@ -6849,7 +6849,6 @@
             this.lbl_Imp_Intro.Name = "lbl_Imp_Intro";
             this.lbl_Imp_Intro.Size = new System.Drawing.Size(851, 136);
             this.lbl_Imp_Intro.TabIndex = 8;
-            this.lbl_Imp_Intro.Text = "XXX";
             this.lbl_Imp_Intro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label134
@@ -6889,9 +6888,8 @@
             this.lbl_Imp_Name.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbl_Imp_Name.Location = new System.Drawing.Point(130, 13);
             this.lbl_Imp_Name.Name = "lbl_Imp_Name";
-            this.lbl_Imp_Name.Size = new System.Drawing.Size(32, 16);
+            this.lbl_Imp_Name.Size = new System.Drawing.Size(0, 16);
             this.lbl_Imp_Name.TabIndex = 1;
-            this.lbl_Imp_Name.Text = "XXX";
             // 
             // label137
             // 
@@ -8333,7 +8331,7 @@
         private System.Windows.Forms.ComboBox cbo_Imp_Box;
         private System.Windows.Forms.Label label132;
         private System.Windows.Forms.Panel pal_Imp_BtnGroup;
-        private System.Windows.Forms.Button btn_Imp_Submit;
+        private System.Windows.Forms.Button btn_Imp_BackWork;
         private System.Windows.Forms.Button btn_Imp_Save;
         private System.Windows.Forms.Button btn_Imp_OpenFile;
         private System.Windows.Forms.Panel pal_Imp;

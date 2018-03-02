@@ -104,6 +104,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void InitialLeftMenu()
         {
+            pal_LeftMenu.Controls.Clear();
             Image[] imgs = new Image[] { Resources.pic1, Resources.pic2, Resources.pic3, Resources.pic4, Resources.pic5, Resources.pic6, Resources.pic7, Resources.pic8 };
             List<CreateKyoPanel.KyoPanel> list = new List<CreateKyoPanel.KyoPanel>();
             list.Add(new CreateKyoPanel.KyoPanel
@@ -144,7 +145,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 获取当前用户的已返工数
         /// </summary>
         /// <returns></returns>
-        private object GetBackWorkAmount() => SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM work_myreg WHERE wm_status={(int)WorkStatus.BackWork} AND wm_user='{UserHelper.GetInstance().User.UserKey}'");
+        private object GetBackWorkAmount() => SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM work_rework WHERE wr_worker='{UserHelper.GetInstance().User.UserKey}'");
         /// <summary>
         /// 二级菜单点击事件（加工登记/加工中/已返工）
         /// </summary>
@@ -180,23 +181,31 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_WorkLog.Columns.Add("bk_edit", "操作");
             dgv_WorkLog.Columns.Add("bk_submit", "提交");
 
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM work_myreg WHERE wm_status={(int)WorkStatus.BackWork} AND wm_user='{UserHelper.GetInstance().User.UserKey}'");
-
+            string querySql = $"SELECT wr_id, wr_type, wr_obj_id FROM work_rework WHERE wr_worker='{UserHelper.GetInstance().User.UserKey}'";
+            DataTable table = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < table.Rows.Count; i++)
             {
                 DataRow row = table.Rows[i];
-                object wrId = row["wr_id"];
-                object[] _objs = GetObjectListById(wrId);
-                int index = dgv_WorkLog.Rows.Add();
-                dgv_WorkLog.Rows[index].Cells["bk_id"].Tag = _objs[0];//type
-                dgv_WorkLog.Rows[index].Cells["bk_id"].Value = _objs[2];//objid
-                dgv_WorkLog.Rows[index].Cells["bk_code"].Tag = _objs[1];//wrid
-                dgv_WorkLog.Rows[index].Cells["bk_code"].Value = _objs[3];//code
-                dgv_WorkLog.Rows[index].Cells["bk_name"].Tag = row["wm_id"];//wmid
-                dgv_WorkLog.Rows[index].Cells["bk_name"].Value = _objs[4];//name
-                dgv_WorkLog.Rows[index].Cells["bk_reason"].Value = GetAdvicesById(_objs[2]);
-                dgv_WorkLog.Rows[index].Cells["bk_edit"].Value = "编辑";
-                dgv_WorkLog.Rows[index].Cells["bk_submit"].Value = "提交质检";
+                ControlType type = (ControlType)Convert.ToInt32(row["wr_type"]);
+                if(type == ControlType.Imp)
+                {
+                    object id = row["wr_obj_id"];
+                    DataTable _table = SqlHelper.ExecuteQuery($"SELECT imp_id, imp_code, imp_name, imp_intro, imp_obj_id FROM imp_info WHERE imp_id='{id}'");
+                    if(_table.Rows.Count>0)
+                    {
+                        DataRow _row = _table.Rows[0];
+                        int index = dgv_WorkLog.Rows.Add();
+                        dgv_WorkLog.Rows[index].Tag = type;
+                        dgv_WorkLog.Rows[index].Cells["bk_id"].Tag = _row["imp_obj_id"];
+                        dgv_WorkLog.Rows[index].Cells["bk_id"].Value = _row["imp_id"];
+                        dgv_WorkLog.Rows[index].Cells["bk_code"].Tag = row["wr_id"];//供删除使用
+                        dgv_WorkLog.Rows[index].Cells["bk_code"].Value = _row["imp_code"];
+                        dgv_WorkLog.Rows[index].Cells["bk_name"].Value = _row["imp_name"];
+                        dgv_WorkLog.Rows[index].Cells["bk_reason"].Value = GetAdvicesById(_row["imp_id"]);
+                        dgv_WorkLog.Rows[index].Cells["bk_edit"].Value = "编辑";
+                        dgv_WorkLog.Rows[index].Cells["bk_submit"].Value = "提交质检";
+                    }
+                }
             }
             dgv_WorkLog.Columns["bk_id"].Visible = false;
 
@@ -590,7 +599,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
                         if(planId != null)//项目/课题
-                            new Frm_MyWork(WorkType.CDWork, planId, null, ControlType.Default).ShowDialog();
+                            new Frm_MyWork(WorkType.CDWork, planId, null, ControlType.Default,false).ShowDialog();
                         else
                         {
                             planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}'");
@@ -602,7 +611,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork frm = new Frm_MyWork(WorkType.CDWork, planId, objId, ControlType.Plan);
+                                Frm_MyWork frm = new Frm_MyWork(WorkType.CDWork, planId, objId, ControlType.Plan,false);
                                 frm.planCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_code FROM project_info WHERE pi_id='{planId}'"));
                                 frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
                                 frm.ShowDialog();
@@ -614,13 +623,13 @@ namespace 科技计划项目档案数据采集管理系统
                         //普通计划
                         object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
                         if(planId != null)
-                            new Frm_MyWork(WorkType.PaperWork, planId, null, ControlType.Default).ShowDialog();
+                            new Frm_MyWork(WorkType.PaperWork, planId, null, ControlType.Default,false).ShowDialog();
                         //重点研发计划
                         else
                             planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_id FROM imp_info WHERE imp_obj_id='{objId}'");
                         if(planId != null)
                         {
-                            Frm_MyWork frm = new Frm_MyWork(WorkType.Default, planId, objId, ControlType.Imp);
+                            Frm_MyWork frm = new Frm_MyWork(WorkType.Default, planId, objId, ControlType.Imp,false);
                             frm.ShowDialog();
                         }
                         else
@@ -634,7 +643,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork, planId, objId, ControlType.Plan);
+                                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork, planId, objId, ControlType.Plan,false);
                                 frm.planCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_code FROM project_info WHERE pi_id='{planId}'"));
                                 frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
                                 frm.ShowDialog();
@@ -653,7 +662,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork frm = new Frm_MyWork(WorkType.ProjectWork, rootId, objId, ControlType.Default);
+                                Frm_MyWork frm = new Frm_MyWork(WorkType.ProjectWork, rootId, objId, ControlType.Default,false);
                                 frm.SetUnitSourceId(dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag);
                                 frm.ShowDialog();
                             }
@@ -667,7 +676,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, rootId, objId, ControlType.Default);
+                                Frm_MyWork myWork = new Frm_MyWork(WorkType.SubjectWork, rootId, objId, ControlType.Default,false);
                                 myWork.ShowDialog();
                             }
                         }
@@ -739,47 +748,59 @@ namespace 科技计划项目档案数据采集管理系统
                 //返工 - 编辑
                 else if("bk_edit".Equals(columnName))
                 {
-                    WorkType type = (WorkType)Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag);
-                    object objId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
-                    if(type == WorkType.CDWork)
+                    ControlType type = (ControlType)dgv_WorkLog.Rows[e.RowIndex].Tag;
+                    if(type == ControlType.Imp)
                     {
-                        new Frm_MyWorkQT(type, objId, ControlType.Plan, true).ShowDialog();
+                        object impId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
+                        object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
+                        Frm_MyWork frm = new Frm_MyWork(WorkType.Default, impId, trpId, type, true);
+                        frm.ShowDialog();
                     }
-                    else if(type == WorkType.PaperWork)
-                        new Frm_MyWorkQT(type, objId, ControlType.Plan, true).ShowDialog();
-                    else if(type == WorkType.ProjectWork)
-                    {
-                        object rootId = GetRootId(objId, WorkType.ProjectWork);
-                        if(string.IsNullOrEmpty(GetValue(rootId)))
-                            MessageBox.Show("无法找到当前项目/课题所属计划。", "操作失败");
-                        else
-                            new Frm_MyWorkQT(type, rootId, ControlType.Plan_Project, true).ShowDialog();
-                    }
-                    else if(type == WorkType.SubjectWork)
-                    {
-                        object rootId = GetRootId(objId, WorkType.SubjectWork);
-                        if(string.IsNullOrEmpty(GetValue(rootId)))
-                            MessageBox.Show("无法找到当前课题/子课题所属计划。", "操作失败");
-                        else
-                            new Frm_MyWorkQT(type, rootId, ControlType.Plan_Project_Topic, true).ShowDialog();
-                    }
+                    
                 }
                 //返工 - 提交
                 else if("bk_submit".Equals(columnName))
                 {
-                    object wrid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_code"].Tag;
-                    if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    ControlType type = (ControlType)dgv_WorkLog.Rows[e.RowIndex].Tag;
+                    if(type == ControlType.Imp)
                     {
-                        object wmid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_name"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)WorkStatus.WorkSuccessFromBack} WHERE wm_id='{wmid}'");
+                        object impId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
+                        object status = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_submit_status FROM imp_info WHERE imp_id='{impId}'");
+                        if(status.Equals(2))
+                        {
+                            if(MessageBox.Show("确定要将当前数据提交至质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                            {
+                                //删除返工记录
+                                object wrid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_code"].Tag;//返工表主键
+                                SqlHelper.ExecuteNonQuery($"DELETE FROM work_rework WHERE wr_id='{wrid}'");
+                                //增加质检记录
+                                int bkCount = GetBkCountById(wrid) + 1;
+                                object primaryKey = Guid.NewGuid().ToString();
+                                object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
+                                string insertSql = "INSERT INTO work_registration(wr_id, wr_status, trp_id, wr_type, wr_date, wr_submit_status, wr_receive_status, wr_source_id, wr_qtcount) " +
+                                    $"VALUES ('{primaryKey}', '{(int)WorkStatus.WorkSuccess}', '{trpId}', '{(int)WorkType.Default}', '{DateTime.Now}', '{(int)ObjectSubmitStatus.SubmitSuccess}', '{(int)ReceiveStatus.NonReceive}', '{UserHelper.GetInstance().User.UserKey}', {bkCount})";
+                                SqlHelper.ExecuteNonQuery(insertSql);
 
-                        object qtCount = SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_qtcount FROM work_registration WHERE wr_id='{wrid}'");
-                        string updateSql = $"UPDATE work_registration SET wr_qtcount='{(qtCount == null ? 1 : (Convert.ToInt32(qtCount) + 1))}', wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}',wr_receive_status={(int)ReceiveStatus.NonReceive} WHERE wr_id='{wrid}'";
-                        SqlHelper.ExecuteNonQuery(updateSql);
-                        LoadWorkBackList();
+                                InitialLeftMenu();
+                                LoadWorkBackList();
+                            }
+                        }
+                        else
+                            MessageBox.Show("当前计划尚未加工完成！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                 }
             }
+        }
+        /// <summary>
+        /// 获取返工质检次数
+        /// </summary>
+        /// <param name="wrid">返工表主键</param>
+        private int GetBkCountById(object wrid)
+        {
+            return Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery("SELECT wr_qtcount FROM work_registration wrn " +
+                "LEFT JOIN work_myreg wm ON wm.wr_id = wrn.wr_id " +
+                "LEFT JOIN work_rework wrk ON wrk.wm_id = wm.wm_id " +
+                $"WHERE wrk.wr_id='{wrid}'"));
         }
         /// <summary>
         /// 根据指定ID查看是否其所属项目/课题是否全部提交
