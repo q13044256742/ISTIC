@@ -857,6 +857,9 @@ namespace 科技计划项目档案数据采集管理系统
                     List<object[]> _obj2 = new List<object[]>();
                     if(type == WorkType.PaperWork)
                     {
+                        object rootStatu = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_submit_status FROM project_info WHERE pi_id='{rootId}'");
+                        if(Convert.ToInt32(rootStatu) == (int)ObjectSubmitStatus.NonSubmit)
+                            return false;
                         _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}'", 2);
                         for(int i = 0; i < _obj2.Count; i++)
                         {

@@ -45,6 +45,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(isBacked)
             {
                 Text += "[返工]";
+                btn_JH_QTReason.Visible = isBacked;
                 btn_Imp_QTReason.Visible = isBacked;
             }
             InitialForm(planId, type);
@@ -70,12 +71,12 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="color">节点背景色</param>
         private void LoadPlanPage(object planId, System.Drawing.Color color)
         {
-            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_obj_id FROM project_info WHERE pi_id = '{planId}'");
-            if(_obj== null)
-                _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_obj_id FROM project_info WHERE pi_obj_id = '{trpId}'");
+            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_obj_id, pi_submit_status FROM project_info WHERE pi_id = '{planId}'");
+            if(_obj == null)
+                _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_obj_id, pi_submit_status FROM project_info WHERE pi_obj_id = '{trpId}'");
             if(_obj == null)
             {
-                _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name,dd_note FROM data_dictionary WHERE dd_id='{planId}'");
+                _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_id='{planId}'");
                 lbl_JH_Name.Tag = GetValue(_obj[0]);
                 lbl_JH_Name.Text = GetValue(_obj[1]);
                 lbl_PlanIntroducation.Text = GetValue(_obj[2]);
@@ -86,6 +87,9 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_JH_Name.Text = GetValue(_obj[1]);
                 lbl_JH_Name.Tag = GetValue(_obj[2]);
                 LoadFileList(dgv_JH_FileList, string.Empty, GetValue(_obj[0]));
+
+                ObjectSubmitStatus status = (ObjectSubmitStatus)_obj[3];
+                EnableControls(ControlType.Plan, status != ObjectSubmitStatus.SubmitSuccess);
             }
             dgv_JH_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_JH_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -93,6 +97,7 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_JH_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
 
             pal_JH_BtnGroup.Enabled = !(color == DisEnbleColor);
+
             tab_MenuList.TabPages["plan"].Tag = planId;
         }
         /// <summary>
@@ -4782,6 +4787,13 @@ namespace 科技计划项目档案数据采集管理系统
                 if("btn_JH_Submit".Equals(button.Name))
                 {
                     objId = dgv_JH_FileList.Tag;
+                    if(objId != null)
+                    {
+                        SqlHelper.ExecuteNonQuery($"UPDATE project_info SET pi_submit_status='{(int)ObjectSubmitStatus.SubmitSuccess}' WHERE pi_id='{objId}'");
+                        EnableControls(ControlType.Plan, false);
+                    }
+                    else
+                        MessageBox.Show("请先保存数据.");
                 }
                 else if("btn_JH_XM_Submit".Equals(button.Name))
                 {

@@ -367,7 +367,6 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_MyReg.Columns.Add("mr_fileamount", "文件数");
             dgv_MyReg.Columns.Add("mr_edit", "编辑");
             dgv_MyReg.Columns.Add("mr_submit", "完成");
-
             
             List<object[]> _obj = SqlHelper.ExecuteColumnsQuery($"SELECT wm_id, wr_id, wm_type wr FROM work_myreg WHERE wm_user='{UserHelper.GetInstance().User.UserKey}' " +
                 $"AND wm_status='{(int)QualityStatus.NonQuality}' AND wm_id NOT IN (SELECT wm_id FROM work_rework);", 3);
@@ -391,6 +390,28 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_MyReg.Rows[index].Cells["mr_id"].Value = row["imp_id"];
                         dgv_MyReg.Rows[index].Cells["mr_name"].Value = row["imp_name"];
                         dgv_MyReg.Rows[index].Cells["mr_code"].Value = row["imp_code"];
+                        dgv_MyReg.Rows[index].Cells["mr_unit"].Value = row["dd_name"];
+                        dgv_MyReg.Rows[index].Cells["mr_fileamount"].Value = GetFileAmountById(row[2], type);
+                        dgv_MyReg.Rows[index].Cells["mr_edit"].Value = "编辑";
+                        dgv_MyReg.Rows[index].Cells["mr_submit"].Value = "提交";
+                    }
+
+                    querySql = "SELECT dd_name, pi_code, pi_name, pi_id FROM project_info pi " +
+                        "LEFT JOIN work_registration wr ON pi.pi_obj_id = wr.wr_obj_id " +
+                        "LEFT JOIN work_myreg wm ON wm.wr_id = wr.wr_id " +
+                        "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                        "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
+                        $"WHERE wm.wm_id='{_obj[i][0]}'";
+                    table = SqlHelper.ExecuteQuery(querySql);
+                    for(int j = 0; j < table.Rows.Count; j++)
+                    {
+                        DataRow row = table.Rows[j];
+                        int index = dgv_MyReg.Rows.Add();
+                        dgv_MyReg.Rows[index].Tag = _obj[i][0];//wmid
+                        dgv_MyReg.Rows[index].Cells["mr_id"].Tag = type;//wmtype
+                        dgv_MyReg.Rows[index].Cells["mr_id"].Value = row["pi_id"];
+                        dgv_MyReg.Rows[index].Cells["mr_name"].Value = row["pi_name"];
+                        dgv_MyReg.Rows[index].Cells["mr_code"].Value = row["pi_code"];
                         dgv_MyReg.Rows[index].Cells["mr_unit"].Value = row["dd_name"];
                         dgv_MyReg.Rows[index].Cells["mr_fileamount"].Value = GetFileAmountById(row[2], type);
                         dgv_MyReg.Rows[index].Cells["mr_edit"].Value = "编辑";
@@ -548,6 +569,7 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Imp.Columns.Add("imp_control", "操作");
             dgv_Imp.Columns.Add("imp_via", "数据途径");
             //查询已提交至质检的计划
+            /* ---------------------重点计划------------------ */
             string querySql = "SELECT imp_id, dd_id, dd_name, imp_code, imp_name, trp.trp_id, wr_id, wr_qtcount FROM imp_info ii " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = ii.imp_obj_id " +
                 "LEFT JOIN data_dictionary dd ON trp.com_id = dd.dd_id " +
@@ -564,6 +586,28 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Imp.Rows[_index].Cells["imp_unit"].Value = row["dd_name"];
                 dgv_Imp.Rows[_index].Cells["imp_code"].Value = row["imp_code"];
                 dgv_Imp.Rows[_index].Cells["imp_name"].Value = row["imp_name"];
+                dgv_Imp.Rows[_index].Cells["imp_fileAmount"].Value = GetFileAmountById(row["trp_id"], ControlType.Default);
+                dgv_Imp.Rows[_index].Cells["imp_qtAmount"].Value = row["wr_qtcount"];
+                dgv_Imp.Rows[_index].Cells["imp_control"].Value = "质检";
+                dgv_Imp.Rows[_index].Cells["imp_via"].Value = null;
+            }
+            /* ---------------------普通计划------------------ */
+            querySql = "SELECT pi_id, dd_id, dd_name, pi_code, pi_name, trp.trp_id, wr_id, wr_qtcount FROM project_info pi " +
+                "LEFT JOIN work_registration wr ON pi.pi_obj_id = wr.wr_obj_id " +
+                "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
+                $"WHERE wr_submit_status = {(int)ObjectSubmitStatus.SubmitSuccess} AND wr_receive_status = {(int)ReceiveStatus.NonReceive}";
+            table = SqlHelper.ExecuteQuery(querySql);
+            for(int i = 0; i < table.Rows.Count; i++)
+            {
+                DataRow row = table.Rows[i];
+                int _index = dgv_Imp.Rows.Add();
+                dgv_Imp.Rows[_index].Cells["imp_id"].Tag = row["wr_id"];
+                dgv_Imp.Rows[_index].Cells["imp_id"].Value = row["pi_id"];
+                dgv_Imp.Rows[_index].Cells["imp_unit"].Tag = row["dd_id"];
+                dgv_Imp.Rows[_index].Cells["imp_unit"].Value = row["dd_name"];
+                dgv_Imp.Rows[_index].Cells["imp_code"].Value = row["pi_code"];
+                dgv_Imp.Rows[_index].Cells["imp_name"].Value = row["pi_name"];
                 dgv_Imp.Rows[_index].Cells["imp_fileAmount"].Value = GetFileAmountById(row["trp_id"], ControlType.Default);
                 dgv_Imp.Rows[_index].Cells["imp_qtAmount"].Value = row["wr_qtcount"];
                 dgv_Imp.Rows[_index].Cells["imp_control"].Value = "质检";
@@ -623,6 +667,7 @@ namespace 科技计划项目档案数据采集管理系统
                         LoadMyRegList();
                     }
                 }
+                //完成质检
                 else if("mr_submit".Equals(columnName))
                 {
                     if(type == ControlType.Imp)
