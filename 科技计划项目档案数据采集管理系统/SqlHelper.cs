@@ -218,5 +218,13 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return SqlHelper.ExecuteRowsQuery(querySql);
         }
+        /// <summary>
+        /// 获取单行数据
+        /// </summary>
+        public static DataRow ExecuteSingleRowQuery(string querySql)
+        {
+            DataTable table = ExecuteQuery(querySql);
+            return table.Rows.Count > 0 ? table.Rows[0] : null;
+        }
     }
 }

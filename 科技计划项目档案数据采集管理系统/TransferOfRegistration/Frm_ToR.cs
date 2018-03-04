@@ -168,14 +168,16 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             else
                 dataTable = SqlHelper.ExecuteQuery(_querySql);
 
-            //将数据源转化成DataGridView表数据
-            dgv_SWDJ.Columns.Add("trp_id", "主键");
-            dgv_SWDJ.Columns.Add("dd_name", "来源单位");
-            dgv_SWDJ.Columns.Add("trp_name", "批次名称");
-            dgv_SWDJ.Columns.Add("trp_code", "批次编号");
-            dgv_SWDJ.Columns.Add("trp_cd_amount", "光盘数");
-            dgv_SWDJ.Columns.Add("addpc", "添加光盘");
-            dgv_SWDJ.Columns.Add("submit", "提交");
+            dgv_SWDJ.Columns.AddRange(new DataGridViewTextBoxColumn[]
+            {
+                new DataGridViewTextBoxColumn(){Name = "trp_id", HeaderText = "主键", FillWeight = 10 },
+                new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 20 },
+                new DataGridViewTextBoxColumn(){Name = "trp_name", HeaderText = "批次名称", FillWeight = 25 },
+                new DataGridViewTextBoxColumn(){Name = "trp_code", HeaderText = "批次编号", FillWeight = 20 },
+                new DataGridViewTextBoxColumn(){Name = "trp_cd_amount", HeaderText = "光盘数", FillWeight = 8 },
+                new DataGridViewTextBoxColumn(){Name = "addpc", HeaderText = "添加光盘", FillWeight = 10 },
+                new DataGridViewTextBoxColumn(){Name = "submit", HeaderText = "提交", FillWeight = 10 },
+            });
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
                 DataRow row = dataTable.Rows[i];
@@ -188,9 +190,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_SWDJ.Rows[index].Cells["addpc"].Value = "添加";
                 dgv_SWDJ.Rows[index].Cells["submit"].Value = Convert.ToInt32(row["trp_submit_status"]) == 1 ? "提交" : "已提交";
             }
-            //设置最小列宽
-            dgv_SWDJ.Columns["dd_name"].MinimumWidth = 200;
-            dgv_SWDJ.Columns["trp_name"].MinimumWidth = 220;
 
             //设置链接按钮样式
             DataGridViewStyleHelper.SetLinkStyle(dgv_SWDJ, new string[] { "submit", "addpc", "trp_cd_amount" }, true);
@@ -203,7 +202,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
             dgv_SWDJ.Tag = "PC";
         }
-
         /// <summary>
         /// 加载光盘数据
         /// </summary>
@@ -218,7 +216,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             querySql.Append($" FROM transfer_registraion_cd WHERE trp_id='{pid}'");
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
 
-            //将数据源转化成DataGridView表数据
             dgv_SWDJ.Columns.Add("trc_id", "主键");
             dgv_SWDJ.Columns.Add("trc_name", "光盘名称");
             dgv_SWDJ.Columns.Add("trc_code", "光盘编号");
@@ -239,7 +236,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
             dgv_SWDJ.Tag = "CD";
         }
-
         /// <summary>
         /// 单元格点击事件
         /// </summary>
@@ -323,10 +319,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Btn_Back_Click(object sender, EventArgs e)
-        {
-            LoadPCDataScoure(null);
-        }
+        private void Btn_Back_Click(object sender, EventArgs e) => LoadPCDataScoure(null);
         /// <summary>
         /// 删除选中数据
         /// </summary>
@@ -425,15 +418,18 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             dgv_GPDJ.Rows.Clear();
             dgv_GPDJ.Columns.Clear();
 
-            dgv_GPDJ.Columns.Add("trc_id", "主键");
-            dgv_GPDJ.Columns.Add("dd_name", "来源单位");
-            dgv_GPDJ.Columns.Add("trc_code", "光盘编号");
-            dgv_GPDJ.Columns.Add("trc_name", "光盘名称");
-            dgv_GPDJ.Columns.Add("trc_project_amount", "项目数");
-            dgv_GPDJ.Columns.Add("trc_subject_amount", "课题数");
-            dgv_GPDJ.Columns.Add("trc_file_amount", "文件数");
-            dgv_GPDJ.Columns.Add("trc_status", "读写状态");
-            dgv_GPDJ.Columns.Add("control", "操作");
+            dgv_GPDJ.Columns.AddRange(new DataGridViewTextBoxColumn[]
+            {
+                new DataGridViewTextBoxColumn(){Name = "trc_id", HeaderText = "主键", FillWeight = 10 },
+                new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 15 },
+                new DataGridViewTextBoxColumn(){Name = "trc_code", HeaderText = "光盘编号", FillWeight = 15 },
+                new DataGridViewTextBoxColumn(){Name = "trc_name", HeaderText = "光盘名称", FillWeight = 15 },
+                new DataGridViewTextBoxColumn(){Name = "trc_project_amount", HeaderText = "项目数", FillWeight = 5 },
+                new DataGridViewTextBoxColumn(){Name = "trc_subject_amount", HeaderText = "课题数", FillWeight = 5 },
+                new DataGridViewTextBoxColumn(){Name = "trc_file_amount", HeaderText = "文件数", FillWeight = 5 },
+                new DataGridViewTextBoxColumn(){Name = "trc_status", HeaderText = "读写状态", FillWeight = 10 },
+                new DataGridViewTextBoxColumn(){Name = "control", HeaderText = "操作", FillWeight = 7 },
+            });
 
             DataTable table = null;
             if (_querySql == null)
@@ -461,18 +457,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             }
             if (dgv_GPDJ.Columns.Count > 0)
                 dgv_GPDJ.Columns[0].Visible = false;
-
-            List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
-            list.Add(new KeyValuePair<string, int>("dd_name", 250));
-            list.Add(new KeyValuePair<string, int>("trc_code", 200));
-            list.Add(new KeyValuePair<string, int>("trc_name", 200));
-
-            list.Add(new KeyValuePair<string, int>("trc_project_amount", 90));
-            list.Add(new KeyValuePair<string, int>("trc_subject_amount", 90));
-            list.Add(new KeyValuePair<string, int>("trc_file_amount", 90));
-            list.Add(new KeyValuePair<string, int>("control", 100));
-            list.Add(new KeyValuePair<string, int>("trc_status", 100));
-            DataGridViewStyleHelper.SetWidth(dgv_GPDJ, list);
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_GPDJ, new string[] { "trc_status" });
             DataGridViewStyleHelper.SetLinkStyle(dgv_GPDJ, new string[] { "control" }, false);

@@ -122,7 +122,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Imp_Dev.RowTemplate.Height = 23;
             this.dgv_Imp_Dev.Size = new System.Drawing.Size(744, 447);
             this.dgv_Imp_Dev.TabIndex = 0;
-            this.dgv_Imp_Dev.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Project_CellClick);
+            this.dgv_Imp_Dev.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Imp_Dev_CellClick);
             // 
             // project
             // 

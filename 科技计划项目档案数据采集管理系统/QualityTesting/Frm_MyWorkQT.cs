@@ -22,6 +22,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private bool isBackWork;
         /// <summary>
+        /// 节点禁用背景色
+        /// </summary>
+        private System.Drawing.Color DisEnableColor;
+        /// <summary>
         /// 开始加工指定的对象
         /// </summary>
         /// <param name="workType">对象类型</param>
@@ -33,6 +37,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.isBackWork = isBackWork;
             this.workType = workType;
             this.controlType = controlType;
+            this.DisEnableColor = System.Drawing.Color.Gray;
             InitialForm(planId, controlType);
         }
 
@@ -75,6 +80,11 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_JH_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_JH_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_JH_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+            if(controlType == ControlType.Imp_Normal)
+            {
+                cbo_JH_HasNext.Enabled = false;
+            }
         }
         /// <summary>
         /// 加载指定表格的文件列表
@@ -2009,15 +2019,47 @@ namespace 科技计划项目档案数据采集管理系统
             //重大专项/重点研发
             if(workType == WorkType.Default)
             {
+                //重大专项
                 if(type == ControlType.Imp)
                 {
-                    object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_code FROM imp_info WHERE imp_id='{planId}'");
+                    object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name FROM imp_info WHERE imp_id='{planId}'");
                     treeNode = new TreeNode()
                     {
                         Name = GetValue(_obj[0]),
                         Text = GetValue(_obj[1]),
                         Tag = type
                     };
+                }
+                //普通专项
+                else if(type == ControlType.Imp_Normal)
+                {
+                    object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name FROM project_info WHERE pi_id='{planId}'");
+                    treeNode = new TreeNode()
+                    {
+                        Name = GetValue(_obj[0]),
+                        Text = GetValue(_obj[1]),
+                        Tag = type
+                    };
+                }
+                //重大专项 - 专项信息
+                else if(type == ControlType.Imp_Sub)
+                {
+                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM imp_dev_info WHERE imp_id = '{planId}'");
+                    object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name FROM imp_info WHERE imp_id = '{row["imp_obj_id"]}'");
+                    treeNode = new TreeNode()
+                    {
+                        Name = GetValue(_obj[0]),
+                        Text = GetValue(_obj[1]),
+                        Tag = ControlType.Imp,
+                        ForeColor = DisEnableColor
+                    };
+                    TreeNode treeNode2 = new TreeNode()
+                    {
+                        Name = GetValue(row["imp_id"]),
+                        Text = GetValue(row["imp_code"]),
+                        Tag = ControlType.Imp_Sub
+                    };
+                    treeNode.Nodes.Add(treeNode2);
                 }
                 else
                 {
@@ -2234,10 +2276,15 @@ namespace 科技计划项目档案数据采集管理系统
             if(treeView.Nodes.Count > 0)
             {
                 TreeNode node = treeView.Nodes[0];
-                if(type == ControlType.Imp)
+                if(type == ControlType.Imp || type == ControlType.Imp_Sub)
                 {
                     ShowTab("imp", 0);
-                    LoadImpInfo(node.Name);
+                    LoadImpPage(node.Name, node.ForeColor);
+                }
+                else if(type == ControlType.Imp_Normal)
+                {
+                    ShowTab("plan", 0);
+                    LoadPlanPage(node.Name);
                 }
             }
         }
@@ -2258,7 +2305,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(workType == WorkType.Default)
                 {
                     ShowTab("imp", 0);
-                    LoadImpInfo(e.Node.Parent.Parent.Name);
+                    LoadImpPage(e.Node.Parent.Parent.Name, e.Node.Parent.Parent.ForeColor);
 
                     ShowTab("imp_dev", 1);
                     LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Imp_Sub);
@@ -2297,7 +2344,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(workType == WorkType.Default)
                 {
                     ShowTab("imp", 0);
-                    LoadImpInfo(e.Node.Parent.Parent.Name);
+                    LoadImpPage(e.Node.Parent.Parent.Name, e.Node.Parent.Parent.ForeColor);
 
                     ShowTab("imp_sub", 1);
                     LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Imp_Sub);
@@ -2320,7 +2367,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(workType == WorkType.Default)
                 {
                     ShowTab("imp", 0);
-                    LoadImpInfo(e.Node.Parent.Parent.Parent.Name);
+                    LoadImpPage(e.Node.Parent.Parent.Parent.Name, e.Node.Parent.Parent.Parent.ForeColor);
 
                     ShowTab("imp_dev", 1);
                     LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub);
@@ -2349,7 +2396,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(workType == WorkType.Default)
                 {
                     ShowTab("imp", 0);
-                    LoadImpInfo(e.Node.Parent.Parent.Parent.Name);
+                    LoadImpPage(e.Node.Parent.Parent.Parent.Name, e.Node.Parent.Parent.Parent.ForeColor);
 
                     ShowTab("imp_dev", 1);
                     LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub);
@@ -2378,7 +2425,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(workType == WorkType.Default)
                 {
                     ShowTab("imp", 0);
-                    LoadImpInfo(e.Node.Parent.Parent.Parent.Name);
+                    LoadImpPage(e.Node.Parent.Parent.Parent.Name, e.Node.Parent.Parent.Parent.ForeColor);
 
                     ShowTab("imp_dev", 1);
                     LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub);
@@ -2414,15 +2461,22 @@ namespace 科技计划项目档案数据采集管理系统
                 tab_MenuList.TabPages.Clear();
 
                 ShowTab("imp", 0);
-                LoadImpInfo(e.Node.Name);
+                LoadImpPage(e.Node.Name, e.Node.ForeColor);
 
             }
-            else if(type == ControlType.Imp_Dev)
+            else if(type == ControlType.Imp_Normal)
+            {
+                tab_MenuList.TabPages.Clear();
+
+                ShowTab("plan", 0);
+                LoadPlanPage(e.Node.Name);
+            }
+            else if(type == ControlType.Imp_Dev || type == ControlType.Imp_Sub)
             {
                 tab_MenuList.TabPages.Clear();
 
                 ShowTab("imp", 0);
-                LoadImpInfo(e.Node.Parent.Name);
+                LoadImpPage(e.Node.Parent.Name, e.Node.Parent.ForeColor);
 
                 ShowTab("imp_dev", 1);
                 LoadPageBasicInfo(e.Node.Name, type);
@@ -2433,7 +2487,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 加载Imp基本信息
         /// </summary>
-        private void LoadImpInfo(object objId)
+        private void LoadImpPage(object objId, System.Drawing.Color color)
         {
             object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name, imp_intro, imp_type FROM imp_info WHERE imp_id='{objId}'");
             lbl_Imp_Name.Tag = GetValue(_obj[0]);
@@ -2465,13 +2519,22 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
 
+            pal_Imp_BtnGroup.Enabled = !(color == DisEnableColor);
+
             if(controlType == ControlType.Imp)
             {
                 cbo_Imp_HasNext.Enabled = false;
-                int index = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM work_rework WHERE wr_obj_id='{objId}'"));
-                bool isBacked = index == 0 ? false : true;
+                bool isBacked = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM work_rework WHERE wr_obj_id='{objId}'")) == 0 ? false : true;
                 if(isBacked)
-                    EnabledBtnGroup(controlType, true);
+                    EnabledBtnGroup(ControlType.Imp, true);
+            }
+            else if(controlType == ControlType.Imp_Sub)
+            {
+                cbo_Imp_HasNext.Enabled = false;
+                cbo_Imp_Dev_HasNext.Enabled = false;
+                bool isBacked = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM work_rework WHERE wr_obj_id='{objId}'")) == 0 ? false : true;
+                if(isBacked)
+                    EnabledBtnGroup(ControlType.Imp_Sub, true);
             }
         }
         /// <summary>
@@ -4528,7 +4591,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 返工 点击事件
         /// </summary>
-        private void Btn_Imp_BackWork_Click(object sender, EventArgs e)
+        private void Btn_BackWork_Click(object sender, EventArgs e)
         {
             if(MessageBox.Show("确定将当前数据返工吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
@@ -4544,7 +4607,33 @@ namespace 科技计划项目档案数据采集管理系统
                     //将当前对象状态置为未提交
                     SqlHelper.ExecuteNonQuery($"UPDATE imp_info SET imp_submit_status={(int)ObjectSubmitStatus.NonSubmit} WHERE imp_id='{impId}'");
                     SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualitySuccess} WHERE wm_id='{WMID}'");
-                    EnabledBtnGroup(controlType, true);
+                    EnabledBtnGroup(ControlType.Imp, true);
+                }
+                else if("btn_JH_BackWork".Equals(name))
+                {
+                    object piId = dgv_JH_FileList.Tag;
+                    object primaryKey = Guid.NewGuid().ToString();
+                    object worker = GetWorkById(ControlType.Imp_Normal, piId);
+                    string insertSql = "INSERT INTO work_rework(wr_id, wm_id, wr_obj_id, wr_type, wr_checker, wr_worker, wr_checkdate) " +
+                        $"VALUES ('{primaryKey}', '{WMID}', '{piId}', '{(int)controlType}', '{UserHelper.GetInstance().User.UserKey}', '{worker}', '{DateTime.Now}')";
+                    SqlHelper.ExecuteNonQuery(insertSql);
+                    //将当前对象状态置为未提交
+                    SqlHelper.ExecuteNonQuery($"UPDATE project_info SET pi_submit_status={(int)ObjectSubmitStatus.NonSubmit} WHERE pi_id='{piId}'");
+                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualitySuccess} WHERE wm_id='{WMID}'");
+                    EnabledBtnGroup(ControlType.Imp_Normal, true);
+                }
+                else if("btn_Imp_Dev_BackWork".Equals(name))
+                {
+                    object impDevId = dgv_Imp_Dev_FileList.Tag;
+                    object primaryKey = Guid.NewGuid().ToString();
+                    object worker = GetWorkById(ControlType.Imp_Sub, impDevId);
+                    string insertSql = "INSERT INTO work_rework(wr_id, wm_id, wr_obj_id, wr_type, wr_checker, wr_worker, wr_checkdate) " +
+                        $"VALUES ('{primaryKey}', '{WMID}', '{impDevId}', '{(int)controlType}', '{UserHelper.GetInstance().User.UserKey}', '{worker}', '{DateTime.Now}')";
+                    SqlHelper.ExecuteNonQuery(insertSql);
+                    //将当前对象状态置为未提交
+                    SqlHelper.ExecuteNonQuery($"UPDATE imp_dev_info SET imp_submit_status={(int)ObjectSubmitStatus.NonSubmit} WHERE imp_id='{impDevId}'");
+                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualitySuccess} WHERE wm_id='{WMID}'");
+                    EnabledBtnGroup(ControlType.Imp_Sub, true);
                 }
             }
         }
@@ -4560,6 +4649,14 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 return SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_source_id FROM imp_info WHERE imp_id='{id}'");
             }
+            else if(type == ControlType.Imp_Normal)
+            {
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_worker_id FROM project_info WHERE pi_id='{id}'");
+            }
+            else if(type == ControlType.Imp_Sub)
+            {
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_source_id FROM imp_dev_info WHERE imp_id='{id}'");
+            }
             return null;
         }
         /// <summary>
@@ -4573,6 +4670,16 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 pal_Imp_BtnGroup.Enabled = !disEnable;
                 btn_Imp_BackWork.Text = disEnable ? "已返工" : "返工";
+            }
+            else if(controlType == ControlType.Imp_Normal)
+            {
+                pal_JH_BtnGroup.Enabled = !disEnable;
+                btn_JH_BackWork.Text = disEnable ? "已返工" : "返工";
+            }
+            else if(controlType == ControlType.Imp_Sub)
+            {
+                pal_Imp_Dev_BtnGroup.Enabled = !disEnable;
+                btn_Imp_Dev_BackWork.Text = disEnable ? "已返工" : "返工";
             }
         }
     }

@@ -70,9 +70,9 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         Imp_Dev = 9,
         /// <summary>
-        /// 重点研发信息
+        /// 普通计划
         /// </summary>
-        Imp_Dev_Sub = 10
+        Imp_Normal = 10
     }
     /// <summary>
     /// 文件归档状态
