@@ -22,7 +22,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 已返工
         /// </summary>
-        Back = 3
+        Back = 3,
+        /// <summary>
+        /// 已提交[返工]
+        /// </summary>
+        SubmitOfBack = 4
     }
     /// <summary>
     /// 当前操作对象类型

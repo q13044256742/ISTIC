@@ -68,7 +68,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_GPDJ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_GPDJ.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_GPDJ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_GPDJ.Location = new System.Drawing.Point(2, 44);
             this.dgv_GPDJ.Name = "dgv_GPDJ";
@@ -100,7 +99,7 @@
             this.groupBox2.Controls.Add(this.btn_Search);
             this.groupBox2.Controls.Add(this.btn_Add);
             this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.groupBox2.Location = new System.Drawing.Point(2, -5);
+            this.groupBox2.Location = new System.Drawing.Point(2, -6);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(757, 49);
             this.groupBox2.TabIndex = 12;
@@ -171,7 +170,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_SWDJ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_SWDJ.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_SWDJ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_SWDJ.Location = new System.Drawing.Point(2, 44);
             this.dgv_SWDJ.Name = "dgv_SWDJ";
@@ -203,7 +201,7 @@
             this.groupBox3.Controls.Add(this.txt_CD_Search);
             this.groupBox3.Controls.Add(this.btn_CD_Search);
             this.groupBox3.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.groupBox3.Location = new System.Drawing.Point(2, -5);
+            this.groupBox3.Location = new System.Drawing.Point(2, -6);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(758, 49);
             this.groupBox3.TabIndex = 13;

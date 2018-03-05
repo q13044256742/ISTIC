@@ -458,7 +458,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             if (dgv_GPDJ.Columns.Count > 0)
                 dgv_GPDJ.Columns[0].Visible = false;
 
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_GPDJ, new string[] { "trc_status" });
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_GPDJ, new string[] { "trc_status", "trc_project_amount", "trc_subject_amount", "trc_file_amount" });
             DataGridViewStyleHelper.SetLinkStyle(dgv_GPDJ, new string[] { "control" }, false);
             
         }
@@ -537,12 +537,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             if(e.RowIndex!=-1 && e.ColumnIndex != -1)
             {
                 object trcId = dgv_GPDJ.Rows[e.RowIndex].Cells["trc_id"].Value;
-                if ("control".Equals(dgv_GPDJ.Columns[e.ColumnIndex].Name))
-                {
-                    Frm_CDRead read = new Frm_CDRead(trcId);
-                    if(read.ShowDialog() == DialogResult.OK)
+                if(trcId != null) {
+                    if("control".Equals(dgv_GPDJ.Columns[e.ColumnIndex].Name))
                     {
-                        LoadGPDJ(null);
+                        Frm_CDRead read = new Frm_CDRead(trcId);
+                        if(read.ShowDialog() == DialogResult.OK)
+                        {
+                            LoadGPDJ(null);
+                        }
                     }
                 }
             }

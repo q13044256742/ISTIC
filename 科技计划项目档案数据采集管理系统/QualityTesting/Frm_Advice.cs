@@ -69,6 +69,7 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_ObjName.Tag = primaryKey;
                 btn_Delete.Enabled = true;
                 MessageBox.Show("保存成功。");
+                Close();
             }
         }
 

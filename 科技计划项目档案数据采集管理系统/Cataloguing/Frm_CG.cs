@@ -234,6 +234,24 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_WorkLog.Rows[index].Cells["bk_edit"].Value = "编辑";
                     dgv_WorkLog.Rows[index].Cells["bk_submit"].Value = "提交质检";
                 }
+                else if(type == ControlType.Plan_Project)
+                {
+                    DataTable _table = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_name, pi_obj_id FROM project_info WHERE pi_id='{id}'");
+                    if(_table.Rows.Count > 0)
+                    {
+                        DataRow _row = _table.Rows[0];
+                        int index = dgv_WorkLog.Rows.Add();
+                        dgv_WorkLog.Rows[index].Tag = type;
+                        dgv_WorkLog.Rows[index].Cells["bk_id"].Tag = _row["pi_obj_id"];
+                        dgv_WorkLog.Rows[index].Cells["bk_id"].Value = _row["pi_id"];
+                        dgv_WorkLog.Rows[index].Cells["bk_code"].Tag = row["wr_id"];//供删除使用
+                        dgv_WorkLog.Rows[index].Cells["bk_code"].Value = _row["pi_code"];
+                        dgv_WorkLog.Rows[index].Cells["bk_name"].Value = _row["pi_name"];
+                        dgv_WorkLog.Rows[index].Cells["bk_reason"].Value = GetAdvicesById(_row["pi_id"]);
+                        dgv_WorkLog.Rows[index].Cells["bk_edit"].Value = "编辑";
+                        dgv_WorkLog.Rows[index].Cells["bk_submit"].Value = "提交质检";
+                    }
+                }
             }
             dgv_WorkLog.Columns["bk_id"].Visible = false;
             DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] { "bk_edit", "bk_submit" }, false);
@@ -314,7 +332,7 @@ namespace 科技计划项目档案数据采集管理系统
             string querySql = $" SELECT wr_id, wr_type, wr.wr_obj_id FROM work_registration wr LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id LEFT JOIN data_dictionary dd ON trp.com_id = dd.dd_id " +
                 $"WHERE wr_status = {(int)workStatus} AND wr_submit_status={(int)ObjectSubmitStatus.NonSubmit} " +
                 $"AND wr_source_id='{UserHelper.GetInstance().User.UserKey}' " +
-                $"AND (trp_complete_status IS NULL OR trp_complete_status<>{(int)ObjectSubmitStatus.SubmitSuccess})";
+                $"AND trp.trp_work_status={(int)WorkStatus.NonWork}";
             if(unitId != null)
                 querySql += $" AND dd.dd_id='{unitId}'";
             List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 3);
@@ -404,7 +422,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Dgv_WorkLog_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex != -1 && e.ColumnIndex != -1)
+            if(e.RowIndex != -1 && e.ColumnIndex != -1 && dgv_WorkLog.Rows[e.RowIndex].Cells[0].Value!= null)
             {
                 object columnName = dgv_WorkLog.Columns[e.ColumnIndex].Name;
                 //光盘数
@@ -806,6 +824,13 @@ namespace 科技计划项目档案数据采集管理系统
                         Frm_MyWork frm = new Frm_MyWork(WorkType.Default, impId, trpId, type, true);
                         frm.ShowDialog();
                     }
+                    else if(type == ControlType.Plan_Project)
+                    {
+                        object piId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
+                        object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
+                        Frm_MyWork frm = new Frm_MyWork(WorkType.Default, piId, trpId, type, true);
+                        frm.ShowDialog();
+                    }
                 }
                 //返工 - 提交
                 else if("bk_submit".Equals(columnName))
@@ -836,7 +861,7 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                             MessageBox.Show("当前计划尚未加工完成！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
-                    if(type == ControlType.Imp_Normal)
+                    else if(type == ControlType.Imp_Normal)
                     {
                         object piId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object status = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_submit_status FROM project_info WHERE pi_id='{piId}'");
@@ -862,7 +887,7 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                             MessageBox.Show("当前计划尚未加工完成！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
-                    if(type == ControlType.Imp_Sub)
+                    else if(type == ControlType.Imp_Sub)
                     {
                         object impId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object status = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_submit_status FROM imp_dev_info WHERE imp_id='{impId}'");
@@ -880,6 +905,34 @@ namespace 科技计划项目档案数据采集管理系统
                                 SqlHelper.ExecuteNonQuery(insertSql);
                                 //删除返工记录
                                 SqlHelper.ExecuteNonQuery($"DELETE FROM work_rework WHERE wr_id='{wrid}'");
+                                InitialLeftMenu();
+                                LoadWorkBackList();
+                            }
+                        }
+                        else
+                            MessageBox.Show("当前计划尚未加工完成！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    }
+                    else if(type == ControlType.Plan_Project)
+                    {
+                        object piId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
+                        int count = SqlHelper.ExecuteCountQuery($"SELECT count(*) FROM project_info pi LEFT JOIN subject_info si ON pi.pi_id = si.pi_id LEFT JOIN subject_info si2 ON si.si_id = si2.pi_id " +
+                            $"WHERE pi.pi_id = '{piId}' " +
+                            $"AND pi_submit_status = {(int)ObjectSubmitStatus.Back} OR si.si_submit_status = {(int)ObjectSubmitStatus.Back} OR si2.si_submit_status = {(int)ObjectSubmitStatus.Back}");
+                        if(count == 0)
+                        {
+                            if(MessageBox.Show("确定要将当前数据提交至质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                            {
+                                object wrid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_code"].Tag;//返工表主键
+                                //增加质检记录
+                                int bkCount = GetBkCountById(type, wrid) + 1;
+                                object primaryKey = Guid.NewGuid().ToString();
+                                object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
+                                string insertSql = "INSERT INTO work_registration(wr_id, wr_status, trp_id, wr_type, wr_date, wr_obj_id, wr_submit_status, wr_receive_status, wr_source_id, wr_qtcount) " +
+                                    $"VALUES ('{primaryKey}', '{(int)WorkStatus.WorkSuccess}', '{trpId}', '{(int)WorkType.Default}', '{DateTime.Now}', '{piId}', '{(int)ObjectSubmitStatus.SubmitSuccess}', '{(int)ReceiveStatus.NonReceive}', '{UserHelper.GetInstance().User.UserKey}', {bkCount})";
+                                SqlHelper.ExecuteNonQuery(insertSql);
+                                //删除返工记录
+                                SqlHelper.ExecuteNonQuery($"DELETE FROM work_rework WHERE wr_id='{wrid}'");
+
                                 InitialLeftMenu();
                                 LoadWorkBackList();
                             }

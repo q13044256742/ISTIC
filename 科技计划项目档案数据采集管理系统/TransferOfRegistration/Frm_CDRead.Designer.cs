@@ -177,8 +177,8 @@
             // 
             // Frm_CDRead
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Appearance.Options.UseFont = true;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(485, 374);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btn_Sure);
