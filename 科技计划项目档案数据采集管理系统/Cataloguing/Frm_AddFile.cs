@@ -150,7 +150,6 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 SaveFileInfo();
                 ResetControl();
-                cbo_stage.Focus();
             }
         }
         /// <summary>
@@ -171,7 +170,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void ResetControl()
         {
-            foreach(Control item in gro_BasicInfo.Controls)
+            foreach(Control item in Controls)
             {
                 if(!(item is Label))
                 {
@@ -191,6 +190,16 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 Btn_Save_Add_Click(null, null);
             }
+        }
+
+        private void btn_Exit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ResetControl();
         }
     }
 }

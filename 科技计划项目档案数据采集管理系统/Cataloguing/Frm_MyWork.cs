@@ -87,9 +87,14 @@ namespace 科技计划项目档案数据采集管理系统
             if(_obj == null)
             {
                 _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_id='{planId}'");
-                lbl_JH_Name.Tag = GetValue(_obj[0]);
-                lbl_JH_Name.Text = GetValue(_obj[1]);
-                lbl_PlanIntroducation.Text = GetValue(_obj[2]);
+                if(_obj == null)
+                    planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_id FROM imp_info WHERE imp_obj_id='{planId}'");
+                if(_obj != null)
+                {
+                    lbl_JH_Name.Tag = GetValue(_obj[0]);
+                    lbl_JH_Name.Text = GetValue(_obj[1]);
+                    lbl_PlanIntroducation.Text = GetValue(_obj[2]);
+                }
             }
             else
             {
@@ -2548,12 +2553,14 @@ namespace 科技计划项目档案数据采集管理系统
                 tab_MenuList.TabPages.Clear();
                 if(workType == WorkType.Default)
                 {
-                    ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Name, e.Node.Parent.ForeColor);
+                    ShowTab("imp", 0);
+                    LoadImpPage(e.Node.Parent.Parent.Name);
 
-                    ShowTab("plan_project", 1);
+                    ShowTab("imp_dev", 1);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.ForeColor);
+
+                    ShowTab("plan_project", 2);
                     LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
-
                 }
                 else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
                 {
@@ -2609,13 +2616,16 @@ namespace 科技计划项目档案数据采集管理系统
                 tab_MenuList.TabPages.Clear();
                 if(workType == WorkType.Default)
                 {
-                    ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Parent.Name, e.Node.Parent.Parent.ForeColor);
+                    ShowTab("imp", 0);
+                    LoadImpPage(e.Node.Parent.Parent.Parent.Name);
 
-                    ShowTab("plan_project", 1);
+                    ShowTab("imp_dev", 1);
+                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.Parent.ForeColor);
+
+                    ShowTab("plan_project", 2);
                     LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project, e.Node.Parent.ForeColor);
 
-                    ShowTab("plan_project_topic", 2);
+                    ShowTab("plan_project_topic", 3);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic, e.Node.ForeColor);
                 }
                 else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
@@ -2675,16 +2685,19 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 if(workType == WorkType.Default)
                 {
-                    ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Parent.Parent.Name, e.Node.Parent.Parent.Parent.ForeColor);
+                    ShowTab("imp", 0);
+                    LoadImpPage(e.Node.Parent.Parent.Parent.Parent.Name);
 
-                    ShowTab("plan_project", 1);
+                    ShowTab("imp_dev", 1);
+                    LoadPageBasicInfo(e.Node.Parent.Parent.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.Parent.Parent.ForeColor);
+
+                    ShowTab("plan_project", 2);
                     LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Plan_Project, e.Node.Parent.Parent.ForeColor);
 
-                    ShowTab("plan_project_topic", 2);
+                    ShowTab("plan_project_topic", 3);
                     LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project_Topic, e.Node.Parent.ForeColor);
 
-                    ShowTab("plan_project_topic_subtopic", 3);
+                    ShowTab("plan_project_topic_subtopic", 4);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic_Subtopic, e.Node.ForeColor);
                 }
                 else

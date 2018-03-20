@@ -643,9 +643,20 @@ namespace 科技计划项目档案数据采集管理系统
                             planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}'");
                             if(planId == null)
                             {
-                                Frm_ProTypeSelect frm = new Frm_ProTypeSelect(WorkType.CDWork, objId);
-                                frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
-                                frm.ShowDialog();
+                                planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_id FROM imp_info WHERE imp_obj_id='{objId}'");
+                                if(planId == null)
+                                {
+                                    Frm_ProTypeSelect frm = new Frm_ProTypeSelect(WorkType.CDWork, objId);
+                                    frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
+                                    frm.ShowDialog();
+                                }
+                                else
+                                {
+                                    Frm_MyWork frm = new Frm_MyWork(WorkType.Default, planId, objId, ControlType.Imp, false);
+                                    frm.planCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_code FROM project_info WHERE pi_id='{planId}'"));
+                                    frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
+                                    frm.ShowDialog();
+                                }
                             }
                             else
                             {
