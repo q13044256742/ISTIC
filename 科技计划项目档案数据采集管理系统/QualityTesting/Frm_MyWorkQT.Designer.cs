@@ -7518,6 +7518,7 @@
             this.Name = "Frm_MyWorkQT";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "档案质检";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_MyWorkQT_FormClosing);
             this.Load += new System.EventHandler(this.Frm_MyWork_Load);
             this.tab_MenuList.ResumeLayout(false);
             this.plan.ResumeLayout(false);

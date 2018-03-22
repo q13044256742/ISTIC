@@ -40,9 +40,6 @@
             this.btn_Sure = new System.Windows.Forms.Button();
             this.pgb_DS = new 科技计划项目档案数据采集管理系统.KyoProgressBar();
             this.pgb_CD = new 科技计划项目档案数据采集管理系统.KyoProgressBar();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tip = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -159,28 +156,11 @@
             this.pgb_CD.TextColor = System.Drawing.Color.Black;
             this.pgb_CD.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tip});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 352);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(485, 22);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 11;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // tip
-            // 
-            this.tip.Name = "tip";
-            this.tip.Size = new System.Drawing.Size(0, 17);
-            // 
             // Frm_CDRead
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(485, 374);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btn_Sure);
             this.Controls.Add(this.pgb_DS);
             this.Controls.Add(this.label4);
@@ -202,8 +182,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "光盘读写";
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_CDRead_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,7 +201,5 @@
         private System.Windows.Forms.Button btn_Sure;
         private KyoProgressBar pgb_CD;
         private KyoProgressBar pgb_DS;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel tip;
     }
 }

@@ -60,8 +60,10 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // dgv_Imp
             // 
+            this.dgv_Imp.AllowUserToAddRows = false;
             this.dgv_Imp.AllowUserToDeleteRows = false;
             this.dgv_Imp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_Imp.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Imp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Imp.Location = new System.Drawing.Point(3, 3);
@@ -110,8 +112,10 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // dgv_Imp_Dev
             // 
+            this.dgv_Imp_Dev.AllowUserToAddRows = false;
             this.dgv_Imp_Dev.AllowUserToDeleteRows = false;
             this.dgv_Imp_Dev.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_Imp_Dev.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Imp_Dev.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp_Dev.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Imp_Dev.Location = new System.Drawing.Point(3, 3);
@@ -135,8 +139,10 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // dgv_Project
             // 
+            this.dgv_Project.AllowUserToAddRows = false;
             this.dgv_Project.AllowUserToDeleteRows = false;
             this.dgv_Project.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_Project.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Project.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Project.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Project.Location = new System.Drawing.Point(3, 3);
@@ -145,7 +151,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Project.RowTemplate.Height = 23;
             this.dgv_Project.Size = new System.Drawing.Size(744, 447);
             this.dgv_Project.TabIndex = 0;
-            this.dgv_Project.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Project_CellClick);
+            this.dgv_Project.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Project_CellClick);
             // 
             // dgv_MyReg
             // 

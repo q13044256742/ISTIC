@@ -14,7 +14,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// 当前加工类型
         /// </summary>
         private WorkType workType;
-        private object trpId;
+        /// <summary>
+        /// 所属对象主键
+        /// </summary>
+        private object objId;
         public object planCode;
         public int DEV_TYPE = -1;
         public object unitCode;
@@ -29,7 +32,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 禁用背景色
         /// </summary>
-        private System.Drawing.Color DisEnbleColor = System.Drawing.Color.Gray;
+        private Color DisEnbleColor = Color.Gray;
         /// <summary>
         /// 开始加工指定的对象
         /// </summary>
@@ -39,7 +42,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             InitializeComponent();
             this.isBacked = isBacked;
-            this.trpId = trpId;
+            objId = trpId;
             this.workType = workType;
             this.controlType = controlType;
             if(workType == WorkType.Default && DEV_TYPE == -1)
@@ -83,7 +86,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_obj_id, pi_submit_status FROM project_info WHERE pi_id = '{planId}'");
             if(_obj == null)
-                _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_obj_id, pi_submit_status FROM project_info WHERE pi_obj_id = '{trpId}'");
+                _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_obj_id, pi_submit_status FROM project_info WHERE pi_obj_id = '{objId}'");
             if(_obj == null)
             {
                 _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_id='{planId}'");
@@ -892,7 +895,7 @@ namespace 科技计划项目档案数据采集管理系统
                     object objId = dgv_JH_FileList.Tag;
                     if(objId == null)
                     {
-                        objId = AddProjectBasicInfo(trpId, ControlType.Plan);
+                        objId = AddProjectBasicInfo(this.objId, ControlType.Plan);
                         dgv_JH_FileList.Tag = objId;
                     }
                     else
@@ -1407,7 +1410,7 @@ namespace 科技计划项目档案数据采集管理系统
                     object impId = dgv_Imp_FileList.Tag;
                     if(impId == null)
                     {
-                        impId = AddProjectBasicInfo(trpId, ControlType.Imp);
+                        impId = AddProjectBasicInfo(objId, ControlType.Imp);
                         dgv_Imp_FileList.Tag = impId;
                     }
                     else
@@ -2107,7 +2110,7 @@ namespace 科技计划项目档案数据采集管理系统
                     //重点计划
                     if(type == ControlType.Imp)
                     {
-                        object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name, imp_source_id FROM imp_info WHERE imp_obj_id='{trpId}'");
+                        object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name, imp_source_id FROM imp_info WHERE imp_obj_id='{objId}'");
                         treeNode = new TreeNode()
                         {
                             Name = GetValue(_obj[0]),
@@ -2118,7 +2121,7 @@ namespace 科技计划项目档案数据采集管理系统
                     //普通计划
                     else if(type == ControlType.Imp_Normal)
                     {
-                        object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_worker_id FROM project_info WHERE pi_obj_id='{trpId}'");
+                        object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_worker_id FROM project_info WHERE pi_obj_id='{objId}'");
                         treeNode = new TreeNode()
                         {
                             Name = GetValue(_obj[0]),
@@ -2194,7 +2197,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else
                 {
-                    object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name, imp_source_id FROM imp_info WHERE imp_obj_id='{trpId}'");
+                    object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name, imp_source_id FROM imp_info WHERE imp_obj_id='{objId}'");
                     if(_obj == null)
                         _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id, dd_name, '{UserHelper.GetInstance().User.UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
                     treeNode = new TreeNode()
@@ -2298,7 +2301,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'");
                     if(_obj == null)
-                        _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{trpId}'");
+                        _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{objId}'");
                     if(_obj == null)
                         _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id,dd_name FROM data_dictionary WHERE dd_id='{planId}'");
                     treeNode = new TreeNode()
@@ -2431,7 +2434,7 @@ namespace 科技计划项目档案数据采集管理系统
                             Text = list[i][1].ToString(),
                             Tag = (ControlType)list[i][2]
                         };
-                        if(treeNode2.Name.Equals(trpId))
+                        if(treeNode2.Name.Equals(objId))
                         {
                             treeNode.Nodes.Add(treeNode2);
                             //根据【项目/课题】查询【课题/子课题】集
@@ -2504,7 +2507,7 @@ namespace 科技计划项目档案数据采集管理系统
                             if(!UserHelper.GetInstance().User.UserKey.Equals(list2[j][3]))
                                 treeNode3.ForeColor = DisEnbleColor;
                             //【当前定位为课题子课题，则只取一条即可】
-                            if(treeNode3.Name.Equals(trpId))
+                            if(treeNode3.Name.Equals(objId))
                             {
                                 treeNode.Nodes.Add(treeNode2);
                                 treeNode2.Nodes.Add(treeNode3);
@@ -5069,21 +5072,21 @@ namespace 科技计划项目档案数据采集管理系统
         {
             object name = (sender as Button).Name;
             if("btn_JH_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_FileList, string.Empty).ShowDialog();
+                new Frm_AddFile(dgv_JH_FileList, string.Empty, null) { parentId = dgv_JH_FileList.Tag, trcId = objId }.ShowDialog();
             else if("btn_JH_XM_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_XM_FileList, "jh_xm_").ShowDialog();
+                new Frm_AddFile(dgv_JH_XM_FileList, "jh_xm_", null) { parentId = dgv_JH_XM_FileList.Tag, trcId = objId }.ShowDialog();
             else if("btn_JH_XM_KT_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_XM_KT_FileList, "jh_xm_kt_").ShowDialog();
+                new Frm_AddFile(dgv_JH_XM_KT_FileList, "jh_xm_kt_", null) { parentId = dgv_JH_XM_KT_FileList.Tag, trcId = objId }.ShowDialog();
             else if("btn_JH_XM_KT_ZKT_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_").ShowDialog();
+                new Frm_AddFile(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_", null) { parentId = dgv_JH_XM_KT_ZKT_FileList.Tag, trcId = objId }.ShowDialog();
             else if("btn_JH_KT_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_KT_FileList, "jh_kt_").ShowDialog();
+                new Frm_AddFile(dgv_JH_KT_FileList, "jh_kt_", null) { parentId = dgv_JH_KT_FileList.Tag, trcId = objId }.ShowDialog();
             else if("btn_JH_KT_ZKT_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_").ShowDialog();
+                new Frm_AddFile(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_", null) { parentId = dgv_JH_KT_ZKT_FileList.Tag, trcId = objId }.ShowDialog();
             else if("btn_Imp_AddFile".Equals(name))
-                new Frm_AddFile(dgv_Imp_FileList, "imp_").ShowDialog();
+                new Frm_AddFile(dgv_Imp_FileList, "imp_", null) { parentId = dgv_Imp_FileList.Tag, trcId = objId }.ShowDialog();
             else if("btn_Imp_Dev_AddFile".Equals(name))
-                new Frm_AddFile(dgv_Imp_Dev_FileList, "imp_dev_").ShowDialog();
+                new Frm_AddFile(dgv_Imp_Dev_FileList, "imp_dev_", null) { parentId = dgv_Imp_Dev_FileList.Tag, trcId = objId }.ShowDialog();
         }
         /// <summary>
         /// 上下移动
@@ -5263,6 +5266,51 @@ namespace 科技计划项目档案数据采集管理系统
                 Frm_AdviceBW frm = new Frm_AdviceBW(objId, objName);
                 frm.Show();
             }
+        }
+
+        private void dgv_FileList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right && e.RowIndex != -1 && e.ColumnIndex != -1)
+            {
+                DataGridView view = sender as DataGridView;
+                if(view.Columns[e.ColumnIndex].Name.Contains("link"))
+                {
+                    view.ClearSelection();
+                    view.CurrentCell = view.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    strip.Tag = view;
+                    strip.Show(MousePosition);
+                }
+            }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DataGridView view = (DataGridView)((sender as ToolStripItem).GetCurrentParent() as ContextMenuStrip).Tag;
+            object rootId = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_trcid='{objId}' AND bfi_sort=-1");
+            Frm_AddFile_FileSelect frm = new Frm_AddFile_FileSelect(rootId);
+            if(frm.ShowDialog() == DialogResult.OK)
+            {
+                string fullPath = frm.SelectedFileName;
+                if(File.Exists(fullPath))
+                {
+                    string savePath = Application.StartupPath + @"\TempBackupFolder\";
+                    if(!Directory.Exists(savePath))
+                        Directory.CreateDirectory(savePath);
+                    string filePath = savePath + new FileInfo(fullPath).Name;
+                    File.Copy(fullPath, filePath, true);
+                    view.CurrentCell.Value = fullPath;
+                    if(MessageBox.Show("已从服务器拷贝文件到本地，是否现在打开？", "操作确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        System.Diagnostics.Process.Start("EXPLORER.EXE", filePath);
+                }
+                else
+                    MessageBox.Show("服务器不存在此文件。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            DataGridView view = (DataGridView)((sender as ToolStripItem).GetCurrentParent() as ContextMenuStrip).Tag;
+            view.CurrentCell.Value = string.Empty;
         }
     }
 }

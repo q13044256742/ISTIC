@@ -19,7 +19,8 @@ namespace 科技计划项目档案数据采集管理系统
         private void InitialForm()
         {
             //dgv_MyReg -- 位于Designer中。
-            
+            dgv_MyReg.AllowUserToAddRows = false;
+            dgv_MyReg.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
         }
 
         private void Frm_QT_Load(object sender, EventArgs e)
@@ -329,50 +330,49 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return null;
         }
+        
         /// <summary>
         /// 我的质检列表
         /// </summary>
         private void LoadMyRegList()
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_MyReg, true);
-            dgv_MyReg.Columns.AddRange(new DataGridViewTextBoxColumn[]
+            dgv_MyReg.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "mr_id"},
                 new DataGridViewTextBoxColumn(){ Name = "mr_unit", HeaderText = "来源单位", FillWeight = 15},
                 new DataGridViewTextBoxColumn(){ Name = "mr_code", HeaderText = "编号", FillWeight = 15},
                 new DataGridViewTextBoxColumn(){ Name = "mr_name", HeaderText = "名称", FillWeight = 20},
                 new DataGridViewTextBoxColumn(){ Name = "mr_fileamount", HeaderText = "文件数", FillWeight = 5},
-                new DataGridViewTextBoxColumn(){ Name = "mr_edit", HeaderText = "编辑", FillWeight = 8},
-                new DataGridViewTextBoxColumn(){ Name = "mr_submit", HeaderText = "完成", FillWeight = 8}
+                new DataGridViewButtonColumn(){ Name = "mr_edit", HeaderText = "操作", FillWeight = 8, Text = "编辑", UseColumnTextForButtonValue = true},
+                new DataGridViewButtonColumn(){ Name = "mr_submit", HeaderText = "完成", FillWeight = 8, Text = "提交", UseColumnTextForButtonValue = true}
             });
-            
-            List<object[]> _obj = SqlHelper.ExecuteColumnsQuery($"SELECT wm_id, wr_id, wm_type wr FROM work_myreg WHERE wm_user='{UserHelper.GetInstance().User.UserKey}' " +
-                $"AND wm_status='{(int)QualityStatus.NonQuality}' AND wm_id NOT IN (SELECT wm_id FROM work_rework);", 3);
+
+            List<object[]> _obj = SqlHelper.ExecuteColumnsQuery($"SELECT wm_id, wm_type, wm_obj_id FROM work_myreg WHERE wm_user='{UserHelper.GetInstance().User.UserKey}' AND wm_status=2", 3);
             for(int i = 0; i < _obj.Count; i++)
             {
-                ControlType type = (ControlType)Convert.ToInt32(_obj[i][2]);
-                if(type == ControlType.Imp)
+                int index = (int)_obj[i][1];
+                object objId = _obj[i][2];
+                if(index == 0)
                 {
-                    object impId = SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_obj_id FROM work_registration WHERE wr_id ='{_obj[i][1]}'");
-
                     string querySql = "SELECT dd_name, imp_code, imp_name, imp_id FROM imp_info ii " +
-                        "LEFT JOIN transfer_registration_pc trp ON ii.imp_obj_id = trp.trp_id " +
+                        "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ii.imp_id " +
+                        "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
+                        "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                       $"WHERE imp_id = '{impId}'";
+                       $"WHERE imp_id = '{objId}'";
 
                     DataRow row = SqlHelper.ExecuteSingleRowQuery(querySql);
                     if(row != null)
                     {
-                        int index = dgv_MyReg.Rows.Add();
-                        dgv_MyReg.Rows[index].Tag = _obj[i][0];
-                        dgv_MyReg.Rows[index].Cells["mr_id"].Tag = type;
-                        dgv_MyReg.Rows[index].Cells["mr_id"].Value = row["imp_id"];
-                        dgv_MyReg.Rows[index].Cells["mr_name"].Value = row["imp_name"];
-                        dgv_MyReg.Rows[index].Cells["mr_code"].Value = row["imp_code"];
-                        dgv_MyReg.Rows[index].Cells["mr_unit"].Value = row["dd_name"];
-                        dgv_MyReg.Rows[index].Cells["mr_fileamount"].Value = GetFileAmountById(row["imp_id"], ControlType.Imp);
-                        dgv_MyReg.Rows[index].Cells["mr_edit"].Value = "编辑";
-                        dgv_MyReg.Rows[index].Cells["mr_submit"].Value = "提交";
+                        int rowIndex = dgv_MyReg.Rows.Add();
+                        dgv_MyReg.Rows[rowIndex].Tag = _obj[i][0];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Tag = index;
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = row["imp_id"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = row["imp_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = row["imp_code"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = row["dd_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(row["imp_id"], ControlType.Imp);
                     }
                     querySql = "SELECT dd_name, pi_code, pi_name, pi_id FROM project_info pi " +
                         "LEFT JOIN work_registration wr ON pi.pi_obj_id = wr.wr_obj_id " +
@@ -383,91 +383,60 @@ namespace 科技计划项目档案数据采集管理系统
                     row = SqlHelper.ExecuteSingleRowQuery(querySql);
                     if(row != null)
                     {
-                        int index = dgv_MyReg.Rows.Add();
-                        dgv_MyReg.Rows[index].Tag = _obj[i][0];//wmid
-                        dgv_MyReg.Rows[index].Cells["mr_id"].Tag = type;//wmtype
-                        dgv_MyReg.Rows[index].Cells["mr_id"].Value = row["pi_id"];
-                        dgv_MyReg.Rows[index].Cells["mr_name"].Value = row["pi_name"];
-                        dgv_MyReg.Rows[index].Cells["mr_code"].Value = row["pi_code"];
-                        dgv_MyReg.Rows[index].Cells["mr_unit"].Value = row["dd_name"];
-                        dgv_MyReg.Rows[index].Cells["mr_fileamount"].Value = GetFileAmountById(row["pi_id"], ControlType.Imp);
-                        dgv_MyReg.Rows[index].Cells["mr_edit"].Value = "编辑";
-                        dgv_MyReg.Rows[index].Cells["mr_submit"].Value = "提交";
+                        int rowIndex = dgv_MyReg.Rows.Add();
+                        dgv_MyReg.Rows[rowIndex].Tag = _obj[i][0];//wmid
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Tag = index;
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = row["pi_id"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = row["pi_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = row["pi_code"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = row["dd_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(row["pi_id"], ControlType.Imp);
                     }
                 }
-                else if(type == ControlType.Imp_Sub)
+                else if(index == 1)
                 {
-                    object impSubId = SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_obj_id FROM work_registration WHERE wr_id='{_obj[i][1]}'");
                     string querySql = "SELECT dd_name, idi.imp_code, idi.imp_name, idi.imp_id FROM imp_dev_info idi " +
-                        "LEFT JOIN imp_info ii ON ii.imp_id = idi.imp_obj_id " +
-                        "LEFT JOIN transfer_registration_pc trp ON ii.imp_obj_id = trp.trp_id " +
-                        "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                       $"WHERE idi.imp_id='{impSubId}'";
+                        "LEFT JOIN work_myreg wm ON wm.wm_obj_id = idi.imp_id " +
+                        "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
+                        "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                        "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id  " +
+                       $"WHERE idi.imp_id='{objId}'";
                     DataRow row = SqlHelper.ExecuteSingleRowQuery(querySql);
-                    int index = dgv_MyReg.Rows.Add();
-                    dgv_MyReg.Rows[index].Tag = _obj[i][0];
-                    dgv_MyReg.Rows[index].Cells["mr_id"].Tag = type;
-                    dgv_MyReg.Rows[index].Cells["mr_id"].Value = row["imp_id"];
-                    dgv_MyReg.Rows[index].Cells["mr_name"].Value = row["imp_name"];
-                    dgv_MyReg.Rows[index].Cells["mr_code"].Value = row["imp_code"];
-                    dgv_MyReg.Rows[index].Cells["mr_unit"].Value = row["dd_name"];
-                    dgv_MyReg.Rows[index].Cells["mr_fileamount"].Value = GetFileAmountById(row["imp_id"], ControlType.Default);
-                    dgv_MyReg.Rows[index].Cells["mr_edit"].Value = "编辑";
-                    dgv_MyReg.Rows[index].Cells["mr_submit"].Value = "提交";
+                    int rowIndex = dgv_MyReg.Rows.Add();
+                    dgv_MyReg.Rows[rowIndex].Tag = _obj[i][0];
+                    dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Tag = index;
+                    dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = row["imp_id"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = row["imp_name"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = row["imp_code"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = row["dd_name"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(row["imp_id"], ControlType.Default);
                 }
-                else if(type == ControlType.Plan_Project)
+                else if(index == 2)
                 {
-                    object piId = SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_obj_id FROM work_registration WHERE wr_id='{_obj[i][1]}'");
-                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_code, pi_name, pi_id FROM project_info WHERE pi_id='{piId}'");
+                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name FROM project_info pi " +
+                        $"LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
+                        $"LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
+                        $"LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                        $"LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
+                        $"WHERE pi_id = '{objId}'");
                     if(row != null)
                     {
-                        string querySql = "SELECT dd_id, dd_name FROM data_dictionary dd " +
-                                "LEFT JOIN transfer_registration_pc trp ON dd.dd_id = trp.com_id " +
-                                "LEFT JOIN transfer_registraion_cd trc ON trc.trp_id = trp.trp_id " +
-                                "LEFT JOIN project_info pi ON pi.trc_id = trc.trc_id " +
-                                "WHERE trc.trc_id = (SELECT trc_id FROM project_info WHERE pi_id = " +
-                               $"(SELECT pi_obj_id FROM project_info WHERE pi_id = '{row["pi_id"]}'))";
-                        DataRow _row = SqlHelper.ExecuteSingleRowQuery(querySql);
-                        int index = dgv_MyReg.Rows.Add();
-                        dgv_MyReg.Rows[index].Tag = _obj[i][0];
-                        dgv_MyReg.Rows[index].Cells["mr_id"].Tag = type;
-                        dgv_MyReg.Rows[index].Cells["mr_id"].Value = row["pi_id"];
-                        dgv_MyReg.Rows[index].Cells["mr_name"].Value = row["pi_name"];
-                        dgv_MyReg.Rows[index].Cells["mr_code"].Value = row["pi_code"];
-                        dgv_MyReg.Rows[index].Cells["mr_unit"].Tag = _row["dd_id"];
-                        dgv_MyReg.Rows[index].Cells["mr_unit"].Value = _row["dd_name"];
-                        dgv_MyReg.Rows[index].Cells["mr_fileamount"].Value = GetFileAmountById(row["pi_id"], ControlType.Default);
-                        dgv_MyReg.Rows[index].Cells["mr_edit"].Value = "编辑";
-                        dgv_MyReg.Rows[index].Cells["mr_submit"].Value = "提交";
-                    }
-                }
-                else
-                {
-                    List<DataTable> list = GetObjectListById(_obj[i][1]);
-                    for(int j = 0; j < list.Count; j++)
-                    {
-                        if(list[j].Rows.Count > 0)
-                        {
-                            DataRow row = list[j].Rows[0];
-                            int index = dgv_MyReg.Rows.Add();
-                            dgv_MyReg.Rows[index].Cells["mr_id"].Tag = _obj[i][0];
-                            dgv_MyReg.Rows[index].Cells["mr_code"].Tag = row[0];
-                            dgv_MyReg.Rows[index].Cells["mr_id"].Value = row[2];
-                            dgv_MyReg.Rows[index].Cells["mr_code"].Value = row[3];
-                            dgv_MyReg.Rows[index].Cells["mr_name"].Value = row[4];
-                            dgv_MyReg.Rows[index].Cells["mr_unit"].Value = row[5];
-                            dgv_MyReg.Rows[index].Cells["mr_fileamount"].Value = GetFileAmountById(row[2], ControlType.Default);
-                            dgv_MyReg.Rows[index].Cells["mr_edit"].Value = "编辑";
-                            dgv_MyReg.Rows[index].Cells["mr_submit"].Value = "返工/提交";
-                        }
+                        int rowIndex = dgv_MyReg.Rows.Add();
+                        dgv_MyReg.Rows[rowIndex].Tag = _obj[i][0];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Tag = index;
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = row["pi_id"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = row["pi_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = row["pi_code"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = row["dd_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(row["pi_id"], ControlType.Default);
                     }
                 }
             }
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_MyReg, new string[] { "mr_fileamount" });
-            DataGridViewStyleHelper.SetLinkStyle(dgv_MyReg, new string[] { "mr_edit", "mr_submit" }, false);
             dgv_MyReg.Columns["mr_id"].Visible = false;
         }
+        
         /// <summary>
         /// 根据计划ID获取其下所有文件总数
         /// </summary>
@@ -534,13 +503,14 @@ namespace 科技计划项目档案数据采集管理系统
                 LoadProjectList();
             }
         }
+        
         /// <summary>
         /// 待质检 - 计划列表
         /// </summary>
         private void LoadImpList()
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_Imp, true);
-            dgv_Imp.Columns.AddRange(new DataGridViewTextBoxColumn[]
+            dgv_Imp.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "imp_id"},
                 new DataGridViewTextBoxColumn(){ Name = "imp_unit", HeaderText = "来源单位", FillWeight = 12},
@@ -548,67 +518,62 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){ Name = "imp_name", HeaderText = "计划名称", FillWeight = 15 },
                 new DataGridViewTextBoxColumn(){ Name = "imp_fileAmount", HeaderText = "文件数", FillWeight = 5 },
                 new DataGridViewTextBoxColumn(){ Name = "imp_qtAmount", HeaderText = "质检次数", FillWeight = 5 },
-                new DataGridViewTextBoxColumn(){ Name = "imp_control", HeaderText = "操作", FillWeight = 5 },
+                new DataGridViewButtonColumn(){ Name = "imp_control", HeaderText = "操作", FillWeight = 5 },
                 new DataGridViewTextBoxColumn(){ Name = "imp_via", HeaderText = "数据途径", FillWeight = 6 },
             });
             //查询已提交至质检的计划
             /* ---------------------重点计划------------------ */
-            string querySql = "SELECT imp_id, dd_id, dd_name, imp_code, imp_name, trp.trp_id, wr_id, wr_qtcount FROM imp_info ii " +
-                "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = ii.imp_obj_id " +
+            string querySql = "SELECT imp_id, dd_id, dd_name, imp_code, imp_name, trp.trp_id, wm.wm_id FROM imp_info ii " +
+                "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ii.imp_id " +
+                "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
+                "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
                 "LEFT JOIN data_dictionary dd ON trp.com_id = dd.dd_id " +
-                "LEFT JOIN work_registration wr ON wr.wr_obj_id = ii.imp_id " +
-                $"WHERE wr.wr_submit_status = {(int)ObjectSubmitStatus.SubmitSuccess} AND wr.wr_receive_status={(int)ReceiveStatus.NonReceive}";
-            DataTable table = SqlHelper.ExecuteQuery(querySql);
+                "WHERE wm.wm_type = 0 AND wm.wm_status = 1";
+            LoadDataGridViewData(SqlHelper.ExecuteQuery(querySql));
+            
+            /* ---------------------普通计划------------------ */
+            querySql = "SELECT pi_id as imp_id, dd_id, dd_name, pi_code as imp_code, pi_name as imp_name, trp.trp_id, wm.wm_id FROM project_info pi " +
+                "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
+                "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
+                "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
+                "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
+                "WHERE wm.wm_type = 0 AND wm.wm_status = 1";
+            LoadDataGridViewData(SqlHelper.ExecuteQuery(querySql));
+
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_Imp, new string[] { "imp_fileAmount", "imp_qtAmount" });
+            DataGridViewStyleHelper.SetLinkStyle(dgv_Imp, new string[] { "imp_control", }, true);
+            dgv_Imp.Columns["imp_id"].Visible = false;
+        }
+
+        /// <summary>
+        /// 加载表格
+        /// </summary>
+        private void LoadDataGridViewData(DataTable table)
+        {
             for(int i = 0; i < table.Rows.Count; i++)
             {
                 DataRow row = table.Rows[i];
                 int _index = dgv_Imp.Rows.Add();
-                dgv_Imp.Rows[_index].Cells["imp_id"].Tag = row["wr_id"];
+                dgv_Imp.Rows[_index].Cells["imp_id"].Tag = row["wm_id"];
                 dgv_Imp.Rows[_index].Cells["imp_id"].Value = row["imp_id"];
                 dgv_Imp.Rows[_index].Cells["imp_unit"].Tag = row["dd_id"];
                 dgv_Imp.Rows[_index].Cells["imp_unit"].Value = row["dd_name"];
                 dgv_Imp.Rows[_index].Cells["imp_code"].Value = row["imp_code"];
                 dgv_Imp.Rows[_index].Cells["imp_name"].Value = row["imp_name"];
                 dgv_Imp.Rows[_index].Cells["imp_fileAmount"].Value = GetFileAmountById(row["imp_id"], ControlType.Default);
-                dgv_Imp.Rows[_index].Cells["imp_qtAmount"].Value = row["wr_qtcount"];
+                dgv_Imp.Rows[_index].Cells["imp_qtAmount"].Value = -1;
                 dgv_Imp.Rows[_index].Cells["imp_control"].Value = "质检";
                 dgv_Imp.Rows[_index].Cells["imp_via"].Value = null;
             }
-            /* ---------------------普通计划------------------ */
-            querySql = "SELECT pi_id, dd_id, dd_name, pi_code, pi_name, trp.trp_id, wr_id, wr_qtcount FROM project_info pi " +
-                "LEFT JOIN work_registration wr ON pi.pi_obj_id = wr.wr_obj_id " +
-                "LEFT JOIN transfer_registration_pc trp ON wr.wr_obj_id = trp.trp_id " +
-                "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                $"WHERE wr_submit_status = {(int)ObjectSubmitStatus.SubmitSuccess} AND wr_receive_status = {(int)ReceiveStatus.NonReceive} " +
-                $"AND pi.pi_work_status IS NULL";
-            table = SqlHelper.ExecuteQuery(querySql);
-            for(int i = 0; i < table.Rows.Count; i++)
-            {
-                DataRow row = table.Rows[i];
-                int _index = dgv_Imp.Rows.Add();
-                dgv_Imp.Rows[_index].Cells["imp_id"].Tag = row["wr_id"];
-                dgv_Imp.Rows[_index].Cells["imp_id"].Value = row["pi_id"];
-                dgv_Imp.Rows[_index].Cells["imp_unit"].Tag = row["dd_id"];
-                dgv_Imp.Rows[_index].Cells["imp_unit"].Value = row["dd_name"];
-                dgv_Imp.Rows[_index].Cells["imp_code"].Value = row["pi_code"];
-                dgv_Imp.Rows[_index].Cells["imp_name"].Value = row["pi_name"];
-                dgv_Imp.Rows[_index].Cells["imp_fileAmount"].Value = GetFileAmountById(row["pi_id"], ControlType.Default);
-                dgv_Imp.Rows[_index].Cells["imp_qtAmount"].Value = row["wr_qtcount"];
-                dgv_Imp.Rows[_index].Cells["imp_control"].Value = "质检";
-                dgv_Imp.Rows[_index].Cells["imp_via"].Value = null;
-            }
-
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_Imp, new string[] { "imp_fileAmount", "imp_qtAmount" });
-            DataGridViewStyleHelper.SetLinkStyle(dgv_Imp, new string[] { "imp_control", }, true);
-            dgv_Imp.Columns["imp_id"].Visible = false;
         }
+
         /// <summary>
         /// 待质检 - 专项信息
         /// </summary>
         private void LoadImpDevList()
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_Imp_Dev, true);
-            dgv_Imp_Dev.Columns.AddRange(new DataGridViewTextBoxColumn[]
+            dgv_Imp_Dev.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_id"},
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_unit", HeaderText = "来源单位", FillWeight = 12},
@@ -616,92 +581,83 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_name", HeaderText = "专项名称", FillWeight = 15},
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_fileAmount", HeaderText = "文件数", FillWeight = 5},
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_qtAmount", HeaderText = "质检次数", FillWeight = 5 },
-                new DataGridViewTextBoxColumn(){Name = "imp_dev_control", HeaderText = "操作", FillWeight = 5},
+                new DataGridViewButtonColumn(){Name = "imp_dev_control", HeaderText = "操作", FillWeight = 5, Text = "质检", UseColumnTextForButtonValue = true},
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_via", HeaderText = "数据途径", FillWeight = 6},
             });
 
-            string querySql = "SELECT wr.wr_id, idi.imp_id, dd_id, dd_name, trp.trp_id, idi.imp_code, idi.imp_name, wr_qtcount FROM imp_dev_info idi " +
-                "LEFT JOIN imp_info ii ON idi.imp_obj_id = ii.imp_id " +
-                "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = ii.imp_obj_id " +
+            string querySql = "SELECT wm.wm_id, idi.imp_id, dd_id, dd_name, trp.trp_id, idi.imp_code, idi.imp_name FROM imp_dev_info idi " +
+                "LEFT JOIN work_myreg wm ON wm.wm_obj_id = idi.imp_id " +
+                "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
+                "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
                 "LEFT JOIN data_dictionary dd ON trp.com_id = dd.dd_id " +
-                "LEFT JOIN work_registration wr ON wr.wr_obj_id = idi.imp_id " +
-               $"WHERE wr.wr_submit_status = { (int)ObjectSubmitStatus.SubmitSuccess} AND wr.wr_receive_status ={ (int)ReceiveStatus.NonReceive}";
-
+                "WHERE wm.wm_type = 1 AND wm.wm_status = 1";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < table.Rows.Count; i++)
             {
                 DataRow row = table.Rows[i];
                 int _index = dgv_Imp_Dev.Rows.Add();
-                dgv_Imp_Dev.Rows[_index].Cells["imp_dev_id"].Tag = row["wr_id"];
+                dgv_Imp_Dev.Rows[_index].Cells["imp_dev_id"].Tag = row["wm_id"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_id"].Value = row["imp_id"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_unit"].Tag = row["dd_id"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_unit"].Value = row["dd_name"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_code"].Value = row["imp_code"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_name"].Value = row["imp_name"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_fileAmount"].Value = GetFileAmountById(row["imp_id"], ControlType.Default);
-                dgv_Imp_Dev.Rows[_index].Cells["imp_dev_qtAmount"].Value = GetValue(row["wr_qtcount"]) ?? 0;
-                dgv_Imp_Dev.Rows[_index].Cells["imp_dev_control"].Value = "质检";
-                dgv_Imp_Dev.Rows[_index].Cells["imp_dev_via"].Value = null;
+                dgv_Imp_Dev.Rows[_index].Cells["imp_dev_qtAmount"].Value = -1;
             }
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_Imp_Dev, new string[] { "imp_dev_fileAmount", "imp_dev_qtAmount" });
-            DataGridViewStyleHelper.SetLinkStyle(dgv_Imp_Dev, new string[] { "imp_dev_control", }, true);
             dgv_Imp_Dev.Columns["imp_dev_id"].Visible = false;
         }
+
         /// <summary>
         /// 待质检 - 项目/课题列表
         /// </summary>
         private void LoadProjectList()
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_Project, true);
-            dgv_Project.Columns.AddRange(new DataGridViewTextBoxColumn[]
+            dgv_Project.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){Name = "pro_id"},
                 new DataGridViewTextBoxColumn(){Name = "pro_unit", HeaderText = "来源单位", FillWeight = 12},
                 new DataGridViewTextBoxColumn(){Name = "pro_code", HeaderText = "项目/课题编号", FillWeight = 10},
                 new DataGridViewTextBoxColumn(){Name = "pro_name", HeaderText = "项目/课题名称", FillWeight = 15},
+                new DataGridViewLinkColumn(){Name = "pro_subAmount", HeaderText = "课题/子课题数", FillWeight = 8},
                 new DataGridViewTextBoxColumn(){Name = "pro_fileAmount", HeaderText = "文件数", FillWeight = 5},
                 new DataGridViewTextBoxColumn(){Name = "pro_qtAmount", HeaderText = "质检次数", FillWeight = 5 },
-                new DataGridViewTextBoxColumn(){Name = "pro_control", HeaderText = "操作", FillWeight = 5},
+                new DataGridViewButtonColumn(){Name = "pro_control", HeaderText = "操作", FillWeight = 5, Text = "质检", UseColumnTextForButtonValue = true},
                 new DataGridViewTextBoxColumn(){Name = "pro_via", HeaderText = "数据途径", FillWeight = 6},
             });
 
-            string querySql = "SELECT wr.wr_id, pi.pi_id, pi.pi_code, pi.pi_name, wr_qtcount FROM project_info pi " +
-                "LEFT JOIN work_registration wr ON wr.wr_obj_id = pi.pi_id " +
-               $"WHERE wr.wr_submit_status = { (int)ObjectSubmitStatus.SubmitSuccess} AND wr.wr_receive_status ={ (int)ReceiveStatus.NonReceive}";
+            string querySql = "SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name FROM project_info pi " +
+                "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
+                "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
+                "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
+                "WHERE wm.wm_type = 2 AND wm.wm_status = 1";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < table.Rows.Count; i++)
             {
                 DataRow row = table.Rows[i];
                 int _index = dgv_Project.Rows.Add();
-                dgv_Project.Rows[_index].Cells["pro_id"].Tag = row["wr_id"];
+                dgv_Project.Rows[_index].Cells["pro_id"].Tag = row["wm_id"];
                 dgv_Project.Rows[_index].Cells["pro_id"].Value = row["pi_id"];
+                dgv_Project.Rows[_index].Cells["pro_unit"].Value = row["dd_name"]; 
                 dgv_Project.Rows[_index].Cells["pro_code"].Value = row["pi_code"];
                 dgv_Project.Rows[_index].Cells["pro_name"].Value = row["pi_name"];
+                dgv_Project.Rows[_index].Cells["pro_subAmount"].Value = GetSubAmount(row["pi_id"]);
                 dgv_Project.Rows[_index].Cells["pro_fileAmount"].Value = GetFileAmountById(row["pi_id"], ControlType.Default);
-                dgv_Project.Rows[_index].Cells["pro_qtAmount"].Value = GetValue(row["wr_qtcount"]) ?? 0;
-                dgv_Project.Rows[_index].Cells["pro_control"].Value = "质检";
-                dgv_Project.Rows[_index].Cells["pro_via"].Value = null;
-
-                querySql = "SELECT dd_id, dd_name FROM data_dictionary dd " +
-                    "LEFT JOIN transfer_registration_pc trp ON dd.dd_id = trp.com_id " +
-                    "LEFT JOIN transfer_registraion_cd trc ON trc.trp_id = trp.trp_id " +
-                    "LEFT JOIN project_info pi ON pi.trc_id = trc.trc_id " +
-                    "WHERE trc.trc_id = (SELECT trc_id FROM project_info WHERE pi_id = " +
-                    $"(SELECT pi_obj_id FROM project_info WHERE pi_id = '{row["pi_id"]}'))";
-                DataRow _row = SqlHelper.ExecuteSingleRowQuery(querySql);
-                if(_row != null)
-                {
-                    dgv_Project.Rows[_index].Cells["pro_unit"].Tag = _row["dd_id"];
-                    dgv_Project.Rows[_index].Cells["pro_unit"].Value = _row["dd_name"];
-                }
+                dgv_Project.Rows[_index].Cells["pro_qtAmount"].Value = -1;
             }
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_Project, new string[] { "pro_fileAmount", "pro_qtAmount" });
-            DataGridViewStyleHelper.SetLinkStyle(dgv_Project, new string[] { "pro_control", }, true);
             dgv_Project.Columns["pro_id"].Visible = false;
         }
+
+        private object GetSubAmount(object pId) => SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id='{pId}'");
+
         private object GetValue(object obj) => (obj == null || string.IsNullOrEmpty(obj.ToString())) ? null : obj.ToString();
+        
         /// <summary>
         /// 计划 - 单元格 点击事件
         /// </summary>
@@ -714,16 +670,14 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        object wrid = dgv_Imp.Rows[e.RowIndex].Cells["imp_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_registration SET wr_receive_status={(int)ReceiveStatus.ReceiveSuccess} WHERE wr_id='{wrid}'");
-                        SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type) VALUES" +
-                            $"('{Guid.NewGuid().ToString()}','{wrid}',{(int)QualityStatus.NonQuality},'{UserHelper.GetInstance().User.UserKey}', {(int)ControlType.Imp})");
-
+                        object wmid = dgv_Imp.Rows[e.RowIndex].Cells["imp_id"].Tag;
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}' WHERE wm_id='{wmid}'");
                         dgv_Imp.Rows.RemoveAt(e.RowIndex);
                     }
                 }
             }
         }
+        
         /// <summary>
         /// 专项 - 单元格 点击事件
         /// </summary>
@@ -737,16 +691,14 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        object wrid = dgv_Imp_Dev.Rows[e.RowIndex].Cells["imp_dev_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_registration SET wr_receive_status={(int)ReceiveStatus.ReceiveSuccess} WHERE wr_id='{wrid}'");
-                        SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type) VALUES" +
-                            $"('{Guid.NewGuid().ToString()}','{wrid}',{(int)QualityStatus.NonQuality},'{UserHelper.GetInstance().User.UserKey}', {(int)ControlType.Imp_Sub})");
-
+                        object wmid = dgv_Imp_Dev.Rows[e.RowIndex].Cells["imp_dev_id"].Tag;
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}' WHERE wm_id='{wmid}'");
                         dgv_Imp_Dev.Rows.RemoveAt(e.RowIndex);
                     }
                 }
             }
         }
+        
         /// <summary>
         /// 项目/课题 - 单元格 点击事件
         /// </summary>
@@ -755,21 +707,49 @@ namespace 科技计划项目档案数据采集管理系统
             if(e.RowIndex != -1 && e.ColumnIndex != -1)
             {
                 object columnName = dgv_Project.Columns[e.ColumnIndex].Name;
-                //领取此条质检
                 if("pro_control".Equals(columnName))
                 {
                     if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        object wrid = dgv_Project.Rows[e.RowIndex].Cells["pro_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_registration SET wr_receive_status={(int)ReceiveStatus.ReceiveSuccess} WHERE wr_id='{wrid}'");
-                        SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type) VALUES" +
-                            $"('{Guid.NewGuid().ToString()}','{wrid}',{(int)QualityStatus.NonQuality},'{UserHelper.GetInstance().User.UserKey}', {(int)ControlType.Plan_Project})");
-
+                        object wmid = dgv_Project.Rows[e.RowIndex].Cells["pro_id"].Tag;
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}' WHERE wm_id='{wmid}'");
                         dgv_Project.Rows.RemoveAt(e.RowIndex);
                     }
                 }
+                else if("pro_subAmount".Equals(columnName))
+                {
+                    object unitName = dgv_Project.Rows[e.RowIndex].Cells["pro_unit"].Value;
+                    object pId = dgv_Project.Rows[e.RowIndex].Cells["pro_id"].Value;
+                    LoadSubProjectList(pId, unitName);
+                }
             }
         }
+
+        private void LoadSubProjectList(object pId, object unitName)
+        {
+            DataGridViewStyleHelper.ResetDataGridView(dgv_Project, true);
+            dgv_Project.Columns.AddRange(new DataGridViewColumn[]
+            {
+                new DataGridViewTextBoxColumn(){ Name = "subId" },
+                new DataGridViewTextBoxColumn(){ Name = "subUnitName", HeaderText = "来源单位", FillWeight = 15},
+                new DataGridViewTextBoxColumn(){ Name = "subCode", HeaderText = "课题/子课题编号", FillWeight = 20},
+                new DataGridViewTextBoxColumn(){ Name = "subName", HeaderText = "课题/子课题名称", FillWeight = 25},
+                //new DataGridViewButtonColumn(){ Name = "subControl", HeaderText = "操作", Text="质检", FillWeight = 5}
+            });
+            dgv_Project.Columns["subId"].Visible = false;
+
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM subject_info WHERE pi_id='{pId}'");
+            for(int i = 0; i < table.Rows.Count; i++)
+            {
+                int index = dgv_Project.Rows.Add();
+                dgv_Project.Rows[index].Cells["subId"].Value = table.Rows[i]["si_id"];
+                dgv_Project.Rows[index].Cells["subUnitName"].Value = unitName;
+                dgv_Project.Rows[index].Cells["subCode"].Value = table.Rows[i]["si_code"];
+                dgv_Project.Rows[index].Cells["subName"].Value = table.Rows[i]["si_name"];
+                //dgv_Project.Rows[index].Cells["subControl"].Value = "质检";
+            }
+        }
+
         /// <summary>
         /// 我的质检 - 单元格 点击事件
         /// </summary>
@@ -778,88 +758,113 @@ namespace 科技计划项目档案数据采集管理系统
             if(e.RowIndex != -1 && e.ColumnIndex != -1)
             {
                 object columnName = dgv_MyReg.Columns[e.ColumnIndex].Name;
-                ControlType type = (ControlType)dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Tag;
                 //编辑
                 if("mr_edit".Equals(columnName))
                 {
-                    if(type == ControlType.Imp)
+                    int index = (int)dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Tag;
+                    if(index == 0)
                     {
                         object impid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
                         Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, impid, ControlType.Imp, false);
                         frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
-                        frm.ShowDialog();
-                        LoadMyRegList();
+                        if(frm.ShowDialog() == DialogResult.OK)
+                        {
+                            int _index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_info WHERE imp_id='{impid}' AND imp_submit_status=1");
+                            if(_index > 0)
+                            {
+                                if(MessageBox.Show("此数据包含返工信息，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                                {
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{frm.WMID}'");
+                                    LoadMyRegList();
+                                }
+                            }
+                            LoadMyRegList();
+                        }
                     }
-                    else if(type == ControlType.Imp_Sub)
+                    else if(index == 1)
                     {
                         object impid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
                         Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, impid, ControlType.Imp_Sub, false);
                         frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
-                        frm.ShowDialog();
-                        LoadMyRegList();
+                        if(frm.ShowDialog() == DialogResult.OK)
+                        {
+                            int _index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_dev_info WHERE imp_id='{impid}' AND imp_submit_status=1");
+                            if(_index > 0)
+                            {
+                                if(MessageBox.Show("此数据包含返工信息，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                                {
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{frm.WMID}'");
+                                    LoadMyRegList();
+                                }
+                            }
+                            LoadMyRegList();
+                        }
                     }
-                    else if(type == ControlType.Plan_Project)
+                    else if(index == 2)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
                         Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, ControlType.Plan_Project, false);
                         frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
-                        frm.ShowDialog();
-
-                        int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM project_info pi LEFT JOIN subject_info si ON pi.pi_id = si.pi_id " +
-                            $"WHERE si.si_submit_status = {(int)ObjectSubmitStatus.Back} OR pi.pi_submit_status = {(int)ObjectSubmitStatus.Back}");
-                        if(index > 0)
+                        if(frm.ShowDialog() == DialogResult.OK)
                         {
-                            if(MessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                            if(HaveBacked(piid))
                             {
-                                object primaryKey = Guid.NewGuid().ToString();
-                                object worker = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_worker_id FROM project_info WHERE pi_id='{piid}'");
-                                object wmid = dgv_MyReg.Rows[e.RowIndex].Tag;
-                                string insertSql = "INSERT INTO work_rework(wr_id, wm_id, wr_obj_id, wr_type, wr_checker, wr_worker, wr_checkdate) " +
-                                    $"VALUES ('{primaryKey}', '{wmid}', '{piid}', '{(int)ControlType.Plan_Project}', '{UserHelper.GetInstance().User.UserKey}', '{worker}', '{DateTime.Now}')";
-                                SqlHelper.ExecuteNonQuery(insertSql);
-                                //将当前对象状态置为未提交
-                                //SqlHelper.ExecuteNonQuery($"UPDATE project_info SET pi_submit_status={(int)ObjectSubmitStatus.NonSubmit} WHERE pi_id='{piid}'");
-                                SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualitySuccess} WHERE wm_id='{wmid}'");
-
-                                LoadMyRegList();
+                                if(MessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                                {
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{frm.WMID}'");
+                                    LoadMyRegList();
+                                }
                             }
                         }
                     }
-                    
                 }
                 //完成质检
                 else if("mr_submit".Equals(columnName))
                 {
-                    if(type == ControlType.Imp)
+                    if(MessageBox.Show("确定要完成对当前数据的质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                     {
-                        if(MessageBox.Show("确定要完成对当前数据的质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
-                        {
-                            object wmid = dgv_MyReg.Rows[e.RowIndex].Tag;
-                            SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualityFinish}' WHERE wm_id='{wmid}'");
-                        }
-                        LoadMyRegList();
+                        object wmid = dgv_MyReg.Rows[e.RowIndex].Tag;
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualityFinish}' WHERE wm_id='{wmid}'");
                     }
-                    else if(type == ControlType.Imp_Sub)
-                    {
-                        if(MessageBox.Show("确定要完成对当前数据的质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
-                        {
-                            object wmid = dgv_MyReg.Rows[e.RowIndex].Tag;
-                            SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualityFinish}' WHERE wm_id='{wmid}'");
-                        }
-                        LoadMyRegList();
-                    }
-                    else if(type == ControlType.Plan_Project)
-                    {
-                        if(MessageBox.Show("确定要完成对当前数据的质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
-                        {
-                            object wmid = dgv_MyReg.Rows[e.RowIndex].Tag;
-                            SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualityFinish}' WHERE wm_id='{wmid}'");
-                        }
-                        LoadMyRegList();
-                    }
+                    LoadMyRegList();
                 }
             }
         }
 
+        /// <summary>
+        /// 根据ID判断是否存在返工数据
+        /// </summary>
+        private bool HaveBacked(object piid)
+        {
+            bool result = false;
+            DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_id='{piid}'");
+            if(row != null)
+            {
+                if((int)row["pi_submit_status"] == 1)
+                    result = true;
+                else
+                {
+                    DataTable table = SqlHelper.ExecuteQuery($"SELECT si_id, si_submit_status FROM subject_info WHERE pi_id='{row["pi_id"]}'");
+                    for(int i = 0; i < table.Rows.Count; i++)
+                    {
+                        if((int)table.Rows[i]["si_submit_status"] == 1)
+                        {
+                            result = true;
+                            break;
+                        }
+                        DataTable table2 = SqlHelper.ExecuteQuery($"SELECT si_id, si_submit_status FROM subject_info WHERE pi_id='{row["si_id"]}'");
+                        for(int j = 0; j < table2.Rows.Count; j++)
+                        {
+                            if((int)table2.Rows[j]["si_submit_status"] == 1)
+                            {
+                                result = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

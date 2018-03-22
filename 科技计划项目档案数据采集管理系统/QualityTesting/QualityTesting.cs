@@ -20,7 +20,11 @@
         /// <summary>
         /// 质检通过
         /// </summary>
-        QualityFinish = 3
+        QualityFinish = 3,
+        /// <summary>
+        /// 返工
+        /// </summary>
+        QualityBack = 4,
     }
     class QualityTesting
     {

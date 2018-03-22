@@ -1,15 +1,29 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.TransferOfRegistration
 {
     public partial class Frm_CDRead : DevExpress.XtraEditors.XtraForm
     {
+        /// <summary>
+        /// 共计文件数
+        /// </summary>
+        private int count = 0;
+        /// <summary>
+        /// 导入成功数
+        /// </summary>
+        private int okCount = 0;
+        /// <summary>
+        /// 导入失败输
+        /// </summary>
+        private int noCount = -1;
         private object trcId;
         public Frm_CDRead(object trcId)
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             this.trcId = trcId;
         }
 
@@ -34,23 +48,33 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
         private void Btn_Sure_Click(object sender, EventArgs e)
         {
-            if(pgb_CD.Value == pgb_CD.Maximum)
-            {
-                if(MessageBox.Show("此操作会覆盖当前已有文件，是否重新读取？", "温馨提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                    return;
-            }
-            string sPath = txt_CD_Path.Text;
+            string sourPath = txt_CD_Path.Text;
             //光盘读写【非结构化数据】
-            if(!string.IsNullOrEmpty(sPath))
+            if(!string.IsNullOrEmpty(sourPath))
             {
-                //备份文件到本地/远程服务器
-                string[] spSplit = sPath.Split('\\');
-                string tPath = Application.StartupPath + "\\BackupFile\\" + spSplit[spSplit.Length - 1];
-                btn_Sure.Enabled = false;
-                FolderHelper.GetInstance(pgb_CD).CopyDirectory(sPath, tPath, true, SetTipMsg);
-                btn_Sure.Enabled = true;
-                //保存文件到当前光盘下
-                SaveFileListByCD(sPath, trcId);
+                indexCount = -1;
+                object ipAddress = null;
+                //备份光盘文件到远程服务器
+                if(ServerHelper.GetConnectState(ref ipAddress))
+                {
+                    btn_Sure.Enabled = false;
+
+                    int totalFileAmount = Directory.GetFiles(sourPath, "*", SearchOption.AllDirectories).Length;
+                    pgb_CD.Maximum = totalFileAmount;
+                    pgb_CD.Value = pgb_CD.Minimum;
+
+                    string primaryKey = Guid.NewGuid().ToString();
+                    SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_sort, bfi_name, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                        $"('{primaryKey}', '{indexCount++}', '{Path.GetFileName(sourPath)}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', '{1}')");
+
+                    string rootFolder = @"\\" + ipAddress + @"\共享文件夹\" + Path.GetFileName(sourPath) + @"\";
+                    if(!Directory.Exists(rootFolder))
+                        Directory.CreateDirectory(rootFolder);
+                    CopyFile(sourPath, rootFolder, primaryKey);
+                    MessageBox.Show($"备份完毕,共计{count}个文件。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+                else
+                    MessageBox.Show("备份文件到服务器失败。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             /* -------------------- 暂时搁置 -----------------------------
             string dPath = txt_DS_Path.Text;
@@ -88,40 +112,52 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     }
                 }
             }
-            //更新光盘信息
-            string updateSql = $"UPDATE transfer_registraion_cd SET trc_status='{(int)ReadStatus.ReadSuccess}' WHERE trc_id='{trcId}'";
-            SqlHelper.ExecuteNonQuery(updateSql);
-
-            MessageBox.Show("文件信息保存成功。");
-            DialogResult = DialogResult.OK;
-            Close();
         }
+        int indexCount = 0;
         /// <summary>
-        /// 保存文件到光盘下
+        /// 拷贝文件到备份服务器
         /// </summary>
-        /// <param name="sPath">文件路径</param>
-        /// <param name="trcId">光盘编号</param>
-        private void SaveFileListByCD(string sPath, object trcId)
+        /// <param name="sPath">源文件夹路径</param>
+        /// <param name="rootFolder">目标文件夹基路径</param>
+        private void CopyFile(string sPath, string rootFolder, string pid)
         {
-            string[] files = Directory.GetFiles(sPath);
-            foreach(string file in files)
+            DirectoryInfo info = new DirectoryInfo(sPath);
+            FileInfo[] file = info.GetFiles();
+            count += file.Length;
+            for(int i = 0; i < file.Length; i++)
             {
                 string primaryKey = Guid.NewGuid().ToString();
-                string fileName = Path.GetFileNameWithoutExtension(file);
-                string insertSql = $"INSERT INTO processing_file_list(pfl_id,pfl_filename,pfl_file_link,pfl_obj_id,pfl_modify_user,pfl_handle_time) " +
-                    $"VALUES('{primaryKey}','{fileName}','{file}','{trcId}','{UserHelper.GetInstance().User.UserKey}','{DateTime.Now}')";
-                SqlHelper.ExecuteNonQuery(insertSql);
+                try
+                {
+                    SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_sort, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                        $"('{primaryKey}', '{indexCount++}', '{file[i].Name}', '{rootFolder}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', '{0}')");
+                    ServerHelper.UploadFile(file[i].FullName, rootFolder, file[i].Name);
+                    okCount++;
+                }
+                catch(Exception)
+                {
+                    noCount++;
+                }
+                pgb_CD.Value++;
             }
-            string[] dirs = Directory.GetDirectories(sPath);
-            foreach(string dir in dirs)
+            DirectoryInfo[] infos = info.GetDirectories();
+            for(int i = 0; i < infos.Length; i++)
             {
-                SaveFileListByCD(dir, trcId);
+                string primaryKey = Guid.NewGuid().ToString();
+                SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_sort, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                        $"('{primaryKey}', '{indexCount++}', '{infos[i].Name}', '{rootFolder}', '{DateTime.Now.ToString("s")}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', '{1}')");
+                CopyFile(infos[i].FullName, rootFolder + infos[i].Name + @"\", primaryKey);
             }
         }
 
-        private void SetTipMsg(string msg)
+        private void Frm_CDRead_FormClosing(object sender, FormClosingEventArgs e)
         {
-            tip.Text = msg;
+            if(pgb_CD.Value == pgb_CD.Maximum)
+            {
+                DialogResult = DialogResult.OK;
+            }
+            else
+                DialogResult = DialogResult.None;
         }
     }
 }

@@ -68,6 +68,12 @@
     <Compile Include="Cataloguing\Frm_AddFile.Designer.cs">
       <DependentUpon>Frm_AddFile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cataloguing\Frm_AddFile_FileSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cataloguing\Frm_AddFile_FileSelect.Designer.cs">
+      <DependentUpon>Frm_AddFile_FileSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cataloguing\Frm_CG.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -174,6 +180,7 @@
     </Compile>
     <Compile Include="QualityTesting\QualityTesting.cs" />
     <Compile Include="Tools\Chinese2Spell.cs" />
+    <Compile Include="Tools\ServerHelper.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
     <Compile Include="Tools\XmlHelper.cs" />
     <Compile Include="TransferOfRegistration\Frm_AddPC.cs">
@@ -250,6 +257,9 @@
     <Compile Include="TransferOfRegistration\TransferOfRegistration.cs" />
     <EmbeddedResource Include="Cataloguing\Frm_AddFile.resx">
       <DependentUpon>Frm_AddFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cataloguing\Frm_AddFile_FileSelect.resx">
+      <DependentUpon>Frm_AddFile_FileSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Cataloguing\Frm_CG.resx">
       <DependentUpon>Frm_CG.cs</DependentUpon>
@@ -356,6 +366,9 @@
     <None Include="Images\area2.png" />
     <None Include="Images\area3.png" />
     <None Include="Images\add.png" />
+    <Content Include="Images\33.png" />
+    <Content Include="Images\34.png" />
+    <Content Include="Images\7.png" />
     <Content Include="Images\banner.png" />
     <None Include="Images\login2.png" />
     <None Include="Images\logo1.png" />

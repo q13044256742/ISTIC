@@ -466,7 +466,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// 根据光盘ID获取文件数
         /// </summary>
         /// <param name="cdid">光盘ID</param>
-        private object GetFileAmount(object cdid) => SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{cdid}'");
+        private object GetFileAmount(object cdid) => SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(bfi_id) FROM backup_files_info WHERE bfi_type=0 AND bfi_trcid='{cdid}'");
         /// <summary>
         /// 根据光盘ID获取项目数总和
         /// </summary>
@@ -543,6 +543,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         Frm_CDRead read = new Frm_CDRead(trcId);
                         if(read.ShowDialog() == DialogResult.OK)
                         {
+                            //更新光盘信息
+                            string updateSql = $"UPDATE transfer_registraion_cd SET trc_status='{(int)ReadStatus.ReadSuccess}' WHERE trc_id='{trcId}'";
+                            SqlHelper.ExecuteNonQuery(updateSql);
                             LoadGPDJ(null);
                         }
                     }
