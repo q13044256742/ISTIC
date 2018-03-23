@@ -74,10 +74,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
         }
 
-        private string GetValue(object v)
-        {
-            return v == null ? string.Empty : v.ToString();
-        }
+        private string GetValue(object v) => v == null ? string.Empty : v.ToString();
 
         /// <summary>
         /// 来源单位点击事件
@@ -168,15 +165,15 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             else
                 dataTable = SqlHelper.ExecuteQuery(_querySql);
 
-            dgv_SWDJ.Columns.AddRange(new DataGridViewTextBoxColumn[]
+            dgv_SWDJ.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){Name = "trp_id", HeaderText = "主键", FillWeight = 10 },
                 new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 20 },
                 new DataGridViewTextBoxColumn(){Name = "trp_name", HeaderText = "批次名称", FillWeight = 25 },
                 new DataGridViewTextBoxColumn(){Name = "trp_code", HeaderText = "批次编号", FillWeight = 20 },
                 new DataGridViewTextBoxColumn(){Name = "trp_cd_amount", HeaderText = "光盘数", FillWeight = 8 },
-                new DataGridViewTextBoxColumn(){Name = "addpc", HeaderText = "添加光盘", FillWeight = 10 },
-                new DataGridViewTextBoxColumn(){Name = "submit", HeaderText = "提交", FillWeight = 10 },
+                new DataGridViewButtonColumn(){Name = "addpc", HeaderText = "添加光盘", FillWeight = 10, Text = "添加", UseColumnTextForButtonValue = true },
+                new DataGridViewButtonColumn(){Name = "submit", HeaderText = "提交", FillWeight = 10 },
             });
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
@@ -187,21 +184,18 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_SWDJ.Rows[index].Cells["trp_name"].Value = row["trp_name"];
                 dgv_SWDJ.Rows[index].Cells["trp_code"].Value = row["trp_code"];
                 dgv_SWDJ.Rows[index].Cells["trp_cd_amount"].Value = row["trp_cd_amount"];
-                dgv_SWDJ.Rows[index].Cells["addpc"].Value = "添加";
                 dgv_SWDJ.Rows[index].Cells["submit"].Value = Convert.ToInt32(row["trp_submit_status"]) == 1 ? "提交" : "已提交";
             }
 
             //设置链接按钮样式
-            DataGridViewStyleHelper.SetLinkStyle(dgv_SWDJ, new string[] { "submit", "addpc", "trp_cd_amount" }, true);
-            dgv_SWDJ.Columns[2].DefaultCellStyle = new DataGridViewCellStyle { ForeColor = Color.Blue };
-
+            DataGridViewStyleHelper.SetLinkStyle(dgv_SWDJ, new string[] {"trp_cd_amount" }, true);
             dgv_SWDJ.Columns["trp_id"].Visible = false;
-
             btn_Back.Enabled = false;
             btn_Add.Enabled = true;
 
             dgv_SWDJ.Tag = "PC";
         }
+     
         /// <summary>
         /// 加载光盘数据
         /// </summary>
@@ -236,6 +230,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
             dgv_SWDJ.Tag = "CD";
         }
+      
         /// <summary>
         /// 单元格点击事件
         /// </summary>
@@ -243,7 +238,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// <param name="e"></param>
         private void Dgv_SWDJ_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex != -1 && e.ColumnIndex != -1 && e.RowIndex != dgv_SWDJ.RowCount - 1)
+            if (e.RowIndex != -1 && e.ColumnIndex != -1)
             {
                 //当前点击单元格的值
                 object value = dgv_SWDJ.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
@@ -314,12 +309,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 }
             }
         }
+     
         /// <summary>
         /// 返回上一页
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Btn_Back_Click(object sender, EventArgs e) => LoadPCDataScoure(null);
+   
         /// <summary>
         /// 删除选中数据
         /// </summary>
@@ -370,6 +367,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
+    
         /// <summary>
         /// 搜索
         /// </summary>
@@ -396,6 +394,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             else
                 LoadPCDataScoure(null);
         }
+        
         /// <summary>
         /// 选项卡切换事件
         /// </summary>
@@ -410,6 +409,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     LoadGPDJ(null);
             }
         }
+        
         /// <summary>
         /// 加载光盘列表
         /// </summary>
@@ -418,9 +418,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             dgv_GPDJ.Rows.Clear();
             dgv_GPDJ.Columns.Clear();
 
-            dgv_GPDJ.Columns.AddRange(new DataGridViewTextBoxColumn[]
+            dgv_GPDJ.Columns.AddRange(new DataGridViewColumn[]
             {
-                new DataGridViewTextBoxColumn(){Name = "trc_id", HeaderText = "主键", FillWeight = 10 },
+                new DataGridViewTextBoxColumn(){Name = "trc_id"},
                 new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 15 },
                 new DataGridViewTextBoxColumn(){Name = "trc_code", HeaderText = "光盘编号", FillWeight = 15 },
                 new DataGridViewTextBoxColumn(){Name = "trc_name", HeaderText = "光盘名称", FillWeight = 15 },
@@ -428,7 +428,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 new DataGridViewTextBoxColumn(){Name = "trc_subject_amount", HeaderText = "课题数", FillWeight = 5 },
                 new DataGridViewTextBoxColumn(){Name = "trc_file_amount", HeaderText = "文件数", FillWeight = 5 },
                 new DataGridViewTextBoxColumn(){Name = "trc_status", HeaderText = "读写状态", FillWeight = 10 },
-                new DataGridViewTextBoxColumn(){Name = "control", HeaderText = "操作", FillWeight = 7 },
+                new DataGridViewButtonColumn(){Name = "control", HeaderText = "操作", FillWeight = 7, Text = "读写", UseColumnTextForButtonValue = true },
             });
 
             DataTable table = null;
@@ -453,20 +453,19 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_GPDJ.Rows[_index].Cells["trc_subject_amount"].Value = GetSubjectAmount(row["trc_id"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_file_amount"].Value = GetFileAmount(row["trc_id"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_status"].Value = GetReadStatus(GetInt32(row["trc_status"]));
-                dgv_GPDJ.Rows[_index].Cells["control"].Value = "读写";
             }
             if (dgv_GPDJ.Columns.Count > 0)
                 dgv_GPDJ.Columns[0].Visible = false;
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_GPDJ, new string[] { "trc_status", "trc_project_amount", "trc_subject_amount", "trc_file_amount" });
-            DataGridViewStyleHelper.SetLinkStyle(dgv_GPDJ, new string[] { "control" }, false);
-            
         }
+    
         /// <summary>
         /// 根据光盘ID获取文件数
         /// </summary>
         /// <param name="cdid">光盘ID</param>
         private object GetFileAmount(object cdid) => SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(bfi_id) FROM backup_files_info WHERE bfi_type=0 AND bfi_trcid='{cdid}'");
+    
         /// <summary>
         /// 根据光盘ID获取项目数总和
         /// </summary>
@@ -477,6 +476,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE pi_obj_id=(SELECT pi_id FROM project_info WHERE trc_id='{trcId}')"));
             return proAmount;
         }
+    
         /// <summary>
         /// 根据光盘ID获取课题数总和
         /// </summary>
@@ -489,6 +489,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     $"(SELECT pi_id FROM project_info WHERE trc_id='{trcId}'))"));
             return amount;
         }
+    
         /// <summary>
         /// 根据状态id获取光盘的读写状态
         /// </summary>
@@ -499,6 +500,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             else if (index == 3) return "解析异常";
             else return string.Empty;
         }
+    
         /// <summary>
         /// 将Object对象转换成Int对象
         /// </summary>
@@ -510,6 +512,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             int.TryParse(_obj.ToString(), out temp);
             return temp;
         }
+    
         /// <summary>
         /// 光盘页搜索
         /// </summary>
@@ -529,6 +532,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
             LoadGPDJ(querySql.ToString());
         }
+    
         /// <summary>
         /// 光盘页单元格点击事件
         /// </summary>

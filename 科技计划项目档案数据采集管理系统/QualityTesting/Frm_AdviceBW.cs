@@ -20,8 +20,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Frm_Advice_Load(object sender, EventArgs e)
         {
-            string querySql = $"SELECT a.qa_type, a.qa_advice FROM quality_advices a WHERE qa_time = " +
-                $"(SELECT MAX(qa_time) FROM quality_advices WHERE qa_type = a.qa_type) " +
+            string querySql = $"SELECT a.qa_type, a.qa_advice FROM quality_advices a " +
+                $"WHERE qa_time = (SELECT MAX(qa_time) FROM quality_advices WHERE qa_obj_id = a.qa_obj_id AND qa_type = a.qa_type) " +
                 $"AND qa_obj_id='{objId}' ORDER BY a.qa_type";
             List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 2);
             for(int i = 0; i < list.Count; i++)

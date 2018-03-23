@@ -29,30 +29,46 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
             this.treeView = new System.Windows.Forms.TreeView();
             this.tab_MenuList = new System.Windows.Forms.TabControl();
             this.plan = new System.Windows.Forms.TabPage();
             this.tab_JH_FileInfo = new System.Windows.Forms.TabControl();
             this.fileList = new System.Windows.Forms.TabPage();
             this.dgv_JH_FileList = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.page = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.format = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.form = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fileCheck = new System.Windows.Forms.TabPage();
             this.dgv_JH_FileValid = new System.Windows.Forms.DataGridView();
             this.dgv_jh_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -109,6 +125,22 @@
             this.tab_JH_XM_FileInfo = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgv_JH_XM_FileList = new System.Windows.Forms.DataGridView();
+            this.jh_xm_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgv_JH_XM_FileValid = new System.Windows.Forms.DataGridView();
             this.dgv_jh_xm_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -188,6 +220,22 @@
             this.tab_JH_KT_FileInfo = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.dgv_JH_KT_FileList = new System.Windows.Forms.DataGridView();
+            this.jh_kt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.dgv_JH_KT_FileValid = new System.Windows.Forms.DataGridView();
             this.dgv_jh_kt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -267,6 +315,22 @@
             this.tab_JH_XM_KT_FileInfo = new System.Windows.Forms.TabControl();
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.dgv_JH_XM_KT_FileList = new System.Windows.Forms.DataGridView();
+            this.jh_xm_kt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.dgv_JH_XM_KT_FileValid = new System.Windows.Forms.DataGridView();
             this.dgv_jh_xm_kt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -346,6 +410,22 @@
             this.tab_JH_XM_KT_ZKT_FileInfo = new System.Windows.Forms.TabControl();
             this.tabPage16 = new System.Windows.Forms.TabPage();
             this.dgv_JH_XM_KT_ZKT_FileList = new System.Windows.Forms.DataGridView();
+            this.jh_xm_kt_zkt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_zkt_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_zkt_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_zkt_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_zkt_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_zkt_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_zkt_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_zkt_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_zkt_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_zkt_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_zkt_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_zkt_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_zkt_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_zkt_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_xm_kt_zkt_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_xm_kt_zkt_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage17 = new System.Windows.Forms.TabPage();
             this.dgv_JH_XM_KT_ZKT_FileValid = new System.Windows.Forms.DataGridView();
             this.dgv_jh_xm_kt_zkt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -423,6 +503,22 @@
             this.tab_JH_KT_ZKT_FileInfo = new System.Windows.Forms.TabControl();
             this.tabPage13 = new System.Windows.Forms.TabPage();
             this.dgv_JH_KT_ZKT_FileList = new System.Windows.Forms.DataGridView();
+            this.jh_kt_zkt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_zkt_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_zkt_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_zkt_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_zkt_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_zkt_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_zkt_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_zkt_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_zkt_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_zkt_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_zkt_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_zkt_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_zkt_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_zkt_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.jh_kt_zkt_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jh_kt_zkt_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage14 = new System.Windows.Forms.TabPage();
             this.dgv_JH_KT_ZKT_FileValid = new System.Windows.Forms.DataGridView();
             this.dgv_jh_kt_zkt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -569,6 +665,22 @@
             this.tab_Imp_Dev_FileInfo = new System.Windows.Forms.TabControl();
             this.tabPage25 = new System.Windows.Forms.TabPage();
             this.dgv_Imp_Dev_FileList = new System.Windows.Forms.DataGridView();
+            this.imp_dev_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_dev_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_dev_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_dev_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_dev_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_dev_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_dev_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_dev_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_dev_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_dev_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_dev_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_dev_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_dev_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_dev_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_dev_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_dev_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage26 = new System.Windows.Forms.TabPage();
             this.dgv_Imp_Dev_FileValid = new System.Windows.Forms.DataGridView();
             this.dgv_imp_dev_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -625,118 +737,6 @@
             this.strip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.page = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.format = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.form = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.link = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_zkt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_zkt_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_zkt_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_zkt_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_zkt_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_zkt_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_zkt_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_zkt_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_zkt_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_zkt_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_zkt_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_zkt_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_zkt_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_zkt_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_xm_kt_zkt_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_xm_kt_zkt_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_zkt_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_zkt_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_zkt_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_zkt_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_zkt_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_zkt_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_zkt_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_zkt_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_zkt_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_zkt_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_zkt_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_zkt_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_zkt_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_zkt_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.jh_kt_zkt_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jh_kt_zkt_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_dev_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_dev_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_dev_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_dev_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_dev_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_dev_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_dev_secret = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_dev_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_dev_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_dev_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_dev_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_dev_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_dev_format = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_dev_form = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_dev_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_dev_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab_MenuList.SuspendLayout();
             this.plan.SuspendLayout();
             this.tab_JH_FileInfo.SuspendLayout();
@@ -830,7 +830,7 @@
             // 
             this.treeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.treeView.Dock = System.Windows.Forms.DockStyle.Left;
-            this.treeView.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.treeView.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.treeView.Location = new System.Drawing.Point(0, 0);
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(271, 641);
@@ -898,14 +898,14 @@
             // 
             this.dgv_JH_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.dgv_JH_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
             this.dgv_JH_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
             this.stage,
@@ -934,6 +934,98 @@
             this.dgv_JH_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_JH_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
+            // id
+            // 
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.id.DefaultCellStyle = dataGridViewCellStyle20;
+            this.id.HeaderText = "序号";
+            this.id.Name = "id";
+            this.id.Visible = false;
+            // 
+            // stage
+            // 
+            this.stage.HeaderText = "阶段";
+            this.stage.Name = "stage";
+            // 
+            // categor
+            // 
+            this.categor.HeaderText = "文件类别";
+            this.categor.Name = "categor";
+            this.categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // name
+            // 
+            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.name.DefaultCellStyle = dataGridViewCellStyle21;
+            this.name.HeaderText = "文件名称";
+            this.name.Name = "name";
+            // 
+            // user
+            // 
+            this.user.HeaderText = "文件责任者";
+            this.user.Name = "user";
+            // 
+            // type
+            // 
+            this.type.HeaderText = "文件类型";
+            this.type.Name = "type";
+            this.type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // secret
+            // 
+            this.secret.HeaderText = "密级";
+            this.secret.Name = "secret";
+            this.secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // page
+            // 
+            this.page.HeaderText = "页数";
+            this.page.Name = "page";
+            // 
+            // amount
+            // 
+            this.amount.HeaderText = "文件份数";
+            this.amount.Name = "amount";
+            // 
+            // date
+            // 
+            this.date.HeaderText = "形成日期";
+            this.date.Name = "date";
+            // 
+            // unit
+            // 
+            this.unit.HeaderText = "存放单位";
+            this.unit.Name = "unit";
+            // 
+            // carrier
+            // 
+            this.carrier.HeaderText = "载体";
+            this.carrier.Name = "carrier";
+            // 
+            // format
+            // 
+            this.format.HeaderText = "文件格式";
+            this.format.Name = "format";
+            // 
+            // form
+            // 
+            this.form.HeaderText = "文件形态";
+            this.form.Name = "form";
+            // 
+            // link
+            // 
+            this.link.HeaderText = "文件链接";
+            this.link.Name = "link";
+            this.link.ReadOnly = true;
+            // 
+            // remark
+            // 
+            this.remark.HeaderText = "附注";
+            this.remark.Name = "remark";
+            // 
             // fileCheck
             // 
             this.fileCheck.Controls.Add(this.dgv_JH_FileValid);
@@ -950,14 +1042,14 @@
             this.dgv_JH_FileValid.AllowUserToDeleteRows = false;
             this.dgv_JH_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_JH_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
             this.dgv_JH_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_jh_id,
@@ -1539,14 +1631,14 @@
             // dgv_JH_XM_FileList
             // 
             this.dgv_JH_XM_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_XM_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_XM_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
             this.dgv_JH_XM_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_XM_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.jh_xm_id,
@@ -1576,6 +1668,95 @@
             this.dgv_JH_XM_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_JH_XM_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
+            // jh_xm_id
+            // 
+            this.jh_xm_id.HeaderText = "序号";
+            this.jh_xm_id.Name = "jh_xm_id";
+            this.jh_xm_id.ReadOnly = true;
+            this.jh_xm_id.Visible = false;
+            // 
+            // jh_xm_stage
+            // 
+            this.jh_xm_stage.HeaderText = "阶段";
+            this.jh_xm_stage.Name = "jh_xm_stage";
+            // 
+            // jh_xm_categor
+            // 
+            this.jh_xm_categor.HeaderText = "文件类别";
+            this.jh_xm_categor.Name = "jh_xm_categor";
+            this.jh_xm_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_xm_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_xm_name
+            // 
+            this.jh_xm_name.HeaderText = "文件名称";
+            this.jh_xm_name.Name = "jh_xm_name";
+            // 
+            // jh_xm_user
+            // 
+            this.jh_xm_user.HeaderText = "文件责任者";
+            this.jh_xm_user.Name = "jh_xm_user";
+            // 
+            // jh_xm_type
+            // 
+            this.jh_xm_type.HeaderText = "文件类型";
+            this.jh_xm_type.Name = "jh_xm_type";
+            this.jh_xm_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_xm_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_xm_secret
+            // 
+            this.jh_xm_secret.HeaderText = "密级";
+            this.jh_xm_secret.Name = "jh_xm_secret";
+            this.jh_xm_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_xm_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_xm_page
+            // 
+            this.jh_xm_page.HeaderText = "页数";
+            this.jh_xm_page.Name = "jh_xm_page";
+            // 
+            // jh_xm_amount
+            // 
+            this.jh_xm_amount.HeaderText = "文件份数";
+            this.jh_xm_amount.Name = "jh_xm_amount";
+            // 
+            // jh_xm_date
+            // 
+            this.jh_xm_date.HeaderText = "形成日期";
+            this.jh_xm_date.Name = "jh_xm_date";
+            // 
+            // jh_xm_unit
+            // 
+            this.jh_xm_unit.HeaderText = "存放单位";
+            this.jh_xm_unit.Name = "jh_xm_unit";
+            // 
+            // jh_xm_carrier
+            // 
+            this.jh_xm_carrier.HeaderText = "载体";
+            this.jh_xm_carrier.Name = "jh_xm_carrier";
+            // 
+            // jh_xm_format
+            // 
+            this.jh_xm_format.HeaderText = "文件格式";
+            this.jh_xm_format.Name = "jh_xm_format";
+            // 
+            // jh_xm_form
+            // 
+            this.jh_xm_form.HeaderText = "文件形态";
+            this.jh_xm_form.Name = "jh_xm_form";
+            // 
+            // jh_xm_link
+            // 
+            this.jh_xm_link.HeaderText = "文件链接";
+            this.jh_xm_link.Name = "jh_xm_link";
+            this.jh_xm_link.ReadOnly = true;
+            // 
+            // jh_xm_remark
+            // 
+            this.jh_xm_remark.HeaderText = "附注";
+            this.jh_xm_remark.Name = "jh_xm_remark";
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.dgv_JH_XM_FileValid);
@@ -1592,14 +1773,14 @@
             this.dgv_JH_XM_FileValid.AllowUserToDeleteRows = false;
             this.dgv_JH_XM_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_JH_XM_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_XM_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle24.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_XM_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle24;
             this.dgv_JH_XM_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_XM_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_jh_xm_id,
@@ -1989,7 +2170,7 @@
             this.btn_JH_XM_QTReason.Font = new System.Drawing.Font("宋体", 11F);
             this.btn_JH_XM_QTReason.Location = new System.Drawing.Point(107, 334);
             this.btn_JH_XM_QTReason.Name = "btn_JH_XM_QTReason";
-            this.btn_JH_XM_QTReason.Size = new System.Drawing.Size(95, 32);
+            this.btn_JH_XM_QTReason.Size = new System.Drawing.Size(99, 32);
             this.btn_JH_XM_QTReason.TabIndex = 12;
             this.btn_JH_XM_QTReason.Text = "质检意见";
             this.btn_JH_XM_QTReason.UseVisualStyleBackColor = true;
@@ -2001,7 +2182,7 @@
             this.btn_JH_XM_AddFile.Font = new System.Drawing.Font("宋体", 11F);
             this.btn_JH_XM_AddFile.Location = new System.Drawing.Point(6, 334);
             this.btn_JH_XM_AddFile.Name = "btn_JH_XM_AddFile";
-            this.btn_JH_XM_AddFile.Size = new System.Drawing.Size(95, 32);
+            this.btn_JH_XM_AddFile.Size = new System.Drawing.Size(99, 32);
             this.btn_JH_XM_AddFile.TabIndex = 11;
             this.btn_JH_XM_AddFile.Text = "新增文件";
             this.btn_JH_XM_AddFile.UseVisualStyleBackColor = true;
@@ -2410,14 +2591,14 @@
             // dgv_JH_KT_FileList
             // 
             this.dgv_JH_KT_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_KT_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle25.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_KT_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
             this.dgv_JH_KT_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_KT_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.jh_kt_id,
@@ -2447,6 +2628,95 @@
             this.dgv_JH_KT_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_JH_KT_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
+            // jh_kt_id
+            // 
+            this.jh_kt_id.HeaderText = "序号";
+            this.jh_kt_id.Name = "jh_kt_id";
+            this.jh_kt_id.ReadOnly = true;
+            this.jh_kt_id.Visible = false;
+            // 
+            // jh_kt_stage
+            // 
+            this.jh_kt_stage.HeaderText = "阶段";
+            this.jh_kt_stage.Name = "jh_kt_stage";
+            // 
+            // jh_kt_categor
+            // 
+            this.jh_kt_categor.HeaderText = "文件类别";
+            this.jh_kt_categor.Name = "jh_kt_categor";
+            this.jh_kt_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_kt_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_kt_name
+            // 
+            this.jh_kt_name.HeaderText = "文件名称";
+            this.jh_kt_name.Name = "jh_kt_name";
+            // 
+            // jh_kt_user
+            // 
+            this.jh_kt_user.HeaderText = "文件责任者";
+            this.jh_kt_user.Name = "jh_kt_user";
+            // 
+            // jh_kt_type
+            // 
+            this.jh_kt_type.HeaderText = "文件类型";
+            this.jh_kt_type.Name = "jh_kt_type";
+            this.jh_kt_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_kt_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_kt_secret
+            // 
+            this.jh_kt_secret.HeaderText = "密级";
+            this.jh_kt_secret.Name = "jh_kt_secret";
+            this.jh_kt_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_kt_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_kt_page
+            // 
+            this.jh_kt_page.HeaderText = "页数";
+            this.jh_kt_page.Name = "jh_kt_page";
+            // 
+            // jh_kt_amount
+            // 
+            this.jh_kt_amount.HeaderText = "文件份数";
+            this.jh_kt_amount.Name = "jh_kt_amount";
+            // 
+            // jh_kt_date
+            // 
+            this.jh_kt_date.HeaderText = "形成日期";
+            this.jh_kt_date.Name = "jh_kt_date";
+            // 
+            // jh_kt_unit
+            // 
+            this.jh_kt_unit.HeaderText = "存放单位";
+            this.jh_kt_unit.Name = "jh_kt_unit";
+            // 
+            // jh_kt_carrier
+            // 
+            this.jh_kt_carrier.HeaderText = "载体";
+            this.jh_kt_carrier.Name = "jh_kt_carrier";
+            // 
+            // jh_kt_format
+            // 
+            this.jh_kt_format.HeaderText = "文件格式";
+            this.jh_kt_format.Name = "jh_kt_format";
+            // 
+            // jh_kt_form
+            // 
+            this.jh_kt_form.HeaderText = "文件形态";
+            this.jh_kt_form.Name = "jh_kt_form";
+            // 
+            // jh_kt_link
+            // 
+            this.jh_kt_link.HeaderText = "文件链接";
+            this.jh_kt_link.Name = "jh_kt_link";
+            this.jh_kt_link.ReadOnly = true;
+            // 
+            // jh_kt_remark
+            // 
+            this.jh_kt_remark.HeaderText = "附注";
+            this.jh_kt_remark.Name = "jh_kt_remark";
+            // 
             // tabPage6
             // 
             this.tabPage6.Controls.Add(this.dgv_JH_KT_FileValid);
@@ -2463,14 +2733,14 @@
             this.dgv_JH_KT_FileValid.AllowUserToDeleteRows = false;
             this.dgv_JH_KT_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_JH_KT_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_KT_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle26.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle26.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle26.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle26.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle26.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_KT_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
             this.dgv_JH_KT_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_KT_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_jh_kt_id,
@@ -2858,9 +3128,9 @@
             // btn_JH_KT_QTReason
             // 
             this.btn_JH_KT_QTReason.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_JH_KT_QTReason.Location = new System.Drawing.Point(94, 335);
+            this.btn_JH_KT_QTReason.Location = new System.Drawing.Point(110, 335);
             this.btn_JH_KT_QTReason.Name = "btn_JH_KT_QTReason";
-            this.btn_JH_KT_QTReason.Size = new System.Drawing.Size(82, 31);
+            this.btn_JH_KT_QTReason.Size = new System.Drawing.Size(99, 32);
             this.btn_JH_KT_QTReason.TabIndex = 73;
             this.btn_JH_KT_QTReason.Text = "质检意见";
             this.btn_JH_KT_QTReason.UseVisualStyleBackColor = true;
@@ -2872,7 +3142,7 @@
             this.btn_JH_KT_AddFile.Font = new System.Drawing.Font("宋体", 11F);
             this.btn_JH_KT_AddFile.Location = new System.Drawing.Point(6, 335);
             this.btn_JH_KT_AddFile.Name = "btn_JH_KT_AddFile";
-            this.btn_JH_KT_AddFile.Size = new System.Drawing.Size(82, 31);
+            this.btn_JH_KT_AddFile.Size = new System.Drawing.Size(99, 32);
             this.btn_JH_KT_AddFile.TabIndex = 72;
             this.btn_JH_KT_AddFile.Text = "新增文件";
             this.btn_JH_KT_AddFile.UseVisualStyleBackColor = true;
@@ -3278,14 +3548,14 @@
             // dgv_JH_XM_KT_FileList
             // 
             this.dgv_JH_XM_KT_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_XM_KT_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_XM_KT_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
             this.dgv_JH_XM_KT_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_XM_KT_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.jh_xm_kt_id,
@@ -3315,6 +3585,95 @@
             this.dgv_JH_XM_KT_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_JH_XM_KT_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
+            // jh_xm_kt_id
+            // 
+            this.jh_xm_kt_id.HeaderText = "序号";
+            this.jh_xm_kt_id.Name = "jh_xm_kt_id";
+            this.jh_xm_kt_id.ReadOnly = true;
+            this.jh_xm_kt_id.Visible = false;
+            // 
+            // jh_xm_kt_stage
+            // 
+            this.jh_xm_kt_stage.HeaderText = "阶段";
+            this.jh_xm_kt_stage.Name = "jh_xm_kt_stage";
+            // 
+            // jh_xm_kt_categor
+            // 
+            this.jh_xm_kt_categor.HeaderText = "文件类别";
+            this.jh_xm_kt_categor.Name = "jh_xm_kt_categor";
+            this.jh_xm_kt_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_xm_kt_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_xm_kt_name
+            // 
+            this.jh_xm_kt_name.HeaderText = "文件名称";
+            this.jh_xm_kt_name.Name = "jh_xm_kt_name";
+            // 
+            // jh_xm_kt_user
+            // 
+            this.jh_xm_kt_user.HeaderText = "文件责任者";
+            this.jh_xm_kt_user.Name = "jh_xm_kt_user";
+            // 
+            // jh_xm_kt_type
+            // 
+            this.jh_xm_kt_type.HeaderText = "文件类型";
+            this.jh_xm_kt_type.Name = "jh_xm_kt_type";
+            this.jh_xm_kt_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_xm_kt_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_xm_kt_secret
+            // 
+            this.jh_xm_kt_secret.HeaderText = "密级";
+            this.jh_xm_kt_secret.Name = "jh_xm_kt_secret";
+            this.jh_xm_kt_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_xm_kt_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_xm_kt_page
+            // 
+            this.jh_xm_kt_page.HeaderText = "页数";
+            this.jh_xm_kt_page.Name = "jh_xm_kt_page";
+            // 
+            // jh_xm_kt_amount
+            // 
+            this.jh_xm_kt_amount.HeaderText = "文件份数";
+            this.jh_xm_kt_amount.Name = "jh_xm_kt_amount";
+            // 
+            // jh_xm_kt_date
+            // 
+            this.jh_xm_kt_date.HeaderText = "形成日期";
+            this.jh_xm_kt_date.Name = "jh_xm_kt_date";
+            // 
+            // jh_xm_kt_unit
+            // 
+            this.jh_xm_kt_unit.HeaderText = "存放单位";
+            this.jh_xm_kt_unit.Name = "jh_xm_kt_unit";
+            // 
+            // jh_xm_kt_carrier
+            // 
+            this.jh_xm_kt_carrier.HeaderText = "载体";
+            this.jh_xm_kt_carrier.Name = "jh_xm_kt_carrier";
+            // 
+            // jh_xm_kt_format
+            // 
+            this.jh_xm_kt_format.HeaderText = "文件格式";
+            this.jh_xm_kt_format.Name = "jh_xm_kt_format";
+            // 
+            // jh_xm_kt_form
+            // 
+            this.jh_xm_kt_form.HeaderText = "文件形态";
+            this.jh_xm_kt_form.Name = "jh_xm_kt_form";
+            // 
+            // jh_xm_kt_link
+            // 
+            this.jh_xm_kt_link.HeaderText = "文件链接";
+            this.jh_xm_kt_link.Name = "jh_xm_kt_link";
+            this.jh_xm_kt_link.ReadOnly = true;
+            // 
+            // jh_xm_kt_remark
+            // 
+            this.jh_xm_kt_remark.HeaderText = "附注";
+            this.jh_xm_kt_remark.Name = "jh_xm_kt_remark";
+            // 
             // tabPage10
             // 
             this.tabPage10.Controls.Add(this.dgv_JH_XM_KT_FileValid);
@@ -3331,14 +3690,14 @@
             this.dgv_JH_XM_KT_FileValid.AllowUserToDeleteRows = false;
             this.dgv_JH_XM_KT_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_JH_XM_KT_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_XM_KT_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle28.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_XM_KT_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle28;
             this.dgv_JH_XM_KT_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_XM_KT_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_jh_xm_kt_id,
@@ -3726,9 +4085,9 @@
             // btn_JH_XM_KT_QTReason
             // 
             this.btn_JH_XM_KT_QTReason.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_JH_XM_KT_QTReason.Location = new System.Drawing.Point(94, 334);
+            this.btn_JH_XM_KT_QTReason.Location = new System.Drawing.Point(110, 334);
             this.btn_JH_XM_KT_QTReason.Name = "btn_JH_XM_KT_QTReason";
-            this.btn_JH_XM_KT_QTReason.Size = new System.Drawing.Size(82, 32);
+            this.btn_JH_XM_KT_QTReason.Size = new System.Drawing.Size(99, 32);
             this.btn_JH_XM_KT_QTReason.TabIndex = 74;
             this.btn_JH_XM_KT_QTReason.Text = "质检意见";
             this.btn_JH_XM_KT_QTReason.UseVisualStyleBackColor = true;
@@ -3740,7 +4099,7 @@
             this.btn_JH_XM_KT_AddFile.Font = new System.Drawing.Font("宋体", 11F);
             this.btn_JH_XM_KT_AddFile.Location = new System.Drawing.Point(6, 334);
             this.btn_JH_XM_KT_AddFile.Name = "btn_JH_XM_KT_AddFile";
-            this.btn_JH_XM_KT_AddFile.Size = new System.Drawing.Size(82, 32);
+            this.btn_JH_XM_KT_AddFile.Size = new System.Drawing.Size(99, 32);
             this.btn_JH_XM_KT_AddFile.TabIndex = 73;
             this.btn_JH_XM_KT_AddFile.Text = "新增文件";
             this.btn_JH_XM_KT_AddFile.UseVisualStyleBackColor = true;
@@ -4146,14 +4505,14 @@
             // dgv_JH_XM_KT_ZKT_FileList
             // 
             this.dgv_JH_XM_KT_ZKT_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle29.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle29.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle29.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle29.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle29.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle29;
             this.dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_XM_KT_ZKT_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.jh_xm_kt_zkt_id,
@@ -4183,6 +4542,95 @@
             this.dgv_JH_XM_KT_ZKT_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_JH_XM_KT_ZKT_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
+            // jh_xm_kt_zkt_id
+            // 
+            this.jh_xm_kt_zkt_id.HeaderText = "序号";
+            this.jh_xm_kt_zkt_id.Name = "jh_xm_kt_zkt_id";
+            this.jh_xm_kt_zkt_id.ReadOnly = true;
+            this.jh_xm_kt_zkt_id.Visible = false;
+            // 
+            // jh_xm_kt_zkt_stage
+            // 
+            this.jh_xm_kt_zkt_stage.HeaderText = "阶段";
+            this.jh_xm_kt_zkt_stage.Name = "jh_xm_kt_zkt_stage";
+            // 
+            // jh_xm_kt_zkt_categor
+            // 
+            this.jh_xm_kt_zkt_categor.HeaderText = "文件类别";
+            this.jh_xm_kt_zkt_categor.Name = "jh_xm_kt_zkt_categor";
+            this.jh_xm_kt_zkt_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_xm_kt_zkt_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_xm_kt_zkt_name
+            // 
+            this.jh_xm_kt_zkt_name.HeaderText = "文件名称";
+            this.jh_xm_kt_zkt_name.Name = "jh_xm_kt_zkt_name";
+            // 
+            // jh_xm_kt_zkt_user
+            // 
+            this.jh_xm_kt_zkt_user.HeaderText = "文件责任者";
+            this.jh_xm_kt_zkt_user.Name = "jh_xm_kt_zkt_user";
+            // 
+            // jh_xm_kt_zkt_type
+            // 
+            this.jh_xm_kt_zkt_type.HeaderText = "文件类型";
+            this.jh_xm_kt_zkt_type.Name = "jh_xm_kt_zkt_type";
+            this.jh_xm_kt_zkt_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_xm_kt_zkt_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_xm_kt_zkt_secret
+            // 
+            this.jh_xm_kt_zkt_secret.HeaderText = "密级";
+            this.jh_xm_kt_zkt_secret.Name = "jh_xm_kt_zkt_secret";
+            this.jh_xm_kt_zkt_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_xm_kt_zkt_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_xm_kt_zkt_page
+            // 
+            this.jh_xm_kt_zkt_page.HeaderText = "页数";
+            this.jh_xm_kt_zkt_page.Name = "jh_xm_kt_zkt_page";
+            // 
+            // jh_xm_kt_zkt_amount
+            // 
+            this.jh_xm_kt_zkt_amount.HeaderText = "文件份数";
+            this.jh_xm_kt_zkt_amount.Name = "jh_xm_kt_zkt_amount";
+            // 
+            // jh_xm_kt_zkt_date
+            // 
+            this.jh_xm_kt_zkt_date.HeaderText = "形成日期";
+            this.jh_xm_kt_zkt_date.Name = "jh_xm_kt_zkt_date";
+            // 
+            // jh_xm_kt_zkt_unit
+            // 
+            this.jh_xm_kt_zkt_unit.HeaderText = "存放单位";
+            this.jh_xm_kt_zkt_unit.Name = "jh_xm_kt_zkt_unit";
+            // 
+            // jh_xm_kt_zkt_carrier
+            // 
+            this.jh_xm_kt_zkt_carrier.HeaderText = "载体";
+            this.jh_xm_kt_zkt_carrier.Name = "jh_xm_kt_zkt_carrier";
+            // 
+            // jh_xm_kt_zkt_format
+            // 
+            this.jh_xm_kt_zkt_format.HeaderText = "文件格式";
+            this.jh_xm_kt_zkt_format.Name = "jh_xm_kt_zkt_format";
+            // 
+            // jh_xm_kt_zkt_form
+            // 
+            this.jh_xm_kt_zkt_form.HeaderText = "文件形态";
+            this.jh_xm_kt_zkt_form.Name = "jh_xm_kt_zkt_form";
+            // 
+            // jh_xm_kt_zkt_link
+            // 
+            this.jh_xm_kt_zkt_link.HeaderText = "文件链接";
+            this.jh_xm_kt_zkt_link.Name = "jh_xm_kt_zkt_link";
+            this.jh_xm_kt_zkt_link.ReadOnly = true;
+            // 
+            // jh_xm_kt_zkt_remark
+            // 
+            this.jh_xm_kt_zkt_remark.HeaderText = "附注";
+            this.jh_xm_kt_zkt_remark.Name = "jh_xm_kt_zkt_remark";
+            // 
             // tabPage17
             // 
             this.tabPage17.Controls.Add(this.dgv_JH_XM_KT_ZKT_FileValid);
@@ -4199,14 +4647,14 @@
             this.dgv_JH_XM_KT_ZKT_FileValid.AllowUserToDeleteRows = false;
             this.dgv_JH_XM_KT_ZKT_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_JH_XM_KT_ZKT_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_XM_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle30.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle30.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle30.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_XM_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle30;
             this.dgv_JH_XM_KT_ZKT_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_XM_KT_ZKT_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_jh_xm_kt_zkt_id,
@@ -4595,9 +5043,9 @@
             // btn_JH_XM_KT_ZKT_QTReason
             // 
             this.btn_JH_XM_KT_ZKT_QTReason.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_JH_XM_KT_ZKT_QTReason.Location = new System.Drawing.Point(94, 335);
+            this.btn_JH_XM_KT_ZKT_QTReason.Location = new System.Drawing.Point(110, 335);
             this.btn_JH_XM_KT_ZKT_QTReason.Name = "btn_JH_XM_KT_ZKT_QTReason";
-            this.btn_JH_XM_KT_ZKT_QTReason.Size = new System.Drawing.Size(82, 31);
+            this.btn_JH_XM_KT_ZKT_QTReason.Size = new System.Drawing.Size(99, 32);
             this.btn_JH_XM_KT_ZKT_QTReason.TabIndex = 72;
             this.btn_JH_XM_KT_ZKT_QTReason.Text = "质检意见";
             this.btn_JH_XM_KT_ZKT_QTReason.UseVisualStyleBackColor = true;
@@ -4609,7 +5057,7 @@
             this.btn_JH_XM_KT_ZKT_AddFile.Font = new System.Drawing.Font("宋体", 11F);
             this.btn_JH_XM_KT_ZKT_AddFile.Location = new System.Drawing.Point(6, 335);
             this.btn_JH_XM_KT_ZKT_AddFile.Name = "btn_JH_XM_KT_ZKT_AddFile";
-            this.btn_JH_XM_KT_ZKT_AddFile.Size = new System.Drawing.Size(82, 31);
+            this.btn_JH_XM_KT_ZKT_AddFile.Size = new System.Drawing.Size(99, 32);
             this.btn_JH_XM_KT_ZKT_AddFile.TabIndex = 71;
             this.btn_JH_XM_KT_ZKT_AddFile.Text = "新增文件";
             this.btn_JH_XM_KT_ZKT_AddFile.UseVisualStyleBackColor = true;
@@ -4989,14 +5437,14 @@
             // dgv_JH_KT_ZKT_FileList
             // 
             this.dgv_JH_KT_ZKT_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle31.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle31.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle31.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle31.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle31.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle31;
             this.dgv_JH_KT_ZKT_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_KT_ZKT_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.jh_kt_zkt_id,
@@ -5026,6 +5474,95 @@
             this.dgv_JH_KT_ZKT_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_JH_KT_ZKT_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
+            // jh_kt_zkt_id
+            // 
+            this.jh_kt_zkt_id.HeaderText = "序号";
+            this.jh_kt_zkt_id.Name = "jh_kt_zkt_id";
+            this.jh_kt_zkt_id.ReadOnly = true;
+            this.jh_kt_zkt_id.Visible = false;
+            // 
+            // jh_kt_zkt_stage
+            // 
+            this.jh_kt_zkt_stage.HeaderText = "阶段";
+            this.jh_kt_zkt_stage.Name = "jh_kt_zkt_stage";
+            // 
+            // jh_kt_zkt_categor
+            // 
+            this.jh_kt_zkt_categor.HeaderText = "文件类别";
+            this.jh_kt_zkt_categor.Name = "jh_kt_zkt_categor";
+            this.jh_kt_zkt_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_kt_zkt_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_kt_zkt_name
+            // 
+            this.jh_kt_zkt_name.HeaderText = "文件名称";
+            this.jh_kt_zkt_name.Name = "jh_kt_zkt_name";
+            // 
+            // jh_kt_zkt_user
+            // 
+            this.jh_kt_zkt_user.HeaderText = "文件责任者";
+            this.jh_kt_zkt_user.Name = "jh_kt_zkt_user";
+            // 
+            // jh_kt_zkt_type
+            // 
+            this.jh_kt_zkt_type.HeaderText = "文件类型";
+            this.jh_kt_zkt_type.Name = "jh_kt_zkt_type";
+            this.jh_kt_zkt_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_kt_zkt_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_kt_zkt_secret
+            // 
+            this.jh_kt_zkt_secret.HeaderText = "密级";
+            this.jh_kt_zkt_secret.Name = "jh_kt_zkt_secret";
+            this.jh_kt_zkt_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.jh_kt_zkt_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // jh_kt_zkt_page
+            // 
+            this.jh_kt_zkt_page.HeaderText = "页数";
+            this.jh_kt_zkt_page.Name = "jh_kt_zkt_page";
+            // 
+            // jh_kt_zkt_amount
+            // 
+            this.jh_kt_zkt_amount.HeaderText = "文件份数";
+            this.jh_kt_zkt_amount.Name = "jh_kt_zkt_amount";
+            // 
+            // jh_kt_zkt_date
+            // 
+            this.jh_kt_zkt_date.HeaderText = "形成日期";
+            this.jh_kt_zkt_date.Name = "jh_kt_zkt_date";
+            // 
+            // jh_kt_zkt_unit
+            // 
+            this.jh_kt_zkt_unit.HeaderText = "存放单位";
+            this.jh_kt_zkt_unit.Name = "jh_kt_zkt_unit";
+            // 
+            // jh_kt_zkt_carrier
+            // 
+            this.jh_kt_zkt_carrier.HeaderText = "载体";
+            this.jh_kt_zkt_carrier.Name = "jh_kt_zkt_carrier";
+            // 
+            // jh_kt_zkt_format
+            // 
+            this.jh_kt_zkt_format.HeaderText = "文件格式";
+            this.jh_kt_zkt_format.Name = "jh_kt_zkt_format";
+            // 
+            // jh_kt_zkt_form
+            // 
+            this.jh_kt_zkt_form.HeaderText = "文件形态";
+            this.jh_kt_zkt_form.Name = "jh_kt_zkt_form";
+            // 
+            // jh_kt_zkt_link
+            // 
+            this.jh_kt_zkt_link.HeaderText = "文件链接";
+            this.jh_kt_zkt_link.Name = "jh_kt_zkt_link";
+            this.jh_kt_zkt_link.ReadOnly = true;
+            // 
+            // jh_kt_zkt_remark
+            // 
+            this.jh_kt_zkt_remark.HeaderText = "附注";
+            this.jh_kt_zkt_remark.Name = "jh_kt_zkt_remark";
+            // 
             // tabPage14
             // 
             this.tabPage14.Controls.Add(this.dgv_JH_KT_ZKT_FileValid);
@@ -5042,14 +5579,14 @@
             this.dgv_JH_KT_ZKT_FileValid.AllowUserToDeleteRows = false;
             this.dgv_JH_KT_ZKT_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_JH_KT_ZKT_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle32.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle32.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle32.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_JH_KT_ZKT_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
             this.dgv_JH_KT_ZKT_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_JH_KT_ZKT_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_jh_kt_zkt_id,
@@ -5436,9 +5973,9 @@
             // 
             // btn_JH_KT_ZKT_QTReason
             // 
-            this.btn_JH_KT_ZKT_QTReason.Location = new System.Drawing.Point(94, 334);
+            this.btn_JH_KT_ZKT_QTReason.Location = new System.Drawing.Point(110, 334);
             this.btn_JH_KT_ZKT_QTReason.Name = "btn_JH_KT_ZKT_QTReason";
-            this.btn_JH_KT_ZKT_QTReason.Size = new System.Drawing.Size(82, 32);
+            this.btn_JH_KT_ZKT_QTReason.Size = new System.Drawing.Size(99, 32);
             this.btn_JH_KT_ZKT_QTReason.TabIndex = 72;
             this.btn_JH_KT_ZKT_QTReason.Text = "质检意见";
             this.btn_JH_KT_ZKT_QTReason.UseVisualStyleBackColor = true;
@@ -5450,7 +5987,7 @@
             this.btn_JH_KT_ZKT_AddFile.Font = new System.Drawing.Font("宋体", 11F);
             this.btn_JH_KT_ZKT_AddFile.Location = new System.Drawing.Point(6, 334);
             this.btn_JH_KT_ZKT_AddFile.Name = "btn_JH_KT_ZKT_AddFile";
-            this.btn_JH_KT_ZKT_AddFile.Size = new System.Drawing.Size(82, 32);
+            this.btn_JH_KT_ZKT_AddFile.Size = new System.Drawing.Size(99, 32);
             this.btn_JH_KT_ZKT_AddFile.TabIndex = 71;
             this.btn_JH_KT_ZKT_AddFile.Text = "新增文件";
             this.btn_JH_KT_ZKT_AddFile.UseVisualStyleBackColor = true;
@@ -5830,14 +6367,14 @@
             // dgv_Imp_FileList
             // 
             this.dgv_Imp_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle33.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle33.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle33.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle33.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle33.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle33;
             this.dgv_Imp_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.imp_id,
@@ -5972,14 +6509,14 @@
             this.dgv_Imp_FileValid.AllowUserToDeleteRows = false;
             this.dgv_Imp_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Imp_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle34.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle34.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle34.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle34.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle34.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle34;
             this.dgv_Imp_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_imp_id,
@@ -6367,9 +6904,9 @@
             // btn_Imp_QTReason
             // 
             this.btn_Imp_QTReason.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_Imp_QTReason.Location = new System.Drawing.Point(94, 334);
+            this.btn_Imp_QTReason.Location = new System.Drawing.Point(109, 334);
             this.btn_Imp_QTReason.Name = "btn_Imp_QTReason";
-            this.btn_Imp_QTReason.Size = new System.Drawing.Size(82, 32);
+            this.btn_Imp_QTReason.Size = new System.Drawing.Size(99, 32);
             this.btn_Imp_QTReason.TabIndex = 73;
             this.btn_Imp_QTReason.Text = "质检意见";
             this.btn_Imp_QTReason.UseVisualStyleBackColor = true;
@@ -6381,7 +6918,7 @@
             this.btn_Imp_AddFile.Font = new System.Drawing.Font("宋体", 11F);
             this.btn_Imp_AddFile.Location = new System.Drawing.Point(6, 334);
             this.btn_Imp_AddFile.Name = "btn_Imp_AddFile";
-            this.btn_Imp_AddFile.Size = new System.Drawing.Size(82, 32);
+            this.btn_Imp_AddFile.Size = new System.Drawing.Size(99, 32);
             this.btn_Imp_AddFile.TabIndex = 72;
             this.btn_Imp_AddFile.Text = "新增文件";
             this.btn_Imp_AddFile.UseVisualStyleBackColor = true;
@@ -6524,14 +7061,14 @@
             // dgv_Imp_Dev_FileList
             // 
             this.dgv_Imp_Dev_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Imp_Dev_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle35.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle35.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle35.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle35.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle35.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle35.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Imp_Dev_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle35;
             this.dgv_Imp_Dev_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp_Dev_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.imp_dev_id,
@@ -6561,6 +7098,95 @@
             this.dgv_Imp_Dev_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Imp_Dev_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
+            // imp_dev_id
+            // 
+            this.imp_dev_id.HeaderText = "序号";
+            this.imp_dev_id.Name = "imp_dev_id";
+            this.imp_dev_id.ReadOnly = true;
+            this.imp_dev_id.Visible = false;
+            // 
+            // imp_dev_stage
+            // 
+            this.imp_dev_stage.HeaderText = "阶段";
+            this.imp_dev_stage.Name = "imp_dev_stage";
+            // 
+            // imp_dev_categor
+            // 
+            this.imp_dev_categor.HeaderText = "文件类别";
+            this.imp_dev_categor.Name = "imp_dev_categor";
+            this.imp_dev_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.imp_dev_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // imp_dev_name
+            // 
+            this.imp_dev_name.HeaderText = "文件名称";
+            this.imp_dev_name.Name = "imp_dev_name";
+            // 
+            // imp_dev_user
+            // 
+            this.imp_dev_user.HeaderText = "文件责任者";
+            this.imp_dev_user.Name = "imp_dev_user";
+            // 
+            // imp_dev_type
+            // 
+            this.imp_dev_type.HeaderText = "文件类型";
+            this.imp_dev_type.Name = "imp_dev_type";
+            this.imp_dev_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.imp_dev_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // imp_dev_secret
+            // 
+            this.imp_dev_secret.HeaderText = "密级";
+            this.imp_dev_secret.Name = "imp_dev_secret";
+            this.imp_dev_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.imp_dev_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // imp_dev_page
+            // 
+            this.imp_dev_page.HeaderText = "页数";
+            this.imp_dev_page.Name = "imp_dev_page";
+            // 
+            // imp_dev_amount
+            // 
+            this.imp_dev_amount.HeaderText = "文件份数";
+            this.imp_dev_amount.Name = "imp_dev_amount";
+            // 
+            // imp_dev_date
+            // 
+            this.imp_dev_date.HeaderText = "形成日期";
+            this.imp_dev_date.Name = "imp_dev_date";
+            // 
+            // imp_dev_unit
+            // 
+            this.imp_dev_unit.HeaderText = "存放单位";
+            this.imp_dev_unit.Name = "imp_dev_unit";
+            // 
+            // imp_dev_carrier
+            // 
+            this.imp_dev_carrier.HeaderText = "载体";
+            this.imp_dev_carrier.Name = "imp_dev_carrier";
+            // 
+            // imp_dev_format
+            // 
+            this.imp_dev_format.HeaderText = "文件格式";
+            this.imp_dev_format.Name = "imp_dev_format";
+            // 
+            // imp_dev_form
+            // 
+            this.imp_dev_form.HeaderText = "文件形态";
+            this.imp_dev_form.Name = "imp_dev_form";
+            // 
+            // imp_dev_link
+            // 
+            this.imp_dev_link.HeaderText = "文件链接";
+            this.imp_dev_link.Name = "imp_dev_link";
+            this.imp_dev_link.ReadOnly = true;
+            // 
+            // imp_dev_remark
+            // 
+            this.imp_dev_remark.HeaderText = "附注";
+            this.imp_dev_remark.Name = "imp_dev_remark";
+            // 
             // tabPage26
             // 
             this.tabPage26.Controls.Add(this.dgv_Imp_Dev_FileValid);
@@ -6576,14 +7202,14 @@
             this.dgv_Imp_Dev_FileValid.AllowUserToAddRows = false;
             this.dgv_Imp_Dev_FileValid.AllowUserToDeleteRows = false;
             this.dgv_Imp_Dev_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Imp_Dev_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle36.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle36.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle36.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle36.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle36.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Imp_Dev_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle36;
             this.dgv_Imp_Dev_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp_Dev_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_imp_dev_id,
@@ -6971,9 +7597,9 @@
             // btn_Imp_Dev_QTReason
             // 
             this.btn_Imp_Dev_QTReason.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_Imp_Dev_QTReason.Location = new System.Drawing.Point(97, 337);
+            this.btn_Imp_Dev_QTReason.Location = new System.Drawing.Point(109, 337);
             this.btn_Imp_Dev_QTReason.Name = "btn_Imp_Dev_QTReason";
-            this.btn_Imp_Dev_QTReason.Size = new System.Drawing.Size(82, 32);
+            this.btn_Imp_Dev_QTReason.Size = new System.Drawing.Size(99, 32);
             this.btn_Imp_Dev_QTReason.TabIndex = 73;
             this.btn_Imp_Dev_QTReason.Text = "质检意见";
             this.btn_Imp_Dev_QTReason.UseVisualStyleBackColor = true;
@@ -6983,9 +7609,9 @@
             // btn_Imp_Dev_AddFile
             // 
             this.btn_Imp_Dev_AddFile.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_Imp_Dev_AddFile.Location = new System.Drawing.Point(9, 337);
+            this.btn_Imp_Dev_AddFile.Location = new System.Drawing.Point(5, 337);
             this.btn_Imp_Dev_AddFile.Name = "btn_Imp_Dev_AddFile";
-            this.btn_Imp_Dev_AddFile.Size = new System.Drawing.Size(82, 32);
+            this.btn_Imp_Dev_AddFile.Size = new System.Drawing.Size(99, 32);
             this.btn_Imp_Dev_AddFile.TabIndex = 72;
             this.btn_Imp_Dev_AddFile.Text = "新增文件";
             this.btn_Imp_Dev_AddFile.UseVisualStyleBackColor = true;
@@ -7150,632 +7776,6 @@
             this.toolStripMenuItem2.Size = new System.Drawing.Size(141, 22);
             this.toolStripMenuItem2.Text = "删除文件(&D)";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
-            // 
-            // id
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.id.DefaultCellStyle = dataGridViewCellStyle2;
-            this.id.HeaderText = "序号";
-            this.id.Name = "id";
-            this.id.Visible = false;
-            // 
-            // stage
-            // 
-            this.stage.HeaderText = "阶段";
-            this.stage.Name = "stage";
-            // 
-            // categor
-            // 
-            this.categor.HeaderText = "文件类别";
-            this.categor.Name = "categor";
-            this.categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // name
-            // 
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.name.DefaultCellStyle = dataGridViewCellStyle3;
-            this.name.HeaderText = "文件名称";
-            this.name.Name = "name";
-            // 
-            // user
-            // 
-            this.user.HeaderText = "文件责任者";
-            this.user.Name = "user";
-            // 
-            // type
-            // 
-            this.type.HeaderText = "文件类型";
-            this.type.Name = "type";
-            this.type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // secret
-            // 
-            this.secret.HeaderText = "密级";
-            this.secret.Name = "secret";
-            this.secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // page
-            // 
-            this.page.HeaderText = "页数";
-            this.page.Name = "page";
-            // 
-            // amount
-            // 
-            this.amount.HeaderText = "文件份数";
-            this.amount.Name = "amount";
-            // 
-            // date
-            // 
-            this.date.HeaderText = "形成日期";
-            this.date.Name = "date";
-            // 
-            // unit
-            // 
-            this.unit.HeaderText = "存放单位";
-            this.unit.Name = "unit";
-            // 
-            // carrier
-            // 
-            this.carrier.HeaderText = "载体";
-            this.carrier.Name = "carrier";
-            // 
-            // format
-            // 
-            this.format.HeaderText = "文件格式";
-            this.format.Name = "format";
-            // 
-            // form
-            // 
-            this.form.HeaderText = "文件形态";
-            this.form.Name = "form";
-            // 
-            // link
-            // 
-            this.link.HeaderText = "文件链接";
-            this.link.Name = "link";
-            this.link.ReadOnly = true;
-            // 
-            // remark
-            // 
-            this.remark.HeaderText = "附注";
-            this.remark.Name = "remark";
-            // 
-            // jh_xm_id
-            // 
-            this.jh_xm_id.HeaderText = "序号";
-            this.jh_xm_id.Name = "jh_xm_id";
-            this.jh_xm_id.ReadOnly = true;
-            this.jh_xm_id.Visible = false;
-            // 
-            // jh_xm_stage
-            // 
-            this.jh_xm_stage.HeaderText = "阶段";
-            this.jh_xm_stage.Name = "jh_xm_stage";
-            // 
-            // jh_xm_categor
-            // 
-            this.jh_xm_categor.HeaderText = "文件类别";
-            this.jh_xm_categor.Name = "jh_xm_categor";
-            this.jh_xm_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_xm_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_xm_name
-            // 
-            this.jh_xm_name.HeaderText = "文件名称";
-            this.jh_xm_name.Name = "jh_xm_name";
-            // 
-            // jh_xm_user
-            // 
-            this.jh_xm_user.HeaderText = "文件责任者";
-            this.jh_xm_user.Name = "jh_xm_user";
-            // 
-            // jh_xm_type
-            // 
-            this.jh_xm_type.HeaderText = "文件类型";
-            this.jh_xm_type.Name = "jh_xm_type";
-            this.jh_xm_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_xm_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_xm_secret
-            // 
-            this.jh_xm_secret.HeaderText = "密级";
-            this.jh_xm_secret.Name = "jh_xm_secret";
-            this.jh_xm_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_xm_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_xm_page
-            // 
-            this.jh_xm_page.HeaderText = "页数";
-            this.jh_xm_page.Name = "jh_xm_page";
-            // 
-            // jh_xm_amount
-            // 
-            this.jh_xm_amount.HeaderText = "文件份数";
-            this.jh_xm_amount.Name = "jh_xm_amount";
-            // 
-            // jh_xm_date
-            // 
-            this.jh_xm_date.HeaderText = "形成日期";
-            this.jh_xm_date.Name = "jh_xm_date";
-            // 
-            // jh_xm_unit
-            // 
-            this.jh_xm_unit.HeaderText = "存放单位";
-            this.jh_xm_unit.Name = "jh_xm_unit";
-            // 
-            // jh_xm_carrier
-            // 
-            this.jh_xm_carrier.HeaderText = "载体";
-            this.jh_xm_carrier.Name = "jh_xm_carrier";
-            // 
-            // jh_xm_format
-            // 
-            this.jh_xm_format.HeaderText = "文件格式";
-            this.jh_xm_format.Name = "jh_xm_format";
-            // 
-            // jh_xm_form
-            // 
-            this.jh_xm_form.HeaderText = "文件形态";
-            this.jh_xm_form.Name = "jh_xm_form";
-            // 
-            // jh_xm_link
-            // 
-            this.jh_xm_link.HeaderText = "文件链接";
-            this.jh_xm_link.Name = "jh_xm_link";
-            this.jh_xm_link.ReadOnly = true;
-            // 
-            // jh_xm_remark
-            // 
-            this.jh_xm_remark.HeaderText = "附注";
-            this.jh_xm_remark.Name = "jh_xm_remark";
-            // 
-            // jh_kt_id
-            // 
-            this.jh_kt_id.HeaderText = "序号";
-            this.jh_kt_id.Name = "jh_kt_id";
-            this.jh_kt_id.ReadOnly = true;
-            this.jh_kt_id.Visible = false;
-            // 
-            // jh_kt_stage
-            // 
-            this.jh_kt_stage.HeaderText = "阶段";
-            this.jh_kt_stage.Name = "jh_kt_stage";
-            // 
-            // jh_kt_categor
-            // 
-            this.jh_kt_categor.HeaderText = "文件类别";
-            this.jh_kt_categor.Name = "jh_kt_categor";
-            this.jh_kt_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_kt_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_kt_name
-            // 
-            this.jh_kt_name.HeaderText = "文件名称";
-            this.jh_kt_name.Name = "jh_kt_name";
-            // 
-            // jh_kt_user
-            // 
-            this.jh_kt_user.HeaderText = "文件责任者";
-            this.jh_kt_user.Name = "jh_kt_user";
-            // 
-            // jh_kt_type
-            // 
-            this.jh_kt_type.HeaderText = "文件类型";
-            this.jh_kt_type.Name = "jh_kt_type";
-            this.jh_kt_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_kt_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_kt_secret
-            // 
-            this.jh_kt_secret.HeaderText = "密级";
-            this.jh_kt_secret.Name = "jh_kt_secret";
-            this.jh_kt_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_kt_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_kt_page
-            // 
-            this.jh_kt_page.HeaderText = "页数";
-            this.jh_kt_page.Name = "jh_kt_page";
-            // 
-            // jh_kt_amount
-            // 
-            this.jh_kt_amount.HeaderText = "文件份数";
-            this.jh_kt_amount.Name = "jh_kt_amount";
-            // 
-            // jh_kt_date
-            // 
-            this.jh_kt_date.HeaderText = "形成日期";
-            this.jh_kt_date.Name = "jh_kt_date";
-            // 
-            // jh_kt_unit
-            // 
-            this.jh_kt_unit.HeaderText = "存放单位";
-            this.jh_kt_unit.Name = "jh_kt_unit";
-            // 
-            // jh_kt_carrier
-            // 
-            this.jh_kt_carrier.HeaderText = "载体";
-            this.jh_kt_carrier.Name = "jh_kt_carrier";
-            // 
-            // jh_kt_format
-            // 
-            this.jh_kt_format.HeaderText = "文件格式";
-            this.jh_kt_format.Name = "jh_kt_format";
-            // 
-            // jh_kt_form
-            // 
-            this.jh_kt_form.HeaderText = "文件形态";
-            this.jh_kt_form.Name = "jh_kt_form";
-            // 
-            // jh_kt_link
-            // 
-            this.jh_kt_link.HeaderText = "文件链接";
-            this.jh_kt_link.Name = "jh_kt_link";
-            this.jh_kt_link.ReadOnly = true;
-            // 
-            // jh_kt_remark
-            // 
-            this.jh_kt_remark.HeaderText = "附注";
-            this.jh_kt_remark.Name = "jh_kt_remark";
-            // 
-            // jh_xm_kt_id
-            // 
-            this.jh_xm_kt_id.HeaderText = "序号";
-            this.jh_xm_kt_id.Name = "jh_xm_kt_id";
-            this.jh_xm_kt_id.ReadOnly = true;
-            this.jh_xm_kt_id.Visible = false;
-            // 
-            // jh_xm_kt_stage
-            // 
-            this.jh_xm_kt_stage.HeaderText = "阶段";
-            this.jh_xm_kt_stage.Name = "jh_xm_kt_stage";
-            // 
-            // jh_xm_kt_categor
-            // 
-            this.jh_xm_kt_categor.HeaderText = "文件类别";
-            this.jh_xm_kt_categor.Name = "jh_xm_kt_categor";
-            this.jh_xm_kt_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_xm_kt_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_xm_kt_name
-            // 
-            this.jh_xm_kt_name.HeaderText = "文件名称";
-            this.jh_xm_kt_name.Name = "jh_xm_kt_name";
-            // 
-            // jh_xm_kt_user
-            // 
-            this.jh_xm_kt_user.HeaderText = "文件责任者";
-            this.jh_xm_kt_user.Name = "jh_xm_kt_user";
-            // 
-            // jh_xm_kt_type
-            // 
-            this.jh_xm_kt_type.HeaderText = "文件类型";
-            this.jh_xm_kt_type.Name = "jh_xm_kt_type";
-            this.jh_xm_kt_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_xm_kt_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_xm_kt_secret
-            // 
-            this.jh_xm_kt_secret.HeaderText = "密级";
-            this.jh_xm_kt_secret.Name = "jh_xm_kt_secret";
-            this.jh_xm_kt_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_xm_kt_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_xm_kt_page
-            // 
-            this.jh_xm_kt_page.HeaderText = "页数";
-            this.jh_xm_kt_page.Name = "jh_xm_kt_page";
-            // 
-            // jh_xm_kt_amount
-            // 
-            this.jh_xm_kt_amount.HeaderText = "文件份数";
-            this.jh_xm_kt_amount.Name = "jh_xm_kt_amount";
-            // 
-            // jh_xm_kt_date
-            // 
-            this.jh_xm_kt_date.HeaderText = "形成日期";
-            this.jh_xm_kt_date.Name = "jh_xm_kt_date";
-            // 
-            // jh_xm_kt_unit
-            // 
-            this.jh_xm_kt_unit.HeaderText = "存放单位";
-            this.jh_xm_kt_unit.Name = "jh_xm_kt_unit";
-            // 
-            // jh_xm_kt_carrier
-            // 
-            this.jh_xm_kt_carrier.HeaderText = "载体";
-            this.jh_xm_kt_carrier.Name = "jh_xm_kt_carrier";
-            // 
-            // jh_xm_kt_format
-            // 
-            this.jh_xm_kt_format.HeaderText = "文件格式";
-            this.jh_xm_kt_format.Name = "jh_xm_kt_format";
-            // 
-            // jh_xm_kt_form
-            // 
-            this.jh_xm_kt_form.HeaderText = "文件形态";
-            this.jh_xm_kt_form.Name = "jh_xm_kt_form";
-            // 
-            // jh_xm_kt_link
-            // 
-            this.jh_xm_kt_link.HeaderText = "文件链接";
-            this.jh_xm_kt_link.Name = "jh_xm_kt_link";
-            this.jh_xm_kt_link.ReadOnly = true;
-            // 
-            // jh_xm_kt_remark
-            // 
-            this.jh_xm_kt_remark.HeaderText = "附注";
-            this.jh_xm_kt_remark.Name = "jh_xm_kt_remark";
-            // 
-            // jh_xm_kt_zkt_id
-            // 
-            this.jh_xm_kt_zkt_id.HeaderText = "序号";
-            this.jh_xm_kt_zkt_id.Name = "jh_xm_kt_zkt_id";
-            this.jh_xm_kt_zkt_id.ReadOnly = true;
-            this.jh_xm_kt_zkt_id.Visible = false;
-            // 
-            // jh_xm_kt_zkt_stage
-            // 
-            this.jh_xm_kt_zkt_stage.HeaderText = "阶段";
-            this.jh_xm_kt_zkt_stage.Name = "jh_xm_kt_zkt_stage";
-            // 
-            // jh_xm_kt_zkt_categor
-            // 
-            this.jh_xm_kt_zkt_categor.HeaderText = "文件类别";
-            this.jh_xm_kt_zkt_categor.Name = "jh_xm_kt_zkt_categor";
-            this.jh_xm_kt_zkt_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_xm_kt_zkt_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_xm_kt_zkt_name
-            // 
-            this.jh_xm_kt_zkt_name.HeaderText = "文件名称";
-            this.jh_xm_kt_zkt_name.Name = "jh_xm_kt_zkt_name";
-            // 
-            // jh_xm_kt_zkt_user
-            // 
-            this.jh_xm_kt_zkt_user.HeaderText = "文件责任者";
-            this.jh_xm_kt_zkt_user.Name = "jh_xm_kt_zkt_user";
-            // 
-            // jh_xm_kt_zkt_type
-            // 
-            this.jh_xm_kt_zkt_type.HeaderText = "文件类型";
-            this.jh_xm_kt_zkt_type.Name = "jh_xm_kt_zkt_type";
-            this.jh_xm_kt_zkt_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_xm_kt_zkt_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_xm_kt_zkt_secret
-            // 
-            this.jh_xm_kt_zkt_secret.HeaderText = "密级";
-            this.jh_xm_kt_zkt_secret.Name = "jh_xm_kt_zkt_secret";
-            this.jh_xm_kt_zkt_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_xm_kt_zkt_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_xm_kt_zkt_page
-            // 
-            this.jh_xm_kt_zkt_page.HeaderText = "页数";
-            this.jh_xm_kt_zkt_page.Name = "jh_xm_kt_zkt_page";
-            // 
-            // jh_xm_kt_zkt_amount
-            // 
-            this.jh_xm_kt_zkt_amount.HeaderText = "文件份数";
-            this.jh_xm_kt_zkt_amount.Name = "jh_xm_kt_zkt_amount";
-            // 
-            // jh_xm_kt_zkt_date
-            // 
-            this.jh_xm_kt_zkt_date.HeaderText = "形成日期";
-            this.jh_xm_kt_zkt_date.Name = "jh_xm_kt_zkt_date";
-            // 
-            // jh_xm_kt_zkt_unit
-            // 
-            this.jh_xm_kt_zkt_unit.HeaderText = "存放单位";
-            this.jh_xm_kt_zkt_unit.Name = "jh_xm_kt_zkt_unit";
-            // 
-            // jh_xm_kt_zkt_carrier
-            // 
-            this.jh_xm_kt_zkt_carrier.HeaderText = "载体";
-            this.jh_xm_kt_zkt_carrier.Name = "jh_xm_kt_zkt_carrier";
-            // 
-            // jh_xm_kt_zkt_format
-            // 
-            this.jh_xm_kt_zkt_format.HeaderText = "文件格式";
-            this.jh_xm_kt_zkt_format.Name = "jh_xm_kt_zkt_format";
-            // 
-            // jh_xm_kt_zkt_form
-            // 
-            this.jh_xm_kt_zkt_form.HeaderText = "文件形态";
-            this.jh_xm_kt_zkt_form.Name = "jh_xm_kt_zkt_form";
-            // 
-            // jh_xm_kt_zkt_link
-            // 
-            this.jh_xm_kt_zkt_link.HeaderText = "文件链接";
-            this.jh_xm_kt_zkt_link.Name = "jh_xm_kt_zkt_link";
-            this.jh_xm_kt_zkt_link.ReadOnly = true;
-            // 
-            // jh_xm_kt_zkt_remark
-            // 
-            this.jh_xm_kt_zkt_remark.HeaderText = "附注";
-            this.jh_xm_kt_zkt_remark.Name = "jh_xm_kt_zkt_remark";
-            // 
-            // jh_kt_zkt_id
-            // 
-            this.jh_kt_zkt_id.HeaderText = "序号";
-            this.jh_kt_zkt_id.Name = "jh_kt_zkt_id";
-            this.jh_kt_zkt_id.ReadOnly = true;
-            this.jh_kt_zkt_id.Visible = false;
-            // 
-            // jh_kt_zkt_stage
-            // 
-            this.jh_kt_zkt_stage.HeaderText = "阶段";
-            this.jh_kt_zkt_stage.Name = "jh_kt_zkt_stage";
-            // 
-            // jh_kt_zkt_categor
-            // 
-            this.jh_kt_zkt_categor.HeaderText = "文件类别";
-            this.jh_kt_zkt_categor.Name = "jh_kt_zkt_categor";
-            this.jh_kt_zkt_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_kt_zkt_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_kt_zkt_name
-            // 
-            this.jh_kt_zkt_name.HeaderText = "文件名称";
-            this.jh_kt_zkt_name.Name = "jh_kt_zkt_name";
-            // 
-            // jh_kt_zkt_user
-            // 
-            this.jh_kt_zkt_user.HeaderText = "文件责任者";
-            this.jh_kt_zkt_user.Name = "jh_kt_zkt_user";
-            // 
-            // jh_kt_zkt_type
-            // 
-            this.jh_kt_zkt_type.HeaderText = "文件类型";
-            this.jh_kt_zkt_type.Name = "jh_kt_zkt_type";
-            this.jh_kt_zkt_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_kt_zkt_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_kt_zkt_secret
-            // 
-            this.jh_kt_zkt_secret.HeaderText = "密级";
-            this.jh_kt_zkt_secret.Name = "jh_kt_zkt_secret";
-            this.jh_kt_zkt_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.jh_kt_zkt_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // jh_kt_zkt_page
-            // 
-            this.jh_kt_zkt_page.HeaderText = "页数";
-            this.jh_kt_zkt_page.Name = "jh_kt_zkt_page";
-            // 
-            // jh_kt_zkt_amount
-            // 
-            this.jh_kt_zkt_amount.HeaderText = "文件份数";
-            this.jh_kt_zkt_amount.Name = "jh_kt_zkt_amount";
-            // 
-            // jh_kt_zkt_date
-            // 
-            this.jh_kt_zkt_date.HeaderText = "形成日期";
-            this.jh_kt_zkt_date.Name = "jh_kt_zkt_date";
-            // 
-            // jh_kt_zkt_unit
-            // 
-            this.jh_kt_zkt_unit.HeaderText = "存放单位";
-            this.jh_kt_zkt_unit.Name = "jh_kt_zkt_unit";
-            // 
-            // jh_kt_zkt_carrier
-            // 
-            this.jh_kt_zkt_carrier.HeaderText = "载体";
-            this.jh_kt_zkt_carrier.Name = "jh_kt_zkt_carrier";
-            // 
-            // jh_kt_zkt_format
-            // 
-            this.jh_kt_zkt_format.HeaderText = "文件格式";
-            this.jh_kt_zkt_format.Name = "jh_kt_zkt_format";
-            // 
-            // jh_kt_zkt_form
-            // 
-            this.jh_kt_zkt_form.HeaderText = "文件形态";
-            this.jh_kt_zkt_form.Name = "jh_kt_zkt_form";
-            // 
-            // jh_kt_zkt_link
-            // 
-            this.jh_kt_zkt_link.HeaderText = "文件链接";
-            this.jh_kt_zkt_link.Name = "jh_kt_zkt_link";
-            this.jh_kt_zkt_link.ReadOnly = true;
-            // 
-            // jh_kt_zkt_remark
-            // 
-            this.jh_kt_zkt_remark.HeaderText = "附注";
-            this.jh_kt_zkt_remark.Name = "jh_kt_zkt_remark";
-            // 
-            // imp_dev_id
-            // 
-            this.imp_dev_id.HeaderText = "序号";
-            this.imp_dev_id.Name = "imp_dev_id";
-            this.imp_dev_id.ReadOnly = true;
-            this.imp_dev_id.Visible = false;
-            // 
-            // imp_dev_stage
-            // 
-            this.imp_dev_stage.HeaderText = "阶段";
-            this.imp_dev_stage.Name = "imp_dev_stage";
-            // 
-            // imp_dev_categor
-            // 
-            this.imp_dev_categor.HeaderText = "文件类别";
-            this.imp_dev_categor.Name = "imp_dev_categor";
-            this.imp_dev_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.imp_dev_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // imp_dev_name
-            // 
-            this.imp_dev_name.HeaderText = "文件名称";
-            this.imp_dev_name.Name = "imp_dev_name";
-            // 
-            // imp_dev_user
-            // 
-            this.imp_dev_user.HeaderText = "文件责任者";
-            this.imp_dev_user.Name = "imp_dev_user";
-            // 
-            // imp_dev_type
-            // 
-            this.imp_dev_type.HeaderText = "文件类型";
-            this.imp_dev_type.Name = "imp_dev_type";
-            this.imp_dev_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.imp_dev_type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // imp_dev_secret
-            // 
-            this.imp_dev_secret.HeaderText = "密级";
-            this.imp_dev_secret.Name = "imp_dev_secret";
-            this.imp_dev_secret.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.imp_dev_secret.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // imp_dev_page
-            // 
-            this.imp_dev_page.HeaderText = "页数";
-            this.imp_dev_page.Name = "imp_dev_page";
-            // 
-            // imp_dev_amount
-            // 
-            this.imp_dev_amount.HeaderText = "文件份数";
-            this.imp_dev_amount.Name = "imp_dev_amount";
-            // 
-            // imp_dev_date
-            // 
-            this.imp_dev_date.HeaderText = "形成日期";
-            this.imp_dev_date.Name = "imp_dev_date";
-            // 
-            // imp_dev_unit
-            // 
-            this.imp_dev_unit.HeaderText = "存放单位";
-            this.imp_dev_unit.Name = "imp_dev_unit";
-            // 
-            // imp_dev_carrier
-            // 
-            this.imp_dev_carrier.HeaderText = "载体";
-            this.imp_dev_carrier.Name = "imp_dev_carrier";
-            // 
-            // imp_dev_format
-            // 
-            this.imp_dev_format.HeaderText = "文件格式";
-            this.imp_dev_format.Name = "imp_dev_format";
-            // 
-            // imp_dev_form
-            // 
-            this.imp_dev_form.HeaderText = "文件形态";
-            this.imp_dev_form.Name = "imp_dev_form";
-            // 
-            // imp_dev_link
-            // 
-            this.imp_dev_link.HeaderText = "文件链接";
-            this.imp_dev_link.Name = "imp_dev_link";
-            this.imp_dev_link.ReadOnly = true;
-            // 
-            // imp_dev_remark
-            // 
-            this.imp_dev_remark.HeaderText = "附注";
-            this.imp_dev_remark.Name = "imp_dev_remark";
             // 
             // Frm_MyWork
             // 

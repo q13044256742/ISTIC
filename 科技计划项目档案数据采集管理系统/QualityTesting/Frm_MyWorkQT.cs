@@ -2027,7 +2027,7 @@ namespace 科技计划项目档案数据采集管理系统
                 //重大专项
                 if(type == ControlType.Imp)
                 {
-                    object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name FROM imp_info WHERE imp_id='{planId}'");
+                    object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name, imp_submit_status FROM imp_info WHERE imp_id='{planId}'");
                     treeNode = new TreeNode()
                     {
                         Name = GetValue(_obj[0]),
@@ -2062,8 +2062,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         Name = GetValue(row["imp_id"]),
                         Text = GetValue(row["imp_code"]),
-                        Tag = ControlType.Imp_Sub,
-                        ForeColor = 2.Equals(row["imp_submit_status"]) ? Color.Black : DisEnableColor
+                        Tag = ControlType.Imp_Sub
                     };
                     treeNode.Nodes.Add(treeNode2);
                 }
@@ -2085,7 +2084,7 @@ namespace 科技计划项目档案数据采集管理系统
                         treeNode = new TreeNode()
                         {
                             Name = GetValue(obj2[0]),
-                            Text = GetValue(obj2[1]),
+                            Text = GetValue(obj2[2]),
                             Tag = ControlType.Imp,
                             ForeColor = DisEnableColor
                         };
@@ -2093,7 +2092,7 @@ namespace 科技计划项目档案数据采集管理系统
                         TreeNode currentNode = new TreeNode()
                         {
                             Name = GetValue(row["pi_id"]),
-                            Text = GetValue(row["pi_code"]),
+                            Text = GetValue(row["pi_name"]),
                             Tag = ControlType.Plan_Project,
                             ForeColor = GetValue(row["pi_submit_status"]).Equals(4) ? Color.Red : Color.Black
                         };
@@ -2281,7 +2280,13 @@ namespace 科技计划项目档案数据采集管理系统
             if(treeView.Nodes.Count > 0)
             {
                 TreeNode node = treeView.Nodes[0];
-                if(type == ControlType.Imp || type == ControlType.Imp_Sub)
+                if(type == ControlType.Imp)
+                {
+                    ShowTab("imp", 0);
+                    LoadImpPage(node.Name, node.ForeColor);
+                    EnabledBtnGroup(ControlType.Imp, GetIsBacked(node.Name, ControlType.Imp));
+                }
+                else if(type == ControlType.Imp_Sub)
                 {
                     ShowTab("imp", 0);
                     LoadImpPage(node.Name, node.ForeColor);
@@ -2289,7 +2294,7 @@ namespace 科技计划项目档案数据采集管理系统
                 else if(type == ControlType.Imp_Normal)
                 {
                     ShowTab("plan", 0);
-                    LoadPlanPage(node.Name, System.Drawing.Color.Black);
+                    LoadPlanPage(node.Name, node.ForeColor);
                 }
                 else if(type == ControlType.Plan_Project)
                 {
@@ -2332,14 +2337,16 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     ShowTab("imp", 0);
                     LoadImpPage(e.Node.Parent.Parent.Name, e.Node.Parent.Parent.ForeColor);
-                    EnabledBtnGroup(ControlType.Imp, GetIsBacked(e.Node.Parent.Parent.Name, ControlType.Imp));
+                    if(e.Node.Parent.Parent.ForeColor != DisEnableColor)
+                        EnabledBtnGroup(ControlType.Imp, GetIsBacked(e.Node.Parent.Parent.Name, ControlType.Imp));
 
                     ShowTab("imp_dev", 1);
                     LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.ForeColor);
-                    EnabledBtnGroup(ControlType.Imp_Sub, GetIsBacked(e.Node.Parent.Name, ControlType.Imp_Sub));
+                    if(e.Node.Parent.ForeColor != DisEnableColor)
+                        EnabledBtnGroup(ControlType.Imp_Sub, GetIsBacked(e.Node.Parent.Name, ControlType.Imp_Sub));
 
                     ShowTab("plan_project", 2);
-                    LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
+                    LoadPageBasicInfo(e.Node.Name, type);
                     EnabledBtnGroup(ControlType.Plan_Project, GetIsBacked(e.Node.Name, ControlType.Plan_Project));
                 }
                 else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
@@ -2395,16 +2402,23 @@ namespace 科技计划项目档案数据采集管理系统
                 tab_MenuList.TabPages.Clear();
                 if(workType == WorkType.Default)
                 {
-                    ShowTab("plan", 0);
-                    LoadPlanPage(e.Node.Parent.Parent.Name, e.Node.Parent.Parent.ForeColor);
-                    EnabledBtnGroup(ControlType.Plan, GetIsBacked(e.Node.Parent.Parent.Name, ControlType.Plan));
+                    ShowTab("imp", 0);
+                    LoadImpPage(e.Node.Parent.Parent.Parent.Name, e.Node.Parent.Parent.Parent.ForeColor);
+                    if(e.Node.Parent.Parent.Parent.ForeColor != DisEnableColor)
+                        EnabledBtnGroup(ControlType.Imp, GetIsBacked(e.Node.Parent.Parent.Parent.Name, ControlType.Imp));
 
-                    ShowTab("plan_project", 1);
+                    ShowTab("imp_dev", 1);
+                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.Parent.ForeColor);
+                    if(e.Node.Parent.Parent.ForeColor != DisEnableColor)
+                        EnabledBtnGroup(ControlType.Imp_Sub, GetIsBacked(e.Node.Parent.Parent.Name, ControlType.Imp_Sub));
+
+                    ShowTab("plan_project", 2);
                     LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project, e.Node.Parent.ForeColor);
-                    EnabledBtnGroup(ControlType.Plan_Project, GetIsBacked(e.Node.Parent.Name, ControlType.Plan_Project));
+                    if(e.Node.Parent.ForeColor != DisEnableColor)
+                        EnabledBtnGroup(ControlType.Plan_Project, GetIsBacked(e.Node.Parent.Name, ControlType.Plan_Project));
 
-                    ShowTab("plan_project_topic", 2);
-                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic, e.Node.ForeColor);
+                    ShowTab("plan_project_topic", 3);
+                    LoadPageBasicInfo(e.Node.Name, type);
                     EnabledBtnGroup(ControlType.Plan_Project_Topic, GetIsBacked(e.Node.Name, ControlType.Plan_Project_Topic));
                 }
             }
@@ -2443,19 +2457,28 @@ namespace 科技计划项目档案数据采集管理系统
                 if(workType == WorkType.Default)
                 {
                     ShowTab("imp", 0);
-                    LoadImpPage(e.Node.Parent.Parent.Parent.Name, e.Node.Parent.Parent.Parent.ForeColor);
+                    LoadImpPage(e.Node.Parent.Parent.Parent.Parent.Name, e.Node.Parent.Parent.Parent.Parent.ForeColor);
+                    if(e.Node.Parent.Parent.Parent.Parent.ForeColor != DisEnableColor)
+                        EnabledBtnGroup(ControlType.Imp, GetIsBacked(e.Node.Parent.Parent.Parent.Parent.Name, ControlType.Imp));
 
                     ShowTab("imp_dev", 1);
-                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Imp_Sub);
+                    LoadPageBasicInfo(e.Node.Parent.Parent.Parent.Name, ControlType.Imp_Sub, e.Node.Parent.Parent.Parent.ForeColor);
+                    if(e.Node.Parent.Parent.Parent.ForeColor != DisEnableColor)
+                        EnabledBtnGroup(ControlType.Imp_Sub, GetIsBacked(e.Node.Parent.Parent.Parent.Name, ControlType.Imp_Sub));
 
                     ShowTab("plan_project", 2);
-                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project);
+                    LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Plan_Project, e.Node.Parent.Parent.ForeColor);
+                    if(e.Node.Parent.Parent.ForeColor != DisEnableColor)
+                        EnabledBtnGroup(ControlType.Plan_Project, GetIsBacked(e.Node.Parent.Parent.Name, ControlType.Plan_Project));
 
                     ShowTab("plan_project_topic", 3);
-                    LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic);
+                    LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Plan_Project_Topic, e.Node.Parent.ForeColor);
+                    if(e.Node.Parent.ForeColor != DisEnableColor)
+                        EnabledBtnGroup(ControlType.Plan_Project_Topic, GetIsBacked(e.Node.Parent.Name, ControlType.Plan_Project_Topic));
 
                     ShowTab("plan_project_topic_subtopic", 4);
                     LoadPageBasicInfo(e.Node.Name, ControlType.Plan_Project_Topic_Subtopic);
+                    EnabledBtnGroup(ControlType.Plan_Project_Topic_Subtopic, GetIsBacked(e.Node.Name, ControlType.Plan_Project_Topic_Subtopic));
                 }
                 else
                 {
@@ -2480,7 +2503,6 @@ namespace 科技计划项目档案数据采集管理系统
 
                 ShowTab("imp", 0);
                 LoadImpPage(e.Node.Name, e.Node.ForeColor);
-                EnabledBtnGroup(ControlType.Imp, GetIsBacked(e.Node.Name, ControlType.Imp));
             }
             else if(type == ControlType.Imp_Normal)
             {
@@ -2495,11 +2517,11 @@ namespace 科技计划项目档案数据采集管理系统
 
                 ShowTab("imp", 0);
                 LoadImpPage(e.Node.Parent.Name, e.Node.Parent.ForeColor);
-                EnabledBtnGroup(ControlType.Imp, GetIsBacked(e.Node.Parent.Name, ControlType.Imp));
 
                 ShowTab("imp_dev", 1);
                 LoadPageBasicInfo(e.Node.Name, ControlType.Imp_Sub, e.Node.ForeColor);
-                EnabledBtnGroup(ControlType.Imp_Sub, GetIsBacked(e.Node.Name, ControlType.Imp_Sub));
+                if(e.Node.ForeColor != DisEnableColor)
+                    EnabledBtnGroup(ControlType.Imp_Sub, GetIsBacked(e.Node.Name, ControlType.Imp_Sub));
             }
             //if(tab_MenuList.TabPages.Count > 0)
             //    tab_MenuList.SelectedIndex = tab_MenuList.TabPages.Count - 1;
@@ -2556,12 +2578,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(string.IsNullOrEmpty(GetValue(obj)))
                     return false;
                 else
-                {
-                    if((ObjectSubmitStatus)obj == ObjectSubmitStatus.Back)
-                        return true;
-                    else
-                        return false;
-                }
+                    return (int)obj == 1 ? true : false;
             }
             return false;
         }
@@ -2604,6 +2621,7 @@ namespace 科技计划项目档案数据采集管理系统
             pal_Imp_BtnGroup.Enabled = !(color == DisEnableColor);
 
         }
+
         /// <summary>
         /// 文件信息选项卡切换事件
         /// </summary>

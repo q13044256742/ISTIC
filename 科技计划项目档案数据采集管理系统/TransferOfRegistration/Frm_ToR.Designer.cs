@@ -63,11 +63,13 @@
             // 
             // dgv_GPDJ
             // 
+            this.dgv_GPDJ.AllowUserToAddRows = false;
             this.dgv_GPDJ.AllowUserToDeleteRows = false;
             this.dgv_GPDJ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_GPDJ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_GPDJ.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_GPDJ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_GPDJ.Location = new System.Drawing.Point(2, 44);
             this.dgv_GPDJ.Name = "dgv_GPDJ";
@@ -165,11 +167,13 @@
             // 
             // dgv_SWDJ
             // 
+            this.dgv_SWDJ.AllowUserToAddRows = false;
             this.dgv_SWDJ.AllowUserToDeleteRows = false;
             this.dgv_SWDJ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_SWDJ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_SWDJ.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_SWDJ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_SWDJ.Location = new System.Drawing.Point(2, 44);
             this.dgv_SWDJ.Name = "dgv_SWDJ";

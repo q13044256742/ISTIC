@@ -650,7 +650,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Project.Rows[_index].Cells["pro_qtAmount"].Value = -1;
             }
 
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_Project, new string[] { "pro_fileAmount", "pro_qtAmount" });
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_Project, new string[] { "pro_fileAmount", "pro_qtAmount", "pro_subAmount" });
             dgv_Project.Columns["pro_id"].Visible = false;
         }
 
@@ -852,7 +852,7 @@ namespace 科技计划项目档案数据采集管理系统
                             result = true;
                             break;
                         }
-                        DataTable table2 = SqlHelper.ExecuteQuery($"SELECT si_id, si_submit_status FROM subject_info WHERE pi_id='{row["si_id"]}'");
+                        DataTable table2 = SqlHelper.ExecuteQuery($"SELECT si_id, si_submit_status FROM subject_info WHERE pi_id='{table.Rows[i]["si_id"]}'");
                         for(int j = 0; j < table2.Rows.Count; j++)
                         {
                             if((int)table2.Rows[j]["si_submit_status"] == 1)
