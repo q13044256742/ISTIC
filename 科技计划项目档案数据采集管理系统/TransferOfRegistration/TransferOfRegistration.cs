@@ -18,7 +18,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 已提交
         /// </summary>
-        SubmitSuccess = 2
+        SubmitSuccess = 2,
+        /// <summary>
+        /// 批次完结
+        /// </summary>
+        Completed = -1
     }
     /// <summary>
     /// 批次/项目/课题/子课题 领取状态

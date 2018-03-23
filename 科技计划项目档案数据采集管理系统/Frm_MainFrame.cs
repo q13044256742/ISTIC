@@ -20,30 +20,30 @@ namespace 科技计划项目档案数据采集管理系统
             //当前登录人信息
             txt_RealName.Text = user.RealName;
             int identifier = Convert.ToInt32(user.Remark);
-            if(identifier == 1)
+            if(identifier == 0)
             {              
                 Frm_ToR frm = new Frm_ToR();
                 frm.MdiParent = this;
                 frm.WindowState = FormWindowState.Maximized;
                 frm.Show();
             }
-            else if(identifier == 2)
+            else if(identifier == 1)
             {
                 Frm_CG frm = new Frm_CG();
                 frm.MdiParent = this;
                 frm.WindowState = FormWindowState.Maximized;
                 frm.Show();
             }
-            else if(identifier == 3)
+            else if(identifier == 2)
             {
                 Frm_QT frm = new Frm_QT();
                 frm.MdiParent = this;
                 frm.WindowState = FormWindowState.Maximized;
                 frm.Show();
             }
-            else if (identifier == 5)//档案接收
-            {             
-                FileReceive.Frm_FileReceive frm = new FileReceive.Frm_FileReceive();
+            else if (identifier == 3)//档案接收
+            {
+                Frm_DomAccept frm = new Frm_DomAccept();
                 frm.MdiParent = this;
                 frm.WindowState = FormWindowState.Maximized;
                 frm.Show();

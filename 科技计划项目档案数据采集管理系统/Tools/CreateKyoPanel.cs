@@ -229,18 +229,6 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private static void Panel_MouseEnter(object sender, System.EventArgs e)
-        {
-            Panel panel = sender as Panel;
-            foreach (Control item in panel.Parent.Controls)
-            {
-                if (!(bool)item.Tag)
-                    item.BackColor = Color.Transparent;
-            }
-            if (!(bool)panel.Tag)
-                panel.BackColor = Color.FromArgb(0, 120, 215);
-        }
-
         /// <summary>
         /// 创建二级菜单并展开
         /// </summary>
@@ -262,7 +250,6 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = false,
                     Name = kyoPanel.Name,
                 };
-                panel.MouseDown += Panel_MouseEnter;
                 panel.Click += new EventHandler(click);
                 basicPanel.Controls.Add(panel);
 
@@ -270,9 +257,11 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     Text = kyoPanel.Text,
                     ForeColor = Color.White,
-                    Location = new Point(77, 13),
-                    AutoSize = true
+                    AutoSize = true,
+                    Location = new Point(77, (panel.Height - 20) / 2)
                 };
+                _label.Click += new EventHandler(click);
+                panel.Controls.Add(_label);
                 if (kyoPanel.HasNext)
                 {
                     Label arrow = new Label
@@ -287,9 +276,6 @@ namespace 科技计划项目档案数据采集管理系统
                     arrow.Click += new EventHandler(click);
                     panel.Controls.Add(arrow);
                 }
-
-                _label.Click += new EventHandler(click);
-                panel.Controls.Add(_label);
             }
             _panel.Controls.Add(basicPanel);
 
@@ -331,7 +317,6 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = false,
                     Name = kyoPanel.Name,
                 };
-                panel.MouseDown += Panel_MouseEnter;
                 panel.Click += new EventHandler(click);
                 basicPanel.Controls.Add(panel);
 

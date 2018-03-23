@@ -131,13 +131,10 @@
             this.cbo_Identity.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cbo_Identity.FormattingEnabled = true;
             this.cbo_Identity.Items.AddRange(new object[] {
-            "档案管理",
             "移交登记",
             "著录加工",
             "档案质检",
-            "工作统计",
-            "档案接收",
-            "加工管理"});
+            "档案接收"});
             this.cbo_Identity.Location = new System.Drawing.Point(309, 266);
             this.cbo_Identity.Name = "cbo_Identity";
             this.cbo_Identity.Size = new System.Drawing.Size(126, 24);

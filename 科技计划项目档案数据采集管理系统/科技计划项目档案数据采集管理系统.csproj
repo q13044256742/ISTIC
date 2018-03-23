@@ -87,11 +87,11 @@
     <Compile Include="Cataloguing\Frm_MyWork.Designer.cs">
       <DependentUpon>Frm_MyWork.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileReceive\Frm_FileReceive.cs">
+    <Compile Include="DocumentAccept\Frm_DomAccept.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FileReceive\Frm_FileReceive.Designer.cs">
-      <DependentUpon>Frm_FileReceive.cs</DependentUpon>
+    <Compile Include="DocumentAccept\Frm_DomAccept.Designer.cs">
+      <DependentUpon>Frm_DomAccept.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\UserHelper.cs" />
     <Compile Include="Manager\Frm_authorization.cs">
@@ -267,8 +267,8 @@
     <EmbeddedResource Include="Cataloguing\Frm_MyWork.resx">
       <DependentUpon>Frm_MyWork.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FileReceive\Frm_FileReceive.resx">
-      <DependentUpon>Frm_FileReceive.cs</DependentUpon>
+    <EmbeddedResource Include="DocumentAccept\Frm_DomAccept.resx">
+      <DependentUpon>Frm_DomAccept.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_authorization.resx">
       <DependentUpon>Frm_authorization.cs</DependentUpon>
