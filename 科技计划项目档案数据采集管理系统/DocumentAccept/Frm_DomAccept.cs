@@ -183,6 +183,21 @@ namespace 科技计划项目档案数据采集管理系统
                         LoadDataGridView(string.Empty);
                     }
                 }
+                else if("file".Equals(columnName))
+                {
+                    object value = dgv_DataShow.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    object trpId = dgv_DataShow.Rows[e.RowIndex].Cells["id"].Value;
+                    if("齐备".Equals(value))
+                    {
+                        Frm_Print frm = new Frm_Print(1, trpId);
+                        frm.ShowDialog();
+                    }
+                    else
+                    {
+                        Frm_Print frm = new Frm_Print(-1, trpId);
+                        frm.ShowDialog();
+                    }
+                }
             }
         }
     }

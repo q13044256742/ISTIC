@@ -49,6 +49,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\KyoFileEntity.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>bin\Debug\Microsoft.Office.Interop.Word.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -92,6 +97,24 @@
     </Compile>
     <Compile Include="DocumentAccept\Frm_DomAccept.Designer.cs">
       <DependentUpon>Frm_DomAccept.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentAccept\Frm_DomNeed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentAccept\Frm_DomNeed.Designer.cs">
+      <DependentUpon>Frm_DomNeed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentAccept\Frm_DomRec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentAccept\Frm_DomRec.Designer.cs">
+      <DependentUpon>Frm_DomRec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentAccept\Frm_Print.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentAccept\Frm_Print.Designer.cs">
+      <DependentUpon>Frm_Print.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\UserHelper.cs" />
     <Compile Include="Manager\Frm_authorization.cs">
@@ -180,6 +203,7 @@
     </Compile>
     <Compile Include="QualityTesting\QualityTesting.cs" />
     <Compile Include="Tools\Chinese2Spell.cs" />
+    <Compile Include="Tools\MicrosoftWordHelper.cs" />
     <Compile Include="Tools\ServerHelper.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
     <Compile Include="Tools\XmlHelper.cs" />
@@ -269,6 +293,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DocumentAccept\Frm_DomAccept.resx">
       <DependentUpon>Frm_DomAccept.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentAccept\Frm_DomNeed.resx">
+      <DependentUpon>Frm_DomNeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentAccept\Frm_DomRec.resx">
+      <DependentUpon>Frm_DomRec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentAccept\Frm_Print.resx">
+      <DependentUpon>Frm_Print.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_authorization.resx">
       <DependentUpon>Frm_authorization.cs</DependentUpon>
@@ -366,6 +399,7 @@
     <None Include="Images\area2.png" />
     <None Include="Images\area3.png" />
     <None Include="Images\add.png" />
+    <Content Include="bin\Debug\Microsoft.Office.Interop.Word.dll" />
     <Content Include="Images\33.png" />
     <Content Include="Images\34.png" />
     <Content Include="Images\7.png" />
