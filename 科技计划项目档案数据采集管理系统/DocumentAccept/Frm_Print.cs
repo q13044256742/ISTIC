@@ -46,14 +46,17 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if("2".Equals(label.Tag))
                 {
-                    fileRowList.Clear();
-                    LoadFileList(trpId);
-                    /* ----合成文件清单----*/
-                    //string filePath = Application.StartupPath + "\\重大专项项目（课题）档案交接清单";
-                    //MicrosoftWordHelper.WriteDocument(filePath, fileRowList);
-                    //if(MessageBox.Show("文件清单合成完毕, 是否需要现在打开?", "温馨提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
-                    //    Process.Start(filePath);
-                    //Close();
+                    if(MessageBox.Show("是否开始合成文件清单?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    {
+                        fileRowList.Clear();
+                        LoadFileList(trpId);
+                        /* ----合成文件清单----*/
+                        string filePath = Application.StartupPath + "\\重大专项项目（课题）档案交接清单";
+                        MicrosoftWordHelper.WriteDocument(ref filePath, fileRowList);
+                        if(MessageBox.Show("合成完毕, 是否需要现在打开?", "温馨提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                            Process.Start(filePath);
+                        Close();
+                    }
                 }
             }
             else

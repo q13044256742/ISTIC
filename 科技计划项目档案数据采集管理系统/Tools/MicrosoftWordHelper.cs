@@ -10,16 +10,13 @@ namespace 科技计划项目档案数据采集管理系统
 {
     class MicrosoftWordHelper
     {
-        private static object SpeName, SpeCode;
         /// <summary>
         /// 向指定Word中写入指定文本
         /// </summary>
         /// <param name="filePath">Word 所在路径</param>
         /// <param name="list">所需写入的内容</param>
-        public static void WriteDocument(string filePath, List<DataRow> list)
+        public static void WriteDocument(ref string filePath, List<DataRow> list)
         {
-            object[] objs = SqlHelper.ExecuteRowsQuery($"SELECT spi_code, spi_name FROM special_info WHERE spi_id='{UserHelper.GetInstance().User.UserKey}'");
-            if(objs != null) { SpeCode = objs[0]; SpeName = objs[1]; }
             Microsoft.Office.Interop.Word.Application app = null;
             Document doc = null;
             try
@@ -28,13 +25,13 @@ namespace 科技计划项目档案数据采集管理系统
                 List<EntityObject> datas = new List<EntityObject>();
                 for(int i = 0; i < list.Count; i++)
                 {
-                    string code = string.Empty;//SqlHelper.GetValueByKey(list[i]["fi_categor"]);
-                    string name = GetValue(list[i]["fi_name"]);
-                    string user = GetValue(list[i]["fi_user"]);
-                    string carrier = string.Empty;//SqlHelper.GetValueByKey(list[i]["fi_carrier"]);
-                    int pages = Convert.ToInt32(list[i]["fi_pages"]);
-                    int number = Convert.ToInt32(list[i]["fi_number"]);
-                    DateTime date = Convert.ToDateTime(list[i]["fi_create_date"]);
+                    string code = SqlHelper.GetValueByKey(list[i]["pfl_categor"]);
+                    string name = GetValue(list[i]["pfl_filename"]);
+                    string user = GetValue(list[i]["pfl_user"]);
+                    string carrier = SqlHelper.GetValueByKey(list[i]["pfl_carrier"]);
+                    int pages = Convert.ToInt32(list[i]["pfl_page_amount"]);
+                    int number = Convert.ToInt32(list[i]["pfl_amount"]);
+                    DateTime date = Convert.ToDateTime(list[i]["pfl_complete_date"]);
                     datas.Add(new EntityObject { Code = code, Name = name, User = user, Type = carrier, PageSize = pages, FileAmount = number, Date = date });
                 }
 
@@ -52,15 +49,7 @@ namespace 科技计划项目档案数据采集管理系统
                 app.Selection.Font.Bold = 700;
                 app.Selection.Font.Size = 18;
                 app.Selection.Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                app.Selection.Text = "重大专项项目（课题）档案交接清单";
-
-                //子标题
-                object subLine = WdUnits.wdLine;
-                app.Selection.MoveDown(ref subLine, oMissing, oMissing);
-                app.Selection.TypeParagraph();//换行
-                app.Selection.Font.Bold = 0;
-                app.Selection.Font.Size = 12;
-                app.Selection.Text = $"专项名称：{SpeName}\t\t专项编号：{SpeCode}";
+                app.Selection.Text = "项目（课题）档案交接清单";
 
                 //换行添加表格
                 object line = WdUnits.wdLine;
