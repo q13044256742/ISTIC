@@ -473,7 +473,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             int proAmount = 0;
             if (trcId != null)
-                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE pi_obj_id=(SELECT pi_id FROM project_info WHERE trc_id='{trcId}')"));
+                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE pi_obj_id IN (SELECT pi_id FROM project_info WHERE trc_id='{trcId}')"));
             return proAmount;
         }
     

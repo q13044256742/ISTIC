@@ -63,6 +63,7 @@ namespace 科技计划项目档案数据采集管理系统
             });
             CreateKyoPanel.SetSubPanel(pal_LeftMenu.Controls.Find("QT_ZLJG", false)[0] as Panel, list, Sub_Click);
         }
+      
         /// <summary>
         /// 二级菜单点击事件
         /// </summary>
@@ -88,7 +89,16 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_MyReg.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 LoadMyRegList();
             }
+
+            foreach(Panel item in panel.Parent.Controls)
+            {
+                if(item.Equals(panel))
+                    item.BackColor = System.Drawing.Color.Purple;
+                else
+                    item.BackColor = System.Drawing.Color.Transparent;
+            }
         }
+      
         /// <summary>
         /// 加载待质检列表
         /// </summary>
@@ -178,6 +188,7 @@ namespace 科技计划项目档案数据采集管理系统
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_Imp, new string[] { "plan_qtcount" });
         }
+   
         /// <summary>
         /// 获取【项目|课题】下的文件总数
         /// </summary>
@@ -195,6 +206,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return amount;
         }
+    
         /// <summary>
         /// 获取【项目|课题】下的子课题数
         /// </summary>
@@ -207,6 +219,7 @@ namespace 科技计划项目档案数据采集管理系统
                 amount += Convert.ToInt32($"SELECT COUNT(si_id) FROM subject_info WHERE pi_id='{list[i][0]}'");
             return amount;
         }
+    
         /// <summary>
         /// 根据加工登记主键获取对应项目/课题信息
         /// 0:wr_id 1:wr_type 2:wr_obj_id 3:code 4:name 5:dd_name
@@ -348,7 +361,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewButtonColumn(){ Name = "mr_submit", HeaderText = "完成", FillWeight = 8, Text = "提交", UseColumnTextForButtonValue = true}
             });
 
-            List<object[]> _obj = SqlHelper.ExecuteColumnsQuery($"SELECT wm_id, wm_type, wm_obj_id FROM work_myreg WHERE wm_user='{UserHelper.GetInstance().User.UserKey}' AND wm_status=2", 3);
+            List<object[]> _obj = SqlHelper.ExecuteColumnsQuery($"SELECT wm_id, wm_type, wm_obj_id FROM work_myreg WHERE wm_accepter='{UserHelper.GetInstance().User.UserKey}' AND wm_status=2", 3);
             for(int i = 0; i < _obj.Count; i++)
             {
                 int index = (int)_obj[i][1];
@@ -411,7 +424,7 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = row["dd_name"];
                     dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(row["imp_id"], ControlType.Default);
                 }
-                else if(index == 2)
+                else if(index == 2 || index == -1)
                 {
                     DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name FROM project_info pi " +
                         $"LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
@@ -537,7 +550,7 @@ namespace 科技计划项目档案数据采集管理系统
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
                 "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                "WHERE wm.wm_type = 0 AND wm.wm_status = 1";
+                "WHERE wm.wm_type = -1 AND wm.wm_status = 1";
             LoadDataGridViewData(SqlHelper.ExecuteQuery(querySql));
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_Imp, new string[] { "imp_fileAmount", "imp_qtAmount" });
@@ -671,7 +684,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp.Rows[e.RowIndex].Cells["imp_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}' WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}' WHERE wm_id='{wmid}'");
                         dgv_Imp.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -692,7 +705,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp_Dev.Rows[e.RowIndex].Cells["imp_dev_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}' WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}' WHERE wm_id='{wmid}'");
                         dgv_Imp_Dev.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -712,7 +725,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Project.Rows[e.RowIndex].Cells["pro_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}' WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}' WHERE wm_id='{wmid}'");
                         dgv_Project.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -804,6 +817,23 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
                         Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, ControlType.Plan_Project, false);
+                        frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
+                        if(frm.ShowDialog() == DialogResult.OK)
+                        {
+                            if(HaveBacked(piid))
+                            {
+                                if(MessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                                {
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{frm.WMID}'");
+                                    LoadMyRegList();
+                                }
+                            }
+                        }
+                    }
+                    else if(index == -1)
+                    {
+                        object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, ControlType.Imp_Normal, false);
                         frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
                         if(frm.ShowDialog() == DialogResult.OK)
                         {

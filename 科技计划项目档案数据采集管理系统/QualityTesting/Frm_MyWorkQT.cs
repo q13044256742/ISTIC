@@ -2295,6 +2295,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(node.Name, node.ForeColor);
+                    EnabledBtnGroup(ControlType.Imp_Normal, GetIsBacked(node.Name, ControlType.Imp_Normal));
                 }
                 else if(type == ControlType.Plan_Project)
                 {
@@ -2564,7 +2565,7 @@ namespace 科技计划项目档案数据采集管理系统
                 else
                     return (int)obj == 1 ? true : false;
             }
-            else if(type == ControlType.Plan || type == ControlType.Plan_Project)
+            else if(type == ControlType.Plan|| type == ControlType.Imp_Normal || type == ControlType.Plan_Project)
             {
                 object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_submit_status FROM project_info WHERE pi_id='{id}'");
                 if(string.IsNullOrEmpty(GetValue(obj)))

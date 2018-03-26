@@ -86,32 +86,36 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             //光盘读写【结构化数据】
             else
             {
-                /* 测试注释 */
-                //当前登录用户主键
-                string adminId = UserHelper.GetInstance().User.UserKey;
-                //1条【计划】信息
-                string mainKey = Guid.NewGuid().ToString();
-                string mainSql = $"INSERT INTO project_info(pi_id,trc_id,pi_code,pi_name,pi_source_id) VALUES('{mainKey}','{trcId}','Z022017001','02专项办2017年第一次移交项目档案','{adminId}')";
-                SqlHelper.ExecuteNonQuery(mainSql);
-                //5条【项目/课题】信息
-                for(int i = 0; i < 5; i++)
-                {
-                    string index = i.ToString().PadLeft(3, '0');
-                    string primaryKey = Guid.NewGuid().ToString();
-                    string insertSql = "INSERT INTO project_info(pi_id,pi_code,pi_name,pi_work_status,pi_obj_id,pi_categor,pi_submit_status,pi_source_id) " +
-                        $"VALUES('{primaryKey}','Z0120180201-{index}','测试数据{index}号','{(int)WorkStatus.NonWork}','{mainKey}','{(int)ControlType.Plan_Project}','{(int)ObjectSubmitStatus.NonSubmit}','{adminId}')";
-                    SqlHelper.ExecuteNonQuery(insertSql);
-                    //5条【课题/子课题】信息
-                    for(int j = 0; j < (i == 2 ? 15 : 5); j++)
-                    {
-                        string _index = j.ToString().PadLeft(3, '0');
-                        string _primaryKey = Guid.NewGuid().ToString();
-                        string _insertSql = "INSERT INTO subject_info(si_id,pi_id,si_code,si_name,si_work_status,si_categor,si_submit_status,si_source_id)" +
-                            $"VALUES('{_primaryKey}','{primaryKey}','Z0120180201{index}{_index}','测试数据{index}{_index}号','{(int)WorkStatus.NonWork}','{(int)ControlType.Plan_Project_Topic}','{(int)ObjectSubmitStatus.NonSubmit}','{adminId}')";
-                        SqlHelper.ExecuteNonQuery(_insertSql);
-                    }
-                }
+                MessageBox.Show("光盘路径不能为空。", "读取失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
+            //else
+            //{
+            //    /* 测试注释 */
+            //    //当前登录用户主键
+            //    string adminId = UserHelper.GetInstance().User.UserKey;
+            //    //1条【计划】信息
+            //    string mainKey = Guid.NewGuid().ToString();
+            //    string mainSql = $"INSERT INTO project_info(pi_id,trc_id,pi_code,pi_name,pi_source_id) VALUES('{mainKey}','{trcId}','Z022017001','02专项办2017年第一次移交项目档案','{adminId}')";
+            //    SqlHelper.ExecuteNonQuery(mainSql);
+            //    //5条【项目/课题】信息
+            //    for(int i = 0; i < 5; i++)
+            //    {
+            //        string index = i.ToString().PadLeft(3, '0');
+            //        string primaryKey = Guid.NewGuid().ToString();
+            //        string insertSql = "INSERT INTO project_info(pi_id,pi_code,pi_name,pi_work_status,pi_obj_id,pi_categor,pi_submit_status,pi_source_id) " +
+            //            $"VALUES('{primaryKey}','Z0120180201-{index}','测试数据{index}号','{(int)WorkStatus.NonWork}','{mainKey}','{(int)ControlType.Plan_Project}','{(int)ObjectSubmitStatus.NonSubmit}','{adminId}')";
+            //        SqlHelper.ExecuteNonQuery(insertSql);
+            //        //5条【课题/子课题】信息
+            //        for(int j = 0; j < (i == 2 ? 15 : 5); j++)
+            //        {
+            //            string _index = j.ToString().PadLeft(3, '0');
+            //            string _primaryKey = Guid.NewGuid().ToString();
+            //            string _insertSql = "INSERT INTO subject_info(si_id,pi_id,si_code,si_name,si_work_status,si_categor,si_submit_status,si_source_id)" +
+            //                $"VALUES('{_primaryKey}','{primaryKey}','Z0120180201{index}{_index}','测试数据{index}{_index}号','{(int)WorkStatus.NonWork}','{(int)ControlType.Plan_Project_Topic}','{(int)ObjectSubmitStatus.NonSubmit}','{adminId}')";
+            //            SqlHelper.ExecuteNonQuery(_insertSql);
+            //        }
+            //    }
+            //}
         }
         int indexCount = 0;
         /// <summary>
@@ -157,7 +161,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 DialogResult = DialogResult.OK;
             }
             else
-                DialogResult = DialogResult.None;
+                DialogResult = DialogResult.No;
         }
     }
 }
