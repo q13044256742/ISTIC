@@ -536,7 +536,7 @@ namespace 科技计划项目档案数据采集管理系统
             });
             //查询已提交至质检的计划
             /* ---------------------重点计划------------------ */
-            string querySql = "SELECT imp_id, dd_id, dd_name, imp_code, imp_name, trp.trp_id, wm.wm_id FROM imp_info ii " +
+            string querySql = "SELECT imp_id, dd_id, dd_name, imp_code, imp_name, trp.trp_id, wm.wm_id, wm.wm_ticker FROM imp_info ii " +
                 "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ii.imp_id " +
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
@@ -545,7 +545,7 @@ namespace 科技计划项目档案数据采集管理系统
             LoadDataGridViewData(SqlHelper.ExecuteQuery(querySql));
             
             /* ---------------------普通计划------------------ */
-            querySql = "SELECT pi_id as imp_id, dd_id, dd_name, pi_code as imp_code, pi_name as imp_name, trp.trp_id, wm.wm_id FROM project_info pi " +
+            querySql = "SELECT pi_id as imp_id, dd_id, dd_name, pi_code as imp_code, pi_name as imp_name, trp.trp_id, wm.wm_id, wm.wm_ticker FROM project_info pi " +
                 "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
@@ -574,7 +574,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Imp.Rows[_index].Cells["imp_code"].Value = row["imp_code"];
                 dgv_Imp.Rows[_index].Cells["imp_name"].Value = row["imp_name"];
                 dgv_Imp.Rows[_index].Cells["imp_fileAmount"].Value = GetFileAmountById(row["imp_id"], ControlType.Default);
-                dgv_Imp.Rows[_index].Cells["imp_qtAmount"].Value = -1;
+                dgv_Imp.Rows[_index].Cells["imp_qtAmount"].Value = row["wm_ticker"];
                 dgv_Imp.Rows[_index].Cells["imp_control"].Value = "质检";
                 dgv_Imp.Rows[_index].Cells["imp_via"].Value = null;
             }
@@ -598,7 +598,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_via", HeaderText = "数据途径", FillWeight = 6},
             });
 
-            string querySql = "SELECT wm.wm_id, idi.imp_id, dd_id, dd_name, trp.trp_id, idi.imp_code, idi.imp_name FROM imp_dev_info idi " +
+            string querySql = "SELECT wm.wm_id, idi.imp_id, dd_id, dd_name, trp.trp_id, idi.imp_code, idi.imp_name, wm.wm_ticker FROM imp_dev_info idi " +
                 "LEFT JOIN work_myreg wm ON wm.wm_obj_id = idi.imp_id " +
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
@@ -616,7 +616,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_code"].Value = row["imp_code"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_name"].Value = row["imp_name"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_fileAmount"].Value = GetFileAmountById(row["imp_id"], ControlType.Default);
-                dgv_Imp_Dev.Rows[_index].Cells["imp_dev_qtAmount"].Value = -1;
+                dgv_Imp_Dev.Rows[_index].Cells["imp_dev_qtAmount"].Value = row["wm_ticker"];
             }
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_Imp_Dev, new string[] { "imp_dev_fileAmount", "imp_dev_qtAmount" });
@@ -642,7 +642,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){Name = "pro_via", HeaderText = "数据途径", FillWeight = 6},
             });
 
-            string querySql = "SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name FROM project_info pi " +
+            string querySql = "SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wm.wm_ticker FROM project_info pi " +
                 "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
@@ -660,7 +660,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Project.Rows[_index].Cells["pro_name"].Value = row["pi_name"];
                 dgv_Project.Rows[_index].Cells["pro_subAmount"].Value = GetSubAmount(row["pi_id"]);
                 dgv_Project.Rows[_index].Cells["pro_fileAmount"].Value = GetFileAmountById(row["pi_id"], ControlType.Default);
-                dgv_Project.Rows[_index].Cells["pro_qtAmount"].Value = -1;
+                dgv_Project.Rows[_index].Cells["pro_qtAmount"].Value = row["wm_ticker"];
             }
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_Project, new string[] { "pro_fileAmount", "pro_qtAmount", "pro_subAmount" });
@@ -684,7 +684,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp.Rows[e.RowIndex].Cells["imp_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}' WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
                         dgv_Imp.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -705,7 +705,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp_Dev.Rows[e.RowIndex].Cells["imp_dev_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}' WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
                         dgv_Imp_Dev.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -725,7 +725,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Project.Rows[e.RowIndex].Cells["pro_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}' WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
                         dgv_Project.Rows.RemoveAt(e.RowIndex);
                     }
                 }

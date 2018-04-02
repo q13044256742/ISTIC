@@ -18,6 +18,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// 光盘ID
         /// </summary>
         public object trcId;
+        /// <summary>
+        /// 加工类型
+        /// </summary>
+        public WorkType workType;
+
         public Frm_AddFile(DataGridView view, object key, object fileId)
         {
             InitializeComponent();
@@ -66,6 +71,11 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_stage.Focus();
             //编辑状态加载信息
             LoadFileInfo(fileId);
+
+            if(workType == WorkType.PaperWork)
+            {
+                lbl_OpenFile.Enabled = false;
+            }
         }
 
         private void LoadFileInfo(object fileId)
@@ -214,7 +224,6 @@ namespace 科技计划项目档案数据采集管理系统
                 $" WHERE pfl_id = '{primaryKey}'";
             }
             SqlHelper.ExecuteNonQuery(sqlString);
-            MessageBox.Show("数据已保存。");
 
             return primaryKey;
         }
