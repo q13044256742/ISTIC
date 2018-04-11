@@ -685,7 +685,6 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         ShowTab("plan_project", _index + 1);
                         pal_JH_XM.Tag = dgv_Imp_Dev_FileList.Tag;
-                        txt_JH_XM_Type.Text = lbl_JH_Name.Text;
                         ResetControls(ControlType.Plan_Project);
                         InitialDrowDownList(ControlType.Plan_Project);
                     }
@@ -693,7 +692,6 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         ShowTab("plan_topic", _index + 1);
                         pal_JH_KT.Tag = dgv_Imp_Dev_FileList.Tag;
-                        txt_JH_KT_Type.Text = lbl_JH_Name.Text;
                         ResetControls(ControlType.Plan_Topic);
                         InitialDrowDownList(ControlType.Plan_Topic);
                     }
@@ -722,7 +720,6 @@ namespace 科技计划项目档案数据采集管理系统
                         ShowTab("plan_project", _index + 1);
                         ResetControls(ControlType.Plan_Project);
                         pal_JH_XM.Tag = dgv_JH_FileList.Tag;
-                        txt_JH_XM_Type.Text = lbl_JH_Name.Text;
                         txt_JH_XM_Code.Text = DateTime.Now.Year + GetValue(planCode);
                         InitialDrowDownList(ControlType.Plan_Project);
                     }
@@ -731,7 +728,6 @@ namespace 科技计划项目档案数据采集管理系统
                         ShowTab("plan_topic", _index + 1);
                         ResetControls(ControlType.Plan_Topic);
                         pal_JH_KT.Tag = dgv_JH_FileList.Tag;
-                        txt_JH_KT_Type.Text = lbl_JH_Name.Text;
                         txt_JH_XM_Code.Text = DateTime.Now.Year + GetValue(planCode);
                         InitialDrowDownList(ControlType.Plan_Topic);
                     }
@@ -1587,7 +1583,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_XM_Code.Text;
                 string name = txt_JH_XM_Name.Text;
-                string type = txt_JH_XM_Type.Text;
+                string type = string.Empty;
                 string ly = txt_JH_XM_LY.Text;
                 string zt = txt_JH_XM_ZT.Text;
                 string jf = txt_JH_XM_JF.Text;
@@ -1622,7 +1618,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_KT_Code.Text;
                 string name = txt_JH_KT_Name.Text;
-                string type = txt_JH_KT_Type.Text;
+                string type = string.Empty;
                 string ly = txt_JH_KT_LY.Text;
                 string zt = txt_JH_KT_ZT.Text;
                 string jf = txt_JH_KT_JF.Text;
@@ -1790,7 +1786,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_XM_Code.Text;
                 string name = txt_JH_XM_Name.Text;
-                string planType = txt_JH_XM_Type.Text;
+                string planType = string.Empty;
                 string ly = txt_JH_XM_LY.Text;
                 string zt = txt_JH_XM_ZT.Text;
                 string jf = txt_JH_XM_JF.Text;
@@ -1817,7 +1813,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_KT_Code.Text;
                 string name = txt_JH_KT_Name.Text;
-                string planType = txt_JH_KT_Type.Text;
+                string planType = string.Empty;
                 string ly = txt_JH_KT_LY.Text;
                 string zt = txt_JH_KT_ZT.Text;
                 string jf = txt_JH_KT_JF.Text;
@@ -4511,7 +4507,6 @@ namespace 科技计划项目档案数据采集管理系统
                     pal_JH_XM.Tag = row["pi_obj_id"];
                     txt_JH_XM_Code.Text = GetValue(row["pi_code"]);
                     txt_JH_XM_Name.Text = GetValue(row["pi_name"]);
-                    txt_JH_XM_Type.Text = GetValue(row["pi_type"]);
                     txt_JH_XM_LY.Text = GetValue(row["pb_belong"]);
                     txt_JH_XM_ZT.Text = GetValue(row["pb_belong_type"]);
                     txt_JH_XM_JF.Text = GetValue(row["pi_money"]);
@@ -4560,7 +4555,6 @@ namespace 科技计划项目档案数据采集管理系统
                     pal_JH_KT.Tag = row["pi_obj_id"];
                     txt_JH_KT_Code.Text = GetValue(row["pi_code"]);
                     txt_JH_KT_Name.Text = GetValue(row["pi_name"]);
-                    txt_JH_KT_Type.Text = GetValue(row["pi_type"]);
                     txt_JH_KT_LY.Text = GetValue(row["pb_belong"]);
                     txt_JH_KT_ZT.Text = GetValue(row["pb_belong_type"]);
                     txt_JH_KT_JF.Text = GetValue(row["pi_money"]);
