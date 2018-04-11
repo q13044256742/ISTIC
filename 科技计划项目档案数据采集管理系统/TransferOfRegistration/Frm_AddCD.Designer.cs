@@ -100,11 +100,11 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(202, 277);
+            this.btn_Save.Location = new System.Drawing.Point(198, 277);
             this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(76, 29);
+            this.btn_Save.Size = new System.Drawing.Size(85, 33);
             this.btn_Save.TabIndex = 6;
-            this.btn_Save.Text = "保存(&S)";
+            this.btn_Save.Text = "保存";
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 

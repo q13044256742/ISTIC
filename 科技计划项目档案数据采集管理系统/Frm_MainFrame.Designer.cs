@@ -130,7 +130,6 @@
             this.ClientSize = new System.Drawing.Size(1271, 741);
             this.Controls.Add(this.pal_Top);
             this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "Frm_MainFrame";

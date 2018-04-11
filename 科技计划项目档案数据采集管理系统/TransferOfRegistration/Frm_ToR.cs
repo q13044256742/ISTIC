@@ -207,7 +207,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             dgv_SWDJ.Rows.Clear();
 
             StringBuilder querySql = new StringBuilder("SELECT trc_id, trc_name, trc_code, trc_remark");
-            querySql.Append($" FROM transfer_registraion_cd WHERE trp_id='{pid}'");
+            querySql.Append($" FROM transfer_registraion_cd WHERE trp_id='{pid}' ORDER BY trc_sort");
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
 
             dgv_SWDJ.Columns.Add("trc_id", "主键");
@@ -437,7 +437,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_status");
                 querySql.Append(" FROM transfer_registraion_cd trc LEFT JOIN(");
                 querySql.Append(" SELECT trp.trp_id, dd_name,dd_sort FROM transfer_registration_pc trp, data_dictionary dd WHERE trp.com_id = dd.dd_id ) tb");
-                querySql.Append(" ON trc.trp_id = tb.trp_id ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END,trc_status ASC, dd_sort ASC");
+                querySql.Append(" ON trc.trp_id = tb.trp_id ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort, trc_sort");
                 table = SqlHelper.ExecuteQuery(querySql.ToString());
             }
             else

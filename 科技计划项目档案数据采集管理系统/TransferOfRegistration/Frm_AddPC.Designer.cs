@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_AddPC));
             this.label1 = new System.Windows.Forms.Label();
             this.txt_BatchName = new System.Windows.Forms.TextBox();
             this.txt_BatchCode = new System.Windows.Forms.TextBox();
@@ -180,6 +179,7 @@
             this.txt_Remark.Location = new System.Drawing.Point(110, 139);
             this.txt_Remark.Multiline = true;
             this.txt_Remark.Name = "txt_Remark";
+            this.txt_Remark.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txt_Remark.Size = new System.Drawing.Size(584, 60);
             this.txt_Remark.TabIndex = 20;
             // 
@@ -320,7 +320,7 @@
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(70, 30);
             this.btn_Save.TabIndex = 0;
-            this.btn_Save.Text = "保存(&S)";
+            this.btn_Save.Text = "保存";
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
@@ -334,13 +334,13 @@
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_AddPC";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "新增批次信息";
             this.Load += new System.EventHandler(this.Frm_AddPC_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

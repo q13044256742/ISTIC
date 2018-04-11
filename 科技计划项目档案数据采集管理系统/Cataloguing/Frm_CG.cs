@@ -47,9 +47,9 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_CompanyList.ValueMember = "dd_id";
             cbo_CompanyList.SelectedIndex = 0;
         }
-      
+
         /// <summary>
-        /// 待加工批次列表
+        /// 待领取批次列表
         /// </summary>
         /// <param name="querySql">指定的查询语句</param>
         /// <param name="csid">来源单位ID</param>
@@ -64,7 +64,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){ Name = "trp_code", HeaderText= "批次编号", FillWeight = 20},
                 new DataGridViewTextBoxColumn(){ Name = "trp_finishtime", HeaderText= "完成时间", FillWeight = 10},
                 new DataGridViewLinkColumn(){ Name = "trp_cd_amount", HeaderText= "光盘数", FillWeight = 10},
-                new DataGridViewButtonColumn(){ Name = "trp_control", HeaderText= "操作", FillWeight = 10, Text = "加工", UseColumnTextForButtonValue = true},
+                new DataGridViewButtonColumn(){ Name = "trp_control", HeaderText= "操作", FillWeight = 10, Text = "领取", UseColumnTextForButtonValue = true},
             });
             if(querySql == null)
             {
@@ -1184,7 +1184,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_WorkLog.Rows[_index].Cells["si_code"].Value = row["si_code"];
                 dgv_WorkLog.Rows[_index].Cells["si_name"].Value = row["si_name"];
                 dgv_WorkLog.Rows[_index].Cells["si_file_amount"].Value = 0;
-                dgv_WorkLog.Rows[_index].Cells["si_control"].Value = "加工";
+                dgv_WorkLog.Rows[_index].Cells["si_control"].Value = "领取";
             }
             if (dgv_WorkLog.Columns.Count > 0)
                 dgv_WorkLog.Columns[0].Visible = false;
@@ -1220,7 +1220,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){ Name = "trc_total_amount", FillWeight = 10 },
                 new DataGridViewTextBoxColumn(){ Name = "trc_receive_amount", FillWeight = 10 },
                 new DataGridViewTextBoxColumn(){ Name = "trc_file_amount", FillWeight = 10 },
-                new DataGridViewButtonColumn(){ Name = "trc_control", FillWeight = 7, Text = "加工", UseColumnTextForButtonValue = true },
+                new DataGridViewButtonColumn(){ Name = "trc_control", FillWeight = 7, Text = "领取", UseColumnTextForButtonValue = true },
             });
             //增加TreeView
             TreeView tv = new TreeView();
@@ -1303,6 +1303,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return proAmount;
         }
+    
         /// <summary>
         /// 加载光盘下的项目/课题列表
         /// </summary>
@@ -1378,10 +1379,12 @@ namespace 科技计划项目档案数据采集管理系统
 
             LastIdLog = new string[] { LastIdLog[1], $"Project_{trcId}" };
         }
+        
         /// <summary>
         /// 获取加工结果
         /// </summary>
-        private object GetWorkValue(object index) => (WorkStatus)Convert.ToInt32(index) == WorkStatus.NonWork ? "加工" : "已加工";
+        private object GetWorkValue(object index) => (WorkStatus)Convert.ToInt32(index) == WorkStatus.NonWork ? "领取" : "已领取";
+     
         /// <summary>
         ///  根据父级ID获取子级已领取列表
         /// </summary>

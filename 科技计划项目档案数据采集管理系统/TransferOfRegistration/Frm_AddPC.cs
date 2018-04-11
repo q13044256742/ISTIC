@@ -55,7 +55,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             //加载批次下光盘信息
 
-            querySql = new StringBuilder("SELECT trc_id,trc_code,trc_name,trc_remark FROM transfer_registraion_cd WHERE trp_id='" + unitCode + "'");
+            querySql = new StringBuilder("SELECT trc_id,trc_code,trc_name,trc_remark FROM transfer_registraion_cd WHERE trp_id='" + unitCode + "' ORDER BY trc_sort");
             DataTable table = SqlHelper.ExecuteQuery(querySql.ToString());
             foreach (DataRow item in table.Rows)
             {
@@ -152,126 +152,87 @@ namespace 科技计划项目档案数据采集管理系统
                 string giver = txt_giver.Text.Trim();
                 string remark = txt_Remark.Text.Trim();
                 string fileUpload = txt_UploadFile.Text.Trim();
-
-                TransferOfRegist registration = new TransferOfRegist()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    BatchName = batchName,
-                    BatchCode = batchCode,
-                    SourceUnit = sourceUnit,
-                    TransferTime = transferTime,
-                    Receive = receiver,
-                    Giver = giver,
-                    Remark = remark,
-                    TrpCdAmount = dgv_CDlist.RowCount - 1,
-                    SubmitStrtus = SubmitStatus.NonSubmit,
-                    WorkStatus = WorkStatus.NonWork,
-                    FileUpload = fileUpload
-                };
-
+                object trpId = Guid.NewGuid().ToString();
+                int cdCount = dgv_CDlist.RowCount - 1;
                 //新增信息
                 if (isAdd)
                 {
                     StringBuilder basicInfo_QuerySql = new StringBuilder("INSERT INTO transfer_registration_pc ");
                     basicInfo_QuerySql.Append("(trp_id,com_id,trp_name,trp_code,trp_log_data,trp_receiver,trp_giver,trp_remark,trp_cd_amount,trp_attachment_id,trp_submit_status,trp_work_status,trp_people,trp_handle_time) VALUES(");
-                    basicInfo_QuerySql.Append("'" + registration.Id + "',");
-                    basicInfo_QuerySql.Append("'" + registration.SourceUnit + "',");
-                    basicInfo_QuerySql.Append("'" + registration.BatchName + "',");
-                    basicInfo_QuerySql.Append("'" + registration.BatchCode + "',");
-                    basicInfo_QuerySql.Append("'" + registration.TransferTime + "',");
-                    basicInfo_QuerySql.Append("'" + registration.Receive + "',");
-                    basicInfo_QuerySql.Append("'" + registration.Giver + "',");
-                    basicInfo_QuerySql.Append("'" + registration.Remark + "',");
-                    basicInfo_QuerySql.Append("'" + registration.TrpCdAmount + "',");
-                    basicInfo_QuerySql.Append("'" + registration.FileUpload + "',");
-                    basicInfo_QuerySql.Append("'" + (int)registration.SubmitStrtus + "',");
-                    basicInfo_QuerySql.Append("'" + (int)registration.WorkStatus + "',");
-                    basicInfo_QuerySql.Append("'" + string.Empty + "',");
+                    basicInfo_QuerySql.Append("'" + trpId + "',");
+                    basicInfo_QuerySql.Append("'" + sourceUnit + "',");
+                    basicInfo_QuerySql.Append("'" + batchName + "',");
+                    basicInfo_QuerySql.Append("'" + batchCode + "',");
+                    basicInfo_QuerySql.Append("'" + transferTime + "',");
+                    basicInfo_QuerySql.Append("'" + receiver + "',");
+                    basicInfo_QuerySql.Append("'" + giver + "',");
+                    basicInfo_QuerySql.Append("'" + remark + "',");
+                    basicInfo_QuerySql.Append("'" + cdCount + "',");
+                    basicInfo_QuerySql.Append("'" + fileUpload + "',");
+                    basicInfo_QuerySql.Append("'" + (int)SubmitStatus.NonSubmit + "',");
+                    basicInfo_QuerySql.Append("'" + (int)WorkStatus.NonWork + "',");
+                    basicInfo_QuerySql.Append("'" + UserHelper.GetInstance().User.UserKey + "',");
                     basicInfo_QuerySql.Append("'" + DateTime.Now + "')");
                     SqlHelper.ExecuteNonQuery(basicInfo_QuerySql.ToString());
 
                     //保存光盘基本信息
-                    for (int i = 0; i < dgv_CDlist.RowCount - 1; i++)
-                    {
-                        string cdName = dgv_CDlist.Rows[i].Cells["gpmc"].Value.ToString();
-                        string cdCode = dgv_CDlist.Rows[i].Cells["gpbh"].Value.ToString();
-                        string cdRemark = GetString(dgv_CDlist.Rows[i].Cells["bz"].Value);
-                        CDEntity cd = new CDEntity()
-                        {
-                            TrcName = cdName,
-                            TrcCode = cdCode,
-                            TrpId = registration.Id,//关联批次的主键
-                            TrcRemark = cdRemark,
-                        };
-                        StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
-                        cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_complete_status,trc_people,trc_handle_time)");
-                        cdInfo_querySql.Append(" VALUES(");
-                        cdInfo_querySql.Append("'" + Guid.NewGuid().ToString() + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcName + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcCode + "',");
-                        cdInfo_querySql.Append("'" + cd.TrpId + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
-                        cdInfo_querySql.Append("'" + (int)ReadStatus.NonRead + "',");
-                        cdInfo_querySql.Append("'" + (int)WorkStatus.NonWork + "',");
-                        cdInfo_querySql.Append("'" + UserHelper.GetInstance().User.UserKey + "',");
-                        cdInfo_querySql.Append("'" + DateTime.Now + "')");
-                        SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());
-                    }
+                    SaveCDList(trpId);
                 }
                 //更新信息
                 else
                 {
                     StringBuilder basicInfo_QuerySql = new StringBuilder("UPDATE transfer_registration_pc SET ");
-                    basicInfo_QuerySql.Append("com_id='" + registration.SourceUnit + "',");
-                    basicInfo_QuerySql.Append("trp_name='" + registration.BatchName + "',");
-                    basicInfo_QuerySql.Append("trp_code='" + registration.BatchCode + "',");
-                    basicInfo_QuerySql.Append("trp_log_data='" + registration.TransferTime + "',");
-                    basicInfo_QuerySql.Append("trp_receiver='" + registration.Receive + "',");
-                    basicInfo_QuerySql.Append("trp_giver='" + registration.Giver + "',");
-                    basicInfo_QuerySql.Append("trp_remark='" + registration.Remark + "',");
-                    basicInfo_QuerySql.Append("trp_cd_amount='" + registration.TrpCdAmount + "',");
-                    basicInfo_QuerySql.Append("trp_attachment_id='" + registration.FileUpload + "',");
-                    basicInfo_QuerySql.Append($"trp_submit_status={(int)registration.SubmitStrtus}, trp_work_status={(int)registration.WorkStatus},");
-                    basicInfo_QuerySql.Append("trp_people='" + string.Empty + "',");
+                    basicInfo_QuerySql.Append("com_id='" + sourceUnit + "',");
+                    basicInfo_QuerySql.Append("trp_name='" + batchName + "',");
+                    basicInfo_QuerySql.Append("trp_code='" + batchCode + "',");
+                    basicInfo_QuerySql.Append("trp_log_data='" + transferTime + "',");
+                    basicInfo_QuerySql.Append("trp_receiver='" + receiver + "',");
+                    basicInfo_QuerySql.Append("trp_giver='" + giver + "',");
+                    basicInfo_QuerySql.Append("trp_remark='" + remark + "',");
+                    basicInfo_QuerySql.Append("trp_cd_amount='" + cdCount + "',");
+                    basicInfo_QuerySql.Append("trp_attachment_id='" + fileUpload + "',");
+                    basicInfo_QuerySql.Append("trp_submit_status=1, trp_work_status=1,");
+                    basicInfo_QuerySql.Append("trp_people='" + UserHelper.GetInstance().User.UserKey + "',");
                     basicInfo_QuerySql.Append("trp_handle_time='" + DateTime.Now + "'");
                     basicInfo_QuerySql.Append(" WHERE trp_id='" + unitCode + "'");
                     SqlHelper.ExecuteNonQuery(basicInfo_QuerySql.ToString());
 
                     //保存光盘基本信息【先删除当前批次下的所有光盘，再执行新增】
                     SqlHelper.ExecuteNonQuery("DELETE FROM transfer_registraion_cd WHERE trp_id = '" + unitCode + "'");
-                    for (int i = 0; i < dgv_CDlist.RowCount - 1; i++)
-                    {
-                        string cdName = dgv_CDlist.Rows[i].Cells["gpmc"].Value.ToString();
-                        string cdCode = dgv_CDlist.Rows[i].Cells["gpbh"].Value.ToString();
-                        string cdRemark = GetString(dgv_CDlist.Rows[i].Cells["bz"].Value);
-                        CDEntity cd = new CDEntity()
-                        {
-                            TrcId = Guid.NewGuid().ToString(),
-                            TrcName = cdName,
-                            TrcCode = cdCode,
-                            TrpId = unitCode,
-                            TrcRemark = cdRemark
-                        };
-                        StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
-                        cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_complete_status,trc_people,trc_handle_time)");
-                        cdInfo_querySql.Append(" VALUES(");
-                        cdInfo_querySql.Append("'" + cd.TrcId + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcName + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcCode + "',");
-                        cdInfo_querySql.Append("'" + cd.TrpId + "',");
-                        cdInfo_querySql.Append("'" + cd.TrcRemark + "',");
-                        cdInfo_querySql.Append("'" + (int)ReadStatus.NonRead + "',");
-                        cdInfo_querySql.Append("'" + (int)WorkStatus.NonWork + "',");
-                        cdInfo_querySql.Append("'" + UserHelper.GetInstance().User.UserKey + "',");
-                        cdInfo_querySql.Append("'" + DateTime.Now + "')");
-                        SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());
-                    }
+                    SaveCDList(unitCode);
                 }
                 if (MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                 {
                     DialogResult = DialogResult.OK;
                     Close();
                 }
+            }
+        }
+
+        /// <summary>
+        /// 保存光盘列表信息
+        /// </summary>
+        /// <param name="trpId">批次主键</param>
+        private void SaveCDList(object trpId)
+        {
+            for(int i = 0; i < dgv_CDlist.RowCount - 1; i++)
+            {
+                object cdName = dgv_CDlist.Rows[i].Cells["gpmc"].Value;
+                object cdCode = dgv_CDlist.Rows[i].Cells["gpbh"].Value;
+                object cdRemark = GetString(dgv_CDlist.Rows[i].Cells["bz"].Value);
+                StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
+                cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_complete_status,trc_people,trc_handle_time, trc_sort)");
+                cdInfo_querySql.Append(" VALUES(");
+                cdInfo_querySql.Append("'" + Guid.NewGuid().ToString() + "',");
+                cdInfo_querySql.Append("'" + cdName + "',");
+                cdInfo_querySql.Append("'" + cdCode + "',");
+                cdInfo_querySql.Append("'" + trpId + "',");
+                cdInfo_querySql.Append("'" + cdRemark + "',");
+                cdInfo_querySql.Append("'" + (int)ReadStatus.NonRead + "',");
+                cdInfo_querySql.Append("'" + (int)WorkStatus.NonWork + "',");
+                cdInfo_querySql.Append("'" + UserHelper.GetInstance().User.UserKey + "',");
+                cdInfo_querySql.Append("'" + DateTime.Now + "', '" + i + "')");
+                SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());
             }
         }
 

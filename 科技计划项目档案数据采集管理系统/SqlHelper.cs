@@ -75,6 +75,9 @@ namespace 科技计划项目档案数据采集管理系统
             SqlCommand sqlCommand = new SqlCommand(querySql, GetConnect());
             object result = sqlCommand.ExecuteScalar();
             CloseConnect();
+            if(result != null)
+                if(string.IsNullOrEmpty(result.ToString()))
+                    result = null;
             return result;
         }
 

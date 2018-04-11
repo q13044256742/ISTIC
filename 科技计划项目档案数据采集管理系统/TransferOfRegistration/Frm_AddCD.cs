@@ -18,6 +18,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             string name = txt_CDName.Text.Trim();
             string code = txt_CDCode.Text.Trim();
             string remark = txt_CDRemark.Text.Trim();
+            object sort = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(trc_sort) FROM transfer_registraion_cd WHERE trp_id='{pid}'") ?? -1;
+            int _sort = Convert.ToInt32(sort) + 1;
+
             if(string.IsNullOrEmpty(name) || string.IsNullOrEmpty(code))
                 MessageBox.Show("请先将表单补充完整!");
             else
@@ -31,7 +34,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     TrcRemark = remark
                 };
                 StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
-                cdInfo_querySql.Append("(trc_id,trc_name,trc_code,trp_id,trc_remark,trc_status,trc_complete_status,trc_people,trc_handle_time)");
+                cdInfo_querySql.Append("(trc_id, trc_name, trc_code, trp_id, trc_remark, trc_status, trc_complete_status, trc_people, trc_handle_time, trc_sort)");
                 cdInfo_querySql.Append(" VALUES(");
                 cdInfo_querySql.Append("'" + cd.TrcId + "',");
                 cdInfo_querySql.Append("'" + cd.TrcName + "',");
@@ -41,7 +44,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 cdInfo_querySql.Append("'" + (int)ReadStatus.NonRead + "',");
                 cdInfo_querySql.Append("'" + (int)WorkStatus.NonWork + "',");
                 cdInfo_querySql.Append("'" + string.Empty + "',");
-                cdInfo_querySql.Append("'" + DateTime.Now + "')");
+                cdInfo_querySql.Append("'" + DateTime.Now + "', '" + _sort + "')");
                 SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());
 
                 //刷新批次下的光盘数
