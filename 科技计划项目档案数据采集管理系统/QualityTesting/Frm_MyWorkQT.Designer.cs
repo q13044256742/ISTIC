@@ -996,7 +996,7 @@
             this.fileCheck.Controls.Add(this.dgv_JH_FileValid);
             this.fileCheck.Location = new System.Drawing.Point(4, 26);
             this.fileCheck.Name = "fileCheck";
-            this.fileCheck.Size = new System.Drawing.Size(991, 300);
+            this.fileCheck.Size = new System.Drawing.Size(991, 290);
             this.fileCheck.TabIndex = 3;
             this.fileCheck.Text = "文件核查";
             this.fileCheck.UseVisualStyleBackColor = true;
@@ -1028,7 +1028,7 @@
             this.dgv_JH_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_JH_FileValid.Name = "dgv_JH_FileValid";
             this.dgv_JH_FileValid.RowTemplate.Height = 23;
-            this.dgv_JH_FileValid.Size = new System.Drawing.Size(991, 300);
+            this.dgv_JH_FileValid.Size = new System.Drawing.Size(991, 290);
             this.dgv_JH_FileValid.TabIndex = 0;
             // 
             // addPaper
@@ -1048,7 +1048,7 @@
             this.addPaper.Location = new System.Drawing.Point(4, 26);
             this.addPaper.Name = "addPaper";
             this.addPaper.Padding = new System.Windows.Forms.Padding(3);
-            this.addPaper.Size = new System.Drawing.Size(991, 300);
+            this.addPaper.Size = new System.Drawing.Size(991, 290);
             this.addPaper.TabIndex = 1;
             this.addPaper.Text = "添加案卷";
             this.addPaper.UseVisualStyleBackColor = true;

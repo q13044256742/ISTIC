@@ -1508,7 +1508,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_XM_Code.Text;
                 string name = txt_JH_XM_Name.Text;
-                string type = txt_JH_XM_JHType.Text;
+                string type = string.Empty;
                 string ly = txt_JH_XM_LY.Text;
                 string zt = txt_JH_XM_ZT.Text;
                 string jf = txt_JH_XM_JF.Text;
@@ -1543,7 +1543,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_KT_Code.Text;
                 string name = txt_JH_KT_Name.Text;
-                string type = txt_JH_KT_Type.Text;
+                string type = string.Empty;
                 string ly = txt_JH_KT_LY.Text;
                 string zt = txt_JH_KT_ZT.Text;
                 string jf = txt_JH_KT_JF.Text;
@@ -1578,7 +1578,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_XM_KT_Code.Text;
                 string name = txt_JH_XM_KT_Name.Text;
-                string type = txt_JH_XM_KT_Type.Text;
+                string type = string.Empty;
                 string ly = txt_JH_XM_KT_LY.Text;
                 string zt = txt_JH_XM_KT_ZT.Text;
                 string jf = txt_JH_XM_KT_JF.Text;
@@ -1613,7 +1613,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_KT_ZKT_Code.Text;
                 string name = txt_JH_KT_ZKT_Name.Text;
-                string type = txt_JH_KT_ZKT_Type.Text;
+                string type = string.Empty;
                 string ly = txt_JH_KT_ZKT_LY.Text;
                 string zt = txt_JH_KT_ZKT_ZT.Text;
                 string jf = txt_JH_KT_ZKT_JF.Text;
@@ -1648,7 +1648,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_XM_KT_ZKT_Code.Text;
                 string name = txt_JH_XM_KT_ZKT_Name.Text;
-                string type = txt_JH_XM_KT_ZKT_Type.Text;
+                string type = string.Empty;
                 string ly = txt_JH_XM_KT_ZKT_LY.Text;
                 string zt = txt_JH_XM_KT_ZKT_ZT.Text;
                 string jf = txt_JH_XM_KT_ZKT_JF.Text;
@@ -1713,7 +1713,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_XM_Code.Text;
                 string name = txt_JH_XM_Name.Text;
-                string planType = txt_JH_XM_JHType.Text;
+                string planType = string.Empty;
                 string ly = txt_JH_XM_LY.Text;
                 string zt = txt_JH_XM_ZT.Text;
                 string jf = txt_JH_XM_JF.Text;
@@ -1740,7 +1740,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_KT_Code.Text;
                 string name = txt_JH_KT_Name.Text;
-                string planType = txt_JH_KT_Type.Text;
+                string planType = string.Empty;
                 string ly = txt_JH_KT_LY.Text;
                 string zt = txt_JH_KT_ZT.Text;
                 string jf = txt_JH_KT_JF.Text;
@@ -1767,7 +1767,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_XM_KT_Code.Text;
                 string name = txt_JH_XM_KT_Name.Text;
-                string planType = txt_JH_XM_KT_Type.Text;
+                string planType = string.Empty;
                 string ly = txt_JH_XM_KT_LY.Text;
                 string zt = txt_JH_XM_KT_ZT.Text;
                 string jf = txt_JH_XM_KT_JF.Text;
@@ -1792,7 +1792,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_KT_ZKT_Code.Text;
                 string name = txt_JH_KT_ZKT_Name.Text;
-                string planType = txt_JH_KT_ZKT_Type.Text;
+                string planType = string.Empty;
                 string ly = txt_JH_KT_ZKT_LY.Text;
                 string zt = txt_JH_KT_ZKT_ZT.Text;
                 string jf = txt_JH_KT_ZKT_JF.Text;
@@ -1817,7 +1817,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_JH_XM_KT_ZKT_Code.Text;
                 string name = txt_JH_XM_KT_ZKT_Name.Text;
-                string planType = txt_JH_XM_KT_ZKT_Type.Text;
+                string planType = string.Empty;
                 string ly = txt_JH_XM_KT_ZKT_LY.Text;
                 string zt = txt_JH_XM_KT_ZKT_ZT.Text;
                 string jf = txt_JH_XM_KT_ZKT_JF.Text;
@@ -4199,7 +4199,6 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_JH_XM_FileList.Tag = row["pi_id"];
                     txt_JH_XM_Code.Text = GetValue(row["pi_code"]);
                     txt_JH_XM_Name.Text = GetValue(row["pi_name"]);
-                    txt_JH_XM_JHType.Text = GetValue(row["pi_type"]);
                     txt_JH_XM_LY.Text = GetValue(row["pb_belong"]);
                     txt_JH_XM_ZT.Text = GetValue(row["pb_belong_type"]);
                     txt_JH_XM_JF.Text = GetValue(row["pi_money"]);
@@ -4237,7 +4236,6 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_JH_KT_FileList.Tag = row["pi_id"];
                     txt_JH_KT_Code.Text = GetValue(row["pi_code"]);
                     txt_JH_KT_Name.Text = GetValue(row["pi_name"]);
-                    txt_JH_KT_Type.Text = GetValue(row["pi_type"]);
                     txt_JH_KT_LY.Text = GetValue(row["pb_belong"]);
                     txt_JH_KT_ZT.Text = GetValue(row["pb_belong_type"]);
                     txt_JH_KT_JF.Text = GetValue(row["pi_money"]);
@@ -4275,7 +4273,6 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_JH_XM_KT_FileList.Tag = row["si_id"];
                     txt_JH_XM_KT_Code.Text = GetValue(row["si_code"]);
                     txt_JH_XM_KT_Name.Text = GetValue(row["si_name"]);
-                    txt_JH_XM_KT_Type.Text = GetValue(row["si_type"]);
                     txt_JH_XM_KT_LY.Text = GetValue(row["si_field"]);
                     txt_JH_XM_KT_ZT.Text = GetValue(row["si_belong"]);
                     txt_JH_XM_KT_JF.Text = GetValue(row["si_money"]);
@@ -4313,7 +4310,6 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_JH_KT_ZKT_FileList.Tag = row["si_id"];
                     txt_JH_KT_ZKT_Code.Text = GetValue(row["si_code"]);
                     txt_JH_KT_ZKT_Name.Text = GetValue(row["si_name"]);
-                    txt_JH_KT_ZKT_Type.Text = GetValue(row["si_type"]);
                     txt_JH_KT_ZKT_LY.Text = GetValue(row["si_field"]);
                     txt_JH_KT_ZKT_ZT.Text = GetValue(row["si_belong"]);
                     txt_JH_KT_ZKT_JF.Text = GetValue(row["si_money"]);
@@ -4351,7 +4347,6 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_JH_XM_KT_ZKT_FileList.Tag = row["si_id"];
                     txt_JH_XM_KT_ZKT_Code.Text = GetValue(row["si_code"]);
                     txt_JH_XM_KT_ZKT_Name.Text = GetValue(row["si_name"]);
-                    txt_JH_XM_KT_ZKT_Type.Text = GetValue(row["si_type"]);
                     txt_JH_XM_KT_ZKT_LY.Text = GetValue(row["si_field"]);
                     txt_JH_XM_KT_ZKT_ZT.Text = GetValue(row["si_belong"]);
                     txt_JH_XM_KT_ZKT_JF.Text = GetValue(row["si_money"]);
@@ -4436,7 +4431,6 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_FileList.Tag = null;
                 txt_JH_XM_Code.Clear();
                 txt_JH_XM_Name.Clear();
-                txt_JH_XM_JHType.Clear();
                 txt_JH_XM_LY.Clear();
                 txt_JH_XM_ZT.Clear();
                 txt_JH_XM_JF.ResetText();
@@ -4452,7 +4446,6 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_KT_FileList.Tag = null;
                 txt_JH_KT_Code.Clear();
                 txt_JH_KT_Name.Clear();
-                txt_JH_KT_Type.Clear();
                 txt_JH_KT_LY.Clear();
                 txt_JH_KT_ZT.Clear();
                 txt_JH_KT_JF.ResetText();
@@ -4468,7 +4461,6 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_KT_FileList.Tag = null;
                 txt_JH_XM_KT_Code.Clear();
                 txt_JH_XM_KT_Name.Clear();
-                txt_JH_XM_KT_Type.Clear();
                 txt_JH_XM_KT_LY.Clear();
                 txt_JH_XM_KT_ZT.Clear();
                 txt_JH_XM_KT_JF.ResetText();
@@ -4484,7 +4476,6 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_KT_ZKT_FileList.Tag = null;
                 txt_JH_KT_ZKT_Code.Clear();
                 txt_JH_KT_ZKT_Name.Clear();
-                txt_JH_KT_ZKT_Type.Clear();
                 txt_JH_KT_ZKT_LY.Clear();
                 txt_JH_KT_ZKT_ZT.Clear();
                 txt_JH_KT_ZKT_JF.ResetText();
@@ -4500,7 +4491,6 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_KT_ZKT_FileList.Tag = null;
                 txt_JH_XM_KT_ZKT_Code.Clear();
                 txt_JH_XM_KT_ZKT_Name.Clear();
-                txt_JH_XM_KT_ZKT_Type.Clear();
                 txt_JH_XM_KT_ZKT_LY.Clear();
                 txt_JH_XM_KT_ZKT_ZT.Clear();
                 txt_JH_XM_KT_ZKT_JF.ResetText();

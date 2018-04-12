@@ -18,6 +18,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 所属对象主键
         /// </summary>
         private object OBJECT_ID;
+        private object PLAN_ID;
         public object planCode;
         public int DEV_TYPE = -1;
         public object unitCode;
@@ -43,6 +44,7 @@ namespace 科技计划项目档案数据采集管理系统
             InitializeComponent();
             this.isBacked = isBacked;
             OBJECT_ID = trpId;
+            PLAN_ID = planId;
             this.workType = workType;
             this.controlType = controlType;
             if(workType == WorkType.Default && DEV_TYPE == -1)
@@ -839,7 +841,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
                             MessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
-                            GoToTreeList(view);
+                            GoToTreeList();
                         }
                         else
                             MessageBox.Show("存在文件名重复的文件。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -907,7 +909,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
                             MessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
-                            GoToTreeList(view);
+                            GoToTreeList();
                         }
                         else
                             MessageBox.Show("存在文件名重复的文件。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -975,7 +977,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
                             MessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
-                            GoToTreeList(view);
+                            GoToTreeList();
                         }
                         else
                             MessageBox.Show("存在文件名重复的文件。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -1043,7 +1045,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
                             MessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
-                            GoToTreeList(view);
+                            GoToTreeList();
                         }
                         else
                             MessageBox.Show("存在文件名重复的文件。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -1111,7 +1113,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
                             MessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
-                            GoToTreeList(view);
+                            GoToTreeList();
                         }
                         else
                             MessageBox.Show("存在文件名重复的文件。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -1175,7 +1177,7 @@ namespace 科技计划项目档案数据采集管理系统
                         SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
                         MessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
-                        GoToTreeList(view);
+                        GoToTreeList();
                     }
                     else
                         MessageBox.Show("存在文件名重复的文件。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -1242,7 +1244,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
                             MessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
-                            GoToTreeList(view);
+                            GoToTreeList();
                         }
                         else
                             MessageBox.Show("存在文件名重复的文件。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -1283,12 +1285,12 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void GoToTreeList(DataGridView view)
+        private void GoToTreeList()
         {
             if(workType == WorkType.Default)
             {
                 if(controlType == ControlType.Plan_Project)
-                    LoadTreeList(view.Tag, ControlType.Plan_Project);
+                    LoadTreeList(PLAN_ID, ControlType.Plan_Project);
                 else
                     LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
             }
@@ -2073,15 +2075,25 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             ShowTab("imp", 0);
                             LoadImpPage(node.Name, node.ForeColor);
-                        }else if(type == ControlType.Imp_Normal)
+                        }
+                        else if(type == ControlType.Imp_Normal)
                         {
                             ShowTab("plan", 0);
                             LoadPlanPage(node.Name, Color.Black);
                         }
                         else if(type == ControlType.Plan_Project)
                         {
-                            ShowTab("imp", 0);
-                            LoadImpPage(node.Name, node.ForeColor);
+                            object _temp = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_id='{node.Name}'");
+                            if(_temp == null)//重大专项>>项目/计划
+                            {
+                                ShowTab("imp", 0);
+                                LoadImpPage(node.Name, node.ForeColor);
+                            }
+                            else//普通专项>>项目/计划
+                            {
+                                ShowTab("plan", 0);
+                                LoadPlanPage(node.Name, Color.Black);
+                            }
                         }
                     }
                     else
@@ -5210,38 +5222,39 @@ namespace 科技计划项目档案数据采集管理系统
         private void Btn_QTReason_Click(object sender, EventArgs e)
         {
             string name = (sender as Control).Name;
+            object objId = null, objName = null;
             if("btn_Imp_QTReason".Equals(name))
             {
-                object objId = dgv_Imp_FileList.Tag;
-                object objName = lbl_Imp_Name.Text;
-                Frm_AdviceBW frm = new Frm_AdviceBW(objId, objName);
-                frm.Show();
+                objId = dgv_Imp_FileList.Tag;
+                objName = lbl_Imp_Name.Text;
             }
             else if("btn_JH_QTReason".Equals(name))
             {
-                object objId = dgv_JH_FileList.Tag;
-                object objName = lbl_JH_Name.Text;
-                Frm_AdviceBW frm = new Frm_AdviceBW(objId, objName);
-                frm.Show();
+                objId = dgv_JH_FileList.Tag;
+                objName = lbl_JH_Name.Text;
             }
             else if("btn_Imp_Dev_QTReason".Equals(name))
             {
-                object objId = dgv_Imp_Dev_FileList.Tag;
-                object objName = txt_Imp_Dev_Name.Text;
-                Frm_AdviceBW frm = new Frm_AdviceBW(objId, objName);
-                frm.Show();
+                objId = dgv_Imp_Dev_FileList.Tag;
+                objName = txt_Imp_Dev_Name.Text;
             }
             else if("btn_JH_XM_QTReason".Equals(name))
             {
-                object objId = dgv_JH_XM_FileList.Tag;
-                object objName = txt_JH_XM_Name.Text;
-                Frm_AdviceBW frm = new Frm_AdviceBW(objId, objName);
-                frm.Show();
+                objId = dgv_JH_XM_FileList.Tag;
+                objName = txt_JH_XM_Name.Text;
             }
             else if("btn_JH_XM_KT_QTReason".Equals(name))
             {
-                object objId = dgv_JH_XM_KT_FileList.Tag;
-                object objName = txt_JH_XM_KT_Name.Text;
+                objId = dgv_JH_XM_KT_FileList.Tag;
+                objName = txt_JH_XM_KT_Name.Text;
+            }
+            else if("btn_JH_XM_KT_ZKT_QTReason".Equals(name))
+            {
+                objId = dgv_JH_XM_KT_ZKT_FileList.Tag;
+                objName = txt_JH_XM_KT_ZKT_Name.Text;
+            }
+            if(objId != null && objName != null)
+            {
                 Frm_AdviceBW frm = new Frm_AdviceBW(objId, objName);
                 frm.Show();
             }
