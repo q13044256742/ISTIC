@@ -313,66 +313,6 @@ namespace 科技计划项目档案数据采集管理系统
             comboBoxColumn.DisplayMember = "dd_name";
             comboBoxColumn.ValueMember = "dd_id";
         }
-        /// <summary>
-        /// 初始化下拉框数据（承担单位/省份）
-        /// </summary>
-        private void InitialDrowDownList(ControlType type)
-        {
-            DataTable dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                "SELECT dd_id FROM data_dictionary where dd_code = 'dic_key_company_work')");
-            DataTable _dataTable = SqlHelper.ExecuteQuery("SELECT dd_id,dd_name FROM data_dictionary WHERE dd_pId=(" +
-                "SELECT dd_id FROM data_dictionary where dd_code = 'dic_xzqy_province')");
-            if(type == ControlType.Plan_Project)
-            {
-                cbo_JH_XM_Unit.DataSource = dataTable;
-                cbo_JH_XM_Unit.DisplayMember = "dd_name";
-                cbo_JH_XM_Unit.ValueMember = "dd_id";
-
-                cbo_JH_XM_Province.DataSource = _dataTable;
-                cbo_JH_XM_Province.DisplayMember = "dd_name";
-                cbo_JH_XM_Province.ValueMember = "dd_id";
-            }
-            else if(type == ControlType.Plan_Topic)
-            {
-                cbo_JH_KT_Unit.DataSource = dataTable;
-                cbo_JH_KT_Unit.DisplayMember = "dd_name";
-                cbo_JH_KT_Unit.ValueMember = "dd_id";
-
-                cbo_JH_KT_Province.DataSource = _dataTable;
-                cbo_JH_KT_Province.DisplayMember = "dd_name";
-                cbo_JH_KT_Province.ValueMember = "dd_id";
-            }
-            else if(type == ControlType.Plan_Project_Topic)
-            {
-                cbo_JH_XM_KT_Unit.DataSource = dataTable;
-                cbo_JH_XM_KT_Unit.DisplayMember = "dd_name";
-                cbo_JH_XM_KT_Unit.ValueMember = "dd_id";
-
-                cbo_JH_XM_KT_Province.DataSource = _dataTable;
-                cbo_JH_XM_KT_Province.DisplayMember = "dd_name";
-                cbo_JH_XM_KT_Province.ValueMember = "dd_id";
-            }
-            else if(type == ControlType.Plan_Project_Topic_Subtopic)
-            {
-                cbo_JH_XM_KT_ZKT_Unit.DataSource = dataTable;
-                cbo_JH_XM_KT_ZKT_Unit.DisplayMember = "dd_name";
-                cbo_JH_XM_KT_ZKT_Unit.ValueMember = "dd_id";
-
-                cbo_JH_XM_KT_ZKT_Province.DataSource = _dataTable;
-                cbo_JH_XM_KT_ZKT_Province.DisplayMember = "dd_name";
-                cbo_JH_XM_KT_ZKT_Province.ValueMember = "dd_id";
-            }
-            else if(type == ControlType.Plan_Topic_Subtopic)
-            {
-                cbo_JH_KT_ZKT_Unit.DataSource = dataTable;
-                cbo_JH_KT_ZKT_Unit.DisplayMember = "dd_name";
-                cbo_JH_KT_ZKT_Unit.ValueMember = "dd_id";
-
-                cbo_JH_KT_ZKT_Province.DataSource = _dataTable;
-                cbo_JH_KT_ZKT_Province.DisplayMember = "dd_name";
-                cbo_JH_KT_ZKT_Province.ValueMember = "dd_id";
-            }
-        }
 
         private void InitialFormList(DataGridView dataGridView, string key)
         {
@@ -731,14 +671,12 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project", _index + 1);
                     pal_JH_XM.Tag = dgv_Imp_Dev_FileList.Tag;
                     ResetControls(ControlType.Plan_Project);
-                    InitialDrowDownList(ControlType.Plan_Project);
                 }
                 else if(index == 2)//父级 - 课题
                 {
                     ShowTab("plan_topic", _index + 1);
                     pal_JH_KT.Tag = dgv_Imp_Dev_FileList.Tag;
                     ResetControls(ControlType.Plan_Topic);
-                    InitialDrowDownList(ControlType.Plan_Topic);
                 }
             }
             else
@@ -763,14 +701,12 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project", _index + 1);
                     pal_JH_XM.Tag = dgv_JH_FileList.Tag;
                     ResetControls(ControlType.Plan_Project);
-                    InitialDrowDownList(ControlType.Plan_Project);
                 }
                 else if(index == 2)//父级 - 课题
                 {
                     ShowTab("plan_topic", _index + 1);
                     pal_JH_KT.Tag = dgv_JH_FileList.Tag;
                     ResetControls(ControlType.Plan_Topic);
-                    InitialDrowDownList(ControlType.Plan_Topic);
                 }
             }
         }
@@ -795,7 +731,6 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project_topic", _index + 1);
                     pal_JH_XM_KT.Tag = dgv_JH_XM_FileList.Tag;
                     ResetControls(ControlType.Plan_Project_Topic);
-                    InitialDrowDownList(ControlType.Plan_Project_Topic);
                 }
             }
         }
@@ -820,7 +755,6 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project_topic_subtopic", _index + 1);
                     pal_JH_XM_KT_ZKT.Tag = dgv_JH_XM_KT_FileList.Tag;
                     ResetControls(ControlType.Plan_Project_Topic_Subtopic);
-                    InitialDrowDownList(ControlType.Plan_Project_Topic_Subtopic);
                 }
             }
         }
@@ -845,7 +779,6 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_topic_subtopic", _index + 1);
                     pal_JH_KT_ZKT.Tag = dgv_JH_KT_FileList.Tag;
                     ResetControls(ControlType.Plan_Topic_Subtopic);
-                    InitialDrowDownList(ControlType.Plan_Topic_Subtopic);
                 }
             }
         }
@@ -1582,8 +1515,8 @@ namespace 科技计划项目档案数据采集管理系统
                 DateTime starttime = dtp_JH_XM_StartTime.Value;
                 DateTime endtime = dtp_JH_XM_EndTime.Value;
                 string year = txt_JH_XM_LXND.Text;
-                object unit = cbo_JH_XM_Unit.SelectedValue;
-                object province = cbo_JH_XM_Province.SelectedValue;
+                object unit = txt_JH_XM_Unit.Text;
+                object province = txt_JH_XM_Province.Text;
                 string unituser = txt_JH_XM_UnitUser.Text;
                 string objuser = txt_JH_XM_ObjUser.Text;
                 string intro = txt_JH_XM_ObjIntroduct.Text;
@@ -1617,8 +1550,8 @@ namespace 科技计划项目档案数据采集管理系统
                 DateTime starttime = dtp_JH_KT_StartTime.Value;
                 DateTime endtime = dtp_JH_KT_EndTime.Value;
                 string year = txt_JH_KT_Year.Text;
-                object unit = cbo_JH_KT_Unit.SelectedValue;
-                object province = cbo_JH_KT_Province.SelectedValue;
+                object unit = txt_JH_KT_Unit.Text;
+                object province = txt_JH_KT_Province.Text;
                 string unituser = txt_JH_KT_UnitUser.Text;
                 string objuser = txt_JH_KT_ProUser.Text;
                 string intro = txt_JH_KT_Intro.Text;
@@ -1652,8 +1585,8 @@ namespace 科技计划项目档案数据采集管理系统
                 DateTime starttime = dtp_JH_XM_KT_StartTime.Value;
                 DateTime endtime = dtp_JH_XM_KT_EndTime.Value;
                 string year = txt_JH_XM_KT_Year.Text;
-                object unit = cbo_JH_XM_KT_Unit.SelectedValue;
-                object province = cbo_JH_XM_KT_Province.SelectedValue;
+                object unit = txt_JH_XM_KT_Unit.Text;
+                object province = txt_JH_XM_KT_Province.Text;
                 string unituser = txt_JH_XM_KT_UnitUser.Text;
                 string objuser = txt_JH_XM_KT_ProUser.Text;
                 string intro = txt_JH_XM_KT_Intro.Text;
@@ -1687,8 +1620,8 @@ namespace 科技计划项目档案数据采集管理系统
                 DateTime starttime = dtp_JH_KT_ZKT_StartTime.Value;
                 DateTime endtime = dtp_JH_KT_ZKT_EndTime.Value;
                 string year = txt_JH_KT_ZKT_Year.Text;
-                object unit = cbo_JH_KT_ZKT_Unit.SelectedValue;
-                object province = cbo_JH_KT_ZKT_Province.SelectedValue;
+                object unit = txt_JH_KT_ZKT_Unit.Text;
+                object province = txt_JH_KT_ZKT_Province.Text;
                 string unituser = txt_JH_KT_ZKT_Unituser.Text;
                 string objuser = txt_JH_KT_ZKT_ProUser.Text;
                 string intro = txt_JH_KT_ZKT_Intro.Text;
@@ -1722,10 +1655,10 @@ namespace 科技计划项目档案数据采集管理系统
                 DateTime starttime = dtp_JH_XM_KT_ZKT_StartTime.Value;
                 DateTime endtime = dtp_JH_XM_KT_ZKT_EndTime.Value;
                 string year = txt_JH_XM_KT_ZKT_Year.Text;
-                object unit = cbo_JH_XM_KT_ZKT_Unit.SelectedValue;
+                object unit = txt_JH_XM_KT_ZKT_Unit.Text;
                 string unituser = txt_JH_XM_KT_ZKT_Unituser.Text;
                 string objuser = txt_JH_XM_KT_ZKT_Prouser.Text;
-                object province = cbo_JH_XM_KT_ZKT_Province.SelectedValue;
+                object province = txt_JH_XM_KT_ZKT_Province.Text;
                 string intro = txt_JH_XM_KT_ZKT_Intro.Text;
 
                 string updateSql = "UPDATE subject_info SET " +
@@ -1787,8 +1720,8 @@ namespace 科技计划项目档案数据采集管理系统
                 DateTime starttime = dtp_JH_XM_StartTime.Value;
                 DateTime endtime = dtp_JH_XM_EndTime.Value;
                 string year = txt_JH_XM_LXND.Text;
-                object unit = cbo_JH_XM_Unit.SelectedValue;
-                object province = cbo_JH_XM_Province.SelectedValue;
+                object unit = txt_JH_XM_Unit.Text;
+                object province = txt_JH_XM_Province.Text;
                 string unituser = txt_JH_XM_UnitUser.Text;
                 string objuser = txt_JH_XM_ObjUser.Text;
                 string intro = txt_JH_XM_ObjIntroduct.Text;
@@ -1814,8 +1747,8 @@ namespace 科技计划项目档案数据采集管理系统
                 DateTime starttime = dtp_JH_KT_StartTime.Value;
                 DateTime endtime = dtp_JH_KT_EndTime.Value;
                 string year = txt_JH_KT_Year.Text;
-                object unit = cbo_JH_KT_Unit.SelectedValue;
-                object province = cbo_JH_KT_Province.SelectedValue;
+                object unit = txt_JH_KT_Unit.Text;
+                object province = txt_JH_KT_Province.Text;
                 string unituser = txt_JH_KT_UnitUser.Text;
                 string objuser = txt_JH_KT_ProUser.Text;
                 string intro = txt_JH_KT_Intro.Text;
@@ -1841,8 +1774,8 @@ namespace 科技计划项目档案数据采集管理系统
                 DateTime starttime = dtp_JH_XM_KT_StartTime.Value;
                 DateTime endtime = dtp_JH_XM_KT_EndTime.Value;
                 string year = txt_JH_XM_KT_Year.Text;
-                object unit = cbo_JH_XM_KT_Unit.SelectedValue;
-                object province = cbo_JH_XM_KT_Province.SelectedValue;
+                object unit = txt_JH_XM_KT_Unit.Text;
+                object province = txt_JH_XM_KT_Province.Text;
                 string unituser = txt_JH_XM_KT_UnitUser.Text;
                 string objuser = txt_JH_XM_KT_ProUser.Text;
                 string intro = txt_JH_XM_KT_Intro.Text;
@@ -1866,8 +1799,8 @@ namespace 科技计划项目档案数据采集管理系统
                 DateTime starttime = dtp_JH_KT_ZKT_StartTime.Value;
                 DateTime endtime = dtp_JH_KT_ZKT_EndTime.Value;
                 string year = txt_JH_KT_ZKT_Year.Text;
-                object unit = cbo_JH_KT_ZKT_Unit.SelectedValue;
-                object province = cbo_JH_KT_ZKT_Province.SelectedValue;
+                object unit = txt_JH_KT_ZKT_Unit.Text;
+                object province = txt_JH_KT_ZKT_Province.Text;
                 string unituser = txt_JH_KT_ZKT_Unituser.Text;
                 string objuser = txt_JH_KT_ZKT_ProUser.Text;
                 string intro = txt_JH_KT_ZKT_Intro.Text;
@@ -1891,10 +1824,10 @@ namespace 科技计划项目档案数据采集管理系统
                 DateTime starttime = dtp_JH_XM_KT_ZKT_StartTime.Value;
                 DateTime endtime = dtp_JH_XM_KT_ZKT_EndTime.Value;
                 string year = txt_JH_XM_KT_ZKT_Year.Text;
-                object unit = cbo_JH_XM_KT_ZKT_Unit.SelectedValue;
+                object unit = txt_JH_XM_KT_ZKT_Unit.Text;
                 string unituser = txt_JH_XM_KT_ZKT_Unituser.Text;
                 string objuser = txt_JH_XM_KT_ZKT_Prouser.Text;
-                object province = cbo_JH_XM_KT_ZKT_Province.SelectedValue;
+                object province = txt_JH_XM_KT_ZKT_Province.Text;
                 string intro = txt_JH_XM_KT_ZKT_Intro.Text;
 
                 string insertSql = "INSERT INTO subject_info(si_id, pi_id, si_code, si_name, si_type, si_field, si_belong, si_money, si_start_datetime," +
@@ -4257,7 +4190,6 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         private void LoadPageBasicInfo(object projectId, ControlType type)
         {
-            InitialDrowDownList(type);
             if(type == ControlType.Plan_Project)
             {
                 DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM project_info WHERE pi_id='{projectId}'");
@@ -4283,8 +4215,8 @@ namespace 科技计划项目档案数据采集管理系统
                         dtp_JH_XM_EndTime.Value = _endTime;
 
                     txt_JH_XM_LXND.Text = GetValue(row["pi_year"]);
-                    cbo_JH_XM_Unit.SelectedValue = GetValue(row["pi_company_id"]);
-                    cbo_JH_XM_Province.SelectedValue = GetValue(row["pi_province"]);
+                    txt_JH_XM_Unit.Text = GetValue(row["pi_company_id"]);
+                    txt_JH_XM_Province.Text = GetValue(row["pi_province"]);
                     txt_JH_XM_UnitUser.Text = GetValue(row["pi_company_user"]);
                     txt_JH_XM_ObjUser.Text = GetValue(row["pi_project_user"]);
                     txt_JH_XM_ObjIntroduct.Text = GetValue(row["pi_introduction"]);
@@ -4321,8 +4253,8 @@ namespace 科技计划项目档案数据采集管理系统
                         dtp_JH_KT_EndTime.Value = _endTime;
 
                     txt_JH_KT_Year.Text = GetValue(row["pi_year"]);
-                    cbo_JH_KT_Unit.SelectedValue = GetValue(row["pi_company_id"]);
-                    cbo_JH_KT_Province.SelectedValue = GetValue(row["pi_province"]);
+                    txt_JH_KT_Unit.Text = GetValue(row["pi_company_id"]);
+                    txt_JH_KT_Province.Text = GetValue(row["pi_province"]);
                     txt_JH_KT_UnitUser.Text = GetValue(row["pi_company_user"]);
                     txt_JH_KT_ProUser.Text = GetValue(row["pi_project_user"]);
                     txt_JH_KT_Intro.Text = GetValue(row["pi_introduction"]);
@@ -4359,8 +4291,8 @@ namespace 科技计划项目档案数据采集管理系统
                         dtp_JH_XM_KT_EndTime.Value = _endTime;
 
                     txt_JH_XM_KT_Year.Text = GetValue(row["si_year"]);
-                    cbo_JH_XM_KT_Unit.SelectedValue = GetValue(row["si_company"]);
-                    cbo_JH_XM_KT_Province.SelectedValue = GetValue(row["si_province"]);
+                    txt_JH_XM_KT_Unit.Text = GetValue(row["si_company"]);
+                    txt_JH_XM_KT_Province.Text = GetValue(row["si_province"]);
                     txt_JH_XM_KT_UnitUser.Text = GetValue(row["si_company_user"]);
                     txt_JH_XM_KT_ProUser.Text = GetValue(row["si_project_user"]);
                     txt_JH_XM_KT_Intro.Text = GetValue(row["si_introduction"]);
@@ -4397,8 +4329,8 @@ namespace 科技计划项目档案数据采集管理系统
                         dtp_JH_KT_ZKT_EndTime.Value = _endTime;
 
                     txt_JH_KT_ZKT_Year.Text = GetValue(row["si_year"]);
-                    cbo_JH_KT_ZKT_Unit.SelectedValue = GetValue(row["si_company"]);
-                    cbo_JH_KT_ZKT_Province.SelectedValue = GetValue(row["si_province"]);
+                    txt_JH_KT_ZKT_Unit.Text = GetValue(row["si_company"]);
+                    txt_JH_KT_ZKT_Province.Text = GetValue(row["si_province"]);
                     txt_JH_KT_ZKT_Unituser.Text = GetValue(row["si_company_user"]);
                     txt_JH_KT_ZKT_ProUser.Text = GetValue(row["si_project_user"]);
                     txt_JH_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);
@@ -4435,8 +4367,8 @@ namespace 科技计划项目档案数据采集管理系统
                         dtp_JH_XM_KT_ZKT_EndTime.Value = _endTime;
 
                     txt_JH_XM_KT_ZKT_Year.Text = GetValue(row["si_year"]);
-                    cbo_JH_XM_KT_ZKT_Unit.SelectedValue = GetValue(row["si_company"]);
-                    cbo_JH_XM_KT_ZKT_Province.SelectedValue = GetValue(row["si_province"]);
+                    txt_JH_XM_KT_ZKT_Unit.Text = GetValue(row["si_company"]);
+                    txt_JH_XM_KT_ZKT_Province.Text = GetValue(row["si_province"]);
                     txt_JH_XM_KT_ZKT_Unituser.Text = GetValue(row["si_company_user"]);
                     txt_JH_XM_KT_ZKT_Prouser.Text = GetValue(row["si_project_user"]);
                     txt_JH_XM_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);

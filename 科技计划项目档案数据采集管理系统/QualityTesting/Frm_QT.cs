@@ -635,7 +635,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){Name = "pro_unit", HeaderText = "来源单位", FillWeight = 12},
                 new DataGridViewTextBoxColumn(){Name = "pro_code", HeaderText = "项目/课题编号", FillWeight = 10},
                 new DataGridViewTextBoxColumn(){Name = "pro_name", HeaderText = "项目/课题名称", FillWeight = 15},
-                new DataGridViewLinkColumn(){Name = "pro_subAmount", HeaderText = "课题/子课题数", FillWeight = 8},
+                new DataGridViewTextBoxColumn(){Name = "pro_subAmount", HeaderText = "课题/子课题数", FillWeight = 8},
                 new DataGridViewTextBoxColumn(){Name = "pro_fileAmount", HeaderText = "文件数", FillWeight = 5},
                 new DataGridViewTextBoxColumn(){Name = "pro_qtAmount", HeaderText = "质检次数", FillWeight = 5 },
                 new DataGridViewButtonColumn(){Name = "pro_control", HeaderText = "操作", FillWeight = 5, Text = "质检", UseColumnTextForButtonValue = true},
@@ -729,12 +729,12 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_Project.Rows.RemoveAt(e.RowIndex);
                     }
                 }
-                else if("pro_subAmount".Equals(columnName))
-                {
-                    object unitName = dgv_Project.Rows[e.RowIndex].Cells["pro_unit"].Value;
-                    object pId = dgv_Project.Rows[e.RowIndex].Cells["pro_id"].Value;
-                    LoadSubProjectList(pId, unitName);
-                }
+                //else if("pro_subAmount".Equals(columnName))
+                //{
+                //    object unitName = dgv_Project.Rows[e.RowIndex].Cells["pro_unit"].Value;
+                //    object pId = dgv_Project.Rows[e.RowIndex].Cells["pro_id"].Value;
+                //    LoadSubProjectList(pId, unitName);
+                //}
             }
         }
 
