@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_MyWork : Form
+    public partial class Frm_MyWork : DevExpress.XtraEditors.XtraForm
     {
         /// <summary>
         /// 当前加工类型
@@ -750,7 +750,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     object objId = view.Tag;
                     if(objId == null)
-                        view.Tag = AddProjectBasicInfo(this.OBJECT_ID, ControlType.Plan);
+                        objId = view.Tag = AddProjectBasicInfo(this.OBJECT_ID, ControlType.Plan);
                     else
                         UpdateProjectBasicInfo(objId, ControlType.Plan);
                     MessageBox.Show("基础信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -766,15 +766,7 @@ namespace 科技计划项目档案数据采集管理系统
                         SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
                         MessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
-                        if(isBacked)
-                            LoadTreeList(view.Tag, ControlType.Imp_Normal);
-                        else
-                        {
-                            if(workType == WorkType.Default)
-                                LoadTreeList(lbl_Imp_Name.Tag, ControlType.Imp_Sub);
-                            else
-                                LoadTreeList(view.Tag, ControlType.Default);
-                        }
+                        GoToTreeList();
                     }
                     else
                         MessageBox.Show("存在文件名重复的文件。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -827,7 +819,7 @@ namespace 科技计划项目档案数据采集管理系统
                         if(objId != null)//更新
                             UpdateProjectBasicInfo(view.Tag, ControlType.Plan_Project);
                         else//新增
-                            view.Tag = AddProjectBasicInfo(pal_JH_XM.Tag, ControlType.Plan_Project);
+                            objId = view.Tag = AddProjectBasicInfo(pal_JH_XM.Tag, ControlType.Plan_Project);
                         MessageBox.Show("基础信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         if(CheckFileListComplete(view,"jh_xm_"))
                         {
@@ -896,10 +888,11 @@ namespace 科技计划项目档案数据采集管理系统
                         if(objId != null)//更新
                             UpdateProjectBasicInfo(objId, ControlType.Plan_Topic);
                         else//新增
-                            view.Tag = AddProjectBasicInfo(pal_JH_KT.Tag, ControlType.Plan_Topic);
+                            objId = view.Tag = AddProjectBasicInfo(pal_JH_KT.Tag, ControlType.Plan_Topic);
                         MessageBox.Show("基础信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         if(CheckFileListComplete(view, "jh_kt_"))
                         {
+                            SqlHelper.ExecuteNonQuery($"DELETE FROM processing_file_list WHERE pfl_obj_id='{objId}'");
                             int maxLength = view.Rows.Count - 1;
                             for(int i = 0; i < maxLength; i++)
                             {
@@ -964,10 +957,11 @@ namespace 科技计划项目档案数据采集管理系统
                         if(objId != null)//更新
                             UpdateProjectBasicInfo(objId, ControlType.Plan_Project_Topic);
                         else//新增
-                            view.Tag = AddProjectBasicInfo(pal_JH_XM_KT.Tag, ControlType.Plan_Project_Topic);
+                            objId = view.Tag = AddProjectBasicInfo(pal_JH_XM_KT.Tag, ControlType.Plan_Project_Topic);
                         MessageBox.Show("基础信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         if(CheckFileListComplete(view, "jh_xm_kt_"))
                         {
+                            SqlHelper.ExecuteNonQuery($"DELETE FROM processing_file_list WHERE pfl_obj_id='{objId}'");
                             int maxLength = view.Rows.Count - 1;
                             for(int i = 0; i < maxLength; i++)
                             {
@@ -1032,10 +1026,11 @@ namespace 科技计划项目档案数据采集管理系统
                         if(objId != null)//更新
                             UpdateProjectBasicInfo(objId, ControlType.Plan_Topic_Subtopic);
                         else//新增
-                            view.Tag = AddProjectBasicInfo(pal_JH_KT_ZKT.Tag, ControlType.Plan_Topic_Subtopic);
+                            objId = view.Tag = AddProjectBasicInfo(pal_JH_KT_ZKT.Tag, ControlType.Plan_Topic_Subtopic);
                         MessageBox.Show("基础信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         if(CheckFileListComplete(view, "jh_kt_zkt_"))
                         {
+                            SqlHelper.ExecuteNonQuery($"DELETE FROM processing_file_list WHERE pfl_obj_id='{objId}'");
                             int maxLength = view.Rows.Count - 1;
                             for(int i = 0; i < maxLength; i++)
                             {
@@ -1100,10 +1095,11 @@ namespace 科技计划项目档案数据采集管理系统
                         if(objId != null)//更新
                             UpdateProjectBasicInfo(objId, ControlType.Plan_Project_Topic_Subtopic);
                         else//新增
-                            view.Tag = AddProjectBasicInfo(pal_JH_XM_KT_ZKT.Tag, ControlType.Plan_Project_Topic_Subtopic);
+                            objId = view.Tag = AddProjectBasicInfo(pal_JH_XM_KT_ZKT.Tag, ControlType.Plan_Project_Topic_Subtopic);
                         MessageBox.Show("基础信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         if(CheckFileListComplete(view, "jh_xm_kt_zkt_"))
                         {
+                            SqlHelper.ExecuteNonQuery($"DELETE FROM processing_file_list WHERE pfl_obj_id='{objId}'");
                             int maxLength = view.Rows.Count - 1;
                             for(int i = 0; i < maxLength; i++)
                             {
@@ -1161,20 +1157,20 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     object impId = view.Tag;
                     if(impId == null)
-                        view.Tag = AddProjectBasicInfo(OBJECT_ID, ControlType.Imp);
+                        impId = view.Tag = AddProjectBasicInfo(OBJECT_ID, ControlType.Imp);
                     else
                         UpdateProjectBasicInfo(impId, ControlType.Imp);
                     MessageBox.Show("基础信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     if(CheckFileListComplete(view, "imp_"))
                     {
-                        object objId = view.Tag;
+                        SqlHelper.ExecuteNonQuery($"DELETE FROM processing_file_list WHERE pfl_obj_id='{impId}'");
                         int maxLength = view.Rows.Count - 1;
                         for(int i = 0; i < maxLength; i++)
                         {
                             DataGridViewRow row = view.Rows[i];
-                            row.Cells["imp_id"].Value = AddFileInfo("imp_", row, objId, i);
+                            row.Cells["imp_id"].Value = AddFileInfo("imp_", row, impId, i);
                         }
-                        SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(objId)}' WHERE pt_obj_id='{objId}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE processing_tag SET pt_secret='{GetMaxSecretById(impId)}' WHERE pt_obj_id='{impId}'");
                         MessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
                         GoToTreeList();
@@ -1231,10 +1227,11 @@ namespace 科技计划项目档案数据采集管理系统
                         if(objId != null)//更新
                             UpdateProjectBasicInfo(objId, ControlType.Imp_Dev);
                         else//新增
-                            view.Tag = AddProjectBasicInfo(pal_Imp_Dev.Tag, ControlType.Imp_Dev);
+                            objId = view.Tag = AddProjectBasicInfo(pal_Imp_Dev.Tag, ControlType.Imp_Dev);
                         MessageBox.Show("基础信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         if(CheckFileListComplete(view, "imp_dev_"))
                         {
+                            SqlHelper.ExecuteNonQuery($"DELETE FROM processing_file_list WHERE pfl_obj_id='{objId}'");
                             int maxLength = view.Rows.Count - 1;
                             for(int i = 0; i < maxLength; i++)
                             {
@@ -1832,6 +1829,7 @@ namespace 科技计划项目档案数据采集管理系统
             SqlHelper.ExecuteNonQuery(insertSql);
             return pflid;
         }
+     
         /// <summary>
         /// 加载树
         /// </summary>
@@ -2349,6 +2347,7 @@ namespace 科技计划项目档案数据采集管理系统
             treeView.NodeMouseClick += TreeView_NodeMouseClick;
             treeView.EndUpdate();
         }
+        
         /// <summary>
         /// 目录树点击事件
         /// </summary>
@@ -2365,7 +2364,7 @@ namespace 科技计划项目档案数据采集管理系统
                 tab_MenuList.TabPages.Clear();
                 if(workType == WorkType.Default)
                 {
-                    int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{e.Node.Name}'");
+                    int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{e.Node.Parent.Name}'");
                     if(count == 0)
                     {
                         ShowTab("imp", 0);
@@ -5013,72 +5012,72 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_AddFile_Click(object sender, EventArgs e)
         {
+            Frm_AddFile frm = null;
+            DataGridView view = null;
+            string key = null;
             object name = (sender as Button).Name;
             if("btn_JH_AddFile".Equals(name))
             {
-                object id = dgv_JH_FileList.Tag;
-                if(id != null)
-                    new Frm_AddFile(dgv_JH_FileList, string.Empty, null) { parentId = id, trcId = OBJECT_ID, workType = workType }.ShowDialog();
-                else
-                    MessageBox.Show("请先保存基础信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                view = dgv_JH_FileList;
+                if(view.Tag != null)
+                    key = string.Empty;
             }
             else if("btn_JH_XM_AddFile".Equals(name))
             {
-                object id = dgv_JH_XM_FileList.Tag;
-                if(id != null)
-                    new Frm_AddFile(dgv_JH_XM_FileList, "jh_xm_", null) { parentId = id, trcId = OBJECT_ID, workType = workType }.ShowDialog();
-                else
-                    MessageBox.Show("请先保存基础信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                view = dgv_JH_XM_FileList;
+                if(view.Tag != null)
+                    key = "jh_xm_";
             }
             else if("btn_JH_XM_KT_AddFile".Equals(name))
             {
-                object id = dgv_JH_XM_KT_FileList.Tag;
-                if(id != null)
-                    new Frm_AddFile(dgv_JH_XM_KT_FileList, "jh_xm_kt_", null) { parentId = id, trcId = OBJECT_ID, workType = workType }.ShowDialog();
-                else
-                    MessageBox.Show("请先保存基础信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                view = dgv_JH_XM_KT_FileList;
+                if(view.Tag != null)
+                    key = "jh_xm_kt_";
             }
             else if("btn_JH_XM_KT_ZKT_AddFile".Equals(name))
             {
-                object id = dgv_JH_XM_KT_ZKT_FileList.Tag;
-                if(id != null)
-                    new Frm_AddFile(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_", null) { parentId = id, trcId = OBJECT_ID, workType = workType }.ShowDialog();
-                else
-                    MessageBox.Show("请先保存基础信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                view = dgv_JH_XM_KT_ZKT_FileList;
+                if(view.Tag != null)
+                    key = "jh_xm_kt_zkt_";
             }
             else if("btn_JH_KT_AddFile".Equals(name))
             {
-                object id = dgv_JH_KT_FileList.Tag;
-                if(id != null)
-                    new Frm_AddFile(dgv_JH_KT_FileList, "jh_kt_", null) { parentId = id, trcId = OBJECT_ID, workType = workType }.ShowDialog();
-                else
-                    MessageBox.Show("请先保存基础信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                view = dgv_JH_KT_FileList;
+                if(view.Tag != null)
+                    key = "jh_kt_";
             }
             else if("btn_JH_KT_ZKT_AddFile".Equals(name))
             {
-                object id = dgv_JH_KT_ZKT_FileList.Tag;
-                if(id != null)
-                    new Frm_AddFile(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_", null) { parentId = id, trcId = OBJECT_ID, workType = workType }.ShowDialog();
-                else
-                    MessageBox.Show("请先保存基础信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                view = dgv_JH_KT_ZKT_FileList;
+                if(view.Tag != null)
+                    key = "jh_kt_zkt_";
             }
             else if("btn_Imp_AddFile".Equals(name))
             {
-                object id = dgv_Imp_FileList.Tag;
-                if(id != null)
-                    new Frm_AddFile(dgv_Imp_FileList, "imp_", null) { parentId = id, trcId = OBJECT_ID, workType = workType }.ShowDialog();
-                else
-                    MessageBox.Show("请先保存基础信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                view = dgv_Imp_FileList;
+                if(view.Tag != null)
+                    key = "imp_";
             }
             else if("btn_Imp_Dev_AddFile".Equals(name))
             {
-                object id = dgv_Imp_Dev_FileList.Tag;
-                if(id != null)
-                    new Frm_AddFile(dgv_Imp_Dev_FileList, "imp_dev_", null) { parentId = id, trcId = OBJECT_ID, workType = workType }.ShowDialog();
-                else
-                    MessageBox.Show("请先保存基础信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                view = dgv_Imp_Dev_FileList;
+                if(view.Tag != null)
+                    key = "imp_dev_";
             }
+
+            if(key != null)
+            {
+                int selectedRowCount = view.SelectedRows.Count;
+                if(selectedRowCount == 1)
+                    frm = new Frm_AddFile(view.SelectedRows[0], key) { parentId = view.Tag, trcId = OBJECT_ID, workType = workType };
+                else
+                    frm = new Frm_AddFile(view.Rows[view.Rows.Add()], key) { parentId = view.Tag, trcId = OBJECT_ID, workType = workType };
+                frm.ShowDialog();
+            }
+            else
+                MessageBox.Show("请先保存基础信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
+    
         /// <summary>
         /// 上下移动
         /// </summary>

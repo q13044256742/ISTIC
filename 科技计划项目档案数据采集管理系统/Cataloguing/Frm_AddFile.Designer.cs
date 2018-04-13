@@ -62,13 +62,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cbo_stage = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tips = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.num_amount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_page)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_Reset
             // 
-            this.btn_Reset.Location = new System.Drawing.Point(171, 525);
+            this.btn_Reset.Location = new System.Drawing.Point(171, 512);
             this.btn_Reset.Name = "btn_Reset";
             this.btn_Reset.Size = new System.Drawing.Size(68, 29);
             this.btn_Reset.TabIndex = 64;
@@ -80,7 +83,7 @@
             // 
             this.lbl_OpenFile.AutoSize = true;
             this.lbl_OpenFile.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_OpenFile.Location = new System.Drawing.Point(506, 353);
+            this.lbl_OpenFile.Location = new System.Drawing.Point(506, 420);
             this.lbl_OpenFile.Name = "lbl_OpenFile";
             this.lbl_OpenFile.Size = new System.Drawing.Size(28, 14);
             this.lbl_OpenFile.TabIndex = 63;
@@ -90,7 +93,7 @@
             // 
             // btn_Exit
             // 
-            this.btn_Exit.Location = new System.Drawing.Point(321, 525);
+            this.btn_Exit.Location = new System.Drawing.Point(321, 512);
             this.btn_Exit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(68, 29);
@@ -101,16 +104,16 @@
             // 
             // txt_remark
             // 
-            this.txt_remark.Location = new System.Drawing.Point(101, 393);
+            this.txt_remark.Font = new System.Drawing.Font("宋体", 12F);
+            this.txt_remark.Location = new System.Drawing.Point(101, 464);
             this.txt_remark.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.txt_remark.Multiline = true;
             this.txt_remark.Name = "txt_remark";
-            this.txt_remark.Size = new System.Drawing.Size(431, 82);
+            this.txt_remark.Size = new System.Drawing.Size(445, 26);
             this.txt_remark.TabIndex = 53;
             // 
             // btn_Save_Add
             // 
-            this.btn_Save_Add.Location = new System.Drawing.Point(246, 525);
+            this.btn_Save_Add.Location = new System.Drawing.Point(246, 512);
             this.btn_Save_Add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Save_Add.Name = "btn_Save_Add";
             this.btn_Save_Add.Size = new System.Drawing.Size(68, 29);
@@ -123,7 +126,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label15.Location = new System.Drawing.Point(60, 393);
+            this.label15.Location = new System.Drawing.Point(53, 468);
             this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(37, 19);
@@ -132,19 +135,19 @@
             // 
             // txt_link
             // 
-            this.txt_link.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_link.Location = new System.Drawing.Point(101, 350);
+            this.txt_link.Font = new System.Drawing.Font("宋体", 12F);
+            this.txt_link.Location = new System.Drawing.Point(101, 414);
             this.txt_link.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_link.Name = "txt_link";
             this.txt_link.ReadOnly = true;
-            this.txt_link.Size = new System.Drawing.Size(400, 21);
+            this.txt_link.Size = new System.Drawing.Size(400, 26);
             this.txt_link.TabIndex = 51;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.Location = new System.Drawing.Point(32, 351);
+            this.label14.Location = new System.Drawing.Point(25, 418);
             this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(65, 19);
@@ -154,18 +157,19 @@
             // cbo_form
             // 
             this.cbo_form.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_form.Font = new System.Drawing.Font("宋体", 12F);
             this.cbo_form.FormattingEnabled = true;
-            this.cbo_form.Location = new System.Drawing.Point(101, 307);
+            this.cbo_form.Location = new System.Drawing.Point(101, 365);
             this.cbo_form.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbo_form.Name = "cbo_form";
-            this.cbo_form.Size = new System.Drawing.Size(173, 21);
+            this.cbo_form.Size = new System.Drawing.Size(173, 24);
             this.cbo_form.TabIndex = 50;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label13.Location = new System.Drawing.Point(32, 309);
+            this.label13.Location = new System.Drawing.Point(25, 368);
             this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(65, 19);
@@ -175,18 +179,19 @@
             // cbo_format
             // 
             this.cbo_format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_format.Font = new System.Drawing.Font("宋体", 12F);
             this.cbo_format.FormattingEnabled = true;
-            this.cbo_format.Location = new System.Drawing.Point(363, 265);
+            this.cbo_format.Location = new System.Drawing.Point(373, 315);
             this.cbo_format.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbo_format.Name = "cbo_format";
-            this.cbo_format.Size = new System.Drawing.Size(173, 21);
+            this.cbo_format.Size = new System.Drawing.Size(173, 24);
             this.cbo_format.TabIndex = 48;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label12.Location = new System.Drawing.Point(293, 267);
+            this.label12.Location = new System.Drawing.Point(293, 318);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(65, 19);
@@ -196,18 +201,19 @@
             // cbo_carrier
             // 
             this.cbo_carrier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_carrier.Font = new System.Drawing.Font("宋体", 12F);
             this.cbo_carrier.FormattingEnabled = true;
-            this.cbo_carrier.Location = new System.Drawing.Point(101, 265);
+            this.cbo_carrier.Location = new System.Drawing.Point(101, 315);
             this.cbo_carrier.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbo_carrier.Name = "cbo_carrier";
-            this.cbo_carrier.Size = new System.Drawing.Size(173, 21);
+            this.cbo_carrier.Size = new System.Drawing.Size(173, 24);
             this.cbo_carrier.TabIndex = 46;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label11.Location = new System.Drawing.Point(60, 267);
+            this.label11.Location = new System.Drawing.Point(53, 318);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(37, 19);
@@ -216,17 +222,18 @@
             // 
             // txt_unit
             // 
-            this.txt_unit.Location = new System.Drawing.Point(101, 223);
+            this.txt_unit.Font = new System.Drawing.Font("宋体", 12F);
+            this.txt_unit.Location = new System.Drawing.Point(101, 264);
             this.txt_unit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_unit.Name = "txt_unit";
-            this.txt_unit.Size = new System.Drawing.Size(433, 23);
+            this.txt_unit.Size = new System.Drawing.Size(445, 26);
             this.txt_unit.TabIndex = 45;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label10.Location = new System.Drawing.Point(32, 225);
+            this.label10.Location = new System.Drawing.Point(25, 268);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(65, 19);
@@ -235,17 +242,18 @@
             // 
             // dtp_date
             // 
-            this.dtp_date.Location = new System.Drawing.Point(363, 181);
+            this.dtp_date.Font = new System.Drawing.Font("宋体", 12F);
+            this.dtp_date.Location = new System.Drawing.Point(373, 214);
             this.dtp_date.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dtp_date.Name = "dtp_date";
-            this.dtp_date.Size = new System.Drawing.Size(173, 23);
+            this.dtp_date.Size = new System.Drawing.Size(173, 26);
             this.dtp_date.TabIndex = 44;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.Location = new System.Drawing.Point(293, 183);
+            this.label9.Location = new System.Drawing.Point(293, 218);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(65, 19);
@@ -254,17 +262,18 @@
             // 
             // num_amount
             // 
-            this.num_amount.Location = new System.Drawing.Point(101, 181);
+            this.num_amount.Font = new System.Drawing.Font("宋体", 12F);
+            this.num_amount.Location = new System.Drawing.Point(101, 214);
             this.num_amount.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.num_amount.Name = "num_amount";
-            this.num_amount.Size = new System.Drawing.Size(114, 23);
+            this.num_amount.Size = new System.Drawing.Size(173, 26);
             this.num_amount.TabIndex = 43;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label8.Location = new System.Drawing.Point(60, 183);
+            this.label8.Location = new System.Drawing.Point(53, 218);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(37, 19);
@@ -273,17 +282,18 @@
             // 
             // num_page
             // 
-            this.num_page.Location = new System.Drawing.Point(363, 139);
+            this.num_page.Font = new System.Drawing.Font("宋体", 12F);
+            this.num_page.Location = new System.Drawing.Point(373, 164);
             this.num_page.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.num_page.Name = "num_page";
-            this.num_page.Size = new System.Drawing.Size(112, 23);
+            this.num_page.Size = new System.Drawing.Size(173, 26);
             this.num_page.TabIndex = 41;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(317, 141);
+            this.label7.Location = new System.Drawing.Point(321, 168);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(37, 19);
@@ -293,18 +303,19 @@
             // cbo_secret
             // 
             this.cbo_secret.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_secret.Font = new System.Drawing.Font("宋体", 12F);
             this.cbo_secret.FormattingEnabled = true;
-            this.cbo_secret.Location = new System.Drawing.Point(101, 139);
+            this.cbo_secret.Location = new System.Drawing.Point(101, 165);
             this.cbo_secret.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbo_secret.Name = "cbo_secret";
-            this.cbo_secret.Size = new System.Drawing.Size(173, 21);
+            this.cbo_secret.Size = new System.Drawing.Size(173, 24);
             this.cbo_secret.TabIndex = 39;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(60, 141);
+            this.label6.Location = new System.Drawing.Point(53, 168);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(37, 19);
@@ -313,27 +324,29 @@
             // 
             // txt_user
             // 
-            this.txt_user.Location = new System.Drawing.Point(101, 97);
+            this.txt_user.Font = new System.Drawing.Font("宋体", 12F);
+            this.txt_user.Location = new System.Drawing.Point(101, 114);
             this.txt_user.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_user.Name = "txt_user";
-            this.txt_user.Size = new System.Drawing.Size(173, 23);
+            this.txt_user.Size = new System.Drawing.Size(173, 26);
             this.txt_user.TabIndex = 36;
             // 
             // cbo_type
             // 
             this.cbo_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_type.Font = new System.Drawing.Font("宋体", 12F);
             this.cbo_type.FormattingEnabled = true;
-            this.cbo_type.Location = new System.Drawing.Point(363, 97);
+            this.cbo_type.Location = new System.Drawing.Point(373, 115);
             this.cbo_type.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbo_type.Name = "cbo_type";
-            this.cbo_type.Size = new System.Drawing.Size(173, 21);
+            this.cbo_type.Size = new System.Drawing.Size(173, 24);
             this.cbo_type.TabIndex = 38;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(293, 99);
+            this.label5.Location = new System.Drawing.Point(293, 118);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 19);
@@ -344,7 +357,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(18, 99);
+            this.label4.Location = new System.Drawing.Point(11, 118);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 19);
@@ -353,17 +366,18 @@
             // 
             // txt_fileName
             // 
-            this.txt_fileName.Location = new System.Drawing.Point(101, 55);
+            this.txt_fileName.Font = new System.Drawing.Font("宋体", 12F);
+            this.txt_fileName.Location = new System.Drawing.Point(101, 64);
             this.txt_fileName.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_fileName.Name = "txt_fileName";
-            this.txt_fileName.Size = new System.Drawing.Size(433, 23);
+            this.txt_fileName.Size = new System.Drawing.Size(445, 26);
             this.txt_fileName.TabIndex = 35;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(32, 57);
+            this.label3.Location = new System.Drawing.Point(25, 68);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 19);
@@ -373,11 +387,12 @@
             // cbo_categor
             // 
             this.cbo_categor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_categor.Font = new System.Drawing.Font("宋体", 12F);
             this.cbo_categor.FormattingEnabled = true;
-            this.cbo_categor.Location = new System.Drawing.Point(363, 13);
+            this.cbo_categor.Location = new System.Drawing.Point(373, 15);
             this.cbo_categor.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbo_categor.Name = "cbo_categor";
-            this.cbo_categor.Size = new System.Drawing.Size(173, 21);
+            this.cbo_categor.Size = new System.Drawing.Size(173, 24);
             this.cbo_categor.TabIndex = 33;
             this.cbo_categor.SelectedIndexChanged += new System.EventHandler(this.Cbo_categor_SelectedIndexChanged);
             // 
@@ -385,7 +400,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(293, 15);
+            this.label2.Location = new System.Drawing.Point(293, 18);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 19);
@@ -395,11 +410,12 @@
             // cbo_stage
             // 
             this.cbo_stage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_stage.Font = new System.Drawing.Font("宋体", 12F);
             this.cbo_stage.FormattingEnabled = true;
-            this.cbo_stage.Location = new System.Drawing.Point(101, 13);
+            this.cbo_stage.Location = new System.Drawing.Point(101, 15);
             this.cbo_stage.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbo_stage.Name = "cbo_stage";
-            this.cbo_stage.Size = new System.Drawing.Size(173, 21);
+            this.cbo_stage.Size = new System.Drawing.Size(173, 24);
             this.cbo_stage.TabIndex = 32;
             this.cbo_stage.SelectedIndexChanged += new System.EventHandler(this.Cbo_stage_SelectionChangeCommitted);
             // 
@@ -407,18 +423,35 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(60, 15);
+            this.label1.Location = new System.Drawing.Point(53, 18);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 19);
             this.label1.TabIndex = 31;
             this.label1.Text = "阶段";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tips});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 550);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(560, 22);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 65;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tips
+            // 
+            this.tips.Name = "tips";
+            this.tips.Size = new System.Drawing.Size(0, 17);
+            // 
             // Frm_AddFile
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(560, 572);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btn_Reset);
             this.Controls.Add(this.lbl_OpenFile);
             this.Controls.Add(this.btn_Exit);
@@ -453,7 +486,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbo_stage);
             this.Controls.Add(this.label1);
-            this.Font = new System.Drawing.Font("宋体", 10F);
+            this.Font = new System.Drawing.Font("宋体", 10.5F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -462,10 +495,13 @@
             this.Name = "Frm_AddFile";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "新增文件";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_AddFile_FormClosing);
             this.Load += new System.EventHandler(this.Frm_AddFile_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frm_AddFile_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.num_amount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_page)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -507,5 +543,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbo_stage;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tips;
     }
 }

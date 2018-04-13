@@ -7,7 +7,7 @@ namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_AddFile : DevExpress.XtraEditors.XtraForm
     {
-        private DataGridView view;
+        private DataGridViewRow viewRow;
         private object key;
         private object fileId;
         /// <summary>
@@ -23,20 +23,16 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         public WorkType workType;
 
-        public Frm_AddFile(DataGridView view, object key, object fileId)
+        public Frm_AddFile(DataGridViewRow viewRow, object key)
         {
             InitializeComponent();
-            this.view = view;
+            this.viewRow = viewRow;
             this.key = key;
+            fileId = viewRow.Cells[key + "id"].Tag;
             if(fileId != null)
-            {
-                Text = "编辑文件";
-                this.fileId = fileId;
-            }
+                Text = "更新文件";
             else
-            {
                 Text = "新增文件";
-            }
         }
 
         private void Frm_AddFile_Load(object sender, EventArgs e)
@@ -94,8 +90,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dtp_date.Value = Convert.ToDateTime(row["pfl_complete_date"]);
                 txt_unit.Text = GetValue(row["pfl_save_location"]);
                 cbo_carrier.SelectedValue = row["pfl_carrier"];
-                cbo_format.SelectedValue = row["pfl_format"];
-                cbo_form.SelectedValue = row["pfl_form"];
+                cbo_format.SelectedValue = row["pfl_file_format"];
+                cbo_form.SelectedValue = row["pfl_file_form"];
                 txt_link.Text = GetValue(row["pfl_file_link"]);
                 txt_remark.Text = GetValue(row["pfl_remark"]);
             }
@@ -193,11 +189,12 @@ namespace 科技计划项目档案数据采集管理系统
             string sqlString = string.Empty;
             if(isAdd)
             {
-                sqlString = $"INSERT INTO processing_file_list VALUES ('{primaryKey}' " +
+                sqlString = $"UPDATE processing_file_list SET pfl_sort+=1 WHERE pfl_sort >= {row.Index};";
+                sqlString += $"INSERT INTO processing_file_list VALUES ('{primaryKey}' " +
                     $",'{stage}','{categor}' ,'{name}' ,'{user}' " +
                     $",'{type}' ,'{secret}' ,'{page}' ,'{amount}' ,'{date}' " +
                     $",'{unit}' ,'{carrier}','{format}' ,'{form}','{parentId}'" +
-                    $",'{link}' ,'{remark}' ,{(int)GuiDangStatus.NonGuiDang} ,'{UserHelper.GetInstance().User.UserKey}','{DateTime.Now}')";
+                    $",'{link}' ,'{remark}' ,{(int)GuiDangStatus.NonGuiDang} ,'{UserHelper.GetInstance().User.UserKey}','{DateTime.Now}', '{row.Index}')";
                 row.Cells[key + "id"].Tag = primaryKey;
             }
             else
@@ -237,20 +234,15 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 if(Text.Contains("新增"))
                 {
-                    fileId = SaveFileInfo(view.Rows[view.Rows.Add()], true);
+                    SaveFileInfo(viewRow, true);
                     ResetControl();
+                    viewRow = viewRow.DataGridView.Rows[viewRow.DataGridView.Rows.Add()];
                 }
-                else if(Text.Contains("编辑"))
+                else if(Text.Contains("更新"))
                 {
-                    foreach(DataGridViewRow row in view.Rows)
-                    {
-                        if(fileId.Equals(row.Cells[key + "id"].Tag))
-                        {
-                            SaveFileInfo(row, false);
-                            break;
-                        }
-                    }
+                    SaveFileInfo(viewRow, false);
                 }
+                tips.Text = $"提示：文件[{txt_fileName.Text}]{Text.Substring(0, 2)}成功。";
             }
         }
         /// <summary>
@@ -324,6 +316,18 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else
                     MessageBox.Show("服务器不存在此文件。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        private void Frm_AddFile_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(Text.Contains("新增"))
+            {
+                DataGridViewRow lastRow = viewRow.DataGridView.Rows[viewRow.DataGridView.RowCount - 2];
+                if(lastRow.Cells[key + "id"].Tag == null)
+                {
+                    viewRow.DataGridView.Rows.Remove(lastRow);
+                }
             }
         }
     }

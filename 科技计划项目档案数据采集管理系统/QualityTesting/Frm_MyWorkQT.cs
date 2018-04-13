@@ -4699,23 +4699,66 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_JH_AddFile_Click(object sender, EventArgs e)
         {
+            Frm_AddFile frm = null;
+            DataGridView view = null;
+            string key = null;
             object name = (sender as Button).Name;
             if("btn_JH_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_FileList, string.Empty, null).ShowDialog();
+            {
+                view = dgv_JH_FileList;
+                if(view.Tag != null)
+                    key = string.Empty;
+            }
             else if("btn_JH_XM_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_XM_FileList, "jh_xm_", null).ShowDialog();
+            {
+                view = dgv_JH_XM_FileList;
+                if(view.Tag != null)
+                    key = "jh_xm_";
+            }
             else if("btn_JH_XM_KT_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_XM_KT_FileList, "jh_xm_kt_", null).ShowDialog();
+            {
+                view = dgv_JH_XM_KT_FileList;
+                if(view.Tag != null)
+                    key = "jh_xm_kt_";
+            }
             else if("btn_JH_XM_KT_ZKT_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_XM_KT_ZKT_FileList, "jh_xm_kt_zkt_", null).ShowDialog();
+            {
+                view = dgv_JH_XM_KT_ZKT_FileList;
+                if(view.Tag != null)
+                    key = "jh_xm_kt_zkt_";
+            }
             else if("btn_JH_KT_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_KT_FileList, "jh_kt_", null).ShowDialog();
+            {
+                view = dgv_JH_KT_FileList;
+                if(view.Tag != null)
+                    key = "jh_kt_";
+            }
             else if("btn_JH_KT_ZKT_AddFile".Equals(name))
-                new Frm_AddFile(dgv_JH_KT_ZKT_FileList, "jh_kt_zkt_", null).ShowDialog();
+            {
+                view = dgv_JH_KT_ZKT_FileList;
+                if(view.Tag != null)
+                    key = "jh_kt_zkt_";
+            }
             else if("btn_Imp_AddFile".Equals(name))
-                new Frm_AddFile(dgv_Imp_FileList, "imp_", null).ShowDialog();
+            {
+                view = dgv_Imp_FileList;
+                if(view.Tag != null)
+                    key = "imp_";
+            }
             else if("btn_Imp_Dev_AddFile".Equals(name))
-                new Frm_AddFile(dgv_Imp_Dev_FileList, "imp_dev_", null).ShowDialog();
+            {
+                view = dgv_Imp_Dev_FileList;
+                if(view.Tag != null)
+                    key = "imp_dev_";
+            }
+
+            int selectedRowCount = view.SelectedRows.Count;
+            if(selectedRowCount == 1)
+                frm = new Frm_AddFile(view.SelectedRows[0], key);
+            else
+                frm = new Frm_AddFile(view.Rows[view.Rows.Add()], key);
+            if(key != null)
+                frm.ShowDialog();
         }
         /// <summary>
         /// 返工 点击事件
