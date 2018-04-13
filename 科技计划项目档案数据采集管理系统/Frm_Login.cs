@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.LookAndFeel;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -29,7 +30,7 @@ namespace 科技计划项目档案数据采集管理系统
                     UserHelper.GetInstance().User = user;
                     int i = cbo_Identity.SelectedIndex;
                     user.Remark = i;
-                    if (i == 6)
+                    if (i == 4)
                     {
                         Frm_MainFrameManager fm = new Frm_MainFrameManager(user);
                         fm.WindowState = FormWindowState.Maximized;
@@ -55,6 +56,11 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void frm_Login_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e) {
             Application.Exit();
+        }
+
+        private void Frm_Login_Load(object sender, EventArgs e)
+        {
+            //UserLookAndFeel.Default.Style = LookAndFeelStyle.Office2003;
         }
     }
 }

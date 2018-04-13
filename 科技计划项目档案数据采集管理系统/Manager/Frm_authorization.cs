@@ -71,7 +71,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                             node.Checked = true;
 
                             string module_id = GetValue(select_module_list[i][0]);
-                            string o_sql = $"select o_add,o_edit,o_del from operation where module_id = '{module_id}'";
+                            string o_sql = $"SELECT o_add,o_edit,o_del FROM operation WHERE module_id = '{module_id}'";
                             List<object[]> select_operation_list = SqlHelper.ExecuteColumnsQuery(o_sql, 3);
 
                             if (select_operation_list.Count != 0)

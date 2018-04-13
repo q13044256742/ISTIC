@@ -1,4 +1,6 @@
-﻿namespace 科技计划项目档案数据采集管理系统
+﻿using DevExpress.XtraEditors;
+
+namespace 科技计划项目档案数据采集管理系统
 {
     partial class Frm_Login
     {
@@ -33,7 +35,7 @@
             this.txt_loginPassword = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btn_Login = new System.Windows.Forms.Button();
+            this.btn_Login = new 科技计划项目档案数据采集管理系统.KyoButton();
             this.cbo_Identity = new System.Windows.Forms.ComboBox();
             this.pal_Login.SuspendLayout();
             this.SuspendLayout();
@@ -113,16 +115,15 @@
             // 
             // btn_Login
             // 
-            this.btn_Login.BackgroundImage = global::科技计划项目档案数据采集管理系统.Properties.Resources.login2;
-            this.btn_Login.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_Login.Font = new System.Drawing.Font("Tahoma", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btn_Login.ForeColor = System.Drawing.Color.White;
+            this.btn_Login.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Login.Appearance.Options.UseFont = true;
             this.btn_Login.Location = new System.Drawing.Point(359, 324);
+            this.btn_Login.LookAndFeel.SkinName = "Blue";
+            this.btn_Login.LookAndFeel.UseDefaultLookAndFeel = false;
             this.btn_Login.Name = "btn_Login";
             this.btn_Login.Size = new System.Drawing.Size(96, 32);
             this.btn_Login.TabIndex = 4;
-            this.btn_Login.Text = "登录(&L)";
-            this.btn_Login.UseVisualStyleBackColor = true;
+            this.btn_Login.Text = "登录";
             this.btn_Login.Click += new System.EventHandler(this.btn_Login_Click);
             // 
             // cbo_Identity
@@ -134,7 +135,8 @@
             "移交登记",
             "著录加工",
             "档案质检",
-            "档案接收"});
+            "档案接收",
+            "后台管理"});
             this.cbo_Identity.Location = new System.Drawing.Point(309, 266);
             this.cbo_Identity.Name = "cbo_Identity";
             this.cbo_Identity.Size = new System.Drawing.Size(126, 24);
@@ -151,12 +153,14 @@
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.LookAndFeel.SkinName = "Summer 2008";
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录系统";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frm_Login_FormClosing);
+            this.Load += new System.EventHandler(this.Frm_Login_Load);
             this.pal_Login.ResumeLayout(false);
             this.pal_Login.PerformLayout();
             this.ResumeLayout(false);
@@ -169,10 +173,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txt_loginName;
         private System.Windows.Forms.TextBox txt_loginPassword;
-        private System.Windows.Forms.Button btn_Login;
         private System.Windows.Forms.ComboBox cbo_Identity;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel pal_Login;
+        private KyoButton btn_Login;
     }
 }
 
