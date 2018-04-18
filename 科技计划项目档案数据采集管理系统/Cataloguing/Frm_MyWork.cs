@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using 科技计划项目档案数据采集管理系统.KyoControl;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -745,7 +746,7 @@ namespace 科技计划项目档案数据采集管理系统
             if("btn_JH_Save".Equals(button.Name))
             {
                 view = dgv_JH_FileList;
-                int fileIndex = tab_JH_FileInfo.SelectedIndex;
+                int fileIndex = tab_JH_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)//文件
                 {
                     object objId = view.Tag;
@@ -807,7 +808,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if("btn_JH_XM_Save".Equals(button.Name))
             {
                 view = dgv_JH_XM_FileList;
-                int fileIndex = tab_JH_XM_FileInfo.SelectedIndex;
+                int fileIndex = tab_JH_XM_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)
                 {
                     string code = txt_JH_XM_Code.Text;
@@ -876,7 +877,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if("btn_JH_KT_Save".Equals(button.Name))
             {
                 view = dgv_JH_KT_FileList;
-                int fileIndex = tab_JH_KT_FileInfo.SelectedIndex;
+                int fileIndex = tab_JH_KT_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)
                 {
                     string code = txt_JH_KT_Code.Text;
@@ -945,7 +946,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if("btn_JH_XM_KT_Save".Equals(button.Name))
             {
                 view = dgv_JH_XM_KT_FileList;
-                int fileIndex = tab_JH_XM_KT_FileInfo.SelectedIndex;
+                int fileIndex = tab_JH_XM_KT_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)
                 {
                     string code = txt_JH_XM_KT_Code.Text;
@@ -1014,7 +1015,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if("btn_JH_KT_ZKT_Save".Equals(button.Name))
             {
                 view = dgv_JH_KT_ZKT_FileList;
-                int fileIndex = tab_JH_KT_ZKT_FileInfo.SelectedIndex;
+                int fileIndex = tab_JH_KT_ZKT_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)
                 {
                     string code = txt_JH_KT_ZKT_Code.Text;
@@ -1083,7 +1084,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if("btn_JH_XM_KT_ZKT_Save".Equals(button.Name))
             {
                 view = dgv_JH_XM_KT_ZKT_FileList;
-                int fileIndex = tab_JH_XM_KT_ZKT_FileInfo.SelectedIndex;
+                int fileIndex = tab_JH_XM_KT_ZKT_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)
                 {
                     string code = txt_JH_XM_KT_ZKT_Code.Text;
@@ -1152,7 +1153,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if("btn_Imp_Save".Equals(button.Name))
             {
                 view = dgv_Imp_FileList;
-                int fileIndex = tab_Imp_FileInfo.SelectedIndex;
+                int fileIndex = tab_Imp_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)
                 {
                     object impId = view.Tag;
@@ -1215,7 +1216,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if("btn_Imp_Sub_Save".Equals(button.Name))
             {
                 view = dgv_Imp_Dev_FileList;
-                int fileIndex = tab_Imp_Dev_FileInfo.SelectedIndex;
+                int fileIndex = tab_Imp_Dev_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)
                 {
                     string code = txt_Imp_Dev_Code.Text;
@@ -3285,7 +3286,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_Box_Click(object sender, EventArgs e)
         {
-            Button button = sender as Button;
+            KyoButton button = sender as KyoButton;
             //计划
             if (button.Name.Contains("btn_JH_Box"))
             {
@@ -5015,7 +5016,7 @@ namespace 科技计划项目档案数据采集管理系统
             Frm_AddFile frm = null;
             DataGridView view = null;
             string key = null;
-            object name = (sender as Button).Name;
+            object name = (sender as KyoButton).Name;
             if("btn_JH_AddFile".Equals(name))
             {
                 view = dgv_JH_FileList;

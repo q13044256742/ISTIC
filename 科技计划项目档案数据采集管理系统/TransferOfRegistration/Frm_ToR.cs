@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraBars.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -37,41 +38,20 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         private void LoadCompanySource()
         {
-            Image[] imgs = new Image[] { Resources.pic1, Resources.pic2, Resources.pic3, Resources.pic4, Resources.pic5, Resources.pic6, Resources.pic7, Resources.pic8 };
-            //加载一级菜单
-            List<CreateKyoPanel.KyoPanel> list = new List<CreateKyoPanel.KyoPanel>();
-            list.Add(new CreateKyoPanel.KyoPanel
-            {
-                Name = "ToR",
-                Text = "移交登记",
-                Image = imgs[0],
-                HasNext = true
-            });
-            CreateKyoPanel.SetPanel(pal_LeftMenu, list);
-            //加载二级菜单
-            list.Clear();
-            list.Add(new CreateKyoPanel.KyoPanel
-            {
-                Name = "ace_all",
-                Text = "全部来源单位",
-                Image = Resources.pic1,
-                HasNext = false
-            });
-
             string querySql = "SELECT dd_id, dd_name FROM data_dictionary WHERE dd_pId=" +
                 "(SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_key_company_source') ORDER BY dd_sort";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < table.Rows.Count; i++)
             {
-                list.Add(new CreateKyoPanel.KyoPanel
+                AccordionControlElement element = new AccordionControlElement()
                 {
+                    Style = ElementStyle.Item,
                     Name = GetValue(table.Rows[i]["dd_id"]),
                     Text = GetValue(table.Rows[i]["dd_name"]),
-                    HasNext = false
-                });
+                };
+                element.Click += new EventHandler(Element_Click);
+                acg_Register.Elements.Add(element);
             }
-            Panel basicPanel = CreateKyoPanel.SetSubPanel(pal_LeftMenu.Controls.Find("ToR", false)[0] as Panel, list, Element_Click);
-
         }
 
         private string GetValue(object v) => v == null ? string.Empty : v.ToString();
@@ -81,52 +61,40 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         private void Element_Click(object sender, EventArgs e)
         {
-            Panel panel = null;
-            if (sender is Panel)
-                panel = sender as Panel;
-            else if (sender is Label)
-                panel = (sender as Label).Parent as Panel;
-            if ("ace_all".Equals(panel.Name))
+            AccordionControlElement element = sender as AccordionControlElement;
+            if ("ace_all".Equals(element.Name))
             {
-                if (tc_ToR.SelectedIndex == 0)
+                if (tc_ToR.SelectedTabPageIndex == 0)
                     LoadPCDataScoure(null);
-                else if (tc_ToR.SelectedIndex == 1)
+                else if (tc_ToR.SelectedTabPageIndex == 1)
                     LoadGPDJ(null);
                 currentUnit = null;
             }
             else
             {
-                if (tc_ToR.SelectedIndex == 0)
+                if (tc_ToR.SelectedTabPageIndex == 0)
                 {
                     StringBuilder querySql = new StringBuilder("SELECT ");
                     querySql.Append("pc.trp_id, dd_name, trp_name, trp_code, trp_submit_status, trp_cd_amount");
                     querySql.Append(" FROM transfer_registration_pc pc,data_dictionary dd");
-                    querySql.Append(" WHERE com_id='" + panel.Name + "'");
+                    querySql.Append(" WHERE com_id='" + element.Name + "'");
                     querySql.Append(" AND pc.com_id = dd.dd_id AND trp_submit_status=1");
                     LoadPCDataScoure(querySql.ToString());
-                    dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery("SELECT dd_code FROM data_dictionary WHERE dd_id ='" + panel.Name + "'");
+                    dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery("SELECT dd_code FROM data_dictionary WHERE dd_id ='" + element.Name + "'");
                 }
-                else if(tc_ToR.SelectedIndex == 1)
+                else if(tc_ToR.SelectedTabPageIndex == 1)
                 {
                     StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
                     querySql.Append(" FROM transfer_registraion_cd trc");
                     querySql.Append(" LEFT JOIN(");
                     querySql.Append(" SELECT trp.trp_id, dd_id, dd_name, dd_sort FROM transfer_registration_pc trp, data_dictionary dd WHERE trp.com_id = dd.dd_id ) tb");
                     querySql.Append(" ON trc.trp_id = tb.trp_id");
-                    querySql.Append(" WHERE tb.dd_id='" + panel.Name + "'");
+                    querySql.Append(" WHERE tb.dd_id='" + element.Name + "'");
                     querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, dd_sort ASC, trc_code ASC");
                     LoadGPDJ(querySql.ToString());
                 }
-                currentUnit = panel.Name;
+                currentUnit = element.Name;
             }
-            //当前Panel为选中状态
-            foreach (Panel item in panel.Parent.Controls)
-            {
-                item.BackColor = Color.Transparent;
-                item.Tag = false;
-            }
-            panel.BackColor = Color.Purple;
-            panel.Tag = true;
         }
 
         /// <summary>
@@ -402,7 +370,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// <param name="e"></param>
         private void Tc_ToR_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index = tc_ToR.SelectedIndex;
+            int index = tc_ToR.SelectedTabPageIndex;
             if(index == 1)//光盘
             {
                 if (dgv_GPDJ.Columns.Count == 0)
@@ -518,7 +486,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         private void Btn_CD_Search_Click(object sender, EventArgs e)
         {
-            string key = txt_CD_Search.Text;
+            string key = txt_CDSearch.Text;
             string queryCondition = null;
             if (!string.IsNullOrEmpty(key))
                 queryCondition = " WHERE dd_name LIKE '%" + key + "%' OR trc_code LIKE '%" + key + "%' OR trc_name LIKE '%" + key + "%'";
@@ -606,6 +574,30 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             {
                 MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
+        }
+
+        private void Txt_Search_Properties_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        {
+            if(e.Button.Index == 1)
+                btn_Search_Click(sender, e);
+        }
+
+        private void txt_Search_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+                btn_Search_Click(sender, e);
+        }
+
+        private void SearchControl1_Properties_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        {
+            if(e.Button.Index == 1)
+                Btn_CD_Search_Click(sender, e);
+        }
+
+        private void txt_CDSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+                btn_Search_Click(sender, e);
         }
     }
 }

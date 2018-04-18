@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DevExpress.XtraBars.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.Properties;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -30,6 +30,8 @@ namespace 科技计划项目档案数据采集管理系统
 
             //默认来源单位
             LoadCompanyList();
+
+            txt_Search.Focus();
         }
        
         /// <summary>
@@ -98,42 +100,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void InitialLeftMenu()
         {
-            pal_LeftMenu.Controls.Clear();
-            Image[] imgs = new Image[] { Resources.pic1, Resources.pic2, Resources.pic3, Resources.pic4, Resources.pic5, Resources.pic6, Resources.pic7, Resources.pic8 };
-            List<CreateKyoPanel.KyoPanel> list = new List<CreateKyoPanel.KyoPanel>();
-            list.Add(new CreateKyoPanel.KyoPanel
+            foreach(AccordionControlElement item in acg_Worked.Elements)
             {
-                Name = "CG",
-                Text = "著录加工",
-                Image = imgs[0],
-                HasNext = true
-            });
-            CreateKyoPanel.SetPanel(pal_LeftMenu, list);
-
-            list.Clear();
-            list.AddRange(new CreateKyoPanel.KyoPanel[]
-            {
-                new CreateKyoPanel.KyoPanel
-                {
-                    Name ="CG_LOGIN",
-                    Text="加工登记",
-                    HasNext = false
-                },
-                new CreateKyoPanel.KyoPanel
-                {
-                    Name ="CG_WORK_ING",
-                    Text="加工中",
-                    HasNext = false
-                },
-                new CreateKyoPanel.KyoPanel
-                {
-                    Name="CG_WORK_ED",
-                    Text=$"已返工({BackWorkAmount})",
-                    HasNext = false
-                }
-            });
-            Panel parentPanel = pal_LeftMenu.Controls.Find("CG", false)[0] as Panel;
-            CreateKyoPanel.SetSubPanel(parentPanel, list, Sub_Menu_Click);
+                item.Click += new EventHandler(Sub_Menu_Click);
+            }
         }
 
         /// <summary>
@@ -147,27 +117,25 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Sub_Menu_Click(object sender, EventArgs e)
         {
-            Panel panel = null;
-            if(sender is Panel) panel = sender as Panel;
-            else if(sender is Label) panel = (sender as Label).Parent as Panel;
-            if("CG_LOGIN".Equals(panel.Name))//加工登记
+            AccordionControlElement element = sender as AccordionControlElement;
+            if("CG_LOGIN".Equals(element.Name))//加工登记
             {
                 LoadPCList(null, null);
                 cbo_CompanyList.SelectedIndex = 0;
-            } else if("CG_WORK_ING".Equals(panel.Name))//加工中
+            } else if("CG_WORK_ING".Equals(element.Name))//加工中
             {
                 LoadWorkList(null, WorkStatus.WorkSuccess);
             }
-            else if("CG_WORK_ED".Equals(panel.Name))//已返工
+            else if("CG_WORK_ED".Equals(element.Name))//已返工
             {
                 LoadWorkBackList();
             }
-            foreach(Panel item in panel.Parent.Controls)
+            foreach(var item in element.OwnerElement.Elements)
             {
-                if(item.Equals(panel))
-                    item.BackColor = Color.Purple;
+                if(item.Equals(element))
+                    item.Appearance.Normal.FontStyleDelta = FontStyle.Bold;
                 else
-                    item.BackColor = Color.Transparent;
+                    item.Appearance.Normal.FontStyleDelta = FontStyle.Regular;
             }
         }
         

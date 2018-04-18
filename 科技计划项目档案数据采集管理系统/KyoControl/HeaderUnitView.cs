@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Design;
 
-namespace 科技计划项目档案数据采集管理系统
+namespace 科技计划项目档案数据采集管理系统.KyoControl
 {
     public partial class HeaderUnitView : DataGridView
     {

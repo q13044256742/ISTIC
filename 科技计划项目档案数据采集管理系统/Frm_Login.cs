@@ -57,10 +57,5 @@ namespace 科技计划项目档案数据采集管理系统
         private void frm_Login_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e) {
             Application.Exit();
         }
-
-        private void Frm_Login_Load(object sender, EventArgs e)
-        {
-            //UserLookAndFeel.Default.Style = LookAndFeelStyle.Office2003;
-        }
     }
 }

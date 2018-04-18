@@ -116,6 +116,12 @@
     <Compile Include="DocumentAccept\Frm_Print.Designer.cs">
       <DependentUpon>Frm_Print.cs</DependentUpon>
     </Compile>
+    <Compile Include="KyoControl\KyoAccordion.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="KyoControl\KyoTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Login\UserHelper.cs" />
     <Compile Include="Manager\Frm_authorization.cs">
       <SubType>Form</SubType>
@@ -203,7 +209,7 @@
     </Compile>
     <Compile Include="QualityTesting\QualityTesting.cs" />
     <Compile Include="Tools\Chinese2Spell.cs" />
-    <Compile Include="Tools\KyoButton.cs">
+    <Compile Include="KyoControl\KyoButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tools\MicrosoftWordHelper.cs" />
@@ -229,10 +235,10 @@
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\FilesBackupsHelper.cs" />
-    <Compile Include="Tools\HeaderUnitView.cs">
+    <Compile Include="KyoControl\HeaderUnitView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Tools\HeaderUnitView.Designer.cs">
+    <Compile Include="KyoControl\HeaderUnitView.Designer.cs">
       <DependentUpon>HeaderUnitView.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\User.cs" />
@@ -255,7 +261,7 @@
     <Compile Include="Tools\CreateKyoPanel.cs" />
     <Compile Include="Tools\DataGridViewStyleHelper.cs" />
     <Compile Include="Login\UserLogin.cs" />
-    <Compile Include="Tools\KyoProgressBar.cs">
+    <Compile Include="KyoControl\KyoProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tools\OperateIniFile.cs" />

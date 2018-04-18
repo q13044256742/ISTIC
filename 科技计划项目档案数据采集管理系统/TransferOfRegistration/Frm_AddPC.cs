@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_AddPC : Form
+    public partial class Frm_AddPC : DevExpress.XtraEditors.XtraForm
     {
         /// <summary>
         /// 新增：机构编码
@@ -90,6 +90,8 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_CDlist.Columns[0].Visible = false;
 
             Text = (isAdd ? "新增" : "修改") + "批次信息";
+
+            txt_BatchName.Focus();
         }
 
         /// <summary>

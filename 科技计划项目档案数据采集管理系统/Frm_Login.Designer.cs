@@ -35,7 +35,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.txt_loginPassword = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btn_Login = new 科技计划项目档案数据采集管理系统.KyoButton();
+            this.btn_Login = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.cbo_Identity = new System.Windows.Forms.ComboBox();
             this.pal_Login.SuspendLayout();
             this.SuspendLayout();
@@ -115,10 +115,10 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // btn_Login
             // 
-            this.btn_Login.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Login.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.btn_Login.Appearance.Options.UseFont = true;
             this.btn_Login.Location = new System.Drawing.Point(359, 324);
-            this.btn_Login.LookAndFeel.SkinName = "Blue";
+            this.btn_Login.LookAndFeel.SkinName = "McSkin";
             this.btn_Login.LookAndFeel.UseDefaultLookAndFeel = false;
             this.btn_Login.Name = "btn_Login";
             this.btn_Login.Size = new System.Drawing.Size(96, 32);
@@ -160,7 +160,6 @@ namespace 科技计划项目档案数据采集管理系统
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录系统";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frm_Login_FormClosing);
-            this.Load += new System.EventHandler(this.Frm_Login_Load);
             this.pal_Login.ResumeLayout(false);
             this.pal_Login.PerformLayout();
             this.ResumeLayout(false);
@@ -176,7 +175,7 @@ namespace 科技计划项目档案数据采集管理系统
         private System.Windows.Forms.ComboBox cbo_Identity;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel pal_Login;
-        private KyoButton btn_Login;
+        private KyoControl.KyoButton btn_Login;
     }
 }
 
