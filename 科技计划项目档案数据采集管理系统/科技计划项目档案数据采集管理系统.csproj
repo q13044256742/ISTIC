@@ -339,7 +339,6 @@
     <EmbeddedResource Include="Manager\Frm_userInfoAdd.resx">
       <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="QualityTesting\Frm_AdviceHistroy.resx">
       <DependentUpon>Frm_AdviceHistroy.cs</DependentUpon>
     </EmbeddedResource>
@@ -390,7 +389,6 @@
       <DependentUpon>Frm_ToR.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="bin\Debug\Datas\DataSources.ini" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -438,7 +436,9 @@
     <Content Include="Images\png-0222.ico" />
     <Content Include="Images\top.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="bin\Debug\Datas\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
