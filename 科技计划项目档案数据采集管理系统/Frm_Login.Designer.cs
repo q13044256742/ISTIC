@@ -63,7 +63,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.pal_Login.Controls.Add(this.cbo_Identity);
             this.pal_Login.Location = new System.Drawing.Point(43, 67);
             this.pal_Login.Name = "pal_Login";
-            this.pal_Login.Size = new System.Drawing.Size(834, 505);
+            this.pal_Login.Size = new System.Drawing.Size(834, 509);
             this.pal_Login.TabIndex = 0;
             // 
             // txt_loginName

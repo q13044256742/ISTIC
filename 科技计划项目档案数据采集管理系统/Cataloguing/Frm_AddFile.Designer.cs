@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn_Reset = new System.Windows.Forms.Button();
+            this.btn_Reset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.lbl_OpenFile = new System.Windows.Forms.LinkLabel();
-            this.btn_Exit = new System.Windows.Forms.Button();
+            this.btn_Exit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.txt_remark = new System.Windows.Forms.TextBox();
-            this.btn_Save_Add = new System.Windows.Forms.Button();
+            this.btn_Save_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.label15 = new System.Windows.Forms.Label();
             this.txt_link = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -71,12 +71,11 @@
             // 
             // btn_Reset
             // 
-            this.btn_Reset.Location = new System.Drawing.Point(171, 512);
+            this.btn_Reset.Location = new System.Drawing.Point(171, 517);
             this.btn_Reset.Name = "btn_Reset";
             this.btn_Reset.Size = new System.Drawing.Size(68, 29);
             this.btn_Reset.TabIndex = 64;
             this.btn_Reset.Text = "重置";
-            this.btn_Reset.UseVisualStyleBackColor = true;
             this.btn_Reset.Click += new System.EventHandler(this.button1_Click);
             // 
             // lbl_OpenFile
@@ -93,13 +92,12 @@
             // 
             // btn_Exit
             // 
-            this.btn_Exit.Location = new System.Drawing.Point(321, 512);
+            this.btn_Exit.Location = new System.Drawing.Point(321, 517);
             this.btn_Exit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(68, 29);
             this.btn_Exit.TabIndex = 56;
             this.btn_Exit.Text = "退出";
-            this.btn_Exit.UseVisualStyleBackColor = true;
             this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
             // 
             // txt_remark
@@ -113,13 +111,12 @@
             // 
             // btn_Save_Add
             // 
-            this.btn_Save_Add.Location = new System.Drawing.Point(246, 512);
+            this.btn_Save_Add.Location = new System.Drawing.Point(246, 517);
             this.btn_Save_Add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Save_Add.Name = "btn_Save_Add";
             this.btn_Save_Add.Size = new System.Drawing.Size(68, 29);
             this.btn_Save_Add.TabIndex = 54;
             this.btn_Save_Add.Text = "保存";
-            this.btn_Save_Add.UseVisualStyleBackColor = true;
             this.btn_Save_Add.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // label15
@@ -243,6 +240,7 @@
             // dtp_date
             // 
             this.dtp_date.Font = new System.Drawing.Font("宋体", 12F);
+            this.dtp_date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtp_date.Location = new System.Drawing.Point(373, 214);
             this.dtp_date.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dtp_date.Name = "dtp_date";
@@ -434,7 +432,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tips});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 550);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 566);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(560, 22);
             this.statusStrip1.SizingGrip = false;
@@ -450,7 +448,7 @@
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(560, 572);
+            this.ClientSize = new System.Drawing.Size(560, 588);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btn_Reset);
             this.Controls.Add(this.lbl_OpenFile);
@@ -509,11 +507,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btn_Reset;
+        private KyoControl.KyoButton btn_Reset;
         private System.Windows.Forms.LinkLabel lbl_OpenFile;
-        private System.Windows.Forms.Button btn_Exit;
+        private KyoControl.KyoButton btn_Exit;
         private System.Windows.Forms.TextBox txt_remark;
-        private System.Windows.Forms.Button btn_Save_Add;
+        private KyoControl.KyoButton btn_Save_Add;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txt_link;
         private System.Windows.Forms.Label label14;
