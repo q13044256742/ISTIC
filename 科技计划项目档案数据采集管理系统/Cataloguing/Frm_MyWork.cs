@@ -2281,8 +2281,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Tab_FileInfo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TabControl tab = sender as TabControl;
-            int index = tab.SelectedIndex;
+            KyoTabControl tab = sender as KyoTabControl;
+            int index = tab.SelectedTabPageIndex;
             if("tab_JH_FileInfo".Equals(tab.Name))
             {
                 object objid = dgv_JH_FileList.Tag;

@@ -5,7 +5,7 @@ using 科技计划项目档案数据采集管理系统.Properties;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_AddFile_FileSelect : Form
+    public partial class Frm_AddFile_FileSelect : DevExpress.XtraEditors.XtraForm
     {
         public string SelectedFileName;
         private ImageList imageList;
