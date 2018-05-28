@@ -123,29 +123,9 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap back {
-            get {
-                object obj = ResourceManager.GetObject("back", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap banner {
             get {
                 object obj = ResourceManager.GetObject("banner", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap chaxun {
-            get {
-                object obj = ResourceManager.GetObject("chaxun", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -166,16 +146,6 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         internal static System.Drawing.Bitmap dhbg {
             get {
                 object obj = ResourceManager.GetObject("dhbg", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap fanhui {
-            get {
-                object obj = ResourceManager.GetObject("fanhui", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -217,16 +187,6 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
             get {
                 object obj = ResourceManager.GetObject("logo2", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap modify {
-            get {
-                object obj = ResourceManager.GetObject("modify", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -316,46 +276,6 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         internal static System.Drawing.Bitmap right2 {
             get {
                 object obj = ResourceManager.GetObject("right2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap save {
-            get {
-                object obj = ResourceManager.GetObject("save", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap shanchu {
-            get {
-                object obj = ResourceManager.GetObject("shanchu", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap tianjia {
-            get {
-                object obj = ResourceManager.GetObject("tianjia", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap tijiao {
-            get {
-                object obj = ResourceManager.GetObject("tijiao", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

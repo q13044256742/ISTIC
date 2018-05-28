@@ -127,23 +127,14 @@
   <data name="area3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\area3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="banner" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\banner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="chaxun" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\chaxun.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="current2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\current2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="dhbg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\dhbg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="fanhui" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\c1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="login2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\login2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -156,9 +147,6 @@
   </data>
   <data name="logo2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\logo.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="modify" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\modify.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pic1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\pic1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -186,18 +174,6 @@
   </data>
   <data name="right2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\right2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="save" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="shanchu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\shanchu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="tianjia" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\tianjia.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="tijiao" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\tijiao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="top" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\top.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

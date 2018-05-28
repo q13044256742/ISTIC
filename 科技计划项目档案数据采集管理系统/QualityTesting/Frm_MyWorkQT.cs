@@ -410,7 +410,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string columnName = dgv_JH_FileList.CurrentCell.OwningColumn.Name;
                 Control con = e.Control;
-                con.Tag = ControlType.Plan;
+                con.Tag = ControlType.Plan_Project;
                 if("stage".Equals(columnName))
                     (con as ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
                 else if("categor".Equals(columnName))
@@ -493,7 +493,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void StageComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
-            if((ControlType)comboBox.Tag == ControlType.Plan)
+            if((ControlType)comboBox.Tag == ControlType.Plan_Project)
                 SetCategorByStage(comboBox.SelectedValue, dgv_JH_FileList.CurrentRow, string.Empty);
             else if((ControlType)comboBox.Tag == ControlType.Plan_Project)
                 SetCategorByStage(comboBox.SelectedValue, dgv_JH_XM_FileList.CurrentRow, "jh_xm_");
@@ -521,7 +521,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void CategorComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
-            if((ControlType)comboBox.Tag == ControlType.Plan)
+            if((ControlType)comboBox.Tag == ControlType.Plan_Project)
                 SetNameByCategor(comboBox.SelectedValue, dgv_JH_FileList.CurrentRow, string.Empty);
             else if((ControlType)comboBox.Tag == ControlType.Plan_Project)
                 SetNameByCategor(comboBox.SelectedValue, dgv_JH_XM_FileList.CurrentRow, "jh_xm_");
@@ -799,12 +799,12 @@ namespace 科技计划项目档案数据采集管理系统
                     object objId = dgv_JH_FileList.Tag;
                     if(objId == null)
                     {
-                        objId = AddProjectBasicInfo(lbl_JH_Name.Tag, ControlType.Plan);
+                        objId = AddProjectBasicInfo(lbl_JH_Name.Tag, ControlType.Plan_Project);
                         dgv_JH_FileList.Tag = objId;
                     }
                     else
                     {
-                        UpdateProjectBasicInfo(objId, ControlType.Plan);
+                        UpdateProjectBasicInfo(objId, ControlType.Plan_Project);
                     }
                     if(CheckFileListComplete(dgv_JH_FileList, string.Empty))
                     {
@@ -1500,7 +1500,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="controlType">操作对象类型</param>
         private void UpdateProjectBasicInfo(object objid, ControlType controlType)
         {
-            if(controlType == ControlType.Plan)
+            if(controlType == ControlType.Plan_Project)
             {
 
             }
@@ -1702,12 +1702,12 @@ namespace 科技计划项目档案数据采集管理系统
         private object AddProjectBasicInfo(object parentId, ControlType type)
         {
             string primaryKey = Guid.NewGuid().ToString();
-            if(type == ControlType.Plan)
+            if(type == ControlType.Plan_Project)
             {
                 object code = lbl_JH_Name.Text;
                 object name = lbl_JH_Name.Text;
                 SqlHelper.ExecuteNonQuery($"INSERT INTO project_info(pi_id,pi_code,pi_name,pi_obj_id,pi_categor,pi_submit_status,pi_source_id)" +
-                            $" VALUES('{primaryKey}','{code}','{name}','{parentId}','{(int)ControlType.Plan}','{(int)ObjectSubmitStatus.NonSubmit}','{UserHelper.GetInstance().User.UserKey}')");
+                            $" VALUES('{primaryKey}','{code}','{name}','{parentId}','{(int)ControlType.Plan_Project}','{(int)ObjectSubmitStatus.NonSubmit}','{UserHelper.GetInstance().User.UserKey}')");
             }
             else if(type == ControlType.Plan_Project)
             {
@@ -2128,7 +2128,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     Name = GetValue(_obj[0]),
                     Text = GetValue(_obj[1]),
-                    Tag = ControlType.Plan
+                    Tag = ControlType.Plan_Project
                 };
                 //根据【计划】查询【项目/课题】集
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'", 3);
@@ -2177,7 +2177,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     Name = _obj[0].ToString(),
                     Text = _obj[1].ToString(),
-                    Tag = ControlType.Plan,
+                    Tag = ControlType.Plan_Project,
                 };
                 //根据【计划】查询【项目/课题】集
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'", 3);
@@ -2226,7 +2226,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     Name = _obj[0].ToString(),
                     Text = _obj[1].ToString(),
-                    Tag = ControlType.Plan,
+                    Tag = ControlType.Plan_Project,
                 };
                 //根据【计划】查询【项目/课题】集
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}'", 3);
@@ -2319,7 +2319,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             ControlType type = (ControlType)e.Node.Tag;
-            if(type == ControlType.Plan)
+            if(type == ControlType.Plan_Project)
             {
                 if(workType == WorkType.Default)
                 {
@@ -2619,7 +2619,7 @@ namespace 科技计划项目档案数据采集管理系统
                 else
                     return (int)obj == 1 ? true : false;
             }
-            else if(type == ControlType.Plan|| type == ControlType.Imp_Normal || type == ControlType.Plan_Project)
+            else if(type == ControlType.Plan_Project|| type == ControlType.Imp_Normal || type == ControlType.Plan_Project)
             {
                 object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_submit_status FROM project_info WHERE pi_id='{id}'");
                 if(string.IsNullOrEmpty(GetValue(obj)))
@@ -2714,8 +2714,8 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(index == 3)
                 {
-                    LoadBoxList(dgv_JH_FileList.Tag, ControlType.Plan);
-                    LoadFileBoxTable(cbo_JH_Box.SelectedValue, dgv_JH_FileList.Tag, ControlType.Plan);
+                    LoadBoxList(dgv_JH_FileList.Tag, ControlType.Plan_Project);
+                    LoadFileBoxTable(cbo_JH_Box.SelectedValue, dgv_JH_FileList.Tag, ControlType.Plan_Project);
                 }
             }
             else if("tab_JH_XM_FileInfo".Equals(tab.Name))
@@ -2996,7 +2996,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadFileBoxTable(object pbId, object objId, ControlType type)
         {
             string GCID = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'"));
-            if(type == ControlType.Plan)
+            if(type == ControlType.Plan_Project)
             {
                 txt_JH_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_File1, lsv_JH_File2, "jh", pbId, objId);
@@ -3181,7 +3181,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, false);
                         }
                     }
-                    LoadFileBoxTable(value, dgv_JH_FileList.Tag, ControlType.Plan);
+                    LoadFileBoxTable(value, dgv_JH_FileList.Tag, ControlType.Plan_Project);
                 }
                 else
                     MessageBox.Show("请先添加案卷盒。", "保存失败");
@@ -3683,8 +3683,8 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                     }
-                    LoadBoxList(objId, ControlType.Plan);
-                    LoadFileBoxTable(cbo_JH_Box.SelectedValue, objId, ControlType.Plan);
+                    LoadBoxList(objId, ControlType.Plan_Project);
+                    LoadFileBoxTable(cbo_JH_Box.SelectedValue, objId, ControlType.Plan_Project);
                 }
             }
             //计划-项目
@@ -3993,7 +3993,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadBoxList(object objId, ControlType type)
         {
             DataTable table = SqlHelper.ExecuteQuery($"SELECT pb_id,pb_box_number FROM processing_box WHERE pb_obj_id='{objId}' ORDER BY pb_box_number ASC");
-            if(type == ControlType.Plan)
+            if(type == ControlType.Plan_Project)
             {
                 cbo_JH_Box.DataSource = table;
                 cbo_JH_Box.DisplayMember = "pb_box_number";
@@ -4067,7 +4067,7 @@ namespace 科技计划项目档案数据采集管理系统
             if ("cbo_JH_Box".Equals(comboBox.Name))
             {
                 object pbId = comboBox.SelectedValue;
-                LoadFileBoxTable(pbId, dgv_JH_FileList.Tag, ControlType.Plan);
+                LoadFileBoxTable(pbId, dgv_JH_FileList.Tag, ControlType.Plan_Project);
             }
             else if("cbo_JH_XM_Box".Equals(comboBox.Name))
             {
