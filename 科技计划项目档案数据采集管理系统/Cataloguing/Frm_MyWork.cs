@@ -324,9 +324,9 @@ namespace 科技计划项目档案数据采集管理系统
             InitialLostReasonList(dgv_Imp_Dev_FileValid, "dgv_imp_dev_");
 
             cbo_JH_HasNext.SelectedIndex = 0;
-            cbo_JH_XM_HasNext.SelectedIndex = 0;
+            cbo_Project_HasNext.SelectedIndex = 0;
             cbo_JH_XM_KT_HasNext.SelectedIndex = 0;
-            cbo_JH_KT_HasNext.SelectedIndex = 0;
+            cbo_Topic_HasNext.SelectedIndex = 0;
         }
         /// <summary>
         /// 初始化文件核查原因
@@ -647,14 +647,14 @@ namespace 科技计划项目档案数据采集管理系统
                         ShowTab("plan_project", _index + 1);
                         ResetControls(ControlType.Plan_Project);
                         pal_JH_XM.Tag = dgv_JH_FileList.Tag;
-                        txt_JH_XM_Code.Text = DateTime.Now.Year + GetValue(planCode);
+                        txt_Project_Code.Text = DateTime.Now.Year + GetValue(planCode);
                     }
                     else if(index == 2)//父级 - 课题
                     {
                         ShowTab("plan_topic", _index + 1);
                         ResetControls(ControlType.Plan_Topic);
                         pal_JH_KT.Tag = dgv_JH_FileList.Tag;
-                        txt_JH_XM_Code.Text = DateTime.Now.Year + GetValue(planCode);
+                        txt_Project_Code.Text = DateTime.Now.Year + GetValue(planCode);
                     }
                 }
             }
@@ -663,7 +663,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Cbo_JH_XM_HasNext_SelectionChangeCommitted(object sender, EventArgs e)
         {
             int _index = tab_MenuList.SelectedIndex;
-            int index = cbo_JH_XM_HasNext.SelectedIndex;
+            int index = cbo_Project_HasNext.SelectedIndex;
             if(index == 0)//无
             {
                 ShowTab(null, _index + 1);
@@ -673,14 +673,14 @@ namespace 科技计划项目档案数据采集管理系统
                 if(dgv_JH_XM_FileList.Tag == null)
                 {
                     MessageBox.Show("尚未保存当前项目，无法添加新数据。", "温馨提示");
-                    cbo_JH_XM_HasNext.SelectedIndex = 0;
+                    cbo_Project_HasNext.SelectedIndex = 0;
                 }
                 else
                 {
                     ShowTab("plan_project_topic", _index + 1);
                     ResetControls(ControlType.Plan_Project_Topic);
                     pal_JH_XM_KT.Tag = dgv_JH_XM_FileList.Tag;
-                    txt_JH_XM_KT_Code.Text = txt_JH_XM_Code.Text;
+                    txt_JH_XM_KT_Code.Text = txt_Project_Code.Text;
                 }
             }
         }
@@ -705,7 +705,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ShowTab("plan_project_topic_subtopic", _index + 1);
                     ResetControls(ControlType.Plan_Project_Topic_Subtopic);
                     pal_JH_XM_KT_ZKT.Tag = dgv_JH_XM_KT_FileList.Tag;
-                    txt_JH_XM_KT_ZKT_Code.Text = txt_JH_XM_KT_Code.Text;
+                    txt_Subject_Code.Text = txt_JH_XM_KT_Code.Text;
                 }
             }
         }
@@ -713,7 +713,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Cbo_JH_KT_HasNext_SelectionChangeCommitted(object sender, EventArgs e)
         {
             int _index = tab_MenuList.SelectedIndex;
-            int index = cbo_JH_KT_HasNext.SelectedIndex;
+            int index = cbo_Topic_HasNext.SelectedIndex;
             if(index == 0)//无
             {
                 ShowTab(null, _index + 1);
@@ -723,14 +723,14 @@ namespace 科技计划项目档案数据采集管理系统
                 if(dgv_JH_KT_FileList.Tag == null)
                 {
                     MessageBox.Show("尚未保存当前课题信息，无法添加新数据。", "温馨提示");
-                    cbo_JH_KT_HasNext.SelectedIndex = 0;
+                    cbo_Topic_HasNext.SelectedIndex = 0;
                 }
                 else
                 {
                     ShowTab("plan_topic_subtopic", _index + 1);
                     ResetControls(ControlType.Plan_Topic_Subtopic);
                     pal_JH_KT_ZKT.Tag = dgv_JH_KT_FileList.Tag;
-                    txt_JH_KT_ZKT_Code.Text = txt_JH_KT_Code.Text;
+                    txt_JH_KT_ZKT_Code.Text = txt_Topic_Code.Text;
                 }
             }
         }
@@ -811,7 +811,7 @@ namespace 科技计划项目档案数据采集管理系统
                 int fileIndex = tab_JH_XM_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)
                 {
-                    string code = txt_JH_XM_Code.Text;
+                    string code = txt_Project_Code.Text;
                     if(string.IsNullOrEmpty(code))
                         MessageBox.Show("项目编号不能为空。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     else
@@ -880,7 +880,7 @@ namespace 科技计划项目档案数据采集管理系统
                 int fileIndex = tab_JH_KT_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)
                 {
-                    string code = txt_JH_KT_Code.Text;
+                    string code = txt_Topic_Code.Text;
                     if(string.IsNullOrEmpty(code))
                         MessageBox.Show("课题编号不能为空。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     else
@@ -1087,7 +1087,7 @@ namespace 科技计划项目档案数据采集管理系统
                 int fileIndex = tab_JH_XM_KT_ZKT_FileInfo.SelectedTabPageIndex;
                 if(fileIndex == 0)
                 {
-                    string code = txt_JH_XM_KT_ZKT_Code.Text;
+                    string code = txt_Subject_Code.Text;
                     if(string.IsNullOrEmpty(code))
                         MessageBox.Show("课题编号不能为空。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     else
@@ -1372,20 +1372,20 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(controlType == ControlType.Plan_Project)
             {
-                string code = txt_JH_XM_Code.Text;
-                string name = txt_JH_XM_Name.Text;
+                string code = txt_Project_Code.Text;
+                string name = txt_Project_Name.Text;
                 string type = string.Empty;
-                string ly = txt_JH_XM_LY.Text;
-                string zt = txt_JH_XM_ZT.Text;
-                string jf = txt_JH_XM_JF.Text;
-                DateTime starttime = dtp_JH_XM_StartTime.Value;
+                string ly = txt_Project_LY.Text;
+                string zt = txt_Project_ZT.Text;
+                string jf = txt_Project_JF.Text;
+                DateTime starttime = dtp_Project_StartTime.Value;
                 DateTime endtime = dtp_JH_XM_EndTime.Value;
-                string year = txt_JH_XM_LXND.Text;
-                object unit = txt_JH_XM_Unit.Text;
-                object province = txt_JH_XM_Province.Text;
-                string unituser = txt_JH_XM_UnitUser.Text;
-                string objuser = txt_JH_XM_ObjUser.Text;
-                string intro = txt_JH_XM_ObjIntroduct.Text;
+                string year = txt_Project_LXND.Text;
+                object unit = txt_Project_Unit.Text;
+                object province = txt_Project_Province.Text;
+                string unituser = txt_Project_UnitUser.Text;
+                string objuser = txt_Project_ObjUser.Text;
+                string intro = txt_Project_ObjIntroduct.Text;
 
                 string updateSql = "UPDATE project_info SET " +
                     $"pi_code = '{code}'" +
@@ -1407,20 +1407,20 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(controlType == ControlType.Plan_Topic)
             {
-                string code = txt_JH_KT_Code.Text;
-                string name = txt_JH_KT_Name.Text;
+                string code = txt_Topic_Code.Text;
+                string name = txt_Topic_Name.Text;
                 string type = string.Empty;
-                string ly = txt_JH_KT_LY.Text;
-                string zt = txt_JH_KT_ZT.Text;
-                string jf = txt_JH_KT_JF.Text;
-                DateTime starttime = dtp_JH_KT_StartTime.Value;
-                DateTime endtime = dtp_JH_KT_EndTime.Value;
-                string year = txt_JH_KT_Year.Text;
-                object unit = txt_JH_KT_Unit.Text;
-                object province = txt_JH_KT_Province.Text;
-                string unituser = txt_JH_KT_UnitUser.Text;
-                string objuser = txt_JH_KT_ProUser.Text;
-                string intro = txt_JH_KT_Intro.Text;
+                string ly = txt_Topic_LY.Text;
+                string zt = txt_Topic_Theme.Text;
+                string jf = txt_Topic_Fund.Text;
+                DateTime starttime = dtp_Topic_StartTime.Value;
+                DateTime endtime = dtp_Topic_EndTime.Value;
+                string year = txt_Topic_Year.Text;
+                object unit = txt_Topic_Unit.Text;
+                object province = txt_Topic_Province.Text;
+                string unituser = txt_Topic_UnitUser.Text;
+                string objuser = txt_Topic_ProUser.Text;
+                string intro = txt_Topic_Intro.Text;
 
                 string updateSql = "UPDATE project_info SET " +
                     $"pi_code = '{code}'" +
@@ -1511,20 +1511,20 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(controlType == ControlType.Plan_Project_Topic_Subtopic)
             {
-                string code = txt_JH_XM_KT_ZKT_Code.Text;
-                string name = txt_JH_XM_KT_ZKT_Name.Text;
+                string code = txt_Subject_Code.Text;
+                string name = txt_Subject_Name.Text;
                 string type = string.Empty;
-                string ly = txt_JH_XM_KT_ZKT_LY.Text;
-                string zt = txt_JH_XM_KT_ZKT_ZT.Text;
-                string jf = txt_JH_XM_KT_ZKT_JF.Text;
-                DateTime starttime = dtp_JH_XM_KT_ZKT_StartTime.Value;
-                DateTime endtime = dtp_JH_XM_KT_ZKT_EndTime.Value;
-                string year = txt_JH_XM_KT_ZKT_Year.Text;
-                object unit = txt_JH_XM_KT_ZKT_Unit.Text;
-                string unituser = txt_JH_XM_KT_ZKT_Unituser.Text;
-                string objuser = txt_JH_XM_KT_ZKT_Prouser.Text;
-                object province = txt_JH_XM_KT_ZKT_Province.Text;
-                string intro = txt_JH_XM_KT_ZKT_Intro.Text;
+                string ly = txt_Subject_LY.Text;
+                string zt = txt_Subject_Theme.Text;
+                string jf = txt_Subject_Fund.Text;
+                DateTime starttime = dtp_Subject_StartTime.Value;
+                DateTime endtime = dtp_Subject_EndTime.Value;
+                string year = txt_Subject_Year.Text;
+                object unit = txt_Subject_Unit.Text;
+                string unituser = txt_Subject_Unituser.Text;
+                string objuser = txt_Subject_Prouser.Text;
+                object province = txt_Subject_Province.Text;
+                string intro = txt_Subject_Intro.Text;
 
                 string updateSql = "UPDATE subject_info SET " +
                     $"[si_code] = '{code}'" +
@@ -1575,20 +1575,20 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Project)
             {
-                string code = txt_JH_XM_Code.Text;
-                string name = txt_JH_XM_Name.Text;
+                string code = txt_Project_Code.Text;
+                string name = txt_Project_Name.Text;
                 string planType = string.Empty;
-                string ly = txt_JH_XM_LY.Text;
-                string zt = txt_JH_XM_ZT.Text;
-                string jf = txt_JH_XM_JF.Text;
-                DateTime starttime = dtp_JH_XM_StartTime.Value;
+                string ly = txt_Project_LY.Text;
+                string zt = txt_Project_ZT.Text;
+                string jf = txt_Project_JF.Text;
+                DateTime starttime = dtp_Project_StartTime.Value;
                 DateTime endtime = dtp_JH_XM_EndTime.Value;
-                string year = txt_JH_XM_LXND.Text;
-                object unit = txt_JH_XM_Unit.Text;
-                object province = txt_JH_XM_Province.Text;
-                string unituser = txt_JH_XM_UnitUser.Text;
-                string objuser = txt_JH_XM_ObjUser.Text;
-                string intro = txt_JH_XM_ObjIntroduct.Text;
+                string year = txt_Project_LXND.Text;
+                object unit = txt_Project_Unit.Text;
+                object province = txt_Project_Province.Text;
+                string unituser = txt_Project_UnitUser.Text;
+                string objuser = txt_Project_ObjUser.Text;
+                string intro = txt_Project_ObjIntroduct.Text;
 
                 string insertSql = "INSERT INTO project_info(pi_id ,trc_id,pi_code,pi_name,pi_type,pb_belong" +
                     ",pb_belong_type,pi_money,pi_start_datetime,pi_end_datetime,pi_year,pi_company_id,pi_company_user" +
@@ -1602,20 +1602,20 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Topic)
             {
-                string code = txt_JH_KT_Code.Text;
-                string name = txt_JH_KT_Name.Text;
+                string code = txt_Topic_Code.Text;
+                string name = txt_Topic_Name.Text;
                 string planType = string.Empty;
-                string ly = txt_JH_KT_LY.Text;
-                string zt = txt_JH_KT_ZT.Text;
-                string jf = txt_JH_KT_JF.Text;
-                DateTime starttime = dtp_JH_KT_StartTime.Value;
-                DateTime endtime = dtp_JH_KT_EndTime.Value;
-                string year = txt_JH_KT_Year.Text;
-                object unit = txt_JH_KT_Unit.Text;
-                object province = txt_JH_KT_Province.Text;
-                string unituser = txt_JH_KT_UnitUser.Text;
-                string objuser = txt_JH_KT_ProUser.Text;
-                string intro = txt_JH_KT_Intro.Text;
+                string ly = txt_Topic_LY.Text;
+                string zt = txt_Topic_Theme.Text;
+                string jf = txt_Topic_Fund.Text;
+                DateTime starttime = dtp_Topic_StartTime.Value;
+                DateTime endtime = dtp_Topic_EndTime.Value;
+                string year = txt_Topic_Year.Text;
+                object unit = txt_Topic_Unit.Text;
+                object province = txt_Topic_Province.Text;
+                string unituser = txt_Topic_UnitUser.Text;
+                string objuser = txt_Topic_ProUser.Text;
+                string intro = txt_Topic_Intro.Text;
 
                 string insertSql = "INSERT INTO project_info(pi_id ,trc_id,pi_code,pi_name,pi_type,pb_belong" +
                     ",pb_belong_type,pi_money,pi_start_datetime,pi_end_datetime,pi_year,pi_company_id,pi_company_user" +
@@ -1679,20 +1679,20 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Plan_Project_Topic_Subtopic)
             {
-                string code = txt_JH_XM_KT_ZKT_Code.Text;
-                string name = txt_JH_XM_KT_ZKT_Name.Text;
+                string code = txt_Subject_Code.Text;
+                string name = txt_Subject_Name.Text;
                 string planType = string.Empty;
-                string ly = txt_JH_XM_KT_ZKT_LY.Text;
-                string zt = txt_JH_XM_KT_ZKT_ZT.Text;
-                string jf = txt_JH_XM_KT_ZKT_JF.Text;
-                DateTime starttime = dtp_JH_XM_KT_ZKT_StartTime.Value;
-                DateTime endtime = dtp_JH_XM_KT_ZKT_EndTime.Value;
-                string year = txt_JH_XM_KT_ZKT_Year.Text;
-                object unit = txt_JH_XM_KT_ZKT_Unit.Text;
-                string unituser = txt_JH_XM_KT_ZKT_Unituser.Text;
-                string objuser = txt_JH_XM_KT_ZKT_Prouser.Text;
-                object province = txt_JH_XM_KT_ZKT_Province.Text;
-                string intro = txt_JH_XM_KT_ZKT_Intro.Text;
+                string ly = txt_Subject_LY.Text;
+                string zt = txt_Subject_Theme.Text;
+                string jf = txt_Subject_Fund.Text;
+                DateTime starttime = dtp_Subject_StartTime.Value;
+                DateTime endtime = dtp_Subject_EndTime.Value;
+                string year = txt_Subject_Year.Text;
+                object unit = txt_Subject_Unit.Text;
+                string unituser = txt_Subject_Unituser.Text;
+                string objuser = txt_Subject_Prouser.Text;
+                object province = txt_Subject_Province.Text;
+                string intro = txt_Subject_Intro.Text;
 
                 string insertSql = "INSERT INTO subject_info(si_id, pi_id, si_code, si_name, si_type, si_field, si_belong, si_money, si_start_datetime," +
                    "si_end_datetime, si_year, si_company, si_company_user, si_province, si_project_user, si_introduction, si_work_status, si_categor, si_submit_status," +
@@ -2755,7 +2755,7 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                         {
                             txt_JH_XM_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
-                            txt_JH_XM_AJ_Name.Text = txt_JH_XM_Name.Text;
+                            txt_JH_XM_AJ_Name.Text = txt_Project_Name.Text;
                             txt_JH_XM_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_JH_XM_AJ_User.Text = UserHelper.GetInstance().User.RealName;
                             txt_JH_XM_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
@@ -2807,7 +2807,7 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                         {
                             txt_JH_KT_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
-                            txt_JH_KT_AJ_Name.Text = txt_JH_KT_Name.Text;
+                            txt_JH_KT_AJ_Name.Text = txt_Topic_Name.Text;
                             txt_JH_KT_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_JH_KT_AJ_User.Text = UserHelper.GetInstance().User.RealName;
                             txt_JH_KT_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
@@ -2911,7 +2911,7 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                         {
                             txt_JH_XM_KT_ZKT_AJ_Code.Text = $"{planCode}-{DateTime.Now.Year}-{GetAJAmount(planCode)}";
-                            txt_JH_XM_KT_ZKT_AJ_Name.Text = txt_JH_XM_KT_ZKT_Name.Text;
+                            txt_JH_XM_KT_ZKT_AJ_Name.Text = txt_Subject_Name.Text;
                             txt_JH_XM_KT_ZKT_AJ_Secret.Text = GetMaxSecretById(objid);
                             txt_JH_XM_KT_ZKT_AJ_User.Text = UserHelper.GetInstance().User.RealName;
                             txt_JH_XM_KT_ZKT_AJ_Unit.Text = UserHelper.GetInstance().User.Company;
@@ -4284,7 +4284,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if("plan_project".Equals(currentPageName))
                 {
-                    if(string.IsNullOrEmpty(txt_JH_XM_Name.Text))
+                    if(string.IsNullOrEmpty(txt_Project_Name.Text))
                     {
                         dgv_JH_XM_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                         dgv_JH_XM_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -4304,7 +4304,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if("plan_project_topic_subtopic".Equals(currentPageName))
                 {
-                    if(string.IsNullOrEmpty(txt_JH_XM_KT_ZKT_Name.Text))
+                    if(string.IsNullOrEmpty(txt_Subject_Name.Text))
                     {
                         dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                         dgv_JH_XM_KT_ZKT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -4324,7 +4324,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if("plan_topic".Equals(currentPageName))
                 {
-                    if(string.IsNullOrEmpty(txt_JH_KT_Name.Text))
+                    if(string.IsNullOrEmpty(txt_Topic_Name.Text))
                     {
                         dgv_JH_KT_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                         dgv_JH_KT_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -4364,28 +4364,28 @@ namespace 科技计划项目档案数据采集管理系统
                     DataRow row = table.Rows[0];
                     dgv_JH_XM_FileList.Tag = row["pi_id"];
                     pal_JH_XM.Tag = row["pi_obj_id"];
-                    txt_JH_XM_Code.Text = GetValue(row["pi_code"]);
-                    txt_JH_XM_Name.Text = GetValue(row["pi_name"]);
-                    txt_JH_XM_LY.Text = GetValue(row["pb_belong"]);
-                    txt_JH_XM_ZT.Text = GetValue(row["pb_belong_type"]);
-                    txt_JH_XM_JF.Text = GetValue(row["pi_money"]);
+                    txt_Project_Code.Text = GetValue(row["pi_code"]);
+                    txt_Project_Name.Text = GetValue(row["pi_name"]);
+                    txt_Project_LY.Text = GetValue(row["pb_belong"]);
+                    txt_Project_ZT.Text = GetValue(row["pb_belong_type"]);
+                    txt_Project_JF.Text = GetValue(row["pi_money"]);
 
                     string startTime = GetValue(row["pi_start_datetime"]);
                     DateTime _startTime = new DateTime();
                     if(DateTime.TryParse(startTime, out _startTime))
-                        dtp_JH_XM_StartTime.Value = _startTime;
+                        dtp_Project_StartTime.Value = _startTime;
 
                     string endTime = GetValue(row["pi_end_datetime"]);
                     DateTime _endTime = new DateTime();
                     if(DateTime.TryParse(endTime, out _endTime))
                         dtp_JH_XM_EndTime.Value = _endTime;
 
-                    txt_JH_XM_LXND.Text = GetValue(row["pi_year"]);
-                    txt_JH_XM_Unit.Text = GetValue(row["pi_company_id"]);
-                    txt_JH_XM_Province.Text = GetValue(row["pi_province"]);
-                    txt_JH_XM_UnitUser.Text = GetValue(row["pi_company_user"]);
-                    txt_JH_XM_ObjUser.Text = GetValue(row["pi_project_user"]);
-                    txt_JH_XM_ObjIntroduct.Text = GetValue(row["pi_introduction"]);
+                    txt_Project_LXND.Text = GetValue(row["pi_year"]);
+                    txt_Project_Unit.Text = GetValue(row["pi_company_id"]);
+                    txt_Project_Province.Text = GetValue(row["pi_province"]);
+                    txt_Project_UnitUser.Text = GetValue(row["pi_company_user"]);
+                    txt_Project_ObjUser.Text = GetValue(row["pi_project_user"]);
+                    txt_Project_ObjIntroduct.Text = GetValue(row["pi_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["pi_submit_status"];
                     EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
@@ -4412,28 +4412,28 @@ namespace 科技计划项目档案数据采集管理系统
                     DataRow row = table.Rows[0];
                     dgv_JH_KT_FileList.Tag = row["pi_id"];
                     pal_JH_KT.Tag = row["pi_obj_id"];
-                    txt_JH_KT_Code.Text = GetValue(row["pi_code"]);
-                    txt_JH_KT_Name.Text = GetValue(row["pi_name"]);
-                    txt_JH_KT_LY.Text = GetValue(row["pb_belong"]);
-                    txt_JH_KT_ZT.Text = GetValue(row["pb_belong_type"]);
-                    txt_JH_KT_JF.Text = GetValue(row["pi_money"]);
+                    txt_Topic_Code.Text = GetValue(row["pi_code"]);
+                    txt_Topic_Name.Text = GetValue(row["pi_name"]);
+                    txt_Topic_LY.Text = GetValue(row["pb_belong"]);
+                    txt_Topic_Theme.Text = GetValue(row["pb_belong_type"]);
+                    txt_Topic_Fund.Text = GetValue(row["pi_money"]);
 
                     string startTime = GetValue(row["pi_start_datetime"]);
                     DateTime _startTime = new DateTime();
                     if(DateTime.TryParse(startTime, out _startTime))
-                        dtp_JH_KT_StartTime.Value = _startTime;
+                        dtp_Topic_StartTime.Value = _startTime;
 
                     string endTime = GetValue(row["pi_end_datetime"]);
                     DateTime _endTime = new DateTime();
                     if(DateTime.TryParse(endTime, out _endTime))
-                        dtp_JH_KT_EndTime.Value = _endTime;
+                        dtp_Topic_EndTime.Value = _endTime;
 
-                    txt_JH_KT_Year.Text = GetValue(row["pi_year"]);
-                    txt_JH_KT_Unit.Text = GetValue(row["pi_company_id"]);
-                    txt_JH_KT_Province.Text = GetValue(row["pi_province"]);
-                    txt_JH_KT_UnitUser.Text = GetValue(row["pi_company_user"]);
-                    txt_JH_KT_ProUser.Text = GetValue(row["pi_project_user"]);
-                    txt_JH_KT_Intro.Text = GetValue(row["pi_introduction"]);
+                    txt_Topic_Year.Text = GetValue(row["pi_year"]);
+                    txt_Topic_Unit.Text = GetValue(row["pi_company_id"]);
+                    txt_Topic_Province.Text = GetValue(row["pi_province"]);
+                    txt_Topic_UnitUser.Text = GetValue(row["pi_company_user"]);
+                    txt_Topic_ProUser.Text = GetValue(row["pi_project_user"]);
+                    txt_Topic_Intro.Text = GetValue(row["pi_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["pi_submit_status"];
                     EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
@@ -4551,28 +4551,28 @@ namespace 科技计划项目档案数据采集管理系统
                     DataRow row = table.Rows[0];
                     dgv_JH_XM_KT_ZKT_FileList.Tag = row["si_id"];
                     pal_JH_XM_KT_ZKT.Tag = row["pi_id"];
-                    txt_JH_XM_KT_ZKT_Code.Text = GetValue(row["si_code"]);
-                    txt_JH_XM_KT_ZKT_Name.Text = GetValue(row["si_name"]);
-                    txt_JH_XM_KT_ZKT_LY.Text = GetValue(row["si_field"]);
-                    txt_JH_XM_KT_ZKT_ZT.Text = GetValue(row["si_belong"]);
-                    txt_JH_XM_KT_ZKT_JF.Text = GetValue(row["si_money"]);
+                    txt_Subject_Code.Text = GetValue(row["si_code"]);
+                    txt_Subject_Name.Text = GetValue(row["si_name"]);
+                    txt_Subject_LY.Text = GetValue(row["si_field"]);
+                    txt_Subject_Theme.Text = GetValue(row["si_belong"]);
+                    txt_Subject_Fund.Text = GetValue(row["si_money"]);
 
                     string startTime = GetValue(row["si_start_datetime"]);
                     DateTime _startTime = new DateTime();
                     if(DateTime.TryParse(startTime, out _startTime))
-                        dtp_JH_XM_KT_ZKT_StartTime.Value = _startTime;
+                        dtp_Subject_StartTime.Value = _startTime;
 
                     string endTime = GetValue(row["si_end_datetime"]);
                     DateTime _endTime = new DateTime();
                     if(DateTime.TryParse(endTime, out _endTime))
-                        dtp_JH_XM_KT_ZKT_EndTime.Value = _endTime;
+                        dtp_Subject_EndTime.Value = _endTime;
 
-                    txt_JH_XM_KT_ZKT_Year.Text = GetValue(row["si_year"]);
-                    txt_JH_XM_KT_ZKT_Unit.Text = GetValue(row["si_company"]);
-                    txt_JH_XM_KT_ZKT_Province.Text = GetValue(row["si_province"]);
-                    txt_JH_XM_KT_ZKT_Unituser.Text = GetValue(row["si_company_user"]);
-                    txt_JH_XM_KT_ZKT_Prouser.Text = GetValue(row["si_project_user"]);
-                    txt_JH_XM_KT_ZKT_Intro.Text = GetValue(row["si_introduction"]);
+                    txt_Subject_Year.Text = GetValue(row["si_year"]);
+                    txt_Subject_Unit.Text = GetValue(row["si_company"]);
+                    txt_Subject_Province.Text = GetValue(row["si_province"]);
+                    txt_Subject_Unituser.Text = GetValue(row["si_company_user"]);
+                    txt_Subject_Prouser.Text = GetValue(row["si_project_user"]);
+                    txt_Subject_Intro.Text = GetValue(row["si_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["si_submit_status"];
                     EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
                 }
@@ -4656,34 +4656,34 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_FileList.Tag = null;
                 DataGridViewStyleHelper.ResetDataGridView(dgv_JH_XM_FileList, false);
                 DataGridViewStyleHelper.ResetDataGridView(dgv_JH_XM_FileValid, false);
-                txt_JH_XM_Code.Clear();
-                txt_JH_XM_Name.Clear();
-                txt_JH_XM_LY.Clear();
-                txt_JH_XM_ZT.Clear();
-                txt_JH_XM_JF.ResetText();
-                dtp_JH_XM_StartTime.ResetText();
+                txt_Project_Code.Clear();
+                txt_Project_Name.Clear();
+                txt_Project_LY.Clear();
+                txt_Project_ZT.Clear();
+                txt_Project_JF.ResetText();
+                dtp_Project_StartTime.ResetText();
                 dtp_JH_XM_EndTime.ResetText();
-                txt_JH_XM_LXND.Clear();
-                txt_JH_XM_UnitUser.Clear();
-                txt_JH_XM_ObjUser.Clear();
-                txt_JH_XM_ObjIntroduct.Clear();
+                txt_Project_LXND.Clear();
+                txt_Project_UnitUser.Clear();
+                txt_Project_ObjUser.Clear();
+                txt_Project_ObjIntroduct.Clear();
             }
             else if(type == ControlType.Plan_Topic)
             {
                 dgv_JH_KT_FileList.Tag = null;
                 DataGridViewStyleHelper.ResetDataGridView(dgv_JH_KT_FileList, false);
                 DataGridViewStyleHelper.ResetDataGridView(dgv_JH_KT_FileValid, false);
-                txt_JH_KT_Code.Clear();
-                txt_JH_KT_Name.Clear();
-                txt_JH_KT_LY.Clear();
-                txt_JH_KT_ZT.Clear();
-                txt_JH_KT_JF.ResetText();
-                dtp_JH_KT_StartTime.ResetText();
-                dtp_JH_KT_EndTime.ResetText();
-                txt_JH_KT_Year.Clear();
-                txt_JH_KT_UnitUser.Clear();
-                txt_JH_KT_ProUser.Clear();
-                txt_JH_KT_Intro.Clear();
+                txt_Topic_Code.Clear();
+                txt_Topic_Name.Clear();
+                txt_Topic_LY.Clear();
+                txt_Topic_Theme.Clear();
+                txt_Topic_Fund.ResetText();
+                dtp_Topic_StartTime.ResetText();
+                dtp_Topic_EndTime.ResetText();
+                txt_Topic_Year.Clear();
+                txt_Topic_UnitUser.Clear();
+                txt_Topic_ProUser.Clear();
+                txt_Topic_Intro.Clear();
             }
             else if(type == ControlType.Plan_Project_Topic)
             {
@@ -4724,17 +4724,17 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_JH_XM_KT_ZKT_FileList.Tag = null;
                 DataGridViewStyleHelper.ResetDataGridView(dgv_JH_XM_KT_ZKT_FileList, false);
                 DataGridViewStyleHelper.ResetDataGridView(dgv_JH_XM_KT_ZKT_FileValid, false);
-                txt_JH_XM_KT_ZKT_Code.Clear();
-                txt_JH_XM_KT_ZKT_Name.Clear();
-                txt_JH_XM_KT_ZKT_LY.Clear();
-                txt_JH_XM_KT_ZKT_ZT.Clear();
-                txt_JH_XM_KT_ZKT_JF.ResetText();
-                dtp_JH_XM_KT_ZKT_StartTime.ResetText();
-                dtp_JH_XM_KT_ZKT_EndTime.ResetText();
-                txt_JH_XM_KT_ZKT_Year.Clear();
-                txt_JH_XM_KT_ZKT_Unituser.Clear();
-                txt_JH_XM_KT_ZKT_Prouser.Clear();
-                txt_JH_XM_KT_ZKT_Intro.Clear();
+                txt_Subject_Code.Clear();
+                txt_Subject_Name.Clear();
+                txt_Subject_LY.Clear();
+                txt_Subject_Theme.Clear();
+                txt_Subject_Fund.ResetText();
+                dtp_Subject_StartTime.ResetText();
+                dtp_Subject_EndTime.ResetText();
+                txt_Subject_Year.Clear();
+                txt_Subject_Unituser.Clear();
+                txt_Subject_Prouser.Clear();
+                txt_Subject_Intro.Clear();
             }
             else if(type == ControlType.Imp_Dev)
             {
@@ -5241,7 +5241,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if("btn_JH_XM_QTReason".Equals(name))
             {
                 objId = dgv_JH_XM_FileList.Tag;
-                objName = txt_JH_XM_Name.Text;
+                objName = txt_Project_Name.Text;
             }
             else if("btn_JH_XM_KT_QTReason".Equals(name))
             {
@@ -5251,7 +5251,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if("btn_JH_XM_KT_ZKT_QTReason".Equals(name))
             {
                 objId = dgv_JH_XM_KT_ZKT_FileList.Tag;
-                objName = txt_JH_XM_KT_ZKT_Name.Text;
+                objName = txt_Subject_Name.Text;
             }
             if(objId != null && objName != null)
             {
@@ -5349,6 +5349,11 @@ namespace 科技计划项目档案数据采集管理系统
                 key = "imp_dev_";
             if(key != null)
                 LoadFileList(view, key, view.Tag);
+        }
+
+        private void Tab_FileInfo_SelectedIndexChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e)
+        {
+
         }
     }
 }

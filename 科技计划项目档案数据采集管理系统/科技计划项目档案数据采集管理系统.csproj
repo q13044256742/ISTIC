@@ -213,7 +213,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tools\MicrosoftWordHelper.cs" />
-    <Compile Include="Tools\ServerHelper.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
     <Compile Include="Tools\XmlHelper.cs" />
     <Compile Include="TransferOfRegistration\Frm_AddPC.cs">

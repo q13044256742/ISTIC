@@ -50,32 +50,32 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             string sourPath = txt_CD_Path.Text;
             //光盘读写【非结构化数据】
-            if(!string.IsNullOrEmpty(sourPath))
-            {
-                indexCount = -1;
-                object ipAddress = null;
+            //if(!string.IsNullOrEmpty(sourPath))
+            //{
+                //indexCount = -1;
+                //object ipAddress = null;
                 //备份光盘文件到远程服务器
-                if(ServerHelper.GetConnectState(ref ipAddress))
-                {
-                    btn_Sure.Enabled = false;
+            //    if(ServerHelper.GetConnectState(ref ipAddress))
+            //    {
+            //        btn_Sure.Enabled = false;
 
-                    int totalFileAmount = Directory.GetFiles(sourPath, "*", SearchOption.AllDirectories).Length;
-                    pgb_CD.Maximum = totalFileAmount;
-                    pgb_CD.Value = pgb_CD.Minimum;
+            //        int totalFileAmount = Directory.GetFiles(sourPath, "*", SearchOption.AllDirectories).Length;
+            //        pgb_CD.Maximum = totalFileAmount;
+            //        pgb_CD.Value = pgb_CD.Minimum;
 
-                    string primaryKey = Guid.NewGuid().ToString();
-                    SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_sort, bfi_name, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                        $"('{primaryKey}', '{indexCount++}', '{Path.GetFileName(sourPath)}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', '{1}')");
+            //        string primaryKey = Guid.NewGuid().ToString();
+            //        SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_sort, bfi_name, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+            //            $"('{primaryKey}', '{indexCount++}', '{Path.GetFileName(sourPath)}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', '{1}')");
 
-                    string rootFolder = @"\\" + ipAddress + @"\共享文件夹\" + Path.GetFileName(sourPath) + @"\";
-                    if(!Directory.Exists(rootFolder))
-                        Directory.CreateDirectory(rootFolder);
-                    CopyFile(sourPath, rootFolder, primaryKey);
-                    MessageBox.Show($"备份完毕,共计{count}个文件。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                }
-                else
-                    MessageBox.Show("备份文件到服务器失败。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
+            //        string rootFolder = @"\\" + ipAddress + @"\共享文件夹\" + Path.GetFileName(sourPath) + @"\";
+            //        if(!Directory.Exists(rootFolder))
+            //            Directory.CreateDirectory(rootFolder);
+            //        CopyFile(sourPath, rootFolder, primaryKey);
+            //        MessageBox.Show($"备份完毕,共计{count}个文件。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            //    }
+            //    else
+            //        MessageBox.Show("备份文件到服务器失败。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            //}
             /* -------------------- 暂时搁置 -----------------------------
             string dPath = txt_DS_Path.Text;
             if(!string.IsNullOrEmpty(dPath))
@@ -84,10 +84,10 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             }
              ------------------------------------------------------ */
             //光盘读写【结构化数据】
-            else
-            {
-                MessageBox.Show("光盘路径不能为空。", "读取失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
+            //else
+            //{
+            //    MessageBox.Show("光盘路径不能为空。", "读取失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            //}
             //else
             //{
             //    /* 测试注释 */
@@ -135,7 +135,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 {
                     SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_sort, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
                         $"('{primaryKey}', '{indexCount++}', '{file[i].Name}', '{rootFolder}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', '{0}')");
-                    ServerHelper.UploadFile(file[i].FullName, rootFolder, file[i].Name);
+                    //ServerHelper.UploadFile(file[i].FullName, rootFolder, file[i].Name);
                     okCount++;
                 }
                 catch(Exception)

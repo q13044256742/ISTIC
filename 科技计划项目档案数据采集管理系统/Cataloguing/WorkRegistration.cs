@@ -44,7 +44,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 计划-项目
         /// </summary>
-        Plan_Project = 2,
+        Project = 2,
         /// <summary>
         /// 计划-课题
         /// </summary>
