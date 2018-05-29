@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
+﻿using DevExpress.XtraBars.Navigation;
+using System;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.Properties;
 using 科技计划项目档案数据采集管理系统.TransferOfRegistration;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -45,191 +42,52 @@ namespace 科技计划项目档案数据采集管理系统
         private void Frm_MainFrame_Load(object sender, EventArgs e)
         {
             lbl_OtherInfo.Text = $"当前时间：{DateTime.Now.Year}年{DateTime.Now.Month}月{DateTime.Now.Day}日 {System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)}";
-            LoadLeftMenu();
+            UserInfo_Click(null, null);
         }
 
-        private void LoadLeftMenu()
-        {
-            Image[] imgs = new Image[] { Resources.pic1, Resources.pic2, Resources.pic3, Resources.pic4, Resources.pic5, Resources.pic6, Resources.pic7, Resources.pic8 };
-            List<CreateKyoPanel.KyoPanel> list = new List<CreateKyoPanel.KyoPanel>();
-            list.Add(new CreateKyoPanel.KyoPanel
-            {
-                Name = "YH_MANAGER",
-                Text = "用户管理",
-                Image = imgs[0],
-                HasNext = true
-            });
-            list.Add(new CreateKyoPanel.KyoPanel
-            {
-                Name = "ZD_MANAGER",
-                Text = "字典管理",
-                Image = imgs[1],
-                HasNext = true
-            });
-            list.Add(new CreateKyoPanel.KyoPanel
-            {
-                Name = "AQ_MANAGER",
-                Text = "安全监控",
-                Image = imgs[4],
-                HasNext = true
-            });
-            list.Add(new CreateKyoPanel.KyoPanel
-            {
-                Name = "MB_MANAGER",
-                Text = "模板管理",
-                Image = imgs[3],
-                HasNext = true
-            });
-            CreateKyoPanel.SetPanel(pal_LeftMenu, list);
-
-            //用户管理
-            list = new List<CreateKyoPanel.KyoPanel>();
-            string user_sql = "SELECT bm_id,bm_name,bm_code from background_management where bm_type = 'YH_MANAGER' order by bm_sort";
-            DataTable user_dataTable = SqlHelper.ExecuteQuery(user_sql);
-            CreateKyoPanel.KyoPanel[] userPanels = new CreateKyoPanel.KyoPanel[user_dataTable.Rows.Count];
-            for (int i = 0; i < userPanels.Length; i++)
-            {
-                userPanels[i] = new CreateKyoPanel.KyoPanel
-                {
-                    Name = user_dataTable.Rows[i]["bm_id"].ToString(),
-                    Text = user_dataTable.Rows[i]["bm_name"].ToString(),
-                    HasNext = false
-                };
-            }
-            list.AddRange(userPanels);
-            Panel user_parentPanel = pal_LeftMenu.Controls.Find("YH_MANAGER", false)[0] as Panel;
-            CreateKyoPanel.SetSubPanel(user_parentPanel, list, Sub_Menu_Click_bak);
-
-            //字典管理
-            list = new List<CreateKyoPanel.KyoPanel>();
-            string querySql = "SELECT dd_id,dd_name,dd_code from data_dictionary where level = '1' order by dd_sort";
-            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-            CreateKyoPanel.KyoPanel[] kyoPanels = new CreateKyoPanel.KyoPanel[dataTable.Rows.Count];
-            for (int i = 0; i < kyoPanels.Length; i++)
-            {
-                kyoPanels[i] = new CreateKyoPanel.KyoPanel
-                {
-                    Name = dataTable.Rows[i]["dd_id"].ToString(),
-                    Text = dataTable.Rows[i]["dd_name"].ToString(),
-                    HasNext = false
-                };
-            }
-            list.AddRange(kyoPanels);
-            Panel parentPanel = pal_LeftMenu.Controls.Find("ZD_MANAGER", false)[0] as Panel;
-            CreateKyoPanel.SetSubPanel(parentPanel, list, Sub_Menu_Click);
-
-
-
-            //模板管理
-            list = new List<CreateKyoPanel.KyoPanel>();
-            string querySql_mb = "SELECT bm_id,bm_name,bm_code from background_management where bm_type = 'MB_MANAGER' order by bm_sort";
-            DataTable dataTable_mb = SqlHelper.ExecuteQuery(querySql_mb);
-            CreateKyoPanel.KyoPanel[] kyoPanels_mb = new CreateKyoPanel.KyoPanel[dataTable_mb.Rows.Count];
-            for (int i = 0; i < kyoPanels_mb.Length; i++)
-            {
-                kyoPanels_mb[i] = new CreateKyoPanel.KyoPanel
-                {
-                    Name = dataTable_mb.Rows[i]["bm_id"].ToString(),
-                    Text = dataTable_mb.Rows[i]["bm_name"].ToString(),
-                    HasNext = false
-                };
-            }
-            list.AddRange(kyoPanels_mb);
-            Panel parentPanel_mb = pal_LeftMenu.Controls.Find("MB_MANAGER", false)[0] as Panel;
-            CreateKyoPanel.SetSubPanel(parentPanel_mb, list, Sub_Menu_Click_mb);
-        }
-
-        //模板管理---二级菜单点击事件  
-        private void Sub_Menu_Click_mb(object sender, EventArgs e)
-        {
-            Control control = null;
-            if (sender is Panel)
-                control = sender as Control;
-            else
-                control = (sender as Control).Parent;
-
-            if (!string.IsNullOrEmpty(control.Name))
-            {
-                //string id = control.Name;
-                //string sql = $"select bm_code from background_management where bm_id = '{id}'";
-                //string code = (string)SqlHelper.ExecuteOnlyOneQuery(sql);
-
-                //if (!string.IsNullOrEmpty(code))
-                //{
-                //    if ("confirm_letter".Equals(code))//接收确认函
-                //    {
-                //        Manager.Frm_template frm_Template = new Manager.Frm_template(control.Name);
-                //        frm_Template.MdiParent = this;
-                //        frm_Template.Show();
-                //    }
-                //    else if ("rush_orders".Equals(code))//催报单
-                //    {
-                //        //Frm_userInfo frm = new Frm_userInfo(control.Name);
-                //        //frm.MdiParent = this;
-                //        //frm.Show();
-                //    }
-                //}
-
-                Manager.Frm_template frm_Template = new Manager.Frm_template(control.Name);
-                frm_Template.MdiParent = this;
-                frm_Template.Show();
-            }
-        }
-
-        //用户管理---二级菜单点击事件  
-        private void Sub_Menu_Click_bak(object sender, EventArgs e)
-        {
-            Control control = null;
-            if (sender is Panel)
-                control = sender as Control;
-            else
-                control = (sender as Control).Parent;
-
-            if (!string.IsNullOrEmpty(control.Name))
-            {
-                string id = control.Name;
-                string sql = $"select bm_code from background_management where bm_id = '{id}'";
-                string code = (string)SqlHelper.ExecuteOnlyOneQuery(sql);
-             
-                if (!string.IsNullOrEmpty(code)) {
-                    if ("userGroup_ dictionary".Equals(code))//用户组
-                    {
-                        Frm_userGroup frm = new Frm_userGroup(control.Name);
-                        frm.MdiParent = this;
-                        frm.Show();                      
-                    }
-                    else if("userInfo_ dictionary".Equals(code))//用户信息
-                    {
-                        Frm_userInfo frm = new Frm_userInfo(control.Name);
-                        frm.MdiParent = this;
-                        frm.Show();
-                    }
-                }                 
-            }
-        }
-      
-        // 字典管理---二级菜单点击事件  
-        private void Sub_Menu_Click(object sender, EventArgs e)
-        {
-            Control control = null;
-            if (sender is Panel)
-                control = sender as Control;
-            else
-                control = (sender as Control).Parent;
-
-            if (!string.IsNullOrEmpty(control.Name))
-            {
-                Manager.Frm_Manager frm = new Manager.Frm_Manager(control.Name);
-                frm.MdiParent = this;
-                frm.Show();
-            }
-        }
-
-        private void lbl_ExitSystem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void ExitSystem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Frm_Login frm_Login = new Frm_Login();
             frm_Login.Show();
             Hide();
+        }
+
+        private void UserGroup_Click(object sender, EventArgs e)
+        {
+            Frm_userGroup frm = new Frm_userGroup();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void UserInfo_Click(object sender, EventArgs e)
+        {
+            Frm_userInfo frm = new Frm_userInfo();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void Dictionary_Click(object sender, EventArgs e)
+        {
+            AccordionControlElement element = sender as AccordionControlElement;
+            Manager.Frm_Manager frm = new Manager.Frm_Manager(element.Tag);
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void Demo_Click(object sender, EventArgs e)
+        {
+            Control control = null;
+            if(sender is Panel)
+                control = sender as Control;
+            else
+                control = (sender as Control).Parent;
+
+            if(!string.IsNullOrEmpty(control.Name))
+            {
+                Manager.Frm_template frm_Template = new Manager.Frm_template(control.Name);
+                frm_Template.MdiParent = this;
+                frm_Template.Show();
+            }
         }
     }
 }

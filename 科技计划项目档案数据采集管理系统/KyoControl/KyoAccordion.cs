@@ -4,10 +4,8 @@
     {
         public KyoAccordion()
         {
-            LookAndFeel.UseDefaultLookAndFeel = false;
+            //LookAndFeel.UseDefaultLookAndFeel = false;
             LookAndFeel.SkinName = "Office 2010 Blue";
         }
-
-        
     }
 }

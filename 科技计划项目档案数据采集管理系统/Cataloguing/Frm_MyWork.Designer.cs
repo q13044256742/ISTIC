@@ -600,9 +600,9 @@
             this.special.Controls.Add(this.tab_Special_FileInfo);
             this.special.Controls.Add(this.pal_Imp_Dev_BtnGroup);
             this.special.Controls.Add(this.pal_Imp_Dev);
-            this.special.Location = new System.Drawing.Point(4, 26);
+            this.special.Location = new System.Drawing.Point(4, 23);
             this.special.Name = "special";
-            this.special.Size = new System.Drawing.Size(1086, 699);
+            this.special.Size = new System.Drawing.Size(1086, 702);
             this.special.TabIndex = 7;
             this.special.Text = "专项信息";
             // 
@@ -762,7 +762,7 @@
             // 
             this.tabPage26.Controls.Add(this.dgv_Imp_Dev_FileValid);
             this.tabPage26.Name = "tabPage26";
-            this.tabPage26.Size = new System.Drawing.Size(1074, 365);
+            this.tabPage26.Size = new System.Drawing.Size(1074, 362);
             this.tabPage26.Text = "文件核查";
             // 
             // dgv_Imp_Dev_FileValid
@@ -790,7 +790,7 @@
             this.dgv_Imp_Dev_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_Imp_Dev_FileValid.Name = "dgv_Imp_Dev_FileValid";
             this.dgv_Imp_Dev_FileValid.RowTemplate.Height = 23;
-            this.dgv_Imp_Dev_FileValid.Size = new System.Drawing.Size(1074, 365);
+            this.dgv_Imp_Dev_FileValid.Size = new System.Drawing.Size(1074, 362);
             this.dgv_Imp_Dev_FileValid.TabIndex = 0;
             this.dgv_Imp_Dev_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             // 
@@ -848,7 +848,7 @@
             this.tabPage28.Controls.Add(this.cbo_Imp_Dev_Box);
             this.tabPage28.Controls.Add(this.label145);
             this.tabPage28.Name = "tabPage28";
-            this.tabPage28.Size = new System.Drawing.Size(1074, 365);
+            this.tabPage28.Size = new System.Drawing.Size(1074, 362);
             this.tabPage28.Text = "卷盒信息";
             // 
             // txt_Special_AJ_Name
@@ -1047,7 +1047,7 @@
             this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Dev_Submit);
             this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Sub_Save);
             this.pal_Imp_Dev_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_Imp_Dev_BtnGroup.Location = new System.Drawing.Point(0, 659);
+            this.pal_Imp_Dev_BtnGroup.Location = new System.Drawing.Point(0, 662);
             this.pal_Imp_Dev_BtnGroup.Name = "pal_Imp_Dev_BtnGroup";
             this.pal_Imp_Dev_BtnGroup.Size = new System.Drawing.Size(1086, 40);
             this.pal_Imp_Dev_BtnGroup.TabIndex = 5;
@@ -1237,7 +1237,7 @@
             this.tab_Imp_FileInfo.Location = new System.Drawing.Point(3, 255);
             this.tab_Imp_FileInfo.Name = "tab_Imp_FileInfo";
             this.tab_Imp_FileInfo.SelectedTabPage = this.tabPage21;
-            this.tab_Imp_FileInfo.Size = new System.Drawing.Size(1080, 400);
+            this.tab_Imp_FileInfo.Size = new System.Drawing.Size(1080, 397);
             this.tab_Imp_FileInfo.TabIndex = 4;
             this.tab_Imp_FileInfo.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage21,
@@ -1250,7 +1250,7 @@
             this.tabPage21.Controls.Add(this.dgv_Imp_FileList);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(1074, 371);
+            this.tabPage21.Size = new System.Drawing.Size(1074, 368);
             this.tabPage21.Text = "添加文件";
             // 
             // dgv_Imp_FileList
@@ -1284,7 +1284,7 @@
             this.dgv_Imp_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Imp_FileList.Name = "dgv_Imp_FileList";
             this.dgv_Imp_FileList.RowTemplate.Height = 23;
-            this.dgv_Imp_FileList.Size = new System.Drawing.Size(1068, 365);
+            this.dgv_Imp_FileList.Size = new System.Drawing.Size(1068, 362);
             this.dgv_Imp_FileList.TabIndex = 0;
             this.dgv_Imp_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
             this.dgv_Imp_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
@@ -1384,7 +1384,7 @@
             // 
             this.tabPage22.Controls.Add(this.dgv_Imp_FileValid);
             this.tabPage22.Name = "tabPage22";
-            this.tabPage22.Size = new System.Drawing.Size(1074, 365);
+            this.tabPage22.Size = new System.Drawing.Size(1074, 371);
             this.tabPage22.Text = "文件核查";
             // 
             // dgv_Imp_FileValid
@@ -1411,7 +1411,7 @@
             this.dgv_Imp_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_Imp_FileValid.Name = "dgv_Imp_FileValid";
             this.dgv_Imp_FileValid.RowTemplate.Height = 23;
-            this.dgv_Imp_FileValid.Size = new System.Drawing.Size(1074, 365);
+            this.dgv_Imp_FileValid.Size = new System.Drawing.Size(1074, 371);
             this.dgv_Imp_FileValid.TabIndex = 0;
             this.dgv_Imp_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             // 
@@ -1469,7 +1469,7 @@
             this.tabPage24.Controls.Add(this.cbo_Imp_Box);
             this.tabPage24.Controls.Add(this.label132);
             this.tabPage24.Name = "tabPage24";
-            this.tabPage24.Size = new System.Drawing.Size(1074, 365);
+            this.tabPage24.Size = new System.Drawing.Size(1074, 371);
             this.tabPage24.Text = "卷盒信息";
             // 
             // txt_Imp_AJ_Name
@@ -1737,6 +1737,7 @@
             // 
             // txt_Imp_Intro
             // 
+            this.txt_Imp_Intro.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_Imp_Intro.Location = new System.Drawing.Point(130, 37);
             this.txt_Imp_Intro.Multiline = true;
             this.txt_Imp_Intro.Name = "txt_Imp_Intro";
@@ -1800,10 +1801,10 @@
             this.subject.Controls.Add(this.tab_Subject_FileInfo);
             this.subject.Controls.Add(this.pal_JH_XM_KT_ZKT_BtnGroup);
             this.subject.Controls.Add(this.pal_JH_XM_KT_ZKT);
-            this.subject.Location = new System.Drawing.Point(4, 26);
+            this.subject.Location = new System.Drawing.Point(4, 23);
             this.subject.Name = "subject";
             this.subject.Padding = new System.Windows.Forms.Padding(3);
-            this.subject.Size = new System.Drawing.Size(1086, 699);
+            this.subject.Size = new System.Drawing.Size(1086, 702);
             this.subject.TabIndex = 4;
             this.subject.Text = "子课题";
             // 
@@ -1963,7 +1964,7 @@
             // 
             this.tabPage17.Controls.Add(this.dgv_JH_XM_KT_ZKT_FileValid);
             this.tabPage17.Name = "tabPage17";
-            this.tabPage17.Size = new System.Drawing.Size(1074, 365);
+            this.tabPage17.Size = new System.Drawing.Size(1074, 362);
             this.tabPage17.Text = "文件核查";
             // 
             // dgv_JH_XM_KT_ZKT_FileValid
@@ -1991,7 +1992,7 @@
             this.dgv_JH_XM_KT_ZKT_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_JH_XM_KT_ZKT_FileValid.Name = "dgv_JH_XM_KT_ZKT_FileValid";
             this.dgv_JH_XM_KT_ZKT_FileValid.RowTemplate.Height = 23;
-            this.dgv_JH_XM_KT_ZKT_FileValid.Size = new System.Drawing.Size(1074, 365);
+            this.dgv_JH_XM_KT_ZKT_FileValid.Size = new System.Drawing.Size(1074, 362);
             this.dgv_JH_XM_KT_ZKT_FileValid.TabIndex = 0;
             // 
             // subject_fc_id
@@ -2048,7 +2049,7 @@
             this.tabPage19.Controls.Add(this.cbo_JH_XM_KT_ZKT_Box);
             this.tabPage19.Controls.Add(this.label87);
             this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Size = new System.Drawing.Size(1074, 365);
+            this.tabPage19.Size = new System.Drawing.Size(1074, 362);
             this.tabPage19.Text = "卷盒信息";
             // 
             // txt_Subject_AJ_Name
@@ -2249,7 +2250,7 @@
             this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_ZKT_Save);
             this.pal_JH_XM_KT_ZKT_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pal_JH_XM_KT_ZKT_BtnGroup.Font = new System.Drawing.Font("宋体", 11F);
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Location = new System.Drawing.Point(3, 656);
+            this.pal_JH_XM_KT_ZKT_BtnGroup.Location = new System.Drawing.Point(3, 659);
             this.pal_JH_XM_KT_ZKT_BtnGroup.Name = "pal_JH_XM_KT_ZKT_BtnGroup";
             this.pal_JH_XM_KT_ZKT_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_JH_XM_KT_ZKT_BtnGroup.TabIndex = 10;
@@ -2587,10 +2588,10 @@
             this.topic.Controls.Add(this.tab_Topic_FileInfo);
             this.topic.Controls.Add(this.pal_JH_KT_BtnGroup);
             this.topic.Controls.Add(this.pal_JH_KT);
-            this.topic.Location = new System.Drawing.Point(4, 26);
+            this.topic.Location = new System.Drawing.Point(4, 23);
             this.topic.Name = "topic";
             this.topic.Padding = new System.Windows.Forms.Padding(3);
-            this.topic.Size = new System.Drawing.Size(1086, 699);
+            this.topic.Size = new System.Drawing.Size(1086, 702);
             this.topic.TabIndex = 2;
             this.topic.Text = "课题";
             // 
@@ -2750,7 +2751,7 @@
             // 
             this.tabPage6.Controls.Add(this.dgv_JH_KT_FileValid);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1074, 371);
+            this.tabPage6.Size = new System.Drawing.Size(1074, 368);
             this.tabPage6.Text = "文件核查";
             // 
             // dgv_JH_KT_FileValid
@@ -2778,7 +2779,7 @@
             this.dgv_JH_KT_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_JH_KT_FileValid.Name = "dgv_JH_KT_FileValid";
             this.dgv_JH_KT_FileValid.RowTemplate.Height = 23;
-            this.dgv_JH_KT_FileValid.Size = new System.Drawing.Size(1074, 371);
+            this.dgv_JH_KT_FileValid.Size = new System.Drawing.Size(1074, 368);
             this.dgv_JH_KT_FileValid.TabIndex = 0;
             // 
             // topic_fc_id
@@ -2835,7 +2836,7 @@
             this.tabPage8.Controls.Add(this.cbo_JH_KT_Box);
             this.tabPage8.Controls.Add(this.label71);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1074, 371);
+            this.tabPage8.Size = new System.Drawing.Size(1074, 368);
             this.tabPage8.Text = "卷盒信息";
             // 
             // txt_Topic_AJ_Name
@@ -3035,7 +3036,7 @@
             this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_Submit);
             this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_Save);
             this.pal_JH_KT_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_JH_KT_BtnGroup.Location = new System.Drawing.Point(3, 656);
+            this.pal_JH_KT_BtnGroup.Location = new System.Drawing.Point(3, 659);
             this.pal_JH_KT_BtnGroup.Name = "pal_JH_KT_BtnGroup";
             this.pal_JH_KT_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_JH_KT_BtnGroup.TabIndex = 7;
@@ -3399,10 +3400,10 @@
             this.project.Controls.Add(this.tab_Project_FileInfo);
             this.project.Controls.Add(this.pal_JH_XM_BtnGroup);
             this.project.Controls.Add(this.pal_JH_XM);
-            this.project.Location = new System.Drawing.Point(4, 26);
+            this.project.Location = new System.Drawing.Point(4, 23);
             this.project.Name = "project";
             this.project.Padding = new System.Windows.Forms.Padding(3);
-            this.project.Size = new System.Drawing.Size(1086, 699);
+            this.project.Size = new System.Drawing.Size(1086, 702);
             this.project.TabIndex = 1;
             this.project.Text = "项目";
             // 
@@ -3554,7 +3555,7 @@
             // 
             this.tabPage2.Controls.Add(this.dgv_JH_XM_FileValid);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(1074, 371);
+            this.tabPage2.Size = new System.Drawing.Size(1074, 368);
             this.tabPage2.Text = "文件核查";
             // 
             // dgv_JH_XM_FileValid
@@ -3582,7 +3583,7 @@
             this.dgv_JH_XM_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_JH_XM_FileValid.Name = "dgv_JH_XM_FileValid";
             this.dgv_JH_XM_FileValid.RowTemplate.Height = 23;
-            this.dgv_JH_XM_FileValid.Size = new System.Drawing.Size(1074, 371);
+            this.dgv_JH_XM_FileValid.Size = new System.Drawing.Size(1074, 368);
             this.dgv_JH_XM_FileValid.TabIndex = 0;
             // 
             // project_fc_id
@@ -3644,7 +3645,7 @@
             this.tabPage4.Controls.Add(this.cbo_JH_XM_Box);
             this.tabPage4.Controls.Add(this.label63);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1074, 371);
+            this.tabPage4.Size = new System.Drawing.Size(1074, 368);
             this.tabPage4.Text = "卷盒信息";
             // 
             // txt_Project_AJ_Name
@@ -3844,7 +3845,7 @@
             this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_Submit);
             this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_Save);
             this.pal_JH_XM_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_JH_XM_BtnGroup.Location = new System.Drawing.Point(3, 656);
+            this.pal_JH_XM_BtnGroup.Location = new System.Drawing.Point(3, 659);
             this.pal_JH_XM_BtnGroup.Name = "pal_JH_XM_BtnGroup";
             this.pal_JH_XM_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_JH_XM_BtnGroup.TabIndex = 4;

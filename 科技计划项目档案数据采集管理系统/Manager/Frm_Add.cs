@@ -1,111 +1,124 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.Manager
 {
-    public partial class Frm_Add : Form
+    public partial class Frm_Add : DevExpress.XtraEditors.XtraForm
     {
         private bool isAdd;
         private string pId;
         private string id;
 
 
-        public Frm_Add(bool isAdd, string pId,string id)
+        public Frm_Add(bool isAdd, string pId, string id, int sort)
         {
             this.isAdd = isAdd;
             InitializeComponent();
             this.pId = pId;
             this.id = id;
-            if (isAdd)
-                Load_name(pId);
+            if(isAdd)
+                Load_BasicInfo(pId, sort);
             else
-                LoadData(pId,id);
+                LoadData(pId, id);
         }
 
 
-        private void Load_name(string pId)
+        private void Load_BasicInfo(string pId, int sort)
         {
             string querySql = $"SELECT dd_name FROM data_dictionary where dd_id = '{pId}'";
-            String dd_name = (String)SqlHelper.ExecuteOnlyOneQuery(querySql);
+            string dd_name = GetValue(SqlHelper.ExecuteOnlyOneQuery(querySql));
 
             //给文本框赋值
-            txt_Search.Text = dd_name;
-            txt_Search.Tag = pId;
+            txt_ParentName.Text = dd_name;
+            txt_ParentName.Tag = pId;
+            num_Sort.Value = sort;
         }
 
-        private void LoadData(string pId,string id)
+        private string GetValue(object value) => value == null ? string.Empty : value.ToString();
+
+        private void LoadData(string pId, string id)
         {
-            string querySql = $"SELECT dd_name FROM data_dictionary where dd_id = '{pId}'";
-            string dataSql = $"SELECT dd_name,dd_sort,dd_note FROM data_dictionary where dd_id = '{id}'";
-            String dd_name = (String)SqlHelper.ExecuteOnlyOneQuery(querySql);
-            object[] _obj = SqlHelper.ExecuteRowsQuery(dataSql);
-
-            //给文本框赋值
-            txt_Search.Text = dd_name;
-            textBox1.Text = _obj[0].ToString();           
-            textBox3.Text = _obj[1].ToString();
-            textBox4.Text = _obj[2].ToString();          
-            txt_Search.Tag = pId;
-            textBox1.Tag = id;
-        }
-
-        private void btn_save(object sender, EventArgs e)
-        {
-            if (!ValidData())
+            object pName = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_name FROM data_dictionary WHERE dd_id='{pId}'");
+            if(pName != null)
             {
-                MessageBox.Show("请先将表单信息补充完整!");
-                return;
-            }
-            if (MessageBox.Show("确定要保存当前数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
-            {
-                //保存基本信息                     
-                string dd_name = textBox1.Text.Trim();
-                string dd_code = Guid.NewGuid().ToString();
-                int dd_sort = (int)textBox3.Value;
-                string dd_node = textBox4.Text.Trim();
-                string dd_pId = (string)txt_Search.Tag;
+                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_name, dd_code, dd_sort, dd_note FROM data_dictionary where dd_id = '{id}'");
+                //给文本框赋值
+                txt_ParentName.Text = GetValue(pName);
+                txt_ParentName.Tag = pId;
 
-                //新增信息
-                if (isAdd)
-                {
-                    string dd_id = Guid.NewGuid().ToString();
-                    string querySql = $"insert into data_dictionary  (dd_id, dd_name,dd_pId,dd_code,dd_note,dd_sort)values('{dd_id}','{dd_name}','{dd_pId}','{dd_code}','{dd_node}','{dd_sort}')";
-                    SqlHelper.ExecuteQuery(querySql);
-                }
-                //更新信息
-                else
-                {
-                    string dd_id = (string)textBox1.Tag;
-                    string querySql = $"update data_dictionary set dd_name='{dd_name}',dd_sort='{dd_sort}',dd_note='{dd_node}' where dd_id='{dd_id}'";
-                    SqlHelper.ExecuteQuery(querySql);
-                }
-                if (MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
-                {
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
+                txt_Name.Text = GetValue(row["dd_name"]);
+                txt_Code.Text = GetValue(row["dd_code"]);
+                num_Sort.Text = GetValue(row["dd_sort"]);
+                txt_Intro.Text = GetValue(row["dd_note"]);
+                txt_Name.Tag = GetValue(id);
             }
         }
 
-        /// <summary>
-        /// 检验数据的完整性（名称和编码必填）
-        /// </summary>
+        private void Btn_Save(object sender, EventArgs e)
+        {
+            if(ValidData())
+            {
+                if(MessageBox.Show("确定要保存当前数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                {
+                    //保存基本信息                     
+                    string name = txt_Name.Text.Trim();
+                    string code = txt_Code.Text;
+                    int _sort = (int)num_Sort.Value;
+                    string note = txt_Intro.Text;
+                    object pid = txt_ParentName.Tag;
+
+                    //新增信息
+                    if(isAdd)
+                    {
+                        string dd_id = Guid.NewGuid().ToString();
+                        string querySql = $"INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_code, dd_note, dd_sort) VALUES " +
+                            $"('{dd_id}', '{name}', '{pid}', '{code}', '{note}', '{_sort}')";
+                        SqlHelper.ExecuteQuery(querySql);
+                    }
+                    //更新信息
+                    else
+                    {
+                        string dd_id = (string)txt_Name.Tag;
+                        string querySql = $"UPDATE data_dictionary SET dd_name='{name}', dd_code='{code}', dd_sort='{_sort}',dd_note='{note}' WHERE dd_id='{dd_id}'";
+                        SqlHelper.ExecuteQuery(querySql);
+                    }
+                    if(MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "温馨提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                    {
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                }
+            }
+        }
+
         private bool ValidData()
-        {          
-            if (string.IsNullOrEmpty(textBox1.Text.Trim()))
-                return false;
-            return true;
+        {
+            bool flag = true;
+            TextBox pNameBox = txt_ParentName;
+            if(string.IsNullOrEmpty(pNameBox.Text.Trim()))
+            {
+                errorProvider1.SetError(pNameBox, "提示：父节点名称不能为空。");
+                flag = false;
+            }
+            else
+                errorProvider1.SetError(pNameBox, null);
+
+            TextBox nameBox = txt_Name;
+            if(string.IsNullOrEmpty(nameBox.Text.Trim()))
+            {
+                errorProvider1.SetError(nameBox, "提示：节点名称不能为空。");
+                flag = false;
+            }
+            else
+                errorProvider1.SetError(nameBox, null);
+            return flag;
         }
 
-        private void Btn_close(object sender, EventArgs e)
+        private void Close_Form(object sender, EventArgs e)
         {
             Close();
         }
+
     }  
 }

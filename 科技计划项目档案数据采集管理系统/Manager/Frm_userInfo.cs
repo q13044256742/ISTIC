@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_userInfo : Form
+    public partial class Frm_userInfo : DevExpress.XtraEditors.XtraForm
     {
-        public Frm_userInfo(string name)
+        public Frm_userInfo()
         {
             InitializeComponent();
             LoadUserDataScoure();
@@ -20,54 +14,6 @@ namespace 科技计划项目档案数据采集管理系统
         //查询
         private void U_btnSearch(object sender, EventArgs e)
         {
-            int index = u_SearchType.SelectedIndex;
-            string searchKey = u_SearchKey.Text;
-            string queryKey = string.Empty;/*查询条件*/
-            if (index == 0)
-            {
-                queryKey = "login_name";
-            }
-            else if (index == 1)
-            {
-                queryKey = "real_name";
-            }
-            else if (index == 2)
-            {
-                queryKey = "dd_name";
-            }
-            else if (index == 3)
-            {
-                queryKey = "telephone";
-            }
-            else if (index == 4)
-            {
-                queryKey = "cellphone";
-            }
-            else if (index == 5)
-            {
-                queryKey = "belong_unit";
-            }
-            else if (index == 6)
-            {
-                queryKey = "belong_department";
-            }
-           
-
-            if (!string.IsNullOrEmpty(queryKey)) { 
-                if (!string.IsNullOrEmpty(searchKey))
-                {
-                    string querySql = $"select u.ul_id,u.login_name as 登录名,u.real_name as 真实姓名,d.dd_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join data_dictionary d on u.role_id = d.dd_id" +
-                   $" where {queryKey} like '%" + searchKey + "%'";
-                    u_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);             
-                    u_DataList.Columns["ul_id"].Visible = false;
-                }
-                else
-                {
-                    string querySql = $"select u.ul_id,u.login_name as 登录名,u.real_name as 真实姓名,d.dd_name as 角色,u.telephone as 联系电话,u.belong_unit as 所属单位 from user_list u left join data_dictionary d on u.role_id = d.dd_id";            
-                    u_DataList.DataSource = SqlHelper.ExecuteQuery(querySql);
-                    u_DataList.Columns["ul_id"].Visible = false;
-                }
-            }          
         }
 
         //新增
