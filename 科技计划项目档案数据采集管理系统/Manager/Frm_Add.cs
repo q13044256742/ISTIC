@@ -8,10 +8,9 @@ namespace 科技计划项目档案数据采集管理系统.Manager
     {
         private bool isAdd;
         private string pId;
-        private string id;
+        private object id;
 
-
-        public Frm_Add(bool isAdd, string pId, string id, int sort)
+        public Frm_Add(bool isAdd, string pId, object id, int sort)
         {
             this.isAdd = isAdd;
             InitializeComponent();
@@ -37,7 +36,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
 
         private string GetValue(object value) => value == null ? string.Empty : value.ToString();
 
-        private void LoadData(string pId, string id)
+        private void LoadData(object pId, object id)
         {
             object pName = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_name FROM data_dictionary WHERE dd_id='{pId}'");
             if(pName != null)

@@ -315,12 +315,16 @@
             // 
             // ac_LeftMenu
             // 
+            this.ac_LeftMenu.AnimationType = DevExpress.XtraBars.Navigation.AnimationType.Simple;
             this.ac_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.ac_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
             this.acg_Register});
             this.ac_LeftMenu.Location = new System.Drawing.Point(0, 0);
+            this.ac_LeftMenu.LookAndFeel.SkinName = "Office 2010 Blue";
+            this.ac_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
             this.ac_LeftMenu.Name = "ac_LeftMenu";
             this.ac_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
+            this.ac_LeftMenu.ShowToolTips = false;
             this.ac_LeftMenu.Size = new System.Drawing.Size(228, 491);
             this.ac_LeftMenu.TabIndex = 11;
             this.ac_LeftMenu.Text = "accordionControl1";

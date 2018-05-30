@@ -7,8 +7,9 @@
         private string loginPassword;
         private string realName;
         private object remark;
-        private string company;
         private string role;
+        private string unitName;
+        private string unitCode;
         private object[] group;
 
         public User() { }
@@ -36,14 +37,11 @@
         /// <summary>
         /// 用户主键
         /// </summary>
-        public string UserKey {
+        public string UserKey
+        {
             get => userKey;
             set => userKey = value;
         }
-        /// <summary>
-        /// 所属单位
-        /// </summary>
-        public string Company { get => company; set => company = value; }
         /// <summary>
         /// 用户所属组
         /// </summary>
@@ -52,5 +50,13 @@
         /// 所属角色
         /// </summary>
         public string Role { get => role; set => role = value; }
+        /// <summary>
+        /// 单位名称
+        /// </summary>
+        public string UnitName { get => unitName; set => unitName = value; }
+        /// <summary>
+        /// 单位编码
+        /// </summary>
+        public string UnitCode { get => unitCode; set => unitCode = value; }
     }
 }

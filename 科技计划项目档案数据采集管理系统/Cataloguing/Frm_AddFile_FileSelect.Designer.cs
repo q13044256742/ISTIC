@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.tv_file = new System.Windows.Forms.TreeView();
-            this.btn_sure = new KyoControl.KyoButton();
+            this.btn_sure = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_filename = new System.Windows.Forms.Label();
+            this.chk_ShowAll = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // tv_file
@@ -43,15 +44,16 @@
             this.tv_file.LineColor = System.Drawing.Color.DimGray;
             this.tv_file.Location = new System.Drawing.Point(2, 55);
             this.tv_file.Name = "tv_file";
-            this.tv_file.Size = new System.Drawing.Size(520, 466);
+            this.tv_file.Size = new System.Drawing.Size(686, 597);
             this.tv_file.TabIndex = 0;
             this.tv_file.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tv_file_AfterSelect);
             // 
             // btn_sure
             // 
-            this.btn_sure.Location = new System.Drawing.Point(229, 532);
+            this.btn_sure.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_sure.Location = new System.Drawing.Point(312, 666);
             this.btn_sure.Name = "btn_sure";
-            this.btn_sure.Size = new System.Drawing.Size(69, 34);
+            this.btn_sure.Size = new System.Drawing.Size(69, 31);
             this.btn_sure.TabIndex = 1;
             this.btn_sure.Text = "确定";
             this.btn_sure.Click += new System.EventHandler(this.btn_sure_Click);
@@ -76,16 +78,28 @@
             this.lbl_filename.TabIndex = 3;
             this.lbl_filename.Text = "null";
             // 
+            // chk_ShowAll
+            // 
+            this.chk_ShowAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chk_ShowAll.AutoSize = true;
+            this.chk_ShowAll.Location = new System.Drawing.Point(606, 16);
+            this.chk_ShowAll.Name = "chk_ShowAll";
+            this.chk_ShowAll.Size = new System.Drawing.Size(74, 18);
+            this.chk_ShowAll.TabIndex = 4;
+            this.chk_ShowAll.Text = "全部显示";
+            this.chk_ShowAll.UseVisualStyleBackColor = true;
+            this.chk_ShowAll.CheckedChanged += new System.EventHandler(this.chk_ShowAll_CheckedChanged);
+            // 
             // Frm_AddFile_FileSelect
             // 
             this.AcceptButton = this.btn_sure;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(526, 578);
+            this.ClientSize = new System.Drawing.Size(692, 709);
+            this.Controls.Add(this.chk_ShowAll);
             this.Controls.Add(this.lbl_filename);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_sure);
             this.Controls.Add(this.tv_file);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -104,5 +118,6 @@
         private KyoControl.KyoButton btn_sure;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbl_filename;
+        private System.Windows.Forms.CheckBox chk_ShowAll;
     }
 }

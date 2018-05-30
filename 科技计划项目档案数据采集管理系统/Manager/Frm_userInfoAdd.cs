@@ -61,51 +61,48 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         //保存
         private void U_btnSave(object sender, EventArgs e)
         {
-            if (!ValidData())
-            {              
-                return;
-            }
-            if (MessageBox.Show("确定要保存当前数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+            if(ValidData())
             {
-                //保存基本信息
-                string _login_name = login_name.Text.Trim();
-                string _password = password.Text.Trim();
-                string _belong_unit = belong_unit.Text.Trim();
-                string _belong_bm = belong_bm.Text.Trim();
-                string _mobile = mobile.Text.Trim();
-                string _phone = phone.Text.Trim();
-                string _mail = mail.Text.Trim();              
-                string _role_id = role_select.SelectedValue.ToString();
-                string _ip = ip_input.Text.Trim();
-                string _note = note.Text.Trim();            
-                string _real_name = real_name.Text.Trim();
-            
-                //新增信息
-                if (isAdd)
+                if(MessageBox.Show("确定要保存当前数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                 {
-                    string _uId = Guid.NewGuid().ToString();
-                    string querySql = $"insert into user_list " +
-                        $"(ul_id,login_name,login_password,belong_unit,belong_department,real_name,role_id,email,telephone,cellphone,ip_address,remark)" +
-                        $"values" +
-                        $"('{_uId}','{_login_name}','{_password}','{_belong_unit}','{_belong_bm}','{_real_name}','{_role_id}','{_mail}','{_mobile}','{_phone}','{_ip}','{_note}')";
-                    SqlHelper.ExecuteQuery(querySql);
+                    //保存基本信息
+                    string _login_name = login_name.Text.Trim();
+                    string _password = password.Text.Trim();
+                    string _belong_unit = belong_unit.Text.Trim();
+                    string _belong_bm = belong_bm.Text.Trim();
+                    string _mobile = mobile.Text.Trim();
+                    string _phone = phone.Text.Trim();
+                    string _mail = mail.Text.Trim();
+                    string _role_id = role_select.SelectedValue.ToString();
+                    string _ip = ip_input.Text.Trim();
+                    string _note = note.Text.Trim();
+                    string _real_name = real_name.Text.Trim();
+
+                    //新增信息
+                    if(isAdd)
+                    {
+                        string _uId = Guid.NewGuid().ToString();
+                        string querySql = $"INSERT INTO user_list " +
+                            $"(ul_id, login_name, login_password, belong_unit, belong_department, real_name, role_id, email, telephone, cellphone, ip_address, remark) VALUES" +
+                            $"('{_uId}','{_login_name}','{_password}','{_belong_unit}','{_belong_bm}','{_real_name}','{_role_id}','{_mail}','{_mobile}','{_phone}','{_ip}','{_note}')";
+                        SqlHelper.ExecuteQuery(querySql);
+                    }
+                    //更新信息
+                    else
+                    {
+                        string ul_id = login_name.Tag.ToString();
+                        string querySql = $"update user_list set login_name='{_login_name}',login_password='{_password}',belong_unit='{_belong_unit}',belong_department='{_belong_bm}'," +
+                            $" real_name='{_real_name}',role_id='{_role_id}',email='{_mail}',telephone='{_mobile}',cellphone='{_phone}',ip_address='{_ip}',remark='{_note}' where ul_id='{ul_id}'";
+                        SqlHelper.ExecuteQuery(querySql);
+                    }
+                    if(MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                    {
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
                 }
-                //更新信息
-                else
-                {
-                    string ul_id = login_name.Tag.ToString();
-                    string querySql = $"update user_list set login_name='{_login_name}',login_password='{_password}',belong_unit='{_belong_unit}',belong_department='{_belong_bm}'," +
-                        $" real_name='{_real_name}',role_id='{_role_id}',email='{_mail}',telephone='{_mobile}',cellphone='{_phone}',ip_address='{_ip}',remark='{_note}' where ul_id='{ul_id}'";
-                    SqlHelper.ExecuteQuery(querySql);
-                }
-                if (MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
-                {
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
-            }        
+            }
         }
-      
         // 检验数据的完整性
         private bool ValidData()
         {

@@ -797,7 +797,7 @@ namespace 科技计划项目档案数据采集管理系统
                     else if(index == 1)
                     {
                         object impid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, impid, ControlType.Imp_Sub, false);
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, impid, ControlType.Special, false);
                         frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
@@ -816,7 +816,7 @@ namespace 科技计划项目档案数据采集管理系统
                     else if(index == 2)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, ControlType.Plan_Project, false);
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, ControlType.Plan, false);
                         frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
@@ -833,7 +833,7 @@ namespace 科技计划项目档案数据采集管理系统
                     else if(index == -1)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, ControlType.Imp_Normal, false);
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, ControlType.Special, false);
                         frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
                         if(frm.ShowDialog() == DialogResult.OK)
                         {

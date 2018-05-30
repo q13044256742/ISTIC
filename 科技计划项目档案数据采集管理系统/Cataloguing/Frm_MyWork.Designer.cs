@@ -49,11 +49,11 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsm_InsertRow = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsm_DeleteRow = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsm_Refresh = new System.Windows.Forms.ToolStripMenuItem();
             this.special = new System.Windows.Forms.TabPage();
-            this.tab_Special_FileInfo = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
+            this.tab_Special_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage25 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Special_FileList = new System.Windows.Forms.DataGridView();
             this.special_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,7 +72,7 @@
             this.special_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.special_fl_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage26 = new DevExpress.XtraTab.XtraTabPage();
-            this.dgv_Imp_Dev_FileValid = new System.Windows.Forms.DataGridView();
+            this.dgv_Special_FileValid = new System.Windows.Forms.DataGridView();
             this.special_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.special_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.special_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -99,22 +99,22 @@
             this.label145 = new System.Windows.Forms.Label();
             this.pal_Imp_Dev_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_Imp_Dev_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Imp_Dev_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Special_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Imp_Dev_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Imp_Sub_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.pal_Imp_Dev = new System.Windows.Forms.Panel();
-            this.txt_Imp_Dev_Unit = new System.Windows.Forms.TextBox();
+            this.pal_Special = new System.Windows.Forms.Panel();
+            this.txt_Special_Intro = new System.Windows.Forms.TextBox();
+            this.txt_Special_Unit = new System.Windows.Forms.TextBox();
             this.label151 = new System.Windows.Forms.Label();
-            this.txt_Imp_Dev_Name = new System.Windows.Forms.TextBox();
-            this.txt_Imp_Dev_Code = new System.Windows.Forms.TextBox();
-            this.lbl_Imp_Dev_Intro = new System.Windows.Forms.Label();
+            this.txt_Special_Name = new System.Windows.Forms.TextBox();
+            this.txt_Special_Code = new System.Windows.Forms.TextBox();
             this.label147 = new System.Windows.Forms.Label();
-            this.cbo_Imp_Dev_HasNext = new System.Windows.Forms.ComboBox();
+            this.cbo_Special_HasNext = new System.Windows.Forms.ComboBox();
             this.label148 = new System.Windows.Forms.Label();
             this.label149 = new System.Windows.Forms.Label();
             this.label150 = new System.Windows.Forms.Label();
             this.imp = new System.Windows.Forms.TabPage();
-            this.tab_Imp_FileInfo = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
+            this.tab_Imp_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage21 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Imp_FileList = new System.Windows.Forms.DataGridView();
             this.imp_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -123,7 +123,7 @@
             this.imp_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imp_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imp_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imp_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imp_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.imp_fl_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -171,9 +171,9 @@
             this.lbl_Imp_Name = new System.Windows.Forms.Label();
             this.label137 = new System.Windows.Forms.Label();
             this.subject = new System.Windows.Forms.TabPage();
-            this.tab_Subject_FileInfo = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
+            this.tab_Subject_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage16 = new DevExpress.XtraTab.XtraTabPage();
-            this.dgv_JH_XM_KT_ZKT_FileList = new System.Windows.Forms.DataGridView();
+            this.dgv_Subject_FileList = new System.Windows.Forms.DataGridView();
             this.subject_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subject_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.subject_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -217,7 +217,7 @@
             this.label87 = new System.Windows.Forms.Label();
             this.pal_JH_XM_KT_ZKT_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_JH_XM_KT_ZKT_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_JH_XM_KT_ZKT_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Subject_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_XM_KT_ZKT_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_XM_KT_ZKT_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_XM_KT_ZKT_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -249,9 +249,9 @@
             this.txt_Subject_Code = new System.Windows.Forms.TextBox();
             this.label101 = new System.Windows.Forms.Label();
             this.topic = new System.Windows.Forms.TabPage();
-            this.tab_Topic_FileInfo = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
+            this.tab_Topic_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage5 = new DevExpress.XtraTab.XtraTabPage();
-            this.dgv_JH_KT_FileList = new System.Windows.Forms.DataGridView();
+            this.dgv_Topic_FileList = new System.Windows.Forms.DataGridView();
             this.topic_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.topic_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.topic_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -295,7 +295,7 @@
             this.label71 = new System.Windows.Forms.Label();
             this.pal_JH_KT_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_JH_KT_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_JH_KT_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Topic_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_KT_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_KT_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_KT_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -329,9 +329,9 @@
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.project = new System.Windows.Forms.TabPage();
-            this.tab_Project_FileInfo = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
+            this.tab_Project_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage1 = new DevExpress.XtraTab.XtraTabPage();
-            this.dgv_JH_XM_FileList = new System.Windows.Forms.DataGridView();
+            this.dgv_Project_FileList = new System.Windows.Forms.DataGridView();
             this.project_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.project_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.project_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -374,7 +374,7 @@
             this.label63 = new System.Windows.Forms.Label();
             this.pal_JH_XM_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_JH_XM_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_JH_XM_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Project_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_XM_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_XM_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_XM_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -408,9 +408,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.plan = new System.Windows.Forms.TabPage();
-            this.tab_Plan_FileInfo = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
+            this.tab_Plan_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.fileList = new DevExpress.XtraTab.XtraTabPage();
-            this.dgv_JH_FileList = new System.Windows.Forms.DataGridView();
+            this.dgv_Plan_FileList = new System.Windows.Forms.DataGridView();
             this.plan_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.plan_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.plan_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -453,7 +453,7 @@
             this.label54 = new System.Windows.Forms.Label();
             this.pal_JH_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_JH_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_JH_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Plan_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_JH_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.pal_JH_BasicInfo = new System.Windows.Forms.Panel();
@@ -467,18 +467,18 @@
             this.strip.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.special.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Special_FileInfo)).BeginInit();
-            this.tab_Special_FileInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Special_Info)).BeginInit();
+            this.tab_Special_Info.SuspendLayout();
             this.tabPage25.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Special_FileList)).BeginInit();
             this.tabPage26.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_Dev_FileValid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Special_FileValid)).BeginInit();
             this.tabPage28.SuspendLayout();
             this.pal_Imp_Dev_BtnGroup.SuspendLayout();
-            this.pal_Imp_Dev.SuspendLayout();
+            this.pal_Special.SuspendLayout();
             this.imp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Imp_FileInfo)).BeginInit();
-            this.tab_Imp_FileInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Imp_Info)).BeginInit();
+            this.tab_Imp_Info.SuspendLayout();
             this.tabPage21.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_FileList)).BeginInit();
             this.tabPage22.SuspendLayout();
@@ -487,10 +487,10 @@
             this.pal_Imp_BtnGroup.SuspendLayout();
             this.pal_Imp.SuspendLayout();
             this.subject.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Subject_FileInfo)).BeginInit();
-            this.tab_Subject_FileInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Subject_Info)).BeginInit();
+            this.tab_Subject_Info.SuspendLayout();
             this.tabPage16.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_XM_KT_ZKT_FileList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Subject_FileList)).BeginInit();
             this.tabPage17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_XM_KT_ZKT_FileValid)).BeginInit();
             this.tabPage19.SuspendLayout();
@@ -498,10 +498,10 @@
             this.pal_JH_XM_KT_ZKT.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Subject_Fund)).BeginInit();
             this.topic.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Topic_FileInfo)).BeginInit();
-            this.tab_Topic_FileInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Topic_Info)).BeginInit();
+            this.tab_Topic_Info.SuspendLayout();
             this.tabPage5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_KT_FileList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Topic_FileList)).BeginInit();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_KT_FileValid)).BeginInit();
             this.tabPage8.SuspendLayout();
@@ -509,10 +509,10 @@
             this.pal_JH_KT.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Topic_Fund)).BeginInit();
             this.project.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Project_FileInfo)).BeginInit();
-            this.tab_Project_FileInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Project_Info)).BeginInit();
+            this.tab_Project_Info.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_XM_FileList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Project_FileList)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_XM_FileValid)).BeginInit();
             this.tabPage4.SuspendLayout();
@@ -520,10 +520,10 @@
             this.pal_JH_XM.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Project_JF)).BeginInit();
             this.plan.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Plan_FileInfo)).BeginInit();
-            this.tab_Plan_FileInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Plan_Info)).BeginInit();
+            this.tab_Plan_Info.SuspendLayout();
             this.fileList.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_FileList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Plan_FileList)).BeginInit();
             this.fileCheck.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_FileValid)).BeginInit();
             this.box.SuspendLayout();
@@ -567,67 +567,67 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem5});
+            this.tsm_InsertRow,
+            this.tsm_DeleteRow,
+            this.tsm_Refresh});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(130, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 70);
             // 
-            // toolStripMenuItem3
+            // tsm_InsertRow
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(129, 22);
-            this.toolStripMenuItem3.Text = "添加列(&I)";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            this.tsm_InsertRow.Name = "tsm_InsertRow";
+            this.tsm_InsertRow.Size = new System.Drawing.Size(112, 22);
+            this.tsm_InsertRow.Text = "插入行";
+            this.tsm_InsertRow.Click += new System.EventHandler(this.Tsm_InsertRow_Click);
             // 
-            // toolStripMenuItem4
+            // tsm_DeleteRow
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(129, 22);
-            this.toolStripMenuItem4.Text = "删除列(&D)";
-            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+            this.tsm_DeleteRow.Name = "tsm_DeleteRow";
+            this.tsm_DeleteRow.Size = new System.Drawing.Size(112, 22);
+            this.tsm_DeleteRow.Text = "删除行";
+            this.tsm_DeleteRow.Click += new System.EventHandler(this.Tsm_DeleteRow);
             // 
-            // toolStripMenuItem5
+            // tsm_Refresh
             // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(129, 22);
-            this.toolStripMenuItem5.Text = "刷新(&R)";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
+            this.tsm_Refresh.Name = "tsm_Refresh";
+            this.tsm_Refresh.Size = new System.Drawing.Size(112, 22);
+            this.tsm_Refresh.Text = "刷新";
+            this.tsm_Refresh.Click += new System.EventHandler(this.Tsm_Refresh);
             // 
             // special
             // 
             this.special.BackColor = System.Drawing.SystemColors.Control;
-            this.special.Controls.Add(this.tab_Special_FileInfo);
+            this.special.Controls.Add(this.tab_Special_Info);
             this.special.Controls.Add(this.pal_Imp_Dev_BtnGroup);
-            this.special.Controls.Add(this.pal_Imp_Dev);
+            this.special.Controls.Add(this.pal_Special);
             this.special.Location = new System.Drawing.Point(4, 23);
             this.special.Name = "special";
             this.special.Size = new System.Drawing.Size(1086, 702);
             this.special.TabIndex = 7;
             this.special.Text = "专项信息";
             // 
-            // tab_Special_FileInfo
+            // tab_Special_Info
             // 
-            this.tab_Special_FileInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tab_Special_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tab_Special_FileInfo.Location = new System.Drawing.Point(2, 255);
-            this.tab_Special_FileInfo.Name = "tab_Special_FileInfo";
-            this.tab_Special_FileInfo.SelectedTabPage = this.tabPage25;
-            this.tab_Special_FileInfo.Size = new System.Drawing.Size(1080, 391);
-            this.tab_Special_FileInfo.TabIndex = 4;
-            this.tab_Special_FileInfo.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.tab_Special_Info.Location = new System.Drawing.Point(2, 255);
+            this.tab_Special_Info.Name = "tab_Special_Info";
+            this.tab_Special_Info.SelectedTabPage = this.tabPage25;
+            this.tab_Special_Info.Size = new System.Drawing.Size(1080, 376);
+            this.tab_Special_Info.TabIndex = 4;
+            this.tab_Special_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage25,
             this.tabPage26,
             this.tabPage28});
-            this.tab_Special_FileInfo.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
+            this.tab_Special_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage25
             // 
             this.tabPage25.Controls.Add(this.dgv_Special_FileList);
             this.tabPage25.Name = "tabPage25";
             this.tabPage25.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage25.Size = new System.Drawing.Size(1074, 362);
+            this.tabPage25.Size = new System.Drawing.Size(1074, 347);
             this.tabPage25.Text = "添加文件";
             // 
             // dgv_Special_FileList
@@ -662,7 +662,7 @@
             this.dgv_Special_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Special_FileList.Name = "dgv_Special_FileList";
             this.dgv_Special_FileList.RowTemplate.Height = 23;
-            this.dgv_Special_FileList.Size = new System.Drawing.Size(1068, 356);
+            this.dgv_Special_FileList.Size = new System.Drawing.Size(1068, 341);
             this.dgv_Special_FileList.TabIndex = 0;
             this.dgv_Special_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
             this.dgv_Special_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
@@ -760,17 +760,17 @@
             // 
             // tabPage26
             // 
-            this.tabPage26.Controls.Add(this.dgv_Imp_Dev_FileValid);
+            this.tabPage26.Controls.Add(this.dgv_Special_FileValid);
             this.tabPage26.Name = "tabPage26";
-            this.tabPage26.Size = new System.Drawing.Size(1074, 362);
+            this.tabPage26.Size = new System.Drawing.Size(1074, 347);
             this.tabPage26.Text = "文件核查";
             // 
-            // dgv_Imp_Dev_FileValid
+            // dgv_Special_FileValid
             // 
-            this.dgv_Imp_Dev_FileValid.AllowUserToAddRows = false;
-            this.dgv_Imp_Dev_FileValid.AllowUserToDeleteRows = false;
-            this.dgv_Imp_Dev_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_Imp_Dev_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_Special_FileValid.AllowUserToAddRows = false;
+            this.dgv_Special_FileValid.AllowUserToDeleteRows = false;
+            this.dgv_Special_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_Special_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 9F);
@@ -778,21 +778,21 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Imp_Dev_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgv_Imp_Dev_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_Imp_Dev_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgv_Special_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgv_Special_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Special_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.special_fc_id,
             this.special_fc_categor,
             this.special_fc_name,
             this.special_fc_reason,
             this.special_fc_remark});
-            this.dgv_Imp_Dev_FileValid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_Imp_Dev_FileValid.Location = new System.Drawing.Point(0, 0);
-            this.dgv_Imp_Dev_FileValid.Name = "dgv_Imp_Dev_FileValid";
-            this.dgv_Imp_Dev_FileValid.RowTemplate.Height = 23;
-            this.dgv_Imp_Dev_FileValid.Size = new System.Drawing.Size(1074, 362);
-            this.dgv_Imp_Dev_FileValid.TabIndex = 0;
-            this.dgv_Imp_Dev_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
+            this.dgv_Special_FileValid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Special_FileValid.Location = new System.Drawing.Point(0, 0);
+            this.dgv_Special_FileValid.Name = "dgv_Special_FileValid";
+            this.dgv_Special_FileValid.RowTemplate.Height = 23;
+            this.dgv_Special_FileValid.Size = new System.Drawing.Size(1074, 347);
+            this.dgv_Special_FileValid.TabIndex = 0;
+            this.dgv_Special_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             // 
             // special_fc_id
             // 
@@ -848,7 +848,7 @@
             this.tabPage28.Controls.Add(this.cbo_Imp_Dev_Box);
             this.tabPage28.Controls.Add(this.label145);
             this.tabPage28.Name = "tabPage28";
-            this.tabPage28.Size = new System.Drawing.Size(1074, 362);
+            this.tabPage28.Size = new System.Drawing.Size(1074, 347);
             this.tabPage28.Text = "卷盒信息";
             // 
             // txt_Special_AJ_Name
@@ -1043,7 +1043,7 @@
             // pal_Imp_Dev_BtnGroup
             // 
             this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Dev_QTReason);
-            this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Dev_AddFile);
+            this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Special_AddFile);
             this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Dev_Submit);
             this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Imp_Sub_Save);
             this.pal_Imp_Dev_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -1064,16 +1064,16 @@
             this.btn_Imp_Dev_QTReason.Visible = false;
             this.btn_Imp_Dev_QTReason.Click += new System.EventHandler(this.Btn_QTReason_Click);
             // 
-            // btn_Imp_Dev_AddFile
+            // btn_Special_AddFile
             // 
-            this.btn_Imp_Dev_AddFile.Appearance.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_Imp_Dev_AddFile.Appearance.Options.UseFont = true;
-            this.btn_Imp_Dev_AddFile.Location = new System.Drawing.Point(8, 5);
-            this.btn_Imp_Dev_AddFile.Name = "btn_Imp_Dev_AddFile";
-            this.btn_Imp_Dev_AddFile.Size = new System.Drawing.Size(80, 30);
-            this.btn_Imp_Dev_AddFile.TabIndex = 76;
-            this.btn_Imp_Dev_AddFile.Text = "新增文件";
-            this.btn_Imp_Dev_AddFile.Click += new System.EventHandler(this.Btn_AddFile_Click);
+            this.btn_Special_AddFile.Appearance.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_Special_AddFile.Appearance.Options.UseFont = true;
+            this.btn_Special_AddFile.Location = new System.Drawing.Point(8, 5);
+            this.btn_Special_AddFile.Name = "btn_Special_AddFile";
+            this.btn_Special_AddFile.Size = new System.Drawing.Size(80, 30);
+            this.btn_Special_AddFile.TabIndex = 76;
+            this.btn_Special_AddFile.Text = "新增文件";
+            this.btn_Special_AddFile.Click += new System.EventHandler(this.Btn_AddFile_Click);
             // 
             // btn_Imp_Dev_Submit
             // 
@@ -1099,33 +1099,44 @@
             this.btn_Imp_Sub_Save.Text = "保存";
             this.btn_Imp_Sub_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
-            // pal_Imp_Dev
+            // pal_Special
             // 
-            this.pal_Imp_Dev.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pal_Imp_Dev.BackColor = System.Drawing.SystemColors.Control;
-            this.pal_Imp_Dev.Controls.Add(this.txt_Imp_Dev_Unit);
-            this.pal_Imp_Dev.Controls.Add(this.label151);
-            this.pal_Imp_Dev.Controls.Add(this.txt_Imp_Dev_Name);
-            this.pal_Imp_Dev.Controls.Add(this.txt_Imp_Dev_Code);
-            this.pal_Imp_Dev.Controls.Add(this.lbl_Imp_Dev_Intro);
-            this.pal_Imp_Dev.Controls.Add(this.label147);
-            this.pal_Imp_Dev.Controls.Add(this.cbo_Imp_Dev_HasNext);
-            this.pal_Imp_Dev.Controls.Add(this.label148);
-            this.pal_Imp_Dev.Controls.Add(this.label149);
-            this.pal_Imp_Dev.Controls.Add(this.label150);
-            this.pal_Imp_Dev.Location = new System.Drawing.Point(2, 2);
-            this.pal_Imp_Dev.Name = "pal_Imp_Dev";
-            this.pal_Imp_Dev.Size = new System.Drawing.Size(1020, 245);
-            this.pal_Imp_Dev.TabIndex = 6;
+            this.pal_Special.BackColor = System.Drawing.SystemColors.Control;
+            this.pal_Special.Controls.Add(this.txt_Special_Intro);
+            this.pal_Special.Controls.Add(this.txt_Special_Unit);
+            this.pal_Special.Controls.Add(this.label151);
+            this.pal_Special.Controls.Add(this.txt_Special_Name);
+            this.pal_Special.Controls.Add(this.txt_Special_Code);
+            this.pal_Special.Controls.Add(this.label147);
+            this.pal_Special.Controls.Add(this.cbo_Special_HasNext);
+            this.pal_Special.Controls.Add(this.label148);
+            this.pal_Special.Controls.Add(this.label149);
+            this.pal_Special.Controls.Add(this.label150);
+            this.pal_Special.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pal_Special.Location = new System.Drawing.Point(0, 0);
+            this.pal_Special.Name = "pal_Special";
+            this.pal_Special.Size = new System.Drawing.Size(1086, 245);
+            this.pal_Special.TabIndex = 6;
             // 
-            // txt_Imp_Dev_Unit
+            // txt_Special_Intro
             // 
-            this.txt_Imp_Dev_Unit.Font = new System.Drawing.Font("微软雅黑", 9.5F);
-            this.txt_Imp_Dev_Unit.Location = new System.Drawing.Point(754, 11);
-            this.txt_Imp_Dev_Unit.Name = "txt_Imp_Dev_Unit";
-            this.txt_Imp_Dev_Unit.Size = new System.Drawing.Size(236, 24);
-            this.txt_Imp_Dev_Unit.TabIndex = 12;
+            this.txt_Special_Intro.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_Special_Intro.Font = new System.Drawing.Font("微软雅黑", 9.5F);
+            this.txt_Special_Intro.Location = new System.Drawing.Point(94, 47);
+            this.txt_Special_Intro.Multiline = true;
+            this.txt_Special_Intro.Name = "txt_Special_Intro";
+            this.txt_Special_Intro.ReadOnly = true;
+            this.txt_Special_Intro.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txt_Special_Intro.Size = new System.Drawing.Size(895, 138);
+            this.txt_Special_Intro.TabIndex = 13;
+            // 
+            // txt_Special_Unit
+            // 
+            this.txt_Special_Unit.Font = new System.Drawing.Font("微软雅黑", 9.5F);
+            this.txt_Special_Unit.Location = new System.Drawing.Point(753, 11);
+            this.txt_Special_Unit.Name = "txt_Special_Unit";
+            this.txt_Special_Unit.Size = new System.Drawing.Size(236, 24);
+            this.txt_Special_Unit.TabIndex = 12;
             // 
             // label151
             // 
@@ -1137,55 +1148,48 @@
             this.label151.TabIndex = 11;
             this.label151.Text = "牵头组织单位:";
             // 
-            // txt_Imp_Dev_Name
+            // txt_Special_Name
             // 
-            this.txt_Imp_Dev_Name.Font = new System.Drawing.Font("微软雅黑", 9.5F);
-            this.txt_Imp_Dev_Name.Location = new System.Drawing.Point(394, 11);
-            this.txt_Imp_Dev_Name.Name = "txt_Imp_Dev_Name";
-            this.txt_Imp_Dev_Name.Size = new System.Drawing.Size(229, 24);
-            this.txt_Imp_Dev_Name.TabIndex = 10;
+            this.txt_Special_Name.Font = new System.Drawing.Font("微软雅黑", 9.5F);
+            this.txt_Special_Name.Location = new System.Drawing.Point(398, 11);
+            this.txt_Special_Name.Name = "txt_Special_Name";
+            this.txt_Special_Name.ReadOnly = true;
+            this.txt_Special_Name.Size = new System.Drawing.Size(206, 24);
+            this.txt_Special_Name.TabIndex = 10;
             // 
-            // txt_Imp_Dev_Code
+            // txt_Special_Code
             // 
-            this.txt_Imp_Dev_Code.Font = new System.Drawing.Font("微软雅黑", 9.5F);
-            this.txt_Imp_Dev_Code.Location = new System.Drawing.Point(90, 11);
-            this.txt_Imp_Dev_Code.Name = "txt_Imp_Dev_Code";
-            this.txt_Imp_Dev_Code.Size = new System.Drawing.Size(229, 24);
-            this.txt_Imp_Dev_Code.TabIndex = 9;
-            // 
-            // lbl_Imp_Dev_Intro
-            // 
-            this.lbl_Imp_Dev_Intro.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_Imp_Dev_Intro.Location = new System.Drawing.Point(90, 45);
-            this.lbl_Imp_Dev_Intro.Name = "lbl_Imp_Dev_Intro";
-            this.lbl_Imp_Dev_Intro.Size = new System.Drawing.Size(851, 136);
-            this.lbl_Imp_Dev_Intro.TabIndex = 8;
-            this.lbl_Imp_Dev_Intro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txt_Special_Code.Font = new System.Drawing.Font("微软雅黑", 9.5F);
+            this.txt_Special_Code.Location = new System.Drawing.Point(94, 11);
+            this.txt_Special_Code.Name = "txt_Special_Code";
+            this.txt_Special_Code.ReadOnly = true;
+            this.txt_Special_Code.Size = new System.Drawing.Size(206, 24);
+            this.txt_Special_Code.TabIndex = 9;
             // 
             // label147
             // 
             this.label147.AutoSize = true;
             this.label147.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label147.Location = new System.Drawing.Point(17, 194);
+            this.label147.Location = new System.Drawing.Point(19, 200);
             this.label147.Name = "label147";
             this.label147.Size = new System.Drawing.Size(65, 19);
             this.label147.TabIndex = 6;
             this.label147.Text = "管理层级:";
             // 
-            // cbo_Imp_Dev_HasNext
+            // cbo_Special_HasNext
             // 
-            this.cbo_Imp_Dev_HasNext.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbo_Imp_Dev_HasNext.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbo_Imp_Dev_HasNext.FormattingEnabled = true;
-            this.cbo_Imp_Dev_HasNext.Items.AddRange(new object[] {
-            "无",
+            this.cbo_Special_HasNext.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_Special_HasNext.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbo_Special_HasNext.FormattingEnabled = true;
+            this.cbo_Special_HasNext.Items.AddRange(new object[] {
+            "请选择",
             "项目",
             "课题"});
-            this.cbo_Imp_Dev_HasNext.Location = new System.Drawing.Point(90, 194);
-            this.cbo_Imp_Dev_HasNext.Name = "cbo_Imp_Dev_HasNext";
-            this.cbo_Imp_Dev_HasNext.Size = new System.Drawing.Size(146, 24);
-            this.cbo_Imp_Dev_HasNext.TabIndex = 7;
-            this.cbo_Imp_Dev_HasNext.SelectionChangeCommitted += new System.EventHandler(this.Cbo_JH_Next_SelectionChangeCommitted);
+            this.cbo_Special_HasNext.Location = new System.Drawing.Point(94, 197);
+            this.cbo_Special_HasNext.Name = "cbo_Special_HasNext";
+            this.cbo_Special_HasNext.Size = new System.Drawing.Size(146, 24);
+            this.cbo_Special_HasNext.TabIndex = 7;
+            this.cbo_Special_HasNext.SelectionChangeCommitted += new System.EventHandler(this.Cbo_JH_Next_SelectionChangeCommitted);
             // 
             // label148
             // 
@@ -1211,7 +1215,7 @@
             // 
             this.label150.AutoSize = true;
             this.label150.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label150.Location = new System.Drawing.Point(45, 104);
+            this.label150.Location = new System.Drawing.Point(45, 47);
             this.label150.Name = "label150";
             this.label150.Size = new System.Drawing.Size(39, 19);
             this.label150.TabIndex = 4;
@@ -1219,7 +1223,7 @@
             // 
             // imp
             // 
-            this.imp.Controls.Add(this.tab_Imp_FileInfo);
+            this.imp.Controls.Add(this.tab_Imp_Info);
             this.imp.Controls.Add(this.pal_Imp_BtnGroup);
             this.imp.Controls.Add(this.pal_Imp);
             this.imp.Location = new System.Drawing.Point(4, 26);
@@ -1229,28 +1233,28 @@
             this.imp.TabIndex = 6;
             this.imp.Text = "重大专项";
             // 
-            // tab_Imp_FileInfo
+            // tab_Imp_Info
             // 
-            this.tab_Imp_FileInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tab_Imp_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tab_Imp_FileInfo.Location = new System.Drawing.Point(3, 255);
-            this.tab_Imp_FileInfo.Name = "tab_Imp_FileInfo";
-            this.tab_Imp_FileInfo.SelectedTabPage = this.tabPage21;
-            this.tab_Imp_FileInfo.Size = new System.Drawing.Size(1080, 397);
-            this.tab_Imp_FileInfo.TabIndex = 4;
-            this.tab_Imp_FileInfo.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.tab_Imp_Info.Location = new System.Drawing.Point(3, 255);
+            this.tab_Imp_Info.Name = "tab_Imp_Info";
+            this.tab_Imp_Info.SelectedTabPage = this.tabPage21;
+            this.tab_Imp_Info.Size = new System.Drawing.Size(1080, 352);
+            this.tab_Imp_Info.TabIndex = 4;
+            this.tab_Imp_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage21,
             this.tabPage22,
             this.tabPage24});
-            this.tab_Imp_FileInfo.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
+            this.tab_Imp_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage21
             // 
             this.tabPage21.Controls.Add(this.dgv_Imp_FileList);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(1074, 368);
+            this.tabPage21.Size = new System.Drawing.Size(1074, 323);
             this.tabPage21.Text = "添加文件";
             // 
             // dgv_Imp_FileList
@@ -1271,7 +1275,7 @@
             this.imp_fl_categorname,
             this.imp_fl_code,
             this.imp_fl_name,
-            this.imp_fl_amount,
+            this.imp_fl_count,
             this.imp_fl_user,
             this.imp_fl_type,
             this.imp_fl_page,
@@ -1284,12 +1288,14 @@
             this.dgv_Imp_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Imp_FileList.Name = "dgv_Imp_FileList";
             this.dgv_Imp_FileList.RowTemplate.Height = 23;
-            this.dgv_Imp_FileList.Size = new System.Drawing.Size(1068, 362);
+            this.dgv_Imp_FileList.Size = new System.Drawing.Size(1068, 317);
             this.dgv_Imp_FileList.TabIndex = 0;
-            this.dgv_Imp_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
+            this.dgv_Imp_FileList.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
             this.dgv_Imp_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
             this.dgv_Imp_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Imp_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
+            this.dgv_Imp_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
+            this.dgv_Imp_FileList.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserDeletedRow);
             // 
             // imp_fl_id
             // 
@@ -1330,10 +1336,10 @@
             this.imp_fl_name.Name = "imp_fl_name";
             this.imp_fl_name.Width = 250;
             // 
-            // imp_fl_amount
+            // imp_fl_count
             // 
-            this.imp_fl_amount.HeaderText = "份数(移交)";
-            this.imp_fl_amount.Name = "imp_fl_amount";
+            this.imp_fl_count.HeaderText = "份数(移交)";
+            this.imp_fl_count.Name = "imp_fl_count";
             // 
             // imp_fl_user
             // 
@@ -1384,7 +1390,7 @@
             // 
             this.tabPage22.Controls.Add(this.dgv_Imp_FileValid);
             this.tabPage22.Name = "tabPage22";
-            this.tabPage22.Size = new System.Drawing.Size(1074, 371);
+            this.tabPage22.Size = new System.Drawing.Size(1074, 326);
             this.tabPage22.Text = "文件核查";
             // 
             // dgv_Imp_FileValid
@@ -1411,7 +1417,7 @@
             this.dgv_Imp_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_Imp_FileValid.Name = "dgv_Imp_FileValid";
             this.dgv_Imp_FileValid.RowTemplate.Height = 23;
-            this.dgv_Imp_FileValid.Size = new System.Drawing.Size(1074, 371);
+            this.dgv_Imp_FileValid.Size = new System.Drawing.Size(1074, 326);
             this.dgv_Imp_FileValid.TabIndex = 0;
             this.dgv_Imp_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             // 
@@ -1469,7 +1475,7 @@
             this.tabPage24.Controls.Add(this.cbo_Imp_Box);
             this.tabPage24.Controls.Add(this.label132);
             this.tabPage24.Name = "tabPage24";
-            this.tabPage24.Size = new System.Drawing.Size(1074, 371);
+            this.tabPage24.Size = new System.Drawing.Size(1074, 326);
             this.tabPage24.Text = "卷盒信息";
             // 
             // txt_Imp_AJ_Name
@@ -1798,7 +1804,7 @@
             // subject
             // 
             this.subject.BackColor = System.Drawing.SystemColors.Control;
-            this.subject.Controls.Add(this.tab_Subject_FileInfo);
+            this.subject.Controls.Add(this.tab_Subject_Info);
             this.subject.Controls.Add(this.pal_JH_XM_KT_ZKT_BtnGroup);
             this.subject.Controls.Add(this.pal_JH_XM_KT_ZKT);
             this.subject.Location = new System.Drawing.Point(4, 23);
@@ -1808,33 +1814,33 @@
             this.subject.TabIndex = 4;
             this.subject.Text = "子课题";
             // 
-            // tab_Subject_FileInfo
+            // tab_Subject_Info
             // 
-            this.tab_Subject_FileInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tab_Subject_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tab_Subject_FileInfo.Location = new System.Drawing.Point(2, 255);
-            this.tab_Subject_FileInfo.Name = "tab_Subject_FileInfo";
-            this.tab_Subject_FileInfo.SelectedTabPage = this.tabPage16;
-            this.tab_Subject_FileInfo.Size = new System.Drawing.Size(1080, 391);
-            this.tab_Subject_FileInfo.TabIndex = 9;
-            this.tab_Subject_FileInfo.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.tab_Subject_Info.Location = new System.Drawing.Point(2, 255);
+            this.tab_Subject_Info.Name = "tab_Subject_Info";
+            this.tab_Subject_Info.SelectedTabPage = this.tabPage16;
+            this.tab_Subject_Info.Size = new System.Drawing.Size(1080, 385);
+            this.tab_Subject_Info.TabIndex = 9;
+            this.tab_Subject_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage16,
             this.tabPage17,
             this.tabPage19});
-            this.tab_Subject_FileInfo.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
+            this.tab_Subject_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage16
             // 
-            this.tabPage16.Controls.Add(this.dgv_JH_XM_KT_ZKT_FileList);
+            this.tabPage16.Controls.Add(this.dgv_Subject_FileList);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(1074, 362);
+            this.tabPage16.Size = new System.Drawing.Size(1074, 356);
             this.tabPage16.Text = "添加文件";
             // 
-            // dgv_JH_XM_KT_ZKT_FileList
+            // dgv_Subject_FileList
             // 
-            this.dgv_JH_XM_KT_ZKT_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_Subject_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 9F);
@@ -1842,9 +1848,9 @@
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            this.dgv_JH_XM_KT_ZKT_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_JH_XM_KT_ZKT_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgv_Subject_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            this.dgv_Subject_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Subject_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.subject_fl_id,
             this.subject_fl_stage,
             this.subject_fl_categor,
@@ -1860,16 +1866,16 @@
             this.subject_fl_carrier,
             this.subject_fl_link,
             this.subject_fl_remark});
-            this.dgv_JH_XM_KT_ZKT_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_JH_XM_KT_ZKT_FileList.Location = new System.Drawing.Point(3, 3);
-            this.dgv_JH_XM_KT_ZKT_FileList.Name = "dgv_JH_XM_KT_ZKT_FileList";
-            this.dgv_JH_XM_KT_ZKT_FileList.RowTemplate.Height = 23;
-            this.dgv_JH_XM_KT_ZKT_FileList.Size = new System.Drawing.Size(1068, 356);
-            this.dgv_JH_XM_KT_ZKT_FileList.TabIndex = 0;
-            this.dgv_JH_XM_KT_ZKT_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
-            this.dgv_JH_XM_KT_ZKT_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
-            this.dgv_JH_XM_KT_ZKT_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
-            this.dgv_JH_XM_KT_ZKT_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
+            this.dgv_Subject_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Subject_FileList.Location = new System.Drawing.Point(3, 3);
+            this.dgv_Subject_FileList.Name = "dgv_Subject_FileList";
+            this.dgv_Subject_FileList.RowTemplate.Height = 23;
+            this.dgv_Subject_FileList.Size = new System.Drawing.Size(1068, 350);
+            this.dgv_Subject_FileList.TabIndex = 0;
+            this.dgv_Subject_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
+            this.dgv_Subject_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
+            this.dgv_Subject_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
+            this.dgv_Subject_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
             // subject_fl_id
             // 
@@ -1964,7 +1970,7 @@
             // 
             this.tabPage17.Controls.Add(this.dgv_JH_XM_KT_ZKT_FileValid);
             this.tabPage17.Name = "tabPage17";
-            this.tabPage17.Size = new System.Drawing.Size(1074, 362);
+            this.tabPage17.Size = new System.Drawing.Size(1074, 356);
             this.tabPage17.Text = "文件核查";
             // 
             // dgv_JH_XM_KT_ZKT_FileValid
@@ -1992,7 +1998,7 @@
             this.dgv_JH_XM_KT_ZKT_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_JH_XM_KT_ZKT_FileValid.Name = "dgv_JH_XM_KT_ZKT_FileValid";
             this.dgv_JH_XM_KT_ZKT_FileValid.RowTemplate.Height = 23;
-            this.dgv_JH_XM_KT_ZKT_FileValid.Size = new System.Drawing.Size(1074, 362);
+            this.dgv_JH_XM_KT_ZKT_FileValid.Size = new System.Drawing.Size(1074, 356);
             this.dgv_JH_XM_KT_ZKT_FileValid.TabIndex = 0;
             // 
             // subject_fc_id
@@ -2049,7 +2055,7 @@
             this.tabPage19.Controls.Add(this.cbo_JH_XM_KT_ZKT_Box);
             this.tabPage19.Controls.Add(this.label87);
             this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Size = new System.Drawing.Size(1074, 362);
+            this.tabPage19.Size = new System.Drawing.Size(1074, 356);
             this.tabPage19.Text = "卷盒信息";
             // 
             // txt_Subject_AJ_Name
@@ -2244,7 +2250,7 @@
             // pal_JH_XM_KT_ZKT_BtnGroup
             // 
             this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_ZKT_QTReason);
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_ZKT_AddFile);
+            this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_Subject_AddFile);
             this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_ZKT_Add);
             this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_ZKT_Submit);
             this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_JH_XM_KT_ZKT_Save);
@@ -2267,16 +2273,16 @@
             this.btn_JH_XM_KT_ZKT_QTReason.Visible = false;
             this.btn_JH_XM_KT_ZKT_QTReason.Click += new System.EventHandler(this.Btn_QTReason_Click);
             // 
-            // btn_JH_XM_KT_ZKT_AddFile
+            // btn_Subject_AddFile
             // 
-            this.btn_JH_XM_KT_ZKT_AddFile.Appearance.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_JH_XM_KT_ZKT_AddFile.Appearance.Options.UseFont = true;
-            this.btn_JH_XM_KT_ZKT_AddFile.Location = new System.Drawing.Point(7, 5);
-            this.btn_JH_XM_KT_ZKT_AddFile.Name = "btn_JH_XM_KT_ZKT_AddFile";
-            this.btn_JH_XM_KT_ZKT_AddFile.Size = new System.Drawing.Size(80, 30);
-            this.btn_JH_XM_KT_ZKT_AddFile.TabIndex = 77;
-            this.btn_JH_XM_KT_ZKT_AddFile.Text = "新增文件";
-            this.btn_JH_XM_KT_ZKT_AddFile.Click += new System.EventHandler(this.Btn_AddFile_Click);
+            this.btn_Subject_AddFile.Appearance.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_Subject_AddFile.Appearance.Options.UseFont = true;
+            this.btn_Subject_AddFile.Location = new System.Drawing.Point(7, 5);
+            this.btn_Subject_AddFile.Name = "btn_Subject_AddFile";
+            this.btn_Subject_AddFile.Size = new System.Drawing.Size(80, 30);
+            this.btn_Subject_AddFile.TabIndex = 77;
+            this.btn_Subject_AddFile.Text = "新增文件";
+            this.btn_Subject_AddFile.Click += new System.EventHandler(this.Btn_AddFile_Click);
             // 
             // btn_JH_XM_KT_ZKT_Add
             // 
@@ -2585,7 +2591,7 @@
             // topic
             // 
             this.topic.BackColor = System.Drawing.SystemColors.Control;
-            this.topic.Controls.Add(this.tab_Topic_FileInfo);
+            this.topic.Controls.Add(this.tab_Topic_Info);
             this.topic.Controls.Add(this.pal_JH_KT_BtnGroup);
             this.topic.Controls.Add(this.pal_JH_KT);
             this.topic.Location = new System.Drawing.Point(4, 23);
@@ -2595,33 +2601,33 @@
             this.topic.TabIndex = 2;
             this.topic.Text = "课题";
             // 
-            // tab_Topic_FileInfo
+            // tab_Topic_Info
             // 
-            this.tab_Topic_FileInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tab_Topic_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tab_Topic_FileInfo.Location = new System.Drawing.Point(2, 255);
-            this.tab_Topic_FileInfo.Name = "tab_Topic_FileInfo";
-            this.tab_Topic_FileInfo.SelectedTabPage = this.tabPage5;
-            this.tab_Topic_FileInfo.Size = new System.Drawing.Size(1080, 397);
-            this.tab_Topic_FileInfo.TabIndex = 6;
-            this.tab_Topic_FileInfo.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.tab_Topic_Info.Location = new System.Drawing.Point(2, 255);
+            this.tab_Topic_Info.Name = "tab_Topic_Info";
+            this.tab_Topic_Info.SelectedTabPage = this.tabPage5;
+            this.tab_Topic_Info.Size = new System.Drawing.Size(1080, 391);
+            this.tab_Topic_Info.TabIndex = 6;
+            this.tab_Topic_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage5,
             this.tabPage6,
             this.tabPage8});
-            this.tab_Topic_FileInfo.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
+            this.tab_Topic_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.dgv_JH_KT_FileList);
+            this.tabPage5.Controls.Add(this.dgv_Topic_FileList);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1074, 368);
+            this.tabPage5.Size = new System.Drawing.Size(1074, 362);
             this.tabPage5.Text = "添加文件";
             // 
-            // dgv_JH_KT_FileList
+            // dgv_Topic_FileList
             // 
-            this.dgv_JH_KT_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_Topic_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 9F);
@@ -2629,9 +2635,9 @@
             dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_KT_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.dgv_JH_KT_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_JH_KT_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgv_Topic_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dgv_Topic_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Topic_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.topic_fl_id,
             this.topic_fl_stage,
             this.topic_fl_categor,
@@ -2647,16 +2653,16 @@
             this.topic_fl_carrier,
             this.topic_fl_link,
             this.topic_fl_remark});
-            this.dgv_JH_KT_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_JH_KT_FileList.Location = new System.Drawing.Point(3, 3);
-            this.dgv_JH_KT_FileList.Name = "dgv_JH_KT_FileList";
-            this.dgv_JH_KT_FileList.RowTemplate.Height = 23;
-            this.dgv_JH_KT_FileList.Size = new System.Drawing.Size(1068, 362);
-            this.dgv_JH_KT_FileList.TabIndex = 0;
-            this.dgv_JH_KT_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
-            this.dgv_JH_KT_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
-            this.dgv_JH_KT_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
-            this.dgv_JH_KT_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
+            this.dgv_Topic_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Topic_FileList.Location = new System.Drawing.Point(3, 3);
+            this.dgv_Topic_FileList.Name = "dgv_Topic_FileList";
+            this.dgv_Topic_FileList.RowTemplate.Height = 23;
+            this.dgv_Topic_FileList.Size = new System.Drawing.Size(1068, 356);
+            this.dgv_Topic_FileList.TabIndex = 0;
+            this.dgv_Topic_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
+            this.dgv_Topic_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
+            this.dgv_Topic_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
+            this.dgv_Topic_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
             // topic_fl_id
             // 
@@ -2751,7 +2757,7 @@
             // 
             this.tabPage6.Controls.Add(this.dgv_JH_KT_FileValid);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1074, 368);
+            this.tabPage6.Size = new System.Drawing.Size(1074, 362);
             this.tabPage6.Text = "文件核查";
             // 
             // dgv_JH_KT_FileValid
@@ -2779,7 +2785,7 @@
             this.dgv_JH_KT_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_JH_KT_FileValid.Name = "dgv_JH_KT_FileValid";
             this.dgv_JH_KT_FileValid.RowTemplate.Height = 23;
-            this.dgv_JH_KT_FileValid.Size = new System.Drawing.Size(1074, 368);
+            this.dgv_JH_KT_FileValid.Size = new System.Drawing.Size(1074, 362);
             this.dgv_JH_KT_FileValid.TabIndex = 0;
             // 
             // topic_fc_id
@@ -2836,7 +2842,7 @@
             this.tabPage8.Controls.Add(this.cbo_JH_KT_Box);
             this.tabPage8.Controls.Add(this.label71);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1074, 368);
+            this.tabPage8.Size = new System.Drawing.Size(1074, 362);
             this.tabPage8.Text = "卷盒信息";
             // 
             // txt_Topic_AJ_Name
@@ -3031,7 +3037,7 @@
             // pal_JH_KT_BtnGroup
             // 
             this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_QTReason);
-            this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_AddFile);
+            this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_Topic_AddFile);
             this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_Add);
             this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_Submit);
             this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_JH_KT_Save);
@@ -3053,16 +3059,16 @@
             this.btn_JH_KT_QTReason.Visible = false;
             this.btn_JH_KT_QTReason.Click += new System.EventHandler(this.Btn_QTReason_Click);
             // 
-            // btn_JH_KT_AddFile
+            // btn_Topic_AddFile
             // 
-            this.btn_JH_KT_AddFile.Appearance.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_JH_KT_AddFile.Appearance.Options.UseFont = true;
-            this.btn_JH_KT_AddFile.Location = new System.Drawing.Point(8, 5);
-            this.btn_JH_KT_AddFile.Name = "btn_JH_KT_AddFile";
-            this.btn_JH_KT_AddFile.Size = new System.Drawing.Size(80, 30);
-            this.btn_JH_KT_AddFile.TabIndex = 78;
-            this.btn_JH_KT_AddFile.Text = "新增文件";
-            this.btn_JH_KT_AddFile.Click += new System.EventHandler(this.Btn_AddFile_Click);
+            this.btn_Topic_AddFile.Appearance.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_Topic_AddFile.Appearance.Options.UseFont = true;
+            this.btn_Topic_AddFile.Location = new System.Drawing.Point(8, 5);
+            this.btn_Topic_AddFile.Name = "btn_Topic_AddFile";
+            this.btn_Topic_AddFile.Size = new System.Drawing.Size(80, 30);
+            this.btn_Topic_AddFile.TabIndex = 78;
+            this.btn_Topic_AddFile.Text = "新增文件";
+            this.btn_Topic_AddFile.Click += new System.EventHandler(this.Btn_AddFile_Click);
             // 
             // btn_JH_KT_Add
             // 
@@ -3397,7 +3403,7 @@
             // 
             // project
             // 
-            this.project.Controls.Add(this.tab_Project_FileInfo);
+            this.project.Controls.Add(this.tab_Project_Info);
             this.project.Controls.Add(this.pal_JH_XM_BtnGroup);
             this.project.Controls.Add(this.pal_JH_XM);
             this.project.Location = new System.Drawing.Point(4, 23);
@@ -3407,33 +3413,33 @@
             this.project.TabIndex = 1;
             this.project.Text = "项目";
             // 
-            // tab_Project_FileInfo
+            // tab_Project_Info
             // 
-            this.tab_Project_FileInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tab_Project_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tab_Project_FileInfo.Location = new System.Drawing.Point(3, 255);
-            this.tab_Project_FileInfo.Name = "tab_Project_FileInfo";
-            this.tab_Project_FileInfo.SelectedTabPage = this.tabPage1;
-            this.tab_Project_FileInfo.Size = new System.Drawing.Size(1080, 397);
-            this.tab_Project_FileInfo.TabIndex = 3;
-            this.tab_Project_FileInfo.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.tab_Project_Info.Location = new System.Drawing.Point(3, 255);
+            this.tab_Project_Info.Name = "tab_Project_Info";
+            this.tab_Project_Info.SelectedTabPage = this.tabPage1;
+            this.tab_Project_Info.Size = new System.Drawing.Size(1080, 391);
+            this.tab_Project_Info.TabIndex = 3;
+            this.tab_Project_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage1,
             this.tabPage2,
             this.tabPage4});
-            this.tab_Project_FileInfo.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
+            this.tab_Project_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.dgv_JH_XM_FileList);
+            this.tabPage1.Controls.Add(this.dgv_Project_FileList);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1074, 368);
+            this.tabPage1.Size = new System.Drawing.Size(1074, 362);
             this.tabPage1.Text = "添加文件";
             // 
-            // dgv_JH_XM_FileList
+            // dgv_Project_FileList
             // 
-            this.dgv_JH_XM_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_Project_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 9F);
@@ -3441,9 +3447,9 @@
             dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_XM_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
-            this.dgv_JH_XM_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_JH_XM_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgv_Project_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.dgv_Project_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Project_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.project_fl_id,
             this.project_fl_stage,
             this.project_fl_categor,
@@ -3458,16 +3464,16 @@
             this.project_fl_unit,
             this.project_fl_carrier,
             this.project_fl_link});
-            this.dgv_JH_XM_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_JH_XM_FileList.Location = new System.Drawing.Point(3, 3);
-            this.dgv_JH_XM_FileList.Name = "dgv_JH_XM_FileList";
-            this.dgv_JH_XM_FileList.RowTemplate.Height = 23;
-            this.dgv_JH_XM_FileList.Size = new System.Drawing.Size(1068, 362);
-            this.dgv_JH_XM_FileList.TabIndex = 0;
-            this.dgv_JH_XM_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
-            this.dgv_JH_XM_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
-            this.dgv_JH_XM_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
-            this.dgv_JH_XM_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
+            this.dgv_Project_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Project_FileList.Location = new System.Drawing.Point(3, 3);
+            this.dgv_Project_FileList.Name = "dgv_Project_FileList";
+            this.dgv_Project_FileList.RowTemplate.Height = 23;
+            this.dgv_Project_FileList.Size = new System.Drawing.Size(1068, 356);
+            this.dgv_Project_FileList.TabIndex = 0;
+            this.dgv_Project_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
+            this.dgv_Project_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
+            this.dgv_Project_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
+            this.dgv_Project_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
             // project_fl_id
             // 
@@ -3555,7 +3561,7 @@
             // 
             this.tabPage2.Controls.Add(this.dgv_JH_XM_FileValid);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(1074, 368);
+            this.tabPage2.Size = new System.Drawing.Size(1074, 362);
             this.tabPage2.Text = "文件核查";
             // 
             // dgv_JH_XM_FileValid
@@ -3583,7 +3589,7 @@
             this.dgv_JH_XM_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_JH_XM_FileValid.Name = "dgv_JH_XM_FileValid";
             this.dgv_JH_XM_FileValid.RowTemplate.Height = 23;
-            this.dgv_JH_XM_FileValid.Size = new System.Drawing.Size(1074, 368);
+            this.dgv_JH_XM_FileValid.Size = new System.Drawing.Size(1074, 362);
             this.dgv_JH_XM_FileValid.TabIndex = 0;
             // 
             // project_fc_id
@@ -3645,7 +3651,7 @@
             this.tabPage4.Controls.Add(this.cbo_JH_XM_Box);
             this.tabPage4.Controls.Add(this.label63);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1074, 368);
+            this.tabPage4.Size = new System.Drawing.Size(1074, 362);
             this.tabPage4.Text = "卷盒信息";
             // 
             // txt_Project_AJ_Name
@@ -3840,7 +3846,7 @@
             // pal_JH_XM_BtnGroup
             // 
             this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_QTReason);
-            this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_AddFile);
+            this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_Project_AddFile);
             this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_Add);
             this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_Submit);
             this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_JH_XM_Save);
@@ -3862,16 +3868,16 @@
             this.btn_JH_XM_QTReason.Visible = false;
             this.btn_JH_XM_QTReason.Click += new System.EventHandler(this.Btn_QTReason_Click);
             // 
-            // btn_JH_XM_AddFile
+            // btn_Project_AddFile
             // 
-            this.btn_JH_XM_AddFile.Appearance.Font = new System.Drawing.Font("宋体", 11F);
-            this.btn_JH_XM_AddFile.Appearance.Options.UseFont = true;
-            this.btn_JH_XM_AddFile.Location = new System.Drawing.Point(6, 5);
-            this.btn_JH_XM_AddFile.Name = "btn_JH_XM_AddFile";
-            this.btn_JH_XM_AddFile.Size = new System.Drawing.Size(80, 30);
-            this.btn_JH_XM_AddFile.TabIndex = 11;
-            this.btn_JH_XM_AddFile.Text = "新增文件";
-            this.btn_JH_XM_AddFile.Click += new System.EventHandler(this.Btn_AddFile_Click);
+            this.btn_Project_AddFile.Appearance.Font = new System.Drawing.Font("宋体", 11F);
+            this.btn_Project_AddFile.Appearance.Options.UseFont = true;
+            this.btn_Project_AddFile.Location = new System.Drawing.Point(6, 5);
+            this.btn_Project_AddFile.Name = "btn_Project_AddFile";
+            this.btn_Project_AddFile.Size = new System.Drawing.Size(80, 30);
+            this.btn_Project_AddFile.TabIndex = 11;
+            this.btn_Project_AddFile.Text = "新增文件";
+            this.btn_Project_AddFile.Click += new System.EventHandler(this.Btn_AddFile_Click);
             // 
             // btn_JH_XM_Add
             // 
@@ -4204,7 +4210,7 @@
             // 
             // plan
             // 
-            this.plan.Controls.Add(this.tab_Plan_FileInfo);
+            this.plan.Controls.Add(this.tab_Plan_Info);
             this.plan.Controls.Add(this.pal_JH_BtnGroup);
             this.plan.Controls.Add(this.pal_JH_BasicInfo);
             this.plan.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -4215,34 +4221,34 @@
             this.plan.TabIndex = 0;
             this.plan.Text = "计划";
             // 
-            // tab_Plan_FileInfo
+            // tab_Plan_Info
             // 
-            this.tab_Plan_FileInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tab_Plan_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tab_Plan_FileInfo.Location = new System.Drawing.Point(3, 255);
-            this.tab_Plan_FileInfo.Name = "tab_Plan_FileInfo";
-            this.tab_Plan_FileInfo.SelectedTabPage = this.fileList;
-            this.tab_Plan_FileInfo.Size = new System.Drawing.Size(1080, 400);
-            this.tab_Plan_FileInfo.TabIndex = 1;
-            this.tab_Plan_FileInfo.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.tab_Plan_Info.Location = new System.Drawing.Point(3, 255);
+            this.tab_Plan_Info.Name = "tab_Plan_Info";
+            this.tab_Plan_Info.SelectedTabPage = this.fileList;
+            this.tab_Plan_Info.Size = new System.Drawing.Size(1080, 400);
+            this.tab_Plan_Info.TabIndex = 1;
+            this.tab_Plan_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.fileList,
             this.fileCheck,
             this.box});
-            this.tab_Plan_FileInfo.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
+            this.tab_Plan_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // fileList
             // 
-            this.fileList.Controls.Add(this.dgv_JH_FileList);
+            this.fileList.Controls.Add(this.dgv_Plan_FileList);
             this.fileList.Name = "fileList";
             this.fileList.Padding = new System.Windows.Forms.Padding(3);
             this.fileList.Size = new System.Drawing.Size(1074, 371);
             this.fileList.Text = "添加文件";
             // 
-            // dgv_JH_FileList
+            // dgv_Plan_FileList
             // 
-            this.dgv_JH_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            this.dgv_JH_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_Plan_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            this.dgv_Plan_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle11.Font = new System.Drawing.Font("Tahoma", 9F);
@@ -4250,8 +4256,8 @@
             dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_JH_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
-            this.dgv_JH_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgv_Plan_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            this.dgv_Plan_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.plan_fl_id,
             this.plan_fl_stage,
             this.plan_fl_categor,
@@ -4266,16 +4272,16 @@
             this.plan_fl_unit,
             this.plan_fl_carrier,
             this.plan_fl_link});
-            this.dgv_JH_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_JH_FileList.Location = new System.Drawing.Point(3, 3);
-            this.dgv_JH_FileList.Name = "dgv_JH_FileList";
-            this.dgv_JH_FileList.RowTemplate.Height = 23;
-            this.dgv_JH_FileList.Size = new System.Drawing.Size(1068, 365);
-            this.dgv_JH_FileList.TabIndex = 0;
-            this.dgv_JH_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
-            this.dgv_JH_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
-            this.dgv_JH_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
-            this.dgv_JH_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
+            this.dgv_Plan_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Plan_FileList.Location = new System.Drawing.Point(3, 3);
+            this.dgv_Plan_FileList.Name = "dgv_Plan_FileList";
+            this.dgv_Plan_FileList.RowTemplate.Height = 23;
+            this.dgv_Plan_FileList.Size = new System.Drawing.Size(1068, 365);
+            this.dgv_Plan_FileList.TabIndex = 0;
+            this.dgv_Plan_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
+            this.dgv_Plan_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
+            this.dgv_Plan_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
+            this.dgv_Plan_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             // 
             // plan_fl_id
             // 
@@ -4653,7 +4659,7 @@
             // pal_JH_BtnGroup
             // 
             this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_QTReason);
-            this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_AddFile);
+            this.pal_JH_BtnGroup.Controls.Add(this.btn_Plan_AddFile);
             this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_Submit);
             this.pal_JH_BtnGroup.Controls.Add(this.btn_JH_Save);
             this.pal_JH_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -4675,16 +4681,16 @@
             this.btn_JH_QTReason.Visible = false;
             this.btn_JH_QTReason.Click += new System.EventHandler(this.Btn_QTReason_Click);
             // 
-            // btn_JH_AddFile
+            // btn_Plan_AddFile
             // 
-            this.btn_JH_AddFile.Appearance.Font = new System.Drawing.Font("宋体", 10F);
-            this.btn_JH_AddFile.Appearance.Options.UseFont = true;
-            this.btn_JH_AddFile.Location = new System.Drawing.Point(6, 5);
-            this.btn_JH_AddFile.Name = "btn_JH_AddFile";
-            this.btn_JH_AddFile.Size = new System.Drawing.Size(80, 30);
-            this.btn_JH_AddFile.TabIndex = 10;
-            this.btn_JH_AddFile.Text = "新增文件";
-            this.btn_JH_AddFile.Click += new System.EventHandler(this.Btn_AddFile_Click);
+            this.btn_Plan_AddFile.Appearance.Font = new System.Drawing.Font("宋体", 10F);
+            this.btn_Plan_AddFile.Appearance.Options.UseFont = true;
+            this.btn_Plan_AddFile.Location = new System.Drawing.Point(6, 5);
+            this.btn_Plan_AddFile.Name = "btn_Plan_AddFile";
+            this.btn_Plan_AddFile.Size = new System.Drawing.Size(80, 30);
+            this.btn_Plan_AddFile.TabIndex = 10;
+            this.btn_Plan_AddFile.Text = "新增文件";
+            this.btn_Plan_AddFile.Click += new System.EventHandler(this.Btn_AddFile_Click);
             // 
             // btn_JH_Submit
             // 
@@ -4823,20 +4829,20 @@
             this.strip.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
             this.special.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Special_FileInfo)).EndInit();
-            this.tab_Special_FileInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Special_Info)).EndInit();
+            this.tab_Special_Info.ResumeLayout(false);
             this.tabPage25.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Special_FileList)).EndInit();
             this.tabPage26.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_Dev_FileValid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Special_FileValid)).EndInit();
             this.tabPage28.ResumeLayout(false);
             this.tabPage28.PerformLayout();
             this.pal_Imp_Dev_BtnGroup.ResumeLayout(false);
-            this.pal_Imp_Dev.ResumeLayout(false);
-            this.pal_Imp_Dev.PerformLayout();
+            this.pal_Special.ResumeLayout(false);
+            this.pal_Special.PerformLayout();
             this.imp.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Imp_FileInfo)).EndInit();
-            this.tab_Imp_FileInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Imp_Info)).EndInit();
+            this.tab_Imp_Info.ResumeLayout(false);
             this.tabPage21.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_FileList)).EndInit();
             this.tabPage22.ResumeLayout(false);
@@ -4847,10 +4853,10 @@
             this.pal_Imp.ResumeLayout(false);
             this.pal_Imp.PerformLayout();
             this.subject.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Subject_FileInfo)).EndInit();
-            this.tab_Subject_FileInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Subject_Info)).EndInit();
+            this.tab_Subject_Info.ResumeLayout(false);
             this.tabPage16.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_XM_KT_ZKT_FileList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Subject_FileList)).EndInit();
             this.tabPage17.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_XM_KT_ZKT_FileValid)).EndInit();
             this.tabPage19.ResumeLayout(false);
@@ -4860,10 +4866,10 @@
             this.pal_JH_XM_KT_ZKT.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Subject_Fund)).EndInit();
             this.topic.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Topic_FileInfo)).EndInit();
-            this.tab_Topic_FileInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Topic_Info)).EndInit();
+            this.tab_Topic_Info.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_KT_FileList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Topic_FileList)).EndInit();
             this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_KT_FileValid)).EndInit();
             this.tabPage8.ResumeLayout(false);
@@ -4873,10 +4879,10 @@
             this.pal_JH_KT.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Topic_Fund)).EndInit();
             this.project.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Project_FileInfo)).EndInit();
-            this.tab_Project_FileInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Project_Info)).EndInit();
+            this.tab_Project_Info.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_XM_FileList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Project_FileList)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_XM_FileValid)).EndInit();
             this.tabPage4.ResumeLayout(false);
@@ -4886,10 +4892,10 @@
             this.pal_JH_XM.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Project_JF)).EndInit();
             this.plan.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tab_Plan_FileInfo)).EndInit();
-            this.tab_Plan_FileInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tab_Plan_Info)).EndInit();
+            this.tab_Plan_Info.ResumeLayout(false);
             this.fileList.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_FileList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Plan_FileList)).EndInit();
             this.fileCheck.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_JH_FileValid)).EndInit();
             this.box.ResumeLayout(false);
@@ -4909,15 +4915,15 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem tsm_InsertRow;
+        private System.Windows.Forms.ToolStripMenuItem tsm_DeleteRow;
+        private System.Windows.Forms.ToolStripMenuItem tsm_Refresh;
         private System.Windows.Forms.TabPage special;
-        private KyoControl.KyoTabControl tab_Special_FileInfo;
+        private KyoControl.KyoTabControl tab_Special_Info;
         private DevExpress.XtraTab.XtraTabPage tabPage25;
         private System.Windows.Forms.DataGridView dgv_Special_FileList;
         private DevExpress.XtraTab.XtraTabPage tabPage26;
-        private System.Windows.Forms.DataGridView dgv_Imp_Dev_FileValid;
+        private System.Windows.Forms.DataGridView dgv_Special_FileValid;
         private DevExpress.XtraTab.XtraTabPage tabPage28;
         private System.Windows.Forms.Label label162;
         private System.Windows.Forms.Label label163;
@@ -4937,22 +4943,21 @@
         private System.Windows.Forms.Label label145;
         private System.Windows.Forms.Panel pal_Imp_Dev_BtnGroup;
         private KyoControl.KyoButton btn_Imp_Dev_QTReason;
-        private KyoControl.KyoButton btn_Imp_Dev_AddFile;
+        private KyoControl.KyoButton btn_Special_AddFile;
         private KyoControl.KyoButton btn_Imp_Dev_Submit;
         private KyoControl.KyoButton btn_Imp_Sub_Save;
-        private System.Windows.Forms.Panel pal_Imp_Dev;
-        private System.Windows.Forms.TextBox txt_Imp_Dev_Unit;
+        private System.Windows.Forms.Panel pal_Special;
+        private System.Windows.Forms.TextBox txt_Special_Unit;
         private System.Windows.Forms.Label label151;
-        private System.Windows.Forms.TextBox txt_Imp_Dev_Name;
-        private System.Windows.Forms.TextBox txt_Imp_Dev_Code;
-        private System.Windows.Forms.Label lbl_Imp_Dev_Intro;
+        private System.Windows.Forms.TextBox txt_Special_Name;
+        private System.Windows.Forms.TextBox txt_Special_Code;
         private System.Windows.Forms.Label label147;
-        private System.Windows.Forms.ComboBox cbo_Imp_Dev_HasNext;
+        private System.Windows.Forms.ComboBox cbo_Special_HasNext;
         private System.Windows.Forms.Label label148;
         private System.Windows.Forms.Label label149;
         private System.Windows.Forms.Label label150;
         private System.Windows.Forms.TabPage imp;
-        private KyoControl.KyoTabControl tab_Imp_FileInfo;
+        private KyoControl.KyoTabControl tab_Imp_Info;
         private DevExpress.XtraTab.XtraTabPage tabPage21;
         private System.Windows.Forms.DataGridView dgv_Imp_FileList;
         private DevExpress.XtraTab.XtraTabPage tabPage22;
@@ -4986,9 +4991,9 @@
         private System.Windows.Forms.Label lbl_Imp_Name;
         private System.Windows.Forms.Label label137;
         private System.Windows.Forms.TabPage subject;
-        private KyoControl.KyoTabControl tab_Subject_FileInfo;
+        private KyoControl.KyoTabControl tab_Subject_Info;
         private DevExpress.XtraTab.XtraTabPage tabPage16;
-        private System.Windows.Forms.DataGridView dgv_JH_XM_KT_ZKT_FileList;
+        private System.Windows.Forms.DataGridView dgv_Subject_FileList;
         private System.Windows.Forms.DataGridViewTextBoxColumn subject_fl_id;
         private System.Windows.Forms.DataGridViewComboBoxColumn subject_fl_stage;
         private System.Windows.Forms.DataGridViewComboBoxColumn subject_fl_categor;
@@ -5025,7 +5030,7 @@
         private System.Windows.Forms.Label label87;
         private System.Windows.Forms.Panel pal_JH_XM_KT_ZKT_BtnGroup;
         private KyoControl.KyoButton btn_JH_XM_KT_ZKT_QTReason;
-        private KyoControl.KyoButton btn_JH_XM_KT_ZKT_AddFile;
+        private KyoControl.KyoButton btn_Subject_AddFile;
         private KyoControl.KyoButton btn_JH_XM_KT_ZKT_Add;
         private KyoControl.KyoButton btn_JH_XM_KT_ZKT_Submit;
         private KyoControl.KyoButton btn_JH_XM_KT_ZKT_Save;
@@ -5057,9 +5062,9 @@
         private System.Windows.Forms.TextBox txt_Subject_Code;
         private System.Windows.Forms.Label label101;
         private System.Windows.Forms.TabPage topic;
-        private KyoControl.KyoTabControl tab_Topic_FileInfo;
+        private KyoControl.KyoTabControl tab_Topic_Info;
         private DevExpress.XtraTab.XtraTabPage tabPage5;
-        private System.Windows.Forms.DataGridView dgv_JH_KT_FileList;
+        private System.Windows.Forms.DataGridView dgv_Topic_FileList;
         private System.Windows.Forms.DataGridViewTextBoxColumn topic_fl_id;
         private System.Windows.Forms.DataGridViewComboBoxColumn topic_fl_stage;
         private System.Windows.Forms.DataGridViewComboBoxColumn topic_fl_categor;
@@ -5096,7 +5101,7 @@
         private System.Windows.Forms.Label label71;
         private System.Windows.Forms.Panel pal_JH_KT_BtnGroup;
         private KyoControl.KyoButton btn_JH_KT_QTReason;
-        private KyoControl.KyoButton btn_JH_KT_AddFile;
+        private KyoControl.KyoButton btn_Topic_AddFile;
         private KyoControl.KyoButton btn_JH_KT_Add;
         private KyoControl.KyoButton btn_JH_KT_Submit;
         private KyoControl.KyoButton btn_JH_KT_Save;
@@ -5130,9 +5135,9 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.TabPage project;
-        private KyoControl.KyoTabControl tab_Project_FileInfo;
+        private KyoControl.KyoTabControl tab_Project_Info;
         private DevExpress.XtraTab.XtraTabPage tabPage1;
-        private System.Windows.Forms.DataGridView dgv_JH_XM_FileList;
+        private System.Windows.Forms.DataGridView dgv_Project_FileList;
         private System.Windows.Forms.DataGridViewTextBoxColumn project_fl_id;
         private System.Windows.Forms.DataGridViewComboBoxColumn project_fl_stage;
         private System.Windows.Forms.DataGridViewComboBoxColumn project_fl_categor;
@@ -5168,7 +5173,7 @@
         private System.Windows.Forms.Label label63;
         private System.Windows.Forms.Panel pal_JH_XM_BtnGroup;
         private KyoControl.KyoButton btn_JH_XM_QTReason;
-        private KyoControl.KyoButton btn_JH_XM_AddFile;
+        private KyoControl.KyoButton btn_Project_AddFile;
         private KyoControl.KyoButton btn_JH_XM_Add;
         private KyoControl.KyoButton btn_JH_XM_Submit;
         private KyoControl.KyoButton btn_JH_XM_Save;
@@ -5202,9 +5207,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TabPage plan;
-        private KyoControl.KyoTabControl tab_Plan_FileInfo;
+        private KyoControl.KyoTabControl tab_Plan_Info;
         private DevExpress.XtraTab.XtraTabPage fileList;
-        private System.Windows.Forms.DataGridView dgv_JH_FileList;
+        private System.Windows.Forms.DataGridView dgv_Plan_FileList;
         private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_id;
         private System.Windows.Forms.DataGridViewComboBoxColumn plan_fl_stage;
         private System.Windows.Forms.DataGridViewComboBoxColumn plan_fl_categor;
@@ -5240,7 +5245,7 @@
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.Panel pal_JH_BtnGroup;
         private KyoControl.KyoButton btn_JH_QTReason;
-        private KyoControl.KyoButton btn_JH_AddFile;
+        private KyoControl.KyoButton btn_Plan_AddFile;
         private KyoControl.KyoButton btn_JH_Submit;
         private KyoControl.KyoButton btn_JH_Save;
         private System.Windows.Forms.Panel pal_JH_BasicInfo;
@@ -5250,21 +5255,6 @@
         private System.Windows.Forms.Label lbl_JH_Name;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TabControl tab_MenuList;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_id;
-        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_stage;
-        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_categor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_categorname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_code;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_amount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_user;
-        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_page;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_unit;
-        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_carrier;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_link;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_remark;
         private System.Windows.Forms.DataGridViewTextBoxColumn special_fl_id;
         private System.Windows.Forms.DataGridViewComboBoxColumn special_fl_stage;
         private System.Windows.Forms.DataGridViewComboBoxColumn special_fl_categor;
@@ -5324,5 +5314,21 @@
         private System.Windows.Forms.TextBox txt_Project_AJ_Code;
         private System.Windows.Forms.TextBox txt_Plan_AJ_Name;
         private System.Windows.Forms.TextBox txt_Plan_AJ_Code;
+        private System.Windows.Forms.TextBox txt_Special_Intro;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_id;
+        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_stage;
+        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_categor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_categorname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_code;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_count;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_user;
+        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_page;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_unit;
+        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_carrier;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_link;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_remark;
     }
 }

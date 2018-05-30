@@ -246,5 +246,22 @@ namespace 科技计划项目档案数据采集管理系统
             object obj = ExecuteOnlyOneQuery($"SELECT dd_name FROM data_dictionary WHERE dd_id='{companyId}'");
             return obj == null ? string.Empty : obj.ToString();
         }
+
+        /// <summary>
+        /// 获取单列数据
+        /// </summary>
+        public static object[] ExecuteSingleColumnQuery(string querySql)
+        {
+            List<object> list = new List<object>();
+            SqlDataReader sqlDataReader = ExecuteQueryWithReader(querySql);
+            while(sqlDataReader.Read())
+            {
+                if(sqlDataReader.FieldCount > 0)
+                    list.Add(sqlDataReader.GetValue(0));
+            }
+            sqlDataReader.Close();
+            CloseConnect();
+            return list.ToArray();
+        }
     }
 }

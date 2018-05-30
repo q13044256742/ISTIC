@@ -40,7 +40,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 计划
         /// </summary>
-        Plan_Project = 1,
+        Plan = 1,
         /// <summary>
         /// 计划-项目
         /// </summary>
@@ -48,35 +48,19 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 计划-课题
         /// </summary>
-        Plan_Topic = 3,
-        /// <summary>
-        /// 计划-项目-课题
-        /// </summary>
-        Plan_Project_Topic = 4,
+        Topic = 3,
         /// <summary>
         /// 计划-课题-子课题
         /// </summary>
-        Plan_Topic_Subtopic = 5,
-        /// <summary>
-        /// 计划-项目-课题-子课题
-        /// </summary>
-        Plan_Project_Topic_Subtopic = 6,
+        Subject = 4,
         /// <summary>
         /// 重大专项
         /// </summary>
-        Imp = 7,
+        Imp = 5,
         /// <summary>
-        /// 重大专项信息
+        /// 专项信息
         /// </summary>
-        Imp_Sub = 8,
-        /// <summary>
-        /// 重点研发
-        /// </summary>
-        Imp_Dev = 9,
-        /// <summary>
-        /// 普通计划
-        /// </summary>
-        Imp_Normal = 10
+        Special = 6
     }
     /// <summary>
     /// 文件归档状态

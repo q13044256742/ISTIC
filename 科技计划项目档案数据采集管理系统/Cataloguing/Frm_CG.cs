@@ -622,7 +622,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork frm = new Frm_MyWork(WorkType.CDWork, planId, objId, ControlType.Plan_Project, false);
+                                Frm_MyWork frm = new Frm_MyWork(WorkType.CDWork, planId, objId, ControlType.Plan, false);
                                 frm.planCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_code FROM project_info WHERE pi_id='{planId}'"));
                                 frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
                                 frm.ShowDialog();
@@ -654,7 +654,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork, planId, objId, ControlType.Plan_Project,false);
+                                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork, planId, objId, ControlType.Plan,false);
                                 frm.planCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_code FROM project_info WHERE pi_id='{planId}'"));
                                 frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
                                 frm.ShowDialog();
@@ -818,14 +818,14 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         object piId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
-                        Frm_MyWork frm = new Frm_MyWork(WorkType.Default, piId, trpId, ControlType.Imp_Normal, true);
+                        Frm_MyWork frm = new Frm_MyWork(WorkType.Default, piId, trpId, ControlType.Special, true);
                         frm.ShowDialog();
                     }
                     else if(type == 1)
                     {
                         object impId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
-                        Frm_MyWork frm = new Frm_MyWork(WorkType.Default, impId, trpId, ControlType.Imp_Sub, true);
+                        Frm_MyWork frm = new Frm_MyWork(WorkType.Default, impId, trpId, ControlType.Special, true);
                         frm.ShowDialog();
                     }
                     else if(type == 2)
@@ -838,7 +838,7 @@ namespace 科技计划项目档案数据采集管理系统
                             $"WHERE pi.pi_id = '{piId}'";
                         object trcId = SqlHelper.ExecuteOnlyOneQuery(querySql);
                         object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
-                        Frm_MyWork frm = new Frm_MyWork(WorkType.Default, piId, trcId, ControlType.Plan_Project, true);
+                        Frm_MyWork frm = new Frm_MyWork(WorkType.Default, piId, trcId, ControlType.Plan, true);
                         frm.ShowDialog();
                     }
                 }

@@ -65,7 +65,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                     foreach(DataGridViewRow row in dgv_DataList.SelectedRows)
                     {
                         object id = row.Cells["id"].Value;
-                        int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(dd_id) FROM data_dictionary WHERE dd_pId ='{id}'");
+                        int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(id) FROM data_dictionary WHERE dd_pId ='{id}'");
                         if(count == 0)
                         {
                             ids += $"'{id}',";
@@ -77,7 +77,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                     if(!string.IsNullOrEmpty(ids))
                     {
                         ids = ids.Substring(0, ids.Length - 1);
-                        SqlHelper.ExecuteNonQuery($"DELETE FROM data_dictionary WHERE dd_id IN ({ids})");
+                        SqlHelper.ExecuteNonQuery($"DELETE FROM data_dictionary WHERE id IN ({ids})");
                     }
                     //获取当前列表的pId
                     string pId = GetValue(dgv_DataList.Tag);
@@ -94,26 +94,26 @@ namespace 科技计划项目档案数据采集管理系统.Manager
 
         //修改
         private void Btn_updateClick(object sender, EventArgs e)
-        {          
+        {
             int amount = dgv_DataList.SelectedRows.Count;
-            if (amount == 1)
-            {                               
+            if(amount == 1)
+            {
                 //获取你所选行的id
-                string id = (dgv_DataList.SelectedRows[0]).Cells["dd_id"].Value.ToString();
+                object id = dgv_DataList.SelectedRows[0].Cells["id"].Value;
                 //获取当前列表的pId
-                string pId = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
+                string pId = GetValue(dgv_DataList.Tag);
                 Frm_Add frm = new Frm_Add(false, pId, id, dgv_DataList.RowCount + 1);
-                if (frm.ShowDialog() == DialogResult.OK)
+                if(frm.ShowDialog() == DialogResult.OK)
                 {
                     LoadZDDataScoure(pId);
                     txt_SearchKey.Text = null;
                 }
             }
             else
-                {
-                    MessageBox.Show("请先选择一条要修改的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                }
+            {
+                MessageBox.Show("请先选择一条要修改的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
+        }
 
         //返回
         private void Btn_backClick(object sender, EventArgs e)
@@ -121,13 +121,13 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             //获取上级列表的id == 当前列表的pId 
             string id = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
             //根据id找到上级列表的pId            
-            string querySql = $"SELECT dd_pId FROM data_dictionary where dd_id = '{id}'";
+            string querySql = $"SELECT dd_pId FROM data_dictionary where id = '{id}'";
             string pId = (SqlHelper.ExecuteOnlyOneQuery(querySql)).ToString();
 
             LoadZDDataScoure(pId);
             dgv_DataList.Tag = pId;
 
-            string sql = $"SELECT level FROM data_dictionary where dd_id = '{pId}'";
+            string sql = $"SELECT level FROM data_dictionary where id = '{pId}'";
             string b = GetValue(SqlHelper.ExecuteOnlyOneQuery(sql));
                
             if ( b == "1") {

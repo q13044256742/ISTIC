@@ -27,22 +27,22 @@ namespace 科技计划项目档案数据采集管理系统
         public User GetUser(string userName, string passWord)
         {
             User user = new User();
-            string querySql = $"SELECT * FROM user_list  WHERE login_name='{userName}' AND login_password='{passWord}'";
-            System.Data.SqlClient.SqlDataReader reader = SqlHelper.ExecuteQueryWithReader(querySql);
-            while (reader.Read())
+            string querySql = $"SELECT * FROM user_list WHERE login_name='{userName}' AND login_password='{passWord}'";
+            DataRow row = SqlHelper.ExecuteSingleRowQuery(querySql);
+            if(row != null)
             {
-                user.LoginUserName = reader["login_name"].ToString();
-                user.LoginPassword = reader["login_password"].ToString();
-                user.RealName = reader["real_name"].ToString();
-                user.UserKey = reader["ul_id"].ToString();
-                user.Company = reader["belong_unit"].ToString();
-                user.Role = reader["role_id"].ToString();
-                user.Group = GetGroupId(reader["belong_user_group_id"]);
+                user.LoginUserName = GetValue(row["login_name"]);
+                user.LoginPassword = GetValue(row["login_password"]);
+                user.RealName = GetValue(row["real_name"]);
+                user.UserKey = GetValue(row["ul_id"]);
+                user.UnitName = GetValue(row["belong_unit"]);
+                user.Role = GetValue(row["role_id"]);
+                user.Group = GetGroupId(row["belong_user_group_id"]);
             }
-            reader.Close();
-            SqlHelper.CloseConnect();
             return user;
         }
+
+        private string GetValue(object value) => value == null ? string.Empty : value.ToString();
 
         private string[] GetGroupId(object ids) => ids == null ? null : ids.ToString().Split(',');
     }
