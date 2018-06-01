@@ -137,6 +137,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
 
             tab_MenuList.TabPages["plan"].Tag = planId;
+            tab_Plan_Info.Tag = planId;
             if(isBacked)
             {
                 cbo_JH_HasNext.Enabled = !isBacked;
@@ -1281,16 +1282,16 @@ namespace 科技计划项目档案数据采集管理系统
                 string code = txt_Project_Code.Text;
                 string name = txt_Project_Name.Text;
                 string type = string.Empty;
-                string ly = txt_Project_LY.Text;
-                string zt = txt_Project_ZT.Text;
-                string jf = txt_Project_JF.Text;
+                string ly = txt_Project_Field.Text;
+                string zt = txt_Project_Theme.Text;
+                string jf = txt_Project_Funds.Text;
                 DateTime starttime = dtp_Project_StartTime.Value;
                 DateTime endtime = dtp_JH_XM_EndTime.Value;
                 string year = txt_Project_LXND.Text;
                 object unit = txt_Project_Unit.Text;
                 object province = txt_Project_Province.Text;
                 string unituser = txt_Project_UnitUser.Text;
-                string objuser = txt_Project_ObjUser.Text;
+                string objuser = txt_Project_ProUser.Text;
                 string intro = txt_Project_ObjIntroduct.Text;
 
                 string updateSql = "UPDATE project_info SET " +
@@ -1405,21 +1406,21 @@ namespace 科技计划项目档案数据采集管理系统
         private object AddProjectBasicInfo(object parentId, ControlType type)
         {
             string primaryKey = Guid.NewGuid().ToString();
-           if(type == ControlType.Plan)
+            if(type == ControlType.Project)
             {
                 string code = txt_Project_Code.Text;
                 string name = txt_Project_Name.Text;
                 string planType = string.Empty;
-                string ly = txt_Project_LY.Text;
-                string zt = txt_Project_ZT.Text;
-                string jf = txt_Project_JF.Text;
+                string ly = txt_Project_Field.Text;
+                string zt = txt_Project_Theme.Text;
+                string jf = txt_Project_Funds.Text;
                 DateTime starttime = dtp_Project_StartTime.Value;
                 DateTime endtime = dtp_JH_XM_EndTime.Value;
                 string year = txt_Project_LXND.Text;
                 object unit = txt_Project_Unit.Text;
                 object province = txt_Project_Province.Text;
                 string unituser = txt_Project_UnitUser.Text;
-                string objuser = txt_Project_ObjUser.Text;
+                string objuser = txt_Project_ProUser.Text;
                 string intro = txt_Project_ObjIntroduct.Text;
 
                 string insertSql = "INSERT INTO project_info(pi_id ,trc_id,pi_code,pi_name,pi_type,pb_belong" +
@@ -1449,13 +1450,12 @@ namespace 科技计划项目档案数据采集管理系统
                 string objuser = txt_Topic_ProUser.Text;
                 string intro = txt_Topic_Intro.Text;
 
-                string insertSql = "INSERT INTO project_info(pi_id ,trc_id,pi_code,pi_name,pi_type,pb_belong" +
-                    ",pb_belong_type,pi_money,pi_start_datetime,pi_end_datetime,pi_year,pi_company_id,pi_company_user" +
-                    ",pi_province,pi_project_user,pi_introduction,pi_work_status,pi_obj_id,pi_categor,pi_submit_status,pi_worker_id)" +
+                string insertSql = "INSERT INTO topic_info(ti_id, trc_id, ti_code, ti_name, ti_type, tb_belong, tb_belong_type, ti_money, ti_start_datetime, ti_end_datetime, ti_year, ti_company_id, ti_company_user" +
+                    ",ti_province, ti_project_user, ti_introduction, ti_work_status, ti_obj_id, ti_categor, ti_submit_status, ti_worker_id)" +
                     "VALUES" +
                     $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{jf}','{starttime}'" +
                     $",'{endtime}','{year}','{unit}','{unituser}'" +
-                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}','{(int)type}','{(int)ObjectSubmitStatus.NonSubmit}','{UserHelper.GetInstance().User.UserKey}')";
+                    $",'{province}','{objuser}','{intro}','{0}','{parentId}','{(int)type}','1','{UserHelper.GetInstance().User.UserKey}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -3615,9 +3615,9 @@ namespace 科技计划项目档案数据采集管理系统
                     pal_Project.Tag = row["pi_obj_id"];
                     txt_Project_Code.Text = GetValue(row["pi_code"]);
                     txt_Project_Name.Text = GetValue(row["pi_name"]);
-                    txt_Project_LY.Text = GetValue(row["pb_belong"]);
-                    txt_Project_ZT.Text = GetValue(row["pb_belong_type"]);
-                    txt_Project_JF.Text = GetValue(row["pi_money"]);
+                    txt_Project_Field.Text = GetValue(row["pb_belong"]);
+                    txt_Project_Theme.Text = GetValue(row["pb_belong_type"]);
+                    txt_Project_Funds.Text = GetValue(row["pi_money"]);
 
                     string startTime = GetValue(row["pi_start_datetime"]);
                     DateTime _startTime = new DateTime();
@@ -3633,7 +3633,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Project_Unit.Text = GetValue(row["pi_company_id"]);
                     txt_Project_Province.Text = GetValue(row["pi_province"]);
                     txt_Project_UnitUser.Text = GetValue(row["pi_company_user"]);
-                    txt_Project_ObjUser.Text = GetValue(row["pi_project_user"]);
+                    txt_Project_ProUser.Text = GetValue(row["pi_project_user"]);
                     txt_Project_ObjIntroduct.Text = GetValue(row["pi_introduction"]);
                     ObjectSubmitStatus status = (ObjectSubmitStatus)row["pi_submit_status"];
                     EnableControls(type, status != ObjectSubmitStatus.SubmitSuccess);
@@ -3817,14 +3817,14 @@ namespace 科技计划项目档案数据采集管理系统
                 DataGridViewStyleHelper.ResetDataGridView(dgv_Project_FileValid, false);
                 txt_Project_Code.Clear();
                 txt_Project_Name.Clear();
-                txt_Project_LY.Clear();
-                txt_Project_ZT.Clear();
-                txt_Project_JF.ResetText();
+                txt_Project_Field.Clear();
+                txt_Project_Theme.Clear();
+                txt_Project_Funds.ResetText();
                 dtp_Project_StartTime.ResetText();
                 dtp_JH_XM_EndTime.ResetText();
                 txt_Project_LXND.Clear();
                 txt_Project_UnitUser.Clear();
-                txt_Project_ObjUser.Clear();
+                txt_Project_ProUser.Clear();
                 txt_Project_ObjIntroduct.Clear();
             }
             else if(type == ControlType.Topic)

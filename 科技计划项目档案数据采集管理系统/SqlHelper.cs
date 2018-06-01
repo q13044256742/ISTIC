@@ -179,7 +179,7 @@ namespace 科技计划项目档案数据采集管理系统
         public static DataTable GetCompanyList()
         {
             string key = "dic_key_company_source";
-            string querySql = $"SELECT * FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary WHERE dd_code='{key}')";
+            string querySql = $"SELECT * FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary WHERE dd_code='{key}') ORDER BY dd_sort";
             return ExecuteQuery(querySql);
         }
         /// <summary>

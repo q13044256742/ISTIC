@@ -121,19 +121,18 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             //获取上级列表的id == 当前列表的pId 
             string id = dgv_DataList.Tag == null ? string.Empty : dgv_DataList.Tag.ToString();
             //根据id找到上级列表的pId            
-            string querySql = $"SELECT dd_pId FROM data_dictionary where id = '{id}'";
+            string querySql = $"SELECT dd_pId FROM data_dictionary WHERE dd_id = '{id}'";
             string pId = (SqlHelper.ExecuteOnlyOneQuery(querySql)).ToString();
 
             LoadZDDataScoure(pId);
             dgv_DataList.Tag = pId;
 
-            string sql = $"SELECT level FROM data_dictionary where id = '{pId}'";
+            string sql = $"SELECT level FROM data_dictionary WHERE dd_id = '{pId}'";
             string b = GetValue(SqlHelper.ExecuteOnlyOneQuery(sql));
-               
-            if ( b == "1") {
+            if(b == "1")
+            {
                 btn_Back.Enabled = false;
             }
-
             txt_SearchKey.Text = null;
         }
 

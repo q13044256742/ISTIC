@@ -75,6 +75,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.108.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\space_kt\Resources\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -236,6 +240,7 @@
     </Compile>
     <Compile Include="Tools\MicrosoftWordHelper.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
+    <Compile Include="Tools\SQLiteBackupHelper.cs" />
     <Compile Include="Tools\XmlHelper.cs" />
     <Compile Include="TransferOfRegistration\Frm_AddPC.cs">
       <SubType>Form</SubType>
@@ -429,7 +434,6 @@
     <None Include="Images\area2.png" />
     <None Include="Images\area3.png" />
     <None Include="Images\add.png" />
-    <Content Include="bin\Debug\Microsoft.Office.Interop.Word.dll" />
     <Content Include="Images\33.png" />
     <Content Include="Images\34.png" />
     <Content Include="Images\7.png" />

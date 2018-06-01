@@ -243,6 +243,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return sb.ToString();
         }
+    
         /// <summary>
         /// 根据加工登记主键获取对应项目/课题信息
         /// </summary>
@@ -407,7 +408,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(0 != Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
                     {
                         object pid = dgv_WorkLog.Rows[e.RowIndex].Cells["pi_id"].Value;
-                        LoadSubjectList(pid);
+                        LoadTopicList(pid);
                     }
                 }
                 //光盘 - 加工
@@ -1083,6 +1084,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return true;
         }
+     
         /// <summary>
         /// 获取指定项目/课题获取其所属计划ID
         /// </summary>
@@ -1107,6 +1109,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return null;
         }
+     
         /// <summary>
         /// 判断当前加工是否只有一条
         /// </summary>
@@ -1138,40 +1141,34 @@ namespace 科技计划项目档案数据采集管理系统
         /// 加载课题/子课题列表
         /// </summary>
         /// <param name="pid">项目/课题ID</param>
-        private void LoadSubjectList(object pid)
+        private void LoadTopicList(object pid)
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_WorkLog);
-
-            dgv_WorkLog.Columns.Add("si_id", "主键");
-            dgv_WorkLog.Columns.Add("si_code", "课题/子课题编号");
-            dgv_WorkLog.Columns.Add("si_name", "课题/子课题名称");
-            dgv_WorkLog.Columns.Add("si_file_amount", "文件数");
-            dgv_WorkLog.Columns.Add("si_control", "操作");
+            dgv_WorkLog.Columns.AddRange(new DataGridViewColumn[]
+            {
+                new DataGridViewTextBoxColumn(){ Name = "si_id"},
+                new DataGridViewTextBoxColumn(){ Name = "si_code", HeaderText = "课题/子课题编号", FillWeight = 12 },
+                new DataGridViewTextBoxColumn(){ Name = "si_name", HeaderText = "课题/子课题名称", FillWeight = 15 },
+                new DataGridViewTextBoxColumn(){ Name = "si_file_amount", HeaderText = "文件数", FillWeight = 5 },
+            });
 
             DataTable table = null;
-            StringBuilder querySql = new StringBuilder("SELECT si_id,si_code,si_name FROM subject_info si");
-            querySql.Append($" WHERE pi_id='{pid}' AND si_work_status={(int)WorkStatus.NonWork} ORDER BY si_code");
-            table = SqlHelper.ExecuteQuery(querySql.ToString());
+            string querySql = $"SELECT ti_id, ti_code, ti_name FROM topic_info WHERE ti_obj_id='{pid}' AND ti_work_status = 1 " +
+                 "UNION ALL " +
+                $"SELECT si_id, si_code, si_name FROM subject_info WHERE si_obj_id = '{pid}' AND si_work_status = 1 " +
+                $"ORDER BY ti_code";
+            table = SqlHelper.ExecuteQuery(querySql);
             foreach (DataRow row in table.Rows)
             {
                 int _index = dgv_WorkLog.Rows.Add();
-                dgv_WorkLog.Rows[_index].Cells["si_id"].Value = row["si_id"];
-                dgv_WorkLog.Rows[_index].Cells["si_code"].Value = row["si_code"];
-                dgv_WorkLog.Rows[_index].Cells["si_name"].Value = row["si_name"];
-                dgv_WorkLog.Rows[_index].Cells["si_file_amount"].Value = 0;
-                dgv_WorkLog.Rows[_index].Cells["si_control"].Value = "领取";
+                dgv_WorkLog.Rows[_index].Cells["si_id"].Value = row["ti_id"];
+                dgv_WorkLog.Rows[_index].Cells["si_code"].Value = row["ti_code"];
+                dgv_WorkLog.Rows[_index].Cells["si_name"].Value = row["ti_name"];
+                dgv_WorkLog.Rows[_index].Cells["si_file_amount"].Value = GetFileAmount(row["ti_id"]);
             }
             if (dgv_WorkLog.Columns.Count > 0)
                 dgv_WorkLog.Columns[0].Visible = false;
 
-            List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
-            list.AddRange(new KeyValuePair<string, int>[]
-            {
-                new KeyValuePair<string, int>("si_file_amount",90),
-                new KeyValuePair<string, int>("si_control",100),
-            });
-            DataGridViewStyleHelper.SetWidth(dgv_WorkLog, list);
-            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] {"si_control" }, true);
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "si_file_amount" });
 
             dgv_WorkLog.Columns["si_id"].Visible = false;
@@ -1248,8 +1245,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 根据光盘ID获取文件数
         /// </summary>
-        /// <param name="cdid">光盘ID</param>
-        private object GetFileAmount(object cdid) => SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(bfi_id) FROM backup_files_info WHERE bfi_type=0 AND bfi_trcid='{cdid}'");
+        /// <param name="fid">光盘ID</param>
+        private int GetFileAmount(object fid) => SqlHelper.ExecuteCountQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_obj_id='{fid}'");
         
         /// <summary>
         /// 根据光盘ID获取已领取项目总数
@@ -1257,25 +1254,22 @@ namespace 科技计划项目档案数据采集管理系统
         private int GetReceiveAmount(object trcId)
         {
             int proAmount = 0;
-            if (trcId != null)
+            if(trcId != null)
             {
-                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE pi_obj_id=" +
-                    $"(SELECT pi_id FROM project_info WHERE trc_id='{trcId}') " +
-                    $"AND pi_work_status={(int)WorkStatus.WorkSuccess}"));
+                proAmount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE trc_id='{trcId}' AND pi_work_status={(int)WorkStatus.WorkSuccess}");
+                proAmount += SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE trc_id='{trcId}' AND ti_work_status={(int)WorkStatus.WorkSuccess}");
             }
             return proAmount;
         }
+
         /// <summary>
         /// 根据光盘ID获取项目总数
         /// </summary>
         private int GetProjectAmount(object trcId)
         {
             int proAmount = 0;
-            if (trcId != null)
-            {
-                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE pi_obj_id=" +
-                    $"(SELECT pi_id FROM project_info WHERE trc_id='{trcId}')"));
-            }
+            if(trcId != null)
+                proAmount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) + (SELECT COUNT(ti_id) FROM topic_info WHERE trc_id='{trcId}') FROM project_info WHERE trc_id='{trcId}'");
             return proAmount;
         }
     
@@ -1286,25 +1280,26 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadProjectList(object trcId)
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_WorkLog);
-
-            dgv_WorkLog.Columns.Add("pi_id", "主键");
-            dgv_WorkLog.Columns.Add("pi_code", "项目/课题编号");
-            dgv_WorkLog.Columns.Add("pi_name", "项目/课题名称");
-            dgv_WorkLog.Columns.Add("pi_company", "承担单位");
-            dgv_WorkLog.Columns.Add("pi_total_amount", "总数");
-            dgv_WorkLog.Columns.Add("pi_receive_amount", "已领取数");
-            dgv_WorkLog.Columns.Add("pi_file_amount", "文件数");
-            dgv_WorkLog.Columns.Add("pi_control", "操作");
-
+            dgv_WorkLog.Columns.AddRange(new DataGridViewColumn[] {
+                new DataGridViewTextBoxColumn(){ Name = "pi_id"},
+                new DataGridViewTextBoxColumn(){ Name = "pi_code", HeaderText = "项目/课题编号", FillWeight = 12},
+                new DataGridViewTextBoxColumn(){ Name = "pi_name", HeaderText = "项目/课题名称", FillWeight = 25},
+                new DataGridViewTextBoxColumn(){ Name = "pi_company", HeaderText = "承担单位", FillWeight = 20},
+                new DataGridViewLinkColumn(){ Name = "pi_total_amount", HeaderText = "总数", FillWeight = 9},
+                new DataGridViewTextBoxColumn(){ Name = "pi_receive_amount", HeaderText = "已领取数", FillWeight = 9},
+                new DataGridViewTextBoxColumn(){ Name = "pi_file_amount", HeaderText = "文件数", FillWeight = 9},
+                new DataGridViewButtonColumn() { Name = "pi_control", HeaderText = "操作", FillWeight = 10}
+            });
             TreeView tree = new TreeView();
             tree.Nodes.AddRange(new TreeNode[] {
-                new TreeNode("主键"),
+                new TreeNode(),
                 new TreeNode("项目/课题编号"),
-                new TreeNode( "项目/课题名称"),
+                new TreeNode("项目/课题名称"),
                 new TreeNode("承担单位"),
                 new TreeNode("课题/子课题"),
                 new TreeNode("文件数"),
-            });
+                new TreeNode("操作")
+            }); 
             tree.Nodes[4].Nodes.AddRange(new TreeNode[]
             {
                 new TreeNode("总数"),
@@ -1313,20 +1308,24 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewStyleHelper.SetTreeViewHeader(dgv_WorkLog, tree);
 
             DataTable table = null;
-            StringBuilder querySql = new StringBuilder("SELECT pi_id,pi_code,pi_name,pi_company_id,pi_work_status FROM project_info pi");
-            querySql.Append($" WHERE pi_obj_id=(SELECT pi_id FROM project_info WHERE trc_id='{trcId}') ORDER BY pi_code");
-            table = SqlHelper.ExecuteQuery(querySql.ToString());
+            string querySql = $"SELECT pi_id, pi_code, pi_name, pi_unit, pi_work_status FROM project_info pi " +
+                $"WHERE trc_id = '{trcId}' AND pi_work_status = '1' " +
+                $"UNION ALL " +
+                $"SELECT ti_id, ti_code, ti_name, ti_unit, ti_work_status FROM topic_info ti " +
+                $"WHERE trc_id = '{trcId}' AND ti_work_status = '1' " +
+                $"ORDER BY pi_code";
+            table = SqlHelper.ExecuteQuery(querySql);
             foreach (DataRow row in table.Rows)
             {
-                int totalAmount = GetSubjectAmount(row["pi_id"]);
-                int receiveAmount = GetSubjectReceiveAmount(row["pi_id"]);
+                int totalAmount = GetTopicAmount(row["pi_id"]);
+                int receiveAmount = GetTopicReceiveAmount(row["pi_id"]);
                 if(totalAmount == 0 || totalAmount != receiveAmount)
                 {
                     int _index = dgv_WorkLog.Rows.Add();
                     dgv_WorkLog.Rows[_index].Cells["pi_id"].Value = row["pi_id"];
                     dgv_WorkLog.Rows[_index].Cells["pi_code"].Value = row["pi_code"];
                     dgv_WorkLog.Rows[_index].Cells["pi_name"].Value = row["pi_name"];
-                    dgv_WorkLog.Rows[_index].Cells["pi_company"].Value = SqlHelper.GetCompanysNameById(row["pi_company_id"]);
+                    dgv_WorkLog.Rows[_index].Cells["pi_company"].Value = row["pi_unit"];
                     dgv_WorkLog.Rows[_index].Cells["pi_total_amount"].Value = totalAmount;
                     dgv_WorkLog.Rows[_index].Cells["pi_receive_amount"].Value = receiveAmount;
                     dgv_WorkLog.Rows[_index].Cells["pi_file_amount"].Value = 0;//文件数待处理
@@ -1336,19 +1335,7 @@ namespace 科技计划项目档案数据采集管理系统
             if (dgv_WorkLog.Columns.Count > 0)
                 dgv_WorkLog.Columns[0].Visible = false;
 
-            List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
-            list.Add(new KeyValuePair<string, int>("pi_code", 100));
-            list.Add(new KeyValuePair<string, int>("pi_name", 250));
-            list.Add(new KeyValuePair<string, int>("pi_company", 200));
-
-            list.Add(new KeyValuePair<string, int>("pi_total_amount", 90));
-            list.Add(new KeyValuePair<string, int>("pi_receive_amount", 90));
-            list.Add(new KeyValuePair<string, int>("pi_file_amount", 90));
-            list.Add(new KeyValuePair<string, int>("pi_control", 100));
-            DataGridViewStyleHelper.SetWidth(dgv_WorkLog, list);
-
-            DataGridViewStyleHelper.SetLinkStyle(dgv_WorkLog, new string[] { "pi_total_amount", "pi_control" }, true);
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "pi_receive_amount", "pi_file_amount" });
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_WorkLog, new string[] { "pi_total_amount", "pi_receive_amount", "pi_file_amount" });
 
             dgv_WorkLog.Columns["pi_id"].Visible = false;
 
@@ -1363,27 +1350,25 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         ///  根据父级ID获取子级已领取列表
         /// </summary>
-        private int GetSubjectReceiveAmount(object pid)
+        private int GetTopicReceiveAmount(object pid)
         {
-            int subAmount = 0;
+            int topAmount = 0;
             if (pid != null)
-            {
-                subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id='{pid}' AND si_work_status='{(int)WorkStatus.WorkSuccess}'"));
-            }
-            return subAmount;
+                topAmount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id)+(SELECT COUNT(si_id) FROM subject_info WHERE si_obj_id='{pid}' AND si_work_status='2') FROM topic_info WHERE ti_obj_id='{pid}' AND ti_work_status='2'");
+            return topAmount;
         }
+ 
         /// <summary>
         /// 根据项目id获取课题数
         /// </summary>
-        private int GetSubjectAmount(object pid)
+        private int GetTopicAmount(object pid)
         {
-            int subAmount = 0;
+            int topAmount = 0;
             if (pid != null)
-            {
-                subAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id='{pid}'"));
-            }
-            return subAmount;
+                topAmount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id)+(SELECT COUNT(si_id) FROM subject_info WHERE si_obj_id='{pid}') FROM topic_info WHERE ti_obj_id='{pid}'");
+            return topAmount;
         }
+   
         /// <summary>
         /// 将Object对象转换成Int对象
         /// </summary>
@@ -1395,6 +1380,7 @@ namespace 科技计划项目档案数据采集管理系统
             int.TryParse(_obj.ToString(), out temp);
             return temp;
         }
+    
         /// <summary>
         /// 返回上一页
         /// </summary>
@@ -1413,6 +1399,7 @@ namespace 科技计划项目档案数据采集管理系统
                 LoadPCList(null, null);
             }
         }
+    
         /// <summary>
         /// 来源单位切换事件
         /// </summary>
