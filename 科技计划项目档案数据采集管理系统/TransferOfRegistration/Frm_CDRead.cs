@@ -40,23 +40,29 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             string targetDirec = Application.StartupPath + "\\BackupFolder\\";
             if(!Directory.Exists(targetDirec))
                 Directory.CreateDirectory(targetDirec);
-
+            SetButtonState();
             string sourPath = txt_CD_Path.Text;
             //光盘读写【非结构化数据】
             if(!string.IsNullOrEmpty(sourPath))
             {
-
+                pgb_CD.Tag = false;
                 new Thread(delegate ()
                 {
                     int totalFiles = Directory.GetFiles(sourPath, "*", SearchOption.AllDirectories).Length;
                     pgb_CD.Maximum = totalFiles;
                     CopyFile(sourPath, targetDirec, pgb_CD);
+                    pgb_CD.Tag = true;
+                    SetButtonState();
+                    Thread.CurrentThread.Abort();
                 }).Start();
             }
+            else
+                pgb_CD.Tag = true;
             /* -------------------- 源数据读写【结构化数据】 -----------------------------*/
             string dPath = txt_DS_Path.Text;
             if(!string.IsNullOrEmpty(dPath))
             {
+                pgb_DS.Tag = false;
                 new Thread(delegate ()
                 {
                     string queryString = "SELECT COUNT(pi_id)+ " +
@@ -69,37 +75,26 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     int totalAmount = new SQLiteBackupHelper(dPath).ExecuteCountQuery(queryString);
                     pgb_DS.Maximum = totalAmount;
                     CopyDataTableInstince(dPath, targetDirec, pgb_DS);
-
+                    pgb_DS.Tag = true;
+                    SetButtonState();
+                    Thread.CurrentThread.Abort();
                 }).Start();
-
-                /* --
-                //当前登录用户主键
-                string adminId = UserHelper.GetInstance().User.UserKey;
-                //1条【计划】信息
-                string mainKey = Guid.NewGuid().ToString();
-                string mainSql = $"INSERT INTO project_info(pi_id,trc_id,pi_code,pi_name,pi_source_id) VALUES('{mainKey}','{trcId}','Z022017001','02专项办2017年第一次移交项目档案','{adminId}')";
-                SqlHelper.ExecuteNonQuery(mainSql);
-                //5条【项目/课题】信息
-                for(int i = 0; i < 5; i++)
-                {
-                    string index = i.ToString().PadLeft(3, '0');
-                    string primaryKey = Guid.NewGuid().ToString();
-                    string insertSql = "INSERT INTO project_info(pi_id,pi_code,pi_name,pi_work_status,pi_obj_id,pi_categor,pi_submit_status,pi_source_id) " +
-                        $"VALUES('{primaryKey}','Z0120180201-{index}','测试数据{index}号','{(int)WorkStatus.NonWork}','{mainKey}','{(int)ControlType.Plan_Project}','{(int)ObjectSubmitStatus.NonSubmit}','{adminId}')";
-                    SqlHelper.ExecuteNonQuery(insertSql);
-                    //5条【课题/子课题】信息
-                    for(int j = 0; j < (i == 2 ? 15 : 5); j++)
-                    {
-                        string _index = j.ToString().PadLeft(3, '0');
-                        string _primaryKey = Guid.NewGuid().ToString();
-                        string _insertSql = "INSERT INTO subject_info(si_id,pi_id,si_code,si_name,si_work_status,si_categor,si_submit_status,si_source_id)" +
-                            $"VALUES('{_primaryKey}','{primaryKey}','Z0120180201{index}{_index}','测试数据{index}{_index}号','{(int)WorkStatus.NonWork}','{(int)ControlType.Plan_Project_Topic}','{(int)ObjectSubmitStatus.NonSubmit}','{adminId}')";
-                        SqlHelper.ExecuteNonQuery(_insertSql);
-                    }
-                }
-                --*/
             }
+            else
+                pgb_DS.Tag = true;
         }
+
+        private void SetButtonState()
+        {
+            if(true.Equals(pgb_CD.Tag) && true.Equals(pgb_DS.Tag))
+            {
+                btn_Sure.Enabled = true;
+                MessageBox.Show("操作成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else
+                btn_Sure.Enabled = false;
+        }
+
         /// <summary>
         /// 将光盘中的文档复制到本地（服务器）
         /// </summary>
@@ -136,12 +131,15 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
         private void Frm_CDRead_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(pgb_CD.Value == pgb_CD.Maximum)
+            if(!btn_Sure.Enabled)
+            {
+                MessageBox.Show("请等待操作完成。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                e.Cancel = true;
+            }
+            else
             {
                 DialogResult = DialogResult.OK;
             }
-            else
-                DialogResult = DialogResult.No;
         }
 
         private void Lbl_CdPath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

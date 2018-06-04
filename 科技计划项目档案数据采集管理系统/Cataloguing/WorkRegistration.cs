@@ -130,7 +130,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 子级【课题/子课题】加工
         /// </summary>
-        SubjectWork = 4
+        TopicWork = 4,
+        /// <summary>
+        /// 【子课题】加工
+        /// </summary>
+        SubjectWork = 5
     }
     /// <summary>
     /// 加工登记 - 实体对象

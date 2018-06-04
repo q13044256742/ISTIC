@@ -206,15 +206,14 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == WorkType.ProjectWork)
             {
-                object trcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id= (SELECT pi_obj_id FROM project_info WHERE pi_id='{id}')");
+                object trcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id= '{id}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id='{id}'");
                 object trpid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
                 object comid = SqlHelper.ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpid}'");
                 querySql = $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
             }
             else if(type == WorkType.SubjectWork)
             {
-                object piid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM subject_info WHERE si_id='{id}'");
-                object trcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id= (SELECT pi_obj_id FROM project_info WHERE pi_id='{piid}')");
+                object trcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id='{id}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id=(SELECT si_obj_id FROM subject_info WHERE si_id='{id}')");
                 object trpid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
                 object comid = SqlHelper.ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpid}'");
                 querySql = $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{comid}'";

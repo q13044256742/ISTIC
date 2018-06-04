@@ -373,8 +373,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             int index = tc_ToR.SelectedTabPageIndex;
             if(index == 1)//光盘
             {
-                if (dgv_GPDJ.Columns.Count == 0)
-                    LoadGPDJ(null);
+                Cbo_Status_SelectionChangeCommitted(null, null);
             }
         }
         
@@ -402,10 +401,10 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             DataTable table = null;
             if (_querySql == null)
             {
-                StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_status");
+                StringBuilder querySql = new StringBuilder("SELECT trc_id, trp_submit_status, dd_name, trc_code, trc_name, trc_status");
                 querySql.Append(" FROM transfer_registraion_cd trc LEFT JOIN(");
-                querySql.Append(" SELECT trp.trp_id, dd_name,dd_sort FROM transfer_registration_pc trp, data_dictionary dd WHERE trp.com_id = dd.dd_id ) tb");
-                querySql.Append(" ON trc.trp_id = tb.trp_id ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort, trc_sort");
+                querySql.Append(" SELECT trp.trp_id, trp.trp_submit_status, dd_name, dd_sort FROM transfer_registration_pc trp, data_dictionary dd WHERE trp.com_id = dd.dd_id ) tb");
+                querySql.Append(" ON trc.trp_id = tb.trp_id WHERE 1=1 AND trp_submit_status=1 ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort, trc_sort");
                 table = SqlHelper.ExecuteQuery(querySql.ToString());
             }
             else
@@ -530,12 +529,11 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             int index = cbo_Status.SelectedIndex;
             if (index != -1)
             {
-                StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
-                querySql.Append(" FROM transfer_registraion_cd trc");
-                querySql.Append(" LEFT JOIN(");
-                querySql.Append(" SELECT trp.trp_id, dd_id, dd_name, dd_sort FROM transfer_registration_pc trp, data_dictionary cs WHERE trp.com_id = cs.dd_id ) tb");
-                querySql.Append(" ON trc.trp_id = tb.trp_id");
-                if (index != 0) querySql.Append(" WHERE trc_status='" + index + "'");
+                StringBuilder querySql = new StringBuilder("SELECT trc_id, tb.trp_submit_status, dd_name, trc_code, trc_name, trc_project_amount, trc_subject_amount, trc_status");
+                querySql.Append(" FROM transfer_registraion_cd trc LEFT JOIN(");
+                querySql.Append(" SELECT trp.trp_id, trp.trp_submit_status, dd_id, dd_name, dd_sort FROM transfer_registration_pc trp, data_dictionary cs WHERE trp.com_id = cs.dd_id ) tb");
+                querySql.Append(" ON trc.trp_id = tb.trp_id WHERE 1=1 AND trp_submit_status=1");
+                if (index != 0) querySql.Append(" AND trc_status='" + index + "'");
                 querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort ASC");
                 LoadGPDJ(querySql.ToString());
             }
