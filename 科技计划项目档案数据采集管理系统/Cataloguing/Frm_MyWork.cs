@@ -173,6 +173,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dataGridView.Rows[index].Cells[key + "unit"].Value = dataTable.Rows[i]["pfl_unit"];
                 dataGridView.Rows[index].Cells[key + "carrier"].Value = dataTable.Rows[i]["pfl_carrier"];
                 dataGridView.Rows[index].Cells[key + "link"].Value = dataTable.Rows[i]["pfl_link"];
+                dataGridView.Rows[index].Cells[key + "link"].Tag = dataTable.Rows[i]["pfl_file_id"];
                 dataGridView.Rows[index].Cells[key + "remark"].Value = dataTable.Rows[i]["pfl_remark"];
             }
         }
@@ -669,7 +670,6 @@ namespace 科技计划项目档案数据采集管理系统
             KyoButton button = sender as KyoButton;
             DataGridView view = null;
             string key = string.Empty;
-            //计划
             if("btn_Plan_Save".Equals(button.Name))
             {
                 object objId = tab_Plan_Info.Tag;
@@ -716,7 +716,6 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-            //项目
             else if("btn_Project_Save".Equals(button.Name))
             {
                 object objId = tab_Project_Info.Tag;
@@ -772,7 +771,6 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-            //课题
             else if("btn_Topic_Save".Equals(button.Name))
             {
                 object objId = tab_Topic_Info.Tag;
@@ -807,7 +805,7 @@ namespace 科技计划项目档案数据采集管理系统
                             GoToTreeList();
                         }
                         else
-                            MessageBox.Show("存在文件名重复的文件。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            MessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                 }
                 else if(objId != null)
@@ -828,7 +826,6 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-            //子课题
             else if("btn_Subject_Save".Equals(button.Name))
             {
                 object objId = tab_Subject_Info.Tag;
@@ -883,7 +880,6 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-            //重大专项/研发
             else if("btn_Imp_Save".Equals(button.Name))
             {
                 object objId = view.Parent.Parent.Tag;
@@ -936,7 +932,6 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-            //重大专项/研发-信息
             else if("btn_Special_Save".Equals(button.Name))
             {
                 object objId = tab_Special_Info.Tag;
@@ -1246,34 +1241,33 @@ namespace 科技计划项目档案数据采集管理系统
         private void ModifyFileValid(DataGridView dataGridView, object objid, string key)
         {
             int rowCount = dataGridView.Rows.Count;
+            StringBuilder sqlString = new StringBuilder();
+            sqlString.Append($"DELETE FROM processing_file_lost WHERE pfo_obj_id='{objid}';");
             for(int i = 0; i < rowCount; i++)
             {
                 DataGridViewRow row = dataGridView.Rows[i];
-                object rid = dataGridView.Rows[i].Cells[key + "id"].Tag;
-                object pcode = row.Cells[key + "pcode"].Value;
-                object pname = row.Cells[key + "pname"].Value;
-                object categor = row.Cells[key + "categor"].Value;
                 object name = row.Cells[key + "name"].Value;
-                object reason = row.Cells[key + "reason"].Value;
-                object remark = row.Cells[key + "remark"].Value;
-                if(rid == null)
+                if(name != null)
                 {
+                    object reason = row.Cells[key + "reason"].Value;
+                    object remark = row.Cells[key + "remark"].Value;
+                    object categor = row.Cells[key + "categor"].Value;
+                    string _categor = GetValue(categor);
+                    if(!string.IsNullOrEmpty(_categor))
+                    {
+                        string[] _temp = _categor.Split(' ');
+                        if(_temp.Length > 0 && !string.IsNullOrEmpty(_temp[0].Trim()))
+                            _categor = _temp[0];
+                    }
+                    object rid = dataGridView.Rows[i].Cells[key + "id"].Tag;
+                    if(rid != null)
+                        sqlString.Append($"DELETE FROM processing_file_lost WHERE pfo_id='{rid}';");
                     rid = Guid.NewGuid().ToString();
-                    string insertSql = $"INSERT INTO processing_file_lost VALUES('{rid}','{categor}','{name}','{reason}','{remark}','{objid}')";
-                    SqlHelper.ExecuteNonQuery(insertSql);
+                    sqlString.Append($"INSERT INTO processing_file_lost VALUES('{rid}','{_categor}','{name}','{reason}','{remark}','{objid}');");
                     dataGridView.Rows[i].Cells[key + "id"].Tag = rid;
                 }
-                else
-                {
-                    string updateSql = $"UPDATE processing_file_lost SET " +
-                        $"pfo_categor='{categor}'," +
-                        $"pfo_name='{name}'," +
-                        $"pfo_reason='{reason}'," +
-                        $"pfo_remark='{remark}'" +
-                        $" WHERE pfo_id='{rid}'";
-                    SqlHelper.ExecuteNonQuery(updateSql);
-                }
             }
+            SqlHelper.ExecuteNonQuery(sqlString.ToString());
         }
   
         /// <summary>
@@ -1283,14 +1277,14 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="controlType">操作对象类型</param>
         private void UpdateProjectBasicInfo(object objid, ControlType controlType)
         {
-           if(controlType == ControlType.Plan)
+           if(controlType == ControlType.Project)
             {
                 string code = txt_Project_Code.Text;
                 string name = txt_Project_Name.Text;
                 string type = string.Empty;
-                string ly = txt_Project_Field.Text;
-                string zt = txt_Project_Theme.Text;
-                string jf = txt_Project_Funds.Text;
+                string filed = txt_Project_Field.Text;
+                string theme = txt_Project_Theme.Text;
+                string funds = txt_Project_Funds.Text;
                 DateTime starttime = dtp_Project_StartTime.Value;
                 DateTime endtime = dtp_Project_EndTime.Value;
                 string year = txt_Project_Year.Text;
@@ -1303,18 +1297,17 @@ namespace 科技计划项目档案数据采集管理系统
                 string updateSql = "UPDATE project_info SET " +
                     $"pi_code = '{code}'" +
                     $",pi_name = '{name}' " +
-                    $",pi_type = '{type}' " +
-                    $",pb_belong = '{ly}'" +
-                    $",pb_belong_type = '{zt}'" +
-                    $",pi_money = '{jf}'" +
+                    $",pi_field = '{filed}'" +
+                    $",pb_theme = '{theme}'" +
+                    $",pi_funds = '{funds}'" +
                     $",pi_start_datetime = '{starttime}'" +
                     $",pi_end_datetime = '{endtime}'" +
                     $",pi_year = '{year}'" +
-                    $",pi_company_id = '{unit}'" +
-                    $",pi_company_user = '{unituser}'" +
+                    $",pi_unit = '{unit}'" +
                     $",pi_province = '{province}'" +
-                    $",pi_project_user = '{objuser}'" +
-                    $",pi_introduction = '{intro}'" +
+                    $",pi_uniter = '{unituser}'" +
+                    $",pi_prouser = '{objuser}'" +
+                    $",pi_intro = '{intro}'" +
                     $" WHERE pi_id='{objid}'";
                 SqlHelper.ExecuteNonQuery(updateSql);
             }
@@ -1322,10 +1315,9 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string code = txt_Topic_Code.Text;
                 string name = txt_Topic_Name.Text;
-                string type = string.Empty;
-                string ly = txt_Topic_Field.Text;
-                string zt = txt_Topic_Theme.Text;
-                string jf = txt_Topic_Fund.Text;
+                string field = txt_Topic_Field.Text;
+                string theme = txt_Topic_Theme.Text;
+                string funds = txt_Topic_Fund.Text;
                 DateTime starttime = dtp_Topic_StartTime.Value;
                 DateTime endtime = dtp_Topic_EndTime.Value;
                 string year = txt_Topic_Year.Text;
@@ -1335,32 +1327,30 @@ namespace 科技计划项目档案数据采集管理系统
                 string objuser = txt_Topic_ProUser.Text;
                 string intro = txt_Topic_Intro.Text;
 
-                string updateSql = "UPDATE project_info SET " +
-                    $"pi_code = '{code}'" +
-                    $",pi_name = '{name}' " +
-                    $",pi_type = '{type}' " +
-                    $",pb_belong = '{ly}'" +
-                    $",pb_belong_type = '{zt}'" +
-                    $",pi_money = '{jf}'" +
-                    $",pi_start_datetime = '{starttime}'" +
-                    $",pi_end_datetime = '{endtime}'" +
-                    $",pi_year = '{year}'" +
-                    $",pi_company_id = '{unit}'" +
-                    $",pi_company_user = '{unituser}'" +
-                    $",pi_province = '{province}'" +
-                    $",pi_project_user = '{objuser}'" +
-                    $",pi_introduction = '{intro}'" +
-                    $" WHERE pi_id='{objid}'";
+                string updateSql = "UPDATE topic_info SET " +
+                    $"ti_code = '{code}'" +
+                    $",ti_name = '{name}' " +
+                    $",ti_field = '{field}' " +
+                    $",tb_theme = '{theme}'" +
+                    $",ti_funds = '{funds}'" +
+                    $",ti_start_datetime = '{starttime}'" +
+                    $",ti_end_datetime = '{endtime}'" +
+                    $",ti_year = '{year}'" +
+                    $",ti_unit = '{unit}'" +
+                    $",ti_province = '{province}'" +
+                    $",ti_uniter = '{unituser}'" +
+                    $",ti_prouser = '{objuser}'" +
+                    $",ti_intro = '{intro}'" +
+                    $" WHERE ti_id='{objid}'";
                 SqlHelper.ExecuteNonQuery(updateSql);
             }
             else if(controlType == ControlType.Subject)
             {
                 string code = txt_Subject_Code.Text;
                 string name = txt_Subject_Name.Text;
-                string type = string.Empty;
-                string ly = txt_Subject_LY.Text;
-                string zt = txt_Subject_Theme.Text;
-                string jf = txt_Subject_Fund.Text;
+                string field = txt_Subject_Field.Text;
+                string theme = txt_Subject_Theme.Text;
+                string fund = txt_Subject_Fund.Text;
                 DateTime starttime = dtp_Subject_StartTime.Value;
                 DateTime endtime = dtp_Subject_EndTime.Value;
                 string year = txt_Subject_Year.Text;
@@ -1373,18 +1363,17 @@ namespace 科技计划项目档案数据采集管理系统
                 string updateSql = "UPDATE subject_info SET " +
                     $"[si_code] = '{code}'" +
                     $",[si_name] = '{name}'" +
-                    $",[si_type] = '{type}'" +
-                    $",[si_field] = '{ly}'" +
-                    $",[si_belong] = '{zt}'" +
-                    $",[si_money] = '{jf}'" +
+                    $",[si_field] = '{field}'" +
+                    $",[si_theme] = '{theme}'" +
+                    $",[si_funds] = '{fund}'" +
                     $",[si_start_datetime] = '{starttime}'" +
                     $",[si_end_datetime] = '{endtime}'" +
                     $",[si_year] = '{year}'" +
-                    $",[si_company] = '{unit}'" +
-                    $",[si_company_user] = '{unituser}'" +
+                    $",[si_unit] = '{unit}'" +
                     $",[si_province] = '{province}'" +
-                    $",[si_project_user] = '{objuser}'" +
-                    $",[si_introduction] = '{intro}'" +
+                    $",[si_uniter] = '{unituser}'" +
+                    $",[si_prouser] = '{objuser}'" +
+                    $",[si_intro] = '{intro}'" +
                     $" WHERE si_id='{objid}'";
                 SqlHelper.ExecuteNonQuery(updateSql);
             }
@@ -1470,7 +1459,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string code = txt_Subject_Code.Text;
                 string name = txt_Subject_Name.Text;
                 string planType = string.Empty;
-                string ly = txt_Subject_LY.Text;
+                string ly = txt_Subject_Field.Text;
                 string zt = txt_Subject_Theme.Text;
                 string jf = txt_Subject_Fund.Text;
                 DateTime starttime = dtp_Subject_StartTime.Value;
@@ -1545,7 +1534,7 @@ namespace 科技计划项目档案数据采集管理系统
             object user = row.Cells[key + "user"].Value;
             object type = row.Cells[key + "type"].Value;
             object pages = row.Cells[key + "page"].Value;
-            object count = row.Cells[key + "count"].Value;
+            object count = row.Cells[key + "amount"].Value;
             object code = row.Cells[key + "code"].Value;
             DateTime now = DateTime.MinValue;
             string _date = GetValue(row.Cells[key + "date"].Value);
@@ -2423,171 +2412,6 @@ namespace 科技计划项目档案数据采集管理系统
                 $"WHERE qa_time = (SELECT MAX(qa_time) FROM quality_advices WHERE qa_obj_id = a.qa_obj_id AND qa_type = a.qa_type) " +
                 $"AND qa_obj_id='{objId}'");
         }
-
-        /// <summary>
-        /// 文件信息选项卡切换事件
-        /// </summary>
-        private void Tab_FileInfo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            KyoTabControl tab = sender as KyoTabControl;
-            int index = tab.SelectedTabPageIndex;
-            if("tab_JH_FileInfo".Equals(tab.Name))
-            {
-                object objid = dgv_Plan_FileList.Tag;
-                btn_Plan_AddFile.Visible =  false;
-                if(index == 0)
-                    btn_Plan_AddFile.Visible =  true;
-                else if(index == 1)//文件核查
-                {
-                    if(objid != null)
-                    {
-                        LoadFileValidList(dgv_Plan_FileValid, objid, "plan_fc_");
-                    }
-                }
-                else if(index == 2)
-                {
-                    if(objid != null)
-                    {
-                        object code = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_code FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        object name = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_name FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        txt_Plan_AJ_Code.Text = GetValue(code);
-                        txt_Plan_AJ_Name.Text = GetValue(name);
-                    }
-                    LoadBoxList(dgv_Plan_FileList.Tag, ControlType.Plan);
-                    LoadFileBoxTable(cbo_JH_Box.SelectedValue, dgv_Plan_FileList.Tag, ControlType.Plan);
-                }
-            }
-            else if("tab_JH_XM_FileInfo".Equals(tab.Name))
-            {
-                object objid = dgv_Project_FileList.Tag;
-                btn_Project_AddFile.Visible = false;
-                if(index == 0)
-                    btn_Project_AddFile.Visible = true;
-                else if(index == 1)//文件核查
-                {
-                    if(objid != null)
-                    {
-                        LoadFileValidList(dgv_Project_FileValid, objid, "project_fc_");
-                    }
-                }
-                else if(index == 2)
-                {
-                    if(objid != null)
-                    {
-                        object code = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_code FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        object name = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_name FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        txt_Project_AJ_Code.Text = GetValue(code);
-                        txt_Project_AJ_Name.Text = GetValue(name);
-                    }
-                    LoadBoxList(dgv_Project_FileList.Tag, ControlType.Plan);
-                    LoadFileBoxTable(cbo_JH_XM_Box.SelectedValue, dgv_Project_FileList.Tag, ControlType.Plan);
-                }
-            }
-            else if("tab_JH_KT_FileInfo".Equals(tab.Name))
-            {
-                object objid = dgv_Topic_FileList.Tag;
-                btn_Topic_AddFile.Visible = false;
-                if(index == 0)
-                    btn_Topic_AddFile.Visible = true;
-                else if(index == 1)//文件核查
-                {
-                    if(objid != null)
-                    {
-                        LoadFileValidList(dgv_Topic_FileValid, objid, "topic_fc_");
-                    }
-                }
-                else if(index == 2)
-                {
-                    if(objid != null)
-                    {
-                        object code = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_code FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        object name = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_name FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        txt_Topic_AJ_Code.Text = GetValue(code);
-                        txt_Topic_AJ_Name.Text = GetValue(name);
-                    }
-                    LoadBoxList(dgv_Topic_FileList.Tag, ControlType.Topic);
-                    LoadFileBoxTable(cbo_JH_KT_Box.SelectedValue, dgv_Topic_FileList.Tag, ControlType.Topic);
-                }
-            }
-            else if("tab_JH_XM_KT_ZKT_FileInfo".Equals(tab.Name))
-            {
-                object objid = dgv_Subject_FileList.Tag;
-                btn_Subject_AddFile.Visible = false;
-                if(index == 0)
-                    btn_Subject_AddFile.Visible = true;
-                else if(index == 1)//文件核查
-                {
-                    if(objid != null)
-                    {
-                        LoadFileValidList(dgv_Subject_FileValid, objid, "subject_fc_");
-                    }
-                }
-                else if(index == 2)
-                {
-                    if(objid != null)
-                    {
-                        object code = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_code FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        object name = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_name FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        txt_Subject_AJ_Code.Text = GetValue(code);
-                        txt_Subject_AJ_Name.Text = GetValue(name);
-                    }
-                    LoadBoxList(dgv_Subject_FileList.Tag, ControlType.Subject);
-                    LoadFileBoxTable(cbo_JH_XM_KT_ZKT_Box.SelectedValue, dgv_Subject_FileList.Tag, ControlType.Subject);
-                }
-            }
-            else if("tab_Imp_FileInfo".Equals(tab.Name))
-            {
-                object objid = dgv_Imp_FileList.Tag;
-                btn_Imp_AddFile.Visible = false;
-                if(index == 0)
-                    btn_Imp_AddFile.Visible = true;
-                else if(index == 1)//文件核查
-                {
-                    if(objid != null)
-                    {
-                        LoadFileValidList(dgv_Imp_FileValid, objid, "imp_fc_");
-                    }
-                }
-                else if(index == 2)
-                {
-                    if(objid != null)
-                    {
-                        object code = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_code FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        object name = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_name FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        txt_Imp_AJ_Code.Text = GetValue(code);
-                        txt_Imp_AJ_Name.Text = GetValue(name);
-                    }
-                    LoadBoxList(dgv_Imp_FileList.Tag, ControlType.Imp);
-                    LoadFileBoxTable(cbo_Imp_Box.SelectedValue, dgv_Imp_FileList.Tag, ControlType.Imp);
-                }
-            }
-            else if("tab_Imp_Dev_FileInfo".Equals(tab.Name))
-            {
-                object objid = dgv_Special_FileList.Tag;
-                btn_Special_AddFile.Visible = false;
-                if(index == 0)
-                    btn_Special_AddFile.Visible = true;
-                else if(index == 1)//文件核查
-                {
-                    if(objid != null)
-                    {
-                        LoadFileValidList(dgv_Special_FileValid, objid, "special_fc_");
-                    }
-                }
-                else if(index == 2)
-                {
-                    if(objid != null)
-                    {
-                        object code = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_code FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        object name = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_name FROM processing_tag WHERE pt_obj_id='{objid}'") ?? string.Empty;
-                        txt_Special_AJ_Code.Text = GetValue(code);
-                        txt_Special_AJ_Name.Text = GetValue(name);
-                    }
-                    LoadBoxList(dgv_Special_FileList.Tag, ControlType.Special);
-                    LoadFileBoxTable(cbo_Imp_Dev_Box.SelectedValue, dgv_Special_FileList.Tag, ControlType.Special);
-                }
-            }
-        }
    
         /// <summary>
         /// 获取当前计划下案卷总数
@@ -2613,38 +2437,37 @@ namespace 科技计划项目档案数据采集管理系统
         {
             dataGridView.Rows.Clear();
 
-            string querySql = "select dd_name,dd_note from data_dictionary where dd_pId in(" +
-                "select dd_id from data_dictionary where dd_pId = (" +
-                "select dd_id from data_dictionary  where dd_code = 'dic_file_jd')) and dd_name not in(" +
-                $"select dd.dd_name from processing_file_list pfl left join data_dictionary dd on pfl.pfl_categor = dd.dd_id where pfl.pfl_obj_id='{objid}')" +
-                $" ORDER BY dd_name";
+            string querySql = "SELECT dd_name [name], dd_name+' '+extend_3 dd_name, dd_note, extend_2 FROM data_dictionary dd WHERE dd_pId in(" +
+               "SELECT dd_id FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary  WHERE dd_code = 'dic_file_jd')) " +
+               $"AND dd.dd_name NOT IN(SELECT dd.dd_name FROM processing_file_list fi LEFT JOIN data_dictionary dd ON fi.pfl_categor = dd.dd_id where fi.pfl_obj_id='{objid}')" +
+               $" ORDER BY dd_name";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < table.Rows.Count; i++)
             {
-                int indexRow = dataGridView.Rows.Add();
-                dataGridView.Rows[indexRow].Cells[key + "id"].Value = i + 1;
-                dataGridView.Rows[indexRow].Cells[key + "categor"].Value = table.Rows[i]["dd_name"];
-                dataGridView.Rows[indexRow].Cells[key + "name"].Value = table.Rows[i]["dd_note"];
-
-                string queryReasonSql = $"SELECT pfo_id, pfo_reason, pfo_remark FROM processing_file_lost WHERE pfo_obj_id='{objid}' AND pfo_categor='{table.Rows[i]["dd_name"]}'";
-                object[] _obj = SqlHelper.ExecuteRowsQuery(queryReasonSql);
-                if(_obj != null)
+                string typeName = GetValue(table.Rows[i]["name"]).Trim();
+                if(!"其他".Equals(typeName))
                 {
-                    dataGridView.Rows[indexRow].Cells[key + "id"].Tag = GetValue(_obj[0]);
-                    dataGridView.Rows[indexRow].Cells[key + "reason"].Value = GetValue(_obj[1]);
-                    dataGridView.Rows[indexRow].Cells[key + "remark"].Value = GetValue(_obj[2]);
+                    int indexRow = dataGridView.Rows.Add();
+                    dataGridView.Rows[indexRow].Cells[key + "id"].Value = i + 1;
+                    dataGridView.Rows[indexRow].Cells[key + "categor"].Value = GetValue(table.Rows[i]["dd_name"]);
+                    dataGridView.Rows[indexRow].Cells[key + "name"].Value = GetValue(table.Rows[i]["dd_note"]);
+
+                    string queryReasonSql = $"SELECT pfo_id, pfo_reason, pfo_remark FROM processing_file_lost WHERE pfo_obj_id='{objid}' AND pfo_categor LIKE '{typeName}%'";
+                    object[] _obj = SqlHelper.ExecuteRowsQuery(queryReasonSql);
+                    if(_obj != null)
+                    {
+                        dataGridView.Rows[indexRow].Cells[key + "id"].Tag = GetValue(_obj[0]);
+                        dataGridView.Rows[indexRow].Cells[key + "reason"].Value = GetValue(_obj[1]);
+                        dataGridView.Rows[indexRow].Cells[key + "remark"].Value = GetValue(_obj[2]);
+                    }
+                    string musted = GetValue(table.Rows[i]["extend_2"]);
+                    if(!string.IsNullOrEmpty(musted))
+                    {
+                        dataGridView.Rows[indexRow].Tag = musted;
+                        dataGridView.Rows[indexRow].Cells[key + "name"].Style.ForeColor = Color.Red;
+                    }
                 }
             }
-
-
-            List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
-            list.Add(new KeyValuePair<string, int>(key + "id", 50));
-            list.Add(new KeyValuePair<string, int>(key + "reason", 100));
-            list.Add(new KeyValuePair<string, int>(key + "categor", 80));
-            list.Add(new KeyValuePair<string, int>(key + "name", 250));
-            DataGridViewStyleHelper.SetWidth(dataGridView, list);
-
-            DataGridViewStyleHelper.SetAlignWithCenter(dataGridView, new string[] { key + "id", key + "categor" });
         }
     
         /// <summary>
@@ -2714,29 +2537,30 @@ namespace 科技计划项目档案数据采集管理系统
             rightView.Columns.AddRange(new ColumnHeader[]
             {
                     new ColumnHeader{ Name = $"{key}_file2_id", Text = "主键", Width = 0},
+                    new ColumnHeader{ Name = $"{key}_file2_number", Text = "序号", Width = 50},
                     new ColumnHeader{ Name = $"{key}_file2_type", Text = "文件类别", TextAlign = HorizontalAlignment.Center ,Width = 75},
                     new ColumnHeader{ Name = $"{key}_file2_name", Text = "文件名称", Width = 250},
                     new ColumnHeader{ Name = $"{key}_file2_date", Text = "形成日期", Width = 100}
             });
             //未归档
-            string querySql = $"SELECT pfl_id, dd_name, pfl_filename, pfl_complete_date FROM processing_file_list LEFT JOIN data_dictionary " +
-                $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang} ORDER BY pfl_complete_date";
+            string querySql = $"SELECT pfl_id, dd_name, pfl_name, pfl_date FROM processing_file_list LEFT JOIN data_dictionary " +
+                $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status={(int)GuiDangStatus.NonGuiDang} ORDER BY dd_name, pfl_date";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < dataTable.Rows.Count; i++)
             {
                 ListViewItem item = leftView.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
                 item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
                 {
-                        new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["dd_name"]) },
-                        new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["pfl_filename"]) },
-                        new ListViewItem.ListViewSubItem(){ Text = GetDateValue(dataTable.Rows[i]["pfl_complete_date"], "yyyy-MM-dd") },
+                    new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["dd_name"]) },
+                    new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["pfl_name"]) },
+                    new ListViewItem.ListViewSubItem(){ Text = GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd") },
                 });
             }
             //已归档
             object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}'");
             if(id != null)
             {
-                querySql = $"SELECT pfl_id, dd_name, pfl_filename, pfl_complete_date FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
+                querySql = $"SELECT pfl_id, dd_name, pfl_name, pfl_date FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
                 string[] ids = GetValue(id).Split(',');
                 string sortString = null;
                 for(int i = 0; i < ids.Length; i++)
@@ -2751,9 +2575,10 @@ namespace 科技计划项目档案数据采集管理系统
                     ListViewItem item = rightView.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
                     item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
                     {
+                        new ListViewItem.ListViewSubItem(){ Text = GetValue(i + 1).ToString().PadLeft(2,'0') },
                         new ListViewItem.ListViewSubItem(){ Text = GetValue(_dataTable.Rows[i]["dd_name"]) },
-                        new ListViewItem.ListViewSubItem(){ Text = GetValue(_dataTable.Rows[i]["pfl_filename"]) },
-                        new ListViewItem.ListViewSubItem(){ Text = GetDateValue(_dataTable.Rows[i]["pfl_complete_date"], "yyyy-MM-dd") },
+                        new ListViewItem.ListViewSubItem(){ Text = GetValue(_dataTable.Rows[i]["pfl_name"]) },
+                        new ListViewItem.ListViewSubItem(){ Text = GetDateValue(_dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd") },
                     });
                 }
             }
@@ -2778,20 +2603,20 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="obj"></param>
         /// <returns></returns>
         private string GetValue(object obj) => obj == null ? string.Empty : obj.ToString();
-    
+
         /// <summary>
         /// 案卷归档事件
         /// </summary>
         private void Btn_Box_Click(object sender, EventArgs e)
         {
-            KyoButton button = sender as KyoButton;
+            string name = (sender as KyoButton).Name;
             //计划
-            if (button.Name.Contains("btn_JH_Box"))
+            if(name.Contains("Plan"))
             {
-                object value = cbo_JH_Box.SelectedValue;
+                object value = cbo_Plan_Box.SelectedValue;
                 if(value != null)
                 {
-                    if("btn_JH_Box_Right".Equals(button.Name))
+                    if("btn_Plan_Box_Right".Equals(name))
                     {
                         if(lsv_JH_File1.SelectedItems.Count > 0)
                         {
@@ -2805,7 +2630,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                     }
-                    else if("btn_JH_Box_RightAll".Equals(button.Name))
+                    else if("btn_Plan_Box_RightAll".Equals(name))
                     {
                         int count = lsv_JH_File1.Items.Count;
                         if(count > 0)
@@ -2816,7 +2641,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, true);
                         }
                     }
-                    else if("btn_JH_Box_Left".Equals(button.Name))
+                    else if("btn_Plan_Box_Left".Equals(name))
                     {
                         int count = lsv_JH_File2.SelectedItems.Count;
                         if(count > 0)
@@ -2827,7 +2652,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, false);
                         }
                     }
-                    else if("btn_JH_Box_LeftAll".Equals(button.Name))
+                    else if("btn_Plan_Box_LeftAll".Equals(name))
                     {
                         int count = lsv_JH_File2.Items.Count;
                         if(count > 0)
@@ -2844,12 +2669,12 @@ namespace 科技计划项目档案数据采集管理系统
                     MessageBox.Show("请先添加案卷盒。", "保存失败");
             }
             //计划-项目
-            else if(button.Name.Contains("btn_JH_XM_Box"))
+            else if(name.Contains("btn_Project_Box"))
             {
-                object value = cbo_JH_XM_Box.SelectedValue;
+                object value = cbo_Project_Box.SelectedValue;
                 if(value != null)
                 {
-                    if("btn_JH_XM_Box_Right".Equals(button.Name))
+                    if("btn_Project_Box_Right".Equals(name))
                     {
                         if(lsv_JH_XM_File1.SelectedItems.Count > 0)
                         {
@@ -2863,7 +2688,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                     }
-                    else if("btn_JH_XM_Box_RightAll".Equals(button.Name))
+                    else if("btn_Project_Box_RightAll".Equals(name))
                     {
                         int count = lsv_JH_XM_File1.Items.Count;
                         if(count > 0)
@@ -2874,7 +2699,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, true);
                         }
                     }
-                    else if("btn_JH_XM_Box_Left".Equals(button.Name))
+                    else if("btn_Project_Box_Left".Equals(name))
                     {
                         int count = lsv_JH_XM_File2.SelectedItems.Count;
                         if(count > 0)
@@ -2885,7 +2710,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, false);
                         }
                     }
-                    else if("btn_JH_XM_Box_LeftAll".Equals(button.Name))
+                    else if("btn_Project_Box_LeftAll".Equals(name))
                     {
                         int count = lsv_JH_XM_File2.Items.Count;
                         if(count > 0)
@@ -2902,12 +2727,12 @@ namespace 科技计划项目档案数据采集管理系统
                     MessageBox.Show("请先添加案卷盒。", "保存失败");
             }
             //计划-课题
-            else if(button.Name.Contains("btn_JH_KT_Box"))
+            else if(name.Contains("btn_Topic_Box"))
             {
-                object value = cbo_JH_KT_Box.SelectedValue;
+                object value = cbo_Topic_Box.SelectedValue;
                 if(value != null)
                 {
-                    if("btn_JH_KT_Box_Right".Equals(button.Name))
+                    if("btn_Topic_Box_Right".Equals(name))
                     {
                         if(lsv_JH_KT_File1.SelectedItems.Count > 0)
                         {
@@ -2921,7 +2746,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                     }
-                    else if("btn_JH_KT_Box_RightAll".Equals(button.Name))
+                    else if("btn_Topic_Box_RightAll".Equals(name))
                     {
                         int count = lsv_JH_KT_File1.Items.Count;
                         if(count > 0)
@@ -2932,7 +2757,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, true);
                         }
                     }
-                    else if("btn_JH_KT_Box_Left".Equals(button.Name))
+                    else if("btn_Topic_Box_Left".Equals(name))
                     {
                         int count = lsv_JH_KT_File2.SelectedItems.Count;
                         if(count > 0)
@@ -2943,7 +2768,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, false);
                         }
                     }
-                    else if("btn_JH_KT_Box_LeftAll".Equals(button.Name))
+                    else if("btn_Topic_Box_LeftAll".Equals(name))
                     {
                         int count = lsv_JH_KT_File2.Items.Count;
                         if(count > 0)
@@ -2960,12 +2785,12 @@ namespace 科技计划项目档案数据采集管理系统
                     MessageBox.Show("请先添加案卷盒。", "保存失败");
             }
             //计划-项目-课题-子课题
-            else if(button.Name.Contains("btn_JH_XM_KT_ZKT_Box"))
+            else if(name.Contains("btn_Subject_Box"))
             {
-                object value = cbo_JH_XM_KT_ZKT_Box.SelectedValue;
+                object value = cbo_Subject_Box.SelectedValue;
                 if(value != null)
                 {
-                    if("btn_JH_XM_KT_ZKT_Box_Right".Equals(button.Name))
+                    if("btn_Subject_Box_Right".Equals(name))
                     {
                         if(lsv_JH_XM_KT_ZKT_File1.SelectedItems.Count > 0)
                         {
@@ -2979,7 +2804,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                     }
-                    else if("btn_JH_XM_KT_ZKT_Box_RightAll".Equals(button.Name))
+                    else if("btn_Subject_Box_RightAll".Equals(name))
                     {
                         int count = lsv_JH_XM_KT_ZKT_File1.Items.Count;
                         if(count > 0)
@@ -2990,7 +2815,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, true);
                         }
                     }
-                    else if("btn_JH_XM_KT_ZKT_Box_Left".Equals(button.Name))
+                    else if("btn_Subject_Box_Left".Equals(name))
                     {
                         int count = lsv_JH_XM_KT_ZKT_File2.SelectedItems.Count;
                         if(count > 0)
@@ -3001,7 +2826,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, false);
                         }
                     }
-                    else if("btn_JH_XM_KT_ZKT_Box_LeftAll".Equals(button.Name))
+                    else if("btn_Subject_Box_LeftAll".Equals(name))
                     {
                         int count = lsv_JH_XM_KT_ZKT_File2.Items.Count;
                         if(count > 0)
@@ -3018,12 +2843,12 @@ namespace 科技计划项目档案数据采集管理系统
                     MessageBox.Show("请先添加案卷盒。", "保存失败");
             }
             //重大专项/研发
-            else if(button.Name.Contains("btn_Imp_Box"))
+            else if(name.Contains("btn_Imp_Box"))
             {
                 object value = cbo_Imp_Box.SelectedValue;
                 if(value != null)
                 {
-                    if("btn_Imp_Box_Right".Equals(button.Name))
+                    if("btn_Imp_Box_Right".Equals(name))
                     {
                         if(lsv_Imp_File1.SelectedItems.Count > 0)
                         {
@@ -3037,7 +2862,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                     }
-                    else if("btn_Imp_Box_RightAll".Equals(button.Name))
+                    else if("btn_Imp_Box_RightAll".Equals(name))
                     {
                         int count = lsv_Imp_File1.Items.Count;
                         if(count > 0)
@@ -3048,7 +2873,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, true);
                         }
                     }
-                    else if("btn_Imp_Box_Left".Equals(button.Name))
+                    else if("btn_Imp_Box_Left".Equals(name))
                     {
                         int count = lsv_Imp_File2.SelectedItems.Count;
                         if(count > 0)
@@ -3059,7 +2884,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, false);
                         }
                     }
-                    else if("btn_Imp_Box_LeftAll".Equals(button.Name))
+                    else if("btn_Imp_Box_LeftAll".Equals(name))
                     {
                         int count = lsv_Imp_File2.Items.Count;
                         if(count > 0)
@@ -3076,12 +2901,12 @@ namespace 科技计划项目档案数据采集管理系统
                     MessageBox.Show("请先添加案卷盒。", "保存失败");
             }
             //重大专项/研发 - 信息
-            else if(button.Name.Contains("btn_Imp_Dev_Box"))
+            else if(name.Contains("btn_Special_Box"))
             {
-                object value = cbo_Imp_Dev_Box.SelectedValue;
+                object value = cbo_Special_Box.SelectedValue;
                 if(value != null)
                 {
-                    if("btn_Imp_Dev_Box_Right".Equals(button.Name))
+                    if("btn_Special_Box_Right".Equals(name))
                     {
                         if(lsv_Imp_Dev_File1.SelectedItems.Count > 0)
                         {
@@ -3095,7 +2920,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                     }
-                    else if("btn_Imp_Dev_Box_RightAll".Equals(button.Name))
+                    else if("btn_Special_Box_RightAll".Equals(name))
                     {
                         int count = lsv_Imp_Dev_File1.Items.Count;
                         if(count > 0)
@@ -3106,7 +2931,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, true);
                         }
                     }
-                    else if("btn_Imp_Dev_Box_Left".Equals(button.Name))
+                    else if("btn_Special_Box_Left".Equals(name))
                     {
                         int count = lsv_Imp_Dev_File2.SelectedItems.Count;
                         if(count > 0)
@@ -3117,7 +2942,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, false);
                         }
                     }
-                    else if("btn_Imp_Dev_Box_LeftAll".Equals(button.Name))
+                    else if("btn_Special_Box_LeftAll".Equals(name))
                     {
                         int count = lsv_Imp_Dev_File2.Items.Count;
                         if(count > 0)
@@ -3204,12 +3029,12 @@ namespace 科技计划项目档案数据采集管理系统
                         object _temp = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
                         if(_temp != null)
                         {
-                            int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{cbo_JH_Box.SelectedValue}'"));
+                            int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{cbo_Plan_Box.SelectedValue}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
                                 MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else if(MessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                object value = cbo_JH_Box.SelectedValue;
+                                object value = cbo_Plan_Box.SelectedValue;
                                 if(value != null)
                                 {
                                     //将当前盒中文件状态致为未归档
@@ -3227,7 +3052,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Plan);
-                    LoadFileBoxTable(cbo_JH_Box.SelectedValue, objId, ControlType.Plan);
+                    LoadFileBoxTable(cbo_Plan_Box.SelectedValue, objId, ControlType.Plan);
                 }
             }
             //计划-项目
@@ -3249,12 +3074,12 @@ namespace 科技计划项目档案数据采集管理系统
                         object _temp = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
                         if(_temp != null)
                         {
-                            int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{cbo_JH_XM_Box.SelectedValue}'"));
+                            int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{cbo_Project_Box.SelectedValue}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
                                 MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else if(MessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                object value = cbo_JH_XM_Box.SelectedValue;
+                                object value = cbo_Project_Box.SelectedValue;
                                 if(value != null)
                                 {
                                     //将当前盒中文件状态致为未归档
@@ -3272,7 +3097,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Plan);
-                    LoadFileBoxTable(cbo_JH_XM_Box.SelectedValue, objId, ControlType.Plan);
+                    LoadFileBoxTable(cbo_Project_Box.SelectedValue, objId, ControlType.Plan);
                 }
             }
             //计划-项目-课题-子课题
@@ -3294,7 +3119,7 @@ namespace 科技计划项目档案数据采集管理系统
                         object _temp = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
                         if(_temp != null)
                         {
-                            object value = cbo_JH_XM_KT_ZKT_Box.SelectedValue;
+                            object value = cbo_Subject_Box.SelectedValue;
                             int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{value}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
                                 MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -3314,7 +3139,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Subject);
-                    LoadFileBoxTable(cbo_JH_XM_KT_ZKT_Box.SelectedValue, objId, ControlType.Subject);
+                    LoadFileBoxTable(cbo_Subject_Box.SelectedValue, objId, ControlType.Subject);
                 }
             }
             //计划-课题
@@ -3336,7 +3161,7 @@ namespace 科技计划项目档案数据采集管理系统
                         object _temp = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
                         if(_temp != null)
                         {
-                            object value = cbo_JH_KT_Box.SelectedValue;
+                            object value = cbo_Topic_Box.SelectedValue;
                             int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{value}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
                                 MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -3356,7 +3181,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Topic);
-                    LoadFileBoxTable(cbo_JH_KT_Box.SelectedValue, objId, ControlType.Topic);
+                    LoadFileBoxTable(cbo_Topic_Box.SelectedValue, objId, ControlType.Topic);
                 }
             }
             //重大专项/研发
@@ -3420,7 +3245,7 @@ namespace 科技计划项目档案数据采集管理系统
                         object _temp = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
                         if(_temp != null)
                         {
-                            object value = cbo_Imp_Dev_Box.SelectedValue;
+                            object value = cbo_Special_Box.SelectedValue;
                             int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{value}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
                                 MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -3440,7 +3265,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Special);
-                    LoadFileBoxTable(cbo_Imp_Dev_Box.SelectedValue, objId, ControlType.Special);
+                    LoadFileBoxTable(cbo_Special_Box.SelectedValue, objId, ControlType.Special);
                 }
             }
         }
@@ -3452,38 +3277,50 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         private void LoadBoxList(object objId, ControlType type)
         {
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT pb_id,pb_box_number FROM processing_box WHERE pb_obj_id='{objId}' ORDER BY pb_box_number ASC");
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT pb_id, pb_box_number FROM processing_box WHERE pb_obj_id='{objId}' ORDER BY pb_box_number ASC");
             if(type == ControlType.Plan)
             {
-                cbo_JH_Box.DataSource = table;
-                cbo_JH_Box.DisplayMember = "pb_box_number";
-                cbo_JH_Box.ValueMember = "pb_id";
+                cbo_Plan_Box.DataSource = table;
+                cbo_Plan_Box.DisplayMember = "pb_box_number";
+                cbo_Plan_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
-                    cbo_JH_Box.SelectedIndex = 0;
+                {
+                    cbo_Plan_Box.SelectedIndex = 0;
+                    Cbo_Box_SelectionChangeCommitted(cbo_Plan_Box, null);
+                }
             }
             else if(type == ControlType.Plan)
             {
-                cbo_JH_XM_Box.DataSource = table;
-                cbo_JH_XM_Box.DisplayMember = "pb_box_number";
-                cbo_JH_XM_Box.ValueMember = "pb_id";
+                cbo_Project_Box.DataSource = table;
+                cbo_Project_Box.DisplayMember = "pb_box_number";
+                cbo_Project_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
-                    cbo_JH_XM_Box.SelectedIndex = 0;
+                {
+                    cbo_Project_Box.SelectedIndex = 0;
+                    Cbo_Box_SelectionChangeCommitted(cbo_Project_Box, null);
+                }
             }
             else if(type == ControlType.Topic)
             {
-                cbo_JH_KT_Box.DataSource = table;
-                cbo_JH_KT_Box.DisplayMember = "pb_box_number";
-                cbo_JH_KT_Box.ValueMember = "pb_id";
+                cbo_Topic_Box.DataSource = table;
+                cbo_Topic_Box.DisplayMember = "pb_box_number";
+                cbo_Topic_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
-                    cbo_JH_KT_Box.SelectedIndex = 0;
+                {
+                    cbo_Topic_Box.SelectedIndex = 0;
+                    Cbo_Box_SelectionChangeCommitted(cbo_Topic_Box, null);
+                }
             }
             else if(type == ControlType.Subject)
             {
-                cbo_JH_XM_KT_ZKT_Box.DataSource = table;
-                cbo_JH_XM_KT_ZKT_Box.DisplayMember = "pb_box_number";
-                cbo_JH_XM_KT_ZKT_Box.ValueMember = "pb_id";
+                cbo_Subject_Box.DataSource = table;
+                cbo_Subject_Box.DisplayMember = "pb_box_number";
+                cbo_Subject_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
-                    cbo_JH_XM_KT_ZKT_Box.SelectedIndex = 0;
+                {
+                    cbo_Subject_Box.SelectedIndex = 0;
+                    Cbo_Box_SelectionChangeCommitted(cbo_Subject_Box, null);
+                }
             }
             else if(type == ControlType.Imp)
             {
@@ -3491,15 +3328,21 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_Imp_Box.DisplayMember = "pb_box_number";
                 cbo_Imp_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
+                {
                     cbo_Imp_Box.SelectedIndex = 0;
+                    Cbo_Box_SelectionChangeCommitted(cbo_Imp_Box, null);
+                }
             }
             else if(type == ControlType.Special)
             {
-                cbo_Imp_Dev_Box.DataSource = table;
-                cbo_Imp_Dev_Box.DisplayMember = "pb_box_number";
-                cbo_Imp_Dev_Box.ValueMember = "pb_id";
+                cbo_Special_Box.DataSource = table;
+                cbo_Special_Box.DisplayMember = "pb_box_number";
+                cbo_Special_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
-                    cbo_Imp_Dev_Box.SelectedIndex = 0;
+                {
+                    cbo_Special_Box.SelectedIndex = 0;
+                    Cbo_Box_SelectionChangeCommitted(cbo_Special_Box, null);
+                }
             }
         }
 
@@ -3508,38 +3351,39 @@ namespace 科技计划项目档案数据采集管理系统
             int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_id) FROM processing_box WHERE pb_unit_id='{unitCode}'"));
             return (amount + 1).ToString().PadLeft(6, '0');
         }
+      
         /// <summary>
         /// 案卷盒切换事件
         /// </summary>
         private void Cbo_Box_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
-            if ("cbo_JH_Box".Equals(comboBox.Name))
+            if (comboBox.Name.Contains("Plan"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, dgv_Plan_FileList.Tag, ControlType.Plan);
             }
-            else if("cbo_JH_XM_Box".Equals(comboBox.Name))
+            else if(comboBox.Name.Contains("Project"))
             {
                 object pbId = comboBox.SelectedValue;
-                LoadFileBoxTable(pbId, dgv_Project_FileList.Tag, ControlType.Plan);
+                LoadFileBoxTable(pbId, dgv_Project_FileList.Tag, ControlType.Project);
             }
-            else if("cbo_JH_KT_Box".Equals(comboBox.Name))
+            else if(comboBox.Name.Contains("Topic"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, dgv_Topic_FileList.Tag, ControlType.Topic);
             }
-            else if("cbo_JH_XM_KT_ZKT_Box".Equals(comboBox.Name))
+            else if(comboBox.Name.Contains("Subject"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, dgv_Subject_FileList.Tag, ControlType.Subject);
             }
-            else if("cbo_Imp_Box".Equals(comboBox.Name))
+            else if(comboBox.Name.Contains("Imp"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, dgv_Imp_FileList.Tag, ControlType.Imp);
             }
-            else if("cbo_Imp_Dev_Box".Equals(comboBox.Name))
+            else if(comboBox.Name.Contains("Special"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, dgv_Special_FileList.Tag, ControlType.Special);
@@ -3694,7 +3538,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                 if(isBacked)
                 {
-                    btn_JH_KT_QTReason.Text = $"质检意见({GetAdvincesAmount(tab_Project_Info.Tag)})";
+                    btn_Topic_QTReason.Text = $"质检意见({GetAdvincesAmount(tab_Project_Info.Tag)})";
                 }
             }
             else if(type == ControlType.Topic)
@@ -3734,7 +3578,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                 if(isBacked)
                 {
-                    btn_JH_KT_QTReason.Text = $"质检意见({GetAdvincesAmount(tab_Topic_Info.Tag)})";
+                    btn_Topic_QTReason.Text = $"质检意见({GetAdvincesAmount(tab_Topic_Info.Tag)})";
                 }
             }
             else if(type == ControlType.Subject)
@@ -3747,7 +3591,7 @@ namespace 科技计划项目档案数据采集管理系统
                     pal_Subject.Tag = row["si_obj_id"];
                     txt_Subject_Code.Text = GetValue(row["si_code"]);
                     txt_Subject_Name.Text = GetValue(row["si_name"]);
-                    txt_Subject_LY.Text = GetValue(row["si_field"]);
+                    txt_Subject_Field.Text = GetValue(row["si_field"]);
                     txt_Subject_Theme.Text = GetValue(row["si_theme"]);
                     txt_Subject_Fund.Text = GetValue(row["si_funds"]);
 
@@ -3822,17 +3666,19 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_Add_Click(object sender, EventArgs e)
         {
-            Button button = sender as Button;
-            if("btn_JH_XM_Add".Equals(button.Name))
-                ResetControls(ControlType.Plan);
-            else if("btn_JH_KT_Add".Equals(button.Name))
+            KyoButton button = sender as KyoButton;
+            if(button.Name.Contains("Project"))
+            {
+                ResetControls(ControlType.Project);
+            }
+            else if(button.Name.Contains("Topic"))
+            {
                 ResetControls(ControlType.Topic);
-            else if("btn_JH_KT_ZKT_Add".Equals(button.Name))
+            }
+            else if(button.Name.Contains("Subject"))
+            {
                 ResetControls(ControlType.Subject);
-            else if("btn_JH_XM_KT_Add".Equals(button.Name))
-                ResetControls(ControlType.Topic);
-            else if("btn_JH_XM_KT_ZKT_Add".Equals(button.Name))
-                ResetControls(ControlType.Subject);
+            }
         }
         
         /// <summary>
@@ -3841,7 +3687,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         void ResetControls(ControlType type)
         {
-            if(type == ControlType.Plan)
+            if(type == ControlType.Project)
             {
                 dgv_Project_FileList.Tag = null;
                 DataGridViewStyleHelper.ResetDataGridView(dgv_Project_FileList, false);
@@ -3882,7 +3728,7 @@ namespace 科技计划项目档案数据采集管理系统
                 DataGridViewStyleHelper.ResetDataGridView(dgv_Subject_FileValid, false);
                 txt_Subject_Code.Clear();
                 txt_Subject_Name.Clear();
-                txt_Subject_LY.Clear();
+                txt_Subject_Field.Clear();
                 txt_Subject_Theme.Clear();
                 txt_Subject_Fund.ResetText();
                 dtp_Subject_StartTime.ResetText();
@@ -3891,17 +3737,6 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_Subject_Unituser.Clear();
                 txt_Subject_ProUser.Clear();
                 txt_Subject_Intro.Clear();
-            }
-            else if(type == ControlType.Special)
-            {
-                DataGridViewStyleHelper.ResetDataGridView(dgv_Special_FileList, false);
-                DataGridViewStyleHelper.ResetDataGridView(dgv_Special_FileValid, false);
-                txt_Special_Code.Clear();
-                txt_Special_Name.Clear();
-                txt_Special_Unit.Clear();
-                txt_Imp_Intro.Clear();
-                pal_Special.Tag = null;
-                dgv_Special_FileList.Tag = null;
             }
         }
         
@@ -4225,45 +4060,45 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_TB_Click(object sender, EventArgs e)
         {
-            string nameValue = (sender as Button).Name;
+            string nameValue = (sender as KyoButton).Name;
             //计划
-            if(nameValue.Contains("btn_JH_Box"))
+            if(nameValue.Contains("Plan"))
             {
                 if(nameValue.Contains("Top"))
                     MoveListViewItem(lsv_JH_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_File2, false);
-                SaveListSort(lsv_JH_File2, cbo_JH_Box.SelectedValue);
+                SaveListSort(lsv_JH_File2, cbo_Plan_Box.SelectedValue);
             }
             //计划-项目
-            if(nameValue.Contains("btn_JH_XM_Box"))
+            if(nameValue.Contains("Project"))
             {
                 if(nameValue.Contains("Top"))
                     MoveListViewItem(lsv_JH_XM_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_XM_File2, false);
-                SaveListSort(lsv_JH_XM_File2, cbo_JH_XM_Box.SelectedValue);
+                SaveListSort(lsv_JH_XM_File2, cbo_Project_Box.SelectedValue);
             }
             //计划-项目-课题-子课题
-            if(nameValue.Contains("btn_JH_XM_KT_ZKT_Box"))
+            if(nameValue.Contains("Subject"))
             {
                 if(nameValue.Contains("Top"))
                     MoveListViewItem(lsv_JH_XM_KT_ZKT_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_XM_KT_ZKT_File2, false);
-                SaveListSort(lsv_JH_XM_KT_ZKT_File2, cbo_JH_XM_KT_ZKT_Box.SelectedValue);
+                SaveListSort(lsv_JH_XM_KT_ZKT_File2, cbo_Subject_Box.SelectedValue);
             }
             //计划-课题
-            if(nameValue.Contains("btn_JH_KT_Box"))
+            if(nameValue.Contains("Topic"))
             {
                 if(nameValue.Contains("Top"))
                     MoveListViewItem(lsv_JH_KT_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_JH_KT_File2, false);
-                SaveListSort(lsv_JH_KT_File2, cbo_JH_KT_Box.SelectedValue);
+                SaveListSort(lsv_JH_KT_File2, cbo_Topic_Box.SelectedValue);
             }
             //重大专项
-            if(nameValue.Contains("btn_Imp_Box"))
+            if(nameValue.Contains("Imp"))
             {
                 if(nameValue.Contains("Top"))
                     MoveListViewItem(lsv_Imp_File2, true);
@@ -4272,13 +4107,13 @@ namespace 科技计划项目档案数据采集管理系统
                 SaveListSort(lsv_Imp_File2, cbo_Imp_Box.SelectedValue);
             }
             //重大专项-信息
-            if(nameValue.Contains("btn_Imp_Dev_Box"))
+            if(nameValue.Contains("Special"))
             {
                 if(nameValue.Contains("Top"))
                     MoveListViewItem(lsv_Imp_Dev_File2, true);
                 else if(nameValue.Contains("Bottom"))
                     MoveListViewItem(lsv_Imp_Dev_File2, false);
-                SaveListSort(lsv_Imp_Dev_File2, cbo_Imp_Dev_Box.SelectedValue);
+                SaveListSort(lsv_Imp_Dev_File2, cbo_Special_Box.SelectedValue);
             }
         }
      
@@ -4527,10 +4362,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objid != null)
                 {
                     if(index == 1)
-                    {
-                        LoadFileValidList(dgv_Project_FileValid, objid, "dgv_Project_FV_");
-                        dgv_Project_FileValid.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 10.5f, System.Drawing.FontStyle.Regular);
-                    }
+                        LoadFileValidList(dgv_Project_FileValid, objid, "project_fc_");
                     else if(index == 2)
                         LoadDocList(objid, ControlType.Project);
                 }
@@ -4542,10 +4374,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objid != null)
                 {
                     if(index == 1)
-                    {
-                        LoadFileValidList(dgv_Topic_FileValid, objid, "dgv_Topic_FV_");
-                        dgv_Topic_FileValid.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 10.5f, System.Drawing.FontStyle.Regular);
-                    }
+                        LoadFileValidList(dgv_Topic_FileValid, objid, "topic_fc_");
                     else if(index == 2)
                         LoadDocList(objid, ControlType.Topic);
                 }
@@ -4557,10 +4386,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(index == 1)
-                    {
-                        LoadFileValidList(dgv_Subject_FileValid, objId, "dgv_Subject_FV_");
-                        dgv_Subject_FileValid.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 10.5f, System.Drawing.FontStyle.Regular);
-                    }
+                        LoadFileValidList(dgv_Subject_FileValid, objId, "subject_fc_");
                     else if(index == 2)
                         LoadDocList(objId, ControlType.Subject);
                 }
@@ -4608,7 +4434,9 @@ namespace 科技计划项目档案数据采集管理系统
         {
             DataGridView view = sender as DataGridView;
             object id = view.Rows[e.RowIndex].Cells[0].Tag;
-            if(view.Name.Contains("Project"))
+            if(view.Name.Contains("Plan"))
+                Btn_AddFile_Click(btn_Plan_AddFile, e);
+            else if(view.Name.Contains("Project"))
                 Btn_AddFile_Click(btn_Project_AddFile, e);
             else if(view.Name.Contains("Topic"))
                 Btn_AddFile_Click(btn_Topic_AddFile, e);
