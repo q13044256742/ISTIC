@@ -78,9 +78,8 @@ namespace 科技计划项目档案数据采集管理系统
             this.cbo_AdviceType.Items.AddRange(new object[] {
             "基本信息",
             "文件信息",
-            "文件核查",
-            "案卷信息",
-            "案卷盒"});
+            "核查信息",
+            "案盒信息"});
             this.cbo_AdviceType.Location = new System.Drawing.Point(121, 50);
             this.cbo_AdviceType.Name = "cbo_AdviceType";
             this.cbo_AdviceType.Size = new System.Drawing.Size(137, 25);

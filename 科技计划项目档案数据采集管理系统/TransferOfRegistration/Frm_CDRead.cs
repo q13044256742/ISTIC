@@ -116,7 +116,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     File.Copy(file[i].FullName, _filePath, true);
                     okCount++;
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     noCount++;
                 }

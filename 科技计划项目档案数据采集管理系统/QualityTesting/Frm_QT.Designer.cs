@@ -40,6 +40,11 @@ namespace 科技计划项目档案数据采集管理系统
             this.project = new System.Windows.Forms.TabPage();
             this.dgv_Project = new System.Windows.Forms.DataGridView();
             this.dgv_MyReg = new System.Windows.Forms.DataGridView();
+            this.ace_LeftMenu = new 科技计划项目档案数据采集管理系统.KyoControl.KyoAccordion();
+            this.acg_Worked = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.ace_Login = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.ace_MyLog = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.pal_LeftMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).BeginInit();
             this.tab_Menulist.SuspendLayout();
             this.imp.SuspendLayout();
@@ -48,10 +53,12 @@ namespace 科技计划项目档案数据采集管理系统
             this.project.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             this.SuspendLayout();
             // 
             // pal_LeftMenu
             // 
+            this.pal_LeftMenu.Controls.Add(this.ace_LeftMenu);
             this.pal_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.pal_LeftMenu.Location = new System.Drawing.Point(0, 0);
             this.pal_LeftMenu.Name = "pal_LeftMenu";
@@ -168,6 +175,51 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_MyReg.Visible = false;
             this.dgv_MyReg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_MyReg_CellClick);
             // 
+            // ace_LeftMenu
+            // 
+            this.ace_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ace_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
+            this.acg_Worked});
+            this.ace_LeftMenu.Location = new System.Drawing.Point(0, 0);
+            this.ace_LeftMenu.Name = "ace_LeftMenu";
+            this.ace_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
+            this.ace_LeftMenu.Size = new System.Drawing.Size(227, 487);
+            this.ace_LeftMenu.TabIndex = 17;
+            // 
+            // acg_Worked
+            // 
+            this.acg_Worked.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
+            this.ace_Login,
+            this.ace_MyLog});
+            this.acg_Worked.Expanded = true;
+            this.acg_Worked.Height = 50;
+            this.acg_Worked.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic2;
+            this.acg_Worked.Name = "acg_Worked";
+            this.acg_Worked.Text = "档案质检";
+            this.acg_Worked.TextToImageDistance = 10;
+            // 
+            // ace_Login
+            // 
+            this.ace_Login.Height = 35;
+            this.ace_Login.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic8;
+            this.ace_Login.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
+            this.ace_Login.Name = "ace_Login";
+            this.ace_Login.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.ace_Login.Text = "质检登记";
+            this.ace_Login.TextToImageDistance = 15;
+            this.ace_Login.Click += new System.EventHandler(this.Sub_Click);
+            // 
+            // ace_MyLog
+            // 
+            this.ace_MyLog.Height = 35;
+            this.ace_MyLog.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic7;
+            this.ace_MyLog.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
+            this.ace_MyLog.Name = "ace_MyLog";
+            this.ace_MyLog.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.ace_MyLog.Text = "我的质检";
+            this.ace_MyLog.TextToImageDistance = 15;
+            this.ace_MyLog.Click += new System.EventHandler(this.Sub_Click);
+            // 
             // Frm_QT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -182,6 +234,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.Name = "Frm_QT";
             this.Text = "档案质检";
             this.Load += new System.EventHandler(this.Frm_QT_Load);
+            this.pal_LeftMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).EndInit();
             this.tab_Menulist.ResumeLayout(false);
             this.imp.ResumeLayout(false);
@@ -190,6 +243,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.project.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -204,5 +258,9 @@ namespace 科技计划项目档案数据采集管理系统
         private System.Windows.Forms.DataGridView dgv_Imp_Dev;
         private System.Windows.Forms.TabPage project;
         private System.Windows.Forms.DataGridView dgv_Project;
+        private KyoControl.KyoAccordion ace_LeftMenu;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement acg_Worked;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement ace_Login;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement ace_MyLog;
     }
 }

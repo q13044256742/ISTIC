@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.Properties;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -25,43 +24,11 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_QT_Load(object sender, EventArgs e)
         {
-            LoadLeftMenu();
             //LoadWaitQTList();
             dgv_Imp.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_Imp_Dev.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_Project.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             LoadImpList();
-        }
-        /// <summary>
-        /// 加载左侧菜单栏
-        /// </summary>
-        private void LoadLeftMenu()
-        {
-            List<CreateKyoPanel.KyoPanel> list = new List<CreateKyoPanel.KyoPanel>();
-            list.Add(new CreateKyoPanel.KyoPanel()
-            {
-                Name = "QT_ZLJG",
-                Text = "档案质检",
-                Image = Resources.pic1,
-                HasNext = true
-            });
-            CreateKyoPanel.SetPanel(pal_LeftMenu, list);
-
-            list.Clear();
-            list.AddRange(new CreateKyoPanel.KyoPanel[] {
-                new CreateKyoPanel.KyoPanel()
-                {
-                     Name = "QT_Login",
-                     Text = "质检登记",
-                     HasNext = false
-                },new CreateKyoPanel.KyoPanel()
-                {
-                     Name = "QT_Myqt",
-                     Text = "我的质检",
-                     HasNext = false
-                }
-            });
-            CreateKyoPanel.SetSubPanel(pal_LeftMenu.Controls.Find("QT_ZLJG", false)[0] as Panel, list, Sub_Click);
         }
       
         /// <summary>
@@ -69,33 +36,20 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Sub_Click(object sender, EventArgs e)
         {
-            Panel panel = null;
-            if(sender is Panel)
-                panel = sender as Panel;
-            else
-                panel = (sender as Control).Parent as Panel;
-
-            if("QT_Login".Equals(panel.Name))
+            string name = (sender as DevExpress.XtraBars.Navigation.AccordionControlElement).Name;
+            if("ace_Login".Equals(name))
             {
                 dgv_MyReg.Visible = false;
                 tab_Menulist.Visible = true;
                 tab_Menulist.SelectedIndex = 0;
             }
-            else if("QT_Myqt".Equals(panel.Name))
+            else if("ace_MyLog".Equals(name))
             {
                 tab_Menulist.Visible = false;
                 dgv_MyReg.Visible = true;
                 dgv_MyReg.DefaultCellStyle = dgv_Project.DefaultCellStyle;
                 dgv_MyReg.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 LoadMyRegList();
-            }
-
-            foreach(Panel item in panel.Parent.Controls)
-            {
-                if(item.Equals(panel))
-                    item.BackColor = System.Drawing.Color.Purple;
-                else
-                    item.BackColor = System.Drawing.Color.Transparent;
             }
         }
       
@@ -300,12 +254,12 @@ namespace 科技计划项目档案数据采集管理系统
                     WorkType type = (WorkType)Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_type FROM work_registration WHERE wr_id='{wrid}'"));
                     object planId = GetRootId(objid, type);
                     if(planId != null)
-                        new Frm_MyWorkQT(type, objid, ControlType.Default, false).ShowDialog();
+                        new Frm_MyWorkQT(type, objid, null, ControlType.Default).ShowDialog();
                     else
                     {
                         planId = GetRootId(objid, WorkType.SubjectWork);
                         if(planId != null)
-                            new Frm_MyWorkQT(WorkType.SubjectWork, planId, ControlType.Default, false).ShowDialog();
+                            new Frm_MyWorkQT(WorkType.SubjectWork, planId, null, ControlType.Default).ShowDialog();
                         else
                             MessageBox.Show("未找到此项目/课题所属计划。");
                     }
@@ -424,14 +378,22 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = row["dd_name"];
                     dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(row["imp_id"], ControlType.Default);
                 }
-                else if(index == 2 || index == -1)
+                else if(index == 2 || index == -1 || index == 3)
                 {
-                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name FROM project_info pi " +
-                        $"LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
-                        $"LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
-                        $"LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
-                        $"LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                        $"WHERE pi_id = '{objId}'");
+                    string querySql = "SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name FROM project_info pi " +
+                        "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
+                        "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
+                        "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                        "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
+                        $"WHERE wm.wm_obj_id = '{objId}' " +
+                        "UNION ALL " +
+                        "SELECT dd.dd_name, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name FROM topic_info ti " +
+                        "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
+                        "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
+                        "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                        "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
+                        $"WHERE wm.wm_obj_id = '{objId}'";
+                    DataRow row = SqlHelper.ExecuteSingleRowQuery(querySql);
                     if(row != null)
                     {
                         int rowIndex = dgv_MyReg.Rows.Add();
@@ -482,6 +444,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return totalAmount;
         }
+     
         /// <summary>
         /// 领取当前及下属所有课题信息
         /// </summary>
@@ -497,6 +460,7 @@ namespace 科技计划项目档案数据采集管理系统
                     SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_checker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj2[j][0]}'");
             }
         }
+        
         /// <summary>
         /// 待质检 - 种类切换事件
         /// </summary>
@@ -642,16 +606,35 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){Name = "pro_via", HeaderText = "数据途径", FillWeight = 6},
             });
 
+            DataTable table = new DataTable();
+            table.Columns.AddRange(new DataColumn[]
+            {
+                new DataColumn("dd_name"),
+                new DataColumn("wm_id"),
+                new DataColumn("pi_id"),
+                new DataColumn("pi_code"),
+                new DataColumn("pi_name"),
+                new DataColumn("wm_ticker")
+            });
             string querySql = "SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wm.wm_ticker FROM project_info pi " +
                 "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                 "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                "WHERE wm.wm_type = 2 AND wm.wm_status = 1";
-            DataTable table = SqlHelper.ExecuteQuery(querySql);
-            for(int i = 0; i < table.Rows.Count; i++)
+                "WHERE wm.wm_type = 2 AND wm.wm_status = 1 " +
+                "UNION ALL " +
+                "SELECT dd.dd_name, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wm.wm_ticker FROM topic_info ti " +
+                "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
+                "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
+                "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
+                "WHERE wm.wm_type = 3 AND wm.wm_status = 1 AND ti.trc_id IS NOT NULL;";
+            DataTable _table = SqlHelper.ExecuteQuery(querySql);
+            foreach(DataRow row in _table.Rows)
+                table.ImportRow(row);
+
+            foreach(DataRow row in table.Rows)
             {
-                DataRow row = table.Rows[i];
                 int _index = dgv_Project.Rows.Add();
                 dgv_Project.Rows[_index].Cells["pro_id"].Tag = row["wm_id"];
                 dgv_Project.Rows[_index].Cells["pro_id"].Value = row["pi_id"];
@@ -667,7 +650,7 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Project.Columns["pro_id"].Visible = false;
         }
 
-        private object GetSubAmount(object pId) => SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id='{pId}'");
+        private object GetSubAmount(object pId) => SqlHelper.ExecuteCountQuery($"SELECT COUNT(si_id)+(SELECT COUNT(ti_id) FROM topic_info WHERE ti_obj_id='{pId}') FROM subject_info WHERE si_obj_id='{pId}'");
 
         private object GetValue(object obj) => (obj == null || string.IsNullOrEmpty(obj.ToString())) ? null : obj.ToString();
         
@@ -770,6 +753,8 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(e.RowIndex != -1 && e.ColumnIndex != -1)
             {
+                object wmid = dgv_MyReg.Rows[e.RowIndex].Tag;
+                object impid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
                 object columnName = dgv_MyReg.Columns[e.ColumnIndex].Name;
                 //编辑
                 if("mr_edit".Equals(columnName))
@@ -777,9 +762,10 @@ namespace 科技计划项目档案数据采集管理系统
                     int index = (int)dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Tag;
                     if(index == 0)
                     {
-                        object impid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, impid, ControlType.Imp, false);
-                        frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
+                        
+                        
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, impid, wmid, ControlType.Imp);
+
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
                             int _index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_info WHERE imp_id='{impid}' AND imp_submit_status=1");
@@ -787,7 +773,7 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 if(MessageBox.Show("此数据包含返工信息，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{frm.WMID}'");
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
                                 }
                             }
@@ -796,9 +782,7 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else if(index == 1)
                     {
-                        object impid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, impid, ControlType.Special, false);
-                        frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, impid, wmid, ControlType.Special);
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
                             int _index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_dev_info WHERE imp_id='{impid}' AND imp_submit_status=1");
@@ -806,25 +790,24 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 if(MessageBox.Show("此数据包含返工信息，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{frm.WMID}'");
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
                                 }
                             }
                             LoadMyRegList();
                         }
                     }
-                    else if(index == 2)
+                    else if(index == 2 || index ==3)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, ControlType.Plan, false);
-                        frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.ProjectWork, piid, null, ControlType.Project);
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
                             if(HaveBacked(piid))
                             {
                                 if(MessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{frm.WMID}'");
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
                                 }
                             }
@@ -833,15 +816,14 @@ namespace 科技计划项目档案数据采集管理系统
                     else if(index == -1)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, ControlType.Special, false);
-                        frm.WMID = dgv_MyReg.Rows[e.RowIndex].Tag;
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, null, ControlType.Special);
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
                             if(HaveBacked(piid))
                             {
                                 if(MessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{frm.WMID}'");
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
                                 }
                             }
@@ -853,7 +835,6 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(MessageBox.Show("确定要完成对当前数据的质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                     {
-                        object wmid = dgv_MyReg.Rows[e.RowIndex].Tag;
                         SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualityFinish}' WHERE wm_id='{wmid}'");
                     }
                     LoadMyRegList();
@@ -867,22 +848,24 @@ namespace 科技计划项目档案数据采集管理系统
         private bool HaveBacked(object piid)
         {
             bool result = false;
-            DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_id='{piid}'");
+            DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_id='{piid}' UNION ALL " +
+                $"SELECT ti_id, ti_submit_status FROM topic_info WHERE ti_id='{piid}'");
             if(row != null)
             {
                 if((int)row["pi_submit_status"] == 1)
                     result = true;
                 else
                 {
-                    DataTable table = SqlHelper.ExecuteQuery($"SELECT si_id, si_submit_status FROM subject_info WHERE pi_id='{row["pi_id"]}'");
+                    DataTable table = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{row["pi_id"]}' UNION ALL " +
+                        $"SELECT si_id, si_submit_status FROM subject_info WHERE si_obj_id='{row["pi_id"]}'");
                     for(int i = 0; i < table.Rows.Count; i++)
                     {
-                        if((int)table.Rows[i]["si_submit_status"] == 1)
+                        if((int)table.Rows[i]["ti_submit_status"] == 1)
                         {
                             result = true;
                             break;
                         }
-                        DataTable table2 = SqlHelper.ExecuteQuery($"SELECT si_id, si_submit_status FROM subject_info WHERE pi_id='{table.Rows[i]["si_id"]}'");
+                        DataTable table2 = SqlHelper.ExecuteQuery($"SELECT si_id, si_submit_status FROM subject_info WHERE si_obj_id='{table.Rows[i]["ti_id"]}'");
                         for(int j = 0; j < table2.Rows.Count; j++)
                         {
                             if((int)table2.Rows[j]["si_submit_status"] == 1)

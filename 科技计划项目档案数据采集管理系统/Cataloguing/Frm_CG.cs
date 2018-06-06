@@ -818,6 +818,24 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                             MessageBox.Show("当前数据尚未加工完成。", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
+                    else if(workType == WorkType.ProjectWork)
+                    {
+                        object proId = dgv_WorkLog.Rows[e.RowIndex].Cells["id"].Value;
+                        if(CanSubmitToQT(proId, WorkType.ProjectWork))
+                        {
+                            if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                            {
+                                string sqlString = $"INSERT INTO work_myreg (wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id) VALUES " +
+                                    $"('{Guid.NewGuid().ToString()}', '{objId}', 1, '{UserHelper.GetInstance().User.UserKey}', 3, '{proId}');";
+                                sqlString += $"UPDATE work_registration SET wr_submit_status =2, wr_submit_date='{DateTime.Now}' WHERE wr_id='{objId}';";
+                                SqlHelper.ExecuteNonQuery(sqlString);
+
+                                LoadWorkList(null, WorkStatus.NonWork);
+                            }
+                        }
+                        else
+                            MessageBox.Show("当前数据下尚有未提交项。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    }
                 }
                 //返工 - 编辑
                 else if("bk_edit".Equals(columnName))
@@ -1038,6 +1056,53 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else
                     return false;
+            }
+            else if(workType == WorkType.ProjectWork)
+            {
+                DataRow proRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_id='{objId}'");
+                if(proRow != null)
+                {
+                    int statu = Convert.ToInt32(proRow["pi_submit_status"]);
+                    if(statu == 2)
+                    {
+                        DataTable _topRow = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{proRow["pi_id"]}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                        foreach(DataRow item in _topRow.Rows)
+                        {
+                            int _statu = Convert.ToInt32(item["ti_submit_status"]);
+                            if(_statu == 2)
+                            {
+                                DataTable _subRow = SqlHelper.ExecuteQuery($"SELECT si_id, si_submit_status FROM subject_info WHERE si_obj_id='{item["ti_id"]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                                foreach(DataRow _item in _subRow.Rows)
+                                {
+                                    int __statu = Convert.ToInt32(_item["si_submit_status"]);
+                                    if(__statu != 2)
+                                        return false;
+                                }
+                            }
+                            else return false;
+                        }
+                    }
+                    else return false;
+                }
+                else
+                {
+                    DataRow topRow = SqlHelper.ExecuteSingleRowQuery($"SELECT ti_id, ti_submit_status FROM topic_info WHERE ti_id='{objId}'");
+                    if(topRow != null)
+                    {
+                        int _statu = Convert.ToInt32(topRow["ti_submit_status"]);
+                        if(_statu == 2)
+                        {
+                            DataTable _subRow = SqlHelper.ExecuteQuery($"SELECT si_id, si_submit_status FROM subject_info WHERE si_obj_id='{topRow["ti_id"]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                            foreach(DataRow _item in _subRow.Rows)
+                            {
+                                int __statu = Convert.ToInt32(_item["si_submit_status"]);
+                                if(__statu != 2)
+                                    return false;
+                            }
+                        }
+                        else return false;
+                    }
+                }
             }
             else
             {

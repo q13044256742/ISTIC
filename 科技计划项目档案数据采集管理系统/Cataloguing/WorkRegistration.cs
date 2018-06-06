@@ -63,24 +63,6 @@ namespace 科技计划项目档案数据采集管理系统
         Special = 6
     }
     /// <summary>
-    /// 文件归档状态
-    /// </summary>
-    enum GuiDangStatus
-    {
-        /// <summary>
-        /// 默认
-        /// </summary>
-        Default = 0,
-        /// <summary>
-        /// 未归档
-        /// </summary>
-        NonGuiDang = 1,
-        /// <summary>
-        /// 已归档
-        /// </summary>
-        GuiDangSuccess = 2
-    }
-    /// <summary>
     /// 加工状态
     /// </summary>
     enum WorkStatus

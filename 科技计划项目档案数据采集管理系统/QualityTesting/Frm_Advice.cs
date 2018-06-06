@@ -24,7 +24,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">意见类型</param>
         private void InitialForm(string objName, object objId, int type, bool isBackWork)
         {
-            cbo_AdviceType.SelectedIndex = type;
+            cbo_AdviceType.SelectedIndex = type + 1;
             lbl_ObjName.Text = objName;
             object[] _obj = GetAdvice(objId, type);
             if(_obj != null)
