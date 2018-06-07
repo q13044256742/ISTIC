@@ -75,7 +75,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_Advice_Load(object sender, EventArgs e)
         {
-            
+            Cbo_AdviceType_SelectionChangeCommitted(null, null);
         }
 
         private string GetValue(object obj)

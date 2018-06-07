@@ -3450,56 +3450,51 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_Submit_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("确认要将本条数据返工吗?", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            object objId = null;
+            string updateSql = null;
+            ControlType type = ControlType.Default;
+            if(MessageBox.Show("请注意填写返工意见，确认将数据返工吗?", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
                 string name = (sender as KyoButton).Name;
-                object objId = null;
                 if(name.Contains("Project"))
                 {
+                    type = ControlType.Project;
                     objId = tab_Project_Info.Tag;
-                    if(objId != null)
-                    {
-                        SqlHelper.ExecuteNonQuery($"UPDATE project_info SET pi_submit_status={(int)SubmitStatus.NonSubmit} WHERE pi_id='{objId}'");
-                        EnableControls(ControlType.Plan, false);
-                    }
+                    updateSql = $"UPDATE project_info SET pi_submit_status={(int)SubmitStatus.NonSubmit} WHERE pi_id='{objId}';";
                 }
                 else if(name.Contains("Topic"))
                 {
+                    type = ControlType.Topic;
                     objId = tab_Topic_Info.Tag;
-                    if(objId != null)
-                    {
-                        SqlHelper.ExecuteNonQuery($"UPDATE topic_info SET ti_submit_status='{(int)SubmitStatus.NonSubmit}' WHERE ti_id='{objId}'");
-                        EnableControls(ControlType.Topic, false);
-                    }
+                    updateSql = $"UPDATE topic_info SET ti_submit_status='{(int)SubmitStatus.NonSubmit}' WHERE ti_id='{objId}';";
                 }
                 else if(name.Contains("Subject"))
                 {
+                    type = ControlType.Subject;
                     objId = tab_Subject_Info.Tag;
-                    if(objId != null)
-                    {
-                        SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_submit_status='{(int)SubmitStatus.NonSubmit}' WHERE si_id='{objId}'");
-                        EnableControls(ControlType.Subject, false);
-                    }
+                    updateSql = $"UPDATE subject_info SET si_submit_status='{(int)SubmitStatus.NonSubmit}' WHERE si_id='{objId}';";
                 }
                 else if(name.Contains("Imp"))
                 {
+                    type = ControlType.Imp;
                     objId = tab_Imp_Info.Tag;
-                    if(objId != null)
-                    {
-                        SqlHelper.ExecuteNonQuery($"UPDATE imp_info SET imp_submit_status='{(int)ObjectSubmitStatus.NonSubmit}' WHERE imp_id='{objId}'");
-                        EnableControls(ControlType.Imp, false);
-                    }
+                    updateSql = $"UPDATE imp_info SET imp_submit_status='{(int)ObjectSubmitStatus.NonSubmit}' WHERE imp_id='{objId}';";
                 }
                 else if(name.Contains("Special"))
                 {
+                    type = ControlType.Special;
                     objId = tab_Special_Info.Tag;
-                    if(objId != null)
-                    {
-                        SqlHelper.ExecuteNonQuery($"UPDATE imp_dev_info SET imp_submit_status='{(int)ObjectSubmitStatus.NonSubmit}' WHERE imp_id='{objId}'");
-                        EnableControls(ControlType.Special, false);
-                    }
+                    updateSql = $"UPDATE imp_dev_info SET imp_submit_status='{(int)ObjectSubmitStatus.NonSubmit}' WHERE imp_id='{objId}';";
                 }
-                MessageBox.Show("操作成功.");
+
+                if(objId != null)
+                {
+                    SqlHelper.ExecuteNonQuery(updateSql);
+                    EnableControls(type, false);
+                    MessageBox.Show("操作成功.");
+                }
+                else
+                    MessageBox.Show("操作失败.");
             }
         }
 
