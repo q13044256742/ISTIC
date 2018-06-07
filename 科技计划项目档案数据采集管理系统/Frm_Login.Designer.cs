@@ -117,11 +117,15 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.btn_Login.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.btn_Login.Appearance.Options.UseFont = true;
-            this.btn_Login.Location = new System.Drawing.Point(359, 324);
+            this.btn_Login.Image = ((System.Drawing.Image)(resources.GetObject("btn_Login.Image")));
+            this.btn_Login.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleLeft;
+            this.btn_Login.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Login.ImageToTextIndent = 5;
+            this.btn_Login.Location = new System.Drawing.Point(373, 330);
             this.btn_Login.LookAndFeel.SkinName = "McSkin";
             this.btn_Login.LookAndFeel.UseDefaultLookAndFeel = false;
             this.btn_Login.Name = "btn_Login";
-            this.btn_Login.Size = new System.Drawing.Size(96, 32);
+            this.btn_Login.Size = new System.Drawing.Size(89, 33);
             this.btn_Login.TabIndex = 4;
             this.btn_Login.Text = "登录";
             this.btn_Login.Click += new System.EventHandler(this.btn_Login_Click);
