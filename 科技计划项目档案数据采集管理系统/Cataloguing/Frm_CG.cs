@@ -1496,5 +1496,10 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadPCList(null, csid);
             }
         }
+
+        private void Txt_Search_Properties_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        {
+
+        }
     }
 }

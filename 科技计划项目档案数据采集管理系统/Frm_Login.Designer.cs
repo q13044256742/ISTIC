@@ -35,8 +35,8 @@ namespace 科技计划项目档案数据采集管理系统
             this.txt_loginPassword = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btn_Login = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.cbo_Identity = new System.Windows.Forms.ComboBox();
+            this.btn_Login = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.pal_Login.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,23 +113,6 @@ namespace 科技计划项目档案数据采集管理系统
             this.label2.TabIndex = 1;
             this.label2.Text = "密码：";
             // 
-            // btn_Login
-            // 
-            this.btn_Login.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
-            this.btn_Login.Appearance.Options.UseFont = true;
-            this.btn_Login.Image = ((System.Drawing.Image)(resources.GetObject("btn_Login.Image")));
-            this.btn_Login.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleLeft;
-            this.btn_Login.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Login.ImageToTextIndent = 5;
-            this.btn_Login.Location = new System.Drawing.Point(373, 330);
-            this.btn_Login.LookAndFeel.SkinName = "McSkin";
-            this.btn_Login.LookAndFeel.UseDefaultLookAndFeel = false;
-            this.btn_Login.Name = "btn_Login";
-            this.btn_Login.Size = new System.Drawing.Size(89, 33);
-            this.btn_Login.TabIndex = 4;
-            this.btn_Login.Text = "登录";
-            this.btn_Login.Click += new System.EventHandler(this.btn_Login_Click);
-            // 
             // cbo_Identity
             // 
             this.cbo_Identity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -145,6 +128,23 @@ namespace 科技计划项目档案数据采集管理系统
             this.cbo_Identity.Name = "cbo_Identity";
             this.cbo_Identity.Size = new System.Drawing.Size(126, 24);
             this.cbo_Identity.TabIndex = 6;
+            // 
+            // btn_Login
+            // 
+            this.btn_Login.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.btn_Login.Appearance.Options.UseFont = true;
+            this.btn_Login.Image = ((System.Drawing.Image)(resources.GetObject("btn_Login.Image")));
+            this.btn_Login.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleLeft;
+            this.btn_Login.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Login.ImageToTextIndent = 5;
+            this.btn_Login.Location = new System.Drawing.Point(373, 330);
+            this.btn_Login.LookAndFeel.SkinName = "McSkin";
+            this.btn_Login.LookAndFeel.UseDefaultLookAndFeel = false;
+            this.btn_Login.Name = "btn_Login";
+            this.btn_Login.Size = new System.Drawing.Size(75, 35);
+            this.btn_Login.TabIndex = 4;
+            this.btn_Login.Text = "登录";
+            this.btn_Login.Click += new System.EventHandler(this.btn_Login_Click);
             // 
             // Frm_Login
             // 

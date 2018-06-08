@@ -132,9 +132,14 @@
             // 
             // btn_Sure
             // 
-            this.btn_Sure.Location = new System.Drawing.Point(194, 297);
+            this.btn_Sure.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Sure.Appearance.Options.UseFont = true;
+            this.btn_Sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_Sure.Image")));
+            this.btn_Sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Sure.ImageToTextIndent = 5;
+            this.btn_Sure.Location = new System.Drawing.Point(196, 297);
             this.btn_Sure.Name = "btn_Sure";
-            this.btn_Sure.Size = new System.Drawing.Size(71, 31);
+            this.btn_Sure.Size = new System.Drawing.Size(67, 30);
             this.btn_Sure.TabIndex = 10;
             this.btn_Sure.Text = "开始";
             this.btn_Sure.Click += new System.EventHandler(this.Btn_Sure_Click);

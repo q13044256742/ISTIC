@@ -30,6 +30,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Advice));
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_HistroyOpinion = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.cbo_AdviceType = new System.Windows.Forms.ComboBox();
@@ -62,9 +63,13 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // btn_HistroyOpinion
             // 
-            this.btn_HistroyOpinion.Location = new System.Drawing.Point(455, 12);
+            this.btn_HistroyOpinion.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_HistroyOpinion.Appearance.Options.UseFont = true;
+            this.btn_HistroyOpinion.Image = ((System.Drawing.Image)(resources.GetObject("btn_HistroyOpinion.Image")));
+            this.btn_HistroyOpinion.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_HistroyOpinion.Location = new System.Drawing.Point(445, 11);
             this.btn_HistroyOpinion.Name = "btn_HistroyOpinion";
-            this.btn_HistroyOpinion.Size = new System.Drawing.Size(70, 27);
+            this.btn_HistroyOpinion.Size = new System.Drawing.Size(80, 30);
             this.btn_HistroyOpinion.TabIndex = 12;
             this.btn_HistroyOpinion.Text = "历史意见";
             this.btn_HistroyOpinion.Click += new System.EventHandler(this.Btn_HistroyOpinion_Click);
@@ -99,9 +104,11 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.btn_Delete.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Delete.Appearance.Options.UseFont = true;
+            this.btn_Delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_Delete.Image")));
+            this.btn_Delete.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Delete.Location = new System.Drawing.Point(272, 302);
             this.btn_Delete.Name = "btn_Delete";
-            this.btn_Delete.Size = new System.Drawing.Size(67, 29);
+            this.btn_Delete.Size = new System.Drawing.Size(70, 30);
             this.btn_Delete.TabIndex = 9;
             this.btn_Delete.Text = "删除";
             this.btn_Delete.Click += new System.EventHandler(this.Btn_Delete_Click);
@@ -110,9 +117,11 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.btn_Sure.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Sure.Appearance.Options.UseFont = true;
-            this.btn_Sure.Location = new System.Drawing.Point(201, 302);
+            this.btn_Sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_Sure.Image")));
+            this.btn_Sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Sure.Location = new System.Drawing.Point(199, 302);
             this.btn_Sure.Name = "btn_Sure";
-            this.btn_Sure.Size = new System.Drawing.Size(67, 29);
+            this.btn_Sure.Size = new System.Drawing.Size(70, 30);
             this.btn_Sure.TabIndex = 8;
             this.btn_Sure.Text = "确定";
             this.btn_Sure.Click += new System.EventHandler(this.Btn_Sure_Click);

@@ -31,7 +31,12 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_QT));
             this.pal_LeftMenu = new System.Windows.Forms.Panel();
+            this.ace_LeftMenu = new 科技计划项目档案数据采集管理系统.KyoControl.KyoAccordion();
+            this.acg_Worked = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.ace_Login = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.ace_MyLog = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.dgv_Imp = new System.Windows.Forms.DataGridView();
             this.tab_Menulist = new System.Windows.Forms.TabControl();
             this.imp = new System.Windows.Forms.TabPage();
@@ -40,11 +45,8 @@ namespace 科技计划项目档案数据采集管理系统
             this.project = new System.Windows.Forms.TabPage();
             this.dgv_Project = new System.Windows.Forms.DataGridView();
             this.dgv_MyReg = new System.Windows.Forms.DataGridView();
-            this.ace_LeftMenu = new 科技计划项目档案数据采集管理系统.KyoControl.KyoAccordion();
-            this.acg_Worked = new DevExpress.XtraBars.Navigation.AccordionControlElement();
-            this.ace_Login = new DevExpress.XtraBars.Navigation.AccordionControlElement();
-            this.ace_MyLog = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.pal_LeftMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).BeginInit();
             this.tab_Menulist.SuspendLayout();
             this.imp.SuspendLayout();
@@ -53,7 +55,6 @@ namespace 科技计划项目档案数据采集管理系统
             this.project.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             this.SuspendLayout();
             // 
             // pal_LeftMenu
@@ -64,6 +65,73 @@ namespace 科技计划项目档案数据采集管理系统
             this.pal_LeftMenu.Name = "pal_LeftMenu";
             this.pal_LeftMenu.Size = new System.Drawing.Size(237, 487);
             this.pal_LeftMenu.TabIndex = 0;
+            // 
+            // ace_LeftMenu
+            // 
+            this.ace_LeftMenu.AllowItemSelection = true;
+            this.ace_LeftMenu.AnimationType = DevExpress.XtraBars.Navigation.AnimationType.Simple;
+            this.ace_LeftMenu.Appearance.Group.Normal.Font = new System.Drawing.Font("微软雅黑", 11.5F);
+            this.ace_LeftMenu.Appearance.Group.Normal.Options.UseFont = true;
+            this.ace_LeftMenu.Appearance.Item.Hovered.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.ace_LeftMenu.Appearance.Item.Hovered.Options.UseFont = true;
+            this.ace_LeftMenu.Appearance.Item.Normal.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.ace_LeftMenu.Appearance.Item.Normal.Options.UseFont = true;
+            this.ace_LeftMenu.Appearance.Item.Pressed.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Bold);
+            this.ace_LeftMenu.Appearance.Item.Pressed.Options.UseFont = true;
+            this.ace_LeftMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ace_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
+            this.acg_Worked});
+            this.ace_LeftMenu.Location = new System.Drawing.Point(0, 0);
+            this.ace_LeftMenu.LookAndFeel.SkinName = "McSkin";
+            this.ace_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
+            this.ace_LeftMenu.Name = "ace_LeftMenu";
+            this.ace_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
+            this.ace_LeftMenu.Size = new System.Drawing.Size(237, 487);
+            this.ace_LeftMenu.TabIndex = 17;
+            // 
+            // acg_Worked
+            // 
+            this.acg_Worked.Appearance.Hovered.Font = new System.Drawing.Font("微软雅黑", 11.5F);
+            this.acg_Worked.Appearance.Hovered.ForeColor = System.Drawing.Color.Black;
+            this.acg_Worked.Appearance.Hovered.Options.UseFont = true;
+            this.acg_Worked.Appearance.Hovered.Options.UseForeColor = true;
+            this.acg_Worked.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 11.5F);
+            this.acg_Worked.Appearance.Normal.ForeColor = System.Drawing.Color.Black;
+            this.acg_Worked.Appearance.Normal.Options.UseFont = true;
+            this.acg_Worked.Appearance.Normal.Options.UseForeColor = true;
+            this.acg_Worked.Appearance.Normal.Options.UseTextOptions = true;
+            this.acg_Worked.Appearance.Normal.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.acg_Worked.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
+            this.ace_Login,
+            this.ace_MyLog});
+            this.acg_Worked.Expanded = true;
+            this.acg_Worked.Height = 50;
+            this.acg_Worked.Image = ((System.Drawing.Image)(resources.GetObject("acg_Worked.Image")));
+            this.acg_Worked.Name = "acg_Worked";
+            this.acg_Worked.Text = "档案质检";
+            this.acg_Worked.TextToImageDistance = 10;
+            // 
+            // ace_Login
+            // 
+            this.ace_Login.Height = 35;
+            this.ace_Login.Image = ((System.Drawing.Image)(resources.GetObject("ace_Login.Image")));
+            this.ace_Login.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Stretch;
+            this.ace_Login.Name = "ace_Login";
+            this.ace_Login.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.ace_Login.Text = "质检登记";
+            this.ace_Login.TextToImageDistance = 15;
+            this.ace_Login.Click += new System.EventHandler(this.Sub_Click);
+            // 
+            // ace_MyLog
+            // 
+            this.ace_MyLog.Height = 35;
+            this.ace_MyLog.Image = ((System.Drawing.Image)(resources.GetObject("ace_MyLog.Image")));
+            this.ace_MyLog.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
+            this.ace_MyLog.Name = "ace_MyLog";
+            this.ace_MyLog.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.ace_MyLog.Text = "我的质检";
+            this.ace_MyLog.TextToImageDistance = 15;
+            this.ace_MyLog.Click += new System.EventHandler(this.Sub_Click);
             // 
             // dgv_Imp
             // 
@@ -175,51 +243,6 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_MyReg.Visible = false;
             this.dgv_MyReg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_MyReg_CellClick);
             // 
-            // ace_LeftMenu
-            // 
-            this.ace_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ace_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.acg_Worked});
-            this.ace_LeftMenu.Location = new System.Drawing.Point(0, 0);
-            this.ace_LeftMenu.Name = "ace_LeftMenu";
-            this.ace_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
-            this.ace_LeftMenu.Size = new System.Drawing.Size(227, 487);
-            this.ace_LeftMenu.TabIndex = 17;
-            // 
-            // acg_Worked
-            // 
-            this.acg_Worked.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.ace_Login,
-            this.ace_MyLog});
-            this.acg_Worked.Expanded = true;
-            this.acg_Worked.Height = 50;
-            this.acg_Worked.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic2;
-            this.acg_Worked.Name = "acg_Worked";
-            this.acg_Worked.Text = "档案质检";
-            this.acg_Worked.TextToImageDistance = 10;
-            // 
-            // ace_Login
-            // 
-            this.ace_Login.Height = 35;
-            this.ace_Login.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic8;
-            this.ace_Login.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
-            this.ace_Login.Name = "ace_Login";
-            this.ace_Login.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.ace_Login.Text = "质检登记";
-            this.ace_Login.TextToImageDistance = 15;
-            this.ace_Login.Click += new System.EventHandler(this.Sub_Click);
-            // 
-            // ace_MyLog
-            // 
-            this.ace_MyLog.Height = 35;
-            this.ace_MyLog.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic7;
-            this.ace_MyLog.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
-            this.ace_MyLog.Name = "ace_MyLog";
-            this.ace_MyLog.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.ace_MyLog.Text = "我的质检";
-            this.ace_MyLog.TextToImageDistance = 15;
-            this.ace_MyLog.Click += new System.EventHandler(this.Sub_Click);
-            // 
             // Frm_QT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -235,6 +258,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.Text = "档案质检";
             this.Load += new System.EventHandler(this.Frm_QT_Load);
             this.pal_LeftMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).EndInit();
             this.tab_Menulist.ResumeLayout(false);
             this.imp.ResumeLayout(false);
@@ -243,7 +267,6 @@ namespace 科技计划项目档案数据采集管理系统
             this.project.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).EndInit();
             this.ResumeLayout(false);
 
         }

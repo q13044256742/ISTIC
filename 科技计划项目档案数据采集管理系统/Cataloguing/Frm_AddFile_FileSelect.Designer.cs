@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_AddFile_FileSelect));
             this.tv_file = new System.Windows.Forms.TreeView();
             this.btn_sure = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,9 +52,14 @@
             // btn_sure
             // 
             this.btn_sure.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_sure.Location = new System.Drawing.Point(312, 666);
+            this.btn_sure.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_sure.Appearance.Options.UseFont = true;
+            this.btn_sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_sure.Image")));
+            this.btn_sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_sure.ImageToTextIndent = 5;
+            this.btn_sure.Location = new System.Drawing.Point(313, 666);
             this.btn_sure.Name = "btn_sure";
-            this.btn_sure.Size = new System.Drawing.Size(69, 31);
+            this.btn_sure.Size = new System.Drawing.Size(67, 30);
             this.btn_sure.TabIndex = 1;
             this.btn_sure.Text = "确定";
             this.btn_sure.Click += new System.EventHandler(this.btn_sure_Click);

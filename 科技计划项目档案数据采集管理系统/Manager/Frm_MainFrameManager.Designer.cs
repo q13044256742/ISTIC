@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_MainFrameManager));
             this.lbl_OtherInfo = new System.Windows.Forms.Label();
             this.txt_RealName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -149,11 +150,12 @@
             this.pal_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.pal_LeftMenu.Location = new System.Drawing.Point(0, 115);
             this.pal_LeftMenu.Name = "pal_LeftMenu";
-            this.pal_LeftMenu.Size = new System.Drawing.Size(260, 626);
+            this.pal_LeftMenu.Size = new System.Drawing.Size(215, 626);
             this.pal_LeftMenu.TabIndex = 19;
             // 
             // accordionControl1
             // 
+            this.accordionControl1.AllowItemSelection = true;
             this.accordionControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.accordionControl1.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
             this.accordionControlElement1,
@@ -161,9 +163,11 @@
             this.accordionControlElement3,
             this.accordionControlElement4});
             this.accordionControl1.Location = new System.Drawing.Point(0, 0);
+            this.accordionControl1.LookAndFeel.SkinName = "McSkin";
+            this.accordionControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.accordionControl1.Name = "accordionControl1";
             this.accordionControl1.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
-            this.accordionControl1.Size = new System.Drawing.Size(260, 626);
+            this.accordionControl1.Size = new System.Drawing.Size(215, 626);
             this.accordionControl1.TabIndex = 0;
             // 
             // accordionControlElement1
@@ -176,6 +180,7 @@
             this.ace_UserInfo,
             this.ace_UserGroup});
             this.accordionControlElement1.Expanded = true;
+            this.accordionControlElement1.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement1.Image")));
             this.accordionControlElement1.Name = "accordionControlElement1";
             this.accordionControlElement1.Text = "用户管理";
             // 
@@ -214,6 +219,7 @@
             this.ace_DicUnit,
             this.ace_DicStandard});
             this.accordionControlElement2.Expanded = true;
+            this.accordionControlElement2.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement2.Image")));
             this.accordionControlElement2.Name = "accordionControlElement2";
             this.accordionControlElement2.Text = "字典管理";
             // 
@@ -275,6 +281,7 @@
             this.ace_LoginLog,
             this.ace_WorkLog});
             this.accordionControlElement3.Expanded = true;
+            this.accordionControlElement3.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement3.Image")));
             this.accordionControlElement3.Name = "accordionControlElement3";
             this.accordionControlElement3.Text = "安全监控";
             // 
@@ -308,6 +315,7 @@
             this.ace_ReciveDemo,
             this.ace_Giveup});
             this.accordionControlElement4.Expanded = true;
+            this.accordionControlElement4.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement4.Image")));
             this.accordionControlElement4.Name = "accordionControlElement4";
             this.accordionControlElement4.Text = "模板管理";
             // 

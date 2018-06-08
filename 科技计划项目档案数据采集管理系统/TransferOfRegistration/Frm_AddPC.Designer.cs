@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_AddPC));
             this.label1 = new System.Windows.Forms.Label();
             this.txt_BatchName = new System.Windows.Forms.TextBox();
             this.txt_BatchCode = new System.Windows.Forms.TextBox();
@@ -201,13 +202,16 @@
             // 
             // btn_UploadFile
             // 
-            this.btn_UploadFile.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.btn_UploadFile.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.btn_UploadFile.Appearance.Options.UseFont = true;
-            this.btn_UploadFile.Location = new System.Drawing.Point(638, 210);
+            this.btn_UploadFile.Image = ((System.Drawing.Image)(resources.GetObject("btn_UploadFile.Image")));
+            this.btn_UploadFile.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_UploadFile.ImageToTextIndent = 5;
+            this.btn_UploadFile.Location = new System.Drawing.Point(646, 209);
             this.btn_UploadFile.Name = "btn_UploadFile";
-            this.btn_UploadFile.Size = new System.Drawing.Size(75, 30);
+            this.btn_UploadFile.Size = new System.Drawing.Size(67, 30);
             this.btn_UploadFile.TabIndex = 8;
-            this.btn_UploadFile.Text = "上传";
+            this.btn_UploadFile.Text = "添加";
             this.btn_UploadFile.Click += new System.EventHandler(this.Btn_UploadFile_Click);
             // 
             // groupBox1
@@ -304,11 +308,14 @@
             // btn_Save
             // 
             this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Save.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.btn_Save.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.btn_Save.Appearance.Options.UseFont = true;
-            this.btn_Save.Location = new System.Drawing.Point(665, 541);
+            this.btn_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save.Image")));
+            this.btn_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Save.ImageToTextIndent = 5;
+            this.btn_Save.Location = new System.Drawing.Point(342, 543);
             this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(73, 35);
+            this.btn_Save.Size = new System.Drawing.Size(67, 30);
             this.btn_Save.TabIndex = 11;
             this.btn_Save.Text = "保存";
             this.btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_AddCD));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -103,11 +104,14 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.btn_Save.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.btn_Save.Appearance.Options.UseFont = true;
-            this.btn_Save.Location = new System.Drawing.Point(198, 277);
+            this.btn_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save.Image")));
+            this.btn_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Save.ImageToTextIndent = 5;
+            this.btn_Save.Location = new System.Drawing.Point(205, 277);
             this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(85, 33);
+            this.btn_Save.Size = new System.Drawing.Size(70, 30);
             this.btn_Save.TabIndex = 6;
             this.btn_Save.Text = "保存";
             this.btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);

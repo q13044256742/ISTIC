@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_ToR));
             this.dgv_GPDJ = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -43,7 +44,6 @@
             this.cbo_Status = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tc_ToR = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pal_YJDJ = new System.Windows.Forms.Panel();
             this.pal_XTSY = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
@@ -61,7 +61,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_CDSearch.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tc_ToR)).BeginInit();
             this.tc_ToR.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,7 +89,7 @@
             this.tabPage1.Controls.Add(this.dgv_SWDJ);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(766, 459);
+            this.tabPage1.Size = new System.Drawing.Size(736, 458);
             this.tabPage1.Text = "实物登记";
             // 
             // groupBox2
@@ -104,14 +103,14 @@
             this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.groupBox2.Location = new System.Drawing.Point(2, -6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(757, 49);
+            this.groupBox2.Size = new System.Drawing.Size(727, 49);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             // 
             // txt_Search
             // 
             this.txt_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_Search.Location = new System.Drawing.Point(297, 14);
+            this.txt_Search.Location = new System.Drawing.Point(267, 14);
             this.txt_Search.Name = "txt_Search";
             this.txt_Search.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.txt_Search.Properties.Appearance.Options.UseFont = true;
@@ -131,7 +130,12 @@
             // btn_Back
             // 
             this.btn_Back.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Back.Location = new System.Drawing.Point(688, 13);
+            this.btn_Back.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Back.Appearance.Options.UseFont = true;
+            this.btn_Back.Image = ((System.Drawing.Image)(resources.GetObject("btn_Back.Image")));
+            this.btn_Back.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Back.ImageToTextIndent = 5;
+            this.btn_Back.Location = new System.Drawing.Point(658, 13);
             this.btn_Back.Name = "btn_Back";
             this.btn_Back.Size = new System.Drawing.Size(66, 30);
             this.btn_Back.TabIndex = 3;
@@ -141,7 +145,12 @@
             // btn_Delete
             // 
             this.btn_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Delete.Location = new System.Drawing.Point(612, 13);
+            this.btn_Delete.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Delete.Appearance.Options.UseFont = true;
+            this.btn_Delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_Delete.Image")));
+            this.btn_Delete.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Delete.ImageToTextIndent = 5;
+            this.btn_Delete.Location = new System.Drawing.Point(582, 13);
             this.btn_Delete.Name = "btn_Delete";
             this.btn_Delete.Size = new System.Drawing.Size(68, 30);
             this.btn_Delete.TabIndex = 2;
@@ -151,7 +160,12 @@
             // btn_Add
             // 
             this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Add.Location = new System.Drawing.Point(537, 13);
+            this.btn_Add.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Add.Appearance.Options.UseFont = true;
+            this.btn_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Add.Image")));
+            this.btn_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Add.ImageToTextIndent = 5;
+            this.btn_Add.Location = new System.Drawing.Point(507, 13);
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(67, 30);
             this.btn_Add.TabIndex = 0;
@@ -173,7 +187,7 @@
             this.dgv_SWDJ.Name = "dgv_SWDJ";
             this.dgv_SWDJ.ReadOnly = true;
             this.dgv_SWDJ.RowTemplate.Height = 23;
-            this.dgv_SWDJ.Size = new System.Drawing.Size(757, 410);
+            this.dgv_SWDJ.Size = new System.Drawing.Size(727, 409);
             this.dgv_SWDJ.TabIndex = 0;
             this.dgv_SWDJ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_SWDJ_CellClick);
             // 
@@ -224,6 +238,11 @@
             // btn_CD_Delete
             // 
             this.btn_CD_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_CD_Delete.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_CD_Delete.Appearance.Options.UseFont = true;
+            this.btn_CD_Delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_CD_Delete.Image")));
+            this.btn_CD_Delete.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_CD_Delete.ImageToTextIndent = 5;
             this.btn_CD_Delete.Location = new System.Drawing.Point(684, 13);
             this.btn_CD_Delete.Name = "btn_CD_Delete";
             this.btn_CD_Delete.Size = new System.Drawing.Size(67, 30);
@@ -258,32 +277,18 @@
             // 
             // tc_ToR
             // 
-            this.tc_ToR.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tc_ToR.AppearancePage.Header.Font = new System.Drawing.Font("Tahoma", 11F);
             this.tc_ToR.AppearancePage.Header.Options.UseFont = true;
-            this.tc_ToR.Location = new System.Drawing.Point(1, 10);
+            this.tc_ToR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tc_ToR.Location = new System.Drawing.Point(259, 0);
             this.tc_ToR.Name = "tc_ToR";
             this.tc_ToR.SelectedTabPage = this.tabPage1;
-            this.tc_ToR.Size = new System.Drawing.Size(772, 492);
+            this.tc_ToR.Size = new System.Drawing.Size(742, 491);
             this.tc_ToR.TabIndex = 8;
             this.tc_ToR.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage1,
             this.tabPage2});
             this.tc_ToR.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tc_ToR_SelectedIndexChanged);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.tc_ToR);
-            this.groupBox1.Location = new System.Drawing.Point(230, -9);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(771, 502);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
             // 
             // pal_YJDJ
             // 
@@ -315,26 +320,37 @@
             // 
             // ac_LeftMenu
             // 
-            this.ac_LeftMenu.AnimationType = DevExpress.XtraBars.Navigation.AnimationType.Simple;
+            this.ac_LeftMenu.AllowItemSelection = true;
+            this.ac_LeftMenu.Appearance.Group.Hovered.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.ac_LeftMenu.Appearance.Group.Hovered.Options.UseFont = true;
+            this.ac_LeftMenu.Appearance.Group.Normal.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.ac_LeftMenu.Appearance.Group.Normal.Options.UseFont = true;
+            this.ac_LeftMenu.Appearance.Group.Pressed.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.ac_LeftMenu.Appearance.Group.Pressed.Options.UseFont = true;
+            this.ac_LeftMenu.Appearance.Item.Hovered.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.ac_LeftMenu.Appearance.Item.Hovered.Options.UseFont = true;
+            this.ac_LeftMenu.Appearance.Item.Normal.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.ac_LeftMenu.Appearance.Item.Normal.Options.UseFont = true;
+            this.ac_LeftMenu.Appearance.Item.Pressed.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.ac_LeftMenu.Appearance.Item.Pressed.Options.UseFont = true;
             this.ac_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.ac_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
             this.acg_Register});
             this.ac_LeftMenu.Location = new System.Drawing.Point(0, 0);
-            this.ac_LeftMenu.LookAndFeel.SkinName = "Office 2010 Blue";
+            this.ac_LeftMenu.LookAndFeel.SkinName = "McSkin";
             this.ac_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
             this.ac_LeftMenu.Name = "ac_LeftMenu";
             this.ac_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.ac_LeftMenu.ShowToolTips = false;
-            this.ac_LeftMenu.Size = new System.Drawing.Size(228, 491);
+            this.ac_LeftMenu.Size = new System.Drawing.Size(259, 491);
             this.ac_LeftMenu.TabIndex = 11;
-            this.ac_LeftMenu.Text = "accordionControl1";
             // 
             // acg_Register
             // 
             this.acg_Register.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
             this.ace_all});
             this.acg_Register.Expanded = true;
-            this.acg_Register.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.pic1;
+            this.acg_Register.Image = ((System.Drawing.Image)(resources.GetObject("acg_Register.Image")));
             this.acg_Register.Name = "acg_Register";
             this.acg_Register.Text = "移交登记";
             this.acg_Register.TextToImageDistance = 10;
@@ -350,8 +366,8 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1001, 491);
+            this.Controls.Add(this.tc_ToR);
             this.Controls.Add(this.ac_LeftMenu);
-            this.Controls.Add(this.groupBox1);
             this.DoubleBuffered = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -369,7 +385,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_CDSearch.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tc_ToR)).EndInit();
             this.tc_ToR.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).EndInit();
             this.ResumeLayout(false);
 
@@ -386,7 +401,6 @@
         private System.Windows.Forms.DataGridView dgv_SWDJ;
         private DevExpress.XtraTab.XtraTabPage tabPage2;
         private KyoControl.KyoTabControl tc_ToR;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private KyoControl.KyoButton btn_Back;
         private KyoControl.KyoButton btn_Delete;
