@@ -161,10 +161,10 @@
     <Compile Include="Manager\Frm_MainFrameManager.Designer.cs">
       <DependentUpon>Frm_MainFrameManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_ProTypeSelect.cs">
+    <Compile Include="Cataloguing\Frm_ProTypeSelect.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_ProTypeSelect.Designer.cs">
+    <Compile Include="Cataloguing\Frm_ProTypeSelect.Designer.cs">
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </Compile>
     <Compile Include="Manager\Frm_template.cs">
@@ -344,7 +344,7 @@
     <EmbeddedResource Include="Manager\Frm_MainFrameManager.resx">
       <DependentUpon>Frm_MainFrameManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_ProTypeSelect.resx">
+    <EmbeddedResource Include="Cataloguing\Frm_ProTypeSelect.resx">
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_template.resx">

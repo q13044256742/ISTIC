@@ -10,6 +10,8 @@ namespace 科技计划项目档案数据采集管理系统
         public object unitCode;
         public Frm_ProTypeSelect(WorkType workType,object objId)
         {
+            
+
             InitializeComponent();
             this.workType = workType;
             this.objId = objId;
