@@ -72,7 +72,7 @@ namespace 科技计划项目档案数据采集管理系统
                         result = "不齐备";
                     else
                     {
-                        List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id = '{objId}'", 1);
+                        List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT ti_id FROM topic_info WHERE ti_obj_id = '{objId}'", 1);
                         for(int j = 0; j < list.Count; j++)
                         {
                             if(HaveLostFile(list[j][0]))
@@ -80,7 +80,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 result = "不齐备";
                                 break;
                             }
-                            List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id = '{list[j][0]}'", 1);
+                            List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE si_obj_id = '{list[j][0]}'", 1);
                             for(int k = 0; k < list2.Count; k++)
                             {
                                 if(HaveLostFile(list2[k][0]))

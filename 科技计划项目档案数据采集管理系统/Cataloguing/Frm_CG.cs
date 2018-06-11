@@ -742,44 +742,29 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 if(MessageBox.Show("确定要将当前批次提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                                 {
-                                    //将批次状态置为已完成
-                                    object objid = dgv_WorkLog.Rows[e.RowIndex].Cells["id"].Value;
-                                    //将专项添加到待质检
-                                    object impid = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_id FROM imp_info WHERE imp_obj_id='{objid}'");
-                                    if(impid != null)
-                                    {
-                                        SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id, wm_ticker) VALUES " +
-                                           $"('{Guid.NewGuid().ToString()}', '{objId}', '{(int)QualityStatus.NonQuality}', '{UserHelper.GetInstance().User.UserKey}', 0, '{impid}', 0)");
-                                    }
-                                    else
-                                    {
-                                        impid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objid}'");
-                                        if(impid != null)
-                                            SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id, wm_ticker) VALUES " +
-                                                $"('{Guid.NewGuid().ToString()}', '{objId}', '{(int)QualityStatus.NonQuality}', '{UserHelper.GetInstance().User.UserKey}', -1, '{impid}', 0)");
-                                    }
-                                    //专项信息
-                                    object devid = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_id FROM imp_dev_info WHERE imp_obj_id='{impid}'");
-                                    if(devid != null)
-                                        SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id, wm_ticker) VALUES " +
-                                            $"('{Guid.NewGuid().ToString()}', '{objId}', '{(int)QualityStatus.NonQuality}', '{UserHelper.GetInstance().User.UserKey}', 1, '{devid}', 0)");
-                                    else
-                                        devid = impid;
+                                    StringBuilder sb = new StringBuilder();
+                                    object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["id"].Value;
+                                    object pId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{trpId}'");
+                                    object wrId = dgv_WorkLog.Rows[e.RowIndex].Cells["id"].Tag;
+                                    //计划
+                                    sb.Append($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id, wm_ticker) VALUES " +
+                                       $"('{Guid.NewGuid().ToString()}', '{wrId}', 1, '{UserHelper.GetInstance().User.UserKey}', -1, '{pId}', 0);");
+
                                     //项目/课题
-                                    List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{devid}'", 1);
-                                    for(int i = 0; i < list.Count; i++)
-                                        SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id, wm_ticker) VALUES " +
-                                            $"('{Guid.NewGuid().ToString()}', '{objId}', '{(int)QualityStatus.NonQuality}', '{UserHelper.GetInstance().User.UserKey}', 2, '{list[i][0]}', 0)");
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}' WHERE wr_id='{objId}'");
+                                    object[] list = SqlHelper.ExecuteSingleColumnQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{pId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                                    for(int i = 0; i < list.Length; i++)
+                                        sb.Append($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id, wm_ticker) VALUES " +
+                                            $"('{Guid.NewGuid().ToString()}', '{wrId}', 1, '{UserHelper.GetInstance().User.UserKey}', 2, '{list[i]}', 0);");
+                                    sb.Append($"UPDATE work_registration SET wr_submit_status =2, wr_submit_date='{DateTime.Now}' WHERE wr_id='{wrId}';");
+
+                                    SqlHelper.ExecuteNonQuery(sb.ToString());
 
                                     MessageBox.Show("提交成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                                     LoadWorkList(null, WorkStatus.NonWork);
                                 }
                             }
                             else
-                            {
                                 MessageBox.Show("当前项目/课题下尚有未提交的数据。", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                            }
                         }
                         else
                             MessageBox.Show("此操作不被允许！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -815,7 +800,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 for(int i = 0; i < list.Count; i++)
                                     SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id) VALUES " +
                                         $"('{Guid.NewGuid().ToString()}', '{objId}', '{(int)QualityStatus.NonQuality}', '{UserHelper.GetInstance().User.UserKey}', 2, '{list[i][0]}')");
-                                
+
                                 SqlHelper.ExecuteNonQuery($"UPDATE work_registration SET wr_submit_status ={(int)ObjectSubmitStatus.SubmitSuccess},wr_submit_date='{DateTime.Now}' WHERE wr_id='{objId}'");
 
                                 LoadWorkList(null, WorkStatus.NonWork);
@@ -832,7 +817,7 @@ namespace 科技计划项目档案数据采集管理系统
                             if(MessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                             {
                                 string sqlString = $"INSERT INTO work_myreg (wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id) VALUES " +
-                                    $"('{Guid.NewGuid().ToString()}', '{objId}', 1, '{UserHelper.GetInstance().User.UserKey}', 3, '{proId}');";
+                                    $"('{Guid.NewGuid().ToString()}', '{objId}', 1, '{UserHelper.GetInstance().User.UserKey}', 2, '{proId}');";
                                 sqlString += $"UPDATE work_registration SET wr_submit_status =2, wr_submit_date='{DateTime.Now}' WHERE wr_id='{objId}';";
                                 SqlHelper.ExecuteNonQuery(sqlString);
 
@@ -858,7 +843,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         object piId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
-                        Frm_MyWork frm = new Frm_MyWork(WorkType.Default, piId, trpId, ControlType.Special, true);
+                        Frm_MyWork frm = new Frm_MyWork(WorkType.Default, piId, trpId, ControlType.Plan, true);
                         frm.ShowDialog();
                     }
                     else if(type == 1)
@@ -909,7 +894,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 object wmid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_code"].Tag;//返工表主键
                                 SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.NonQuality}', wm_user='{UserHelper.GetInstance().User.UserKey}' WHERE wm_id='{wmid}'");
 
-                                InitialLeftMenu();
+                                SetBackWorkNumber();
                                 LoadWorkBackList();
                             }
                         }
@@ -926,7 +911,8 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 object wmid = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_code"].Tag;//返工表主键
                                 SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.NonQuality}', wm_user='{UserHelper.GetInstance().User.UserKey}' WHERE wm_id='{wmid}'");
-                                InitialLeftMenu();
+
+                                SetBackWorkNumber();
                                 LoadWorkBackList();
                             }
                         }
@@ -1112,22 +1098,22 @@ namespace 科技计划项目档案数据采集管理系统
                     if(type == WorkType.PaperWork)
                     {
                         object rootStatu = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_submit_status FROM project_info WHERE pi_id='{rootId}'");
-                        if(rootStatu == null || (Convert.ToInt32(rootStatu) == (int)ObjectSubmitStatus.NonSubmit))
+                        if(rootStatu == null || (Convert.ToInt32(rootStatu) == 1))
                             return false;
                         _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_obj_id='{rootId}'", 2);
                         for(int i = 0; i < _obj2.Count; i++)
                         {
-                            if(Convert.ToInt32(_obj2[i][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                            if(Convert.ToInt32(_obj2[i][1]) == 1)
                                 return false;
-                            List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_submit_status FROM subject_info WHERE pi_id='{_obj2[i][0]}'", 2);
+                            List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT ti_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{_obj2[i][0]}'", 2);
                             for(int j = 0; j < _obj3.Count; j++)
                             {
-                                if(Convert.ToInt32(_obj3[j][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                                if(Convert.ToInt32(_obj3[j][1]) == 1)
                                     return false;
-                                List<object[]> _obj4 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_submit_status FROM subject_info WHERE pi_id='{_obj3[j][0]}'", 2);
+                                List<object[]> _obj4 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id, si_submit_status FROM subject_info WHERE si_obj_id='{_obj3[j][0]}'", 2);
                                 for(int k = 0; k < _obj4.Count; k++)
                                 {
-                                    if(Convert.ToInt32(_obj4[k][1]) == (int)ObjectSubmitStatus.NonSubmit)
+                                    if(Convert.ToInt32(_obj4[k][1]) == 1)
                                         return false;
                                 }
                             }
@@ -1173,7 +1159,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == WorkType.PaperWork)
             {
-                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}'");
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
             }
             if(type == WorkType.ProjectWork)
             {

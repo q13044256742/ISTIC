@@ -24,11 +24,12 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_QT_Load(object sender, EventArgs e)
         {
-            //LoadWaitQTList();
             dgv_Imp.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_Imp_Dev.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dgv_Project.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+
             LoadImpList();
+            ace_LeftMenu.SelectedElement = ace_Login;
         }
       
         /// <summary>
@@ -41,7 +42,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 dgv_MyReg.Visible = false;
                 tab_Menulist.Visible = true;
-                tab_Menulist.SelectedIndex = 0;
+                tab_Menulist.SelectedTabPageIndex = 0;
             }
             else if("ace_MyLog".Equals(name))
             {
@@ -466,7 +467,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Tab_Menulist_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index = tab_Menulist.SelectedIndex;
+            int index = tab_Menulist.SelectedTabPageIndex;
             if(index == 0)//计划
             {
                 LoadImpList();
@@ -509,8 +510,8 @@ namespace 科技计划项目档案数据采集管理系统
             LoadDataGridViewData(SqlHelper.ExecuteQuery(querySql));
             
             /* ---------------------普通计划------------------ */
-            querySql = "SELECT pi_id as imp_id, dd_id, dd_name, pi_code as imp_code, pi_name as imp_name, trp.trp_id, wm.wm_id, wm.wm_ticker FROM project_info pi " +
-                "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
+            querySql = "SELECT pi_id as imp_id, dd_id, dd_name, pi_code as imp_code, pi_name as imp_name, trp.trp_id, wm.wm_id, wm.wm_ticker FROM work_myreg wm " +
+                "LEFT JOIN project_info pi ON pi.pi_id = wm.wm_obj_id " +
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
                 "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
@@ -816,7 +817,7 @@ namespace 科技计划项目档案数据采集管理系统
                     else if(index == -1)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, piid, null, ControlType.Special);
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.PaperWork, piid, null, ControlType.Plan);
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
                             if(HaveBacked(piid))

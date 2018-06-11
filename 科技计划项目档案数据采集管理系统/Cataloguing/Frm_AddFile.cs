@@ -191,8 +191,8 @@ namespace 科技计划项目档案数据采集管理系统
             row.Cells[key + "code"].Value = txt_fileCode.Text;
             row.Cells[key + "user"].Value = txt_User.Text;
             row.Cells[key + "type"].Value = GetRadioValue(pal_type);
-            row.Cells[key + "page"].Value = num_Pages.Value;
-            row.Cells[key + "count"].Value = num_Amount.Value;
+            row.Cells[key + "pages"].Value = num_Pages.Value;
+            row.Cells[key + "amount"].Value = num_Amount.Value;
             row.Cells[key + "date"].Value = dtp_date.Value.ToString("yyyyMMdd");
             row.Cells[key + "unit"].Value = txt_Unit.Text;
             row.Cells[key + "carrier"].Value = GetCheckBoxValue(pal_carrier);
@@ -206,8 +206,8 @@ namespace 科技计划项目档案数据采集管理系统
                 object name = row.Cells[key + "name"].Value;
                 object user = row.Cells[key + "user"].Value;
                 object type = row.Cells[key + "type"].Value;
-                object pages = row.Cells[key + "page"].Value;
-                object count = row.Cells[key + "count"].Value;
+                object pages = row.Cells[key + "pages"].Value;
+                object count = row.Cells[key + "amount"].Value;
                 DateTime date = DateTime.Now;
                 string _date = GetValue(row.Cells[key + "date"].Value);
                 if(!string.IsNullOrEmpty(_date))
@@ -259,8 +259,8 @@ namespace 科技计划项目档案数据采集管理系统
                 object name = row.Cells[key + "name"].Value;
                 object user = row.Cells[key + "user"].Value;
                 object type = row.Cells[key + "type"].Value;
-                object pages = row.Cells[key + "page"].Value;
-                object count = row.Cells[key + "count"].Value;
+                object pages = row.Cells[key + "pages"].Value;
+                object count = row.Cells[key + "amount"].Value;
                 DateTime date = DateTime.Now;
                 string _date = GetValue(row.Cells[key + "date"].Value);
                 if(!string.IsNullOrEmpty(_date))
