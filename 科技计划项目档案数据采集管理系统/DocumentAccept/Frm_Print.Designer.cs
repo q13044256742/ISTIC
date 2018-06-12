@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Print));
             this.chk_1 = new System.Windows.Forms.CheckBox();
             this.lbl_1 = new System.Windows.Forms.LinkLabel();
             this.lbl_2 = new System.Windows.Forms.LinkLabel();
             this.chk_2 = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.button2 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.lbl_3 = new System.Windows.Forms.LinkLabel();
             this.chk_3 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
@@ -86,21 +87,29 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(120, 191);
+            this.button1.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.button1.Appearance.Options.UseFont = true;
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.button1.ImageToTextIndent = 5;
+            this.button1.Location = new System.Drawing.Point(129, 191);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 29);
+            this.button1.Size = new System.Drawing.Size(67, 30);
             this.button1.TabIndex = 4;
             this.button1.Text = "打印";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
+            this.button2.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.button2.Appearance.Options.UseFont = true;
+            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
+            this.button2.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.button2.ImageToTextIndent = 5;
             this.button2.Location = new System.Drawing.Point(201, 191);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 29);
+            this.button2.Size = new System.Drawing.Size(67, 30);
             this.button2.TabIndex = 5;
             this.button2.Text = "导出";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // lbl_3
             // 
@@ -156,8 +165,8 @@
         private System.Windows.Forms.LinkLabel lbl_1;
         private System.Windows.Forms.LinkLabel lbl_2;
         private System.Windows.Forms.CheckBox chk_2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private KyoControl.KyoButton button1;
+        private KyoControl.KyoButton button2;
         private System.Windows.Forms.LinkLabel lbl_3;
         private System.Windows.Forms.CheckBox chk_3;
     }

@@ -30,10 +30,10 @@
             this.lbl_OtherInfo = new System.Windows.Forms.Label();
             this.txt_RealName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lbl_ExitSystem = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pal_Top = new System.Windows.Forms.Panel();
             this.pal_Top_Info = new System.Windows.Forms.Panel();
+            this.lbl_ExitSystem = new DevExpress.XtraEditors.HyperlinkLabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pal_Top.SuspendLayout();
             this.pal_Top_Info.SuspendLayout();
@@ -70,23 +70,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "欢迎你：";
             // 
-            // lbl_ExitSystem
-            // 
-            this.lbl_ExitSystem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_ExitSystem.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_ExitSystem.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_ExitSystem.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.tuichu;
-            this.lbl_ExitSystem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbl_ExitSystem.Location = new System.Drawing.Point(1118, 30);
-            this.lbl_ExitSystem.Name = "lbl_ExitSystem";
-            this.lbl_ExitSystem.Size = new System.Drawing.Size(101, 21);
-            this.lbl_ExitSystem.TabIndex = 1;
-            this.lbl_ExitSystem.TabStop = true;
-            this.lbl_ExitSystem.Text = "退出系统";
-            this.lbl_ExitSystem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbl_ExitSystem.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbl_ExitSystem_LinkClicked);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
@@ -102,9 +85,9 @@
             // 
             this.pal_Top.BackColor = System.Drawing.Color.Gray;
             this.pal_Top.BackgroundImage = global::科技计划项目档案数据采集管理系统.Properties.Resources.top;
+            this.pal_Top.Controls.Add(this.lbl_ExitSystem);
             this.pal_Top.Controls.Add(this.pal_Top_Info);
             this.pal_Top.Controls.Add(this.pictureBox1);
-            this.pal_Top.Controls.Add(this.lbl_ExitSystem);
             this.pal_Top.Dock = System.Windows.Forms.DockStyle.Top;
             this.pal_Top.Location = new System.Drawing.Point(0, 0);
             this.pal_Top.Name = "pal_Top";
@@ -123,11 +106,29 @@
             this.pal_Top_Info.Size = new System.Drawing.Size(1271, 36);
             this.pal_Top_Info.TabIndex = 1;
             // 
+            // lbl_ExitSystem
+            // 
+            this.lbl_ExitSystem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_ExitSystem.Appearance.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_ExitSystem.Appearance.FontStyleDelta = System.Drawing.FontStyle.Bold;
+            this.lbl_ExitSystem.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("lbl_ExitSystem.Appearance.Image")));
+            this.lbl_ExitSystem.Appearance.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl_ExitSystem.Appearance.LinkColor = System.Drawing.SystemColors.Control;
+            this.lbl_ExitSystem.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lbl_ExitSystem.ImageAlignToText = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.lbl_ExitSystem.IndentBetweenImageAndText = 5;
+            this.lbl_ExitSystem.Location = new System.Drawing.Point(1127, 23);
+            this.lbl_ExitSystem.Name = "lbl_ExitSystem";
+            this.lbl_ExitSystem.Size = new System.Drawing.Size(115, 36);
+            this.lbl_ExitSystem.TabIndex = 2;
+            this.lbl_ExitSystem.Text = "立即注销";
+            this.lbl_ExitSystem.Click += new System.EventHandler(this.lbl_ExitSystem_Click);
+            // 
             // Frm_MainFrame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1271, 741);
+            this.ClientSize = new System.Drawing.Size(1271, 733);
             this.Controls.Add(this.pal_Top);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -139,6 +140,7 @@
             this.Load += new System.EventHandler(this.Frm_MainFrame_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pal_Top.ResumeLayout(false);
+            this.pal_Top.PerformLayout();
             this.pal_Top_Info.ResumeLayout(false);
             this.pal_Top_Info.PerformLayout();
             this.ResumeLayout(false);
@@ -147,11 +149,11 @@
 
         #endregion
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.LinkLabel lbl_ExitSystem;
         private System.Windows.Forms.Label lbl_OtherInfo;
         private System.Windows.Forms.Label txt_RealName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel pal_Top;
         private System.Windows.Forms.Panel pal_Top_Info;
+        private DevExpress.XtraEditors.HyperlinkLabelControl lbl_ExitSystem;
     }
 }

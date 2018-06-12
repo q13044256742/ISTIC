@@ -107,7 +107,7 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_Imp_Dev.Rows[index].Cells["project_fileamount"].Value = GetFileAmountByProjectId(row[0]);
                         dgv_Imp_Dev.Rows[index].Cells["project_edit"].Value = "质检";
                     }
-                    else if(type == WorkType.SubjectWork)
+                    else if(type == WorkType.TopicWork)
                     {
                         int index = dgv_Imp_Dev.Rows.Add();
                         dgv_Imp_Dev.Rows[index].Cells["project_id"].Value = row[0];
@@ -212,7 +212,7 @@ namespace 科技计划项目档案数据采集管理系统
                             $"LEFT JOIN data_dictionary ON dd_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
                             $"WHERE pi_id='{list[i][2]}'";
                         break;
-                    case WorkType.SubjectWork:
+                    case WorkType.TopicWork:
                         _querySql = $"SELECT '{list[i][0]}','{list[i][1]}','{list[i][2]}',si_code,si_name,dd_name FROM subject_info si LEFT JOIN(" +
                            $"SELECT pi_id,dd_name FROM project_info pi " +
                            $"LEFT JOIN(SELECT trc_id, dd_name FROM transfer_registraion_cd trc " +
@@ -258,9 +258,9 @@ namespace 科技计划项目档案数据采集管理系统
                         new Frm_MyWorkQT(type, objid, null, ControlType.Default).ShowDialog();
                     else
                     {
-                        planId = GetRootId(objid, WorkType.SubjectWork);
+                        planId = GetRootId(objid, WorkType.TopicWork);
                         if(planId != null)
-                            new Frm_MyWorkQT(WorkType.SubjectWork, planId, null, ControlType.Default).ShowDialog();
+                            new Frm_MyWorkQT(WorkType.TopicWork, planId, null, ControlType.Default).ShowDialog();
                         else
                             MessageBox.Show("未找到此项目/课题所属计划。");
                     }
@@ -291,7 +291,7 @@ namespace 科技计划项目档案数据采集管理系统
                 return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}'");
             if(type == WorkType.ProjectWork)
                 return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{objId}'");
-            else if(type == WorkType.SubjectWork)
+            else if(type == WorkType.TopicWork)
             {
                 object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM subject_info WHERE si_id='{objId}'");
                 return GetRootId(pid, WorkType.ProjectWork);
@@ -765,7 +765,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         
                         
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, impid, wmid, ControlType.Imp);
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.PaperWork_Imp, impid, wmid, ControlType.Imp);
 
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
@@ -783,7 +783,7 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else if(index == 1)
                     {
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.Default, impid, wmid, ControlType.Special);
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.PaperWork, impid, wmid, ControlType.Special);
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
                             int _index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_dev_info WHERE imp_id='{impid}' AND imp_submit_status=1");

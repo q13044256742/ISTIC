@@ -12,7 +12,7 @@ namespace 科技计划项目档案数据采集管理系统
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            DevExpress.XtraEditors.Controls.Localizer.Active = new Tools.LocalizationCHS();
             BonusSkins.Register();
             SkinManager.EnableFormSkins();
             UserLookAndFeel.Default.SetSkinStyle("DevExpress Style");

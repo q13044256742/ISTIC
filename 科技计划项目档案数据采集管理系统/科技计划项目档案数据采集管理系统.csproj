@@ -238,6 +238,7 @@
     <Compile Include="KyoControl\KyoButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Tools\LocalizationCHS.cs" />
     <Compile Include="Tools\MicrosoftWordHelper.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
     <Compile Include="Tools\SQLiteBackupHelper.cs" />
@@ -428,7 +429,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\top_bg.png" />
-    <None Include="Images\tuichu.png" />
     <None Include="Images\logo.png" />
     <None Include="Images\area1.png" />
     <None Include="Images\area2.png" />

@@ -35,23 +35,21 @@ namespace 科技计划项目档案数据采集管理系统
             object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{cbo_TypeSelect.SelectedValue}'");
             if("dic_plan_imp".Equals(obj))
             {
-                Frm_MyWork frm = new Frm_MyWork(WorkType.Default, cbo_TypeSelect.SelectedValue, objId, ControlType.Imp, false);
+                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Imp, cbo_TypeSelect.SelectedValue, objId, ControlType.Imp, false);
                 frm.planCode = obj;
                 frm.unitCode = unitCode;
-                frm.DEV_TYPE = 0;
                 frm.ShowDialog();
             }
             else if("dic_imp_dev".Equals(obj))
             {
-                Frm_MyWork frm = new Frm_MyWork(WorkType.Default, cbo_TypeSelect.SelectedValue, objId, ControlType.Special, false);
+                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Special, cbo_TypeSelect.SelectedValue, objId, ControlType.Special, false);
                 frm.planCode = obj;
                 frm.unitCode = unitCode;
-                frm.DEV_TYPE = 1;
                 frm.ShowDialog();
             }
             else
             {
-                Frm_MyWork frm = new Frm_MyWork(workType, cbo_TypeSelect.SelectedValue, objId, ControlType.Default, false);
+                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Plan, cbo_TypeSelect.SelectedValue, objId, ControlType.Plan, false);
                 frm.planCode = obj;
                 frm.unitCode = unitCode;
                 frm.ShowDialog();

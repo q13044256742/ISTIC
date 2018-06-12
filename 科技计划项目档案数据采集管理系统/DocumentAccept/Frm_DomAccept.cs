@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraBars.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -106,41 +107,20 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LoadCompanySource()
         {
-            Image[] imgs = new Image[] { Resources.pic1, Resources.pic2, Resources.pic3, Resources.pic4, Resources.pic5, Resources.pic6, Resources.pic7, Resources.pic8 };
-            //加载一级菜单
-            List<CreateKyoPanel.KyoPanel> list = new List<CreateKyoPanel.KyoPanel>();
-            list.Add(new CreateKyoPanel.KyoPanel
-            {
-                Name = "ToR",
-                Text = "档案接收",
-                Image = imgs[0],
-                HasNext = true
-            });
-            CreateKyoPanel.SetPanel(pal_LeftMenu, list);
-            //加载二级菜单
-            list.Clear();
-            list.Add(new CreateKyoPanel.KyoPanel
-            {
-                Name = "ace_all",
-                Text = "全部来源单位",
-                Image = Resources.pic1,
-                HasNext = false
-            });
-
             string querySql = "SELECT dd_id, dd_name FROM data_dictionary WHERE dd_pId=" +
                 "(SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_key_company_source') ORDER BY dd_sort";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < table.Rows.Count; i++)
             {
-                list.Add(new CreateKyoPanel.KyoPanel
+                AccordionControlElement element = new AccordionControlElement()
                 {
+                    Style = ElementStyle.Item,
                     Name = GetValue(table.Rows[i]["dd_id"]),
                     Text = GetValue(table.Rows[i]["dd_name"]),
-                    HasNext = false
-                });
+                };
+                element.Click += new EventHandler(Element_Click);
+                acg_Register.Elements.Add(element);
             }
-            Panel basicPanel = CreateKyoPanel.SetSubPanel(pal_LeftMenu.Controls.Find("ToR", false)[0] as Panel, list, Element_Click);
-
         }
 
         /// <summary>
@@ -148,23 +128,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Element_Click(object sender, EventArgs e)
         {
-            Panel panel = null;
-            if(sender is Panel)
-                panel = sender as Panel;
-            else if(sender is Label)
-                panel = (sender as Label).Parent as Panel;
-            if("ace_all".Equals(panel.Name))
-                LoadDataGridView(string.Empty);
-            else
-                LoadDataGridView(panel.Name);
 
-            foreach(Panel item in panel.Parent.Controls)
-            {
-                if(item.Equals(panel))
-                    item.BackColor = Color.Purple;
-                else
-                    item.BackColor = Color.Transparent;
-            }
         }
 
         private string GetValue(object v) => v == null ? string.Empty : v.ToString();

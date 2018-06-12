@@ -166,7 +166,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
-            this.label11.Location = new System.Drawing.Point(47, 160);
+            this.label11.Location = new System.Drawing.Point(47, 162);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(37, 19);
             this.label11.TabIndex = 21;
@@ -179,14 +179,14 @@
             this.txt_Remark.Multiline = true;
             this.txt_Remark.Name = "txt_Remark";
             this.txt_Remark.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_Remark.Size = new System.Drawing.Size(617, 60);
+            this.txt_Remark.Size = new System.Drawing.Size(617, 67);
             this.txt_Remark.TabIndex = 7;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
-            this.label12.Location = new System.Drawing.Point(47, 216);
+            this.label12.Location = new System.Drawing.Point(47, 219);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(37, 19);
             this.label12.TabIndex = 22;
@@ -195,7 +195,7 @@
             // txt_UploadFile
             // 
             this.txt_UploadFile.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.txt_UploadFile.Location = new System.Drawing.Point(96, 212);
+            this.txt_UploadFile.Location = new System.Drawing.Point(96, 215);
             this.txt_UploadFile.Name = "txt_UploadFile";
             this.txt_UploadFile.Size = new System.Drawing.Size(536, 27);
             this.txt_UploadFile.TabIndex = 9;
@@ -207,7 +207,7 @@
             this.btn_UploadFile.Image = ((System.Drawing.Image)(resources.GetObject("btn_UploadFile.Image")));
             this.btn_UploadFile.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_UploadFile.ImageToTextIndent = 5;
-            this.btn_UploadFile.Location = new System.Drawing.Point(646, 209);
+            this.btn_UploadFile.Location = new System.Drawing.Point(646, 213);
             this.btn_UploadFile.Name = "btn_UploadFile";
             this.btn_UploadFile.Size = new System.Drawing.Size(67, 30);
             this.btn_UploadFile.TabIndex = 8;

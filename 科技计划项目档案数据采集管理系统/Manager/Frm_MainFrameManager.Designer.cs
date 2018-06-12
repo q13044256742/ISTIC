@@ -96,7 +96,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_ExitSystem.BackColor = System.Drawing.Color.Transparent;
             this.lbl_ExitSystem.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_ExitSystem.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources.tuichu;
             this.lbl_ExitSystem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lbl_ExitSystem.Location = new System.Drawing.Point(1118, 30);
             this.lbl_ExitSystem.Name = "lbl_ExitSystem";

@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraBars.Navigation;
+using DevExpress.XtraEditors;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -52,6 +53,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 element.Click += new EventHandler(Element_Click);
                 acg_Register.Elements.Add(element);
             }
+
+            ac_LeftMenu.SelectedElement = ace_all;
         }
 
         private string GetValue(object v) => v == null ? string.Empty : v.ToString();
@@ -262,7 +265,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         int logAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery(querySql));
                         if (logAmount == 0)
                         {
-                            if (MessageBox.Show("确定要提交当前选中项吗？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            if (XtraMessageBox.Show("确定要提交当前选中项吗？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 string updateSql = $"UPDATE transfer_registration_pc SET trp_submit_status={(int)ObjectSubmitStatus.SubmitSuccess} WHERE trp_id='{currentRowId}'";
                                 SqlHelper.ExecuteNonQuery(updateSql);

@@ -55,7 +55,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.objId = objId;
             this.workType = workType;
             this.controlType = controlType;
-            if(workType == WorkType.Default && DEV_TYPE == -1)
+            if(workType == WorkType.PaperWork_Imp && DEV_TYPE == -1)
             {
                 object _type = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_type FROM imp_info WHERE imp_id='{objId}'");
                 if(!string.IsNullOrEmpty(GetValue(_type)))
@@ -1130,7 +1130,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void GoToTreeList()
         {
-            if(workType == WorkType.Default)
+            if(workType == WorkType.PaperWork)
             {
                 if(controlType == ControlType.Plan)
                     LoadTreeList(objId, ControlType.Plan);
@@ -1769,7 +1769,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
             //子级（课题/子课题）
-            else if(workType == WorkType.SubjectWork)
+            else if(workType == WorkType.TopicWork)
             {
                 object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_worker_id FROM project_info WHERE pi_id='{planId}'");
                 if(_obj == null)
@@ -1859,7 +1859,7 @@ namespace 科技计划项目档案数据采集管理系统
                 else if(type == ControlType.Project)
                 {
                     tab_MenuList.TabPages.Clear();
-                    if(workType == WorkType.Default)
+                    if(workType == WorkType.PaperWork)
                     {
                         int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{e.Node.Parent.Name}'");
                         if(count == 0)
@@ -1898,7 +1898,7 @@ namespace 科技计划项目档案数据采集管理系统
                         ShowTab("project", 1);
                         LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
                     }
-                    else if(workType == WorkType.SubjectWork)
+                    else if(workType == WorkType.TopicWork)
                     {
 
                         ShowTab("plan", 0);
@@ -1911,7 +1911,7 @@ namespace 科技计划项目档案数据采集管理系统
                 else if(type == ControlType.Topic)
                 {
                     tab_MenuList.TabPages.Clear();
-                    if(workType == WorkType.Default)
+                    if(workType == WorkType.PaperWork)
                     {
                         int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{e.Node.Parent.Parent.Name}'");
                         if(count == 0)
@@ -1977,7 +1977,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(type == ControlType.Subject)
                 {
-                    if(workType == WorkType.Default)
+                    if(workType == WorkType.PaperWork)
                     {
                         int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{e.Node.Parent.Parent.Parent.Name}'");
                         if(count == 0)

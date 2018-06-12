@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace 科技计划项目档案数据采集管理系统
+﻿namespace 科技计划项目档案数据采集管理系统
 {
     /// <summary>
     /// 对象提交状态
@@ -94,10 +92,6 @@ namespace 科技计划项目档案数据采集管理系统
     public enum WorkType
     {
         /// <summary>
-        /// 默认
-        /// </summary>
-        Default = 0,
-        /// <summary>
         /// 纸本加工
         /// </summary>
         PaperWork = 1,
@@ -114,35 +108,16 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         TopicWork = 4,
         /// <summary>
-        /// 【子课题】加工
+        /// 纸本加工-普通项目
         /// </summary>
-        SubjectWork = 5
-    }
-    /// <summary>
-    /// 加工登记 - 实体对象
-    /// </summary>
-    class WorkRegistration
-    {
-        private object wrId;
-        private WorkStatus wrStauts;
-        private object wrTrpId;
-        private WorkType wrType;
-        private DateTime wrStartDate;
-        private DateTime wrSubmitDate;
-        private object wrObjId;
-        private ObjectSubmitStatus submitStatus;
-        private ReceiveStatus receiveStatus;
-        private string sourceId;
-
-        public object WrId { get => wrId; set => wrId = value; }
-        public DateTime WrStartDate { get => wrStartDate; set => wrStartDate = value; }
-        public DateTime WrSubmitDate { get => wrSubmitDate; set => wrSubmitDate = value; }
-        public object WrObjId { get => wrObjId; set => wrObjId = value; }
-        public object WrTrpId { get => wrTrpId; set => wrTrpId = value; }
-        public WorkStatus WrStauts { get => wrStauts; set => wrStauts = value; }
-        public WorkType WrType { get => wrType; set => wrType = value; }
-        public string SourceId { get => sourceId; set => sourceId = value; }
-        public ObjectSubmitStatus SubmitStatus { get => submitStatus; set => submitStatus = value; }
-        public ReceiveStatus ReceiveStatus { get => receiveStatus; set => receiveStatus = value; }
+        PaperWork_Plan = 5,
+        /// <summary>
+        /// 纸本加工-重大专项
+        /// </summary>
+        PaperWork_Imp = 6,
+        /// <summary>
+        /// 纸本加工-重点研发
+        /// </summary>
+        PaperWork_Special = 7,
     }
 }
