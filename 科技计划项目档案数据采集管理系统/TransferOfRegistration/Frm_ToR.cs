@@ -27,11 +27,11 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             LoadCompanySource();
             btn_Back.Enabled = false;
 
-            dgv_SWDJ.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            dgv_GPDJ.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-
             //默认查看状态为全部
             cbo_Status.SelectedIndex = 0;
+
+            dgv_SWDJ.ColumnHeadersDefaultCellStyle.Font = new Font("微软雅黑", 10.5f, FontStyle.Bold);
+            dgv_GPDJ.ColumnHeadersDefaultCellStyle.Font = new Font("微软雅黑", 10.5f, FontStyle.Bold);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 20 },
                 new DataGridViewTextBoxColumn(){Name = "trp_name", HeaderText = "批次名称", FillWeight = 25 },
                 new DataGridViewTextBoxColumn(){Name = "trp_code", HeaderText = "批次编号", FillWeight = 20 },
-                new DataGridViewTextBoxColumn(){Name = "trp_cd_amount", HeaderText = "光盘数", FillWeight = 8 },
+                new DataGridViewLinkColumn(){Name = "trp_cd_amount", HeaderText = "光盘数", FillWeight = 8 },
                 new DataGridViewButtonColumn(){Name = "addpc", HeaderText = "添加光盘", FillWeight = 10, Text = "添加", UseColumnTextForButtonValue = true },
                 new DataGridViewButtonColumn(){Name = "submit", HeaderText = "提交", FillWeight = 10 },
             });
@@ -159,7 +159,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             }
 
             //设置链接按钮样式
-            DataGridViewStyleHelper.SetLinkStyle(dgv_SWDJ, new string[] {"trp_cd_amount" }, true);
             dgv_SWDJ.Columns["trp_id"].Visible = false;
             btn_Back.Enabled = false;
             btn_Add.Enabled = true;
@@ -394,9 +393,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 15 },
                 new DataGridViewTextBoxColumn(){Name = "trc_code", HeaderText = "光盘编号", FillWeight = 15 },
                 new DataGridViewTextBoxColumn(){Name = "trc_name", HeaderText = "光盘名称", FillWeight = 15 },
-                new DataGridViewTextBoxColumn(){Name = "trc_project_amount", HeaderText = "项目数", FillWeight = 5 },
-                new DataGridViewTextBoxColumn(){Name = "trc_subject_amount", HeaderText = "课题数", FillWeight = 5 },
-                new DataGridViewTextBoxColumn(){Name = "trc_file_amount", HeaderText = "文件数", FillWeight = 5 },
+                new DataGridViewTextBoxColumn(){Name = "trc_project_amount", HeaderText = "项目数", FillWeight = 6 },
+                new DataGridViewTextBoxColumn(){Name = "trc_subject_amount", HeaderText = "课题数", FillWeight = 6 },
+                new DataGridViewTextBoxColumn(){Name = "trc_file_amount", HeaderText = "文件数", FillWeight = 6 },
                 new DataGridViewTextBoxColumn(){Name = "trc_status", HeaderText = "读写状态", FillWeight = 10 },
                 new DataGridViewButtonColumn(){Name = "control", HeaderText = "操作", FillWeight = 7, Text = "读写", UseColumnTextForButtonValue = true },
             });
@@ -422,12 +421,11 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 dgv_GPDJ.Rows[_index].Cells["trc_project_amount"].Value = GetProjectAmount(row["trc_id"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_subject_amount"].Value = GetSubjectAmount(row["trc_id"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_file_amount"].Value = GetFileAmount(row["trc_id"]);
+                dgv_GPDJ.Rows[_index].Cells["trc_status"].Tag = row["trc_status"];
                 dgv_GPDJ.Rows[_index].Cells["trc_status"].Value = GetReadStatus(GetInt32(row["trc_status"]));
             }
             if (dgv_GPDJ.Columns.Count > 0)
                 dgv_GPDJ.Columns[0].Visible = false;
-
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_GPDJ, new string[] { "trc_status", "trc_project_amount", "trc_subject_amount", "trc_file_amount" });
         }
     
         /// <summary>
@@ -502,25 +500,35 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
             LoadGPDJ(querySql.ToString());
         }
-    
+
         /// <summary>
         /// 光盘页单元格点击事件
         /// </summary>
         private void Dgv_GPDJ_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex!=-1 && e.ColumnIndex != -1)
+            if(e.RowIndex != -1 && e.ColumnIndex != -1)
             {
                 object trcId = dgv_GPDJ.Rows[e.RowIndex].Cells["trc_id"].Value;
-                if(trcId != null) {
+                if(trcId != null)
+                {
                     if("control".Equals(dgv_GPDJ.Columns[e.ColumnIndex].Name))
                     {
-                        Frm_CDRead read = new Frm_CDRead(trcId);
-                        if(read.ShowDialog() == DialogResult.OK)
+                        int state = Convert.ToInt32(dgv_GPDJ.Rows[e.RowIndex].Cells["trc_status"].Tag);
+                        if(state == 2)
                         {
-                            //更新光盘信息
-                            string updateSql = $"UPDATE transfer_registraion_cd SET trc_status='{(int)ReadStatus.ReadSuccess}' WHERE trc_id='{trcId}'";
-                            SqlHelper.ExecuteNonQuery(updateSql);
-                            LoadGPDJ(null);
+                            string msg = "此光盘已读取，重新读取会覆盖旧数据，是否继续?";
+                            if(XtraMessageBox.Show(msg, "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            {
+                                SqlHelper.ExecuteNonQuery($"DELETE FROM backup_files_info WHERE bfi_trcid='{trcId}'");
+                                Frm_CDRead read = new Frm_CDRead(trcId);
+                                if(read.ShowDialog() == DialogResult.OK)
+                                {
+                                    //更新光盘信息
+                                    string updateSql = $"UPDATE transfer_registraion_cd SET trc_status='{(int)ReadStatus.ReadSuccess}' WHERE trc_id='{trcId}'";
+                                    SqlHelper.ExecuteNonQuery(updateSql);
+                                    LoadGPDJ(null);
+                                }
+                            }
                         }
                     }
                 }

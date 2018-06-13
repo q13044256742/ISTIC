@@ -68,7 +68,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 new DataGridViewTextBoxColumn(){ Name = "trp_id"},
                 new DataGridViewTextBoxColumn(){ Name = "dd_name", HeaderText= "来源单位", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){ Name = "trp_name", HeaderText= "批次名称", FillWeight = 23},
+                new DataGridViewTextBoxColumn(){ Name = "trp_name", HeaderText= "批次名称", FillWeight = 25},
                 new DataGridViewTextBoxColumn(){ Name = "trp_code", HeaderText= "批次编号", FillWeight = 20},
                 new DataGridViewTextBoxColumn(){ Name = "trp_finishtime", HeaderText= "完成时间", FillWeight = 10},
                 new DataGridViewLinkColumn(){ Name = "trp_cd_amount", HeaderText= "光盘数", FillWeight = 10},
@@ -141,9 +141,9 @@ namespace 科技计划项目档案数据采集管理系统
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < table.Rows.Count; i++)
             {
-                int type = (int)table.Rows[i]["wm_type"];
+                WorkType type = (WorkType)Convert.ToInt32(table.Rows[i]["wm_type"]);
                 object id = table.Rows[i]["wm_obj_id"];
-                if(type == 0)
+                if(type == WorkType.PaperWork_Imp)
                 {
                     DataRow _row = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_code, imp_name, imp_intro, imp_obj_id FROM imp_info WHERE imp_id='{id}'");
                     int index = dgv_WorkLog.Rows.Add();
@@ -155,7 +155,7 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_WorkLog.Rows[index].Cells["bk_name"].Value = _row["imp_name"];
                     dgv_WorkLog.Rows[index].Cells["bk_reason"].Value = GetAdvicesById(_row["imp_id"]);
                 }
-                else if(type == -1)
+                else if(type == WorkType.PaperWork_Plan)
                 {
                     DataTable _table = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_name, pi_obj_id FROM project_info WHERE pi_id='{id}'");
                     if(_table.Rows.Count > 0)
@@ -171,7 +171,7 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_WorkLog.Rows[index].Cells["bk_reason"].Value = GetAdvicesById(_row["pi_id"]);
                     }
                 }
-                else if(type == 1)
+                else if(type == WorkType.PaperWork_Special)
                 {
                     DataRow _row = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_code, imp_name, imp_intro, imp_obj_id FROM imp_dev_info WHERE imp_id='{id}'");
                     int index = dgv_WorkLog.Rows.Add();
@@ -183,7 +183,7 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_WorkLog.Rows[index].Cells["bk_name"].Value = _row["imp_name"];
                     dgv_WorkLog.Rows[index].Cells["bk_reason"].Value = GetAdvicesById(_row["imp_id"]);
                 }
-                else if(type == 2 || type == 3)
+                else if(type == WorkType.ProjectWork)
                 {
                     DataTable _table = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_name, pi_obj_id FROM project_info WHERE pi_id='{id}' UNION ALL " +
                         $"SELECT ti_id, ti_code, ti_name, ti_obj_id FROM topic_info WHERE ti_id='{id}'");
@@ -359,13 +359,13 @@ namespace 科技计划项目档案数据采集管理系统
             else
                 return null;
         }
-        
+
         /// <summary>
         /// 单元格点击事件
         /// </summary>
         private void Dgv_WorkLog_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex != -1 && e.ColumnIndex != -1 && dgv_WorkLog.Rows[e.RowIndex].Cells[0].Value!= null)
+            if(e.RowIndex != -1 && e.ColumnIndex != -1 && dgv_WorkLog.Rows[e.RowIndex].Cells[0].Value != null)
             {
                 object columnName = dgv_WorkLog.Columns[e.ColumnIndex].Name;
                 //光盘数
@@ -401,51 +401,25 @@ namespace 科技计划项目档案数据采集管理系统
                     if(CheckCanReceive())
                     {
                         int totalAmount = Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Cells["trc_total_amount"].Value);
-                        //不能直接领取结构化光盘
                         if(totalAmount == 0)
                         {
                             object trcid = dgv_WorkLog.Rows[e.RowIndex].Cells["trc_id"].Value;
-                            string msg = $"本张光盘包括{GetProjectAmount(trcid)}个项目，{GetSubjectAmountWithProject(trcid)}个课题；是否开始加工？";
-                            if(XtraMessageBox.Show(msg, "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                            if(XtraMessageBox.Show("是否确认开始加工当前光盘?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                             {
                                 object trpId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
-                                
-                                object primaryKey = Guid.NewGuid().ToString();
-                                string insertSql = $"INSERT INTO work_registration VALUES('" +
-                                    $"{primaryKey}',{(int)WorkStatus.WorkSuccess},'{trpId}',{(int)WorkType.CDWork},'{DateTime.Now}',null,'{trcid}',{(int)ObjectSubmitStatus.NonSubmit}," +
-                                    $"{(int)ReceiveStatus.NonReceive},'{UserHelper.GetInstance().User.UserKey}',0)";
-                                SqlHelper.ExecuteNonQuery(insertSql);
 
-                                SqlHelper.ExecuteNonQuery($"UPDATE transfer_registraion_cd SET trc_complete_status={(int)WorkStatus.WorkSuccess}, trc_complete_user='{UserHelper.GetInstance().User.UserKey}' WHERE trc_id='{trcid}'");
-                                //领取光盘的同时 - 领取其下所有未领取的项目 / 课题 / 子课题
-                                object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{trcid}'");
-                                //【计划】
-                                SqlHelper.ExecuteOnlyOneQuery($"UPDATE project_info SET pi_work_status={(int)WorkStatus.WorkSuccess}, pi_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE pi_id='{pid}'");
-                                //【项目 / 课题】
-                                List<object[]> _obj1 = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{pid}' AND pi_work_status={(int)WorkStatus.NonWork}", 1);
-                                for(int i = 0; i < _obj1.Count; i++)
-                                {
-                                    SqlHelper.ExecuteOnlyOneQuery($"UPDATE project_info SET pi_work_status={(int)WorkStatus.WorkSuccess}, pi_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE pi_id='{_obj1[i][0]}'");
-                                    //【课题 / 子课题】
-                                    List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{_obj1[i][0]}' AND si_work_status={(int)WorkStatus.NonWork}", 1);
-                                    for(int j = 0; j < _obj2.Count; j++)
-                                    {
-                                        SqlHelper.ExecuteOnlyOneQuery($"UPDATE subject_info SET si_work_status={(int)WorkStatus.WorkSuccess}, si_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj2[j][0]}'");
-                                        //【子课题】
-                                        List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{_obj2[j][0]}' AND si_work_status={(int)WorkStatus.NonWork}", 1);
-                                        for(int k = 0; k < _obj3.Count; k++)
-                                        {
-                                            SqlHelper.ExecuteOnlyOneQuery($"UPDATE subject_info SET si_work_status={(int)WorkStatus.WorkSuccess}, si_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj3[k][0]}'");
-                                        }
-                                    }
-                                }
+                                string insertSql = $"INSERT INTO work_registration ([wr_id], [wr_status], [trp_id], [wr_type], [wr_date], [wr_obj_id], [wr_submit_status], [wr_receive_status], [wr_source_id], [wr_qtcount]) " +
+                                    $"VALUES('{Guid.NewGuid().ToString()}', 2, '{trpId}' , {(int)WorkType.CDWork}, '{DateTime.Now}', '{trcid}', 1, 1, '{UserHelper.GetInstance().User.UserKey}', 0);";
+                                insertSql += $"UPDATE transfer_registraion_cd SET trc_complete_status={(int)WorkStatus.WorkSuccess}, trc_complete_user='{UserHelper.GetInstance().User.UserKey}' WHERE trc_id='{trcid}';";
+
+                                SqlHelper.ExecuteNonQuery(insertSql);
                             }
                         }
                         else
-                            XtraMessageBox.Show("此操作不被允许！", "领取失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("不能直接领取结构化光盘。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else
-                        XtraMessageBox.Show("请先完成当前已领取且尚未完成的加工项。", "领取失败");
+                        XtraMessageBox.Show("请先完成当前已领取且尚未完成的加工项。", "领取失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 //批次 - 加工
                 else if("trp_control".Equals(columnName))
@@ -543,7 +517,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     sb.Append($"UPDATE subject_info SET si_work_status={(int)WorkStatus.WorkSuccess}, si_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{subjectColumns[k]}';");
                                 if(sb.Length > 0)
                                     SqlHelper.ExecuteNonQuery(sb.ToString());
-                                
+
                             }
                         }
                     }
@@ -571,7 +545,7 @@ namespace 科技计划项目档案数据采集管理系统
                             List<object[]> _obj3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{siid}' AND si_work_status={(int)WorkStatus.NonWork}", 1);
                             for(int k = 0; k < _obj3.Count; k++)
                                 SqlHelper.ExecuteOnlyOneQuery($"UPDATE subject_info SET si_work_status={(int)WorkStatus.WorkSuccess}, si_worker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj3[k][0]}'");
-                           
+
                         }
                     }
                     else
@@ -679,7 +653,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             else
                             {
-                                Frm_MyWork myWork = new Frm_MyWork(WorkType.TopicWork, rootId, objId, ControlType.Default,false);
+                                Frm_MyWork myWork = new Frm_MyWork(WorkType.TopicWork, rootId, objId, ControlType.Default, false);
                                 myWork.ShowDialog();
                             }
                         }
@@ -722,18 +696,21 @@ namespace 科技计划项目档案数据采集管理系统
                                     object wrId = dgv_WorkLog.Rows[e.RowIndex].Cells["id"].Tag;
                                     //计划
                                     sb.Append($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id, wm_ticker) VALUES " +
-                                       $"('{Guid.NewGuid().ToString()}', '{wrId}', 1, '{UserHelper.GetInstance().User.UserKey}', -1, '{pId}', 0);");
+                                       $"('{Guid.NewGuid().ToString()}', '{wrId}', 1, '{UserHelper.GetInstance().User.UserKey}', '{(int)WorkType.PaperWork_Plan}', '{pId}', 0);");
 
-                                    //项目/课题
-                                    object[] list = SqlHelper.ExecuteSingleColumnQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{pId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                                    //项目|课题
+                                    object[] list = SqlHelper.ExecuteSingleColumnQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{pId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}' UNION ALL " +
+                                        $"SELECT ti_id FROM topic_info WHERE ti_obj_id='{pId}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}';");
                                     for(int i = 0; i < list.Length; i++)
                                         sb.Append($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id, wm_ticker) VALUES " +
-                                            $"('{Guid.NewGuid().ToString()}', '{wrId}', 1, '{UserHelper.GetInstance().User.UserKey}', 2, '{list[i]}', 0);");
+                                            $"('{Guid.NewGuid().ToString()}', '{wrId}', 1, '{UserHelper.GetInstance().User.UserKey}', '{(int)WorkType.ProjectWork}', '{list[i]}', 0);");
+
                                     sb.Append($"UPDATE work_registration SET wr_submit_status =2, wr_submit_date='{DateTime.Now}' WHERE wr_id='{wrId}';");
 
                                     SqlHelper.ExecuteNonQuery(sb.ToString());
 
                                     XtraMessageBox.Show("提交成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                    dgv_WorkLog.Rows.RemoveAt(e.RowIndex);
                                 }
                             }
                             else
@@ -803,42 +780,42 @@ namespace 科技计划项目档案数据采集管理系统
                 //返工 - 编辑
                 else if("bk_edit".Equals(columnName))
                 {
-                    int type = (int)dgv_WorkLog.Rows[e.RowIndex].Tag;
-                    if(type == 0)
+                    WorkType type = (WorkType)Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Tag);
+                    if(type == WorkType.PaperWork_Imp)
                     {
                         object impId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
-                        Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork, impId, trpId, ControlType.Imp, true);
+                        Frm_MyWork frm = new Frm_MyWork(type, impId, trpId, ControlType.Imp, true);
                         frm.ShowDialog();
                     }
-                    else if(type == -1)
+                    else if(type == WorkType.PaperWork_Plan)
                     {
                         object piId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
-                        Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork, piId, trpId, ControlType.Plan, true);
+                        Frm_MyWork frm = new Frm_MyWork(type, piId, trpId, ControlType.Plan, true);
                         frm.ShowDialog();
                     }
-                    else if(type == 1)
+                    else if(type == WorkType.PaperWork_Special)
                     {
                         object impId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
-                        Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork, impId, trpId, ControlType.Special, true);
+                        Frm_MyWork frm = new Frm_MyWork(type, impId, trpId, ControlType.Special, true);
                         frm.ShowDialog();
                     }
-                    else if(type == 2 || type == 3)
+                    else if(type == WorkType.ProjectWork)
                     {
                         object piId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object trpId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Tag;
                         object trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id='{piId}' UNION ALL SELECT trc_id FROM topic_info WHERE ti_id='{piId}'");
-                        Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork, piId, trcId, ControlType.Project, true);
+                        Frm_MyWork frm = new Frm_MyWork(type, piId, trcId, ControlType.Project, true);
                         frm.ShowDialog();
                     }
                 }
                 //返工 - 提交
                 else if("bk_submit".Equals(columnName))
                 {
-                    int type = (int)dgv_WorkLog.Rows[e.RowIndex].Tag;
-                    if(type == 0)
+                    WorkType type = (WorkType)Convert.ToInt32(dgv_WorkLog.Rows[e.RowIndex].Tag);
+                    if(type == WorkType.PaperWork_Imp)
                     {
                         object impId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object status = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_submit_status FROM imp_info WHERE imp_id='{impId}'");
@@ -852,9 +829,9 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                         else
-                            XtraMessageBox.Show("当前计划尚未加工完成！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("请检查是否提交所有数据。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
-                    else if(type == -1)
+                    else if(type == WorkType.PaperWork_Plan)
                     {
                         object piId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object status = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_submit_status FROM project_info WHERE pi_id='{piId}'");
@@ -870,9 +847,9 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                         else
-                            XtraMessageBox.Show("当前计划尚未加工完成！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("请检查是否提交所有数据。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
-                    else if(type == 1)
+                    else if(type == WorkType.PaperWork_Special)
                     {
                         object impId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object status = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_submit_status FROM imp_dev_info WHERE imp_id='{impId}'");
@@ -888,9 +865,9 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                         else
-                            XtraMessageBox.Show("当前计划尚未加工完成！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("请检查是否提交所有数据。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
-                    else if(type == 2 || type == 3)
+                    else if(type == WorkType.ProjectWork)
                     {
                         object piId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(pi.pi_id) FROM project_info pi " +
@@ -915,7 +892,7 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                         else
-                            XtraMessageBox.Show("当前计划尚未加工完成！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("请检查是否提交所有数据。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                 }
             }

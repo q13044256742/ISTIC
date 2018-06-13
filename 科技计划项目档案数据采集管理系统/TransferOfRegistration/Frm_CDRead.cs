@@ -9,14 +9,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 {
     public partial class Frm_CDRead : DevExpress.XtraEditors.XtraForm
     {
-        /// <summary>
-        /// 导入成功数
-        /// </summary>
-        private int okCount = 0;
-        /// <summary>
-        /// 导入失败数
-        /// </summary>
-        private int noCount = 0;
         private object trcId;
         public Frm_CDRead(object trcId)
         {
@@ -37,20 +29,32 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
         private void Btn_Sure_Click(object sender, EventArgs e)
         {
-            string targetDirec = Application.StartupPath + "\\BackupFolder\\";
-            if(!Directory.Exists(targetDirec))
-                Directory.CreateDirectory(targetDirec);
+            string targetPath = Application.StartupPath + "\\datas\\";
+            if(!Directory.Exists(targetPath))
+                Directory.CreateDirectory(targetPath);
             SetButtonState();
             string sourPath = txt_CD_Path.Text;
             //光盘读写【非结构化数据】
             if(!string.IsNullOrEmpty(sourPath))
             {
                 pgb_CD.Tag = false;
+                int totalFileAmount = Directory.GetFiles(sourPath, "*", SearchOption.AllDirectories).Length - Directory.GetFiles(sourPath, "ISTIC*.db", SearchOption.AllDirectories).Length;
+                pgb_CD.Value = pgb_CD.Minimum;
+                pgb_CD.Maximum = totalFileAmount;
+
                 new Thread(delegate ()
                 {
-                    int totalFiles = Directory.GetFiles(sourPath, "*", SearchOption.AllDirectories).Length;
-                    pgb_CD.Maximum = totalFiles;
-                    CopyFile(sourPath, targetDirec, pgb_CD);
+                    string primaryKey = Guid.NewGuid().ToString();
+                    string rootName = Path.GetFileName(sourPath);
+
+                    object localKey = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{rootName}'");
+                    if(localKey != null)
+                        SqlHelper.ExecuteNonQuery($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_userid='{UserHelper.GetInstance().User.UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{localKey}'");
+                    else
+                        SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                            $"('{primaryKey}', '{rootName}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', -1)");
+
+                    CopyFile(sourPath, targetPath, primaryKey);
                     pgb_CD.Tag = true;
                     SetButtonState();
                     Thread.CurrentThread.Abort();
@@ -74,7 +78,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     "FROM project_info";
                     int totalAmount = new SQLiteBackupHelper(dPath).ExecuteCountQuery(queryString);
                     pgb_DS.Maximum = totalAmount;
-                    CopyDataTableInstince(dPath, targetDirec, pgb_DS);
+                    CopyDataTableInstince(dPath, targetPath, pgb_DS);
                     pgb_DS.Tag = true;
                     SetButtonState();
                     Thread.CurrentThread.Abort();
@@ -89,7 +93,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             if(true.Equals(pgb_CD.Tag) && true.Equals(pgb_DS.Tag))
             {
                 btn_Sure.Enabled = true;
-                MessageBox.Show("操作成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                Text += "[读取成功]";
             }
             else
                 btn_Sure.Enabled = false;
@@ -100,33 +104,71 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         /// <param name="sPath">源文件夹路径</param>
         /// <param name="tPath">目标文件夹基路径</param>
-        private void CopyFile(string sPath, string tPath, ProgressBar progressBar)
+        private void CopyFile(string sPath, string tPath, string pid)
         {
             DirectoryInfo info = new DirectoryInfo(sPath);
             FileInfo[] file = info.GetFiles();
             for(int i = 0; i < file.Length; i++)
             {
-                try
+                string fileName = file[i].Name;
+                if(!(fileName.Contains("ISTIC") && file[i].Extension.Contains("db")))
                 {
-                    if(!Directory.Exists(tPath))
-                        Directory.CreateDirectory(tPath);
-                    string _filePath = tPath + file[i].Name;
-                    if(!File.Exists(_filePath))
-                        File.Create(_filePath).Close();
-                    File.Copy(file[i].FullName, _filePath, true);
-                    okCount++;
+                    string primaryKey = Guid.NewGuid().ToString();
+                    try
+                    {
+                        object value = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{fileName}' AND bfi_path='{tPath}'");
+                        if(string.IsNullOrEmpty(GetValue(value)))
+                            SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                                $"('{primaryKey}', '{fileName}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 0)");
+                        else
+                            SqlHelper.ExecuteNonQuery($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_pid='{pid}', bfi_userid='{UserHelper.GetInstance().User.UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{value}';");
+
+                        UploadFile(file[i].FullName, tPath, fileName);
+
+                        pgb_CD.Value++;
+                    }
+                    catch(Exception)
+                    { }
                 }
-                catch(Exception)
-                {
-                    noCount++;
-                }
-                progressBar.Value++;
             }
             DirectoryInfo[] infos = info.GetDirectories();
             for(int i = 0; i < infos.Length; i++)
             {
-                CopyFile(infos[i].FullName, tPath + infos[i].Name + "\\", progressBar);
+                string primaryKey = Guid.NewGuid().ToString();
+                object value = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{infos[i].Name}' AND bfi_path='{tPath}'");
+                if(string.IsNullOrEmpty(GetValue(value)))
+                    SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                       $"('{primaryKey}', '{infos[i].Name}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 1)");
+                else
+                {
+                    SqlHelper.ExecuteNonQuery($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_pid='{pid}', bfi_userid='{UserHelper.GetInstance().User.UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{value}';");
+                    primaryKey = GetValue(value);
+                }
+                CopyFile(infos[i].FullName, tPath + "\\" + infos[i].Name + @"\", primaryKey);
             }
+        }
+
+        /// <summary>  
+        /// 将本地文件上传到远程服务器共享目录  
+        /// </summary>  
+        /// <param name="src">本地文件的绝对路径，包含扩展名</param>  
+        /// <param name="dst">远程服务器共享文件路径，不包含文件扩展名</param>  
+        /// <param name="fileName">上传到远程服务器后的文件扩展名</param>  
+        public static void UploadFile(string src, string dst, string fileName)
+        {
+            FileStream inFileStream = new FileStream(src, FileMode.Open);    //此处假定本地文件存在，不然程序会报错     
+            if(!Directory.Exists(dst))        //判断上传到的远程服务器路径是否存在  
+                Directory.CreateDirectory(dst);
+            dst = dst + "\\" + fileName;            //上传到远程服务器共享文件夹后文件的绝对路径  
+            FileStream outFileStream = new FileStream(dst, FileMode.OpenOrCreate);
+            byte[] buf = new byte[inFileStream.Length];
+            int byteCount;
+            while((byteCount = inFileStream.Read(buf, 0, buf.Length)) > 0)
+                outFileStream.Write(buf, 0, byteCount);
+            inFileStream.Flush();
+            inFileStream.Close();
+            outFileStream.Flush();
+            outFileStream.Close();
         }
 
         private void Frm_CDRead_FormClosing(object sender, FormClosingEventArgs e)

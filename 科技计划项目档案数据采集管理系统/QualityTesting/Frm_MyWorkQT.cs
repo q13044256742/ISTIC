@@ -85,7 +85,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if((ControlType)node.Tag == ControlType.Plan)
             {
-                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_name, pi_intro, pi_code FROM project_info WHERE pi_id='{node.Name}'");
+                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_name, pi_intro, pi_code, pi_submit_status FROM project_info WHERE pi_id='{node.Name}'");
                 if(row != null)
                 {
                     lbl_Plan_Name.Tag = GetValue(row["pi_code"]);
@@ -93,6 +93,7 @@ namespace 科技计划项目档案数据采集管理系统
                     lbl_Plan_Intro.Text = GetValue(row["pi_intro"]);
                     tab_Plan_Info.Tag = node.Name;
                     LoadFileList(dgv_Plan_FileList, "plan_fl_", node.Name);
+                    EnableControls(ControlType.Plan, Convert.ToInt32(row["pi_submit_status"]) != 1);
                 }
             }
             else
@@ -1830,17 +1831,35 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-            treeView.Nodes.Add(treeNode);
-            //默认加载计划页面
-            if(treeView.Nodes.Count > 0)
+            //纸本加工-普通计划（Plan）
+            else if(workType == WorkType.PaperWork_Plan)
             {
-                TreeNode node = treeView.Nodes[0];
-                ShowTab("plan", 0);
-                LoadPlanPage(node);
+                DataRow planRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_name, pi_worker_id, pi_submit_status FROM project_info WHERE pi_id='{planId}'");
+                if(planRow != null)
+                {
+                    treeNode = new TreeNode()
+                    {
+                        Name = GetValue(planRow["pi_id"]),
+                        Text = GetValue(planRow["pi_name"]),
+                        Tag = ControlType.Plan,
+                        ForeColor = GetForeColorByState(planRow["pi_submit_status"]),
+                    };
+                }
             }
-            treeView.ExpandAll();
-            treeView.NodeMouseClick += TreeView_NodeMouseClick;
-            treeView.EndUpdate();
+            if(treeNode != null)
+            {
+                treeView.Nodes.Add(treeNode);
+                //默认加载计划页面
+                if(treeView.Nodes.Count > 0)
+                {
+                    TreeNode node = treeView.Nodes[0];
+                    ShowTab("plan", 0);
+                    LoadPlanPage(node);
+                }
+                treeView.ExpandAll();
+                treeView.NodeMouseClick += TreeView_NodeMouseClick;
+                treeView.EndUpdate();
+            }
         }
         
         /// <summary>
