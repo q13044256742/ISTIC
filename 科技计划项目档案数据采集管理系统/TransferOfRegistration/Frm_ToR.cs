@@ -518,17 +518,17 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         {
                             string msg = "此光盘已读取，重新读取会覆盖旧数据，是否继续?";
                             if(XtraMessageBox.Show(msg, "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                            {
                                 SqlHelper.ExecuteNonQuery($"DELETE FROM backup_files_info WHERE bfi_trcid='{trcId}'");
-                                Frm_CDRead read = new Frm_CDRead(trcId);
-                                if(read.ShowDialog() == DialogResult.OK)
-                                {
-                                    //更新光盘信息
-                                    string updateSql = $"UPDATE transfer_registraion_cd SET trc_status='{(int)ReadStatus.ReadSuccess}' WHERE trc_id='{trcId}'";
-                                    SqlHelper.ExecuteNonQuery(updateSql);
-                                    LoadGPDJ(null);
-                                }
-                            }
+                            else
+                                return;
+                        }
+                        Frm_CDRead read = new Frm_CDRead(trcId);
+                        if(read.ShowDialog() == DialogResult.OK)
+                        {
+                            //更新光盘信息
+                            string updateSql = $"UPDATE transfer_registraion_cd SET trc_status='{(int)ReadStatus.ReadSuccess}' WHERE trc_id='{trcId}'";
+                            SqlHelper.ExecuteNonQuery(updateSql);
+                            LoadGPDJ(null);
                         }
                     }
                 }

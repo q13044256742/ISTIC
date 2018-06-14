@@ -58,7 +58,9 @@
         /// <summary>
         /// 专项信息
         /// </summary>
-        Special = 6
+        Special = 6,
+        Plan_Default = 7,
+        Imp_Default = 8,
     }
     /// <summary>
     /// 加工状态
@@ -91,6 +93,7 @@
     /// </summary>
     public enum WorkType
     {
+        Default = 0,
         /// <summary>
         /// 纸本加工
         /// </summary>
@@ -119,5 +122,17 @@
         /// 纸本加工-重点研发
         /// </summary>
         PaperWork_Special = 7,
+        /// <summary>
+        /// 光盘加工-普通项目
+        /// </summary>
+        CDWork_Plan = 8,
+        /// <summary>
+        /// 光盘加工-重大专项
+        /// </summary>
+        CDWork_Imp = 9,
+        /// <summary>
+        /// 光盘加工-重点研发
+        /// </summary>
+        CDWork_Special = 10,
     }
 }

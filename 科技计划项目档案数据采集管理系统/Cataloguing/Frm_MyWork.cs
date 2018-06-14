@@ -870,10 +870,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(index == 0)
                 {
                     if(objId == null)
-                    {
                         objId = tab_Imp_Info.Tag = AddProjectBasicInfo(OBJECT_ID, ControlType.Imp);
-                        MessageBox.Show("基础信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    }
                     if(CheckFileList(view.Rows, key))
                     {
                         int maxLength = dgv_Imp_FileList.Rows.Count - 1;
@@ -1761,8 +1758,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else
                 {
-                    DataRow impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_name, imp_source_id FROM imp_info WHERE imp_obj_id='{OBJECT_ID}' UNION ALL " +
-                        $"SELECT dd_id, dd_name, '{UserHelper.GetInstance().User.UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
+                    DataRow impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_name, imp_source_id FROM imp_info WHERE imp_obj_id='{OBJECT_ID}'");
                     if(impRow != null)
                     {
                         treeNode = new TreeNode()
@@ -1775,7 +1771,7 @@ namespace 科技计划项目档案数据采集管理系统
                             treeNode.ForeColor = DisEnbleColor;
                         //根据重大专项查询具体专项信息
                         DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_code, imp_source_id FROM imp_dev_info WHERE imp_obj_id='{treeNode.Name}'");
-                        if(row!=null)
+                        if(row != null)
                         {
                             TreeNode treeNode2 = new TreeNode()
                             {
@@ -1801,10 +1797,10 @@ namespace 科技计划项目档案数据采集管理系统
                                 if(!UserHelper.GetInstance().User.UserKey.Equals(proRow["pi_worker_id"]))
                                     treeNode3.ForeColor = DisEnbleColor;
                                 treeNode2.Nodes.Add(treeNode3);
-                                
+
                                 //根据【项目/课题】查询【课题/子课题】集
-                               DataTable list2 = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_worker_id FROM topic_info WHERE ti_obj_id='{treeNode3.Name}' UNION ALL " +
-                                   $"SELECT si_id, si_code, si_worker_id FROM subject_info WHERE si_obj_id='{treeNode3.Name}'");
+                                DataTable list2 = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_worker_id FROM topic_info WHERE ti_obj_id='{treeNode3.Name}' UNION ALL " +
+                                    $"SELECT si_id, si_code, si_worker_id FROM subject_info WHERE si_obj_id='{treeNode3.Name}'");
                                 foreach(DataRow topRow in list2.Rows)
                                 {
                                     TreeNode treeNode4 = new TreeNode()
@@ -1833,6 +1829,16 @@ namespace 科技计划项目档案数据采集管理系统
                                 }
                             }
                         }
+                    }
+                    else
+                    {
+                        impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name, '{UserHelper.GetInstance().User.UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
+                        treeNode = new TreeNode()
+                        {
+                            Name = GetValue(impRow["dd_id"]),
+                            Text = GetValue(impRow["dd_name"]),
+                            Tag = ControlType.Imp
+                        };
                     }
                 }
             }
@@ -2288,6 +2294,274 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 */
             }
+            //光盘加工 - 普通计划
+            else if(workType == WorkType.CDWork_Plan)
+            {
+                if(isBacked)
+                {
+
+                }
+                else
+                {
+                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_name, pi_worker_id, pi_submit_status FROM project_info WHERE pi_id='{planId}'");
+                    if(row != null)
+                    {
+                        treeNode = new TreeNode()
+                        {
+                            Name = GetValue(row["pi_id"]),
+                            Text = GetValue(row["pi_name"]),
+                            Tag = ControlType.Plan,
+                            ForeColor = GetForeColorByState(row["pi_submit_status"]),
+                        };
+                        //根据【计划】查询【项目/课题】集
+                        DataTable proTable = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_categor, pi_worker_id, pi_submit_status FROM project_info WHERE pi_obj_id='{treeNode.Name}' UNION ALL " +
+                            $"SELECT ti_id, ti_code, ti_categor, ti_worker_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode.Name}'");
+                        foreach(DataRow proRow in proTable.Rows)
+                        {
+                            TreeNode treeNode2 = new TreeNode()
+                            {
+                                Name = GetValue(proRow["pi_id"]),
+                                Text = GetValue(proRow["pi_code"]),
+                                Tag = ControlType.Project,
+                                ForeColor = GetForeColorByState(proRow["pi_submit_status"]),
+                            };
+                            if(!UserHelper.GetInstance().User.UserKey.Equals(proRow["pi_worker_id"]))
+                                treeNode2.ForeColor = DisEnbleColor;
+                            treeNode.Nodes.Add(treeNode2);
+
+                            DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_categor, ti_worker_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' UNION ALL " +
+                                $"SELECT si_id, si_code, si_categor, si_worker_id, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode2.Name}'");
+                            foreach(DataRow topRow in topTable.Rows)
+                            {
+                                TreeNode treeNode3 = new TreeNode()
+                                {
+                                    Name = GetValue(topRow["ti_id"]),
+                                    Text = GetValue(topRow["ti_code"]),
+                                    Tag = ControlType.Topic,
+                                    ForeColor = GetForeColorByState(topRow["ti_submit_status"]),
+                                };
+                                if(!UserHelper.GetInstance().User.UserKey.Equals(topRow["ti_worker_id"]))
+                                    treeNode3.ForeColor = DisEnbleColor;
+                                treeNode2.Nodes.Add(treeNode3);
+
+                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_categor, si_worker_id, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}'");
+                                foreach(DataRow subRow in subTable.Rows)
+                                {
+                                    TreeNode treeNode4 = new TreeNode()
+                                    {
+                                        Name = GetValue(subRow["si_id"]),
+                                        Text = GetValue(subRow["si_code"]),
+                                        Tag = ControlType.Subject,
+                                        ForeColor = GetForeColorByState(subRow["si_submit_status"]),
+                                    };
+                                    if(!UserHelper.GetInstance().User.UserKey.Equals(subRow["si_worker_id"]))
+                                        treeNode4.ForeColor = DisEnbleColor;
+                                    treeNode3.Nodes.Add(treeNode4);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        row = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{planId}'");
+                        if(row != null)
+                        {
+                            treeNode = new TreeNode()
+                            {
+                                Name = GetValue(row["dd_id"]),
+                                Text = GetValue(row["dd_name"]),
+                                Tag = ControlType.Plan_Default
+                            };
+                        }
+                    }
+                }
+            }
+            //光盘加工 - 重大专项、重点研发
+            else if(workType == WorkType.CDWork_Imp || workType == WorkType.CDWork_Special)
+            {
+                if(isBacked)
+                {
+                    //重点计划
+                    if(type == ControlType.Imp)
+                    {
+                        object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name, imp_source_id FROM imp_info WHERE imp_id='{planId}'");
+                        treeNode = new TreeNode()
+                        {
+                            Name = GetValue(_obj[0]),
+                            Text = GetValue(_obj[1]),
+                            Tag = type
+                        };
+                    }
+                    //重点计划 - 专项信息
+                    else if(type == ControlType.Special)
+                    {
+                        DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM imp_dev_info WHERE imp_id='{planId}'");
+                        object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT imp_id, imp_name, imp_source_id FROM imp_info WHERE imp_id='{row["imp_obj_id"]}'");
+                        treeNode = new TreeNode()
+                        {
+                            Name = GetValue(_obj[0]),
+                            Text = GetValue(_obj[1]),
+                            Tag = ControlType.Imp,
+                            ForeColor = DisEnbleColor
+                        };
+                        TreeNode treeNode2 = new TreeNode()
+                        {
+                            Name = GetValue(row["imp_id"]),
+                            Text = GetValue(row["imp_code"]),
+                            Tag = ControlType.Special
+                        };
+                        treeNode.Nodes.Add(treeNode2);
+                    }
+                    //项目/课题
+                    else if(type == ControlType.Plan)
+                    {
+                        DataRow planRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_name, pi_submit_status FROM project_info WHERE pi_id='{planId}'");
+                        if(planRow != null)
+                        {
+                            treeNode = new TreeNode()
+                            {
+                                Name = GetValue(planRow["pi_id"]),
+                                Text = GetValue(planRow["pi_name"]),
+                                Tag = ControlType.Plan,
+                                ForeColor = GetForeColorByState(planRow["pi_submit_status"]),
+                            };
+                        }
+                    }
+                    //普通计划
+                    else if(type == ControlType.Project)
+                    {
+                        DataRow proRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_submit_status FROM project_info WHERE pi_id='{planId}' UNION ALL " +
+                            $"SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_submit_status FROM topic_info WHERE ti_id='{planId}'");
+                        if(proRow != null)
+                        {
+                            DataRow planRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_name FROM project_info WHERE pi_id='{proRow["pi_obj_id"]}' UNION ALL" +
+                                $" SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{proRow["pi_obj_id"]}'");
+                            treeNode = new TreeNode()
+                            {
+                                Name = GetValue(planRow["pi_id"]),
+                                Text = GetValue(planRow["pi_name"]),
+                                Tag = ControlType.Plan,
+                                ForeColor = DisEnbleColor
+                            };
+                            TreeNode proNode = new TreeNode()
+                            {
+                                Name = GetValue(proRow["pi_id"]),
+                                Text = GetValue(proRow["pi_code"]),
+                                Tag = ControlType.Project,
+                                ForeColor = Convert.ToInt32(proRow["pi_submit_status"]) == 1 ? Color.Black : DisEnbleColor
+                            };
+                            treeNode.Nodes.Add(proNode);
+                            DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_name, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{proRow["pi_id"]}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' UNION ALL " +
+                                $"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{proRow["pi_id"]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                            foreach(DataRow _row in topTable.Rows)
+                            {
+                                TreeNode topNode = new TreeNode()
+                                {
+                                    Name = GetValue(_row["ti_id"]),
+                                    Text = GetValue(_row["ti_code"]),
+                                    Tag = ControlType.Topic,
+                                    ForeColor = Convert.ToInt32(_row["ti_submit_status"]) == 1 ? Color.Black : DisEnbleColor
+                                };
+                                proNode.Nodes.Add(topNode);
+
+                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{_row["ti_id"]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                                foreach(DataRow subRow in subTable.Rows)
+                                {
+                                    TreeNode subNode = new TreeNode()
+                                    {
+                                        Name = GetValue(subRow["si_id"]),
+                                        Text = GetValue(subRow["si_code"]),
+                                        Tag = ControlType.Subject,
+                                        ForeColor = Convert.ToInt32(subRow["si_submit_status"]) == 1 ? Color.Black : DisEnbleColor
+                                    };
+                                    topNode.Nodes.Add(subNode);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    DataRow impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_name, imp_submit_status FROM imp_info WHERE imp_obj_id='{OBJECT_ID}'");
+                    if(impRow != null)
+                    {
+                        treeNode = new TreeNode()
+                        {
+                            Name = GetValue(impRow["imp_id"]),
+                            Text = GetValue(impRow["imp_name"]),
+                            Tag = ControlType.Imp,
+                            ForeColor = GetForeColorByState(impRow["imp_submit_status"]),
+                        };
+
+                        //根据重大专项查询具体专项信息
+                        DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_code, imp_submit_status FROM imp_dev_info WHERE imp_obj_id='{treeNode.Name}'");
+                        if(row != null)
+                        {
+                            TreeNode treeNode2 = new TreeNode()
+                            {
+                                Name = GetValue(row["imp_id"]),
+                                Text = GetValue(row["imp_code"]),
+                                Tag = ControlType.Special,
+                                ForeColor = GetForeColorByState(row["imp_submit_status"]),
+                            };
+                            treeNode.Nodes.Add(treeNode2);
+
+                            //根据【专项信息】查询【项目/课题】集
+                            DataTable list = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_submit_status FROM project_info WHERE pi_obj_id='{treeNode2.Name}' UNION ALL " +
+                                $"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}'");
+                            foreach(DataRow proRow in list.Rows)
+                            {
+                                TreeNode treeNode3 = new TreeNode()
+                                {
+                                    Name = GetValue(proRow["pi_id"]),
+                                    Text = GetValue(proRow["pi_code"]),
+                                    Tag = ControlType.Project,
+                                    ForeColor = GetForeColorByState(proRow["pi_submit_status"]),
+                                };
+                                treeNode2.Nodes.Add(treeNode3);
+
+                                //根据【项目/课题】查询【课题/子课题】集
+                                DataTable list2 = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode3.Name}' UNION ALL " +
+                                    $"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}'");
+                                foreach(DataRow topRow in list2.Rows)
+                                {
+                                    TreeNode treeNode4 = new TreeNode()
+                                    {
+                                        Name = GetValue(topRow["ti_id"]),
+                                        Text = GetValue(topRow["ti_code"]),
+                                        Tag = ControlType.Topic,
+                                        ForeColor = GetForeColorByState(topRow["ti_submit_status"]),
+                                    };
+                                    treeNode3.Nodes.Add(treeNode4);
+
+                                    DataTable list3 = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode4.Name}'");
+                                    foreach(DataRow subRow in list3.Rows)
+                                    {
+                                        TreeNode treeNode5 = new TreeNode()
+                                        {
+                                            Name = GetValue(subRow["si_id"]),
+                                            Text = GetValue(subRow["si_code"]),
+                                            Tag = ControlType.Subject,
+                                            ForeColor = GetForeColorByState(subRow["si_submit_status"]),
+                                        };
+                                        treeNode4.Nodes.Add(treeNode5);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name, '{UserHelper.GetInstance().User.UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
+                        treeNode = new TreeNode()
+                        {
+                            Name = GetValue(impRow["dd_id"]),
+                            Text = GetValue(impRow["dd_name"]),
+                            Tag = ControlType.Imp
+                        };
+                    }
+                }
+            }
             treeView.EndUpdate();
             if(treeNode != null)
             {
@@ -2295,10 +2569,16 @@ namespace 科技计划项目档案数据采集管理系统
                 if(treeView.Nodes.Count > 0)
                 {
                     TreeNode node = treeView.Nodes[0];
-                    if((ControlType)node.Tag == ControlType.Plan)
+                    ControlType _type = (ControlType)node.Tag;
+                    if(_type == ControlType.Plan || _type == ControlType.Plan_Default)
                     {
                         ShowTab("plan", 0);
                         LoadPlanPage(node);
+                    }
+                    else if(_type == ControlType.Imp || _type == ControlType.Imp_Default)
+                    {
+                        ShowTab("imp", 0);
+                        LoadImpPage(node);
                     }
                 }
 
@@ -2358,10 +2638,27 @@ namespace 科技计划项目档案数据采集管理系统
                     else if(workType == WorkType.PaperWork_Imp)
                     {
                         ShowTab("imp", 0);
-                        LoadImpPage(e.Node.Parent.Parent, e.Node.Parent.Parent.ForeColor);
+                        LoadImpPage(e.Node.Parent.Parent);
 
                         ShowTab("special", 1);
                         LoadPageBasicInfo(e.Node.Parent, ControlType.Special, e.Node.ForeColor);
+
+                        int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{e.Node.Name}'");
+                        if(index > 0)
+                        {
+                            ShowTab("project", 2);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Project, e.Node.ForeColor);
+                        }
+                        else
+                        {
+                            ShowTab("topic", 2);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Topic, e.Node.ForeColor);
+                        }
+                    }
+                    else if(workType == WorkType.CDWork_Plan)
+                    {
+                        ShowTab("plan", 0);
+                        LoadPlanPage(e.Node.Parent);
 
                         int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{e.Node.Name}'");
                         if(index > 0)
@@ -2372,6 +2669,26 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                         {
                             ShowTab("topic", 1);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Topic, e.Node.ForeColor);
+                        }
+                    }
+                    else if(workType == WorkType.CDWork_Imp)
+                    {
+                        ShowTab("imp", 0);
+                        LoadImpPage(e.Node.Parent.Parent);
+
+                        ShowTab("special", 1);
+                        LoadPageBasicInfo(e.Node.Parent, ControlType.Special, e.Node.ForeColor);
+
+                        int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{e.Node.Name}'");
+                        if(index > 0)
+                        {
+                            ShowTab("project", 2);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Project, e.Node.ForeColor);
+                        }
+                        else
+                        {
+                            ShowTab("topic", 2);
                             LoadPageBasicInfo(e.Node.Name, ControlType.Topic, e.Node.ForeColor);
                         }
                     }
@@ -2402,16 +2719,28 @@ namespace 科技计划项目档案数据采集管理系统
                             LoadPageBasicInfo(e.Node.Name, ControlType.Subject, e.Node.ForeColor);
                         }
                     }
-                    else if(workType == WorkType.CDWork || workType == WorkType.PaperWork)
+                    else if(workType == WorkType.CDWork_Plan)
                     {
                         ShowTab("plan", 0);
                         LoadPlanPage(e.Node.Parent.Parent);
 
-                        ShowTab("project", 1);
-                        LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Project, e.Node.Parent.ForeColor);
+                        int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id=(SELECT ti_obj_id FROM topic_info WHERE ti_id='{e.Node.Name}')");
+                        if(index > 0)
+                        {
+                            ShowTab("project", 1);
+                            LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Project, e.Node.Parent.ForeColor);
 
-                        ShowTab("topic", 2);
-                        LoadPageBasicInfo(e.Node.Name, ControlType.Topic, e.Node.ForeColor);
+                            ShowTab("topic", 2);
+                            LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
+                        }
+                        else
+                        {
+                            ShowTab("topic", 1);
+                            LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Topic, e.Node.Parent.ForeColor);
+
+                            ShowTab("subject", 2);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Subject, e.Node.ForeColor);
+                        }
                     }
                     else if(workType == WorkType.ProjectWork)
                     {
@@ -2434,6 +2763,34 @@ namespace 科技计划项目档案数据采集管理系统
 
                             ShowTab("topic", 1);
                             LoadPageBasicInfo(e.Node.Name, ControlType.Topic, e.Node.ForeColor);
+                        }
+                    }
+                    else if(workType == WorkType.CDWork_Imp)
+                    {
+                        ShowTab("imp", 0);
+                        LoadImpPage(e.Node.Parent.Parent.Parent);
+
+                        ShowTab("special", 1);
+                        LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Special, e.Node.Parent.Parent.ForeColor);
+
+                        int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{e.Node.Parent.Name}'");
+                        if(index > 0)
+                        {
+
+                            ShowTab("project", 2);
+                            LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Project, e.Node.Parent.ForeColor);
+
+                            ShowTab("topic", 3);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Topic, e.Node.ForeColor);
+                        }
+                        else
+                        {
+
+                            ShowTab("topic", 2);
+                            LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Topic, e.Node.Parent.ForeColor);
+
+                            ShowTab("subject", 3);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Subject, e.Node.ForeColor);
                         }
                     }
                 }
@@ -2500,13 +2857,78 @@ namespace 科技计划项目档案数据采集管理系统
                             LoadPageBasicInfo(e.Node.Name, ControlType.Subject, e.Node.ForeColor);
                         }
                     }
+                    else if(workType == WorkType.CDWork_Plan)
+                    {
+                        object tempId = SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_obj_id FROM topic_info WHERE ti_id=(SELECT si_obj_id FROM subject_info WHERE si_id='{e.Node.Name}')");
+                        object _tempParam = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_id='{tempId}'");
+                        if(_tempParam != null)
+                        {
+                            ShowTab("plan", 0);
+                            LoadPlanPage(e.Node.Parent.Parent.Parent);
+
+                            ShowTab("project", 1);
+                            LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Project, e.Node.Parent.Parent.ForeColor);
+
+                            ShowTab("topic", 2);
+                            LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Topic, e.Node.Parent.ForeColor);
+
+                            ShowTab("subject", 3);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Subject, e.Node.ForeColor);
+                        }
+                        else
+                        {
+                            ShowTab("plan", 0);
+                            LoadPlanPage(e.Node.Parent.Parent);
+
+                            ShowTab("topic", 1);
+                            LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Topic, e.Node.Parent.ForeColor);
+
+                            ShowTab("subject", 2);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Subject, e.Node.ForeColor);
+                        }
+                    }
+                    else if(workType == WorkType.CDWork_Imp)
+                    {
+                        int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{e.Node.Parent.Parent.Name}'");
+                        if(index > 0)
+                        {
+                            ShowTab("imp", 0);
+                            LoadImpPage(e.Node.Parent.Parent.Parent.Parent);
+
+                            ShowTab("special", 1);
+                            LoadPageBasicInfo(e.Node.Parent.Parent.Parent.Name, ControlType.Special, e.Node.Parent.Parent.Parent.ForeColor);
+
+                            ShowTab("project", 2);
+                            LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Project, e.Node.Parent.Parent.ForeColor);
+
+                            ShowTab("topic", 3);
+                            LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Topic, e.Node.Parent.ForeColor);
+
+                            ShowTab("subject", 4);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Subject, e.Node.ForeColor);
+                        }
+                        else
+                        {
+                            ShowTab("imp", 0);
+                            LoadImpPage(e.Node.Parent.Parent.Parent);
+
+                            ShowTab("special", 1);
+                            LoadPageBasicInfo(e.Node.Parent.Parent.Name, ControlType.Special, e.Node.Parent.Parent.ForeColor);
+
+                            ShowTab("topic", 2);
+                            LoadPageBasicInfo(e.Node.Parent.Name, ControlType.Topic, e.Node.Parent.ForeColor);
+
+                            ShowTab("subject", 3);
+                            LoadPageBasicInfo(e.Node.Name, ControlType.Subject, e.Node.ForeColor);
+                        }
+                    }
                 }
                 else if(type == ControlType.Imp)
                 {
                     tab_MenuList.TabPages.Clear();
 
                     ShowTab("imp", 0);
-                    LoadImpPage(e.Node.Name, e.Node.ForeColor);
+                    LoadImpPage(e.Node);
 
                 }
                 else if(type == ControlType.Special)
@@ -2514,7 +2936,7 @@ namespace 科技计划项目档案数据采集管理系统
                     tab_MenuList.TabPages.Clear();
 
                     ShowTab("imp", 0);
-                    LoadImpPage(e.Node.Parent.Name, e.Node.Parent.ForeColor);
+                    LoadImpPage(e.Node.Parent);
 
                     ShowTab("special", 1);
                     LoadPageBasicInfo(e.Node.Name, type, e.Node.ForeColor);
@@ -2525,9 +2947,9 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 加载IMP基本信息
         /// </summary>
-        private void LoadImpPage(object objId, Color color)
+        private void LoadImpPage(TreeNode node)
         {
-            DataRow impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_name, imp_intro, imp_submit_status FROM imp_info WHERE imp_id='{objId}'");
+            DataRow impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_name, imp_intro, imp_submit_status FROM imp_info WHERE imp_id='{node.Name}'");
             if(impRow != null)
             {
                 if((ObjectSubmitStatus)impRow["imp_submit_status"] == ObjectSubmitStatus.SubmitSuccess)
@@ -2539,7 +2961,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else
             {
-                impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_id='{objId}'");
+                impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_id='{node.Name}'");
                 lbl_Imp_Name.Tag = GetValue(impRow["dd_id"]);
                 lbl_Imp_Name.Text = GetValue(impRow["dd_name"]);
                 txt_Imp_Intro.Text = GetValue(impRow["dd_note"]);
@@ -2560,9 +2982,10 @@ namespace 科技计划项目档案数据采集管理系统
             //如果是质检返工则加载意见数
             if(isBacked)
             {
-                btn_Imp_QTReason.Text = $"质检意见({GetAdvincesAmount(dgv_Imp_FileList.Tag)})";
+                btn_Imp_QTReason.Text = $"质检意见({GetAdvincesAmount(tab_Imp_Info.Tag)})";
+                cbo_Imp_HasNext.Enabled = false;
             }
-            if(color == DisEnbleColor)
+            if(node.ForeColor == DisEnbleColor)
             {
                 pal_Imp_BtnGroup.Enabled = false;
             }
@@ -3643,7 +4066,6 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     DataRow row = table.Rows[0];
                     tab_Project_Info.Tag = row["pi_id"];
-                    pal_Project.Tag = row["pi_obj_id"];
                     txt_Project_Code.Text = GetValue(row["pi_code"]);
                     txt_Project_Name.Text = GetValue(row["pi_name"]);
                     txt_Project_Field.Text = GetValue(row["pi_field"]);
@@ -3758,6 +4180,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Special_Name.Text = GetValue(row["imp_name"]);
                     txt_Special_Unit.Text = GetValue(row["imp_unit"]);
                     tab_Special_Info.Tag = GetValue(row["imp_id"]);
+                    EnableControls(ControlType.Special, Convert.ToInt32(row["imp_submit_status"]) != 2);
                     LoadFileList(dgv_Special_FileList, "special_fl_", GetValue(row["imp_id"]));
                 }
                 if(workType == WorkType.PaperWork_Special)
@@ -4595,7 +5018,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void cbo_Project_HasNext_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
-            object id = tab_Plan_Info.Tag;
+            object id = tab_Project_Info.Tag;
             if(id == null)
             {
                 MessageBox.Show("尚未保存当前项目，无法添加新数据。", "温馨提示");
@@ -4614,7 +5037,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     ShowTab("topic", _index + 1);
                     ResetControls(ControlType.Topic);
-                    subject.Tag = tab_Project_Info.Tag;
+                    subject.Tag = id;
                 }
             }
         }

@@ -343,7 +343,7 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(planRow["pi_id"]);
                     }
                 }
-                else if(type == WorkType.PaperWork_Imp)
+                else if(type == WorkType.PaperWork_Imp || type == WorkType.CDWork_Imp)
                 {
                     string querySql = "SELECT dd_name, imp_code, imp_name, imp_id FROM imp_info ii " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ii.imp_id " +
@@ -365,7 +365,7 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(impRow["imp_id"]);
                     }
                 }
-                else if(type == WorkType.PaperWork_Special)
+                else if(type == WorkType.PaperWork_Special || type == WorkType.CDWork_Special)
                 {
                     string querySql = "SELECT dd_name, idi.imp_code, idi.imp_name, idi.imp_id FROM imp_dev_info idi " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = idi.imp_id " +
@@ -477,12 +477,12 @@ namespace 科技计划项目档案数据采集管理系统
             });
             //查询已提交至质检的计划
             /* ---------------------重点计划------------------ */
-            string querySql = "SELECT imp_id, dd_id, dd_name, imp_code, imp_name, trp.trp_id, wm.wm_id, wm.wm_ticker FROM imp_info ii " +
-                "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ii.imp_id " +
+            string querySql = "SELECT imp_id, dd_id, dd_name, imp_code, imp_name, trp.trp_id, wm.wm_id, wm.wm_ticker FROM work_myreg wm " +
+                "LEFT JOIN imp_info ii ON wm.wm_obj_id = ii.imp_id " +
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
                 "LEFT JOIN data_dictionary dd ON trp.com_id = dd.dd_id " +
-                "WHERE wm.wm_type = 0 AND wm.wm_status = 1";
+               $"WHERE (wm.wm_type='{(int)WorkType.PaperWork_Imp}' OR wm.wm_type='{(int)WorkType.CDWork_Imp}') AND wm.wm_status = 1";
             LoadDataGridViewData(SqlHelper.ExecuteQuery(querySql));
             
             /* ---------------------普通计划------------------ */
@@ -491,11 +491,9 @@ namespace 科技计划项目档案数据采集管理系统
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
                 "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                $"WHERE wm.wm_type = '{(int)WorkType.PaperWork_Plan}' AND wm.wm_status = 1";
+                $"WHERE (wm.wm_type = '{(int)WorkType.PaperWork_Plan}' OR wm.wm_type = '{(int)WorkType.CDWork_Plan}') AND wm.wm_status = 1";
             LoadDataGridViewData(SqlHelper.ExecuteQuery(querySql));
 
-            DataGridViewStyleHelper.SetAlignWithCenter(dgv_Imp, new string[] { "imp_fileAmount", "imp_qtAmount" });
-            DataGridViewStyleHelper.SetLinkStyle(dgv_Imp, new string[] { "imp_control", }, true);
             dgv_Imp.Columns["imp_id"].Visible = false;
         }
 
@@ -544,7 +542,7 @@ namespace 科技计划项目档案数据采集管理系统
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
                 "LEFT JOIN data_dictionary dd ON trp.com_id = dd.dd_id " +
-                "WHERE wm.wm_type = 1 AND wm.wm_status = 1";
+               $"WHERE (wm.wm_type = '{(int)WorkType.PaperWork_Special}' OR wm.wm_type = '{(int)WorkType.CDWork_Special}') AND wm.wm_status = 1";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < table.Rows.Count; i++)
             {
@@ -737,9 +735,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if("mr_edit".Equals(columnName))
                 {
                     WorkType type = (WorkType)dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Tag;
-                    if(type == WorkType.PaperWork_Imp)
+                    if(type == WorkType.PaperWork_Imp || type == WorkType.CDWork_Imp)
                     {
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.PaperWork_Imp, objid, wmid, ControlType.Imp);
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(type, objid, wmid, ControlType.Imp);
 
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
@@ -755,9 +753,9 @@ namespace 科技计划项目档案数据采集管理系统
                             LoadMyRegList();
                         }
                     }
-                    else if(type == WorkType.PaperWork_Special)
+                    else if(type == WorkType.PaperWork_Special || type == WorkType.CDWork_Special)
                     {
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.PaperWork, objid, wmid, ControlType.Special);
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(type, objid, wmid, ControlType.Special);
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
                             int _index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_dev_info WHERE imp_id='{objid}' AND imp_submit_status=1");

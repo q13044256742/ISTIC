@@ -5,13 +5,14 @@ namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_ProTypeSelect : DevExpress.XtraEditors.XtraForm
     {
+        /// <summary>
+        /// 来源类型
+        /// </summary>
         private WorkType workType;
         private object objId;
         public object unitCode;
         public Frm_ProTypeSelect(WorkType workType,object objId)
         {
-            
-
             InitializeComponent();
             this.workType = workType;
             this.objId = objId;
@@ -33,23 +34,35 @@ namespace 科技计划项目档案数据采集管理系统
         {
             Hide();
             object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{cbo_TypeSelect.SelectedValue}'");
+            WorkType _type = WorkType.Default;
+            ControlType _ctype = ControlType.Default;
             if("dic_plan_imp".Equals(obj))
             {
-                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Imp, cbo_TypeSelect.SelectedValue, objId, ControlType.Imp, false);
-                frm.planCode = obj;
-                frm.unitCode = unitCode;
-                frm.ShowDialog();
+                if(workType == WorkType.PaperWork)
+                    _type = WorkType.PaperWork_Imp;
+                else if(workType == WorkType.CDWork)
+                    _type = WorkType.CDWork_Imp;
+                _ctype = ControlType.Imp;
             }
             else if("dic_imp_dev".Equals(obj))
             {
-                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Special, cbo_TypeSelect.SelectedValue, objId, ControlType.Special, false);
-                frm.planCode = obj;
-                frm.unitCode = unitCode;
-                frm.ShowDialog();
+                if(workType == WorkType.PaperWork)
+                    _type = WorkType.PaperWork_Special;
+                else if(workType == WorkType.CDWork)
+                    _type = WorkType.CDWork_Special;
+                _ctype = ControlType.Special;
             }
             else
             {
-                Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Plan, cbo_TypeSelect.SelectedValue, objId, ControlType.Plan, false);
+                if(workType == WorkType.PaperWork)
+                    _type = WorkType.PaperWork_Plan;
+                else if(workType == WorkType.CDWork)
+                    _type = WorkType.CDWork_Plan;
+                _ctype = ControlType.Plan;
+            }
+            if(_type != WorkType.Default)
+            {
+                Frm_MyWork frm = new Frm_MyWork(_type, cbo_TypeSelect.SelectedValue, objId, _ctype, false);
                 frm.planCode = obj;
                 frm.unitCode = unitCode;
                 frm.ShowDialog();
