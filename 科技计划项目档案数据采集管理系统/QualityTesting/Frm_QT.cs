@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
@@ -262,7 +263,7 @@ namespace 科技计划项目档案数据采集管理系统
                         if(planId != null)
                             new Frm_MyWorkQT(WorkType.TopicWork, planId, null, ControlType.Default).ShowDialog();
                         else
-                            MessageBox.Show("未找到此项目/课题所属计划。");
+                            XtraMessageBox.Show("未找到此项目/课题所属计划。");
                     }
                 }
                 //我的质检 - 提交（返工）
@@ -271,7 +272,7 @@ namespace 科技计划项目档案数据采集管理系统
                     object wmid = dgv_Imp.Rows[e.RowIndex].Cells["mr_id"].Tag;
                     if(wmid != null)
                     {
-                        if(MessageBox.Show("确定要将选中的数据返工吗?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        if(XtraMessageBox.Show("确定要将选中的数据返工吗?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
                             SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)ObjectSubmitStatus.Back} WHERE wm_id='{wmid}'");
                             LoadMyRegList();
@@ -639,7 +640,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object columnName = dgv_Imp.Columns[e.ColumnIndex].Name;
                 if("imp_control".Equals(columnName))
                 {
-                    if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp.Rows[e.RowIndex].Cells["imp_id"].Tag;
                         SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
@@ -660,7 +661,7 @@ namespace 科技计划项目档案数据采集管理系统
                 //领取此条质检
                 if("imp_dev_control".Equals(columnName))
                 {
-                    if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp_Dev.Rows[e.RowIndex].Cells["imp_dev_id"].Tag;
                         SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
@@ -680,7 +681,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object columnName = dgv_Project.Columns[e.ColumnIndex].Name;
                 if("pro_control".Equals(columnName))
                 {
-                    if(MessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Project.Rows[e.RowIndex].Cells["pro_id"].Tag;
                         SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
@@ -744,13 +745,13 @@ namespace 科技计划项目档案数据采集管理系统
                             int _index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_info WHERE imp_id='{objid}' AND imp_submit_status=1");
                             if(_index > 0)
                             {
-                                if(MessageBox.Show("此数据包含返工信息，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                                if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
                                     SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
+                                    XtraMessageBox.Show("操作成功。");
                                 }
                             }
-                            LoadMyRegList();
                         }
                     }
                     else if(type == WorkType.PaperWork_Special || type == WorkType.CDWork_Special)
@@ -761,13 +762,13 @@ namespace 科技计划项目档案数据采集管理系统
                             int _index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_dev_info WHERE imp_id='{objid}' AND imp_submit_status=1");
                             if(_index > 0)
                             {
-                                if(MessageBox.Show("此数据包含返工信息，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                                if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
                                     SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
+                                    XtraMessageBox.Show("操作成功。");
                                 }
                             }
-                            LoadMyRegList();
                         }
                     }
                     else if(type == WorkType.ProjectWork)
@@ -778,10 +779,11 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             if(HaveBacked(piid))
                             {
-                                if(MessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                                if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
                                     SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
+                                    XtraMessageBox.Show("操作成功。");
                                 }
                             }
                         }
@@ -794,10 +796,11 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             if(HaveBacked(piid))
                             {
-                                if(MessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                                if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
                                     SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
+                                    XtraMessageBox.Show("操作成功。");
                                 }
                             }
                         }
@@ -806,7 +809,7 @@ namespace 科技计划项目档案数据采集管理系统
                 //完成质检
                 else if("mr_submit".Equals(columnName))
                 {
-                    if(MessageBox.Show("确定要完成对当前数据的质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                    if(XtraMessageBox.Show("确定要完成对当前数据的质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                     {
                         SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualityFinish}' WHERE wm_id='{wmid}'");
                     }

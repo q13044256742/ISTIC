@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Text;
@@ -140,10 +141,10 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(!ValidData())
             {
-                MessageBox.Show("请先将表单信息补充完整!");
+                XtraMessageBox.Show("请先将表单信息补充完整!");
                 return;
             }
-            if (MessageBox.Show("确定要保存当前数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+            if (XtraMessageBox.Show("确定要保存当前数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
             {
                 //保存批次基本信息
                 string batchName = txt_BatchName.Text.Trim();
@@ -203,7 +204,7 @@ namespace 科技计划项目档案数据采集管理系统
                     SqlHelper.ExecuteNonQuery("DELETE FROM transfer_registraion_cd WHERE trp_id = '" + unitCode + "'");
                     SaveCDList(unitCode);
                 }
-                if (MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                if (XtraMessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "恭喜", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                 {
                     DialogResult = DialogResult.OK;
                     Close();
