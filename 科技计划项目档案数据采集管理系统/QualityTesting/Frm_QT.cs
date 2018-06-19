@@ -604,7 +604,8 @@ namespace 科技计划项目档案数据采集管理系统
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                 "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                $"WHERE wm.wm_type = '{(int)WorkType.ProjectWork}' AND wm.wm_status = 1;";
+                $"WHERE wm.wm_type = '{(int)WorkType.ProjectWork}' AND wm.wm_status = 1 " +
+                "ORDER BY dd_name;";
             DataTable _table = SqlHelper.ExecuteQuery(querySql);
             foreach(DataRow row in _table.Rows)
                 table.ImportRow(row);

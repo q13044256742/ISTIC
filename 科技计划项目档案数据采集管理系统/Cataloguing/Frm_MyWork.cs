@@ -4290,6 +4290,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dtp_Topic_StartTime.ResetText();
                 dtp_Topic_EndTime.ResetText();
                 txt_Topic_Year.Clear();
+                txt_Topic_Unit.Clear();
                 txt_Topic_UnitUser.Clear();
                 txt_Topic_ProUser.Clear();
                 txt_Topic_Intro.Clear();
@@ -4307,6 +4308,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dtp_Subject_StartTime.ResetText();
                 dtp_Subject_EndTime.ResetText();
                 txt_Subject_Year.Clear();
+                txt_Subject_Unit.Clear();
                 txt_Subject_Unituser.Clear();
                 txt_Subject_ProUser.Clear();
                 txt_Subject_Intro.Clear();

@@ -273,7 +273,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         }
                         else
                         {
-                            MessageBox.Show("当前批次下存在尚未处理的光盘！", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("当前批次下存在尚未处理的光盘。", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         }
                     }
                 }
@@ -297,7 +297,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             int amount = dgv_SWDJ.SelectedRows.Count;
             if (amount > 0)
             {
-                if (MessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                if (XtraMessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                 {
                     int deleteAmount = 0;
                     if ("PC".Equals(dgv_SWDJ.Tag))
@@ -329,12 +329,12 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         }
                         LoadCDDataScoure(pid);
                     }
-                    MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
             {
-                MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                XtraMessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
     
@@ -558,7 +558,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             int amount = dgv_GPDJ.SelectedRows.Count;
             if (amount > 0)
             {
-                if (MessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                if (XtraMessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                 {
                     int deleteAmount = 0;
                     string pid = null;
@@ -576,12 +576,12 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         deleteAmount++;
                     }
                     LoadGPDJ(null);
-                    MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
             {
-                MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                XtraMessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
