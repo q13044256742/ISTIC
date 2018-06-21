@@ -17,18 +17,10 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             this.trcId = trcId;
         }
 
-        private void btn_CD_Choose_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void btn_DS_Choose_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void Btn_Sure_Click(object sender, EventArgs e)
         {
+            if(string.IsNullOrEmpty(txt_CD_Path.Text) && string.IsNullOrEmpty(txt_DS_Path.Text))
+                return;
             string targetPath = Application.StartupPath + "\\datas\\";
             if(!Directory.Exists(targetPath))
                 Directory.CreateDirectory(targetPath);
@@ -57,6 +49,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     CopyFile(sourPath, targetPath, primaryKey);
                     pgb_CD.Tag = true;
                     SetButtonState();
+                    DevExpress.XtraEditors.XtraMessageBox.Show("文件备份完成。");
                     Thread.CurrentThread.Abort();
                 }).Start();
             }
@@ -70,17 +63,20 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 new Thread(delegate ()
                 {
                     string queryString = "SELECT COUNT(pi_id)+ " +
+                    "(SELECT COUNT(spi_id) FROM special_info) +" +
                     "(SELECT COUNT(ti_id) FROM topic_info) +" +
                     "(SELECT COUNT(si_id) FROM subject_info) +" +
-                    "(SELECT COUNT(fi_id) FROM files_info)+" +
-                    "(SELECT COUNT(pfo_id) FROM files_lost_info)+" +
+                    "(SELECT COUNT(fi_id) FROM files_info) +" +
+                    "(SELECT COUNT(pfo_id) FROM files_lost_info) +" +
                     "(SELECT COUNT(pb_id) FROM files_box_info) " +
                     "FROM project_info";
                     int totalAmount = new SQLiteBackupHelper(dPath).ExecuteCountQuery(queryString);
+                    pgb_DS.Value = pgb_DS.Minimum;
                     pgb_DS.Maximum = totalAmount;
-                    CopyDataTableInstince(dPath, targetPath, pgb_DS);
+                    CopyDataTableInstince(dPath, targetPath);
                     pgb_DS.Tag = true;
                     SetButtonState();
+                    DevExpress.XtraEditors.XtraMessageBox.Show("源数据读写完成。");
                     Thread.CurrentThread.Abort();
                 }).Start();
             }
@@ -178,7 +174,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 MessageBox.Show("请等待操作完成。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 e.Cancel = true;
             }
-            else
+            else if(pgb_CD.Value == pgb_CD.Maximum || pgb_DS.Value == pgb_DS.Maximum)
             {
                 DialogResult = DialogResult.OK;
             }
@@ -207,13 +203,26 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// 拷贝数据库
         /// </summary>
         /// <param name="rootFolder">课题组数据库文件路径</param>
-        private void CopyDataTableInstince(string dataBasePath, string rootFolder, ProgressBar progressBar)
+        private void CopyDataTableInstince(string dataBasePath, string rootFolder)
         {
             SQLiteBackupHelper helper = new SQLiteBackupHelper(dataBasePath);
 
-            DataTable projectTable = helper.ExecuteQuery($"SELECT * FROM project_info");
-            int length = projectTable.Rows.Count;
             StringBuilder sqlString = new StringBuilder();
+            DataTable specialTable = helper.ExecuteQuery($"SELECT * FROM special_info");
+            int length = specialTable.Rows.Count;
+            for(int i = 0; i < length; i++)
+            {
+                DataRow row = specialTable.Rows[i];
+                sqlString.Append($"DELETE FROM project_info WHERE pi_id='{row["spi_id"]}';");
+                sqlString.Append("INSERT INTO project_info(pi_id, pi_code, pi_name, pi_unit, pi_obj_id, pi_categor, pi_submit_status, pi_source_id) " +
+                    $"VALUES ('{row["spi_id"]}', '{row["spi_code"]}', '{row["spi_name"]}', '{row["spi_unit"]}', '{trcId}', '{(int)ControlType.Plan}', 1, '{UserHelper.GetInstance().User.UserKey}');");
+                pgb_DS.Value += 1;
+            }
+            SqlHelper.ExecuteNonQuery(sqlString.ToString());
+
+            DataTable projectTable = helper.ExecuteQuery($"SELECT * FROM project_info");
+            length = projectTable.Rows.Count;
+            sqlString = new StringBuilder();
             for(int i = 0; i < length; i++)
             {
                 //SetTip($"正在导入项目数据({i + 1}\\{length})");
@@ -225,7 +234,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     $" VALUES('{row["pi_id"]}', '{trcId}', '{row["pi_code"]}', '{row["pi_name"]}', '{row["pi_field"]}', '{row["pi_theme"]}', '{row["pi_funds"]}', '{row["pi_startdate"]}', '{row["pi_finishdate"]}'" +
                     $",'{row["pi_year"]}', '{row["pi_unit"]}', '{row["pi_province"]}', '{row["pi_unit_user"]}', '{row["pi_project_user"]}', '{row["pi_introduction"]}', {(int)WorkStatus.NonWork}, '{row["pi_obj_id"]}'" +
                     $",'{(int)ControlType.Project}', '{(int)ObjectSubmitStatus.NonSubmit}' ,'{UserHelper.GetInstance().User.UserKey}');");
-                progressBar.Value += 1;
+                pgb_DS.Value += 1;
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());
 
@@ -245,7 +254,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     $"VALUES('{row["ti_id"]}','{(_trcId.Equals(tid) ? trcId : null)}', '{row["ti_code"]}', '{row["ti_name"]}', '{row["ti_field"]}', '{row["ti_theme"]}', '{row["ti_funds"]}', '{row["ti_startdate"]}', '{row["ti_finishdate"]}'" +
                     $",'{row["ti_year"]}', '{row["ti_unit"]}', '{row["ti_province"]}', '{row["ti_unit_user"]}', '{row["ti_project_user"]}', '{(int)WorkStatus.NonWork}', '{ row["ti_introduction"]}', '{tid}'" +
                     $",'{(int)ControlType.Topic}', '{(int)ObjectSubmitStatus.NonSubmit}' ,'{UserHelper.GetInstance().User.UserKey}');");
-                progressBar.Value += 1;
+                pgb_DS.Value += 1;
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());
 
@@ -263,7 +272,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     $"'{row["si_id"]}', '{row["si_code"]}', '{row["si_name"]}', '{row["si_field"]}', '{row["si_theme"]}', '{row["si_funds"]}', '{row["si_startdate"]}', '{row["si_finishdate"]}'," +
                     $"'{row["si_year"]}', '{row["si_unit"]}', '{row["si_province"]}', '{row["si_unit_user"]}', '{row["si_project_user"]}', '{row["si_introduction"]}', '{row["si_obj_id"]}', '{(int)WorkStatus.NonWork}'" +
                     $",'{(int)ControlType.Subject}', '{(int)ObjectSubmitStatus.NonSubmit}' ,'{UserHelper.GetInstance().User.UserKey}');");
-                progressBar.Value += 1;
+                pgb_DS.Value += 1;
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());
 
@@ -310,7 +319,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 sqlString.Append("INSERT INTO processing_file_list(pfl_id, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_file_id, pfl_status, pfl_obj_id, pfl_sort, pfl_remark) VALUES(" +
                     $"'{row["fi_id"]}', '{row["fi_stage"]}', '{row["fi_categor"]}', '{row["fi_code"]}', '{row["fi_name"]}', '{row["fi_user"]}', '{row["fi_type"]}', '{row["fi_pages"]}', '{row["fi_count"]}', " +
                     $"'{row["fi_create_date"]}', '{row["fi_unit"]}', '{row["fi_carrier"]}', '{row["fi_format"]}', '{link}', '{fileId}', '{row["fi_status"]}', '{row["fi_obj_id"]}', '{row["fi_sort"]}', '{row["fi_remark"]}');");
-                progressBar.Value += 1;
+                pgb_DS.Value += 1;
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());
 
@@ -324,7 +333,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 sqlString.Append($"DELETE FROM processing_file_lost WHERE pfo_id='{row["pfo_id"]}';");
                 sqlString.Append($"INSERT INTO processing_file_lost([pfo_id],[pfo_categor],[pfo_name],[pfo_reason],[pfo_remark],[pfo_obj_id]) " +
                     $"VALUES('{row["pfo_id"]}', '{row["pfo_categor"]}', '{row["pfo_name"]}', '{row["pfo_reason"]}', '{row["pfo_remark"]}', '{row["pfo_obj_id"]}');");
-                progressBar.Value += 1;
+                pgb_DS.Value += 1;
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());
 
@@ -339,7 +348,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 sqlString.Append($"DELETE FROM processing_box WHERE pb_id='{row["pb_id"]}';");
                 sqlString.Append($"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_files_id, pb_obj_id, pb_unit_id) " +
                     $"VALUES('{row["pb_id"]}', '{row["pb_box_number"]}', '{row["pb_gc_id"]}', '{row["pb_files_id"]}', '{row["pb_obj_id"]}', '{row["pb_special_id"]}');");
-                progressBar.Value += 1;
+                pgb_DS.Value += 1;
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());
         }
@@ -355,5 +364,10 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         }
 
         private string GetValue(object value) => value == null ? string.Empty : value.ToString();
+
+        private void btn_Cancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

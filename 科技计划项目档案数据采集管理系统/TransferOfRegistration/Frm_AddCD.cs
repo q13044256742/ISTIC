@@ -87,5 +87,10 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             object amountStr = SqlHelper.ExecuteOnlyOneQuery(querySql);
             return unitCode.ToString() + DateTime.Now.Year + amountStr.ToString().PadLeft(3, '0') + "-" + index.ToString().PadLeft(3, '0');
         }
+
+        private void btn_Cancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

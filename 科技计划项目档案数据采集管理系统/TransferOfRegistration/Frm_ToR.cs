@@ -159,6 +159,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             }
 
             //设置链接按钮样式
+            DataGridViewStyleHelper.SetAlignWithCenter(dgv_SWDJ, new string[] { "trp_cd_amount" });
             dgv_SWDJ.Columns["trp_id"].Visible = false;
             btn_Back.Enabled = false;
             btn_Add.Enabled = true;
@@ -170,27 +171,26 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// 加载光盘数据
         /// </summary>
         /// <param name="pid">批次主键</param>
-        private void LoadCDDataScoure(string pid)
+        private void LoadCDDataScoure(object pid)
         {
-            dgv_SWDJ.DataSource = null;
-            dgv_SWDJ.Columns.Clear();
-            dgv_SWDJ.Rows.Clear();
+            DataGridViewStyleHelper.ResetDataGridView(dgv_SWDJ, true);
+            dgv_SWDJ.Columns.AddRange(new DataGridViewColumn[]
+            {
+                new DataGridViewTextBoxColumn(){ Name = "trc_id", HeaderText = "主键"},
+                new DataGridViewTextBoxColumn(){ Name = "trc_code", HeaderText = "光盘编号", FillWeight = 8},
+                new DataGridViewTextBoxColumn(){ Name = "trc_name", HeaderText = "光盘名称", FillWeight = 10},
+                new DataGridViewTextBoxColumn(){ Name = "trc_remark", HeaderText = "备注", FillWeight = 20},
+            });
+            string querySql = $"SELECT trc_id, trc_name, trc_code, trc_remark FROM transfer_registraion_cd WHERE trp_id='{pid}' ORDER BY trc_sort";
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
 
-            StringBuilder querySql = new StringBuilder("SELECT trc_id, trc_name, trc_code, trc_remark");
-            querySql.Append($" FROM transfer_registraion_cd WHERE trp_id='{pid}' ORDER BY trc_sort");
-            DataTable dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
-
-            dgv_SWDJ.Columns.Add("trc_id", "主键");
-            dgv_SWDJ.Columns.Add("trc_name", "光盘名称");
-            dgv_SWDJ.Columns.Add("trc_code", "光盘编号");
-            dgv_SWDJ.Columns.Add("trc_remark", "备注");
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
                 DataRow row = dataTable.Rows[i];
                 int index = dgv_SWDJ.Rows.Add();
                 dgv_SWDJ.Rows[index].Cells["trc_id"].Value = row["trc_id"];
-                dgv_SWDJ.Rows[index].Cells["trc_name"].Value = row["trc_name"];
                 dgv_SWDJ.Rows[index].Cells["trc_code"].Value = row["trc_code"];
+                dgv_SWDJ.Rows[index].Cells["trc_name"].Value = row["trc_name"];
                 dgv_SWDJ.Rows[index].Cells["trc_remark"].Value = row["trc_remark"];
             }
             dgv_SWDJ.Columns["trc_id"].Visible = false;
@@ -260,21 +260,21 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     if (currentRowId != null && !"已提交".Equals(dgv_SWDJ.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
                     {
                         //如果当前批次下存在光盘且未读取，或者存在读取失败的记录，则不允许提交
-                        string querySql = $"SELECT COUNT(*) FROM transfer_registraion_cd WHERE trp_id='{currentRowId}' AND trc_status<>{(int)ReadStatus.ReadSuccess}";
-                        int logAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery(querySql));
+                        string querySql = $"SELECT COUNT(trc_id) FROM transfer_registraion_cd WHERE trp_id='{currentRowId}' AND trc_status<>{(int)ReadStatus.ReadSuccess}";
+                        int logAmount =SqlHelper.ExecuteCountQuery(querySql);
                         if (logAmount == 0)
                         {
                             if (XtraMessageBox.Show("确定要提交当前选中项吗？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 string updateSql = $"UPDATE transfer_registration_pc SET trp_submit_status={(int)ObjectSubmitStatus.SubmitSuccess} WHERE trp_id='{currentRowId}'";
                                 SqlHelper.ExecuteNonQuery(updateSql);
-                                LoadPCDataScoure(null);
+
+                                XtraMessageBox.Show("提交成功。");
+                                dgv_SWDJ.Rows.RemoveAt(e.RowIndex);
                             }
                         }
                         else
-                        {
                             XtraMessageBox.Show("当前批次下存在尚未处理的光盘。", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                        }
                     }
                 }
             }
@@ -302,31 +302,28 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     int deleteAmount = 0;
                     if ("PC".Equals(dgv_SWDJ.Tag))
                     {
+                        StringBuilder sb = new StringBuilder();
                         foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
                         {
-                            string pid = row.Cells["trp_id"].Value.ToString();
-                            string deleteSql = $"DELETE FROM transfer_registration_pc WHERE trp_id = '{pid}'";
-                            SqlHelper.ExecuteNonQuery(deleteSql);
+                            object pid = row.Cells["trp_id"].Value;
+                            sb.Append($"DELETE FROM transfer_registration_pc WHERE trp_id = '{pid}';");
                             deleteAmount++;
                         }
+                        SqlHelper.ExecuteNonQuery(sb.ToString());
                         LoadPCDataScoure(null);
                     }
                     else if ("CD".Equals(dgv_SWDJ.Tag))
                     {
-                        string pid = null;
+                        StringBuilder sb = new StringBuilder();
+                        object pid = null;
                         foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
                         {
-                            string cid = row.Cells["trc_id"].Value.ToString();
-                            pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{cid}'").ToString();
-
-                            string deleteSql = $"DELETE FROM transfer_registraion_cd WHERE trc_id = '{cid}'";
-                            SqlHelper.ExecuteNonQuery(deleteSql);
-
-                            string updateSql = $"UPDATE transfer_registration_pc SET trp_cd_amount=(SELECT COUNT(*) FROM transfer_registraion_cd WHERE trp_id = '{pid}') WHERE trp_id = '{pid}'";
-                            SqlHelper.ExecuteNonQuery(updateSql);
-
+                            object cid = row.Cells["trc_id"].Value;
+                            sb.Append($"DELETE FROM transfer_registraion_cd WHERE trc_id = '{cid}';");
                             deleteAmount++;
                         }
+                        sb.Append($"UPDATE transfer_registration_pc SET trp_cd_amount=(SELECT COUNT(trc_id) FROM transfer_registraion_cd WHERE trp_id = '{pid}') WHERE trp_id = '{pid}';");
+                        SqlHelper.ExecuteNonQuery(sb.ToString());
                         LoadCDDataScoure(pid);
                     }
                     XtraMessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -433,31 +430,17 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         /// <param name="cdid">光盘ID</param>
         private object GetFileAmount(object cdid) => SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(bfi_id) FROM backup_files_info WHERE bfi_type=0 AND bfi_trcid='{cdid}'");
-    
+
         /// <summary>
         /// 根据光盘ID获取项目数总和
         /// </summary>
-        private int GetProjectAmount(object trcId)
-        {
-            int proAmount = 0;
-            if (trcId != null)
-                proAmount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM project_info WHERE pi_obj_id IN (SELECT pi_id FROM project_info WHERE trc_id='{trcId}')"));
-            return proAmount;
-        }
-    
+        private int GetProjectAmount(object trcId) => SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE trc_id = '{trcId}'");
+
         /// <summary>
         /// 根据光盘ID获取课题数总和
         /// </summary>
-        private object GetSubjectAmount(object trcId)
-        {
-            int amount = 0;
-            if(trcId != null)
-                amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(si_id) FROM subject_info WHERE si_obj_id IN " +
-                    $"(SELECT pi_id FROM project_info WHERE pi_obj_id=" +
-                    $"(SELECT pi_id FROM project_info WHERE trc_id='{trcId}'))"));
-            return amount;
-        }
-    
+        private object GetSubjectAmount(object trcId) => SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE trc_id ='{trcId}'");
+
         /// <summary>
         /// 根据状态id获取光盘的读写状态
         /// </summary>
@@ -516,7 +499,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         int state = Convert.ToInt32(dgv_GPDJ.Rows[e.RowIndex].Cells["trc_status"].Tag);
                         if(state == 2)
                         {
-                            string msg = "此光盘已读取，重新读取会覆盖旧数据，是否继续?";
+                            string msg = "此光盘已读取，重新读取会覆盖旧数据。\r\n是否确认继续?";
                             if(XtraMessageBox.Show(msg, "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                                 SqlHelper.ExecuteNonQuery($"DELETE FROM backup_files_info WHERE bfi_trcid='{trcId}'");
                             else

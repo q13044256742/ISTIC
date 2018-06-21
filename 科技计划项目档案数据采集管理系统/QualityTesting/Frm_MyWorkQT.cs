@@ -30,7 +30,7 @@ namespace 科技计划项目档案数据采集管理系统
         public object planCode;
         public int DEV_TYPE = -1;
         public object unitCode;
-    
+        public object trcId;
         /// <summary>
         /// 加工类型【返工】
         /// </summary>
@@ -3850,9 +3850,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Plan_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", dgv_Plan_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", dgv_Plan_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", null);
+                        frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -3866,9 +3866,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Project_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", dgv_Project_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", dgv_Project_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", null);
+                        frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -3882,9 +3882,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Topic_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", dgv_Topic_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", dgv_Topic_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", null);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -3898,9 +3898,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Subject_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", dgv_Subject_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", dgv_Subject_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", null);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -3914,9 +3914,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Imp_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", dgv_Imp_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", dgv_Imp_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", null);
+                        frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", null, trcId);
                     frm.parentId = objId;
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.Show();
@@ -3930,9 +3930,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Special_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", dgv_Special_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", dgv_Special_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", null);
+                        frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.parentId = objId;
                     frm.Show();

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_CG));
             this.dgv_WorkLog = new 科技计划项目档案数据采集管理系统.KyoControl.HeaderUnitView(this.components);
             this.txt_Search = new DevExpress.XtraEditors.SearchControl();
@@ -42,10 +42,12 @@
             this.ac_Working = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.ac_Worked = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pal_UnitList = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_WorkLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Search.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             this.panel1.SuspendLayout();
+            this.pal_UnitList.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgv_WorkLog
@@ -57,14 +59,14 @@
             this.dgv_WorkLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_WorkLog.CellHeight = 17;
             this.dgv_WorkLog.ColumnDeep = 1;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 12F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_WorkLog.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_WorkLog.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_WorkLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_WorkLog.ColumnTreeView = null;
             this.dgv_WorkLog.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -102,7 +104,7 @@
             // 
             this.cbo_CompanyList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbo_CompanyList.FormattingEnabled = true;
-            this.cbo_CompanyList.Location = new System.Drawing.Point(88, 13);
+            this.cbo_CompanyList.Location = new System.Drawing.Point(98, 5);
             this.cbo_CompanyList.Name = "cbo_CompanyList";
             this.cbo_CompanyList.Size = new System.Drawing.Size(229, 29);
             this.cbo_CompanyList.TabIndex = 7;
@@ -112,7 +114,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(3, 18);
+            this.label1.Location = new System.Drawing.Point(13, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 19);
             this.label1.TabIndex = 6;
@@ -160,6 +162,7 @@
             this.ace_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
             this.ace_LeftMenu.Size = new System.Drawing.Size(223, 491);
             this.ace_LeftMenu.TabIndex = 16;
+            this.ace_LeftMenu.SelectedElementChanged += new DevExpress.XtraBars.Navigation.SelectedElementChangedEventHandler(this.ace_LeftMenu_SelectedElementChanged);
             // 
             // acg_Worked
             // 
@@ -219,15 +222,23 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.pal_UnitList);
             this.panel1.Controls.Add(this.txt_Search);
             this.panel1.Controls.Add(this.btn_Back);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.cbo_CompanyList);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(223, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(778, 52);
             this.panel1.TabIndex = 17;
+            // 
+            // pal_UnitList
+            // 
+            this.pal_UnitList.Controls.Add(this.label1);
+            this.pal_UnitList.Controls.Add(this.cbo_CompanyList);
+            this.pal_UnitList.Location = new System.Drawing.Point(6, 7);
+            this.pal_UnitList.Name = "pal_UnitList";
+            this.pal_UnitList.Size = new System.Drawing.Size(345, 39);
+            this.pal_UnitList.TabIndex = 18;
             // 
             // Frm_CG
             // 
@@ -248,7 +259,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_Search.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.pal_UnitList.ResumeLayout(false);
+            this.pal_UnitList.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -265,5 +277,6 @@
         private DevExpress.XtraBars.Navigation.AccordionControlElement ac_Worked;
         private DevExpress.XtraEditors.SearchControl txt_Search;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pal_UnitList;
     }
 }

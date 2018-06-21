@@ -99,9 +99,12 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="nonQuerySql">SQL语句</param>
         public static void ExecuteNonQuery(string nonQuerySql)
         {
-            SqlCommand sqlCommand = new SqlCommand(nonQuerySql, GetConnect());
-            sqlCommand.ExecuteNonQuery();
-            CloseConnect();
+            if(!string.IsNullOrEmpty(nonQuerySql))
+            {
+                SqlCommand sqlCommand = new SqlCommand(nonQuerySql, GetConnect());
+                sqlCommand.ExecuteNonQuery();
+                CloseConnect();
+            }
         }
 
         /// <summary>

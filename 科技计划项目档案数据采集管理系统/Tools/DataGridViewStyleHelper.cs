@@ -92,7 +92,6 @@ namespace 科技计划项目档案数据采集管理系统
         public static void SetLinkStyle(DataGridView dataGridView, string[] columNames, bool special)
         {
             DataGridViewCellStyle normalStyle = new DataGridViewCellStyle();
-            normalStyle.Font = new System.Drawing.Font("微软雅黑", DefaultCellFontSize);
             normalStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             normalStyle.ForeColor = System.Drawing.Color.Blue;
 

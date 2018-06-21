@@ -38,6 +38,7 @@
             this.btn_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_PCName = new System.Windows.Forms.Label();
+            this.btn_Cancel = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.SuspendLayout();
             // 
             // label1
@@ -109,7 +110,7 @@
             this.btn_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save.Image")));
             this.btn_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Save.ImageToTextIndent = 5;
-            this.btn_Save.Location = new System.Drawing.Point(205, 277);
+            this.btn_Save.Location = new System.Drawing.Point(167, 277);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(70, 30);
             this.btn_Save.TabIndex = 6;
@@ -138,11 +139,29 @@
             this.lbl_PCName.TabIndex = 8;
             this.lbl_PCName.Text = "XXX";
             // 
+            // btn_Cancel
+            // 
+            this.btn_Cancel.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.btn_Cancel.Appearance.Options.UseFont = true;
+            this.btn_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_Cancel.Image = ((System.Drawing.Image)(resources.GetObject("btn_Cancel.Image")));
+            this.btn_Cancel.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Cancel.ImageToTextIndent = 5;
+            this.btn_Cancel.Location = new System.Drawing.Point(243, 277);
+            this.btn_Cancel.Name = "btn_Cancel";
+            this.btn_Cancel.Size = new System.Drawing.Size(70, 30);
+            this.btn_Cancel.TabIndex = 9;
+            this.btn_Cancel.Text = "取消";
+            this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
+            // 
             // Frm_AddCD
             // 
+            this.AcceptButton = this.btn_Save;
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.CancelButton = this.btn_Cancel;
             this.ClientSize = new System.Drawing.Size(480, 325);
+            this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.lbl_PCName);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btn_Save);
@@ -154,6 +173,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -177,5 +197,6 @@
         private KyoControl.KyoButton btn_Save;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lbl_PCName;
+        private KyoControl.KyoButton btn_Cancel;
     }
 }

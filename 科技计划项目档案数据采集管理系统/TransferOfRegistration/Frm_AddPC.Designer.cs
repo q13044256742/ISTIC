@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_AddPC));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.txt_BatchName = new System.Windows.Forms.TextBox();
             this.txt_BatchCode = new System.Windows.Forms.TextBox();
@@ -49,11 +54,12 @@
             this.dtp_TransferTime = new System.Windows.Forms.DateTimePicker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgv_CDlist = new System.Windows.Forms.DataGridView();
+            this.btn_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Cancel = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpmc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpbh = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bz = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_CDlist)).BeginInit();
@@ -266,6 +272,14 @@
             this.dgv_CDlist.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_CDlist.BackgroundColor = System.Drawing.Color.White;
             this.dgv_CDlist.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_CDlist.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_CDlist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_CDlist.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
@@ -282,29 +296,6 @@
             this.dgv_CDlist.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_CellEnter);
             this.dgv_CDlist.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_RowLeave);
             // 
-            // id
-            // 
-            this.id.HeaderText = "编号";
-            this.id.Name = "id";
-            // 
-            // gpmc
-            // 
-            this.gpmc.FillWeight = 200F;
-            this.gpmc.HeaderText = "光盘名称";
-            this.gpmc.Name = "gpmc";
-            // 
-            // gpbh
-            // 
-            this.gpbh.FillWeight = 150F;
-            this.gpbh.HeaderText = "光盘编号";
-            this.gpbh.Name = "gpbh";
-            // 
-            // bz
-            // 
-            this.bz.FillWeight = 250F;
-            this.bz.HeaderText = "备注";
-            this.bz.Name = "bz";
-            // 
             // btn_Save
             // 
             this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -313,23 +304,74 @@
             this.btn_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save.Image")));
             this.btn_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Save.ImageToTextIndent = 5;
-            this.btn_Save.Location = new System.Drawing.Point(342, 543);
+            this.btn_Save.Location = new System.Drawing.Point(305, 543);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(67, 30);
             this.btn_Save.TabIndex = 11;
             this.btn_Save.Text = "保存";
             this.btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
+            // btn_Cancel
+            // 
+            this.btn_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Cancel.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.btn_Cancel.Appearance.Options.UseFont = true;
+            this.btn_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_Cancel.Image = ((System.Drawing.Image)(resources.GetObject("btn_Cancel.Image")));
+            this.btn_Cancel.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Cancel.ImageToTextIndent = 5;
+            this.btn_Cancel.Location = new System.Drawing.Point(378, 543);
+            this.btn_Cancel.Name = "btn_Cancel";
+            this.btn_Cancel.Size = new System.Drawing.Size(67, 30);
+            this.btn_Cancel.TabIndex = 28;
+            this.btn_Cancel.Text = "关闭";
+            this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
+            // 
+            // id
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.id.DefaultCellStyle = dataGridViewCellStyle2;
+            this.id.HeaderText = "编号";
+            this.id.Name = "id";
+            // 
+            // gpmc
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.gpmc.DefaultCellStyle = dataGridViewCellStyle3;
+            this.gpmc.FillWeight = 200F;
+            this.gpmc.HeaderText = "光盘名称";
+            this.gpmc.Name = "gpmc";
+            // 
+            // gpbh
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.gpbh.DefaultCellStyle = dataGridViewCellStyle4;
+            this.gpbh.FillWeight = 150F;
+            this.gpbh.HeaderText = "光盘编号";
+            this.gpbh.Name = "gpbh";
+            // 
+            // bz
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.bz.DefaultCellStyle = dataGridViewCellStyle5;
+            this.bz.FillWeight = 250F;
+            this.bz.HeaderText = "备注";
+            this.bz.Name = "bz";
+            // 
             // Frm_AddPC
             // 
+            this.AcceptButton = this.btn_Save;
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.CancelButton = this.btn_Cancel;
             this.ClientSize = new System.Drawing.Size(751, 580);
+            this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -369,6 +411,7 @@
         private System.Windows.Forms.DataGridView dgv_CDlist;
         private System.Windows.Forms.DateTimePicker dtp_TransferTime;
         private KyoControl.KyoButton btn_Save;
+        private KyoControl.KyoButton btn_Cancel;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn gpmc;
         private System.Windows.Forms.DataGridViewTextBoxColumn gpbh;

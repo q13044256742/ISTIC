@@ -242,6 +242,7 @@
     <Compile Include="Tools\MicrosoftWordHelper.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
     <Compile Include="Tools\SQLiteBackupHelper.cs" />
+    <Compile Include="Tools\WinFormOpenHelper.cs" />
     <Compile Include="Tools\XmlHelper.cs" />
     <Compile Include="TransferOfRegistration\Frm_AddPC.cs">
       <SubType>Form</SubType>
@@ -428,6 +429,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\pdf.png" />
+    <None Include="Resources\lock.jpg" />
+    <None Include="Resources\word.png" />
+    <None Include="Resources\xsl.png" />
+    <None Include="Resources\rar.png" />
+    <None Include="Resources\excel.png" />
+    <None Include="Resources\doc.png" />
+    <None Include="Resources\file2.jpg" />
+    <None Include="Resources\file.jpg" />
     <None Include="Images\top_bg.png" />
     <None Include="Images\logo.png" />
     <None Include="Images\area1.png" />

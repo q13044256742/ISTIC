@@ -37,6 +37,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_CdPath = new System.Windows.Forms.LinkLabel();
             this.lbl_DataPath = new System.Windows.Forms.LinkLabel();
+            this.btn_Cancel = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Sure = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.pgb_DS = new 科技计划项目档案数据采集管理系统.KyoControl.KyoProgressBar();
             this.pgb_CD = new 科技计划项目档案数据采集管理系统.KyoControl.KyoProgressBar();
@@ -60,7 +61,7 @@
             this.txt_CD_Path.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txt_CD_Path.Name = "txt_CD_Path";
             this.txt_CD_Path.ReadOnly = true;
-            this.txt_CD_Path.Size = new System.Drawing.Size(390, 24);
+            this.txt_CD_Path.Size = new System.Drawing.Size(465, 24);
             this.txt_CD_Path.TabIndex = 1;
             // 
             // txt_DS_Path
@@ -70,7 +71,7 @@
             this.txt_DS_Path.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txt_DS_Path.Name = "txt_DS_Path";
             this.txt_DS_Path.ReadOnly = true;
-            this.txt_DS_Path.Size = new System.Drawing.Size(391, 24);
+            this.txt_DS_Path.Size = new System.Drawing.Size(466, 24);
             this.txt_DS_Path.TabIndex = 4;
             // 
             // label2
@@ -110,7 +111,7 @@
             // 
             this.lbl_CdPath.AutoSize = true;
             this.lbl_CdPath.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lbl_CdPath.Location = new System.Drawing.Point(418, 48);
+            this.lbl_CdPath.Location = new System.Drawing.Point(493, 47);
             this.lbl_CdPath.Name = "lbl_CdPath";
             this.lbl_CdPath.Size = new System.Drawing.Size(22, 21);
             this.lbl_CdPath.TabIndex = 11;
@@ -122,13 +123,28 @@
             // 
             this.lbl_DataPath.AutoSize = true;
             this.lbl_DataPath.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lbl_DataPath.Location = new System.Drawing.Point(418, 114);
+            this.lbl_DataPath.Location = new System.Drawing.Point(493, 113);
             this.lbl_DataPath.Name = "lbl_DataPath";
             this.lbl_DataPath.Size = new System.Drawing.Size(22, 21);
             this.lbl_DataPath.TabIndex = 12;
             this.lbl_DataPath.TabStop = true;
             this.lbl_DataPath.Text = "...";
             this.lbl_DataPath.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lbl_DataPath_LinkClicked);
+            // 
+            // btn_Cancel
+            // 
+            this.btn_Cancel.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.btn_Cancel.Appearance.Options.UseFont = true;
+            this.btn_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_Cancel.Image = ((System.Drawing.Image)(resources.GetObject("btn_Cancel.Image")));
+            this.btn_Cancel.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Cancel.ImageToTextIndent = 5;
+            this.btn_Cancel.Location = new System.Drawing.Point(275, 297);
+            this.btn_Cancel.Name = "btn_Cancel";
+            this.btn_Cancel.Size = new System.Drawing.Size(70, 30);
+            this.btn_Cancel.TabIndex = 13;
+            this.btn_Cancel.Text = "关闭";
+            this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
             // 
             // btn_Sure
             // 
@@ -137,7 +153,7 @@
             this.btn_Sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_Sure.Image")));
             this.btn_Sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Sure.ImageToTextIndent = 5;
-            this.btn_Sure.Location = new System.Drawing.Point(196, 297);
+            this.btn_Sure.Location = new System.Drawing.Point(202, 297);
             this.btn_Sure.Name = "btn_Sure";
             this.btn_Sure.Size = new System.Drawing.Size(67, 30);
             this.btn_Sure.TabIndex = 10;
@@ -148,7 +164,7 @@
             // 
             this.pgb_DS.Location = new System.Drawing.Point(25, 244);
             this.pgb_DS.Name = "pgb_DS";
-            this.pgb_DS.Size = new System.Drawing.Size(415, 23);
+            this.pgb_DS.Size = new System.Drawing.Size(490, 23);
             this.pgb_DS.TabIndex = 9;
             this.pgb_DS.TextColor = System.Drawing.Color.Black;
             this.pgb_DS.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
@@ -157,7 +173,7 @@
             // 
             this.pgb_CD.Location = new System.Drawing.Point(25, 179);
             this.pgb_CD.Name = "pgb_CD";
-            this.pgb_CD.Size = new System.Drawing.Size(415, 23);
+            this.pgb_CD.Size = new System.Drawing.Size(490, 23);
             this.pgb_CD.TabIndex = 7;
             this.pgb_CD.TextColor = System.Drawing.Color.Black;
             this.pgb_CD.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
@@ -166,7 +182,9 @@
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(459, 348);
+            this.CancelButton = this.btn_Cancel;
+            this.ClientSize = new System.Drawing.Size(542, 348);
+            this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.lbl_DataPath);
             this.Controls.Add(this.lbl_CdPath);
             this.Controls.Add(this.btn_Sure);
@@ -181,6 +199,7 @@
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -207,5 +226,6 @@
         private KyoControl.KyoProgressBar pgb_DS;
         private System.Windows.Forms.LinkLabel lbl_CdPath;
         private System.Windows.Forms.LinkLabel lbl_DataPath;
+        private KyoControl.KyoButton btn_Cancel;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
@@ -21,12 +22,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         public object trcId;
 
-        public Frm_AddFile(DataGridView view, object key, object fileId)
+        public Frm_AddFile(DataGridView view, object key, object fileId, object trcId)
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             this.view = view;
             this.key = key;
+            this.trcId = trcId;
             if(fileId != null)
             {
                 Text = "编辑文件";
@@ -64,7 +66,7 @@ namespace 科技计划项目档案数据采集管理系统
                 SetRadioValue(row["pfl_carrier"], pal_carrier);
                 num_Amount.Value = Convert.ToInt32(row["pfl_amount"]);
                 txt_Unit.Text = GetValue(row["pfl_unit"]);
-                txt_Link.Text = GetValue(row["pfl_link"]);
+                lsv_LinkList.Text = GetValue(row["pfl_link"]);
                 txt_Remark.Text = GetValue(row["pfl_remark"]);
             }
         }
@@ -103,7 +105,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 根据类别加载文件名称
         /// </summary>
-        private void LoadFileNameByCategor(ComboBox comboBox)
+        private void LoadFileNameByCategor(System.Windows.Forms.ComboBox comboBox)
         {
             string _tempKey = comboBox.Text.Split(' ')[0];
             if(string.IsNullOrEmpty(_tempKey))
@@ -196,8 +198,8 @@ namespace 科技计划项目档案数据采集管理系统
             row.Cells[key + "date"].Value = dtp_date.Value.ToString("yyyyMMdd");
             row.Cells[key + "unit"].Value = txt_Unit.Text;
             row.Cells[key + "carrier"].Value = GetCheckBoxValue(pal_carrier);
-            object format = Path.GetExtension(txt_Link.Text).Replace(".", string.Empty);
-            row.Cells[key + "link"].Value = txt_Link.Text;
+            object format = Path.GetExtension(lsv_LinkList.Text).Replace(".", string.Empty);
+            row.Cells[key + "link"].Value = lsv_LinkList.Text;
             if(isAdd)
             {
                 object stage = row.Cells[key + "stage"].Value;
@@ -223,7 +225,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object unit = row.Cells[key + "unit"].Value;
                 object carrier = row.Cells[key + "carrier"].Value;
                 object link = row.Cells[key + "link"].Value;
-                object fileId = txt_Link.Tag;
+                object fileId = lsv_LinkList.Tag;
                 object remark = txt_Remark.Text;
 
                 if(isOtherType)
@@ -276,7 +278,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object unit = row.Cells[key + "unit"].Value;
                 object carrier = row.Cells[key + "carrier"].Value;
                 object link = row.Cells[key + "link"].Value;
-                object fileId = txt_Link.Tag;
+                object fileId = lsv_LinkList.Tag;
                 object remark = txt_Remark.Text;
                 string updateSql = "UPDATE processing_file_list SET " +
                         $"[pfl_stage] = '{stage}'" +
@@ -480,17 +482,17 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(item is NumericUpDown)
                     (item as NumericUpDown).Value = 0;
-                else if(item is ComboBox)
+                else if(item is System.Windows.Forms.ComboBox)
                 {
                     if("txt_fileName".Equals(item.Name))
                     {
-                        ComboBox comboBox = item as ComboBox;
+                        System.Windows.Forms.ComboBox comboBox = item as System.Windows.Forms.ComboBox;
                         comboBox.Items.Clear();
                         comboBox.Text = null;
                     }
                     else if("cbo_categor".Equals(item.Name))
                     {
-                        (item as ComboBox).SelectedIndex = 0;
+                        (item as System.Windows.Forms.ComboBox).SelectedIndex = 0;
                     }
                 }
                 else if(item is Panel)
@@ -526,7 +528,12 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void OpenFile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            object[] rootId = SqlHelper.ExecuteSingleColumnQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_trcid='{trcId}' AND bfi_sort=-1");
+            object[] rootId = SqlHelper.ExecuteSingleColumnQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_trcid='{trcId}' AND bfi_type=-1");
+            if(rootId.Length == 0)
+            {
+                XtraMessageBox.Show("尚未导入文件。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             Frm_AddFile_FileSelect frm = new Frm_AddFile_FileSelect(rootId);
             if(frm.ShowDialog() == DialogResult.OK)
             {
@@ -538,13 +545,28 @@ namespace 科技计划项目档案数据采集管理系统
                         Directory.CreateDirectory(savePath);
                     string filePath = savePath + new FileInfo(fullPath).Name;
                     File.Copy(fullPath, filePath, true);
-                    txt_Link.Text = fullPath;
-                    if(MessageBox.Show("已从服务器拷贝文件到本地，是否现在打开？", "操作确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        System.Diagnostics.Process.Start("EXPLORER.EXE", filePath);
+                    AddFileToList(fullPath, filePath, frm.SelectedFileId);
+
+                    if(XtraMessageBox.Show("已从服务器拷贝文件到本地，是否现在打开？", "操作确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        WinFormOpenHelper.OpenWinForm(0, "open", filePath, null, null, ShowWindowCommands.SW_NORMAL);
                 }
                 else
-                    MessageBox.Show("服务器不存在此文件。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    XtraMessageBox.Show("服务器不存在此文件。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
+        }
+
+        private void AddFileToList(string sPath, string tPath, string fid)
+        {
+            FileInfo file = new FileInfo(tPath);
+            string index = (lsv_LinkList.Items.Count + 1).ToString();
+            ListViewItem item = lsv_LinkList.Items.Add(index);
+            item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
+            {
+                new ListViewItem.ListViewSubItem(){ Text = file.Name },
+                new ListViewItem.ListViewSubItem(){ Text = file.CreationTime.ToString("yyyy-MM-dd") },
+                new ListViewItem.ListViewSubItem(){ Text = sPath },
+            });
+            item.Tag = fid;
         }
 
         private void Frm_AddFile_FormClosing(object sender, FormClosingEventArgs e)
@@ -558,7 +580,35 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 Hide();
                 DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_id FROM processing_file_list WHERE pfl_name='{fileName}' AND pfl_obj_id='{parentId}'");
-                new Frm_AddFile(view, key, row["fi_id"]).ShowDialog();
+                new Frm_AddFile(view, key, row["fi_id"], trcId).ShowDialog();
+            }
+        }
+
+        private void Lsv_FileList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Delete)
+            {
+                int count = lsv_LinkList.SelectedItems.Count;
+                if(count > 0)
+                {
+                    if(MessageBox.Show("是否删除选中项？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        for(int i = 0; i < count; i++)
+                            lsv_LinkList.SelectedItems[i].Remove();
+                }
+            }
+        }
+
+        private void Lsv_LinkList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int index = lsv_LinkList.SelectedItems.Count;
+            if(index > 0 && MessageBox.Show("是否打开文件？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                ListViewItem item = lsv_LinkList.SelectedItems[0];
+                string filePath = item.SubItems[3].Text;
+                if(!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
+                {
+                    WinFormOpenHelper.OpenWinForm(Handle.ToInt32(), "open", filePath, null, null, ShowWindowCommands.SW_NORMAL);
+                }
             }
         }
     }

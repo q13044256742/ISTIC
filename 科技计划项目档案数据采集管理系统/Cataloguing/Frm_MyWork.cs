@@ -28,7 +28,7 @@ namespace 科技计划项目档案数据采集管理系统
         private object PLAN_ID;
         public object planCode;
         public object unitCode;
-    
+        public object trcId;
         /// <summary>
         /// 是否是返工后再次编辑
         /// </summary>
@@ -51,11 +51,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         /// <param name="workType">对象类型</param>
         /// <param name="planId">计划主键（仅针对光盘/批次加工）</param>
-        public Frm_MyWork(WorkType workType, object planId, object trpId, ControlType controlType, bool isBacked)
+        public Frm_MyWork(WorkType workType, object planId, object objId, ControlType controlType, bool isBacked)
         {
             InitializeComponent();
             this.isBacked = isBacked;
-            OBJECT_ID = trpId;
+            OBJECT_ID = objId;
             PLAN_ID = planId;
             this.workType = workType;
             this.controlType = controlType;
@@ -68,6 +68,10 @@ namespace 科技计划项目档案数据采集管理系统
                 btn_Project_QTReason.Visible = isBacked;
                 btn_Topic_QTReason.Visible = isBacked;
                 btn_Subject_QTReason.Visible = isBacked;
+            }
+            if(workType == WorkType.ProjectWork)
+            {
+                trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id='{objId}'");
             }
             InitialForm(planId, controlType);
         }
@@ -2038,14 +2042,28 @@ namespace 科技计划项目档案数据采集管理系统
                     object _planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{OBJECT_ID}';") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_obj_id FROM topic_info WHERE ti_id='{OBJECT_ID}';");
                     if(_planId != null)
                     {
-                        DataRow planRow = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{_planId}'");
-                        treeNode = new TreeNode()
+                        DataRow planRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_name FROM project_info WHERE pi_id='{_planId}'");
+                        if(planRow != null)
                         {
-                            Name = GetValue(planRow["dd_id"]),
-                            Text = GetValue(planRow["dd_name"]),
-                            Tag = ControlType.Plan,
-                            ForeColor = DisEnbleColor
-                        };
+                            treeNode = new TreeNode()
+                            {
+                                Name = GetValue(planRow["pi_id"]),
+                                Text = GetValue(planRow["pi_name"]),
+                                Tag = ControlType.Plan,
+                                ForeColor = DisEnbleColor
+                            };
+                        }
+                        else
+                        {
+                            DataRow _planRow = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{_planId}'");
+                            treeNode = new TreeNode()
+                            {
+                                Name = GetValue(planRow["dd_id"]),
+                                Text = GetValue(planRow["dd_name"]),
+                                Tag = ControlType.Plan_Default,
+                                ForeColor = DisEnbleColor
+                            };
+                        }
                         //根据【计划】查询【项目/课题】集
                         DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_code, pi_categor FROM project_info WHERE pi_id='{OBJECT_ID}';");
                         if(row != null)
@@ -2058,7 +2076,7 @@ namespace 科技计划项目档案数据采集管理系统
                             };
                             treeNode.Nodes.Add(treeNode2);
                             //根据【项目/课题】查询【课题/子课题】集
-                            List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT ti_id, ti_code, ti_categor FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code", 3);
+                            List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT ti_id, ti_code, ti_categor FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY ti_code", 3);
                             for(int j = 0; j < list2.Count; j++)
                             {
                                 TreeNode treeNode3 = new TreeNode()
@@ -2430,7 +2448,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(e.Button == MouseButtons.Left)
             {
                 ControlType type = (ControlType)e.Node.Tag;
-                if(type == ControlType.Plan)
+                if(type == ControlType.Plan || type == ControlType.Plan_Default)
                 {
                     ShowTab("plan", 0);
                     LoadPlanPage(e.Node);
@@ -2439,7 +2457,6 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(workType == WorkType.ProjectWork)
                     {
-
                         object proParam = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{e.Node.Name}' AND pi_categor=2");
                         if(proParam != null)
                         {
@@ -2928,18 +2945,13 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                 }
-                else if(type == ControlType.Imp)
+                else if(type == ControlType.Imp || type == ControlType.Imp_Default)
                 {
-                    tab_MenuList.TabPages.Clear();
-
                     ShowTab("imp", 0);
                     LoadImpPage(e.Node);
-
                 }
                 else if(type == ControlType.Special)
                 {
-                    tab_MenuList.TabPages.Clear();
-
                     ShowTab("imp", 0);
                     LoadImpPage(e.Node.Parent);
 
@@ -4543,9 +4555,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Plan_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", dgv_Plan_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", dgv_Plan_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", null);
+                        frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -4559,9 +4571,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Project_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", dgv_Project_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", dgv_Project_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", null);
+                        frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -4575,9 +4587,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Topic_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", dgv_Topic_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", dgv_Topic_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", null);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -4591,9 +4603,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Subject_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", dgv_Subject_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", dgv_Subject_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", null);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -4607,9 +4619,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Imp_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", dgv_Imp_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", dgv_Imp_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", null);
+                        frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", null, trcId);
                     frm.parentId = objId;
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.Show();
@@ -4623,9 +4635,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Special_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", dgv_Special_FileList.CurrentRow.Cells[0].Tag);
+                        frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", dgv_Special_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
-                        frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", null);
+                        frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
                     frm.parentId = objId;
                     frm.Show();
