@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -70,9 +71,9 @@ namespace 科技计划项目档案数据采集管理系统
                 btn_Subject_QTReason.Visible = isBacked;
             }
             if(workType == WorkType.ProjectWork)
-            {
                 trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id='{objId}'");
-            }
+            else if(workType == WorkType.CDWork_Plan)
+                trcId = objId;
             InitialForm(planId, controlType);
         }
 
@@ -234,6 +235,8 @@ namespace 科技计划项目档案数据采集管理系统
             tab_Imp_Info.Top = 310;
             tab_Special_Info.Height = 345;
             tab_Special_Info.Top = 310;
+
+            MinimumSize = new Size(Width, Height);
 
             //不同加工种类特殊处理
             if(workType == WorkType.PaperWork)
@@ -409,9 +412,9 @@ namespace 科技计划项目档案数据采集管理系统
                 Control con = e.Control;
                 con.Tag = ControlType.Plan;
                 if("plan_fl_stage".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
                 else if("plan_fl_categor".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
             }
             else if("dgv_Project_FileList".Equals(dataGridView.Name))
             {
@@ -419,9 +422,9 @@ namespace 科技计划项目档案数据采集管理系统
                 Control con = e.Control;
                 con.Tag = ControlType.Plan;
                 if("project_fl_stage".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
                 else if("project_fl_categor".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
             }
             else if("dgv_Topic_FileList".Equals(dataGridView.Name))
             {
@@ -429,9 +432,9 @@ namespace 科技计划项目档案数据采集管理系统
                 Control con = e.Control;
                 con.Tag = ControlType.Topic;
                 if("topic_fl_stage".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
                 else if("topic_fl_categor".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
             }
             else if("dgv_Subject_FileList".Equals(dataGridView.Name))
             {
@@ -439,9 +442,9 @@ namespace 科技计划项目档案数据采集管理系统
                 Control con = e.Control;
                 con.Tag = ControlType.Subject;
                 if("subject_fl_stage".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
                 else if("subject_fl_categor".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
             }
             else if("dgv_Imp_FileList".Equals(dataGridView.Name))
             {
@@ -449,9 +452,9 @@ namespace 科技计划项目档案数据采集管理系统
                 Control con = e.Control;
                 con.Tag = ControlType.Imp;
                 if("imp_fl_stage".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
                 else if("imp_fl_categor".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
             }
             else if("dgv_Special_FileList".Equals(dataGridView.Name))
             {
@@ -459,13 +462,13 @@ namespace 科技计划项目档案数据采集管理系统
                 Control con = e.Control;
                 con.Tag = ControlType.Special;
                 if("special_fl_stage".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
                 else if("special_fl_categor".Equals(columnName))
-                    (con as ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
+                    (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
             }
-            if(e.Control is ComboBox)
+            if(e.Control is System.Windows.Forms.ComboBox)
             {
-                ComboBox box = e.Control as ComboBox;
+                System.Windows.Forms.ComboBox box = e.Control as System.Windows.Forms.ComboBox;
                 if(box.Items.Count > 0)
                     box.SelectedValue = box.Items[0];
             }
@@ -476,7 +479,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void StageComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
             if((ControlType)comboBox.Tag == ControlType.Plan)
                 SetCategorByStage(comboBox.SelectedValue, dgv_Plan_FileList.CurrentRow, "plan_fl_");
             else if((ControlType)comboBox.Tag == ControlType.Plan)
@@ -491,7 +494,7 @@ namespace 科技计划项目档案数据采集管理系统
                 SetCategorByStage(comboBox.SelectedValue, dgv_Special_FileList.CurrentRow, "special_fl_");
             comboBox.Leave += new EventHandler(delegate (object obj, EventArgs eve)
             {
-                ComboBox _comboBox = obj as ComboBox;
+                System.Windows.Forms.ComboBox _comboBox = obj as System.Windows.Forms.ComboBox;
                 _comboBox.SelectionChangeCommitted -= new EventHandler(StageComboBox_SelectionChangeCommitted);
             });
         }
@@ -501,7 +504,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void CategorComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
             if((ControlType)comboBox.Tag == ControlType.Plan)
                 SetNameByCategor(comboBox, dgv_Plan_FileList.CurrentRow, "plan_fl_", tab_Plan_Info.Tag);
             else if((ControlType)comboBox.Tag == ControlType.Plan)
@@ -516,7 +519,7 @@ namespace 科技计划项目档案数据采集管理系统
                 SetNameByCategor(comboBox, dgv_Special_FileList.CurrentRow, "special_fl_", tab_Special_Info.Tag);
             comboBox.Leave += new EventHandler(delegate (object obj, EventArgs eve)
             {
-                ComboBox _comboBox = obj as ComboBox;
+                System.Windows.Forms.ComboBox _comboBox = obj as System.Windows.Forms.ComboBox;
                 _comboBox.SelectionChangeCommitted -= new EventHandler(CategorComboBox_SelectionChangeCommitted);
             });
         }
@@ -526,7 +529,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         /// <param name="catogerCode">文件类别编号</param>
         /// <param name="currentRow">当前行</param>
-        private void SetNameByCategor(ComboBox comboBox, DataGridViewRow currentRow, string key, object objId)
+        private void SetNameByCategor(System.Windows.Forms.ComboBox comboBox, DataGridViewRow currentRow, string key, object objId)
         {
             string value = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_note FROM data_dictionary WHERE dd_id='{comboBox.SelectedValue}'"));
             currentRow.Cells[key + "name"].Value = value;
@@ -557,13 +560,13 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Cbo_JH_Next_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
             if(comboBox.Name.Contains("Special"))
             {
                 object id = tab_Special_Info.Tag;
                 if(id == null)
                 {
-                    MessageBox.Show("尚未保存当前项目，无法添加新数据。", "温馨提示");
+                    XtraMessageBox.Show("尚未保存当前项目，无法添加新数据。", "温馨提示");
                     cbo_Special_HasNext.SelectedIndex = 0;
                 }
                 else
@@ -593,7 +596,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = tab_Plan_Info.Tag;
                 if(id == null)
                 {
-                    MessageBox.Show("尚未保存当前项目，无法添加新数据。", "温馨提示");
+                    XtraMessageBox.Show("尚未保存当前项目，无法添加新数据。", "温馨提示");
                     cbo_Plan_HasNext.SelectedIndex = 0;
                 }
                 else
@@ -623,7 +626,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Cbo_JH_KT_HasNext_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
             int _index = tab_MenuList.SelectedIndex;
             int index = comboBox.SelectedIndex;
             if(index == 0)//无
@@ -635,7 +638,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = tab_Topic_Info.Tag;
                 if(id == null)
                 {
-                    MessageBox.Show("尚未保存当前课题信息，无法添加新数据。", "温馨提示");
+                    XtraMessageBox.Show("尚未保存当前课题信息，无法添加新数据。", "温馨提示");
                     cbo_Topic_HasNext.SelectedIndex = 0;
                     subject.Tag = null;
                 }
@@ -678,11 +681,11 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         RemoveFileList(objId);
 
-                        MessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        XtraMessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         if(!isBacked) GoToTreeList();
                     }
                     else
-                        MessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if(objId != null)
                 {
@@ -691,10 +694,10 @@ namespace 科技计划项目档案数据采集管理系统
                         if(CheckValidMustEnter(dgv_Plan_FileValid, "plan_fc_"))
                         {
                             ModifyFileValid(dgv_Plan_FileValid, objId, "plan_fc_");
-                            MessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         }
                         else
-                            MessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else if(index == 2)
                     {
@@ -732,11 +735,11 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             RemoveFileList(objId);
 
-                            MessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             if(!isBacked) GoToTreeList();
                         }
                         else
-                            MessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                 }
                 else if(objId != null)
@@ -746,10 +749,10 @@ namespace 科技计划项目档案数据采集管理系统
                         if(CheckValidMustEnter(dgv_Project_FileValid, "project_fl_"))
                         {
                             ModifyFileValid(dgv_Project_FileValid, objId, "project_fl_");
-                            MessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         }
                         else
-                            MessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else if(index == 2)
                     {
@@ -787,11 +790,11 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             RemoveFileList(objId);
 
-                            MessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             if(!isBacked) GoToTreeList();
                         }
                         else
-                            MessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                 }
                 else if(objId != null)
@@ -801,10 +804,10 @@ namespace 科技计划项目档案数据采集管理系统
                         if(CheckValidMustEnter(dgv_Topic_FileValid, "topic_fc_"))
                         {
                             ModifyFileValid(dgv_Topic_FileValid, objId, "topic_fc_");
-                            MessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         }
                         else
-                            MessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else if(index == 2)
                     {
@@ -841,11 +844,11 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                             RemoveFileList(objId);
 
-                            MessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             if(!isBacked) GoToTreeList();
                         }
                         else
-                            MessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                 }
                 else if(objId != null)
@@ -855,10 +858,10 @@ namespace 科技计划项目档案数据采集管理系统
                         if(CheckValidMustEnter(dgv_Subject_FileValid, "subject_fc_"))
                         {
                             ModifyFileValid(dgv_Subject_FileValid, objId, "subject_fc_");
-                            MessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         }
                         else
-                            MessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else if(index == 2)
                     {
@@ -891,11 +894,11 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         RemoveFileList(objId);
 
-                        MessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         if(!isBacked) GoToTreeList();
                     }
                     else
-                        MessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if(objId != null)
                 {
@@ -904,10 +907,10 @@ namespace 科技计划项目档案数据采集管理系统
                         if(CheckValidMustEnter(dgv_Imp_FileValid, "imp_fc_"))
                         {
                             ModifyFileValid(dgv_Imp_FileValid, objId, "imp_fc_");
-                            MessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         }
                         else
-                            MessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else if(index == 2)
                     {
@@ -941,11 +944,11 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         RemoveFileList(objId);
 
-                        MessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         if(!isBacked) GoToTreeList();
                     }
                     else
-                        MessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if(objId != null)
                 {
@@ -954,10 +957,10 @@ namespace 科技计划项目档案数据采集管理系统
                         if(CheckValidMustEnter(dgv_Special_FileValid, "special_fc_"))
                         {
                             ModifyFileValid(dgv_Special_FileValid, objId, "special_fc_");
-                            MessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         }
                         else
-                            MessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show("请填写完整信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else if(index == 2)
                     {
@@ -2065,36 +2068,39 @@ namespace 科技计划项目档案数据采集管理系统
                             };
                         }
                         //根据【计划】查询【项目/课题】集
-                        DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_code, pi_categor FROM project_info WHERE pi_id='{OBJECT_ID}';");
+                        DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_code, pi_submit_status FROM project_info WHERE pi_id='{OBJECT_ID}';");
                         if(row != null)
                         {
                             TreeNode treeNode2 = new TreeNode()
                             {
                                 Name = GetValue(row["pi_id"]),
                                 Text = GetValue(row["pi_code"]),
-                                Tag = ControlType.Project
+                                Tag = ControlType.Project,
+                                ForeColor = GetForeColorByState(row["pi_submit_status"]),
                             };
                             treeNode.Nodes.Add(treeNode2);
                             //根据【项目/课题】查询【课题/子课题】集
-                            List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT ti_id, ti_code, ti_categor FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY ti_code", 3);
-                            for(int j = 0; j < list2.Count; j++)
+                           DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY ti_code");
+                            foreach(DataRow topRow in topTable.Rows)
                             {
                                 TreeNode treeNode3 = new TreeNode()
                                 {
-                                    Name = GetValue(list2[j][0]),
-                                    Text = GetValue(list2[j][1]),
-                                    Tag = ControlType.Topic
+                                    Name = GetValue(topRow["ti_id"]),
+                                    Text = GetValue(topRow["ti_code"]),
+                                    Tag = ControlType.Topic,
+                                    ForeColor = GetForeColorByState(topRow["ti_submit_status"]),
                                 };
                                 treeNode2.Nodes.Add(treeNode3);
 
-                                List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id, si_code, si_categor FROM subject_info WHERE si_obj_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code", 3);
-                                for(int k = 0; k < list3.Count; k++)
+                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code");
+                                foreach(DataRow subRow in subTable.Rows)
                                 {
                                     TreeNode treeNode4 = new TreeNode()
                                     {
-                                        Name = GetValue(list3[k][0]),
-                                        Text = GetValue(list3[k][1]),
-                                        Tag = ControlType.Subject
+                                        Name = GetValue(subRow["si_id"]),
+                                        Text = GetValue(subRow["si_code"]),
+                                        Tag = ControlType.Subject,
+                                        ForeColor = GetForeColorByState(subRow["si_submit_status"]),
                                     };
                                     treeNode3.Nodes.Add(treeNode4);
                                 }
@@ -2103,25 +2109,27 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                         {
                             //根据【项目/课题】查询【课题/子课题】集
-                            DataRow _row = SqlHelper.ExecuteSingleRowQuery($"SELECT ti_id, ti_code, ti_categor FROM topic_info WHERE ti_id='{OBJECT_ID}';");
+                            DataRow _row = SqlHelper.ExecuteSingleRowQuery($"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_id='{OBJECT_ID}';");
                             if(_row != null)
                             {
                                 TreeNode treeNode3 = new TreeNode()
                                 {
                                     Name = GetValue(_row["ti_id"]),
                                     Text = GetValue(_row["ti_code"]),
-                                    Tag = ControlType.Topic
+                                    Tag = ControlType.Topic,
+                                    ForeColor = GetForeColorByState(_row["ti_submit_status"]),
                                 };
                                 treeNode.Nodes.Add(treeNode3);
 
-                                List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id, si_code, si_categor FROM subject_info WHERE si_obj_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code", 3);
-                                for(int k = 0; k < list3.Count; k++)
+                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code");
+                                foreach(DataRow subRow in subTable.Rows)
                                 {
                                     TreeNode treeNode4 = new TreeNode()
                                     {
-                                        Name = GetValue(list3[k][0]),
-                                        Text = GetValue(list3[k][1]),
-                                        Tag = ControlType.Subject
+                                        Name = GetValue(subRow["si_id"]),
+                                        Text = GetValue(subRow["si_code"]),
+                                        Tag = ControlType.Subject,
+                                        ForeColor = GetForeColorByState(subRow["si_submit_status"]),
                                     };
                                     treeNode3.Nodes.Add(treeNode4);
                                 }
@@ -3268,7 +3276,7 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadFileBoxTable(value, tab_Plan_Info.Tag, ControlType.Plan);
                 }
                 else
-                    MessageBox.Show("请先添加案卷盒。", "保存失败");
+                    XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
             }
             //计划-项目
             else if(name.Contains("btn_Project_Box"))
@@ -3326,7 +3334,7 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadFileBoxTable(value, tab_Project_Info.Tag, ControlType.Plan);
                 }
                 else
-                    MessageBox.Show("请先添加案卷盒。", "保存失败");
+                    XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
             }
             //计划-课题
             else if(name.Contains("btn_Topic_Box"))
@@ -3384,7 +3392,7 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadFileBoxTable(value, tab_Topic_Info.Tag, ControlType.Topic);
                 }
                 else
-                    MessageBox.Show("请先添加案卷盒。", "保存失败");
+                    XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
             }
             //计划-项目-课题-子课题
             else if(name.Contains("btn_Subject_Box"))
@@ -3442,7 +3450,7 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadFileBoxTable(value, tab_Subject_Info.Tag, ControlType.Subject);
                 }
                 else
-                    MessageBox.Show("请先添加案卷盒。", "保存失败");
+                    XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
             }
             //重大专项/研发
             else if(name.Contains("btn_Imp_Box"))
@@ -3500,7 +3508,7 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadFileBoxTable(value, tab_Imp_Info.Tag, ControlType.Imp);
                 }
                 else
-                    MessageBox.Show("请先添加案卷盒。", "保存失败");
+                    XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
             }
             //重大专项/研发 - 信息
             else if(name.Contains("btn_Special_Box"))
@@ -3558,7 +3566,7 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadFileBoxTable(value, tab_Special_Info.Tag, ControlType.Special);
                 }
                 else
-                    MessageBox.Show("请先添加案卷盒。", "保存失败");
+                    XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
             }
         }
      
@@ -3633,8 +3641,8 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{cbo_Plan_Box.SelectedValue}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
-                                MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            else if(MessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 object value = cbo_Plan_Box.SelectedValue;
                                 if(value != null)
@@ -3681,8 +3689,8 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{cbo_Project_Box.SelectedValue}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
-                                MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            else if(MessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 object value = cbo_Project_Box.SelectedValue;
                                 if(value != null)
@@ -3730,8 +3738,8 @@ namespace 科技计划项目档案数据采集管理系统
                             object value = cbo_Subject_Box.SelectedValue;
                             int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{value}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
-                                MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            else if(MessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 //将当前盒中文件状态致为未归档
                                 object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{objId}' AND pb_id='{value}'");
@@ -3775,8 +3783,8 @@ namespace 科技计划项目档案数据采集管理系统
                             object value = cbo_Topic_Box.SelectedValue;
                             int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{value}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
-                                MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            else if(MessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 //将当前盒中文件状态致为未归档
                                 object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{objId}' AND pb_id='{value}'");
@@ -3820,8 +3828,8 @@ namespace 科技计划项目档案数据采集管理系统
                             object value = cbo_Imp_Box.SelectedValue;
                             int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{value}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
-                                MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            else if(MessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 //将当前盒中文件状态致为未归档
                                 object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{objId}' AND pb_id='{value}'");
@@ -3865,8 +3873,8 @@ namespace 科技计划项目档案数据采集管理系统
                             object value = cbo_Special_Box.SelectedValue;
                             int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{value}'"));
                             if(Convert.ToInt32(_temp) > currentBoxId)
-                                MessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            else if(MessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 //将当前盒中文件状态致为未归档
                                 object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{objId}' AND pb_id='{value}'");
@@ -3977,7 +3985,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Cbo_Box_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
             if (comboBox.Name.Contains("Plan"))
             {
                 object pbId = comboBox.SelectedValue;
@@ -4402,7 +4410,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_Submit_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("提交前请先确保所有数据已保存，确认要提交吗?", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            if(XtraMessageBox.Show("提交前请先确保所有数据已保存，确认要提交吗?", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
                 string name = (sender as KyoButton).Name;
                 object objId = null;
@@ -4415,7 +4423,7 @@ namespace 科技计划项目档案数据采集管理系统
                         EnableControls(ControlType.Plan, false);
                     }
                     else
-                        MessageBox.Show("请先保存数据。");
+                        XtraMessageBox.Show("请先保存数据。");
                 }
                 else if(name.Contains("Project"))
                 {
@@ -4426,7 +4434,7 @@ namespace 科技计划项目档案数据采集管理系统
                         EnableControls(ControlType.Project, false);
                     }
                     else
-                        MessageBox.Show("请先保存数据。");
+                        XtraMessageBox.Show("请先保存数据。");
                 }
                 else if(name.Contains("Topic"))
                 {
@@ -4437,7 +4445,7 @@ namespace 科技计划项目档案数据采集管理系统
                         EnableControls(ControlType.Topic, false);
                     }
                     else
-                        MessageBox.Show("请先保存数据.");
+                        XtraMessageBox.Show("请先保存数据.");
                 }
                 else if(name.Contains("Subject"))
                 {
@@ -4448,7 +4456,7 @@ namespace 科技计划项目档案数据采集管理系统
                         EnableControls(ControlType.Subject, false);
                     }
                     else
-                        MessageBox.Show("请先保存数据.");
+                        XtraMessageBox.Show("请先保存数据.");
                 }
                 else if(name.Contains("Imp"))
                 {
@@ -4459,7 +4467,7 @@ namespace 科技计划项目档案数据采集管理系统
                         EnableControls(ControlType.Imp, false);
                     }
                     else
-                        MessageBox.Show("请先保存数据。");
+                        XtraMessageBox.Show("请先保存数据。");
                 }
                 else if(name.Contains("Special"))
                 {
@@ -4470,7 +4478,7 @@ namespace 科技计划项目档案数据采集管理系统
                         EnableControls(ControlType.Special, false);
                     }
                     else
-                        MessageBox.Show("请先保存数据。");
+                        XtraMessageBox.Show("请先保存数据。");
                 }
             }
         }
@@ -4502,7 +4510,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else
             {
-                MessageBox.Show("请先保存当前信息。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                XtraMessageBox.Show("请先保存当前信息。", "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 if(cbo_Imp_HasNext.Items.Count > 0)
                     cbo_Imp_HasNext.SelectedIndex = 0;
             }
@@ -4520,7 +4528,7 @@ namespace 科技计划项目档案数据采集管理系统
                     string path = GetValue(dataGridView.CurrentCell.Value);
                     if(!string.IsNullOrEmpty(path))
                     {
-                        if(MessageBox.Show("是否打开文件?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                        if(XtraMessageBox.Show("是否打开文件?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                         {
                             if(File.Exists(path))
                             {
@@ -4530,11 +4538,11 @@ namespace 科技计划项目档案数据采集管理系统
                                 }
                                 catch(Exception ex)
                                 {
-                                    MessageBox.Show(ex.Message, "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    XtraMessageBox.Show(ex.Message, "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             else
-                                MessageBox.Show("文件不存在。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                XtraMessageBox.Show("文件不存在。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         }
                     }
@@ -4563,7 +4571,7 @@ namespace 科技计划项目档案数据采集管理系统
                     frm.Show();
                 }
                 else
-                    MessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    XtraMessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             else if("btn_Project_AddFile".Equals(name))
             {
@@ -4579,7 +4587,7 @@ namespace 科技计划项目档案数据采集管理系统
                     frm.Show();
                 }
                 else
-                    MessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    XtraMessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             else if("btn_Topic_AddFile".Equals(name))
             {
@@ -4595,7 +4603,7 @@ namespace 科技计划项目档案数据采集管理系统
                     frm.Show();
                 }
                 else
-                    MessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    XtraMessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             else if("btn_Subject_AddFile".Equals(name))
             {
@@ -4611,7 +4619,7 @@ namespace 科技计划项目档案数据采集管理系统
                     frm.Show();
                 }
                 else
-                    MessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    XtraMessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             else if("btn_Imp_AddFile".Equals(name))
             {
@@ -4627,7 +4635,7 @@ namespace 科技计划项目档案数据采集管理系统
                     frm.Show();
                 }
                 else
-                    MessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    XtraMessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             else if("btn_Special_AddFile".Equals(name))
             {
@@ -4643,7 +4651,7 @@ namespace 科技计划项目档案数据采集管理系统
                     frm.Show();
                 }
                 else
-                    MessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    XtraMessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
     
@@ -4852,11 +4860,11 @@ namespace 科技计划项目档案数据采集管理系统
                     string filePath = savePath + new FileInfo(fullPath).Name;
                     File.Copy(fullPath, filePath, true);
                     view.CurrentCell.Value = fullPath;
-                    if(MessageBox.Show("已从服务器拷贝文件到本地，是否现在打开？", "操作确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if(XtraMessageBox.Show("已从服务器拷贝文件到本地，是否现在打开？", "操作确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         System.Diagnostics.Process.Start("EXPLORER.EXE", filePath);
                 }
                 else
-                    MessageBox.Show("服务器不存在此文件。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    XtraMessageBox.Show("服务器不存在此文件。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
@@ -5047,11 +5055,11 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void cbo_Project_HasNext_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
             object id = tab_Project_Info.Tag;
             if(id == null)
             {
-                MessageBox.Show("尚未保存当前项目，无法添加新数据。", "温馨提示");
+                XtraMessageBox.Show("尚未保存当前项目，无法添加新数据。", "温馨提示");
                 comboBox.SelectedIndex = 0;
             }
             else

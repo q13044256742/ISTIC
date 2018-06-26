@@ -93,6 +93,6 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         [System.Runtime.InteropServices.DllImport("shell32.dll")]
-        public extern static IntPtr ShellExecute(int hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
+        public static extern IntPtr ShellExecute(int hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
     }
 }

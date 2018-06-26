@@ -35,10 +35,14 @@ namespace 科技计划项目档案数据采集管理系统
         private bool ClearHasWordedWithFolder(TreeNode node)
         {
             bool result = true;
-            foreach(TreeNode item in node.Nodes)
+            bool flag = true;
+            for(int i = 0; i < node.Nodes.Count; i++)
             {
+                TreeNode item = node.Nodes[i];
                 int type = Convert.ToInt32(item.ToolTipText);//0:文件 1:文件夹
-                if(type == 1)
+                if(type == 0)
+                    flag = false;
+                else if(type == 1)
                     result = ClearHasWordedWithFolder(item);
             }
             if(result)
@@ -54,12 +58,13 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-            if(result)
-                node.Remove();
+            if(result && flag)
+                if(!string.IsNullOrEmpty(GetValue(node.Tag)))//批次名称永不消逝
+                    node.Remove();
             return result;
         }
 
-        private void tv_file_AfterSelect(object sender, TreeViewEventArgs e)
+        private void Tv_file_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TreeNode node = e.Node;
             int type = Convert.ToInt32(node.ToolTipText);//0:文件 1:文件夹
@@ -78,7 +83,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void btn_sure_Click(object sender, EventArgs e)
+        private void Btn_sure_Click(object sender, EventArgs e)
         {
             if(!string.IsNullOrEmpty(SelectedFileName))
                 DialogResult = DialogResult.OK;
@@ -128,13 +133,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="isShowAll">是否显示已加工节点</param>
         private void InitialTree(object parentId, TreeNode parentNode, bool isShowAll)
         {
-            List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT bfi_id, bfi_name, bfi_path, bfi_state, bfi_type FROM backup_files_info WHERE bfi_pid='{parentId}'", 5);
+            List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT bfi_id, bfi_name, bfi_path, bfi_state, bfi_type FROM backup_files_info WHERE bfi_pid='{parentId}' ORDER BY bfi_type", 5);
             for(int i = 0; i < list.Count; i++)
             {
                 int state = Convert.ToInt32(list[i][3]);
                 if(state != 1 || isShowAll)
                 {
-                    int imageIndex = GetFileIconIndex(state, GetValue(list[i][1]));
+                    int imageIndex = GetFileIconIndex(state, GetValue(list[i][1]), list[i][4]);
                     TreeNode treeNode = new TreeNode()
                     {
                         Name = GetValue(list[i][0]),
@@ -151,8 +156,12 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private int GetFileIconIndex(int state, string fileName)
+        private int GetFileIconIndex(int state, string fileName, object type)
         {
+            int _type = Convert.ToInt32(type);
+            //文件夹
+            if(_type == 1)
+                return 0;
             //小锁
             if(state == 1)
                 return 1;
@@ -169,6 +178,13 @@ namespace 科技计划项目档案数据采集管理系统
                     return 6;
             }
             return 2;
+        }
+
+        private void Tv_file_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+                if(!string.IsNullOrEmpty(SelectedFileName))
+                    Btn_sure_Click(null, null);
         }
     }
 }

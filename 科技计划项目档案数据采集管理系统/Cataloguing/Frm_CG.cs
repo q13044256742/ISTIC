@@ -812,11 +812,14 @@ namespace 科技计划项目档案数据采集管理系统
                             if(XtraMessageBox.Show("确定要将当前行数据提交到质检吗？", "提交确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                             {
                                 string sqlString = $"INSERT INTO work_myreg (wm_id, wr_id, wm_status, wm_user, wm_type, wm_obj_id) VALUES " +
-                                    $"('{Guid.NewGuid().ToString()}', '{objId}', 1, '{UserHelper.GetInstance().User.UserKey}', 2, '{proId}');";
-                                sqlString += $"UPDATE work_registration SET wr_submit_status =2, wr_submit_date='{DateTime.Now}' WHERE wr_id='{objId}';";
+                                    $"('{Guid.NewGuid().ToString()}', '{objId}', 1, '{UserHelper.GetInstance().User.UserKey}', '{(int)WorkType.ProjectWork}', '{proId}');";
+                                //同时提交当前课题所属计划
+                                sqlString += $"UPDATE project_info SET pi_submit_status=2 WHERE pi_id=(SELECT pi_obj_id FROM project_info WHERE pi_id='{proId}');";
+                                sqlString += $"UPDATE work_registration SET wr_submit_status=2, wr_submit_date='{DateTime.Now}' WHERE wr_id='{objId}';";
                                 SqlHelper.ExecuteNonQuery(sqlString);
 
-                                LoadWorkList(null, WorkStatus.NonWork);
+                                XtraMessageBox.Show("提交成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                dgv_WorkLog.Rows.RemoveAt(e.RowIndex);
                             }
                         }
                         else
@@ -919,15 +922,13 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         object piId = dgv_WorkLog.Rows[e.RowIndex].Cells["bk_id"].Value;
                         int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(pi.pi_id) FROM project_info pi " +
-                            "LEFT JOIN topic_info ti ON pi.pi_id = ti.ti_obj_id " +
-                            "LEFT JOIN subject_info si ON ti.ti_id = si.si_obj_id " +
-                            $"WHERE pi.pi_id = '{piId}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' " +
-                            "AND(pi_submit_status = 1 OR ti.ti_submit_status = 1 OR si.si_submit_status = 1)");
+                            $"LEFT JOIN topic_info ti ON pi.pi_id = ti.ti_obj_id AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' " +
+                            $"LEFT JOIN subject_info si ON ti.ti_id = si.si_obj_id AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' " +
+                            $"WHERE pi.pi_id = '{piId}' AND (pi_submit_status = 1 OR ti.ti_submit_status = 1 OR si.si_submit_status = 1)");
 
                         count += SqlHelper.ExecuteCountQuery("SELECT COUNT(ti.ti_id) FROM topic_info ti " +
-                            "LEFT JOIN subject_info si ON ti.ti_id = si.si_obj_id " +
-                            $"WHERE ti.ti_id = '{piId}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' " +
-                            "AND(ti.ti_submit_status = 1 OR si.si_submit_status = 1)");
+                            $"LEFT JOIN subject_info si ON ti.ti_id = si.si_obj_id AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' " +
+                            $"WHERE ti.ti_id = '{piId}' AND (ti.ti_submit_status = 1 OR si.si_submit_status = 1)");
                         if(count == 0)
                         {
                             if(XtraMessageBox.Show("确定要将当前数据提交至质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)

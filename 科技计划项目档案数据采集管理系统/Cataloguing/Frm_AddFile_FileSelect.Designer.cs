@@ -41,13 +41,14 @@
             this.tv_file.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tv_file.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tv_file.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tv_file.LineColor = System.Drawing.Color.DimGray;
             this.tv_file.Location = new System.Drawing.Point(2, 55);
             this.tv_file.Name = "tv_file";
             this.tv_file.Size = new System.Drawing.Size(686, 597);
             this.tv_file.TabIndex = 0;
-            this.tv_file.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tv_file_AfterSelect);
+            this.tv_file.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Tv_file_AfterSelect);
+            this.tv_file.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.Tv_file_NodeMouseDoubleClick);
             // 
             // btn_sure
             // 
@@ -62,7 +63,7 @@
             this.btn_sure.Size = new System.Drawing.Size(67, 30);
             this.btn_sure.TabIndex = 1;
             this.btn_sure.Text = "确定";
-            this.btn_sure.Click += new System.EventHandler(this.btn_sure_Click);
+            this.btn_sure.Click += new System.EventHandler(this.Btn_sure_Click);
             // 
             // label1
             // 
