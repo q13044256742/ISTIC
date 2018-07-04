@@ -84,12 +84,12 @@
             this.txt_Special_AJ_Code = new System.Windows.Forms.TextBox();
             this.label162 = new System.Windows.Forms.Label();
             this.label163 = new System.Windows.Forms.Label();
-            this.btn_Imp_Dev_Box_Bottom = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Imp_Dev_Box_Top = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Imp_Dev_Box_LeftAll = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Imp_Dev_Box_Left = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Imp_Dev_Box_RightAll = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Imp_Dev_Box_Right = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Special_Box_Bottom = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Special_Box_Top = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Special_Box_LeftAll = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Special_Box_Left = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Special_Box_RightAll = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Special_Box_Right = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.lsv_Imp_Dev_File2 = new System.Windows.Forms.ListView();
             this.lsv_Imp_Dev_File1 = new System.Windows.Forms.ListView();
             this.txt_Special_GCID = new System.Windows.Forms.TextBox();
@@ -124,7 +124,7 @@
             this.imp_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imp_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imp_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imp_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imp_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.imp_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -609,9 +609,9 @@
             this.special.Controls.Add(this.tab_Special_Info);
             this.special.Controls.Add(this.pal_Imp_Dev_BtnGroup);
             this.special.Controls.Add(this.pal_Special);
-            this.special.Location = new System.Drawing.Point(4, 30);
+            this.special.Location = new System.Drawing.Point(4, 23);
             this.special.Name = "special";
-            this.special.Size = new System.Drawing.Size(1086, 695);
+            this.special.Size = new System.Drawing.Size(1086, 702);
             this.special.TabIndex = 7;
             this.special.Text = "专项信息";
             // 
@@ -623,7 +623,7 @@
             this.tab_Special_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Special_Info.Name = "tab_Special_Info";
             this.tab_Special_Info.SelectedTabPage = this.tabPage25;
-            this.tab_Special_Info.Size = new System.Drawing.Size(1080, 309);
+            this.tab_Special_Info.Size = new System.Drawing.Size(1080, 344);
             this.tab_Special_Info.TabIndex = 4;
             this.tab_Special_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage25,
@@ -638,7 +638,7 @@
             this.tabPage25.Controls.Add(this.dgv_Special_FileList);
             this.tabPage25.Name = "tabPage25";
             this.tabPage25.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage25.Size = new System.Drawing.Size(1074, 274);
+            this.tabPage25.Size = new System.Drawing.Size(1074, 309);
             this.tabPage25.Text = "添加文件";
             // 
             // dgv_Special_FileList
@@ -673,7 +673,7 @@
             this.dgv_Special_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Special_FileList.Name = "dgv_Special_FileList";
             this.dgv_Special_FileList.RowTemplate.Height = 23;
-            this.dgv_Special_FileList.Size = new System.Drawing.Size(1068, 268);
+            this.dgv_Special_FileList.Size = new System.Drawing.Size(1068, 303);
             this.dgv_Special_FileList.TabIndex = 0;
             this.dgv_Special_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
             this.dgv_Special_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
@@ -778,7 +778,7 @@
             this.tabPage26.Appearance.Header.Options.UseFont = true;
             this.tabPage26.Controls.Add(this.dgv_Special_FileValid);
             this.tabPage26.Name = "tabPage26";
-            this.tabPage26.Size = new System.Drawing.Size(1074, 281);
+            this.tabPage26.Size = new System.Drawing.Size(1074, 309);
             this.tabPage26.Text = "文件核查";
             // 
             // dgv_Special_FileValid
@@ -806,7 +806,7 @@
             this.dgv_Special_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_Special_FileValid.Name = "dgv_Special_FileValid";
             this.dgv_Special_FileValid.RowTemplate.Height = 23;
-            this.dgv_Special_FileValid.Size = new System.Drawing.Size(1074, 281);
+            this.dgv_Special_FileValid.Size = new System.Drawing.Size(1074, 309);
             this.dgv_Special_FileValid.TabIndex = 0;
             this.dgv_Special_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             // 
@@ -857,12 +857,12 @@
             this.tabPage28.Controls.Add(this.txt_Special_AJ_Code);
             this.tabPage28.Controls.Add(this.label162);
             this.tabPage28.Controls.Add(this.label163);
-            this.tabPage28.Controls.Add(this.btn_Imp_Dev_Box_Bottom);
-            this.tabPage28.Controls.Add(this.btn_Imp_Dev_Box_Top);
-            this.tabPage28.Controls.Add(this.btn_Imp_Dev_Box_LeftAll);
-            this.tabPage28.Controls.Add(this.btn_Imp_Dev_Box_Left);
-            this.tabPage28.Controls.Add(this.btn_Imp_Dev_Box_RightAll);
-            this.tabPage28.Controls.Add(this.btn_Imp_Dev_Box_Right);
+            this.tabPage28.Controls.Add(this.btn_Special_Box_Bottom);
+            this.tabPage28.Controls.Add(this.btn_Special_Box_Top);
+            this.tabPage28.Controls.Add(this.btn_Special_Box_LeftAll);
+            this.tabPage28.Controls.Add(this.btn_Special_Box_Left);
+            this.tabPage28.Controls.Add(this.btn_Special_Box_RightAll);
+            this.tabPage28.Controls.Add(this.btn_Special_Box_Right);
             this.tabPage28.Controls.Add(this.lsv_Imp_Dev_File2);
             this.tabPage28.Controls.Add(this.lsv_Imp_Dev_File1);
             this.tabPage28.Controls.Add(this.txt_Special_GCID);
@@ -872,7 +872,7 @@
             this.tabPage28.Controls.Add(this.cbo_Special_Box);
             this.tabPage28.Controls.Add(this.label145);
             this.tabPage28.Name = "tabPage28";
-            this.tabPage28.Size = new System.Drawing.Size(1074, 281);
+            this.tabPage28.Size = new System.Drawing.Size(1074, 309);
             this.tabPage28.Text = "卷盒信息";
             // 
             // btn_Special_Print
@@ -923,77 +923,77 @@
             this.label163.TabIndex = 44;
             this.label163.Text = "案卷编号:";
             // 
-            // btn_Imp_Dev_Box_Bottom
+            // btn_Special_Box_Bottom
             // 
-            this.btn_Imp_Dev_Box_Bottom.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_Imp_Dev_Box_Bottom.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Imp_Dev_Box_Bottom.Appearance.Options.UseFont = true;
-            this.btn_Imp_Dev_Box_Bottom.Location = new System.Drawing.Point(500, 240);
-            this.btn_Imp_Dev_Box_Bottom.Name = "btn_Imp_Dev_Box_Bottom";
-            this.btn_Imp_Dev_Box_Bottom.Size = new System.Drawing.Size(75, 23);
-            this.btn_Imp_Dev_Box_Bottom.TabIndex = 13;
-            this.btn_Imp_Dev_Box_Bottom.Text = "∨";
-            this.btn_Imp_Dev_Box_Bottom.Click += new System.EventHandler(this.Btn_TB_Click);
+            this.btn_Special_Box_Bottom.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_Special_Box_Bottom.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Special_Box_Bottom.Appearance.Options.UseFont = true;
+            this.btn_Special_Box_Bottom.Location = new System.Drawing.Point(500, 254);
+            this.btn_Special_Box_Bottom.Name = "btn_Special_Box_Bottom";
+            this.btn_Special_Box_Bottom.Size = new System.Drawing.Size(75, 23);
+            this.btn_Special_Box_Bottom.TabIndex = 13;
+            this.btn_Special_Box_Bottom.Text = "∨";
+            this.btn_Special_Box_Bottom.Click += new System.EventHandler(this.Btn_TB_Click);
             // 
-            // btn_Imp_Dev_Box_Top
+            // btn_Special_Box_Top
             // 
-            this.btn_Imp_Dev_Box_Top.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_Imp_Dev_Box_Top.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Imp_Dev_Box_Top.Appearance.Options.UseFont = true;
-            this.btn_Imp_Dev_Box_Top.Location = new System.Drawing.Point(500, 211);
-            this.btn_Imp_Dev_Box_Top.Name = "btn_Imp_Dev_Box_Top";
-            this.btn_Imp_Dev_Box_Top.Size = new System.Drawing.Size(75, 23);
-            this.btn_Imp_Dev_Box_Top.TabIndex = 12;
-            this.btn_Imp_Dev_Box_Top.Text = "∧";
-            this.btn_Imp_Dev_Box_Top.Click += new System.EventHandler(this.Btn_TB_Click);
+            this.btn_Special_Box_Top.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_Special_Box_Top.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Special_Box_Top.Appearance.Options.UseFont = true;
+            this.btn_Special_Box_Top.Location = new System.Drawing.Point(500, 225);
+            this.btn_Special_Box_Top.Name = "btn_Special_Box_Top";
+            this.btn_Special_Box_Top.Size = new System.Drawing.Size(75, 23);
+            this.btn_Special_Box_Top.TabIndex = 12;
+            this.btn_Special_Box_Top.Text = "∧";
+            this.btn_Special_Box_Top.Click += new System.EventHandler(this.Btn_TB_Click);
             // 
-            // btn_Imp_Dev_Box_LeftAll
+            // btn_Special_Box_LeftAll
             // 
-            this.btn_Imp_Dev_Box_LeftAll.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_Imp_Dev_Box_LeftAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Imp_Dev_Box_LeftAll.Appearance.Options.UseFont = true;
-            this.btn_Imp_Dev_Box_LeftAll.Location = new System.Drawing.Point(500, 182);
-            this.btn_Imp_Dev_Box_LeftAll.Name = "btn_Imp_Dev_Box_LeftAll";
-            this.btn_Imp_Dev_Box_LeftAll.Size = new System.Drawing.Size(75, 23);
-            this.btn_Imp_Dev_Box_LeftAll.TabIndex = 11;
-            this.btn_Imp_Dev_Box_LeftAll.Text = "<<";
-            this.btn_Imp_Dev_Box_LeftAll.Click += new System.EventHandler(this.Btn_Box_Click);
+            this.btn_Special_Box_LeftAll.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_Special_Box_LeftAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Special_Box_LeftAll.Appearance.Options.UseFont = true;
+            this.btn_Special_Box_LeftAll.Location = new System.Drawing.Point(500, 196);
+            this.btn_Special_Box_LeftAll.Name = "btn_Special_Box_LeftAll";
+            this.btn_Special_Box_LeftAll.Size = new System.Drawing.Size(75, 23);
+            this.btn_Special_Box_LeftAll.TabIndex = 11;
+            this.btn_Special_Box_LeftAll.Text = "<<";
+            this.btn_Special_Box_LeftAll.Click += new System.EventHandler(this.Btn_Box_Click);
             // 
-            // btn_Imp_Dev_Box_Left
+            // btn_Special_Box_Left
             // 
-            this.btn_Imp_Dev_Box_Left.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_Imp_Dev_Box_Left.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Imp_Dev_Box_Left.Appearance.Options.UseFont = true;
-            this.btn_Imp_Dev_Box_Left.Location = new System.Drawing.Point(500, 153);
-            this.btn_Imp_Dev_Box_Left.Name = "btn_Imp_Dev_Box_Left";
-            this.btn_Imp_Dev_Box_Left.Size = new System.Drawing.Size(75, 23);
-            this.btn_Imp_Dev_Box_Left.TabIndex = 10;
-            this.btn_Imp_Dev_Box_Left.Text = "<";
-            this.btn_Imp_Dev_Box_Left.Click += new System.EventHandler(this.Btn_Box_Click);
+            this.btn_Special_Box_Left.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_Special_Box_Left.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Special_Box_Left.Appearance.Options.UseFont = true;
+            this.btn_Special_Box_Left.Location = new System.Drawing.Point(500, 167);
+            this.btn_Special_Box_Left.Name = "btn_Special_Box_Left";
+            this.btn_Special_Box_Left.Size = new System.Drawing.Size(75, 23);
+            this.btn_Special_Box_Left.TabIndex = 10;
+            this.btn_Special_Box_Left.Text = "<";
+            this.btn_Special_Box_Left.Click += new System.EventHandler(this.Btn_Box_Click);
             // 
-            // btn_Imp_Dev_Box_RightAll
+            // btn_Special_Box_RightAll
             // 
-            this.btn_Imp_Dev_Box_RightAll.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_Imp_Dev_Box_RightAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Imp_Dev_Box_RightAll.Appearance.Options.UseFont = true;
-            this.btn_Imp_Dev_Box_RightAll.Location = new System.Drawing.Point(500, 124);
-            this.btn_Imp_Dev_Box_RightAll.Name = "btn_Imp_Dev_Box_RightAll";
-            this.btn_Imp_Dev_Box_RightAll.Size = new System.Drawing.Size(75, 23);
-            this.btn_Imp_Dev_Box_RightAll.TabIndex = 9;
-            this.btn_Imp_Dev_Box_RightAll.Text = ">>";
-            this.btn_Imp_Dev_Box_RightAll.Click += new System.EventHandler(this.Btn_Box_Click);
+            this.btn_Special_Box_RightAll.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_Special_Box_RightAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Special_Box_RightAll.Appearance.Options.UseFont = true;
+            this.btn_Special_Box_RightAll.Location = new System.Drawing.Point(500, 138);
+            this.btn_Special_Box_RightAll.Name = "btn_Special_Box_RightAll";
+            this.btn_Special_Box_RightAll.Size = new System.Drawing.Size(75, 23);
+            this.btn_Special_Box_RightAll.TabIndex = 9;
+            this.btn_Special_Box_RightAll.Text = ">>";
+            this.btn_Special_Box_RightAll.Click += new System.EventHandler(this.Btn_Box_Click);
             // 
-            // btn_Imp_Dev_Box_Right
+            // btn_Special_Box_Right
             // 
-            this.btn_Imp_Dev_Box_Right.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_Imp_Dev_Box_Right.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Imp_Dev_Box_Right.Appearance.Options.UseFont = true;
-            this.btn_Imp_Dev_Box_Right.Location = new System.Drawing.Point(500, 95);
-            this.btn_Imp_Dev_Box_Right.Name = "btn_Imp_Dev_Box_Right";
-            this.btn_Imp_Dev_Box_Right.Size = new System.Drawing.Size(75, 23);
-            this.btn_Imp_Dev_Box_Right.TabIndex = 8;
-            this.btn_Imp_Dev_Box_Right.Text = ">";
-            this.btn_Imp_Dev_Box_Right.Click += new System.EventHandler(this.Btn_Box_Click);
+            this.btn_Special_Box_Right.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_Special_Box_Right.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Special_Box_Right.Appearance.Options.UseFont = true;
+            this.btn_Special_Box_Right.Location = new System.Drawing.Point(500, 109);
+            this.btn_Special_Box_Right.Name = "btn_Special_Box_Right";
+            this.btn_Special_Box_Right.Size = new System.Drawing.Size(75, 23);
+            this.btn_Special_Box_Right.TabIndex = 8;
+            this.btn_Special_Box_Right.Text = ">";
+            this.btn_Special_Box_Right.Click += new System.EventHandler(this.Btn_Box_Click);
             // 
             // lsv_Imp_Dev_File2
             // 
@@ -1004,7 +1004,7 @@
             this.lsv_Imp_Dev_File2.GridLines = true;
             this.lsv_Imp_Dev_File2.Location = new System.Drawing.Point(588, 86);
             this.lsv_Imp_Dev_File2.Name = "lsv_Imp_Dev_File2";
-            this.lsv_Imp_Dev_File2.Size = new System.Drawing.Size(482, 192);
+            this.lsv_Imp_Dev_File2.Size = new System.Drawing.Size(482, 220);
             this.lsv_Imp_Dev_File2.TabIndex = 7;
             this.lsv_Imp_Dev_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_Imp_Dev_File2.View = System.Windows.Forms.View.Details;
@@ -1018,7 +1018,7 @@
             this.lsv_Imp_Dev_File1.GridLines = true;
             this.lsv_Imp_Dev_File1.Location = new System.Drawing.Point(3, 86);
             this.lsv_Imp_Dev_File1.Name = "lsv_Imp_Dev_File1";
-            this.lsv_Imp_Dev_File1.Size = new System.Drawing.Size(482, 192);
+            this.lsv_Imp_Dev_File1.Size = new System.Drawing.Size(482, 220);
             this.lsv_Imp_Dev_File1.TabIndex = 6;
             this.lsv_Imp_Dev_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_Imp_Dev_File1.View = System.Windows.Forms.View.Details;
@@ -1093,7 +1093,7 @@
             this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Special_Submit);
             this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Special_Save);
             this.pal_Imp_Dev_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_Imp_Dev_BtnGroup.Location = new System.Drawing.Point(0, 655);
+            this.pal_Imp_Dev_BtnGroup.Location = new System.Drawing.Point(0, 662);
             this.pal_Imp_Dev_BtnGroup.Name = "pal_Imp_Dev_BtnGroup";
             this.pal_Imp_Dev_BtnGroup.Size = new System.Drawing.Size(1086, 40);
             this.pal_Imp_Dev_BtnGroup.TabIndex = 5;
@@ -1146,11 +1146,12 @@
             this.btn_Special_Save.Appearance.Options.UseFont = true;
             this.btn_Special_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Special_Save.Image")));
             this.btn_Special_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Special_Save.Location = new System.Drawing.Point(936, 5);
+            this.btn_Special_Save.ImageToTextIndent = 0;
+            this.btn_Special_Save.Location = new System.Drawing.Point(932, 5);
             this.btn_Special_Save.Name = "btn_Special_Save";
-            this.btn_Special_Save.Size = new System.Drawing.Size(70, 30);
+            this.btn_Special_Save.Size = new System.Drawing.Size(76, 30);
             this.btn_Special_Save.TabIndex = 75;
-            this.btn_Special_Save.Text = "保存";
+            this.btn_Special_Save.Text = "保存(&S)";
             this.btn_Special_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // pal_Special
@@ -1282,10 +1283,10 @@
             this.imp.Controls.Add(this.tab_Imp_Info);
             this.imp.Controls.Add(this.pal_Imp_BtnGroup);
             this.imp.Controls.Add(this.pal_Imp);
-            this.imp.Location = new System.Drawing.Point(4, 30);
+            this.imp.Location = new System.Drawing.Point(4, 23);
             this.imp.Name = "imp";
             this.imp.Padding = new System.Windows.Forms.Padding(3);
-            this.imp.Size = new System.Drawing.Size(1086, 695);
+            this.imp.Size = new System.Drawing.Size(1086, 702);
             this.imp.TabIndex = 6;
             this.imp.Text = "重大专项";
             // 
@@ -1297,7 +1298,7 @@
             this.tab_Imp_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Imp_Info.Name = "tab_Imp_Info";
             this.tab_Imp_Info.SelectedTabPage = this.tabPage21;
-            this.tab_Imp_Info.Size = new System.Drawing.Size(1080, 313);
+            this.tab_Imp_Info.Size = new System.Drawing.Size(1080, 329);
             this.tab_Imp_Info.TabIndex = 4;
             this.tab_Imp_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage21,
@@ -1312,7 +1313,7 @@
             this.tabPage21.Controls.Add(this.dgv_Imp_FileList);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(1074, 278);
+            this.tabPage21.Size = new System.Drawing.Size(1074, 294);
             this.tabPage21.Text = "添加文件";
             // 
             // dgv_Imp_FileList
@@ -1333,7 +1334,7 @@
             this.imp_fl_categorname,
             this.imp_fl_code,
             this.imp_fl_name,
-            this.imp_fl_count,
+            this.imp_fl_amount,
             this.imp_fl_user,
             this.imp_fl_type,
             this.imp_fl_pages,
@@ -1346,7 +1347,7 @@
             this.dgv_Imp_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Imp_FileList.Name = "dgv_Imp_FileList";
             this.dgv_Imp_FileList.RowTemplate.Height = 23;
-            this.dgv_Imp_FileList.Size = new System.Drawing.Size(1068, 272);
+            this.dgv_Imp_FileList.Size = new System.Drawing.Size(1068, 288);
             this.dgv_Imp_FileList.TabIndex = 0;
             this.dgv_Imp_FileList.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
             this.dgv_Imp_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
@@ -1395,10 +1396,10 @@
             this.imp_fl_name.Name = "imp_fl_name";
             this.imp_fl_name.Width = 250;
             // 
-            // imp_fl_count
+            // imp_fl_amount
             // 
-            this.imp_fl_count.HeaderText = "份数(移交)";
-            this.imp_fl_count.Name = "imp_fl_count";
+            this.imp_fl_amount.HeaderText = "份数(移交)";
+            this.imp_fl_amount.Name = "imp_fl_amount";
             // 
             // imp_fl_user
             // 
@@ -1451,7 +1452,7 @@
             this.tabPage22.Appearance.Header.Options.UseFont = true;
             this.tabPage22.Controls.Add(this.dgv_Imp_FileValid);
             this.tabPage22.Name = "tabPage22";
-            this.tabPage22.Size = new System.Drawing.Size(1074, 285);
+            this.tabPage22.Size = new System.Drawing.Size(1074, 294);
             this.tabPage22.Text = "文件核查";
             // 
             // dgv_Imp_FileValid
@@ -1478,7 +1479,7 @@
             this.dgv_Imp_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_Imp_FileValid.Name = "dgv_Imp_FileValid";
             this.dgv_Imp_FileValid.RowTemplate.Height = 23;
-            this.dgv_Imp_FileValid.Size = new System.Drawing.Size(1074, 285);
+            this.dgv_Imp_FileValid.Size = new System.Drawing.Size(1074, 294);
             this.dgv_Imp_FileValid.TabIndex = 0;
             this.dgv_Imp_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             // 
@@ -1544,7 +1545,7 @@
             this.tabPage24.Controls.Add(this.cbo_Imp_Box);
             this.tabPage24.Controls.Add(this.label132);
             this.tabPage24.Name = "tabPage24";
-            this.tabPage24.Size = new System.Drawing.Size(1074, 285);
+            this.tabPage24.Size = new System.Drawing.Size(1074, 294);
             this.tabPage24.Text = "卷盒信息";
             // 
             // btn_Imp_Print
@@ -1600,7 +1601,7 @@
             this.btn_Imp_Box_Bottom.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Imp_Box_Bottom.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Imp_Box_Bottom.Appearance.Options.UseFont = true;
-            this.btn_Imp_Box_Bottom.Location = new System.Drawing.Point(500, 246);
+            this.btn_Imp_Box_Bottom.Location = new System.Drawing.Point(500, 251);
             this.btn_Imp_Box_Bottom.Name = "btn_Imp_Box_Bottom";
             this.btn_Imp_Box_Bottom.Size = new System.Drawing.Size(75, 23);
             this.btn_Imp_Box_Bottom.TabIndex = 13;
@@ -1612,7 +1613,7 @@
             this.btn_Imp_Box_Top.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Imp_Box_Top.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Imp_Box_Top.Appearance.Options.UseFont = true;
-            this.btn_Imp_Box_Top.Location = new System.Drawing.Point(500, 217);
+            this.btn_Imp_Box_Top.Location = new System.Drawing.Point(500, 222);
             this.btn_Imp_Box_Top.Name = "btn_Imp_Box_Top";
             this.btn_Imp_Box_Top.Size = new System.Drawing.Size(75, 23);
             this.btn_Imp_Box_Top.TabIndex = 12;
@@ -1624,7 +1625,7 @@
             this.btn_Imp_Box_LeftAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Imp_Box_LeftAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Imp_Box_LeftAll.Appearance.Options.UseFont = true;
-            this.btn_Imp_Box_LeftAll.Location = new System.Drawing.Point(500, 188);
+            this.btn_Imp_Box_LeftAll.Location = new System.Drawing.Point(500, 193);
             this.btn_Imp_Box_LeftAll.Name = "btn_Imp_Box_LeftAll";
             this.btn_Imp_Box_LeftAll.Size = new System.Drawing.Size(75, 23);
             this.btn_Imp_Box_LeftAll.TabIndex = 11;
@@ -1636,7 +1637,7 @@
             this.btn_Imp_Box_Left.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Imp_Box_Left.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Imp_Box_Left.Appearance.Options.UseFont = true;
-            this.btn_Imp_Box_Left.Location = new System.Drawing.Point(500, 159);
+            this.btn_Imp_Box_Left.Location = new System.Drawing.Point(500, 164);
             this.btn_Imp_Box_Left.Name = "btn_Imp_Box_Left";
             this.btn_Imp_Box_Left.Size = new System.Drawing.Size(75, 23);
             this.btn_Imp_Box_Left.TabIndex = 10;
@@ -1648,7 +1649,7 @@
             this.btn_Imp_Box_RightAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Imp_Box_RightAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Imp_Box_RightAll.Appearance.Options.UseFont = true;
-            this.btn_Imp_Box_RightAll.Location = new System.Drawing.Point(500, 130);
+            this.btn_Imp_Box_RightAll.Location = new System.Drawing.Point(500, 135);
             this.btn_Imp_Box_RightAll.Name = "btn_Imp_Box_RightAll";
             this.btn_Imp_Box_RightAll.Size = new System.Drawing.Size(75, 23);
             this.btn_Imp_Box_RightAll.TabIndex = 9;
@@ -1660,7 +1661,7 @@
             this.btn_Imp_Box_Right.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Imp_Box_Right.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Imp_Box_Right.Appearance.Options.UseFont = true;
-            this.btn_Imp_Box_Right.Location = new System.Drawing.Point(500, 101);
+            this.btn_Imp_Box_Right.Location = new System.Drawing.Point(500, 106);
             this.btn_Imp_Box_Right.Name = "btn_Imp_Box_Right";
             this.btn_Imp_Box_Right.Size = new System.Drawing.Size(75, 23);
             this.btn_Imp_Box_Right.TabIndex = 8;
@@ -1676,7 +1677,7 @@
             this.lsv_Imp_File2.GridLines = true;
             this.lsv_Imp_File2.Location = new System.Drawing.Point(588, 84);
             this.lsv_Imp_File2.Name = "lsv_Imp_File2";
-            this.lsv_Imp_File2.Size = new System.Drawing.Size(482, 198);
+            this.lsv_Imp_File2.Size = new System.Drawing.Size(482, 207);
             this.lsv_Imp_File2.TabIndex = 7;
             this.lsv_Imp_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_Imp_File2.View = System.Windows.Forms.View.Details;
@@ -1690,7 +1691,7 @@
             this.lsv_Imp_File1.GridLines = true;
             this.lsv_Imp_File1.Location = new System.Drawing.Point(3, 84);
             this.lsv_Imp_File1.Name = "lsv_Imp_File1";
-            this.lsv_Imp_File1.Size = new System.Drawing.Size(482, 198);
+            this.lsv_Imp_File1.Size = new System.Drawing.Size(482, 207);
             this.lsv_Imp_File1.TabIndex = 6;
             this.lsv_Imp_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_Imp_File1.View = System.Windows.Forms.View.Details;
@@ -1765,7 +1766,7 @@
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Submit);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Save);
             this.pal_Imp_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_Imp_BtnGroup.Location = new System.Drawing.Point(3, 652);
+            this.pal_Imp_BtnGroup.Location = new System.Drawing.Point(3, 659);
             this.pal_Imp_BtnGroup.Name = "pal_Imp_BtnGroup";
             this.pal_Imp_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Imp_BtnGroup.TabIndex = 5;
@@ -1804,9 +1805,10 @@
             this.btn_Imp_Submit.Appearance.Options.UseFont = true;
             this.btn_Imp_Submit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Imp_Submit.Image")));
             this.btn_Imp_Submit.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Imp_Submit.Location = new System.Drawing.Point(1005, 5);
+            this.btn_Imp_Submit.ImageToTextIndent = 0;
+            this.btn_Imp_Submit.Location = new System.Drawing.Point(1006, 5);
             this.btn_Imp_Submit.Name = "btn_Imp_Submit";
-            this.btn_Imp_Submit.Size = new System.Drawing.Size(70, 30);
+            this.btn_Imp_Submit.Size = new System.Drawing.Size(68, 30);
             this.btn_Imp_Submit.TabIndex = 74;
             this.btn_Imp_Submit.Text = "提交";
             this.btn_Imp_Submit.Click += new System.EventHandler(this.Btn_Submit_Click);
@@ -1818,11 +1820,12 @@
             this.btn_Imp_Save.Appearance.Options.UseFont = true;
             this.btn_Imp_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Imp_Save.Image")));
             this.btn_Imp_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Imp_Save.Location = new System.Drawing.Point(929, 5);
+            this.btn_Imp_Save.ImageToTextIndent = 0;
+            this.btn_Imp_Save.Location = new System.Drawing.Point(925, 5);
             this.btn_Imp_Save.Name = "btn_Imp_Save";
-            this.btn_Imp_Save.Size = new System.Drawing.Size(70, 30);
+            this.btn_Imp_Save.Size = new System.Drawing.Size(76, 30);
             this.btn_Imp_Save.TabIndex = 75;
-            this.btn_Imp_Save.Text = "保存";
+            this.btn_Imp_Save.Text = "保存(&S)";
             this.btn_Imp_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // pal_Imp
@@ -1924,7 +1927,7 @@
             this.tab_Subject_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Subject_Info.Name = "tab_Subject_Info";
             this.tab_Subject_Info.SelectedTabPage = this.tabPage16;
-            this.tab_Subject_Info.Size = new System.Drawing.Size(1080, 299);
+            this.tab_Subject_Info.Size = new System.Drawing.Size(1080, 324);
             this.tab_Subject_Info.TabIndex = 9;
             this.tab_Subject_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage16,
@@ -1939,7 +1942,7 @@
             this.tabPage16.Controls.Add(this.dgv_Subject_FileList);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(1074, 264);
+            this.tabPage16.Size = new System.Drawing.Size(1074, 289);
             this.tabPage16.Text = "添加文件";
             // 
             // dgv_Subject_FileList
@@ -1974,7 +1977,7 @@
             this.dgv_Subject_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Subject_FileList.Name = "dgv_Subject_FileList";
             this.dgv_Subject_FileList.RowTemplate.Height = 23;
-            this.dgv_Subject_FileList.Size = new System.Drawing.Size(1068, 258);
+            this.dgv_Subject_FileList.Size = new System.Drawing.Size(1068, 283);
             this.dgv_Subject_FileList.TabIndex = 0;
             this.dgv_Subject_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
             this.dgv_Subject_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
@@ -2079,7 +2082,7 @@
             this.tabPage17.Appearance.Header.Options.UseFont = true;
             this.tabPage17.Controls.Add(this.dgv_Subject_FileValid);
             this.tabPage17.Name = "tabPage17";
-            this.tabPage17.Size = new System.Drawing.Size(1074, 271);
+            this.tabPage17.Size = new System.Drawing.Size(1074, 296);
             this.tabPage17.Text = "文件核查";
             // 
             // dgv_Subject_FileValid
@@ -2107,7 +2110,7 @@
             this.dgv_Subject_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_Subject_FileValid.Name = "dgv_Subject_FileValid";
             this.dgv_Subject_FileValid.RowTemplate.Height = 23;
-            this.dgv_Subject_FileValid.Size = new System.Drawing.Size(1074, 271);
+            this.dgv_Subject_FileValid.Size = new System.Drawing.Size(1074, 296);
             this.dgv_Subject_FileValid.TabIndex = 0;
             // 
             // subject_fc_id
@@ -2172,7 +2175,7 @@
             this.tabPage19.Controls.Add(this.cbo_Subject_Box);
             this.tabPage19.Controls.Add(this.label87);
             this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Size = new System.Drawing.Size(1074, 271);
+            this.tabPage19.Size = new System.Drawing.Size(1074, 296);
             this.tabPage19.Text = "卷盒信息";
             // 
             // btn_Subject_Print
@@ -2228,7 +2231,7 @@
             this.btn_Subject_Box_Bottom.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Subject_Box_Bottom.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Subject_Box_Bottom.Appearance.Options.UseFont = true;
-            this.btn_Subject_Box_Bottom.Location = new System.Drawing.Point(500, 238);
+            this.btn_Subject_Box_Bottom.Location = new System.Drawing.Point(500, 251);
             this.btn_Subject_Box_Bottom.Name = "btn_Subject_Box_Bottom";
             this.btn_Subject_Box_Bottom.Size = new System.Drawing.Size(75, 26);
             this.btn_Subject_Box_Bottom.TabIndex = 13;
@@ -2240,7 +2243,7 @@
             this.btn_Subject_Box_Top.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Subject_Box_Top.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Subject_Box_Top.Appearance.Options.UseFont = true;
-            this.btn_Subject_Box_Top.Location = new System.Drawing.Point(500, 209);
+            this.btn_Subject_Box_Top.Location = new System.Drawing.Point(500, 222);
             this.btn_Subject_Box_Top.Name = "btn_Subject_Box_Top";
             this.btn_Subject_Box_Top.Size = new System.Drawing.Size(75, 26);
             this.btn_Subject_Box_Top.TabIndex = 12;
@@ -2252,7 +2255,7 @@
             this.btn_Subject_Box_LeftAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Subject_Box_LeftAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Subject_Box_LeftAll.Appearance.Options.UseFont = true;
-            this.btn_Subject_Box_LeftAll.Location = new System.Drawing.Point(500, 180);
+            this.btn_Subject_Box_LeftAll.Location = new System.Drawing.Point(500, 193);
             this.btn_Subject_Box_LeftAll.Name = "btn_Subject_Box_LeftAll";
             this.btn_Subject_Box_LeftAll.Size = new System.Drawing.Size(75, 26);
             this.btn_Subject_Box_LeftAll.TabIndex = 11;
@@ -2264,7 +2267,7 @@
             this.btn_Subject_Box_Left.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Subject_Box_Left.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Subject_Box_Left.Appearance.Options.UseFont = true;
-            this.btn_Subject_Box_Left.Location = new System.Drawing.Point(500, 151);
+            this.btn_Subject_Box_Left.Location = new System.Drawing.Point(500, 164);
             this.btn_Subject_Box_Left.Name = "btn_Subject_Box_Left";
             this.btn_Subject_Box_Left.Size = new System.Drawing.Size(75, 26);
             this.btn_Subject_Box_Left.TabIndex = 10;
@@ -2276,7 +2279,7 @@
             this.btn_Subject_Box_RightAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Subject_Box_RightAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Subject_Box_RightAll.Appearance.Options.UseFont = true;
-            this.btn_Subject_Box_RightAll.Location = new System.Drawing.Point(500, 122);
+            this.btn_Subject_Box_RightAll.Location = new System.Drawing.Point(500, 135);
             this.btn_Subject_Box_RightAll.Name = "btn_Subject_Box_RightAll";
             this.btn_Subject_Box_RightAll.Size = new System.Drawing.Size(75, 26);
             this.btn_Subject_Box_RightAll.TabIndex = 9;
@@ -2288,7 +2291,7 @@
             this.btn_Subject_Box_Right.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Subject_Box_Right.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Subject_Box_Right.Appearance.Options.UseFont = true;
-            this.btn_Subject_Box_Right.Location = new System.Drawing.Point(500, 93);
+            this.btn_Subject_Box_Right.Location = new System.Drawing.Point(500, 106);
             this.btn_Subject_Box_Right.Name = "btn_Subject_Box_Right";
             this.btn_Subject_Box_Right.Size = new System.Drawing.Size(75, 26);
             this.btn_Subject_Box_Right.TabIndex = 8;
@@ -2304,7 +2307,7 @@
             this.lsv_JH_XM_KT_ZKT_File2.GridLines = true;
             this.lsv_JH_XM_KT_ZKT_File2.Location = new System.Drawing.Point(588, 86);
             this.lsv_JH_XM_KT_ZKT_File2.Name = "lsv_JH_XM_KT_ZKT_File2";
-            this.lsv_JH_XM_KT_ZKT_File2.Size = new System.Drawing.Size(482, 182);
+            this.lsv_JH_XM_KT_ZKT_File2.Size = new System.Drawing.Size(482, 207);
             this.lsv_JH_XM_KT_ZKT_File2.TabIndex = 7;
             this.lsv_JH_XM_KT_ZKT_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_KT_ZKT_File2.View = System.Windows.Forms.View.Details;
@@ -2318,7 +2321,7 @@
             this.lsv_JH_XM_KT_ZKT_File1.GridLines = true;
             this.lsv_JH_XM_KT_ZKT_File1.Location = new System.Drawing.Point(3, 86);
             this.lsv_JH_XM_KT_ZKT_File1.Name = "lsv_JH_XM_KT_ZKT_File1";
-            this.lsv_JH_XM_KT_ZKT_File1.Size = new System.Drawing.Size(482, 182);
+            this.lsv_JH_XM_KT_ZKT_File1.Size = new System.Drawing.Size(482, 207);
             this.lsv_JH_XM_KT_ZKT_File1.TabIndex = 6;
             this.lsv_JH_XM_KT_ZKT_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_KT_ZKT_File1.View = System.Windows.Forms.View.Details;
@@ -2462,11 +2465,12 @@
             this.btn_Subject_Save.Appearance.Options.UseFont = true;
             this.btn_Subject_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Subject_Save.Image")));
             this.btn_Subject_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Subject_Save.Location = new System.Drawing.Point(929, 5);
+            this.btn_Subject_Save.ImageToTextIndent = 0;
+            this.btn_Subject_Save.Location = new System.Drawing.Point(926, 5);
             this.btn_Subject_Save.Name = "btn_Subject_Save";
-            this.btn_Subject_Save.Size = new System.Drawing.Size(70, 30);
+            this.btn_Subject_Save.Size = new System.Drawing.Size(76, 30);
             this.btn_Subject_Save.TabIndex = 76;
-            this.btn_Subject_Save.Text = "保存";
+            this.btn_Subject_Save.Text = "保存(&S)";
             this.btn_Subject_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // pal_Subject
@@ -2736,6 +2740,7 @@
             this.txt_Subject_Code.Name = "txt_Subject_Code";
             this.txt_Subject_Code.Size = new System.Drawing.Size(224, 25);
             this.txt_Subject_Code.TabIndex = 0;
+            this.txt_Subject_Code.Leave += new System.EventHandler(this.Code_Leave);
             // 
             // label101
             // 
@@ -2768,7 +2773,7 @@
             this.tab_Topic_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Topic_Info.Name = "tab_Topic_Info";
             this.tab_Topic_Info.SelectedTabPage = this.tabPage5;
-            this.tab_Topic_Info.Size = new System.Drawing.Size(1080, 313);
+            this.tab_Topic_Info.Size = new System.Drawing.Size(1080, 271);
             this.tab_Topic_Info.TabIndex = 6;
             this.tab_Topic_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage5,
@@ -2783,7 +2788,7 @@
             this.tabPage5.Controls.Add(this.dgv_Topic_FileList);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1074, 278);
+            this.tabPage5.Size = new System.Drawing.Size(1074, 236);
             this.tabPage5.Text = "添加文件";
             // 
             // dgv_Topic_FileList
@@ -2818,7 +2823,7 @@
             this.dgv_Topic_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Topic_FileList.Name = "dgv_Topic_FileList";
             this.dgv_Topic_FileList.RowTemplate.Height = 23;
-            this.dgv_Topic_FileList.Size = new System.Drawing.Size(1068, 272);
+            this.dgv_Topic_FileList.Size = new System.Drawing.Size(1068, 230);
             this.dgv_Topic_FileList.TabIndex = 0;
             this.dgv_Topic_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
             this.dgv_Topic_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
@@ -2923,7 +2928,7 @@
             this.tabPage6.Appearance.Header.Options.UseFont = true;
             this.tabPage6.Controls.Add(this.dgv_Topic_FileValid);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1074, 285);
+            this.tabPage6.Size = new System.Drawing.Size(1074, 243);
             this.tabPage6.Text = "文件核查";
             // 
             // dgv_Topic_FileValid
@@ -2951,7 +2956,7 @@
             this.dgv_Topic_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_Topic_FileValid.Name = "dgv_Topic_FileValid";
             this.dgv_Topic_FileValid.RowTemplate.Height = 23;
-            this.dgv_Topic_FileValid.Size = new System.Drawing.Size(1074, 285);
+            this.dgv_Topic_FileValid.Size = new System.Drawing.Size(1074, 243);
             this.dgv_Topic_FileValid.TabIndex = 0;
             // 
             // topic_fc_id
@@ -3016,7 +3021,7 @@
             this.tabPage8.Controls.Add(this.cbo_Topic_Box);
             this.tabPage8.Controls.Add(this.label71);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1074, 285);
+            this.tabPage8.Size = new System.Drawing.Size(1074, 243);
             this.tabPage8.Text = "卷盒信息";
             // 
             // btn_Topic_Print
@@ -3072,7 +3077,7 @@
             this.btn_Topic_Box_Bottom.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Topic_Box_Bottom.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Topic_Box_Bottom.Appearance.Options.UseFont = true;
-            this.btn_Topic_Box_Bottom.Location = new System.Drawing.Point(500, 244);
+            this.btn_Topic_Box_Bottom.Location = new System.Drawing.Point(500, 223);
             this.btn_Topic_Box_Bottom.Name = "btn_Topic_Box_Bottom";
             this.btn_Topic_Box_Bottom.Size = new System.Drawing.Size(75, 23);
             this.btn_Topic_Box_Bottom.TabIndex = 13;
@@ -3084,7 +3089,7 @@
             this.btn_Topic_Box_Top.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Topic_Box_Top.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Topic_Box_Top.Appearance.Options.UseFont = true;
-            this.btn_Topic_Box_Top.Location = new System.Drawing.Point(500, 215);
+            this.btn_Topic_Box_Top.Location = new System.Drawing.Point(500, 194);
             this.btn_Topic_Box_Top.Name = "btn_Topic_Box_Top";
             this.btn_Topic_Box_Top.Size = new System.Drawing.Size(75, 23);
             this.btn_Topic_Box_Top.TabIndex = 12;
@@ -3096,7 +3101,7 @@
             this.btn_Topic_Box_LeftAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Topic_Box_LeftAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Topic_Box_LeftAll.Appearance.Options.UseFont = true;
-            this.btn_Topic_Box_LeftAll.Location = new System.Drawing.Point(500, 186);
+            this.btn_Topic_Box_LeftAll.Location = new System.Drawing.Point(500, 165);
             this.btn_Topic_Box_LeftAll.Name = "btn_Topic_Box_LeftAll";
             this.btn_Topic_Box_LeftAll.Size = new System.Drawing.Size(75, 23);
             this.btn_Topic_Box_LeftAll.TabIndex = 11;
@@ -3108,7 +3113,7 @@
             this.btn_Topic_Box_Left.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Topic_Box_Left.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Topic_Box_Left.Appearance.Options.UseFont = true;
-            this.btn_Topic_Box_Left.Location = new System.Drawing.Point(500, 157);
+            this.btn_Topic_Box_Left.Location = new System.Drawing.Point(500, 136);
             this.btn_Topic_Box_Left.Name = "btn_Topic_Box_Left";
             this.btn_Topic_Box_Left.Size = new System.Drawing.Size(75, 23);
             this.btn_Topic_Box_Left.TabIndex = 10;
@@ -3120,7 +3125,7 @@
             this.btn_Topic_Box_RightAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Topic_Box_RightAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Topic_Box_RightAll.Appearance.Options.UseFont = true;
-            this.btn_Topic_Box_RightAll.Location = new System.Drawing.Point(500, 128);
+            this.btn_Topic_Box_RightAll.Location = new System.Drawing.Point(500, 107);
             this.btn_Topic_Box_RightAll.Name = "btn_Topic_Box_RightAll";
             this.btn_Topic_Box_RightAll.Size = new System.Drawing.Size(75, 23);
             this.btn_Topic_Box_RightAll.TabIndex = 9;
@@ -3132,7 +3137,7 @@
             this.btn_Topic_Box_Right.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Topic_Box_Right.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Topic_Box_Right.Appearance.Options.UseFont = true;
-            this.btn_Topic_Box_Right.Location = new System.Drawing.Point(500, 99);
+            this.btn_Topic_Box_Right.Location = new System.Drawing.Point(500, 78);
             this.btn_Topic_Box_Right.Name = "btn_Topic_Box_Right";
             this.btn_Topic_Box_Right.Size = new System.Drawing.Size(75, 23);
             this.btn_Topic_Box_Right.TabIndex = 8;
@@ -3148,7 +3153,7 @@
             this.lsv_JH_KT_File2.GridLines = true;
             this.lsv_JH_KT_File2.Location = new System.Drawing.Point(588, 86);
             this.lsv_JH_KT_File2.Name = "lsv_JH_KT_File2";
-            this.lsv_JH_KT_File2.Size = new System.Drawing.Size(482, 196);
+            this.lsv_JH_KT_File2.Size = new System.Drawing.Size(482, 154);
             this.lsv_JH_KT_File2.TabIndex = 7;
             this.lsv_JH_KT_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_KT_File2.View = System.Windows.Forms.View.Details;
@@ -3162,7 +3167,7 @@
             this.lsv_JH_KT_File1.GridLines = true;
             this.lsv_JH_KT_File1.Location = new System.Drawing.Point(3, 86);
             this.lsv_JH_KT_File1.Name = "lsv_JH_KT_File1";
-            this.lsv_JH_KT_File1.Size = new System.Drawing.Size(482, 196);
+            this.lsv_JH_KT_File1.Size = new System.Drawing.Size(482, 154);
             this.lsv_JH_KT_File1.TabIndex = 6;
             this.lsv_JH_KT_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_KT_File1.View = System.Windows.Forms.View.Details;
@@ -3305,11 +3310,12 @@
             this.btn_Topic_Save.Appearance.Options.UseFont = true;
             this.btn_Topic_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Topic_Save.Image")));
             this.btn_Topic_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Topic_Save.Location = new System.Drawing.Point(929, 5);
+            this.btn_Topic_Save.ImageToTextIndent = 0;
+            this.btn_Topic_Save.Location = new System.Drawing.Point(926, 5);
             this.btn_Topic_Save.Name = "btn_Topic_Save";
-            this.btn_Topic_Save.Size = new System.Drawing.Size(70, 30);
+            this.btn_Topic_Save.Size = new System.Drawing.Size(76, 30);
             this.btn_Topic_Save.TabIndex = 77;
-            this.btn_Topic_Save.Text = "保存";
+            this.btn_Topic_Save.Text = "保存(&S)";
             this.btn_Topic_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // pal_Topic
@@ -3581,6 +3587,7 @@
             this.txt_Topic_Code.Name = "txt_Topic_Code";
             this.txt_Topic_Code.Size = new System.Drawing.Size(224, 25);
             this.txt_Topic_Code.TabIndex = 0;
+            this.txt_Topic_Code.Leave += new System.EventHandler(this.Code_Leave);
             // 
             // cbo_Topic_HasNext
             // 
@@ -3638,7 +3645,7 @@
             this.tab_Project_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Project_Info.Name = "tab_Project_Info";
             this.tab_Project_Info.SelectedTabPage = this.tabPage1;
-            this.tab_Project_Info.Size = new System.Drawing.Size(1080, 299);
+            this.tab_Project_Info.Size = new System.Drawing.Size(1080, 308);
             this.tab_Project_Info.TabIndex = 3;
             this.tab_Project_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage1,
@@ -3653,7 +3660,7 @@
             this.tabPage1.Controls.Add(this.dgv_Project_FileList);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1074, 264);
+            this.tabPage1.Size = new System.Drawing.Size(1074, 273);
             this.tabPage1.Text = "添加文件";
             // 
             // dgv_Project_FileList
@@ -3687,7 +3694,7 @@
             this.dgv_Project_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Project_FileList.Name = "dgv_Project_FileList";
             this.dgv_Project_FileList.RowTemplate.Height = 23;
-            this.dgv_Project_FileList.Size = new System.Drawing.Size(1068, 258);
+            this.dgv_Project_FileList.Size = new System.Drawing.Size(1068, 267);
             this.dgv_Project_FileList.TabIndex = 0;
             this.dgv_Project_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
             this.dgv_Project_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
@@ -3785,7 +3792,7 @@
             this.tabPage2.Appearance.Header.Options.UseFont = true;
             this.tabPage2.Controls.Add(this.dgv_Project_FileValid);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(1074, 271);
+            this.tabPage2.Size = new System.Drawing.Size(1074, 280);
             this.tabPage2.Text = "文件核查";
             // 
             // dgv_Project_FileValid
@@ -3813,7 +3820,7 @@
             this.dgv_Project_FileValid.Location = new System.Drawing.Point(0, 0);
             this.dgv_Project_FileValid.Name = "dgv_Project_FileValid";
             this.dgv_Project_FileValid.RowTemplate.Height = 23;
-            this.dgv_Project_FileValid.Size = new System.Drawing.Size(1074, 271);
+            this.dgv_Project_FileValid.Size = new System.Drawing.Size(1074, 280);
             this.dgv_Project_FileValid.TabIndex = 0;
             // 
             // project_fc_id
@@ -3878,7 +3885,7 @@
             this.tabPage4.Controls.Add(this.cbo_Project_Box);
             this.tabPage4.Controls.Add(this.label63);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1074, 271);
+            this.tabPage4.Size = new System.Drawing.Size(1074, 280);
             this.tabPage4.Text = "卷盒信息";
             // 
             // btn_Project_Print
@@ -3934,7 +3941,7 @@
             this.btn_Project_Box_Bottom.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Project_Box_Bottom.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Project_Box_Bottom.Appearance.Options.UseFont = true;
-            this.btn_Project_Box_Bottom.Location = new System.Drawing.Point(500, 234);
+            this.btn_Project_Box_Bottom.Location = new System.Drawing.Point(500, 239);
             this.btn_Project_Box_Bottom.Name = "btn_Project_Box_Bottom";
             this.btn_Project_Box_Bottom.Size = new System.Drawing.Size(75, 23);
             this.btn_Project_Box_Bottom.TabIndex = 13;
@@ -3946,7 +3953,7 @@
             this.btn_Project_Box_Top.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Project_Box_Top.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Project_Box_Top.Appearance.Options.UseFont = true;
-            this.btn_Project_Box_Top.Location = new System.Drawing.Point(500, 205);
+            this.btn_Project_Box_Top.Location = new System.Drawing.Point(500, 210);
             this.btn_Project_Box_Top.Name = "btn_Project_Box_Top";
             this.btn_Project_Box_Top.Size = new System.Drawing.Size(75, 23);
             this.btn_Project_Box_Top.TabIndex = 12;
@@ -3958,7 +3965,7 @@
             this.btn_Project_Box_LeftAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Project_Box_LeftAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Project_Box_LeftAll.Appearance.Options.UseFont = true;
-            this.btn_Project_Box_LeftAll.Location = new System.Drawing.Point(500, 176);
+            this.btn_Project_Box_LeftAll.Location = new System.Drawing.Point(500, 181);
             this.btn_Project_Box_LeftAll.Name = "btn_Project_Box_LeftAll";
             this.btn_Project_Box_LeftAll.Size = new System.Drawing.Size(75, 23);
             this.btn_Project_Box_LeftAll.TabIndex = 11;
@@ -3970,7 +3977,7 @@
             this.btn_Project_Box_Left.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Project_Box_Left.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Project_Box_Left.Appearance.Options.UseFont = true;
-            this.btn_Project_Box_Left.Location = new System.Drawing.Point(500, 147);
+            this.btn_Project_Box_Left.Location = new System.Drawing.Point(500, 152);
             this.btn_Project_Box_Left.Name = "btn_Project_Box_Left";
             this.btn_Project_Box_Left.Size = new System.Drawing.Size(75, 23);
             this.btn_Project_Box_Left.TabIndex = 10;
@@ -3982,7 +3989,7 @@
             this.btn_Project_Box_RightAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Project_Box_RightAll.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Project_Box_RightAll.Appearance.Options.UseFont = true;
-            this.btn_Project_Box_RightAll.Location = new System.Drawing.Point(500, 118);
+            this.btn_Project_Box_RightAll.Location = new System.Drawing.Point(500, 123);
             this.btn_Project_Box_RightAll.Name = "btn_Project_Box_RightAll";
             this.btn_Project_Box_RightAll.Size = new System.Drawing.Size(75, 23);
             this.btn_Project_Box_RightAll.TabIndex = 9;
@@ -3994,7 +4001,7 @@
             this.btn_Project_Box_Right.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn_Project_Box_Right.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_Project_Box_Right.Appearance.Options.UseFont = true;
-            this.btn_Project_Box_Right.Location = new System.Drawing.Point(500, 89);
+            this.btn_Project_Box_Right.Location = new System.Drawing.Point(500, 94);
             this.btn_Project_Box_Right.Name = "btn_Project_Box_Right";
             this.btn_Project_Box_Right.Size = new System.Drawing.Size(75, 23);
             this.btn_Project_Box_Right.TabIndex = 8;
@@ -4010,7 +4017,7 @@
             this.lsv_JH_XM_File2.GridLines = true;
             this.lsv_JH_XM_File2.Location = new System.Drawing.Point(588, 83);
             this.lsv_JH_XM_File2.Name = "lsv_JH_XM_File2";
-            this.lsv_JH_XM_File2.Size = new System.Drawing.Size(482, 184);
+            this.lsv_JH_XM_File2.Size = new System.Drawing.Size(482, 193);
             this.lsv_JH_XM_File2.TabIndex = 7;
             this.lsv_JH_XM_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_File2.View = System.Windows.Forms.View.Details;
@@ -4024,7 +4031,7 @@
             this.lsv_JH_XM_File1.GridLines = true;
             this.lsv_JH_XM_File1.Location = new System.Drawing.Point(3, 83);
             this.lsv_JH_XM_File1.Name = "lsv_JH_XM_File1";
-            this.lsv_JH_XM_File1.Size = new System.Drawing.Size(482, 184);
+            this.lsv_JH_XM_File1.Size = new System.Drawing.Size(482, 193);
             this.lsv_JH_XM_File1.TabIndex = 6;
             this.lsv_JH_XM_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_File1.View = System.Windows.Forms.View.Details;
@@ -4167,11 +4174,12 @@
             this.btn_Project_Save.Appearance.Options.UseFont = true;
             this.btn_Project_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Project_Save.Image")));
             this.btn_Project_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Project_Save.Location = new System.Drawing.Point(929, 5);
+            this.btn_Project_Save.ImageToTextIndent = 0;
+            this.btn_Project_Save.Location = new System.Drawing.Point(926, 5);
             this.btn_Project_Save.Name = "btn_Project_Save";
-            this.btn_Project_Save.Size = new System.Drawing.Size(70, 30);
+            this.btn_Project_Save.Size = new System.Drawing.Size(76, 30);
             this.btn_Project_Save.TabIndex = 9;
-            this.btn_Project_Save.Text = "保存";
+            this.btn_Project_Save.Text = "保存(&S)";
             this.btn_Project_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // pal_Project
@@ -4442,6 +4450,7 @@
             this.txt_Project_Code.Name = "txt_Project_Code";
             this.txt_Project_Code.Size = new System.Drawing.Size(224, 25);
             this.txt_Project_Code.TabIndex = 0;
+            this.txt_Project_Code.Leave += new System.EventHandler(this.Code_Leave);
             // 
             // cbo_Project_HasNext
             // 
@@ -5018,11 +5027,12 @@
             this.btn_Plan_Save.Appearance.Options.UseFont = true;
             this.btn_Plan_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Plan_Save.Image")));
             this.btn_Plan_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Plan_Save.Location = new System.Drawing.Point(924, 5);
+            this.btn_Plan_Save.ImageToTextIndent = 0;
+            this.btn_Plan_Save.Location = new System.Drawing.Point(920, 5);
             this.btn_Plan_Save.Name = "btn_Plan_Save";
-            this.btn_Plan_Save.Size = new System.Drawing.Size(70, 30);
+            this.btn_Plan_Save.Size = new System.Drawing.Size(76, 30);
             this.btn_Plan_Save.TabIndex = 9;
-            this.btn_Plan_Save.Text = "保存";
+            this.btn_Plan_Save.Text = "保存(&S)";
             this.btn_Plan_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // pal_Plan
@@ -5244,12 +5254,12 @@
         private DevExpress.XtraTab.XtraTabPage tabPage28;
         private System.Windows.Forms.Label label162;
         private System.Windows.Forms.Label label163;
-        private KyoControl.KyoButton btn_Imp_Dev_Box_Bottom;
-        private KyoControl.KyoButton btn_Imp_Dev_Box_Top;
-        private KyoControl.KyoButton btn_Imp_Dev_Box_LeftAll;
-        private KyoControl.KyoButton btn_Imp_Dev_Box_Left;
-        private KyoControl.KyoButton btn_Imp_Dev_Box_RightAll;
-        private KyoControl.KyoButton btn_Imp_Dev_Box_Right;
+        private KyoControl.KyoButton btn_Special_Box_Bottom;
+        private KyoControl.KyoButton btn_Special_Box_Top;
+        private KyoControl.KyoButton btn_Special_Box_LeftAll;
+        private KyoControl.KyoButton btn_Special_Box_Left;
+        private KyoControl.KyoButton btn_Special_Box_RightAll;
+        private KyoControl.KyoButton btn_Special_Box_Right;
         private System.Windows.Forms.ListView lsv_Imp_Dev_File2;
         private System.Windows.Forms.ListView lsv_Imp_Dev_File1;
         private System.Windows.Forms.TextBox txt_Special_GCID;
@@ -5572,21 +5582,6 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn special_fl_carrier;
         private System.Windows.Forms.DataGridViewTextBoxColumn special_fl_link;
         private System.Windows.Forms.DataGridViewTextBoxColumn special_fl_remark;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_id;
-        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_stage;
-        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_categor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_categorname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_code;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_count;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_user;
-        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_pages;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_unit;
-        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_carrier;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_link;
-        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_remark;
         private System.Windows.Forms.DataGridViewTextBoxColumn subject_fl_id;
         private System.Windows.Forms.DataGridViewComboBoxColumn subject_fl_stage;
         private System.Windows.Forms.DataGridViewComboBoxColumn subject_fl_categor;
@@ -5654,5 +5649,20 @@
         private KyoControl.KyoButton btn_Subject_Print;
         private KyoControl.KyoButton btn_Topic_Print;
         private KyoControl.KyoButton btn_Project_Print;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_id;
+        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_stage;
+        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_categor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_categorname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_code;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_amount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_user;
+        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_pages;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_unit;
+        private System.Windows.Forms.DataGridViewComboBoxColumn imp_fl_carrier;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_link;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imp_fl_remark;
     }
 }

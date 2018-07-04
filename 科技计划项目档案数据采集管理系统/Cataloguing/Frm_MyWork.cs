@@ -295,6 +295,13 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_Plan_HasNext.SelectedIndex = 0;
             cbo_Project_HasNext.SelectedIndex = 0;
             cbo_Topic_HasNext.SelectedIndex = 0;
+
+            dgv_Plan_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Project_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Topic_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Subject_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Imp_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Special_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
         }
  
         /// <summary>
@@ -929,29 +936,32 @@ namespace 科技计划项目档案数据采集管理系统
                 int index = tab_Special_Info.SelectedTabPageIndex;
                 if(index == 0)
                 {
-                    if(objId == null)
-                        objId = tab_Special_Info.Tag = AddBasicInfo(special.Tag, ControlType.Special);
-                    else UpdateBasicInfo(objId, ControlType.Special);
-                    if(CheckFileList(view.Rows, key))
+                    if(CheckMustEnter(button.Name, objId))
                     {
-                        int maxLength = dgv_Special_FileList.Rows.Count - 1;
-                        for(int i = 0; i < maxLength; i++)
+                        if(objId == null)
+                            objId = tab_Special_Info.Tag = AddBasicInfo(special.Tag, ControlType.Special);
+                        else UpdateBasicInfo(objId, ControlType.Special);
+                        if(CheckFileList(view.Rows, key))
                         {
-                            object fileName = dgv_Special_FileList.Rows[i].Cells[$"{key}name"].Value;
-                            if(fileName != null)
+                            int maxLength = dgv_Special_FileList.Rows.Count - 1;
+                            for(int i = 0; i < maxLength; i++)
                             {
-                                DataGridViewRow row = dgv_Special_FileList.Rows[i];
-                                object fileId = AddFileInfo(key, row, objId, row.Index);
-                                row.Cells[$"{key}id"].Tag = fileId;
+                                object fileName = dgv_Special_FileList.Rows[i].Cells[$"{key}name"].Value;
+                                if(fileName != null)
+                                {
+                                    DataGridViewRow row = dgv_Special_FileList.Rows[i];
+                                    object fileId = AddFileInfo(key, row, objId, row.Index);
+                                    row.Cells[$"{key}id"].Tag = fileId;
+                                }
                             }
-                        }
-                        RemoveFileList(objId);
+                            RemoveFileList(objId);
 
-                        XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                        if(!isBacked) GoToTreeList();
+                            XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            if(!isBacked) GoToTreeList();
+                        }
+                        else
+                            XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
-                    else
-                        XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if(objId != null)
                 {
@@ -1058,6 +1068,14 @@ namespace 科技计划项目档案数据采集管理系统
                 if(string.IsNullOrEmpty(txt_Subject_ProUser.Text))
                 {
                     errorProvider1.SetError(txt_Subject_ProUser, "提示：负责人不能为空");
+                    result = false;
+                }
+            }
+            else if(name.Contains("Special"))
+            {
+                if(string.IsNullOrEmpty(txt_Special_Unit.Text))
+                {
+                    errorProvider1.SetError(txt_Special_Unit, "提示：牵头组织单位不能为空");
                     result = false;
                 }
             }
@@ -1772,7 +1790,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 treeNode2.ForeColor = DisEnbleColor;
                             //根据【专项信息】查询【项目/课题】集
                             DataTable list = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_submit_status, pi_worker_id FROM project_info WHERE pi_obj_id='{treeNode2.Name}' UNION ALL " +
-                                $"SELECT ti_id, ti_code, ti_submit_status, ti_worker_id FROM topic_info WHERE ti_obj_id='{treeNode2.Name}'");
+                                $"SELECT ti_id, ti_code, ti_submit_status, ti_worker_id FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' ORDER BY pi_code");
                             foreach(DataRow proRow in list.Rows)
                             {
                                 TreeNode treeNode3 = new TreeNode()
@@ -1787,7 +1805,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     treeNode3.ForeColor = DisEnbleColor;
                                 //根据【项目/课题】查询【课题/子课题】集
                                 DataTable list2 = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_submit_status, ti_worker_id FROM topic_info WHERE ti_obj_id='{treeNode3.Name}' UNION ALL " +
-                                    $"SELECT si_id, si_code, si_submit_status, si_worker_id FROM subject_info WHERE si_obj_id='{treeNode3.Name}'");
+                                    $"SELECT si_id, si_code, si_submit_status, si_worker_id FROM subject_info WHERE si_obj_id='{treeNode3.Name}' ORDER BY ti_code");
                                 foreach(DataRow topRow in list2.Rows)
                                 {
                                     TreeNode treeNode4 = new TreeNode()
@@ -1800,7 +1818,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     treeNode3.Nodes.Add(treeNode4);
                                     if(!topRow["ti_worker_id"].Equals(UserHelper.GetInstance().User.UserKey))
                                         treeNode4.ForeColor = DisEnbleColor;
-                                    DataTable list3 = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status, si_worker_id FROM subject_info WHERE si_obj_id='{treeNode4.Name}'");
+                                    DataTable list3 = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status, si_worker_id FROM subject_info WHERE si_obj_id='{treeNode4.Name}' ORDER BY si_code");
                                     foreach(DataRow subRow in list3.Rows)
                                     {
                                         TreeNode treeNode5 = new TreeNode()
@@ -3211,7 +3229,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
-    
+
         /// <summary>
         /// 将指定文本转换成指定日期格式
         /// </summary>
@@ -3221,7 +3239,11 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string _formatDate = null, value = GetValue(date);
             if(!string.IsNullOrEmpty(value))
-                _formatDate = Convert.ToDateTime(value).ToString(format);
+            {
+                DateTime _date = Convert.ToDateTime(value);
+                if(_date != DefaultValue.DefaultMinDate)
+                    _formatDate = _date.ToString(format);
+            }
             return _formatDate;
         }
     
@@ -3666,13 +3688,15 @@ namespace 科技计划项目档案数据采集管理系统
                                 if(value != null)
                                 {
                                     //将当前盒中文件状态致为未归档
-                                    object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{objId}' AND pb_id='{value}'");
-                                    string[] _ids = ids.ToString().Split(',');
-                                    StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                    for(int i = 0; i < _ids.Length; i++)
-                                        sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                    SqlHelper.ExecuteNonQuery(sb.ToString());
-
+                                    object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
+                                    if(ids != null)
+                                    {
+                                        string[] _ids = ids.ToString().Split(',');
+                                        StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
+                                        for(int i = 0; i < _ids.Length; i++)
+                                            sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
+                                        SqlHelper.ExecuteNonQuery(sb.ToString());
+                                    }
                                     //删除当前盒信息
                                     SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
                                 }
@@ -3714,13 +3738,15 @@ namespace 科技计划项目档案数据采集管理系统
                                 if(value != null)
                                 {
                                     //将当前盒中文件状态致为未归档
-                                    object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{objId}' AND pb_id='{value}'");
-                                    string[] _ids = ids.ToString().Split(',');
-                                    StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                    for(int i = 0; i < _ids.Length; i++)
-                                        sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                    SqlHelper.ExecuteNonQuery(sb.ToString());
-
+                                    object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
+                                    if(ids != null)
+                                    {
+                                        string[] _ids = ids.ToString().Split(',');
+                                        StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
+                                        for(int i = 0; i < _ids.Length; i++)
+                                            sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
+                                        SqlHelper.ExecuteNonQuery(sb.ToString());
+                                    }
                                     //删除当前盒信息
                                     SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
                                 }
@@ -3760,13 +3786,15 @@ namespace 科技计划项目档案数据采集管理系统
                             else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 //将当前盒中文件状态致为未归档
-                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{objId}' AND pb_id='{value}'");
-                                string[] _ids = ids.ToString().Split(',');
-                                StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                for(int i = 0; i < _ids.Length; i++)
-                                    sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                SqlHelper.ExecuteNonQuery(sb.ToString());
-
+                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
+                                if(ids != null)
+                                {
+                                    string[] _ids = ids.ToString().Split(',');
+                                    StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
+                                    for(int i = 0; i < _ids.Length; i++)
+                                        sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
+                                    SqlHelper.ExecuteNonQuery(sb.ToString());
+                                }
                                 //删除当前盒信息
                                 SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
                             }
@@ -3805,13 +3833,15 @@ namespace 科技计划项目档案数据采集管理系统
                             else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 //将当前盒中文件状态致为未归档
-                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{objId}' AND pb_id='{value}'");
-                                string[] _ids = ids.ToString().Split(',');
-                                StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                for(int i = 0; i < _ids.Length; i++)
-                                    sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                SqlHelper.ExecuteNonQuery(sb.ToString());
-
+                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
+                                if(ids != null)
+                                {
+                                    string[] _ids = ids.ToString().Split(',');
+                                    StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
+                                    for(int i = 0; i < _ids.Length; i++)
+                                        sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
+                                    SqlHelper.ExecuteNonQuery(sb.ToString());
+                                }
                                 //删除当前盒信息
                                 SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
                             }
@@ -3850,13 +3880,15 @@ namespace 科技计划项目档案数据采集管理系统
                             else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 //将当前盒中文件状态致为未归档
-                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{objId}' AND pb_id='{value}'");
-                                string[] _ids = ids.ToString().Split(',');
-                                StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                for(int i = 0; i < _ids.Length; i++)
-                                    sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                SqlHelper.ExecuteNonQuery(sb.ToString());
-
+                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
+                                if(ids != null)
+                                {
+                                    string[] _ids = ids.ToString().Split(',');
+                                    StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
+                                    for(int i = 0; i < _ids.Length; i++)
+                                        sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
+                                    SqlHelper.ExecuteNonQuery(sb.ToString());
+                                }
                                 //删除当前盒信息
                                 SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
                             }
@@ -3895,13 +3927,15 @@ namespace 科技计划项目档案数据采集管理系统
                             else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 //将当前盒中文件状态致为未归档
-                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_obj_id='{objId}' AND pb_id='{value}'");
-                                string[] _ids = ids.ToString().Split(',');
-                                StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                for(int i = 0; i < _ids.Length; i++)
-                                    sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                SqlHelper.ExecuteNonQuery(sb.ToString());
-
+                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
+                                if(ids != null)
+                                {
+                                    string[] _ids = ids.ToString().Split(',');
+                                    StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
+                                    for(int i = 0; i < _ids.Length; i++)
+                                        sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
+                                    SqlHelper.ExecuteNonQuery(sb.ToString());
+                                }
                                 //删除当前盒信息
                                 SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
                             }
@@ -4102,6 +4136,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         private void LoadPageBasicInfo(TreeNode node, ControlType type)
         {
+            errorProvider1.Clear();
             if(type == ControlType.Project)
             {
                 pal_Project_BtnGroup.Enabled = !(node.ForeColor == DisEnbleColor);
@@ -4134,7 +4169,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                     EnableControls(type, Convert.ToInt32(row["pi_submit_status"]) != 2);
                     LoadFileList(dgv_Project_FileList, "project_fl_", node.Name);
-                    topic.Tag = node.Name;
+                    project.Tag = row["pi_obj_id"];
 
                     if(!row["pi_worker_id"].Equals(UserHelper.GetInstance().User.UserKey))
                     {
@@ -4179,7 +4214,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Topic_Intro.Text = GetValue(row["ti_intro"]);
                     EnableControls(type, Convert.ToInt32(row["ti_submit_status"]) != 2);
                     LoadFileList(dgv_Topic_FileList, "topic_fl_", node.Name);
-                    subject.Tag = node.Name;
+                    topic.Tag = row["ti_obj_id"];
 
                     if(!row["ti_worker_id"].Equals(UserHelper.GetInstance().User.UserKey))
                     {
@@ -4228,6 +4263,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                     EnableControls(type, Convert.ToInt32(row["si_submit_status"]) != 2);
                     LoadFileList(dgv_Subject_FileList, "subject_fl_", node.Name);
+                    subject.Tag = row["si_obj_id"];
 
                     if(!row["si_worker_id"].Equals(UserHelper.GetInstance().User.UserKey))
                     {
@@ -4242,7 +4278,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Special)
             {
-                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_code, imp_name, imp_unit, imp_intro, imp_submit_status, imp_source_id FROM imp_dev_info WHERE imp_id='{node.Name}'");
+                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM imp_dev_info WHERE imp_id='{node.Name}'");
                 if(row != null)
                 {
                     txt_Special_Code.Text = GetValue(row["imp_code"]);
@@ -4251,6 +4287,7 @@ namespace 科技计划项目档案数据采集管理系统
                     tab_Special_Info.Tag = GetValue(row["imp_id"]);
                     EnableControls(ControlType.Special, Convert.ToInt32(row["imp_submit_status"]) != 2);
                     LoadFileList(dgv_Special_FileList, "special_fl_", GetValue(row["imp_id"]));
+                    special.Tag = row["imp_obj_id"];
                 }
                 if(workType == WorkType.PaperWork_Special)
                     special.Text = "研发信息";
@@ -4336,6 +4373,7 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_Project_UnitUser.Clear();
                 txt_Project_ProUser.Clear();
                 txt_Project_Intro.Clear();
+                pal_Project_BtnGroup.Enabled = true;
             }
             else if(type == ControlType.Topic)
             {
@@ -4354,6 +4392,7 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_Topic_UnitUser.Clear();
                 txt_Topic_ProUser.Clear();
                 txt_Topic_Intro.Clear();
+                pal_Topic_BtnGroup.Enabled = true;
             }
             else if(type == ControlType.Subject)
             {
@@ -4372,6 +4411,7 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_Subject_Unituser.Clear();
                 txt_Subject_ProUser.Clear();
                 txt_Subject_Intro.Clear();
+                pal_Subject_BtnGroup.Enabled = true;
             }
         }
         
@@ -5175,6 +5215,47 @@ namespace 科技计划项目档案数据采集管理系统
             }
             Frm_Print frm = new Frm_Print(objId, boxId, docNumber, objName, gcCode);
             frm.ShowDialog();
+        }
+
+        private void Code_Leave(object sender, EventArgs e)
+        {
+            TextBox codeText = sender as TextBox;
+            string value = codeText.Text.Trim();
+            if(!string.IsNullOrEmpty(value) && GetSaveState(codeText.Name))
+            {
+                object pId = codeText.Parent.Parent.Tag;
+                int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_code='{value}'");
+                index += SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE ti_code='{value}'");
+                index += SqlHelper.ExecuteCountQuery($"SELECT COUNT(si_id) FROM subject_info WHERE si_code='{value}'");
+                if(index > 0)
+                {
+                    errorProvider1.SetError(codeText, "提示：此编号已存在。");
+                    codeText.Focus();
+                }
+                else
+                    errorProvider1.SetError(codeText, null);
+            }
+        }
+
+        private bool GetSaveState(string name)
+        {
+            bool flag = true;
+            if(name.Contains("Project"))
+            {
+                if(tab_Project_Info.Tag != null)
+                    flag = false;
+            }
+            else if(name.Contains("Topic"))
+            {
+                if(tab_Topic_Info.Tag != null)
+                    flag = false;
+            }
+            else if(name.Contains("Subject"))
+            {
+                if(tab_Subject_Info.Tag != null)
+                    flag = false;
+            }
+            return flag;
         }
     }
 }
