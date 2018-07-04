@@ -133,7 +133,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="isShowAll">是否显示已加工节点</param>
         private void InitialTree(object parentId, TreeNode parentNode, bool isShowAll)
         {
-            List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT bfi_id, bfi_name, bfi_path, bfi_state, bfi_type FROM backup_files_info WHERE bfi_pid='{parentId}' ORDER BY bfi_type", 5);
+            List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT bfi_id, bfi_name, bfi_path, bfi_state, bfi_type FROM backup_files_info WHERE bfi_pid='{parentId}' ORDER BY bfi_type, bfi_name", 5);
             for(int i = 0; i < list.Count; i++)
             {
                 int state = Convert.ToInt32(list[i][3]);

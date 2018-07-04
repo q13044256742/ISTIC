@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.Properties;
+using 科技计划项目档案数据采集管理系统.DocumentAccept;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -118,22 +117,13 @@ namespace 科技计划项目档案数据采集管理系统
                     Name = GetValue(table.Rows[i]["dd_id"]),
                     Text = GetValue(table.Rows[i]["dd_name"]),
                 };
-                element.Click += new EventHandler(Element_Click);
                 acg_Register.Elements.Add(element);
             }
         }
 
-        /// <summary>
-        /// 来源单位点击事件
-        /// </summary>
-        private void Element_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private string GetValue(object v) => v == null ? string.Empty : v.ToString();
 
-        private void dgv_DataShow_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void Dgv_DataShow_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex != -1 && e.ColumnIndex != -1)
             {
@@ -162,6 +152,18 @@ namespace 科技计划项目档案数据采集管理系统
                         frm.ShowDialog();
                     }
                 }
+            }
+        }
+
+        private void Ac_LeftMenu_ElementClick(object sender, ElementClickEventArgs e)
+        {
+            string name = e.Element.Name;
+            if(!string.IsNullOrEmpty(name))
+            {
+                if("ace_all".Equals(name))
+                    LoadDataGridView(null);
+                else
+                    LoadDataGridView(name);
             }
         }
     }

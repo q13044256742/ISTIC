@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows.Forms;
 
-namespace 科技计划项目档案数据采集管理系统
+namespace 科技计划项目档案数据采集管理系统.DocumentAccept
 {
     public partial class Frm_Print : DevExpress.XtraEditors.XtraForm
     {

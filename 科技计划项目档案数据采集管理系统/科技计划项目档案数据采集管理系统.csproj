@@ -108,6 +108,12 @@
     <Compile Include="Cataloguing\Frm_CG.Designer.cs">
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cataloguing\Frm_Print.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cataloguing\Frm_Print.designer.cs">
+      <DependentUpon>Frm_Print.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cataloguing\WorkRegistration.cs" />
     <Compile Include="Cataloguing\Frm_MyWork.cs">
       <SubType>Form</SubType>
@@ -238,6 +244,24 @@
     <Compile Include="KyoControl\KyoButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Tools\Frm_BoxList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\Frm_BoxList.Designer.cs">
+      <DependentUpon>Frm_BoxList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\Frm_Cover.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\Frm_Cover.Designer.cs">
+      <DependentUpon>Frm_Cover.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\Frm_FileBackUpTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\Frm_FileBackUpTable.Designer.cs">
+      <DependentUpon>Frm_FileBackUpTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\LocalizationCHS.cs" />
     <Compile Include="Tools\MicrosoftWordHelper.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
@@ -328,6 +352,9 @@
     <EmbeddedResource Include="Cataloguing\Frm_MyWork.resx">
       <DependentUpon>Frm_MyWork.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cataloguing\Frm_Print.resx">
+      <DependentUpon>Frm_Print.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DocumentAccept\Frm_DomAccept.resx">
       <DependentUpon>Frm_DomAccept.cs</DependentUpon>
     </EmbeddedResource>
@@ -382,6 +409,15 @@
     <EmbeddedResource Include="QualityTesting\Frm_QT.resx">
       <DependentUpon>Frm_QT.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tools\Frm_BoxList.resx">
+      <DependentUpon>Frm_BoxList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\Frm_Cover.resx">
+      <DependentUpon>Frm_Cover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\Frm_FileBackUpTable.resx">
+      <DependentUpon>Frm_FileBackUpTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
     </EmbeddedResource>
@@ -417,6 +453,7 @@
       <DependentUpon>Frm_ToR.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="bin\x86\Debug\Datas\DataSources.ini" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -471,9 +508,7 @@
     <Content Include="Images\png-0222.ico" />
     <Content Include="Images\top.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Debug\Datas\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

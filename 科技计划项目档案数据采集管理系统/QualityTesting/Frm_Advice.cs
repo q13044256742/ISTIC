@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_Advice : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_Advice : XtraForm
     {
         /// <summary>
         /// 当前对象所属ID
@@ -48,10 +49,10 @@ namespace 科技计划项目档案数据采集管理系统
             object qaid = lbl_ObjName.Tag;
             if(qaid != null)
             {
-                if(MessageBox.Show("确定要删除当前质检意见吗?", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                if(XtraMessageBox.Show("确定要删除当前质检意见吗?", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                 {
                     SqlHelper.ExecuteNonQuery($"DELETE FROM quality_advices WHERE qa_id='{qaid}'");
-                    MessageBox.Show("删除成功。");
+                    XtraMessageBox.Show("删除成功。");
                     Close();
                 }
             }
@@ -68,7 +69,7 @@ namespace 科技计划项目档案数据采集管理系统
                 SqlHelper.ExecuteNonQuery(insertSql);
                 lbl_ObjName.Tag = primaryKey;
                 btn_Delete.Enabled = true;
-                MessageBox.Show("保存成功。");
+                XtraMessageBox.Show("保存成功。");
                 Close();
             }
         }

@@ -162,7 +162,7 @@
             this.ace_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
             this.ace_LeftMenu.Size = new System.Drawing.Size(223, 491);
             this.ace_LeftMenu.TabIndex = 16;
-            this.ace_LeftMenu.SelectedElementChanged += new DevExpress.XtraBars.Navigation.SelectedElementChangedEventHandler(this.ace_LeftMenu_SelectedElementChanged);
+            this.ace_LeftMenu.SelectedElementChanged += new DevExpress.XtraBars.Navigation.SelectedElementChangedEventHandler(this.Ace_LeftMenu_SelectedElementChanged);
             // 
             // acg_Worked
             // 

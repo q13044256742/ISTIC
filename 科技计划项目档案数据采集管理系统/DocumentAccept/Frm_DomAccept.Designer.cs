@@ -64,7 +64,7 @@
             this.dgv_DataShow.RowTemplate.Height = 23;
             this.dgv_DataShow.Size = new System.Drawing.Size(640, 484);
             this.dgv_DataShow.TabIndex = 0;
-            this.dgv_DataShow.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_DataShow_CellContentClick);
+            this.dgv_DataShow.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_DataShow_CellContentClick);
             // 
             // pal_LeftMenu
             // 
@@ -103,6 +103,7 @@
             this.ac_LeftMenu.ShowToolTips = false;
             this.ac_LeftMenu.Size = new System.Drawing.Size(273, 484);
             this.ac_LeftMenu.TabIndex = 12;
+            this.ac_LeftMenu.ElementClick += new DevExpress.XtraBars.Navigation.ElementClickEventHandler(this.Ac_LeftMenu_ElementClick);
             // 
             // acg_Register
             // 
@@ -111,7 +112,7 @@
             this.acg_Register.Expanded = true;
             this.acg_Register.Image = ((System.Drawing.Image)(resources.GetObject("acg_Register.Image")));
             this.acg_Register.Name = "acg_Register";
-            this.acg_Register.Text = "移交登记";
+            this.acg_Register.Text = "档案接收";
             this.acg_Register.TextToImageDistance = 10;
             // 
             // ace_all

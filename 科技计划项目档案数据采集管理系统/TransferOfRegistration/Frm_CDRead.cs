@@ -19,9 +19,11 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
         private void Btn_Sure_Click(object sender, EventArgs e)
         {
+            if(!string.IsNullOrEmpty(txt_CD_Path.Text) && string.IsNullOrEmpty(txt_SavePath.Text))
+                return;
             if(string.IsNullOrEmpty(txt_CD_Path.Text) && string.IsNullOrEmpty(txt_DS_Path.Text))
                 return;
-            string targetPath = Application.StartupPath + "\\datas\\";
+            string targetPath = txt_SavePath.Text;
             if(!Directory.Exists(targetPath))
                 Directory.CreateDirectory(targetPath);
             SetButtonState();
@@ -29,13 +31,13 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             //光盘读写【非结构化数据】
             if(!string.IsNullOrEmpty(sourPath))
             {
-                pgb_CD.Tag = false;
-                int totalFileAmount = Directory.GetFiles(sourPath, "*", SearchOption.AllDirectories).Length - Directory.GetFiles(sourPath, "ISTIC*.db", SearchOption.AllDirectories).Length;
-                pgb_CD.Value = pgb_CD.Minimum;
-                pgb_CD.Maximum = totalFileAmount;
-
                 new Thread(delegate ()
                 {
+                    pgb_CD.Tag = false;
+                    int totalFileAmount = Directory.GetFiles(sourPath, "*", SearchOption.AllDirectories).Length - Directory.GetFiles(sourPath, "ISTIC*.db", SearchOption.AllDirectories).Length;
+                    pgb_CD.Value = pgb_CD.Minimum;
+                    pgb_CD.Maximum = totalFileAmount;
+
                     string primaryKey = Guid.NewGuid().ToString();
                     string rootName = Path.GetFileName(sourPath);
 
@@ -50,19 +52,17 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     pgb_CD.Tag = true;
                     SetButtonState();
                     DevExpress.XtraEditors.XtraMessageBox.Show("文件备份完成。");
-                    Thread.CurrentThread.Abort();
                 }).Start();
             }
             else
                 pgb_CD.Tag = true;
+           
             /* -------------------- 源数据读写【结构化数据】 -----------------------------*/
             string dPath = txt_DS_Path.Text;
             if(!string.IsNullOrEmpty(dPath))
             {
                 pgb_DS.Tag = false;
-                new Thread(delegate ()
-                {
-                    string queryString = "SELECT COUNT(pi_id)+ " +
+                string queryString = "SELECT COUNT(pi_id)+ " +
                     "(SELECT COUNT(spi_id) FROM special_info) +" +
                     "(SELECT COUNT(ti_id) FROM topic_info) +" +
                     "(SELECT COUNT(si_id) FROM subject_info) +" +
@@ -70,15 +70,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     "(SELECT COUNT(pfo_id) FROM files_lost_info) +" +
                     "(SELECT COUNT(pb_id) FROM files_box_info) " +
                     "FROM project_info";
-                    int totalAmount = new SQLiteBackupHelper(dPath).ExecuteCountQuery(queryString);
-                    pgb_DS.Value = pgb_DS.Minimum;
-                    pgb_DS.Maximum = totalAmount;
-                    CopyDataTableInstince(dPath, targetPath);
-                    pgb_DS.Tag = true;
-                    SetButtonState();
-                    DevExpress.XtraEditors.XtraMessageBox.Show("源数据读写完成。");
-                    Thread.CurrentThread.Abort();
-                }).Start();
+                int totalAmount = new SQLiteBackupHelper(dPath).ExecuteCountQuery(queryString);
+                pgb_DS.Value = pgb_DS.Minimum;
+                pgb_DS.Maximum = totalAmount;
+
+                CopyDataTableInstince(dPath, targetPath);
+                pgb_DS.Tag = true;
+                SetButtonState();
+                DevExpress.XtraEditors.XtraMessageBox.Show("源数据读写完成。");
             }
             else
                 pgb_DS.Tag = true;
@@ -112,12 +111,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     string primaryKey = Guid.NewGuid().ToString();
                     try
                     {
-                        object value = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{fileName}' AND bfi_path='{tPath}'");
-                        if(string.IsNullOrEmpty(GetValue(value)))
-                            SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                                $"('{primaryKey}', '{fileName}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 0)");
-                        else
-                            SqlHelper.ExecuteNonQuery($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_pid='{pid}', bfi_userid='{UserHelper.GetInstance().User.UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{value}';");
+                        SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                            $"('{primaryKey}', '{fileName}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 0)");
 
                         UploadFile(file[i].FullName, tPath, fileName);
 
@@ -131,15 +126,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             for(int i = 0; i < infos.Length; i++)
             {
                 string primaryKey = Guid.NewGuid().ToString();
-                object value = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{infos[i].Name}' AND bfi_path='{tPath}'");
-                if(string.IsNullOrEmpty(GetValue(value)))
-                    SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                       $"('{primaryKey}', '{infos[i].Name}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 1)");
-                else
-                {
-                    SqlHelper.ExecuteNonQuery($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_pid='{pid}', bfi_userid='{UserHelper.GetInstance().User.UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{value}';");
-                    primaryKey = GetValue(value);
-                }
+                SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                   $"('{primaryKey}', '{infos[i].Name}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 1)");
                 CopyFile(infos[i].FullName, tPath + "\\" + infos[i].Name + @"\", primaryKey);
             }
         }
@@ -193,6 +181,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             FileDialog dialog = new OpenFileDialog();
             dialog.Filter = "db|*.db";
+            dialog.InitialDirectory = txt_CD_Path.Text;
             if(dialog.ShowDialog() == DialogResult.OK)
             {
                 txt_DS_Path.Text = dialog.FileName;
@@ -368,6 +357,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void Lbl_SavePath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if(folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txt_SavePath.Text = folderBrowserDialog1.SelectedPath;
+            }
         }
     }
 }

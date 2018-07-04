@@ -14,7 +14,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 默认单元格字体大小
         /// </summary>
-        private static float DefaultCellFontSize = 9f;
+        private static float DefaultCellFontSize = 12f;
 
         /// <summary>
         /// 获取DataGridView默认表头样式
@@ -143,7 +143,7 @@ namespace 科技计划项目档案数据采集管理系统
             return new DataGridViewCellStyle()
             {
                 Alignment = DataGridViewContentAlignment.MiddleLeft,
-                Font = new System.Drawing.Font("宋体", DefaultCellFontSize, System.Drawing.FontStyle.Regular)
+                Font = new System.Drawing.Font("微软雅黑", DefaultCellFontSize, System.Drawing.FontStyle.Regular)
             };
         }
 
