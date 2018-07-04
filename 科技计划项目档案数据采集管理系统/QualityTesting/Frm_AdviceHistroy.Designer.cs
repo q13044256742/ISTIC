@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dgv_BW = new System.Windows.Forms.DataGridView();
+            this.lbl_ObjName = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.bw_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bw_text = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bw_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lbl_ObjName = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_BW)).BeginInit();
             this.SuspendLayout();
@@ -55,11 +56,14 @@
             // 
             this.dgv_BW.AllowUserToAddRows = false;
             this.dgv_BW.AllowUserToDeleteRows = false;
+            this.dgv_BW.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_BW.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_BW.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -76,27 +80,6 @@
             this.dgv_BW.RowTemplate.Height = 23;
             this.dgv_BW.Size = new System.Drawing.Size(839, 426);
             this.dgv_BW.TabIndex = 7;
-            // 
-            // bw_type
-            // 
-            this.bw_type.FillWeight = 50F;
-            this.bw_type.HeaderText = "意见类型";
-            this.bw_type.Name = "bw_type";
-            this.bw_type.ReadOnly = true;
-            // 
-            // bw_text
-            // 
-            this.bw_text.FillWeight = 200F;
-            this.bw_text.HeaderText = "意见";
-            this.bw_text.Name = "bw_text";
-            this.bw_text.ReadOnly = true;
-            // 
-            // bw_date
-            // 
-            this.bw_date.FillWeight = 50F;
-            this.bw_date.HeaderText = "填写日期";
-            this.bw_date.Name = "bw_date";
-            this.bw_date.ReadOnly = true;
             // 
             // lbl_ObjName
             // 
@@ -117,13 +100,35 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "所属质检对象：";
             // 
+            // bw_type
+            // 
+            this.bw_type.FillWeight = 50F;
+            this.bw_type.HeaderText = "意见类型";
+            this.bw_type.Name = "bw_type";
+            this.bw_type.ReadOnly = true;
+            // 
+            // bw_text
+            // 
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.bw_text.DefaultCellStyle = dataGridViewCellStyle2;
+            this.bw_text.FillWeight = 200F;
+            this.bw_text.HeaderText = "意见";
+            this.bw_text.Name = "bw_text";
+            this.bw_text.ReadOnly = true;
+            // 
+            // bw_date
+            // 
+            this.bw_date.FillWeight = 50F;
+            this.bw_date.HeaderText = "填写日期";
+            this.bw_date.Name = "bw_date";
+            this.bw_date.ReadOnly = true;
+            // 
             // Frm_AdviceHistroy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(868, 496);
             this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_AdviceHistroy";

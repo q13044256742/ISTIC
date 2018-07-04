@@ -30,6 +30,9 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_BW.Rows[index].Cells[0].Value = GetTypeValue(list[i][0]);
                 dgv_BW.Rows[index].Cells[1].Value = list[i][1];
             }
+
+            dgv_BW.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_BW.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
         }
         /// <summary>
         /// 获取错误类型

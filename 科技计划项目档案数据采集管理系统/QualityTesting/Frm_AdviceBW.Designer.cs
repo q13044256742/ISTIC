@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dgv_BW = new System.Windows.Forms.DataGridView();
-            this.bw_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bw_text = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbl_ObjName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.bw_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bw_text = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_BW)).BeginInit();
             this.SuspendLayout();
@@ -47,18 +48,21 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(750, 406);
+            this.panel1.Size = new System.Drawing.Size(1024, 647);
             this.panel1.TabIndex = 0;
             // 
             // dgv_BW
             // 
             this.dgv_BW.AllowUserToAddRows = false;
             this.dgv_BW.AllowUserToDeleteRows = false;
+            this.dgv_BW.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_BW.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_BW.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -72,22 +76,8 @@
             this.dgv_BW.Name = "dgv_BW";
             this.dgv_BW.ReadOnly = true;
             this.dgv_BW.RowTemplate.Height = 23;
-            this.dgv_BW.Size = new System.Drawing.Size(725, 346);
+            this.dgv_BW.Size = new System.Drawing.Size(999, 587);
             this.dgv_BW.TabIndex = 7;
-            // 
-            // bw_type
-            // 
-            this.bw_type.FillWeight = 50F;
-            this.bw_type.HeaderText = "意见类型";
-            this.bw_type.Name = "bw_type";
-            this.bw_type.ReadOnly = true;
-            // 
-            // bw_text
-            // 
-            this.bw_text.FillWeight = 150F;
-            this.bw_text.HeaderText = "意见";
-            this.bw_text.Name = "bw_text";
-            this.bw_text.ReadOnly = true;
             // 
             // lbl_ObjName
             // 
@@ -108,14 +98,29 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "当前质检对象：";
             // 
+            // bw_type
+            // 
+            this.bw_type.FillWeight = 50F;
+            this.bw_type.HeaderText = "意见类型";
+            this.bw_type.Name = "bw_type";
+            this.bw_type.ReadOnly = true;
+            // 
+            // bw_text
+            // 
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.bw_text.DefaultCellStyle = dataGridViewCellStyle2;
+            this.bw_text.FillWeight = 150F;
+            this.bw_text.HeaderText = "意见";
+            this.bw_text.Name = "bw_text";
+            this.bw_text.ReadOnly = true;
+            // 
             // Frm_AdviceBW
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(750, 406);
+            this.ClientSize = new System.Drawing.Size(1024, 647);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_AdviceBW";

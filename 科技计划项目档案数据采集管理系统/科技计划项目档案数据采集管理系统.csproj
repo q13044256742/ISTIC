@@ -64,10 +64,6 @@
     <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraTreeList.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraVerticalGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="KyoFileEntity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\KyoFileEntity.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -75,9 +71,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.108.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\space_kt\Resources\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite">
+      <HintPath>Tools\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -244,6 +239,7 @@
     <Compile Include="KyoControl\KyoButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Tools\DefaultValue.cs" />
     <Compile Include="Tools\Frm_BoxList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -286,7 +282,6 @@
     <Compile Include="Frm_MainFrame.Designer.cs">
       <DependentUpon>Frm_MainFrame.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\FilesBackupsHelper.cs" />
     <Compile Include="KyoControl\HeaderUnitView.cs">
       <SubType>Component</SubType>
     </Compile>
