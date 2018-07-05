@@ -246,6 +246,12 @@
     <Compile Include="Tools\Frm_BoxList.Designer.cs">
       <DependentUpon>Frm_BoxList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\Frm_CodeRule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\Frm_CodeRule.Designer.cs">
+      <DependentUpon>Frm_CodeRule.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Frm_Cover.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -406,6 +412,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Frm_BoxList.resx">
       <DependentUpon>Frm_BoxList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\Frm_CodeRule.resx">
+      <DependentUpon>Frm_CodeRule.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Frm_Cover.resx">
       <DependentUpon>Frm_Cover.cs</DependentUpon>

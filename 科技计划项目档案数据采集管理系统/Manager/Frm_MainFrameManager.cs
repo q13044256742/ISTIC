@@ -76,18 +76,16 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Demo_Click(object sender, EventArgs e)
         {
-            //Control control = null;
-            //if(sender is Panel)
-            //    control = sender as Control;
-            //else
-            //    control = (sender as Control).Parent;
-
-            //if(!string.IsNullOrEmpty(control.Name))
-            //{
-            //    Manager.Frm_template frm_Template = new Manager.Frm_template(control.Name);
-            //    frm_Template.MdiParent = this;
-            //    frm_Template.Show();
-            //}
+            foreach(Form item in MdiChildren)
+                item.Close();
+            string element = (sender as AccordionControlElement).Name;
+            //编码规则
+            if("ace_CodeRule".Equals(element))
+            {
+                Frm_CodeRule frm = new Frm_CodeRule(UserHelper.GetInstance().User.UserKey);
+                frm.MdiParent = this;
+                frm.Show();
+            }
         }
     }
 }

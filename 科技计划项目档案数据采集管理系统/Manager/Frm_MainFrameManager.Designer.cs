@@ -52,6 +52,7 @@
             this.accordionControlElement4 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.ace_ReciveDemo = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.ace_Giveup = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.ace_CodeRule = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pal_Top.SuspendLayout();
             this.pal_Top_Info.SuspendLayout();
@@ -312,7 +313,8 @@
             this.accordionControlElement4.Appearance.Normal.Options.UseForeColor = true;
             this.accordionControlElement4.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
             this.ace_ReciveDemo,
-            this.ace_Giveup});
+            this.ace_Giveup,
+            this.ace_CodeRule});
             this.accordionControlElement4.Expanded = true;
             this.accordionControlElement4.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement4.Image")));
             this.accordionControlElement4.Name = "accordionControlElement4";
@@ -339,6 +341,17 @@
             this.ace_Giveup.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.ace_Giveup.Text = "催报单";
             this.ace_Giveup.Click += new System.EventHandler(this.Demo_Click);
+            // 
+            // ace_CodeRule
+            // 
+            this.ace_CodeRule.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.ace_CodeRule.Appearance.Normal.ForeColor = System.Drawing.Color.Blue;
+            this.ace_CodeRule.Appearance.Normal.Options.UseFont = true;
+            this.ace_CodeRule.Appearance.Normal.Options.UseForeColor = true;
+            this.ace_CodeRule.Name = "ace_CodeRule";
+            this.ace_CodeRule.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.ace_CodeRule.Text = "编码规则";
+            this.ace_CodeRule.Click += new System.EventHandler(this.Demo_Click);
             // 
             // Frm_MainFrameManager
             // 
@@ -389,5 +402,6 @@
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_WorkLog;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_ReciveDemo;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_Giveup;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement ace_CodeRule;
     }
 }

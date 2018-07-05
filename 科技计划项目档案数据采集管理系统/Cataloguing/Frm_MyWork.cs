@@ -1179,11 +1179,34 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             cellName.ErrorText = $"温馨提示：与{j + 1}行的文件名重复。";
                             result = false;
+                            break;
                         }
                         else
-                        {
                             cellName.ErrorText = null;
+                    }
+                }
+
+                //检测文件编号重复
+                DataGridViewCell cellCode = rows[i].Cells[key + "code"];
+                if(cellCode.Value == null || string.IsNullOrEmpty(GetValue(cellCode.Value).Trim()))
+                {
+                    cellCode.ErrorText = "温馨提示：文件编号不能为空。";
+                    result = false;
+                }
+                else
+                {
+                    cellCode.ErrorText = null;
+                    for(int j = i + 1; j < rows.Count - 1; j++)
+                    {
+                        DataGridViewCell cell2 = rows[j].Cells[key + "code"];
+                        if(cellCode.Value.Equals(cell2.Value))
+                        {
+                            cellCode.ErrorText = $"温馨提示：与{j + 1}行的文件编号重复。";
+                            result = false;
+                            break;
                         }
+                        else
+                            cellCode.ErrorText = null;
                     }
                 }
 
@@ -1194,22 +1217,32 @@ namespace 科技计划项目档案数据采集管理系统
                     result = false;
                 }
                 else
-                    pagesCell.ErrorText = null;
-
-                bool isOtherType = "其他".Equals(GetValue(rows[i].Cells[key + "categor"].FormattedValue).Trim());
-                DataGridViewCell cellCode = rows[i].Cells[key + "categorname"];
-                if(isOtherType)
                 {
-                    if(cellCode.Value == null || string.IsNullOrEmpty(GetValue(cellCode.Value).Trim()))
+                    int pageValue = Convert.ToInt32(pagesCell.Value);
+                    if(pageValue > 9999)
                     {
-                        cellCode.ErrorText = "温馨提示：类型名称不能为空。";
+                        pagesCell.ErrorText = "温馨提示：页数不能超过4位数。";
                         result = false;
                     }
                     else
-                        cellCode.ErrorText = null;
+                        pagesCell.ErrorText = null;
+                }
+
+                bool isOtherType = "其他".Equals(GetValue(rows[i].Cells[key + "categor"].FormattedValue).Trim());
+                DataGridViewCell categorCode = rows[i].Cells[key + "categorname"];
+                if(isOtherType)
+                {
+                    if(categorCode.Value == null || string.IsNullOrEmpty(GetValue(categorCode.Value).Trim()))
+                    {
+                        categorCode.ErrorText = "温馨提示：类型名称不能为空。";
+                        result = false;
+                        break;
+                    }
+                    else
+                        categorCode.ErrorText = null;
                 }
                 else
-                    cellCode.ErrorText = null;
+                    categorCode.ErrorText = null;
             }
             return result;
         }
@@ -3653,7 +3686,78 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
-    
+
+        /// <summary>
+        /// 根据预设规则获取编码
+        /// </summary>
+        /// <param name="type">0：案卷 1：馆藏号</param>
+        private string GetAJCode(object objId, object objCode, int type, string year, string zxCode, string sourceUnitId)
+        {
+            string code = string.Empty;
+            DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM code_rule WHERE cr_type='{type}';");
+            if(row != null)
+            {
+                string fix = GetValue(row["cr_fixed"]);
+                string symbol = GetValue(row["cr_split_symbol"]);
+                if(!string.IsNullOrEmpty(fix))
+                    code += $"{fix + symbol}";
+                string template = GetValue(row["cr_template"]);
+                string[] strs = template.Split(symbol.ToCharArray());
+                for(int i = 0; i < strs.Length; i++)
+                {
+                    if("AAAA".Equals(strs[i]))//专项编号
+                    {
+                        if(!string.IsNullOrEmpty(zxCode))
+                            code += zxCode;
+                        else
+                            continue;
+                    }
+                    else if("BBBB".Equals(strs[i]))//项目/课题编号
+                        code += objCode;
+                    else if("CCCC".Equals(strs[i]))//来源单位
+                    {
+                        string unitCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{sourceUnitId}'"));
+                        if(!string.IsNullOrEmpty(unitCode))
+                            code += unitCode;
+                        else
+                            continue;
+                    }
+                    else if("YYYY".Equals(strs[i]))
+                        code += year;
+                    else
+                    {
+                        int length = strs[i].Length;
+                        int amount = 0;
+                        if(type == 0)
+                            amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pt_id) FROM files_tag_info WHERE pt_special_id='{sourceUnitId}'") + 1;
+                        else if(type == 1)
+                            amount = GetGCId(length, GetValue(unitCode));
+                        code += amount.ToString().PadLeft(length, '0');
+                    }
+                    code += symbol;
+                }
+            }
+            return code.Length == 0 ? code : code.Substring(0, code.Length - 1);
+        }
+
+        /// <summary>
+        /// 获取馆藏号流水号
+        /// （优先获取已删除的）
+        /// </summary>
+        private int GetGCId(int length, string specialId)
+        {
+            string querySql = $"SELECT COUNT(pb_id) FROM processing_box WHERE pb_unit_id='{specialId}'";
+            int max = SqlHelper.ExecuteCountQuery(querySql);
+            for(int i = 1; i <= max; i++)
+            {
+                string _str = i.ToString().PadLeft(length, '0');
+                int temp = SqlHelper.ExecuteCountQuery(querySql + $" AND pb_gc_id LIKE '%_{_str}'");
+                if(temp == 0)
+                    return i;
+            }
+            return max + 1;
+        }
+
         /// <summary>
         /// 计划 - 增加/删除案卷盒
         /// </summary>
@@ -3670,7 +3774,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), null, GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
@@ -3704,9 +3808,6 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Plan);
-                    int maxAmount = cbo_Plan_Box.Items.Count;
-                    if(maxAmount > 0)
-                        cbo_Plan_Box.SelectedIndex = maxAmount - 1;
                     LoadFileBoxTable(cbo_Plan_Box.SelectedValue, objId, ControlType.Plan);
                 }
             }
@@ -3720,8 +3821,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
-                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
+                        string gch = GetAJCode(objId, txt_Project_Code.Text, 1, txt_Project_Year.Text, txt_Special_Code.Text, GetValue(unitCode));
+                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', null, '{objId}', '{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_JH_XM_Box_Remove".Equals(label.Name))//删除
@@ -3754,9 +3855,6 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Project);
-                    int maxAmount = cbo_Project_Box.Items.Count;
-                    if(maxAmount > 0)
-                        cbo_Project_Box.SelectedIndex = maxAmount - 1;
                     LoadFileBoxTable(cbo_Project_Box.SelectedValue, objId, ControlType.Plan);
                 }
             }
@@ -3770,8 +3868,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
-                        string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
+                        string gch = GetAJCode(objId, txt_Subject_Code.Text, 1, txt_Subject_Year.Text, txt_Special_Code.Text, GetValue(unitCode));
+                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
+                            $"VALUES ('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_JH_XM_KT_ZKT_Box_Remove".Equals(label.Name))//删除
@@ -3801,9 +3900,6 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Subject);
-                    int maxAmount = cbo_Subject_Box.Items.Count;
-                    if(maxAmount > 0)
-                        cbo_Subject_Box.SelectedIndex = maxAmount - 1;
                     LoadFileBoxTable(cbo_Subject_Box.SelectedValue, objId, ControlType.Subject);
                 }
             }
@@ -3817,7 +3913,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string gch = GetAJCode(objId, txt_Topic_Code.Text, 1, txt_Topic_Year.Text, txt_Special_Code.Text, GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
@@ -3848,9 +3944,6 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Topic);
-                    int maxAmount = cbo_Topic_Box.Items.Count;
-                    if(maxAmount > 0)
-                        cbo_Topic_Box.SelectedIndex = maxAmount - 1;
                     LoadFileBoxTable(cbo_Topic_Box.SelectedValue, objId, ControlType.Topic);
                 }
             }
@@ -3864,7 +3957,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
@@ -3895,9 +3988,6 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Imp);
-                    int maxAmount = cbo_Imp_Box.Items.Count;
-                    if(maxAmount > 0)
-                        cbo_Imp_Box.SelectedIndex = maxAmount - 1;
                     LoadFileBoxTable(cbo_Imp_Box.SelectedValue, objId, ControlType.Imp);
                 }
             }
@@ -3911,7 +4001,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = $"{unitCode}{GetGCAmount(unitCode)}";
+                        string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box VALUES('{Guid.NewGuid().ToString()}','{amount + 1}','{gch}',null,'{objId}','{unitCode}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
@@ -3942,9 +4032,6 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     LoadBoxList(objId, ControlType.Special);
-                    int maxAmount = cbo_Special_Box.Items.Count;
-                    if(maxAmount > 0)
-                        cbo_Special_Box.SelectedIndex = maxAmount - 1;
                     LoadFileBoxTable(cbo_Special_Box.SelectedValue, objId, ControlType.Special);
                 }
             }
@@ -3965,7 +4052,9 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_Plan_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
                 {
-                    cbo_Plan_Box.SelectedIndex = 0;
+                    int maxAmount = cbo_Plan_Box.Items.Count;
+                    if(maxAmount > 0)
+                        cbo_Plan_Box.SelectedIndex = maxAmount - 1;
                     Cbo_Box_SelectionChangeCommitted(cbo_Plan_Box, null);
                 }
             }
@@ -3976,7 +4065,9 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_Project_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
                 {
-                    cbo_Project_Box.SelectedIndex = 0;
+                    int maxAmount = cbo_Project_Box.Items.Count;
+                    if(maxAmount > 0)
+                        cbo_Project_Box.SelectedIndex = maxAmount - 1;
                     Cbo_Box_SelectionChangeCommitted(cbo_Project_Box, null);
                 }
             }
@@ -3987,7 +4078,9 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_Topic_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
                 {
-                    cbo_Topic_Box.SelectedIndex = 0;
+                    int maxAmount = cbo_Topic_Box.Items.Count;
+                    if(maxAmount > 0)
+                        cbo_Topic_Box.SelectedIndex = maxAmount - 1;
                     Cbo_Box_SelectionChangeCommitted(cbo_Topic_Box, null);
                 }
             }
@@ -3998,7 +4091,9 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_Subject_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
                 {
-                    cbo_Subject_Box.SelectedIndex = 0;
+                    int maxAmount = cbo_Subject_Box.Items.Count;
+                    if(maxAmount > 0)
+                        cbo_Subject_Box.SelectedIndex = maxAmount - 1;
                     Cbo_Box_SelectionChangeCommitted(cbo_Subject_Box, null);
                 }
             }
@@ -4009,7 +4104,9 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_Imp_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
                 {
-                    cbo_Imp_Box.SelectedIndex = 0;
+                    int maxAmount = cbo_Imp_Box.Items.Count;
+                    if(maxAmount > 0)
+                        cbo_Imp_Box.SelectedIndex = maxAmount - 1;
                     Cbo_Box_SelectionChangeCommitted(cbo_Imp_Box, null);
                 }
             }
@@ -4020,18 +4117,14 @@ namespace 科技计划项目档案数据采集管理系统
                 cbo_Special_Box.ValueMember = "pb_id";
                 if(table.Rows.Count > 0)
                 {
-                    cbo_Special_Box.SelectedIndex = 0;
+                    int maxAmount = cbo_Special_Box.Items.Count;
+                    if(maxAmount > 0)
+                        cbo_Special_Box.SelectedIndex = maxAmount - 1;
                     Cbo_Box_SelectionChangeCommitted(cbo_Special_Box, null);
                 }
             }
         }
 
-        private object GetGCAmount(object unitCode)
-        {
-            int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_id) FROM processing_box WHERE pb_unit_id='{unitCode}'"));
-            return (amount + 1).ToString().PadLeft(6, '0');
-        }
-      
         /// <summary>
         /// 案卷盒切换事件
         /// </summary>
@@ -4042,31 +4135,61 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, tab_Plan_Info.Tag, ControlType.Plan);
+                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
+                if(gcid != null)
+                    txt_Plan_GCID.Text = GetValue(gcid);
+                else
+                    txt_Plan_GCID.Text = null;
             }
             else if(comboBox.Name.Contains("Project"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, tab_Project_Info.Tag, ControlType.Project);
+                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
+                if(gcid != null)
+                    txt_Project_GCID.Text = GetValue(gcid);
+                else
+                    txt_Project_GCID.Text = null;
             }
             else if(comboBox.Name.Contains("Topic"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, tab_Topic_Info.Tag, ControlType.Topic);
+                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
+                if(gcid != null)
+                    txt_Topic_GCID.Text = GetValue(gcid);
+                else
+                    txt_Topic_GCID.Text = null;
             }
             else if(comboBox.Name.Contains("Subject"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, tab_Subject_Info.Tag, ControlType.Subject);
+                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
+                if(gcid != null)
+                    txt_Subject_GCID.Text = GetValue(gcid);
+                else
+                    txt_Subject_GCID.Text = null;
             }
             else if(comboBox.Name.Contains("Imp"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, tab_Imp_Info.Tag, ControlType.Imp);
+                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
+                if(gcid != null)
+                    txt_Imp_GCID.Text = GetValue(gcid);
+                else
+                    txt_Imp_GCID.Text = null;
             }
             else if(comboBox.Name.Contains("Special"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, tab_Special_Info.Tag, ControlType.Special);
+                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
+                if(gcid != null)
+                    txt_Special_GCID.Text = GetValue(gcid);
+                else
+                    txt_Special_GCID.Text = null;
             }
         }
      
