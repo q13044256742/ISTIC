@@ -28,7 +28,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 Directory.CreateDirectory(targetPath);
             SetButtonState();
             string sourPath = txt_CD_Path.Text;
-            //光盘读写【非结构化数据】
+            /* -------------------- 光盘读写【非结构化数据】 -----------------------------*/
             if(!string.IsNullOrEmpty(sourPath))
             {
                 new Thread(delegate ()

@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Cataloguing;
 using 科技计划项目档案数据采集管理系统.KyoControl;
@@ -56,6 +57,7 @@ namespace 科技计划项目档案数据采集管理系统
         public Frm_MyWork(WorkType workType, object planId, object objId, ControlType controlType, bool isBacked)
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             this.isBacked = isBacked;
             OBJECT_ID = objId;
             PLAN_ID = planId;
@@ -756,9 +758,9 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(index == 1)//文件核查
                     {
-                        if(CheckValidMustEnter(dgv_Project_FileValid, "project_fl_"))
+                        if(CheckValidMustEnter(dgv_Project_FileValid, "project_fc_"))
                         {
-                            ModifyFileValid(dgv_Project_FileValid, objId, "project_fl_");
+                            ModifyFileValid(dgv_Project_FileValid, objId, "project_fc_");
                             XtraMessageBox.Show("文件核查信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         }
                         else
@@ -1004,6 +1006,27 @@ namespace 科技计划项目档案数据采集管理系统
                         result = false;
                     }
                 }
+
+                string startDate = txt_Project_StartTime.Text;
+                if(!string.IsNullOrEmpty(startDate))
+                {
+                    DateTime time = new DateTime();
+                    if(!DateTime.TryParse(startDate, out time))
+                    {
+                        errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入合法的日期");
+                        result = false;
+                    }
+                }
+                string endDate = txt_Project_EndTime.Text;
+                if(!string.IsNullOrEmpty(endDate))
+                {
+                    DateTime time = new DateTime();
+                    if(!DateTime.TryParse(endDate, out time))
+                    {
+                        errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入合法的日期");
+                        result = false;
+                    }
+                }
             }
             else if(name.Contains("Topic"))
             {
@@ -1037,6 +1060,27 @@ namespace 科技计划项目档案数据采集管理系统
                     errorProvider1.SetError(txt_Topic_ProUser, "提示：负责人不能为空");
                     result = false;
                 }
+
+                string startDate = txt_Topic_StartTime.Text;
+                if(!string.IsNullOrEmpty(startDate))
+                {
+                    DateTime time = new DateTime();
+                    if(!DateTime.TryParse(startDate, out time))
+                    {
+                        errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入合法的日期");
+                        result = false;
+                    }
+                }
+                string endDate = txt_Topic_EndTime.Text;
+                if(!string.IsNullOrEmpty(endDate))
+                {
+                    DateTime time = new DateTime();
+                    if(!DateTime.TryParse(endDate, out time))
+                    {
+                        errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入合法的日期");
+                        result = false;
+                    }
+                }
             }
             else if(name.Contains("Subject"))
             {
@@ -1069,6 +1113,27 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     errorProvider1.SetError(txt_Subject_ProUser, "提示：负责人不能为空");
                     result = false;
+                }
+
+                string startDate = txt_Subject_StartTime.Text;
+                if(!string.IsNullOrEmpty(startDate))
+                {
+                    DateTime time = new DateTime();
+                    if(!DateTime.TryParse(startDate, out time))
+                    {
+                        errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入合法的日期");
+                        result = false;
+                    }
+                }
+                string endDate = txt_Subject_EndTime.Text;
+                if(!string.IsNullOrEmpty(endDate))
+                {
+                    DateTime time = new DateTime();
+                    if(!DateTime.TryParse(endDate, out time))
+                    {
+                        errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入合法的日期");
+                        result = false;
+                    }
                 }
             }
             else if(name.Contains("Special"))
@@ -1300,8 +1365,8 @@ namespace 科技计划项目档案数据采集管理系统
                 string filed = txt_Project_Field.Text;
                 string theme = txt_Project_Theme.Text;
                 string funds = txt_Project_Funds.Text;
-                DateTime starttime = dtp_Project_StartTime.Value;
-                DateTime endtime = dtp_Project_EndTime.Value;
+                string starttime = txt_Project_StartTime.Text;
+                string endtime = txt_Project_EndTime.Text;
                 string year = txt_Project_Year.Text;
                 object unit = txt_Project_Unit.Text;
                 object province = txt_Project_Province.Text;
@@ -1333,8 +1398,8 @@ namespace 科技计划项目档案数据采集管理系统
                 string field = txt_Topic_Field.Text;
                 string theme = txt_Topic_Theme.Text;
                 string funds = txt_Topic_Fund.Text;
-                DateTime starttime = dtp_Topic_StartTime.Value;
-                DateTime endtime = dtp_Topic_EndTime.Value;
+                string starttime = txt_Topic_StartTime.Text;
+                string endtime = txt_Topic_EndTime.Text;
                 string year = txt_Topic_Year.Text;
                 object unit = txt_Topic_Unit.Text;
                 object province = txt_Topic_Province.Text;
@@ -1366,8 +1431,8 @@ namespace 科技计划项目档案数据采集管理系统
                 string field = txt_Subject_Field.Text;
                 string theme = txt_Subject_Theme.Text;
                 string fund = txt_Subject_Fund.Text;
-                DateTime starttime = dtp_Subject_StartTime.Value;
-                DateTime endtime = dtp_Subject_EndTime.Value;
+                string starttime = txt_Subject_StartTime.Text;
+                string endtime = txt_Subject_EndTime.Text;
                 string year = txt_Subject_Year.Text;
                 object unit = txt_Subject_Unit.Text;
                 string unituser = txt_Subject_Unituser.Text;
@@ -1432,8 +1497,8 @@ namespace 科技计划项目档案数据采集管理系统
                 string filed = txt_Project_Field.Text;
                 string theme = txt_Project_Theme.Text;
                 string funds = txt_Project_Funds.Text;
-                DateTime starttime = dtp_Project_StartTime.Value;
-                DateTime endtime = dtp_Project_EndTime.Value;
+                string starttime = txt_Project_StartTime.Text;
+                string endtime = txt_Project_EndTime.Text;
                 string year = txt_Project_Year.Text;
                 object unit = txt_Project_Unit.Text;
                 object province = txt_Project_Province.Text;
@@ -1456,8 +1521,8 @@ namespace 科技计划项目档案数据采集管理系统
                 string field = txt_Topic_Field.Text;
                 string theme = txt_Topic_Theme.Text;
                 string funds = txt_Topic_Fund.Text;
-                DateTime starttime = dtp_Topic_StartTime.Value;
-                DateTime endtime = dtp_Topic_EndTime.Value;
+                string starttime = txt_Topic_StartTime.Text;
+                string endtime = txt_Topic_EndTime.Text;
                 string year = txt_Topic_Year.Text;
                 object unit = txt_Topic_Unit.Text;
                 object province = txt_Topic_Province.Text;
@@ -1481,8 +1546,8 @@ namespace 科技计划项目档案数据采集管理系统
                 string field = txt_Subject_Field.Text;
                 string theme = txt_Subject_Theme.Text;
                 string funds = txt_Subject_Fund.Text;
-                DateTime starttime = dtp_Subject_StartTime.Value;
-                DateTime endtime = dtp_Subject_EndTime.Value;
+                string starttime = txt_Subject_StartTime.Text;
+                string endtime = txt_Subject_EndTime.Text;
                 string year = txt_Subject_Year.Text;
                 object unit = txt_Subject_Unit.Text;
                 string unituser = txt_Subject_Unituser.Text;
@@ -3163,7 +3228,7 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_Plan_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_File1,lsv_JH_File2, "jh", pbId, objId);
             }
-            else if(type == ControlType.Plan)
+            else if(type == ControlType.Project)
             {
                 txt_Project_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_XM_File1, lsv_JH_XM_File2, "jh_xm", pbId, objId);
@@ -3404,7 +3469,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, false);
                         }
                     }
-                    LoadFileBoxTable(value, tab_Project_Info.Tag, ControlType.Plan);
+                    LoadFileBoxTable(value, tab_Project_Info.Tag, ControlType.Project);
                 }
                 else
                     XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
@@ -4928,8 +4993,11 @@ namespace 科技计划项目档案数据采集管理系统
             StringBuilder builder = new StringBuilder();
             for(int i = 0; i < listView.Items.Count; i++)
                 builder.Append(listView.Items[i].SubItems[0].Text + ",");
-            string ids = builder.Remove(builder.Length - 1, 1).ToString();
-            SqlHelper.ExecuteNonQuery($"UPDATE processing_box SET pb_files_id='{ids}' WHERE pb_id='{pbid}'");
+            if(builder.Length > 0)
+            {
+                string ids = builder.Remove(builder.Length - 1, 1).ToString();
+                SqlHelper.ExecuteNonQuery($"UPDATE processing_box SET pb_files_id='{ids}' WHERE pb_id='{pbid}'");
+            }
         }
     
         /// <summary>
@@ -5379,6 +5447,41 @@ namespace 科技计划项目档案数据采集管理系统
                     flag = false;
             }
             return flag;
+        }
+
+        private void Dtp_Project_StartTime(object sender, EventArgs e)
+        {
+            DateTimePicker picker = sender as DateTimePicker;
+            if(picker.Name.Contains("Project"))
+                txt_Project_StartTime.Text = picker.Value.ToString("yyyy-MM-dd");
+            else if(picker.Name.Contains("Topic"))
+                txt_Topic_StartTime.Text = picker.Value.ToString("yyyy-MM-dd");
+            else if(picker.Name.Contains("Subject"))
+                txt_Subject_StartTime.Text = picker.Value.ToString("yyyy-MM-dd");
+        }
+
+        private void Dtp_Project_EndTime(object sender, EventArgs e)
+        {
+            DateTimePicker picker = sender as DateTimePicker;
+            if(picker.Name.Contains("Project"))
+                txt_Project_EndTime.Text = picker.Value.ToString("yyyy-MM-dd");
+            else if(picker.Name.Contains("Topic"))
+                txt_Topic_EndTime.Text = picker.Value.ToString("yyyy-MM-dd");
+            else if(picker.Name.Contains("Subject"))
+                txt_Subject_EndTime.Text = picker.Value.ToString("yyyy-MM-dd");
+        }
+
+        private void togle_Toggled(object sender, EventArgs e)
+        {
+            if(togle.IsOn)
+            {
+                treeView.Width = 250;
+            }
+            else
+            {
+                treeView.Width = 0;
+            }
+            tab_MenuList.Update();
         }
     }
 }
