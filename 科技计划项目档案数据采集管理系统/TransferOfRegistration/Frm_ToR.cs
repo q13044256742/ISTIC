@@ -180,6 +180,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 new DataGridViewTextBoxColumn(){ Name = "trc_code", HeaderText = "光盘编号", FillWeight = 8},
                 new DataGridViewTextBoxColumn(){ Name = "trc_name", HeaderText = "光盘名称", FillWeight = 10},
                 new DataGridViewTextBoxColumn(){ Name = "trc_remark", HeaderText = "备注", FillWeight = 20},
+                new DataGridViewButtonColumn(){ Name = "trc_read", HeaderText = "操作", FillWeight = 5, Text = "读写", UseColumnTextForButtonValue = true},
             });
             string querySql = $"SELECT trc_id, trc_name, trc_code, trc_remark FROM transfer_registraion_cd WHERE trp_id='{pid}' ORDER BY trc_sort";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
@@ -212,9 +213,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             {
                 //当前点击单元格的值
                 object value = dgv_SWDJ.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-
+                string name = dgv_SWDJ.Columns[e.ColumnIndex].Name;
                 //光盘数-点击事件
-                if ("trp_cd_amount".Equals(dgv_SWDJ.Columns[e.ColumnIndex].Name))
+                if ("trp_cd_amount".Equals(name))
                 {
                     object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
                     if (Convert.ToInt32(value) != 0)
@@ -223,7 +224,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     }
                 }
                 //添加光盘-点击事件
-                else if ("addpc".Equals(dgv_SWDJ.Columns[e.ColumnIndex].Name))
+                else if ("addpc".Equals(name))
                 {
                     object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
                     Frm_AddCD frm = new Frm_AddCD(currentRowId.ToString());
@@ -244,7 +245,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     }
                 }
                 //批次名称-点击事件
-                else if ("trp_name".Equals(dgv_SWDJ.Columns[e.ColumnIndex].Name))
+                else if ("trp_name".Equals(name))
                 {
                     object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
                     Frm_AddPC frm = new Frm_AddPC(false, currentRowId.ToString());
@@ -254,7 +255,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     }
                 }
                 //提交 - 点击事件
-                else if ("submit".Equals(dgv_SWDJ.Columns[e.ColumnIndex].Name))
+                else if ("submit".Equals(name))
                 {
                     object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
                     if (currentRowId != null && !"已提交".Equals(dgv_SWDJ.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
@@ -275,6 +276,19 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         }
                         else
                             XtraMessageBox.Show("当前批次下存在尚未处理的光盘。", "提交失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    }
+                }
+                //光盘读写事件
+                else if("trc_read".Equals(name))
+                {
+                    object trcId = dgv_SWDJ.Rows[e.RowIndex].Cells["trc_id"].Value;
+                    Frm_CDRead read = new Frm_CDRead(trcId);
+                    if(read.ShowDialog() == DialogResult.OK)
+                    {
+                        //更新光盘信息
+                        string updateSql = $"UPDATE transfer_registraion_cd SET trc_status='{(int)ReadStatus.ReadSuccess}' WHERE trc_id='{trcId}'";
+                        SqlHelper.ExecuteNonQuery(updateSql);
+                        XtraMessageBox.Show("读写成功。");
                     }
                 }
             }

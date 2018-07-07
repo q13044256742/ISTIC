@@ -633,6 +633,8 @@ namespace 科技计划项目档案数据采集管理系统
                             if(planId != null)
                             {
                                 Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Imp, planId, objId, ControlType.Imp, false);
+                                object trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM transfer_registraion_cd WHERE trp_id='{objId}'");
+                                frm.trcId = trcId;
                                 frm.ShowDialog();
                             }
                             else

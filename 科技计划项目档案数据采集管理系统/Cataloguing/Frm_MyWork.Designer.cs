@@ -3691,10 +3691,10 @@
             this.project.Controls.Add(this.tab_Project_Info);
             this.project.Controls.Add(this.pal_Project_BtnGroup);
             this.project.Controls.Add(this.pal_Project);
-            this.project.Location = new System.Drawing.Point(4, 23);
+            this.project.Location = new System.Drawing.Point(4, 30);
             this.project.Name = "project";
             this.project.Padding = new System.Windows.Forms.Padding(3);
-            this.project.Size = new System.Drawing.Size(1086, 702);
+            this.project.Size = new System.Drawing.Size(1086, 695);
             this.project.TabIndex = 1;
             this.project.Text = "项目";
             // 
@@ -3708,7 +3708,7 @@
             this.tab_Project_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Project_Info.Name = "tab_Project_Info";
             this.tab_Project_Info.SelectedTabPage = this.tabPage1;
-            this.tab_Project_Info.Size = new System.Drawing.Size(1080, 299);
+            this.tab_Project_Info.Size = new System.Drawing.Size(1080, 292);
             this.tab_Project_Info.TabIndex = 3;
             this.tab_Project_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage1,
@@ -3724,7 +3724,7 @@
             this.tabPage1.Image = ((System.Drawing.Image)(resources.GetObject("tabPage1.Image")));
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1074, 260);
+            this.tabPage1.Size = new System.Drawing.Size(1074, 253);
             this.tabPage1.Text = "文件列表";
             // 
             // dgv_Project_FileList
@@ -3758,7 +3758,7 @@
             this.dgv_Project_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Project_FileList.Name = "dgv_Project_FileList";
             this.dgv_Project_FileList.RowTemplate.Height = 23;
-            this.dgv_Project_FileList.Size = new System.Drawing.Size(1068, 254);
+            this.dgv_Project_FileList.Size = new System.Drawing.Size(1068, 247);
             this.dgv_Project_FileList.TabIndex = 0;
             this.dgv_Project_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
             this.dgv_Project_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
@@ -4173,7 +4173,7 @@
             this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_Submit);
             this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_Save);
             this.pal_Project_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_Project_BtnGroup.Location = new System.Drawing.Point(3, 659);
+            this.pal_Project_BtnGroup.Location = new System.Drawing.Point(3, 652);
             this.pal_Project_BtnGroup.Name = "pal_Project_BtnGroup";
             this.pal_Project_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Project_BtnGroup.TabIndex = 4;
@@ -5234,12 +5234,13 @@
             // 
             // togle
             // 
+            this.togle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.togle.EditValue = true;
-            this.togle.Location = new System.Drawing.Point(1238, 2);
+            this.togle.Location = new System.Drawing.Point(1265, 2);
             this.togle.Name = "togle";
-            this.togle.Properties.OffText = "隐藏";
-            this.togle.Properties.OnText = "展开";
-            this.togle.Size = new System.Drawing.Size(99, 25);
+            this.togle.Properties.OffText = "";
+            this.togle.Properties.OnText = "";
+            this.togle.Size = new System.Drawing.Size(72, 25);
             this.togle.TabIndex = 4;
             this.togle.Toggled += new System.EventHandler(this.togle_Toggled);
             // 

@@ -991,18 +991,24 @@ namespace 科技计划项目档案数据采集管理系统
             errorProvider1.Clear();
             if(name.Contains("Project"))
             {
-                string proCode = txt_Project_Code.Text.Trim();
+                string proCode = txt_Project_Code.Text;
                 if(string.IsNullOrEmpty(proCode))
                 {
                     errorProvider1.SetError(txt_Project_Code, "提示：项目编号不能为空");
                     result = false;
                 }
+                else if(proCode.Contains(" "))
+                {
+                    errorProvider1.SetError(txt_Project_Code, "提示：项目编号不能含有空格");
+                    result = false;
+                }
                 else if(tab_Project_Info.Tag == null)
                 {
-                    int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_code='{proCode}' AND pi_obj_id='{pid}';");
+                    int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_code='{proCode}';");
+                    count += SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE ti_code='{proCode}';");
                     if(count > 0)
                     {
-                        errorProvider1.SetError(txt_Project_Code, "提示：此项目编号已存在");
+                        errorProvider1.SetError(txt_Project_Code, "提示：此项目/课题编号已存在");
                         result = false;
                     }
                 }
@@ -1036,12 +1042,18 @@ namespace 科技计划项目档案数据采集管理系统
                     errorProvider1.SetError(txt_Topic_Code, "提示：课题编号不能为空");
                     result = false;
                 }
+                else if(topCode.Contains(" "))
+                {
+                    errorProvider1.SetError(txt_Topic_Code, "提示：课题编号不能含有空格");
+                    result = false;
+                }
                 else if(tab_Topic_Info.Tag == null)
                 {
-                    int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE ti_code='{topCode}' AND ti_obj_id='{pid}';");
+                    int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE ti_code='{topCode}';");
+                    count += SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_code='{topCode}';");
                     if(count > 0)
                     {
-                        errorProvider1.SetError(txt_Topic_Code, "提示：此课题编号已存在");
+                        errorProvider1.SetError(txt_Topic_Code, "提示：此项目/课题编号已存在");
                         result = false;
                     }
                 }
@@ -1088,6 +1100,11 @@ namespace 科技计划项目档案数据采集管理系统
                 if(string.IsNullOrEmpty(subCode))
                 {
                     errorProvider1.SetError(txt_Subject_Code, "提示：课题编号不能为空");
+                    result = false;
+                }
+                else if(subCode.Contains(" "))
+                {
+                    errorProvider1.SetError(txt_Subject_Code, "提示：子课题编号不能含有空格");
                     result = false;
                 }
                 if(tab_Subject_Info.Tag == null)
@@ -1636,7 +1653,7 @@ namespace 科技计划项目档案数据采集管理系统
                 categor = Guid.NewGuid().ToString();
                 string value = GetValue(code).Split('-')[0];
                 int _sort = ((DataGridViewComboBoxCell)row.Cells[key + "categor"]).Items.Count - 1;
-
+                
                 sqlString += "INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
                     $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');";
             }
