@@ -110,6 +110,8 @@ namespace 科技计划项目档案数据采集管理系统
                     tab_Plan_Info.Tag = node.Name;
                     EnableControls(ControlType.Plan, Convert.ToInt32(row["pi_submit_status"]) != 2);
                     LoadFileList(dgv_Plan_FileList, "plan_fl_", node.Name);
+                    LoadFileValidList(dgv_Plan_FileValid, node.Name, "plan_fc_");
+                    LoadDocList(node.Name, ControlType.Plan);
                     if(isBacked)
                         btn_Plan_QTReason.Text = $"质检意见({GetAdvincesAmount(node.Name)})";
                 }
@@ -127,7 +129,7 @@ namespace 科技计划项目档案数据采集管理系统
             plan.Tag = node.Name;
             if(node.ForeColor == DisEnbleColor)
             {
-                pal_JH_BtnGroup.Enabled = false;
+                pal_Plan_BtnGroup.Enabled = false;
                 cbo_Plan_HasNext.Enabled = false;
             }
             if(isBacked)
@@ -161,7 +163,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dataGridView.Rows[index].Cells[key + "type"].Value = dataTable.Rows[i]["pfl_type"];
                 dataGridView.Rows[index].Cells[key + "pages"].Value = dataTable.Rows[i]["pfl_pages"];
                 dataGridView.Rows[index].Cells[key + "amount"].Value = dataTable.Rows[i]["pfl_amount"];
-                dataGridView.Rows[index].Cells[key + "date"].Value = GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyyMMdd");
+                dataGridView.Rows[index].Cells[key + "date"].Value = GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd");
                 dataGridView.Rows[index].Cells[key + "unit"].Value = dataTable.Rows[i]["pfl_unit"];
                 dataGridView.Rows[index].Cells[key + "carrier"].Value = dataTable.Rows[i]["pfl_carrier"];
                 dataGridView.Rows[index].Cells[key + "link"].Value = dataTable.Rows[i]["pfl_link"];
@@ -228,17 +230,17 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Frm_MyWork_Load(object sender, EventArgs e)
         {
-            tab_Plan_Info.Height = 345;
+            tab_Plan_Info.Height = 392;
             tab_Plan_Info.Top = 310;
-            tab_Project_Info.Height = 345;
+            tab_Project_Info.Height = 392;
             tab_Project_Info.Top = 310;
-            tab_Topic_Info.Height = 345;
+            tab_Topic_Info.Height = 392;
             tab_Topic_Info.Top = 310;
-            tab_Subject_Info.Height = 345;
+            tab_Subject_Info.Height = 392;
             tab_Subject_Info.Top = 310;
-            tab_Imp_Info.Height = 345;
+            tab_Imp_Info.Height = 392;
             tab_Imp_Info.Top = 310;
-            tab_Special_Info.Height = 345;
+            tab_Special_Info.Height = 392;
             tab_Special_Info.Top = 310;
 
             MinimumSize = new Size(Width, Height);
@@ -304,6 +306,13 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Subject_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Imp_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Special_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+            dgv_Plan_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Project_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Topic_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Subject_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Special_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
         }
  
         /// <summary>
@@ -325,7 +334,6 @@ namespace 科技计划项目档案数据采集管理系统
             formColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_state");
             formColumn.DisplayMember = "dd_name";
             formColumn.ValueMember = "dd_id";
-            formColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
         }
 
         private void InitialFormatList(DataGridView dataGridView, string key)
@@ -334,7 +342,6 @@ namespace 科技计划项目档案数据采集管理系统
             formatColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_format");
             formatColumn.DisplayMember = "dd_name";
             formatColumn.ValueMember = "dd_id";
-            formatColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
         }
 
         private void InitialCarrierList(DataGridView dataGridView, string key)
@@ -343,7 +350,6 @@ namespace 科技计划项目档案数据采集管理系统
             carrierColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_zt");
             carrierColumn.DisplayMember = "dd_name";
             carrierColumn.ValueMember = "dd_id";
-            carrierColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
         }
 
         private void InitialSecretList(DataGridView dataGridView, string key)
@@ -352,7 +358,6 @@ namespace 科技计划项目档案数据采集管理系统
             secretColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_mj");
             secretColumn.DisplayMember = "dd_name";
             secretColumn.ValueMember = "dd_id";
-            secretColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
         }
 
         private void InitialTypeList(DataGridView dataGridView, string key)
@@ -361,7 +366,6 @@ namespace 科技计划项目档案数据采集管理系统
             filetypeColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_type");
             filetypeColumn.DisplayMember = "dd_name";
             filetypeColumn.ValueMember = "dd_id";
-            filetypeColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
         }
    
         /// <summary>
@@ -391,7 +395,6 @@ namespace 科技计划项目档案数据采集管理系统
             comboBoxColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_jd");
             comboBoxColumn.DisplayMember = "dd_name";
             comboBoxColumn.ValueMember = "dd_id";
-            comboBoxColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
         }
    
         /// <summary>
@@ -402,12 +405,11 @@ namespace 科技计划项目档案数据采集管理系统
         {
             //文件类别
             DataGridViewComboBoxCell categorCell = dataGridViewRow.Cells[key + "categor"] as DataGridViewComboBoxCell;
-
+            dataGridViewRow.Cells[key + "categorname"].Tag = jdId;
             string querySql = $"SELECT dd_id, dd_name+' '+extend_3 as dd_name FROM data_dictionary WHERE dd_pId='{jdId}' ORDER BY dd_sort";
             categorCell.DataSource = SqlHelper.ExecuteQuery(querySql);
             categorCell.DisplayMember = "dd_name";
             categorCell.ValueMember = "dd_id";
-            categorCell.Style = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
             if(categorCell.Items.Count > 0)
                 categorCell.Style.NullValue = categorCell.Items[0];
         }
@@ -552,8 +554,8 @@ namespace 科技计划项目档案数据采集管理系统
             if(comboBox.SelectedIndex == comboBox.Items.Count - 1)
             {
                 currentRow.DataGridView.Columns[key + "categorname"].Visible = true;
-
-                int _amount = comboBox.Items.Count;
+                object id = currentRow.Cells[key + "categorname"].Tag;
+                int _amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(dd_id) FROM data_dictionary WHERE dd_pId='{id}'");
                 string tempKey = ((DataRowView)comboBox.Items[0]).Row.ItemArray[1].ToString();
                 string _key = GetValue(tempKey).Substring(0, 1) + _amount.ToString().PadLeft(2, '0');
                 currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
@@ -561,7 +563,8 @@ namespace 科技计划项目档案数据采集管理系统
             else
             {
                 string _key = comboBox.Text.Split(' ')[0];
-                currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
+                if(_key.Contains("A") || _key.Contains("B") || _key.Contains("C") || _key.Contains("D"))
+                    currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
             }
         }
 
@@ -1245,8 +1248,9 @@ namespace 科技计划项目档案数据采集管理系统
             bool result = true;
             for(int i = 0; i < rows.Count - 1; i++)
             {
+                //文件名称
                 DataGridViewCell cellName = rows[i].Cells[key + "name"];
-                if(cellName.Value == null || string.IsNullOrEmpty(GetValue(cellName.Value).Trim()))
+                if(string.IsNullOrEmpty(GetValue(cellName.Value)))
                 {
                     cellName.ErrorText = "温馨提示：文件名不能为空。";
                     result = false;
@@ -1270,7 +1274,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                 //检测文件编号重复
                 DataGridViewCell cellCode = rows[i].Cells[key + "code"];
-                if(cellCode.Value == null || string.IsNullOrEmpty(GetValue(cellCode.Value).Trim()))
+                if(string.IsNullOrEmpty(GetValue(cellCode.Value)))
                 {
                     cellCode.ErrorText = "温馨提示：文件编号不能为空。";
                     result = false;
@@ -1292,22 +1296,31 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
+                //页数
                 DataGridViewCell pagesCell = rows[i].Cells[key + "pages"];
-                if(pagesCell.Value == null || string.IsNullOrEmpty(GetValue(pagesCell.Value)) || Convert.ToInt32(pagesCell.Value) == 0)
+                if(string.IsNullOrEmpty(GetValue(pagesCell.Value)))
                 {
                     pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
                     result = false;
                 }
                 else
                 {
-                    int pageValue = Convert.ToInt32(pagesCell.Value);
-                    if(pageValue > 9999)
+                    bool flag = int.TryParse(GetValue(pagesCell.Value), out int page);
+                    if(!flag)
                     {
-                        pagesCell.ErrorText = "温馨提示：页数不能超过4位数。";
+                        pagesCell.ErrorText = "温馨提示：页数不能为0。";
                         result = false;
                     }
                     else
-                        pagesCell.ErrorText = null;
+                    {
+                        if(page > 9999)
+                        {
+                            pagesCell.ErrorText = "温馨提示：页数不能超过4位数。";
+                            result = false;
+                        }
+                        else
+                            pagesCell.ErrorText = null;
+                    }
                 }
 
                 bool isOtherType = "其他".Equals(GetValue(rows[i].Cells[key + "categor"].FormattedValue).Trim());
@@ -1316,15 +1329,43 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(categorCode.Value == null || string.IsNullOrEmpty(GetValue(categorCode.Value).Trim()))
                     {
-                        categorCode.ErrorText = "温馨提示：类型名称不能为空。";
+                        categorCode.ErrorText = "提示：类型名称不能为空。";
                         result = false;
                         break;
                     }
                     else
                         categorCode.ErrorText = null;
+
+                    //文件类别是否已存在
+                    string codeParam = GetValue(cellCode.Value);
+                    if(string.IsNullOrEmpty(cellCode.ErrorText) && !string.IsNullOrEmpty(codeParam))
+                    {
+                        codeParam = codeParam.Split('-')[0];
+                        int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(dd_id) FROM data_dictionary WHERE dd_name = '{codeParam}'");
+                        if(index > 0)
+                        {
+                            cellCode.ErrorText = "提示：文件类别已存在。";
+                            result = false;
+                        }
+                        else
+                            cellCode.ErrorText = null;
+                    }
                 }
                 else
                     categorCode.ErrorText = null;
+
+                DataGridViewCell dateCell = rows[i].Cells[key + "date"];
+                if(!string.IsNullOrEmpty(GetValue(dateCell.Value)))
+                {
+                    bool flag = DateTime.TryParse(GetValue(dateCell.Value), out DateTime date);
+                    if(!flag)
+                    {
+                        dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
+                        result = false;
+                    }
+                    else
+                        dateCell.ErrorText = null;
+                }
             }
             return result;
         }
@@ -1513,7 +1554,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string name = txt_Project_Name.Text;
                 string filed = txt_Project_Field.Text;
                 string theme = txt_Project_Theme.Text;
-                string funds = txt_Project_Funds.Text;
+                decimal funds = txt_Project_Funds.Value;
                 string starttime = txt_Project_StartTime.Text;
                 string endtime = txt_Project_EndTime.Text;
                 string year = txt_Project_Year.Text;
@@ -1537,7 +1578,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string name = txt_Topic_Name.Text;
                 string field = txt_Topic_Field.Text;
                 string theme = txt_Topic_Theme.Text;
-                string funds = txt_Topic_Fund.Text;
+                decimal funds = txt_Topic_Fund.Value;
                 string starttime = txt_Topic_StartTime.Text;
                 string endtime = txt_Topic_EndTime.Text;
                 string year = txt_Topic_Year.Text;
@@ -1562,7 +1603,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string planType = string.Empty;
                 string field = txt_Subject_Field.Text;
                 string theme = txt_Subject_Theme.Text;
-                string funds = txt_Subject_Fund.Text;
+                decimal funds = txt_Subject_Fund.Value;
                 string starttime = txt_Subject_StartTime.Text;
                 string endtime = txt_Subject_EndTime.Text;
                 string year = txt_Subject_Year.Text;
@@ -3125,7 +3166,8 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_Imp_Name.Text = GetValue(impRow["imp_name"]);
                 txt_Imp_Intro.Text = GetValue(impRow["imp_intro"]);
                 LoadFileList(dgv_Imp_FileList, "imp_fl_", GetValue(impRow["imp_id"]));
-
+                LoadFileValidList(dgv_Imp_FileValid, node.Name, "imp_fc_");
+                LoadDocList(node.Name, ControlType.Imp);
                 //如果非被人创建则不允许修改
                 if(!impRow["imp_source_id"].Equals(UserHelper.GetInstance().User.UserKey))
                 {
@@ -3291,16 +3333,16 @@ namespace 科技计划项目档案数据采集管理系统
             leftView.Columns.AddRange(new ColumnHeader[]
             {
                     new ColumnHeader{ Name = $"{key}_file1_id", Text = "主键", Width = 0},
-                    new ColumnHeader{ Name = $"{key}_file1_type", Text = "文件类别", TextAlign = HorizontalAlignment.Center ,Width = 75},
-                    new ColumnHeader{ Name = $"{key}_file1_name", Text = "文件名称", Width = 250},
+                    new ColumnHeader{ Name = $"{key}_file1_type", Text = "文件类别", TextAlign = HorizontalAlignment.Center ,Width = 85},
+                    new ColumnHeader{ Name = $"{key}_file1_name", Text = "文件名称", Width = 350},
                     new ColumnHeader{ Name = $"{key}_file1_date", Text = "形成日期", Width = 100}
             });
             rightView.Columns.AddRange(new ColumnHeader[]
             {
                     new ColumnHeader{ Name = $"{key}_file2_id", Text = "主键", Width = 0},
                     new ColumnHeader{ Name = $"{key}_file2_number", Text = "序号", Width = 50},
-                    new ColumnHeader{ Name = $"{key}_file2_type", Text = "文件类别", TextAlign = HorizontalAlignment.Center ,Width = 75},
-                    new ColumnHeader{ Name = $"{key}_file2_name", Text = "文件名称", Width = 250},
+                    new ColumnHeader{ Name = $"{key}_file2_type", Text = "文件类别", TextAlign = HorizontalAlignment.Center ,Width = 85},
+                    new ColumnHeader{ Name = $"{key}_file2_name", Text = "文件名称", Width = 350},
                     new ColumnHeader{ Name = $"{key}_file2_date", Text = "形成日期", Width = 100}
             });
             //未归档
@@ -3336,7 +3378,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ListViewItem item = rightView.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
                     item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
                     {
-                        new ListViewItem.ListViewSubItem(){ Text = GetValue(i + 1).ToString().PadLeft(2,'0') },
+                        new ListViewItem.ListViewSubItem(){ Text = GetValue(i + 1) },
                         new ListViewItem.ListViewSubItem(){ Text = GetValue(_dataTable.Rows[i]["dd_name"]) },
                         new ListViewItem.ListViewSubItem(){ Text = GetValue(_dataTable.Rows[i]["pfl_name"]) },
                         new ListViewItem.ListViewSubItem(){ Text = GetDateValue(_dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd") },
@@ -4137,8 +4179,8 @@ namespace 科技计划项目档案数据采集管理系统
                     int maxAmount = cbo_Plan_Box.Items.Count;
                     if(maxAmount > 0)
                         cbo_Plan_Box.SelectedIndex = maxAmount - 1;
-                    Cbo_Box_SelectionChangeCommitted(cbo_Plan_Box, null);
                 }
+                Cbo_Box_SelectionChangeCommitted(cbo_Plan_Box, null);
             }
             else if(type == ControlType.Project)
             {
@@ -4150,8 +4192,8 @@ namespace 科技计划项目档案数据采集管理系统
                     int maxAmount = cbo_Project_Box.Items.Count;
                     if(maxAmount > 0)
                         cbo_Project_Box.SelectedIndex = maxAmount - 1;
-                    Cbo_Box_SelectionChangeCommitted(cbo_Project_Box, null);
                 }
+                Cbo_Box_SelectionChangeCommitted(cbo_Project_Box, null);
             }
             else if(type == ControlType.Topic)
             {
@@ -4163,8 +4205,8 @@ namespace 科技计划项目档案数据采集管理系统
                     int maxAmount = cbo_Topic_Box.Items.Count;
                     if(maxAmount > 0)
                         cbo_Topic_Box.SelectedIndex = maxAmount - 1;
-                    Cbo_Box_SelectionChangeCommitted(cbo_Topic_Box, null);
                 }
+                Cbo_Box_SelectionChangeCommitted(cbo_Topic_Box, null);
             }
             else if(type == ControlType.Subject)
             {
@@ -4176,8 +4218,8 @@ namespace 科技计划项目档案数据采集管理系统
                     int maxAmount = cbo_Subject_Box.Items.Count;
                     if(maxAmount > 0)
                         cbo_Subject_Box.SelectedIndex = maxAmount - 1;
-                    Cbo_Box_SelectionChangeCommitted(cbo_Subject_Box, null);
                 }
+                Cbo_Box_SelectionChangeCommitted(cbo_Subject_Box, null);
             }
             else if(type == ControlType.Imp)
             {
@@ -4189,8 +4231,8 @@ namespace 科技计划项目档案数据采集管理系统
                     int maxAmount = cbo_Imp_Box.Items.Count;
                     if(maxAmount > 0)
                         cbo_Imp_Box.SelectedIndex = maxAmount - 1;
-                    Cbo_Box_SelectionChangeCommitted(cbo_Imp_Box, null);
                 }
+                Cbo_Box_SelectionChangeCommitted(cbo_Imp_Box, null);
             }
             else if(type == ControlType.Special)
             {
@@ -4202,8 +4244,8 @@ namespace 科技计划项目档案数据采集管理系统
                     int maxAmount = cbo_Special_Box.Items.Count;
                     if(maxAmount > 0)
                         cbo_Special_Box.SelectedIndex = maxAmount - 1;
-                    Cbo_Box_SelectionChangeCommitted(cbo_Special_Box, null);
                 }
+                Cbo_Box_SelectionChangeCommitted(cbo_Special_Box, null);
             }
         }
 
@@ -4353,7 +4395,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Project_Name.Text = GetValue(row["pi_name"]);
                     txt_Project_Field.Text = GetValue(row["pi_field"]);
                     txt_Project_Theme.Text = GetValue(row["pb_theme"]);
-                    txt_Project_Funds.Text = GetValue(row["pi_funds"]);
+                    txt_Project_Funds.Value = GetDecemalValue(row["pi_funds"]);
 
                     string startTime = GetValue(row["pi_start_datetime"]);
                     DateTime _startTime = new DateTime();
@@ -4373,16 +4415,17 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Project_Intro.Text = GetValue(row["pi_intro"]);
 
                     EnableControls(type, Convert.ToInt32(row["pi_submit_status"]) != 2);
+
                     LoadFileList(dgv_Project_FileList, "project_fl_", node.Name);
+                    LoadFileValidList(dgv_Project_FileValid, node.Name, "project_fc_");
+                    LoadDocList(node.Name, ControlType.Project);
+
                     project.Tag = row["pi_obj_id"];
 
-                    if(!row["pi_worker_id"].Equals(UserHelper.GetInstance().User.UserKey))
-                    {
-                        cbo_Project_HasNext.Enabled = false;
-                        pal_Project_BtnGroup.Enabled = false;
-                    }
+                    bool result = row["pi_worker_id"].Equals(UserHelper.GetInstance().User.UserKey);
+                    pal_Project_BtnGroup.Enabled = result;
                 }
-                
+
                 if(isBacked)
                 {
                     btn_Project_QTReason.Text = $"质检意见({GetAdvincesAmount(node.Name)})";
@@ -4400,7 +4443,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Topic_Name.Text = GetValue(row["ti_name"]);
                     txt_Topic_Field.Text = GetValue(row["ti_field"]);
                     txt_Topic_Theme.Text = GetValue(row["tb_theme"]);
-                    txt_Topic_Fund.Text = GetValue(row["ti_funds"]);
+                    txt_Topic_Fund.Value = GetDecemalValue(row["ti_funds"]);
 
                     string startTime = GetValue(row["ti_start_datetime"]);
                     DateTime _startTime = new DateTime();
@@ -4419,15 +4462,14 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Topic_Intro.Text = GetValue(row["ti_intro"]);
                     EnableControls(type, Convert.ToInt32(row["ti_submit_status"]) != 2);
                     LoadFileList(dgv_Topic_FileList, "topic_fl_", node.Name);
+                    LoadFileValidList(dgv_Topic_FileValid, node.Name, "topic_fc_");
+                    LoadDocList(node.Name, ControlType.Topic);
                     topic.Tag = row["ti_obj_id"];
 
-                    if(!row["ti_worker_id"].Equals(UserHelper.GetInstance().User.UserKey))
-                    {
-                        cbo_Topic_HasNext.Enabled = false;
-                        pal_Topic_BtnGroup.Enabled = false;
-                    }
+                    bool result = row["ti_worker_id"].Equals(UserHelper.GetInstance().User.UserKey);
+                    pal_Topic_BtnGroup.Enabled = result;
                 }
-               
+
                 if(isBacked)
                 {
                     btn_Topic_QTReason.Text = $"质检意见({GetAdvincesAmount(node.Name)})";
@@ -4447,7 +4489,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Subject_Name.Text = GetValue(row["si_name"]);
                     txt_Subject_Field.Text = GetValue(row["si_field"]);
                     txt_Subject_Theme.Text = GetValue(row["si_theme"]);
-                    txt_Subject_Fund.Text = GetValue(row["si_funds"]);
+                    txt_Subject_Fund.Value = GetDecemalValue(row["si_funds"]);
 
                     string startTime = GetValue(row["si_start_datetime"]);
                     DateTime _startTime = new DateTime();
@@ -4468,14 +4510,14 @@ namespace 科技计划项目档案数据采集管理系统
 
                     EnableControls(type, Convert.ToInt32(row["si_submit_status"]) != 2);
                     LoadFileList(dgv_Subject_FileList, "subject_fl_", node.Name);
+                    LoadFileValidList(dgv_Subject_FileValid, node.Name, "subject_fc_");
+                    LoadDocList(node.Name, ControlType.Subject);
                     subject.Tag = row["si_obj_id"];
 
-                    if(!row["si_worker_id"].Equals(UserHelper.GetInstance().User.UserKey))
-                    {
-                        pal_Subject_BtnGroup.Enabled = false;
-                    }
+                    bool result = row["si_worker_id"].Equals(UserHelper.GetInstance().User.UserKey);
+                    pal_Subject_BtnGroup.Enabled = result;
                 }
-                
+
                 if(isBacked)
                 {
                     btn_Subject_QTReason.Text = $"质检意见({GetAdvincesAmount(node.Name)})";
@@ -4492,26 +4534,35 @@ namespace 科技计划项目档案数据采集管理系统
                     tab_Special_Info.Tag = GetValue(row["imp_id"]);
                     EnableControls(ControlType.Special, Convert.ToInt32(row["imp_submit_status"]) != 2);
                     LoadFileList(dgv_Special_FileList, "special_fl_", GetValue(row["imp_id"]));
+                    LoadFileValidList(dgv_Special_FileValid, node.Name, "special_fc_");
+                    LoadDocList(node.Name, ControlType.Special);
                     special.Tag = row["imp_obj_id"];
                 }
                 if(workType == WorkType.PaperWork_Special)
                     special.Text = "研发信息";
                 cbo_Special_HasNext.SelectedIndex = 0;
 
-                pal_Imp_Dev_BtnGroup.Enabled = !(node.ForeColor == DisEnbleColor);
+                pal_Special_BtnGroup.Enabled = !(node.ForeColor == DisEnbleColor);
                 if(isBacked)
                 {
                     btn_Special_QTReason.Text = $"质检意见({GetAdvincesAmount(node.Name)})";
                     cbo_Special_HasNext.Enabled = false;
                 }
-                if(!row["imp_source_id"].Equals(UserHelper.GetInstance().User.UserKey))
-                {
-                    //cbo_Special_HasNext.Enabled = false;
-                    pal_Imp_Dev_BtnGroup.Enabled = false;
-                }
+                bool result = row["imp_source_id"].Equals(UserHelper.GetInstance().User.UserKey);
+                //cbo_Special_HasNext.Enabled = false;
+                pal_Special_BtnGroup.Enabled = result;
             }
         }
-        
+
+        private decimal GetDecemalValue(object value)
+        {
+            decimal result = 0;
+            string param = GetValue(value);
+            if(!string.IsNullOrEmpty(param))
+                Decimal.TryParse(param, out result);
+            return result;
+        }
+
         /// <summary>
         /// 新增对象事件
         /// </summary>
@@ -4631,7 +4682,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(type == ControlType.Plan)
             {
                 //tab_JH_FileInfo.Enabled = pal_JH_BasicInfo.Enabled = enable;
-                foreach(Control item in pal_JH_BtnGroup.Controls)
+                foreach(Control item in pal_Plan_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
                     if(item.Name.Contains("Submit"))
@@ -4681,7 +4732,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if(type == ControlType.Special)
             {
                 //tab_Imp_Dev_FileInfo.Enabled = pal_Imp_Dev.Enabled = enable;
-                foreach(Control item in pal_Imp_Dev_BtnGroup.Controls)
+                foreach(Control item in pal_Special_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
                     if(item.Name.Contains("Submit"))
@@ -5499,6 +5550,206 @@ namespace 科技计划项目档案数据采集管理系统
                 treeView.Width = 0;
             }
             tab_MenuList.Update();
+        }
+
+        /// <summary>
+        /// 检测是否存在重复的文件名
+        /// </summary>
+        private bool CheckFileName(DataGridViewRow row, string key)
+        {
+            bool result = true;
+            DataGridViewCell cellName = row.Cells[key + "name"];
+            if(cellName.Value == null || string.IsNullOrEmpty(GetValue(cellName.Value).Trim()))
+            {
+                cellName.ErrorText = "温馨提示：文件名不能为空。";
+                result = false;
+            }
+            else
+            {
+                cellName.ErrorText = null;
+                for(int j = 0; j < row.Index; j++)
+                {
+                    DataGridViewCell cell2 = row.DataGridView.Rows[j].Cells[key + "name"];
+                    if(cellName.Value.Equals(cell2.Value))
+                    {
+                        cellName.ErrorText = $"温馨提示：与行{j + 1}的文件名重复。";
+                        result = false;
+                    }
+                    else
+                        cellName.ErrorText = null;
+                }
+            }
+
+            //检测文件编号重复
+            DataGridViewCell cellCode = row.Cells[key + "code"];
+            if(cellCode.Value == null || string.IsNullOrEmpty(GetValue(cellCode.Value).Trim()))
+            {
+                cellCode.ErrorText = "温馨提示：文件编号不能为空。";
+                result = false;
+            }
+            else
+            {
+                cellCode.ErrorText = null;
+                for(int j = 0; j < row.Index; j++)
+                {
+                    DataGridViewCell cell2 = row.DataGridView.Rows[j].Cells[key + "code"];
+                    if(cellCode.Value.Equals(cell2.Value))
+                    {
+                        cellCode.ErrorText = $"温馨提示：与行{j + 1}的文件编号重复。";
+                        result = false;
+                    }
+                    else
+                        cellCode.ErrorText = null;
+                }
+            }
+
+            DataGridViewCell pagesCell = row.Cells[key + "pages"];
+            if(pagesCell.Value == null || string.IsNullOrEmpty(GetValue(pagesCell.Value)) || Convert.ToInt32(pagesCell.Value) == 0)
+            {
+                pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
+                result = false;
+            }
+            else
+            {
+                int pageValue = Convert.ToInt32(pagesCell.Value);
+                if(pageValue > 9999)
+                {
+                    pagesCell.ErrorText = "温馨提示：页数不能超过4位数。";
+                    result = false;
+                }
+                else
+                    pagesCell.ErrorText = null;
+            }
+
+            bool isOtherType = "其他".Equals(GetValue(row.Cells[key + "categor"].FormattedValue).Trim());
+            DataGridViewCell cellCategor = row.Cells[key + "categorname"];
+            if(isOtherType)
+            {
+                if(cellCategor.Value == null || string.IsNullOrEmpty(GetValue(cellCategor.Value).Trim()))
+                {
+                    cellCategor.ErrorText = "温馨提示：类型名称不能为空。";
+                    result = false;
+                }
+                else
+                    cellCategor.ErrorText = null;
+
+                //文件类别是否已存在
+                string codeParam = GetValue(cellCode.Value);
+                if(string.IsNullOrEmpty(cellCode.ErrorText) && !string.IsNullOrEmpty(codeParam))
+                {
+                    codeParam = codeParam.Split('-')[0];
+                    int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(dd_id) FROM data_dictionary WHERE dd_name = '{codeParam}'");
+                    if(index > 0)
+                    {
+                        cellCode.ErrorText = "提示：文件类别已存在。";
+                        result = false;
+                    }
+                    else
+                        cellCode.ErrorText = null;
+                }
+            }
+            else
+                cellCategor.ErrorText = null;
+
+            DataGridViewCell dateCell = row.Cells[key + "date"];
+            if(!string.IsNullOrEmpty(GetValue(dateCell.Value)))
+            {
+                bool flag = DateTime.TryParse(GetValue(dateCell.Value), out DateTime date);
+                if(!flag)
+                {
+                    dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
+                    result = false;
+                }
+                else
+                    dateCell.ErrorText = null;
+            }
+
+            return result;
+        }
+
+        private void FileList_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            new Thread(delegate ()
+            {
+                DataGridView view = sender as DataGridView;
+                string key = null;
+                object pId = null;
+                if(view.Name.Contains("Plan"))
+                { key = "plan_fl_"; pId = tab_Plan_Info.Tag; }
+                else if(view.Name.Contains("Project"))
+                { key = "project_fl_"; pId = tab_Project_Info.Tag; }
+                else if(view.Name.Contains("Topic"))
+                { key = "topic_fl_"; pId = tab_Topic_Info.Tag; }
+                else if(view.Name.Contains("Subject"))
+                { key = "subject_FL_"; pId = tab_Subject_Info.Tag; }
+                else if(view.Name.Contains("Imp"))
+                { key = "imp_fl_"; pId = tab_Imp_Info.Tag; }
+                else if(view.Name.Contains("Special"))
+                { key = "special_fl_"; pId = tab_Special_Info.Tag; }
+
+                int lastRowIndex = e.Row.Index - 1;
+                if(lastRowIndex > 0)
+                {
+                    DataGridViewRow row = view.Rows[lastRowIndex - 1];
+                    if(CheckFileName(row, key))
+                    {
+                        object fileId = AddFileInfo(key, row, pId, row.Index);
+                        row.Cells[$"{key}id"].Tag = fileId;
+                    }
+                }
+                Thread.CurrentThread.Abort();
+            }).Start();
+        }
+
+        private void BtnGroup_EnabledChanged(object sender, EventArgs e)
+        {
+            Panel panel = sender as Panel;
+            if(panel.Name.Contains("Plan"))
+            {
+                dgv_Plan_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Plan_Box_Add.Enabled = panel.Enabled;
+                lbl_Plan_Box_Remove.Enabled = panel.Enabled;
+                pal_Plan_MoveBtnGroup.Enabled = panel.Enabled;
+            }
+            else if(panel.Name.Contains("Project"))
+            {
+                dgv_Project_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Project_Box_Add.Enabled = panel.Enabled;
+                lbl_Project_Box_Remove.Enabled = panel.Enabled;
+                pal_Project_MoveBtnGroup.Enabled = panel.Enabled;
+                //可以继承别人做的项目
+                //cbo_Project_HasNext.Enabled = panel.Enabled;
+            }
+            else if(panel.Name.Contains("Topic"))
+            {
+                dgv_Topic_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Topic_Box_Add.Enabled = panel.Enabled;
+                lbl_Topic_Box_Remove.Enabled = panel.Enabled;
+                pal_Topic_MoveBtnGroup.Enabled = panel.Enabled;
+                cbo_Topic_HasNext.Enabled = panel.Enabled;
+            }
+            else if(panel.Name.Contains("Subject"))
+            {
+                dgv_Subject_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Subject_Box_Add.Enabled = panel.Enabled;
+                lbl_Subject_Box_Remove.Enabled = panel.Enabled;
+                pal_Subject_MoveBtnGroup.Enabled = panel.Enabled;
+            }
+            else if(panel.Name.Contains("Imp"))
+            {
+                dgv_Imp_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Imp_Box_Add.Enabled = panel.Enabled;
+                lbl_Imp_Box_Remove.Enabled = panel.Enabled;
+                pal_Imp_MoveBtnGroup.Enabled = panel.Enabled;
+                cbo_Imp_HasNext.Enabled = panel.Enabled;
+            }
+            else if(panel.Name.Contains("Special"))
+            {
+                dgv_Special_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Special_Box_Add.Enabled = panel.Enabled;
+                lbl_Special_Box_Remove.Enabled = panel.Enabled;
+                pal_Special_MoveBtnGroup.Enabled = panel.Enabled;
+            }
         }
     }
 }

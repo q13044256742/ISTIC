@@ -60,7 +60,7 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_fileCode.Text = GetValue(row["pfl_code"]);
                 txt_User.Text = GetValue(row["pfl_user"]);
                 txt_fileName.Text = GetValue(row["pfl_name"]);
-                dtp_date.Value = Convert.ToDateTime(row["pfl_date"]);
+                dtp_date.Value = GetDateTime(row["pfl_date"], "yyyy-MM-dd");
                 num_Pages.Value = Convert.ToInt32(row["pfl_pages"]);
                 SetRadioValue(row["pfl_type"], pal_type);
                 num_Amount.Value = Convert.ToInt32(row["pfl_amount"]);
@@ -68,6 +68,18 @@ namespace 科技计划项目档案数据采集管理系统
                 LoadFileLinkList(GetValue(row["pfl_file_id"]));
                 txt_Remark.Text = GetValue(row["pfl_remark"]);
             }
+        }
+
+        private DateTime GetDateTime(object v1, string v2)
+        {
+            string date = GetValue(v1);
+            if(!string.IsNullOrEmpty(date))
+            {
+                bool flag = DateTime.TryParse(date, out DateTime defaultDate);
+                if(flag)
+                    return defaultDate;
+            }
+            return DateTime.MinValue;
         }
 
         private void LoadFileLinkList(string ids)
@@ -452,6 +464,17 @@ namespace 科技计划项目档案数据采集管理系统
                     errorProvider1.SetError(cbo_categor, "提示：请输入文件类别名称。");
                     result = false;
                 }
+                else
+                {
+                    //文件类别是否已存在
+                    string codeParam = value.Split('-')[0];
+                    int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(dd_id) FROM data_dictionary WHERE dd_name = '{codeParam}'");
+                    if(index > 0)
+                    {
+                        errorProvider1.SetError(cbo_categor, "提示：文件类别已存在。");
+                        result = false;
+                    }
+                }
             }
             //页数
             NumericUpDown pagesCell = num_Pages;
@@ -498,6 +521,7 @@ namespace 科技计划项目档案数据采集管理系统
                 errorProvider1.SetError(txt_Unit, "提示：存放单位不能为空。");
                 result = false;
             }
+
             return result;
         }
 
@@ -673,7 +697,9 @@ namespace 科技计划项目档案数据采集管理系统
         private void dtp_date_ValueChanged(object sender, EventArgs e)
         {
             DateTime date = dtp_date.Value;
-            txt_date.Text = date.ToString("yyyyMMdd");
+            if(!new DateTime(1900, 01, 01).Equals(date))
+                txt_date.Text = date.ToString("yyyy-MM-dd");
+            else txt_date.Clear();
         }
     }
 }

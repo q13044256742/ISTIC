@@ -272,6 +272,20 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_Plan_HasNext.SelectedIndex = 0;
             cbo_Project_HasNext.SelectedIndex = 0;
             cbo_Topic_HasNext.SelectedIndex = 0;
+
+            dgv_Plan_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Project_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Topic_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Subject_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Imp_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Special_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+            dgv_Plan_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Project_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Topic_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Subject_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Special_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
         }
  
         /// <summary>
@@ -311,16 +325,6 @@ namespace 科技计划项目档案数据采集管理系统
             carrierColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_zt");
             carrierColumn.DisplayMember = "dd_name";
             carrierColumn.ValueMember = "dd_id";
-            carrierColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
-        }
-
-        private void InitialSecretList(DataGridView dataGridView, string key)
-        {
-            DataGridViewComboBoxColumn secretColumn = dataGridView.Columns[key + "secret"] as DataGridViewComboBoxColumn;
-            secretColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_mj");
-            secretColumn.DisplayMember = "dd_name";
-            secretColumn.ValueMember = "dd_id";
-            secretColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
         }
 
         private void InitialTypeList(DataGridView dataGridView, string key)
@@ -329,7 +333,6 @@ namespace 科技计划项目档案数据采集管理系统
             filetypeColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_type");
             filetypeColumn.DisplayMember = "dd_name";
             filetypeColumn.ValueMember = "dd_id";
-            filetypeColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
         }
    
         /// <summary>
@@ -359,7 +362,6 @@ namespace 科技计划项目档案数据采集管理系统
             comboBoxColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_jd");
             comboBoxColumn.DisplayMember = "dd_name";
             comboBoxColumn.ValueMember = "dd_id";
-            comboBoxColumn.DefaultCellStyle = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
         }
    
         /// <summary>

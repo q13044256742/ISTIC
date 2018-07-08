@@ -26,6 +26,7 @@ namespace 科技计划项目档案数据采集管理系统
             lbl_GC.Text = gcCode;
 
             dgv_DataList.Rows.Clear();
+            int totalHeight = 0;
             for(int i = 0; i < dataTable.Rows.Count; i++)
             {
                 int index = dgv_DataList.Rows.Add();
@@ -35,7 +36,9 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_DataList.Rows[index].Cells["fb_page"].Value = dataTable.Rows[i]["pfl_pages"];
                 dgv_DataList.Rows[index].Cells["fb_count"].Value = dataTable.Rows[i]["pfl_amount"];
                 dgv_DataList.Rows[index].Cells["fb_remark"].Value = dataTable.Rows[i]["pfl_remark"];
+                totalHeight += dgv_DataList.Rows[index].Height;
             }
+            dgv_DataList.Height = dgv_DataList.ColumnHeadersHeight + totalHeight + 2;
         }
         private string GetValue(object value) => value == null ? string.Empty : value.ToString();
 
@@ -51,20 +54,23 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        private void PrintDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            Bitmap bitmap = new Bitmap(pal_Show.Width, pal_Show.Height, PixelFormat.Format24bppRgb);
+            Bitmap bitmap = new Bitmap(pal_Show.Width, pal_Show.Height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.White);
-            pal_Show.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
 
-            e.Graphics.DrawImage(bitmap, 0f, 0f);
+            pal_Show.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
+            int left = (e.PageBounds.Width - bitmap.Width) / 2 - 10;
+            e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+            e.Graphics.DrawImage(bitmap, left, 10f);
         }
 
-        private void btn_Print_Click(object sender, EventArgs e)
+        private void Btn_Print_Click(object sender, EventArgs e)
         {
             try
             {
+                dgv_DataList.ClearSelection();
                 if(printPreviewDialog1.ShowDialog() == DialogResult.OK)
                 {
                     printDocument1.Print();
@@ -87,6 +93,11 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_Name.Font = fontDialog1.Font;
                 lbl_proCode.Font = fontDialog1.Font;
             }
+        }
+
+        private void btn_Print_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
