@@ -63,7 +63,7 @@ namespace 科技计划项目档案数据采集管理系统
             pal_Show.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
             int left = (e.PageBounds.Width - bitmap.Width) / 2 - 10;
             e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
-            e.Graphics.DrawImage(bitmap, left, 10f);
+            e.Graphics.DrawImage(bitmap, left, 0f);
         }
 
         private void Btn_Print_Click(object sender, EventArgs e)

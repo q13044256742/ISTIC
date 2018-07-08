@@ -56,7 +56,7 @@ namespace 科技计划项目档案数据采集管理系统
             e.Graphics.DrawImage(bitmap, left, 0f);
         }
 
-        private void btn_PrintSetup_Click(object sender, EventArgs e)
+        private void Btn_PrintSetup_Click(object sender, EventArgs e)
         {
             try
             {

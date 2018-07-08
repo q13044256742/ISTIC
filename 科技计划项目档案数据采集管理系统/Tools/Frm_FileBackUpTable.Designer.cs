@@ -120,7 +120,7 @@
             this.btn_PrintSetup.Size = new System.Drawing.Size(85, 31);
             this.btn_PrintSetup.TabIndex = 2;
             this.btn_PrintSetup.Text = "打印设置";
-            this.btn_PrintSetup.Click += new System.EventHandler(this.btn_PrintSetup_Click);
+            this.btn_PrintSetup.Click += new System.EventHandler(this.Btn_PrintSetup_Click);
             // 
             // printDocument1
             // 
