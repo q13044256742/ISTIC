@@ -56,12 +56,12 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void PrintDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            Bitmap bitmap = new Bitmap(pal_Show.Width, pal_Show.Height, PixelFormat.Format32bppArgb);
+            Bitmap bitmap = new Bitmap(pal_Show.Width, pal_Show.Height, PixelFormat.Format24bppRgb);
             Graphics graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.White);
 
             pal_Show.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
-            int left = (e.PageBounds.Width - bitmap.Width) / 2 - 10;
+            int left = (e.PageBounds.Width - bitmap.Width) / 2;
             e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
             e.Graphics.DrawImage(bitmap, left, 0f);
         }
@@ -71,6 +71,9 @@ namespace 科技计划项目档案数据采集管理系统
             try
             {
                 dgv_DataList.ClearSelection();
+                dgv_DataList.BackgroundColor = Color.White;
+                dgv_DataList.DefaultCellStyle.BackColor = Color.White;
+                dgv_DataList.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
                 if(printPreviewDialog1.ShowDialog() == DialogResult.OK)
                 {
                     printDocument1.Print();

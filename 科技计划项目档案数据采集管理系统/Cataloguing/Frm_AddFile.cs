@@ -307,10 +307,16 @@ namespace 科技计划项目档案数据采集管理系统
                     object pid = cbo_stage.SelectedValue;
                     string value = txt_fileCode.Text.Split('-')[0];
                     int sort = cbo_categor.Items.Count - 1;
-
-                    string _insertSql = "INSERT INTO data_dictionary (dd_id, dd_name, dd_note, dd_pId, dd_sort, extend_3, extend_4) " +
+                    object dicId = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_id FROM data_dictionary WHERE dd_name='{value}' AND dd_pId='{pid}'");
+                    string sqlString = string.Empty;
+                    if(dicId != null)
+                    {
+                        categor = dicId;
+                        sqlString += $"DELETE FROM data_dictionary WHERE dd_name='{value}' AND dd_pId='{stage}';";
+                    }
+                    sqlString += "INSERT INTO data_dictionary (dd_id, dd_name, dd_note, dd_pId, dd_sort, extend_3, extend_4) " +
                         $"VALUES('{categor}', '{value}', '{name}', '{pid}', '{sort}', '{categorName}', '{1}');";
-                    SqlHelper.ExecuteNonQuery(_insertSql);
+                    SqlHelper.ExecuteNonQuery(sqlString);
                 }
 
                 string insertSql = "INSERT INTO processing_file_list (" +

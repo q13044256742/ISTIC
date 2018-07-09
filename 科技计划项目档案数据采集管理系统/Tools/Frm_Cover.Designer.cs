@@ -108,7 +108,7 @@
             this.panel7.Controls.Add(this.label1);
             this.panel7.Location = new System.Drawing.Point(9, 10);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(706, 313);
+            this.panel7.Size = new System.Drawing.Size(677, 313);
             this.panel7.TabIndex = 25;
             // 
             // panel6
@@ -116,7 +116,7 @@
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Location = new System.Drawing.Point(141, 290);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(544, 1);
+            this.panel6.Size = new System.Drawing.Size(511, 1);
             this.panel6.TabIndex = 22;
             // 
             // panel5
@@ -124,7 +124,7 @@
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Location = new System.Drawing.Point(141, 229);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(544, 1);
+            this.panel5.Size = new System.Drawing.Size(511, 1);
             this.panel5.TabIndex = 21;
             // 
             // panel4
@@ -132,7 +132,7 @@
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Location = new System.Drawing.Point(141, 168);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(544, 1);
+            this.panel4.Size = new System.Drawing.Size(511, 1);
             this.panel4.TabIndex = 20;
             // 
             // panel3
@@ -140,7 +140,7 @@
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Location = new System.Drawing.Point(141, 107);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(544, 1);
+            this.panel3.Size = new System.Drawing.Size(511, 1);
             this.panel3.TabIndex = 19;
             // 
             // panel2
@@ -148,7 +148,7 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Location = new System.Drawing.Point(141, 46);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(544, 1);
+            this.panel2.Size = new System.Drawing.Size(511, 1);
             this.panel2.TabIndex = 18;
             // 
             // lbl_Name
@@ -156,7 +156,7 @@
             this.lbl_Name.Font = new System.Drawing.Font("宋体", 16F);
             this.lbl_Name.Location = new System.Drawing.Point(148, 5);
             this.lbl_Name.Name = "lbl_Name";
-            this.lbl_Name.Size = new System.Drawing.Size(523, 38);
+            this.lbl_Name.Size = new System.Drawing.Size(490, 38);
             this.lbl_Name.TabIndex = 12;
             this.lbl_Name.Text = "XXXXX";
             this.lbl_Name.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -166,7 +166,7 @@
             this.lbl_Secret.Font = new System.Drawing.Font("宋体", 16F);
             this.lbl_Secret.Location = new System.Drawing.Point(148, 249);
             this.lbl_Secret.Name = "lbl_Secret";
-            this.lbl_Secret.Size = new System.Drawing.Size(523, 38);
+            this.lbl_Secret.Size = new System.Drawing.Size(490, 38);
             this.lbl_Secret.TabIndex = 16;
             this.lbl_Secret.Text = "XXXXX";
             this.lbl_Secret.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -176,7 +176,7 @@
             this.lbl_BGD.Font = new System.Drawing.Font("宋体", 16F);
             this.lbl_BGD.Location = new System.Drawing.Point(148, 188);
             this.lbl_BGD.Name = "lbl_BGD";
-            this.lbl_BGD.Size = new System.Drawing.Size(523, 38);
+            this.lbl_BGD.Size = new System.Drawing.Size(490, 38);
             this.lbl_BGD.TabIndex = 15;
             this.lbl_BGD.Text = "XXXXX";
             this.lbl_BGD.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -186,7 +186,7 @@
             this.lbl_BZD.Font = new System.Drawing.Font("宋体", 16F);
             this.lbl_BZD.Location = new System.Drawing.Point(148, 127);
             this.lbl_BZD.Name = "lbl_BZD";
-            this.lbl_BZD.Size = new System.Drawing.Size(523, 38);
+            this.lbl_BZD.Size = new System.Drawing.Size(490, 38);
             this.lbl_BZD.TabIndex = 14;
             this.lbl_BZD.Text = "XXXXX";
             this.lbl_BZD.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -196,7 +196,7 @@
             this.lbl_Unit.Font = new System.Drawing.Font("宋体", 16F);
             this.lbl_Unit.Location = new System.Drawing.Point(148, 66);
             this.lbl_Unit.Name = "lbl_Unit";
-            this.lbl_Unit.Size = new System.Drawing.Size(523, 38);
+            this.lbl_Unit.Size = new System.Drawing.Size(490, 38);
             this.lbl_Unit.TabIndex = 13;
             this.lbl_Unit.Text = "XXXXX";
             this.lbl_Unit.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -266,7 +266,7 @@
             this.lbl_GCH.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lbl_GCH.AutoSize = true;
             this.lbl_GCH.Font = new System.Drawing.Font("华文宋体", 30F, System.Drawing.FontStyle.Bold);
-            this.lbl_GCH.Location = new System.Drawing.Point(189, 30);
+            this.lbl_GCH.Location = new System.Drawing.Point(218, 30);
             this.lbl_GCH.Name = "lbl_GCH";
             this.lbl_GCH.Size = new System.Drawing.Size(165, 44);
             this.lbl_GCH.TabIndex = 17;

@@ -36,7 +36,7 @@ namespace 科技计划项目档案数据采集管理系统
             object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{cbo_TypeSelect.SelectedValue}'");
             WorkType _type = WorkType.Default;
             ControlType _ctype = ControlType.Default;
-            if("dic_plan_imp".Equals(obj))
+            if("ZX".Equals(obj))
             {
                 if(workType == WorkType.PaperWork)
                     _type = WorkType.PaperWork_Imp;
@@ -44,7 +44,7 @@ namespace 科技计划项目档案数据采集管理系统
                     _type = WorkType.CDWork_Imp;
                 _ctype = ControlType.Imp;
             }
-            else if("dic_imp_dev".Equals(obj))
+            else if("YF".Equals(obj))
             {
                 if(workType == WorkType.PaperWork)
                     _type = WorkType.PaperWork_Special;

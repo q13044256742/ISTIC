@@ -200,7 +200,6 @@
             // 
             this.txt_Mdi.Location = new System.Drawing.Point(155, 280);
             this.txt_Mdi.Name = "txt_Mdi";
-            this.txt_Mdi.ReadOnly = true;
             this.txt_Mdi.Size = new System.Drawing.Size(37, 26);
             this.txt_Mdi.TabIndex = 13;
             this.txt_Mdi.Text = "-";

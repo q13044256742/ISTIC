@@ -31,13 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_FileBackUpTable));
             this.pal_Bkb = new System.Windows.Forms.Panel();
             this.pal_Show = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btn_Print = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_PrintSetup = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-            this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
-            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.lbl_Count = new System.Windows.Forms.Label();
             this.lbl_Amount = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -55,8 +51,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.btn_PrintSetup = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Print = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.pal_Bkb.SuspendLayout();
             this.pal_Show.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -86,61 +86,6 @@
             this.pal_Show.Size = new System.Drawing.Size(752, 828);
             this.pal_Show.TabIndex = 1;
             // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 18F);
-            this.label1.Location = new System.Drawing.Point(309, 34);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(134, 31);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "卷内备考表";
-            // 
-            // btn_Print
-            // 
-            this.btn_Print.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_Print.Image = ((System.Drawing.Image)(resources.GetObject("btn_Print.Image")));
-            this.btn_Print.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Print.Location = new System.Drawing.Point(391, 867);
-            this.btn_Print.Name = "btn_Print";
-            this.btn_Print.Size = new System.Drawing.Size(85, 31);
-            this.btn_Print.TabIndex = 1;
-            this.btn_Print.Text = "打印";
-            this.btn_Print.Click += new System.EventHandler(this.btn_Print_Click);
-            // 
-            // btn_PrintSetup
-            // 
-            this.btn_PrintSetup.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_PrintSetup.Image = ((System.Drawing.Image)(resources.GetObject("btn_PrintSetup.Image")));
-            this.btn_PrintSetup.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_PrintSetup.Location = new System.Drawing.Point(303, 867);
-            this.btn_PrintSetup.Name = "btn_PrintSetup";
-            this.btn_PrintSetup.Size = new System.Drawing.Size(85, 31);
-            this.btn_PrintSetup.TabIndex = 2;
-            this.btn_PrintSetup.Text = "打印设置";
-            this.btn_PrintSetup.Click += new System.EventHandler(this.Btn_PrintSetup_Click);
-            // 
-            // printDocument1
-            // 
-            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
-            // 
-            // pageSetupDialog1
-            // 
-            this.pageSetupDialog1.Document = this.printDocument1;
-            // 
-            // printPreviewDialog1
-            // 
-            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
-            this.printPreviewDialog1.Document = this.printDocument1;
-            this.printPreviewDialog1.Enabled = true;
-            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
-            this.printPreviewDialog1.Name = "printPreviewDialog1";
-            this.printPreviewDialog1.Visible = false;
-            // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -163,12 +108,29 @@
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Font = new System.Drawing.Font("宋体", 13F);
-            this.panel1.Location = new System.Drawing.Point(0, 74);
+            this.panel1.Location = new System.Drawing.Point(2, 74);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(752, 754);
+            this.panel1.Size = new System.Drawing.Size(748, 754);
             this.panel1.TabIndex = 1;
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Font = new System.Drawing.Font("华文中宋", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.panel3.Location = new System.Drawing.Point(161, 153);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(461, 1);
+            this.panel3.TabIndex = 39;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Font = new System.Drawing.Font("华文中宋", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.panel2.Location = new System.Drawing.Point(161, 112);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(461, 1);
+            this.panel2.TabIndex = 38;
             // 
             // lbl_Count
             // 
@@ -195,7 +157,7 @@
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("华文中宋", 12F);
-            this.label9.Location = new System.Drawing.Point(409, 705);
+            this.label9.Location = new System.Drawing.Point(405, 705);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(89, 19);
             this.label9.TabIndex = 37;
@@ -206,7 +168,7 @@
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("华文中宋", 12F);
-            this.label8.Location = new System.Drawing.Point(409, 615);
+            this.label8.Location = new System.Drawing.Point(405, 615);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(89, 19);
             this.label8.TabIndex = 36;
@@ -217,7 +179,7 @@
             this.lbl_LiJuanRen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_LiJuanRen.AutoSize = true;
             this.lbl_LiJuanRen.Font = new System.Drawing.Font("华文中宋", 12F);
-            this.lbl_LiJuanRen.Location = new System.Drawing.Point(510, 570);
+            this.lbl_LiJuanRen.Location = new System.Drawing.Point(506, 570);
             this.lbl_LiJuanRen.Name = "lbl_LiJuanRen";
             this.lbl_LiJuanRen.Size = new System.Drawing.Size(41, 19);
             this.lbl_LiJuanRen.TabIndex = 35;
@@ -246,7 +208,7 @@
             this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("华文中宋", 12F);
-            this.label11.Location = new System.Drawing.Point(510, 705);
+            this.label11.Location = new System.Drawing.Point(506, 705);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(97, 19);
             this.label11.TabIndex = 30;
@@ -257,7 +219,7 @@
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("华文中宋", 12F);
-            this.label10.Location = new System.Drawing.Point(423, 660);
+            this.label10.Location = new System.Drawing.Point(419, 660);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(73, 19);
             this.label10.TabIndex = 29;
@@ -268,7 +230,7 @@
             this.lbl_date1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_date1.AutoSize = true;
             this.lbl_date1.Font = new System.Drawing.Font("华文中宋", 12F);
-            this.lbl_date1.Location = new System.Drawing.Point(510, 615);
+            this.lbl_date1.Location = new System.Drawing.Point(506, 615);
             this.lbl_date1.Name = "lbl_date1";
             this.lbl_date1.Size = new System.Drawing.Size(97, 19);
             this.lbl_date1.TabIndex = 28;
@@ -279,7 +241,7 @@
             this.lbl_User.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_User.AutoSize = true;
             this.lbl_User.Font = new System.Drawing.Font("华文中宋", 12F);
-            this.lbl_User.Location = new System.Drawing.Point(423, 570);
+            this.lbl_User.Location = new System.Drawing.Point(419, 570);
             this.lbl_User.Name = "lbl_User";
             this.lbl_User.Size = new System.Drawing.Size(73, 19);
             this.lbl_User.TabIndex = 27;
@@ -345,28 +307,65 @@
             this.label2.TabIndex = 19;
             this.label2.Text = "1、本卷文件共";
             // 
-            // panel2
+            // label1
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Font = new System.Drawing.Font("华文中宋", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.panel2.Location = new System.Drawing.Point(161, 112);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(461, 1);
-            this.panel2.TabIndex = 38;
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 18F);
+            this.label1.Location = new System.Drawing.Point(309, 34);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(134, 31);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "卷内备考表";
             // 
-            // panel3
+            // printDocument1
             // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Font = new System.Drawing.Font("华文中宋", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.panel3.Location = new System.Drawing.Point(161, 153);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(461, 1);
-            this.panel3.TabIndex = 39;
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            // 
+            // pageSetupDialog1
+            // 
+            this.pageSetupDialog1.Document = this.printDocument1;
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Document = this.printDocument1;
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Visible = false;
+            // 
+            // btn_PrintSetup
+            // 
+            this.btn_PrintSetup.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_PrintSetup.Image = ((System.Drawing.Image)(resources.GetObject("btn_PrintSetup.Image")));
+            this.btn_PrintSetup.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_PrintSetup.Location = new System.Drawing.Point(303, 867);
+            this.btn_PrintSetup.Name = "btn_PrintSetup";
+            this.btn_PrintSetup.Size = new System.Drawing.Size(85, 31);
+            this.btn_PrintSetup.TabIndex = 2;
+            this.btn_PrintSetup.Text = "打印设置";
+            this.btn_PrintSetup.Click += new System.EventHandler(this.Btn_PrintSetup_Click);
+            // 
+            // btn_Print
+            // 
+            this.btn_Print.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_Print.Image = ((System.Drawing.Image)(resources.GetObject("btn_Print.Image")));
+            this.btn_Print.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Print.Location = new System.Drawing.Point(391, 867);
+            this.btn_Print.Name = "btn_Print";
+            this.btn_Print.Size = new System.Drawing.Size(85, 31);
+            this.btn_Print.TabIndex = 1;
+            this.btn_Print.Text = "打印";
+            this.btn_Print.Click += new System.EventHandler(this.btn_Print_Click);
             // 
             // Frm_FileBackUpTable
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(778, 903);
+            this.ClientSize = new System.Drawing.Size(778, 741);
             this.Controls.Add(this.btn_PrintSetup);
             this.Controls.Add(this.btn_Print);
             this.Controls.Add(this.pal_Bkb);

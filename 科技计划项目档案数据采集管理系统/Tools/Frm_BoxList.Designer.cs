@@ -115,6 +115,7 @@
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 12F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5);
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -189,7 +190,7 @@
             // 
             // lbl_GC
             // 
-            this.lbl_GC.Location = new System.Drawing.Point(99, 202);
+            this.lbl_GC.Location = new System.Drawing.Point(105, 202);
             this.lbl_GC.Name = "lbl_GC";
             this.lbl_GC.Size = new System.Drawing.Size(569, 34);
             this.lbl_GC.TabIndex = 12;
@@ -198,7 +199,7 @@
             // 
             // lbl_Code
             // 
-            this.lbl_Code.Location = new System.Drawing.Point(99, 161);
+            this.lbl_Code.Location = new System.Drawing.Point(105, 161);
             this.lbl_Code.Name = "lbl_Code";
             this.lbl_Code.Size = new System.Drawing.Size(569, 34);
             this.lbl_Code.TabIndex = 11;
@@ -207,7 +208,7 @@
             // 
             // lbl_Name
             // 
-            this.lbl_Name.Location = new System.Drawing.Point(99, 121);
+            this.lbl_Name.Location = new System.Drawing.Point(105, 121);
             this.lbl_Name.Name = "lbl_Name";
             this.lbl_Name.Size = new System.Drawing.Size(569, 34);
             this.lbl_Name.TabIndex = 10;
@@ -216,7 +217,7 @@
             // 
             // lbl_proCode
             // 
-            this.lbl_proCode.Location = new System.Drawing.Point(99, 79);
+            this.lbl_proCode.Location = new System.Drawing.Point(105, 79);
             this.lbl_proCode.Name = "lbl_proCode";
             this.lbl_proCode.Size = new System.Drawing.Size(569, 34);
             this.lbl_proCode.TabIndex = 9;
@@ -258,7 +259,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Bold);
+            this.label6.Font = new System.Drawing.Font("新宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label6.Location = new System.Drawing.Point(25, 218);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(76, 16);
@@ -268,7 +269,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Bold);
+            this.label5.Font = new System.Drawing.Font("新宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label5.Location = new System.Drawing.Point(9, 177);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(93, 16);
@@ -278,7 +279,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Bold);
+            this.label4.Font = new System.Drawing.Font("新宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label4.Location = new System.Drawing.Point(9, 136);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(93, 16);
@@ -288,7 +289,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Bold);
+            this.label3.Font = new System.Drawing.Font("新宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label3.Location = new System.Drawing.Point(9, 95);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(93, 16);

@@ -51,7 +51,7 @@ namespace 科技计划项目档案数据采集管理系统
             Graphics graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.White);
             pal_Show.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
-            int left = (e.PageBounds.Width - bitmap.Width) / 2 - 10;
+            int left = (e.PageBounds.Width - bitmap.Width) / 2;
             e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
             e.Graphics.DrawImage(bitmap, left, 0f);
         }
