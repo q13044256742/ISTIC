@@ -358,7 +358,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string fileId = GetFullStringBySplit(GetLinkList(1), ",", "'");
                 object remark = txt_Remark.Text;
 
-                string oldFileId = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT fi_file_id FROM files_info WHERE fi_id='{primaryKey}';"));
+                string oldFileId = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pfl_file_id FROM processing_file_list WHERE pfl_id='{primaryKey}';"));
                 string updateSql = $"UPDATE backup_files_info SET bfi_state=0 WHERE bfi_id IN ({GetFullStringBySplit(oldFileId, ",", "'")});";
                        updateSql += "UPDATE processing_file_list SET " +
                         $"[pfl_stage] = '{stage}'" +
@@ -436,7 +436,7 @@ namespace 科技计划项目档案数据采集管理系统
                     SaveFileInfo(view.Rows[view.Rows.Add()], true);
                     ResetControl();
                 }
-                else if(Text.Contains("更新"))
+                else if(Text.Contains("编辑"))
                     UpdateFileInfo();
             }
             else
@@ -542,7 +542,6 @@ namespace 科技计划项目档案数据采集管理系统
             categorCell.DataSource = SqlHelper.ExecuteQuery(querySql);
             categorCell.DisplayMember = "dd_name";
             categorCell.ValueMember = "dd_id";
-            categorCell.Style = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f), NullValue = categorCell.Items[0] };
         }
         
         /// <summary>

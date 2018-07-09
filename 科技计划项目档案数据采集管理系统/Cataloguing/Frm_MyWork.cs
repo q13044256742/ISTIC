@@ -162,6 +162,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dataGridView.Rows[index].Cells[key + "user"].Value = dataTable.Rows[i]["pfl_user"];
                 dataGridView.Rows[index].Cells[key + "type"].Value = dataTable.Rows[i]["pfl_type"];
                 dataGridView.Rows[index].Cells[key + "pages"].Value = dataTable.Rows[i]["pfl_pages"];
+                dataGridView.Rows[index].Cells[key + "count"].Value = dataTable.Rows[i]["pfl_count"];
                 dataGridView.Rows[index].Cells[key + "amount"].Value = dataTable.Rows[i]["pfl_amount"];
                 dataGridView.Rows[index].Cells[key + "date"].Value = GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd");
                 dataGridView.Rows[index].Cells[key + "unit"].Value = dataTable.Rows[i]["pfl_unit"];
@@ -1211,7 +1212,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(!string.IsNullOrEmpty(fileIds) && fileIds.Contains(targetId))
                     {
                         string newFileIds = fileIds.Replace(targetId + ",", string.Empty).Replace(targetId, string.Empty);
-                        updateSql += $"UPDATE files_box_info SET pb_files_id='{newFileIds}' WHERE pb_id='{list[j][0]}';";
+                        updateSql += $"UPDATE processing_box SET pb_files_id='{newFileIds}' WHERE pb_id='{list[j][0]}';";
                         break;
                     }
                 }
@@ -1675,7 +1676,8 @@ namespace 科技计划项目档案数据采集管理系统
             object user = row.Cells[key + "user"].Value;
             object type = row.Cells[key + "type"].Value;
             object pages = row.Cells[key + "pages"].Value;
-            object count = row.Cells[key + "amount"].Value;
+            object count = row.Cells[key + "count"].Value;
+            object amount = row.Cells[key + "amount"].Value;
             object code = row.Cells[key + "code"].Value;
             DateTime now = DateTime.MinValue;
             string _date = GetValue(row.Cells[key + "date"].Value);
@@ -1712,9 +1714,8 @@ namespace 科技计划项目档案数据采集管理系统
                 sqlString += "INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
                     $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');";
             }
-            sqlString += "INSERT INTO processing_file_list (" +
-            "pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort) " +
-            $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{date}', '{unit}', '{carrier}', '{format}', '{link}', '{fileId}', '{parentId}', '{status}', '{sort}');";
+            sqlString += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort) " +
+                $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{format}', '{link}', '{fileId}', '{parentId}', '{status}', '{sort}');";
             if(fileId != null)
             {
                 int value = link == null ? 0 : 1;
@@ -3413,9 +3414,11 @@ namespace 科技计划项目档案数据采集管理系统
             string _formatDate = null, value = GetValue(date);
             if(!string.IsNullOrEmpty(value))
             {
-                DateTime _date = Convert.ToDateTime(value);
-                if(_date != DefaultValue.DefaultMinDate)
-                    _formatDate = _date.ToString(format);
+                if(DateTime.TryParse(value, out DateTime result))
+                {
+                    if(result != DefaultValue.DefaultMinDate)
+                        _formatDate = result.ToString(format);
+                }
             }
             return _formatDate;
         }
@@ -5741,6 +5744,10 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_Plan_Box_Add.Enabled = panel.Enabled;
                 lbl_Plan_Box_Remove.Enabled = panel.Enabled;
                 pal_Plan_MoveBtnGroup.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Plan_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Plan_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
             }
             else if(panel.Name.Contains("Project"))
             {
@@ -5750,6 +5757,10 @@ namespace 科技计划项目档案数据采集管理系统
                 pal_Project_MoveBtnGroup.Enabled = panel.Enabled;
                 //可以继承别人做的项目
                 cbo_Project_HasNext.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Project_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Project_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
             }
             else if(panel.Name.Contains("Topic"))
             {
@@ -5758,6 +5769,10 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_Topic_Box_Remove.Enabled = panel.Enabled;
                 pal_Topic_MoveBtnGroup.Enabled = panel.Enabled;
                 cbo_Topic_HasNext.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Topic_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Topic_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
             }
             else if(panel.Name.Contains("Subject"))
             {
@@ -5765,6 +5780,10 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_Subject_Box_Add.Enabled = panel.Enabled;
                 lbl_Subject_Box_Remove.Enabled = panel.Enabled;
                 pal_Subject_MoveBtnGroup.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Subject_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Subject_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
             }
             else if(panel.Name.Contains("Imp"))
             {
@@ -5773,6 +5792,10 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_Imp_Box_Remove.Enabled = panel.Enabled;
                 pal_Imp_MoveBtnGroup.Enabled = panel.Enabled;
                 cbo_Imp_HasNext.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Imp_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Imp_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
             }
             else if(panel.Name.Contains("Special"))
             {
@@ -5780,6 +5803,10 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_Special_Box_Add.Enabled = panel.Enabled;
                 lbl_Special_Box_Remove.Enabled = panel.Enabled;
                 pal_Special_MoveBtnGroup.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Special_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Special_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
             }
         }
 

@@ -29,20 +29,14 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_BoxList));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_BoxList));
             this.panel1 = new System.Windows.Forms.Panel();
             this.pal_Show = new System.Windows.Forms.Panel();
             this.dgv_DataList = new System.Windows.Forms.DataGridView();
-            this.fb_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fb_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fb_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fb_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fb_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fb_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbl_GC = new System.Windows.Forms.Label();
             this.lbl_Code = new System.Windows.Forms.Label();
             this.lbl_Name = new System.Windows.Forms.Label();
@@ -63,6 +57,12 @@
             this.btn_Font = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_PrintSetup = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Print = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.fb_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fb_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fb_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fb_page = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fb_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fb_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.pal_Show.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataList)).BeginInit();
@@ -135,58 +135,8 @@
             this.dgv_DataList.RowHeadersWidth = 48;
             this.dgv_DataList.RowTemplate.Height = 23;
             this.dgv_DataList.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dgv_DataList.Size = new System.Drawing.Size(711, 200);
+            this.dgv_DataList.Size = new System.Drawing.Size(711, 277);
             this.dgv_DataList.TabIndex = 13;
-            // 
-            // fb_id
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.fb_id.DefaultCellStyle = dataGridViewCellStyle2;
-            this.fb_id.FillWeight = 50F;
-            this.fb_id.HeaderText = "序号";
-            this.fb_id.Name = "fb_id";
-            this.fb_id.ReadOnly = true;
-            // 
-            // fb_code
-            // 
-            this.fb_code.FillWeight = 120F;
-            this.fb_code.HeaderText = "文件编号";
-            this.fb_code.Name = "fb_code";
-            this.fb_code.ReadOnly = true;
-            // 
-            // fb_name
-            // 
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.fb_name.DefaultCellStyle = dataGridViewCellStyle3;
-            this.fb_name.FillWeight = 200F;
-            this.fb_name.HeaderText = "文件名称";
-            this.fb_name.Name = "fb_name";
-            this.fb_name.ReadOnly = true;
-            // 
-            // fb_page
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.fb_page.DefaultCellStyle = dataGridViewCellStyle4;
-            this.fb_page.FillWeight = 50F;
-            this.fb_page.HeaderText = "页数";
-            this.fb_page.Name = "fb_page";
-            this.fb_page.ReadOnly = true;
-            // 
-            // fb_count
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.fb_count.DefaultCellStyle = dataGridViewCellStyle5;
-            this.fb_count.FillWeight = 50F;
-            this.fb_count.HeaderText = "份数";
-            this.fb_count.Name = "fb_count";
-            this.fb_count.ReadOnly = true;
-            // 
-            // fb_remark
-            // 
-            this.fb_remark.FillWeight = 60F;
-            this.fb_remark.HeaderText = "备注";
-            this.fb_remark.Name = "fb_remark";
-            this.fb_remark.ReadOnly = true;
             // 
             // lbl_GC
             // 
@@ -360,6 +310,62 @@
             this.btn_Print.Text = "打印";
             this.btn_Print.Click += new System.EventHandler(this.Btn_Print_Click);
             // 
+            // fb_id
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.fb_id.DefaultCellStyle = dataGridViewCellStyle2;
+            this.fb_id.FillWeight = 50F;
+            this.fb_id.HeaderText = "序号";
+            this.fb_id.Name = "fb_id";
+            this.fb_id.ReadOnly = true;
+            this.fb_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fb_code
+            // 
+            this.fb_code.FillWeight = 120F;
+            this.fb_code.HeaderText = "文件编号";
+            this.fb_code.Name = "fb_code";
+            this.fb_code.ReadOnly = true;
+            this.fb_code.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fb_name
+            // 
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.fb_name.DefaultCellStyle = dataGridViewCellStyle3;
+            this.fb_name.FillWeight = 200F;
+            this.fb_name.HeaderText = "文件名称";
+            this.fb_name.Name = "fb_name";
+            this.fb_name.ReadOnly = true;
+            this.fb_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fb_page
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.fb_page.DefaultCellStyle = dataGridViewCellStyle4;
+            this.fb_page.FillWeight = 50F;
+            this.fb_page.HeaderText = "页数";
+            this.fb_page.Name = "fb_page";
+            this.fb_page.ReadOnly = true;
+            this.fb_page.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fb_count
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.fb_count.DefaultCellStyle = dataGridViewCellStyle5;
+            this.fb_count.FillWeight = 50F;
+            this.fb_count.HeaderText = "份数";
+            this.fb_count.Name = "fb_count";
+            this.fb_count.ReadOnly = true;
+            this.fb_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fb_remark
+            // 
+            this.fb_remark.FillWeight = 60F;
+            this.fb_remark.HeaderText = "备注";
+            this.fb_remark.Name = "fb_remark";
+            this.fb_remark.ReadOnly = true;
+            this.fb_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // Frm_BoxList
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -405,13 +411,13 @@
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.DataGridView dgv_DataList;
+        private KyoControl.KyoButton btn_Font;
+        private System.Windows.Forms.FontDialog fontDialog1;
         private System.Windows.Forms.DataGridViewTextBoxColumn fb_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn fb_code;
         private System.Windows.Forms.DataGridViewTextBoxColumn fb_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn fb_page;
         private System.Windows.Forms.DataGridViewTextBoxColumn fb_count;
         private System.Windows.Forms.DataGridViewTextBoxColumn fb_remark;
-        private KyoControl.KyoButton btn_Font;
-        private System.Windows.Forms.FontDialog fontDialog1;
     }
 }

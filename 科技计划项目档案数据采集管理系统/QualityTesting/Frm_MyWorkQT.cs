@@ -139,8 +139,9 @@ namespace 科技计划项目档案数据采集管理系统
                 dataGridView.Rows[index].Cells[key + "user"].Value = dataTable.Rows[i]["pfl_user"];
                 dataGridView.Rows[index].Cells[key + "type"].Value = dataTable.Rows[i]["pfl_type"];
                 dataGridView.Rows[index].Cells[key + "pages"].Value = dataTable.Rows[i]["pfl_pages"];
+                dataGridView.Rows[index].Cells[key + "count"].Value = dataTable.Rows[i]["pfl_count"];
                 dataGridView.Rows[index].Cells[key + "amount"].Value = dataTable.Rows[i]["pfl_amount"];
-                dataGridView.Rows[index].Cells[key + "date"].Value = GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyyMMdd");
+                dataGridView.Rows[index].Cells[key + "date"].Value = GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd");
                 dataGridView.Rows[index].Cells[key + "unit"].Value = dataTable.Rows[i]["pfl_unit"];
                 dataGridView.Rows[index].Cells[key + "carrier"].Value = dataTable.Rows[i]["pfl_carrier"];
                 dataGridView.Rows[index].Cells[key + "link"].Value = dataTable.Rows[i]["pfl_link"];
@@ -273,12 +274,26 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_Project_HasNext.SelectedIndex = 0;
             cbo_Topic_HasNext.SelectedIndex = 0;
 
+            dgv_Plan_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Project_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Topic_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Subject_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Special_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+
             dgv_Plan_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Project_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Topic_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Subject_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Imp_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Special_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+            dgv_Plan_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Project_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Topic_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Subject_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Special_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
 
             dgv_Plan_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Project_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -377,7 +392,6 @@ namespace 科技计划项目档案数据采集管理系统
             categorCell.DataSource = SqlHelper.ExecuteQuery(querySql);
             categorCell.DisplayMember = "dd_name";
             categorCell.ValueMember = "dd_id";
-            categorCell.Style = new DataGridViewCellStyle() { Font = new System.Drawing.Font("宋体", 10.5f) };
             if(categorCell.Items.Count > 0)
                 categorCell.Style.NullValue = categorCell.Items[0];
         }
@@ -402,7 +416,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string columnName = dgv_Project_FileList.CurrentCell.OwningColumn.Name;
                 Control con = e.Control;
-                con.Tag = ControlType.Plan;
+                con.Tag = ControlType.Project;
                 if("project_fl_stage".Equals(columnName))
                     (con as System.Windows.Forms.ComboBox).SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
                 else if("project_fl_categor".Equals(columnName))
@@ -463,8 +477,8 @@ namespace 科技计划项目档案数据采集管理系统
         {
             System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
             if((ControlType)comboBox.Tag == ControlType.Plan)
-                SetCategorByStage(comboBox.SelectedValue, dgv_Plan_FileList.CurrentRow, string.Empty);
-            else if((ControlType)comboBox.Tag == ControlType.Plan)
+                SetCategorByStage(comboBox.SelectedValue, dgv_Plan_FileList.CurrentRow, "plan_fl_");
+            else if((ControlType)comboBox.Tag == ControlType.Project)
                 SetCategorByStage(comboBox.SelectedValue, dgv_Project_FileList.CurrentRow, "project_fl_");
             else if((ControlType)comboBox.Tag == ControlType.Topic)
                 SetCategorByStage(comboBox.SelectedValue, dgv_Topic_FileList.CurrentRow, "topic_fl_");
@@ -489,7 +503,7 @@ namespace 科技计划项目档案数据采集管理系统
             System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
             if((ControlType)comboBox.Tag == ControlType.Plan)
                 SetNameByCategor(comboBox, dgv_Plan_FileList.CurrentRow, "plan_fl_", tab_Plan_Info.Tag);
-            else if((ControlType)comboBox.Tag == ControlType.Plan)
+            else if((ControlType)comboBox.Tag == ControlType.Project)
                 SetNameByCategor(comboBox, dgv_Project_FileList.CurrentRow, "project_fl_", tab_Project_Info.Tag);
             else if((ControlType)comboBox.Tag == ControlType.Topic)
                 SetNameByCategor(comboBox, dgv_Topic_FileList.CurrentRow, "topic_fl_", tab_Topic_Info.Tag);
@@ -854,7 +868,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if("btn_Imp_Save".Equals(button.Name))
             {
-                object objId = view.Parent.Parent.Tag;
+                object objId = tab_Imp_Info.Tag;
                 view = dgv_Imp_FileList;
                 key = "imp_fl_";
                 int index = tab_Imp_Info.SelectedTabPageIndex;
@@ -1112,7 +1126,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(!string.IsNullOrEmpty(fileIds) && fileIds.Contains(targetId))
                     {
                         string newFileIds = fileIds.Replace(targetId + ",", string.Empty).Replace(targetId, string.Empty);
-                        updateSql += $"UPDATE files_box_info SET pb_files_id='{newFileIds}' WHERE pb_id='{list[j][0]}';";
+                        updateSql += $"UPDATE processing_box SET pb_files_id='{newFileIds}' WHERE pb_id='{list[j][0]}';";
                         break;
                     }
                 }
@@ -1177,7 +1191,7 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
-                DataGridViewCell pagesCell = rows[i].Cells[key + "page"];
+                DataGridViewCell pagesCell = rows[i].Cells[key + "pages"];
                 if(pagesCell.Value == null || string.IsNullOrEmpty(GetValue(pagesCell.Value)) || Convert.ToInt32(pagesCell.Value) == 0)
                 {
                     pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
@@ -1505,8 +1519,9 @@ namespace 科技计划项目档案数据采集管理系统
             object name = row.Cells[key + "name"].Value;
             object user = row.Cells[key + "user"].Value;
             object type = row.Cells[key + "type"].Value;
-            object pages = row.Cells[key + "page"].Value;
-            object count = row.Cells[key + "amount"].Value;
+            object pages = row.Cells[key + "pages"].Value;
+            object count = row.Cells[key + "count"].Value;
+            object amount = row.Cells[key + "amount"].Value;
             object code = row.Cells[key + "code"].Value;
             DateTime now = DateTime.MinValue;
             string _date = GetValue(row.Cells[key + "date"].Value);
@@ -1538,8 +1553,8 @@ namespace 科技计划项目档案数据采集管理系统
                     $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');";
             }
             sqlString += "INSERT INTO processing_file_list (" +
-            "pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort) " +
-            $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{date}', '{unit}', '{carrier}', '{format}', '{link}', '{fileId}', '{parentId}', '{status}', '{sort}');";
+            "pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort) " +
+            $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{format}', '{link}', '{fileId}', '{parentId}', '{status}', '{sort}');";
             if(fileId != null)
             {
                 int value = link == null ? 0 : 1;
@@ -2021,11 +2036,12 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
 
+            treeView.EndUpdate();
             if(treeNode != null)
             {
                 treeView.Nodes.Add(treeNode);
                 //默认加载计划页面
-                if(treeView.Nodes.Count > 0)
+                if(treeView.Nodes.Count > 0 && tab_MenuList.TabPages.Count == 0)
                 {
                     TreeNode node = treeView.Nodes[0];
                     ControlType _type = (ControlType)node.Tag;
@@ -2041,7 +2057,7 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
                 treeView.ExpandAll();
-                treeView.EndUpdate();
+                
             }
         }
         
@@ -2468,22 +2484,22 @@ namespace 科技计划项目档案数据采集管理系统
             string GCID = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'"));
             if(type == ControlType.Plan)
             {
-                txt_JH_Box_GCID.Text = GCID;
+                txt_Plan_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_File1,lsv_JH_File2, "jh", pbId, objId);
             }
-            else if(type == ControlType.Plan)
+            else if(type == ControlType.Project)
             {
-                txt_JH_XM_Box_GCID.Text = GCID;
+                txt_Project_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_XM_File1, lsv_JH_XM_File2, "jh_xm", pbId, objId);
             }
             else if(type == ControlType.Topic)
             {
-                txt_JH_KT_Box_GCID.Text = GCID;
+                txt_Topic_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_KT_File1, lsv_JH_KT_File2, "jh_kt", pbId, objId);
             }
             else if(type == ControlType.Subject)
             {
-                txt_JH_XM_KT_ZKT_Box_GCID.Text = GCID;
+                txt_Subject_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_XM_KT_ZKT_File1, lsv_JH_XM_KT_ZKT_File2, "jh_xm_kt_zkt", pbId, objId);
             }
             else if(type == ControlType.Imp)
@@ -2493,7 +2509,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Special)
             {
-                txt_Imp_Dev_Box_GCID.Text = GCID;
+                txt_Special_Box_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_Imp_Dev_File1, lsv_Imp_Dev_File2, "Special", pbId, objId);
             }
 
@@ -2580,7 +2596,13 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string _formatDate = null, value = GetValue(date);
             if(!string.IsNullOrEmpty(value))
-                _formatDate = Convert.ToDateTime(value).ToString(format);
+            {
+                if(DateTime.TryParse(value, out DateTime result))
+                {
+                    if(result != DefaultValue.DefaultMinDate)
+                        _formatDate = result.ToString(format);
+                }
+            }
             return _formatDate;
         }
     

@@ -18,8 +18,6 @@ namespace 科技计划项目档案数据采集管理系统
         public object user;
         private void Frm_FileBackUpTable_Load(object sender, EventArgs e)
         {
-            pal_Show.Height = 850;
-
             lbl_Amount.Text = GetZN(fileAmount);
             lbl_Count.Text = GetZN(filePages);
 
@@ -52,8 +50,7 @@ namespace 科技计划项目档案数据采集管理系统
             graphics.Clear(Color.White);
             pal_Show.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
             int left = (e.PageBounds.Width - bitmap.Width) / 2;
-            e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
-            e.Graphics.DrawImage(bitmap, left, 0f);
+            e.Graphics.DrawImage(bitmap, left, 0);
         }
 
         private void Btn_PrintSetup_Click(object sender, EventArgs e)
