@@ -19,6 +19,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             num_Water.Enabled = chk_Water.Checked;
             chk_Year.Enabled = chk_KT_Code.Enabled = chk_ZX_Code.Enabled = chk_Unit.Enabled = !chk_Water.Checked;
+            lbl_Template.Text = lbl_Template.Text.Replace("0", string.Empty);
             if(chk_Water.Checked)
             {
                 int length = (int)num_Water.Value;
@@ -123,7 +124,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void btn_Save_Click(object sender, EventArgs e)
+        private void Btn_Save_Click(object sender, EventArgs e)
         {
             if(cbo_Type.Tag == null)
             {
@@ -137,7 +138,7 @@ namespace 科技计划项目档案数据采集管理系统
                 insertSql += $" cr_split_symbol, cr_template, cr_create_date, cr_special_id) VALUES ('{cbo_Type.Tag}', '{type}', '{txt_Fixed.Text}', ";
                 for(int i = 0; i < values.Length; i++)
                     insertSql += $"'{values[i]}', ";
-                insertSql += $"'{symbol}', '{lbl_Template.Text}', '{DateTime.Now}', '{specialId}')";
+                insertSql += $"'{symbol}', '{lbl_Template.Text}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
                 DevExpress.XtraEditors.XtraMessageBox.Show("保存成功。");
@@ -146,16 +147,16 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 SqlHelper.ExecuteNonQuery($"DELETE FROM code_rule WHERE cr_id='{cbo_Type.Tag}'");
                 cbo_Type.Tag = null;
-                btn_Save_Click(sender, e);
+                Btn_Save_Click(sender, e);
             }
         }
 
-        private void cbo_Type_SelectedIndexChanged(object sender, EventArgs e)
+        private void Cbo_Type_SelectedIndexChanged(object sender, EventArgs e)
         {
             btn_Reset_Click(sender, e);
 
             int index = cbo_Type.SelectedIndex;
-            DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT cr_id, cr_template, cr_fixed FROM code_rule WHERE cr_special_id='{specialId}' AND cr_type='{index}'");
+            DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT cr_id, cr_template, cr_fixed, cr_split_symbol FROM code_rule WHERE cr_type='{index}'");
             if(row != null)
             {
                 cbo_Type.Tag = row["cr_id"];
@@ -169,7 +170,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(template.Contains("YYYY"))
                     chk_Year.Checked = true;
                 num_Water.Value = num_Water.Minimum;
-                string water = template.Replace("YYYY-", string.Empty);
+                string water = template.Replace("YYYY", string.Empty);
                 if(water.Contains("0"))
                 {
                     chk_Water.Checked = true;
@@ -179,6 +180,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 lbl_Template.Text = template;
                 txt_Fixed.Text = GetValue(row["cr_fixed"]);
+                txt_Mdi.Text = GetValue(row["cr_split_symbol"]);
             }
         }
 

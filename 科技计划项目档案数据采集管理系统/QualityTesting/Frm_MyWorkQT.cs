@@ -110,7 +110,7 @@ namespace 科技计划项目档案数据采集管理系统
             plan.Tag = node.Name;
             if(node.ForeColor == DisEnbleColor)
             {
-                pal_JH_BtnGroup.Enabled = false;
+                pal_Plan_BtnGroup.Enabled = false;
                 cbo_Plan_HasNext.Enabled = false;
             }
         }
@@ -545,7 +545,8 @@ namespace 科技计划项目档案数据采集管理系统
             else
             {
                 string _key = comboBox.Text.Split(' ')[0];
-                currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
+                if(_key.Contains("A") || _key.Contains("B") || _key.Contains("C") || _key.Contains("D"))
+                    currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
             }
         }
 
@@ -667,7 +668,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(objId == null)
                         objId = view.Tag = AddProjectBasicInfo(this.objId, ControlType.Plan);
                     else
-                        UpdateProjectBasicInfo(objId, ControlType.Plan);
+                        UpdateBasicInfo(objId, ControlType.Plan);
                     if(CheckFileList(view.Rows, key))
                     {
                         int maxLength = view.Rows.Count - 1;
@@ -715,7 +716,7 @@ namespace 科技计划项目档案数据采集管理系统
                         if(objId == null)
                             objId = view.Tag = AddProjectBasicInfo(project.Tag, ControlType.Project);
                         else
-                            UpdateProjectBasicInfo(objId, ControlType.Project);
+                            UpdateBasicInfo(objId, ControlType.Project);
 
                         if(CheckFileList(dgv_Project_FileList.Rows, key))
                         {
@@ -768,7 +769,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(CheckMustEnter(button.Name, objId))
                     {
                         if(objId != null)//更新
-                            UpdateProjectBasicInfo(objId, ControlType.Topic);
+                            UpdateBasicInfo(objId, ControlType.Topic);
                         else//新增
                             objId = view.Tag = AddProjectBasicInfo(pal_Topic.Tag, ControlType.Topic);
 
@@ -823,7 +824,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(CheckMustEnter(button.Name, objId))
                     {
                         if(objId != null)
-                            UpdateProjectBasicInfo(objId, ControlType.Subject);
+                            UpdateBasicInfo(objId, ControlType.Subject);
                         else
                             objId = view.Tag = AddProjectBasicInfo(pal_Subject.Tag, ControlType.Subject);
                         if(CheckFileList(view.Rows, key))
@@ -971,7 +972,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private bool CheckMustEnter(string name, object pid)
         {
-            ErrorProvider errorProvider1 = new ErrorProvider();
+            errorProvider1.Clear();
             bool result = true;
             if(name.Contains("Project"))
             {
@@ -989,11 +990,44 @@ namespace 科技计划项目档案数据采集管理系统
                         errorProvider1.SetError(txt_Project_Code, "提示：此项目编号已存在");
                         result = false;
                     }
-                    else
-                        errorProvider1.SetError(txt_Project_Code, null);
                 }
-                else
-                    errorProvider1.SetError(txt_Project_Code, null);
+
+                string startDate = txt_Project_StartTime.Text;
+                if(!string.IsNullOrEmpty(startDate))
+                {
+                    if(!startDate.Contains("-"))
+                    {
+                        errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(startDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
+                    }
+                }
+                string endDate = txt_Project_EndTime.Text;
+                if(!string.IsNullOrEmpty(endDate))
+                {
+                    if(!endDate.Contains("-"))
+                    {
+                        errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(endDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
+                    }
+                }
             }
             else if(name.Contains("Topic"))
             {
@@ -1011,32 +1045,59 @@ namespace 科技计划项目档案数据采集管理系统
                         errorProvider1.SetError(txt_Topic_Code, "提示：此课题编号已存在");
                         result = false;
                     }
-                    else
-                        errorProvider1.SetError(txt_Topic_Code, null);
                 }
-                else
-                    errorProvider1.SetError(txt_Topic_Code, null);
                 if(string.IsNullOrEmpty(txt_Topic_Year.Text))
                 {
                     errorProvider1.SetError(txt_Topic_Year, "提示：立项年度不能为空");
                     result = false;
                 }
-                else
-                    errorProvider1.SetError(txt_Topic_Year, null);
                 if(string.IsNullOrEmpty(txt_Topic_Unit.Text))
                 {
                     errorProvider1.SetError(txt_Topic_Unit, "提示：承担单位不能为空");
                     result = false;
                 }
-                else
-                    errorProvider1.SetError(txt_Topic_Unit, null);
                 if(string.IsNullOrEmpty(txt_Topic_ProUser.Text))
                 {
                     errorProvider1.SetError(txt_Topic_ProUser, "提示：负责人不能为空");
                     result = false;
                 }
-                else
-                    errorProvider1.SetError(txt_Topic_ProUser, null);
+
+                string startDate = txt_Topic_StartTime.Text;
+                if(!string.IsNullOrEmpty(startDate))
+                {
+                    if(!startDate.Contains("-"))
+                    {
+                        errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(startDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
+                    }
+                }
+                string endDate = txt_Topic_EndTime.Text;
+                if(!string.IsNullOrEmpty(endDate))
+                {
+                    if(!endDate.Contains("-"))
+                    {
+                        errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(endDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
+                    }
+                }
             }
             else if(name.Contains("Subject"))
             {
@@ -1046,8 +1107,6 @@ namespace 科技计划项目档案数据采集管理系统
                     errorProvider1.SetError(txt_Subject_Code, "提示：课题编号不能为空");
                     result = false;
                 }
-                else
-                    errorProvider1.SetError(txt_Subject_Code, null);
                 if(tab_Subject_Info.Tag == null)
                 {
                     int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(si_id) FROM subject_info WHERE si_code='{subCode}' WHERE si_obj_id='{pid}';");
@@ -1056,32 +1115,67 @@ namespace 科技计划项目档案数据采集管理系统
                         errorProvider1.SetError(txt_Subject_Code, "提示：子课题编号已存在");
                         result = false;
                     }
-                    else
-                        errorProvider1.SetError(txt_Subject_Code, null);
                 }
-                else
-                    errorProvider1.SetError(txt_Subject_Code, null);
                 if(string.IsNullOrEmpty(txt_Subject_Year.Text))
                 {
                     errorProvider1.SetError(txt_Subject_Year, "提示：立项年度不能为空");
                     result = false;
                 }
-                else
-                    errorProvider1.SetError(txt_Subject_Year, null);
                 if(string.IsNullOrEmpty(txt_Subject_Unit.Text))
                 {
                     errorProvider1.SetError(txt_Subject_Unit, "提示：承担单位不能为空");
                     result = false;
                 }
-                else
-                    errorProvider1.SetError(txt_Subject_Unit, null);
                 if(string.IsNullOrEmpty(txt_Subject_ProUser.Text))
                 {
                     errorProvider1.SetError(txt_Subject_ProUser, "提示：负责人不能为空");
                     result = false;
                 }
-                else
-                    errorProvider1.SetError(txt_Subject_ProUser, null);
+
+                string startDate = txt_Subject_StartTime.Text;
+                if(!string.IsNullOrEmpty(startDate))
+                {
+                    if(!startDate.Contains("-"))
+                    {
+                        errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(startDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
+                    }
+                }
+                string endDate = txt_Subject_EndTime.Text;
+                if(!string.IsNullOrEmpty(endDate))
+                {
+                    if(!endDate.Contains("-"))
+                    {
+                        errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(endDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
+                    }
+                }
+            }
+            else if(name.Contains("Special"))
+            {
+                if(string.IsNullOrEmpty(txt_Special_Unit.Text))
+                {
+                    errorProvider1.SetError(txt_Special_Unit, "提示：牵头组织单位不能为空");
+                    result = false;
+                }
             }
             return result;
         }
@@ -1191,6 +1285,30 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
+                //检测文件编号重复
+                DataGridViewCell cellCode = rows[i].Cells[key + "code"];
+                if(string.IsNullOrEmpty(GetValue(cellCode.Value)))
+                {
+                    cellCode.ErrorText = "温馨提示：文件编号不能为空。";
+                    result = false;
+                }
+                else
+                {
+                    cellCode.ErrorText = null;
+                    for(int j = i + 1; j < rows.Count - 1; j++)
+                    {
+                        DataGridViewCell cell2 = rows[j].Cells[key + "code"];
+                        if(cellCode.Value.Equals(cell2.Value))
+                        {
+                            cellCode.ErrorText = $"温馨提示：与{j + 1}行的文件编号重复。";
+                            result = false;
+                            break;
+                        }
+                        else
+                            cellCode.ErrorText = null;
+                    }
+                }
+
                 DataGridViewCell pagesCell = rows[i].Cells[key + "pages"];
                 if(pagesCell.Value == null || string.IsNullOrEmpty(GetValue(pagesCell.Value)) || Convert.ToInt32(pagesCell.Value) == 0)
                 {
@@ -1198,22 +1316,60 @@ namespace 科技计划项目档案数据采集管理系统
                     result = false;
                 }
                 else
-                    pagesCell.ErrorText = null;
-
-                bool isOtherType = "其他".Equals(GetValue(rows[i].Cells[key + "categor"].FormattedValue).Trim());
-                DataGridViewCell cellCode = rows[i].Cells[key + "categorname"];
-                if(isOtherType)
                 {
-                    if(cellCode.Value == null || string.IsNullOrEmpty(GetValue(cellCode.Value).Trim()))
+                    bool flag = int.TryParse(GetValue(pagesCell.Value), out int page);
+                    if(!flag)
                     {
-                        cellCode.ErrorText = "温馨提示：类型名称不能为空。";
+                        pagesCell.ErrorText = "温馨提示：页数不能为0。";
                         result = false;
                     }
                     else
-                        cellCode.ErrorText = null;
+                    {
+                        if(page > 9999)
+                        {
+                            pagesCell.ErrorText = "温馨提示：页数不能超过4位数。";
+                            result = false;
+                        }
+                        else
+                            pagesCell.ErrorText = null;
+                    }
+                }
+
+                bool isOtherType = "其他".Equals(GetValue(rows[i].Cells[key + "categor"].FormattedValue).Trim());
+                DataGridViewCell cellCategor = rows[i].Cells[key + "categorname"];
+                if(isOtherType)
+                {
+                    if(cellCategor.Value == null || string.IsNullOrEmpty(GetValue(cellCategor.Value).Trim()))
+                    {
+                        cellCategor.ErrorText = "温馨提示：类型名称不能为空。";
+                        result = false;
+                    }
+                    else
+                        cellCategor.ErrorText = null;
                 }
                 else
-                    cellCode.ErrorText = null;
+                    cellCategor.ErrorText = null;
+
+                DataGridViewCell dateCell = rows[i].Cells[key + "date"];
+                if(!string.IsNullOrEmpty(GetValue(dateCell.Value)))
+                {
+                    if(!GetValue(dateCell.Value).Contains("-"))
+                    {
+                        dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
+                        result = false;
+                    }
+                    else
+                    {
+                        bool flag = DateTime.TryParse(GetValue(dateCell.Value), out DateTime date);
+                        if(!flag)
+                        {
+                            dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
+                            result = false;
+                        }
+                        else
+                            dateCell.ErrorText = null;
+                    }
+                }
             }
             return result;
         }
@@ -1261,7 +1417,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         /// <param name="objid">主键</param>
         /// <param name="controlType">操作对象类型</param>
-        private void UpdateProjectBasicInfo(object objid, ControlType controlType)
+        private void UpdateBasicInfo(object objid, ControlType controlType)
         {
            if(controlType == ControlType.Project)
             {
@@ -1271,8 +1427,8 @@ namespace 科技计划项目档案数据采集管理系统
                 string filed = txt_Project_Field.Text;
                 string theme = txt_Project_Theme.Text;
                 string funds = txt_Project_Funds.Text;
-                DateTime starttime = dtp_Project_StartTime.Value;
-                DateTime endtime = dtp_Project_EndTime.Value;
+                string starttime = txt_Project_StartTime.Text;
+                string endtime = txt_Project_EndTime.Text;
                 string year = txt_Project_Year.Text;
                 object unit = txt_Project_Unit.Text;
                 object province = txt_Project_Province.Text;
@@ -1304,8 +1460,8 @@ namespace 科技计划项目档案数据采集管理系统
                 string field = txt_Topic_Field.Text;
                 string theme = txt_Topic_Theme.Text;
                 string funds = txt_Topic_Fund.Text;
-                DateTime starttime = dtp_Topic_StartTime.Value;
-                DateTime endtime = dtp_Topic_EndTime.Value;
+                string starttime = txt_Topic_StartTime.Text;
+                string endtime = txt_Topic_EndTime.Text;
                 string year = txt_Topic_Year.Text;
                 object unit = txt_Topic_Unit.Text;
                 object province = txt_Topic_Province.Text;
@@ -1337,8 +1493,8 @@ namespace 科技计划项目档案数据采集管理系统
                 string field = txt_Subject_Field.Text;
                 string theme = txt_Subject_Theme.Text;
                 string fund = txt_Subject_Fund.Text;
-                DateTime starttime = dtp_Subject_StartTime.Value;
-                DateTime endtime = dtp_Subject_EndTime.Value;
+                string starttime = txt_Subject_StartTime.Text;
+                string endtime = txt_Subject_EndTime.Text;
                 string year = txt_Subject_Year.Text;
                 object unit = txt_Subject_Unit.Text;
                 string unituser = txt_Subject_Unituser.Text;
@@ -2730,7 +2886,7 @@ namespace 科技计划项目档案数据采集管理系统
                             SetFileState(_obj, value, false);
                         }
                     }
-                    LoadFileBoxTable(value, tab_Project_Info.Tag, ControlType.Plan);
+                    LoadFileBoxTable(value, tab_Project_Info.Tag, ControlType.Project);
                 }
                 else
                     XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
@@ -3789,7 +3945,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(type == ControlType.Plan)
             {
-                foreach(Control item in pal_JH_BtnGroup.Controls)
+                foreach(Control item in pal_Plan_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
                     if(item.Name.Contains("Submit"))
@@ -3798,7 +3954,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Project)
             {
-                foreach(Control item in pal_JH_XM_BtnGroup.Controls)
+                foreach(Control item in pal_Project_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
                     if(item.Name.Contains("Submit"))
@@ -3807,7 +3963,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Subject)
             {
-                foreach(Control item in pal_JH_XM_KT_ZKT_BtnGroup.Controls)
+                foreach(Control item in pal_Subject_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
                     if(item.Name.Contains("Submit"))
@@ -3816,7 +3972,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Topic)
             {
-                foreach(Control item in pal_JH_KT_BtnGroup.Controls)
+                foreach(Control item in pal_Topic_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
                     if(item.Name.Contains("Submit"))
@@ -3834,7 +3990,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Special)
             {
-                foreach(Control item in pal_Imp_Dev_BtnGroup.Controls)
+                foreach(Control item in pal_Special_BtnGroup.Controls)
                 {
                     item.Enabled = enable;
                     if(item.Name.Contains("Submit"))
@@ -4248,7 +4404,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void dgv_FileList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void Dgv_FileList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if(e.Button == MouseButtons.Right && e.RowIndex != -1 && e.ColumnIndex != -1)
             {
@@ -4270,7 +4426,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             DataGridView view = (DataGridView)((sender as ToolStripItem).GetCurrentParent() as ContextMenuStrip).Tag;
             object[] rootId = SqlHelper.ExecuteSingleColumnQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_trcid='{objId}' AND bfi_sort=-1");
@@ -4294,7 +4450,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             DataGridView view = (DataGridView)((sender as ToolStripItem).GetCurrentParent() as ContextMenuStrip).Tag;
             view.CurrentCell.Value = string.Empty;
@@ -4482,6 +4638,115 @@ namespace 科技计划项目档案数据采集管理系统
         private void Frm_MyWorkQT_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult = DialogResult.OK;
+        }
+
+        private void StartTime_ValueChanged(object sender, EventArgs e)
+        {
+            DateTimePicker picker = sender as DateTimePicker;
+            if(picker.Name.Contains("Project"))
+                txt_Project_StartTime.Text = picker.Value.ToString("yyyy-MM-dd");
+            else if(picker.Name.Contains("Topic"))
+                txt_Topic_StartTime.Text = picker.Value.ToString("yyyy-MM-dd");
+            else if(picker.Name.Contains("Subject"))
+                txt_Subject_StartTime.Text = picker.Value.ToString("yyyy-MM-dd");
+        }
+
+        private void EndTime_ValueChanged(object sender, EventArgs e)
+        {
+            DateTimePicker picker = sender as DateTimePicker;
+            if(picker.Name.Contains("Project"))
+                txt_Project_EndTime.Text = picker.Value.ToString("yyyy-MM-dd");
+            else if(picker.Name.Contains("Topic"))
+                txt_Topic_EndTime.Text = picker.Value.ToString("yyyy-MM-dd");
+            else if(picker.Name.Contains("Subject"))
+                txt_Subject_EndTime.Text = picker.Value.ToString("yyyy-MM-dd");
+        }
+
+        private void BtnGroup_EnabledChanged(object sender, EventArgs e)
+        {
+            Panel panel = sender as Panel;
+            if(panel.Name.Contains("Plan"))
+            {
+                dgv_Plan_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Plan_Box_Add.Enabled = panel.Enabled;
+                lbl_Plan_Box_Remove.Enabled = panel.Enabled;
+                foreach(Control item in tp_Plan_Box.Controls)
+                    if(item is KyoButton || item is LinkLabel)
+                        item.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Plan_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Plan_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+            }
+            else if(panel.Name.Contains("Project"))
+            {
+                dgv_Project_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Project_Box_Add.Enabled = panel.Enabled;
+                lbl_Project_Box_Remove.Enabled = panel.Enabled;
+                foreach(Control item in tp_Project_Box.Controls)
+                    if(item is KyoButton || item is LinkLabel)
+                        item.Enabled = panel.Enabled;
+                //可以继承别人做的项目
+                cbo_Project_HasNext.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Project_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Project_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+            }
+            else if(panel.Name.Contains("Topic"))
+            {
+                dgv_Topic_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Topic_Box_Add.Enabled = panel.Enabled;
+                lbl_Topic_Box_Remove.Enabled = panel.Enabled;
+                foreach(Control item in tp_Topic_Box.Controls)
+                    if(item is KyoButton || item is LinkLabel)
+                        item.Enabled = panel.Enabled;
+                cbo_Topic_HasNext.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Topic_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Topic_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+            }
+            else if(panel.Name.Contains("Subject"))
+            {
+                dgv_Subject_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Subject_Box_Add.Enabled = panel.Enabled;
+                lbl_Subject_Box_Remove.Enabled = panel.Enabled;
+                foreach(Control item in tp_Subject_Box.Controls)
+                    if(item is KyoButton || item is LinkLabel)
+                        item.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Subject_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Subject_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+            }
+            else if(panel.Name.Contains("Imp"))
+            {
+                dgv_Imp_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Imp_Box_Add.Enabled = panel.Enabled;
+                lbl_Imp_Box_Remove.Enabled = panel.Enabled;
+                foreach(Control item in tp_Imp_Box.Controls)
+                    if(item is KyoButton || item is LinkLabel)
+                        item.Enabled = panel.Enabled;
+                cbo_Imp_HasNext.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Imp_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Imp_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+            }
+            else if(panel.Name.Contains("Special"))
+            {
+                dgv_Special_FileList.AllowUserToAddRows = panel.Enabled;
+                lbl_Special_Box_Add.Enabled = panel.Enabled;
+                lbl_Special_Box_Remove.Enabled = panel.Enabled;
+                foreach(Control item in tp_Special_Box.Controls)
+                    if(item is KyoButton || item is LinkLabel)
+                        item.Enabled = panel.Enabled;
+                if(!panel.Enabled)
+                    dgv_Special_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                else
+                    dgv_Special_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+            }
         }
     }
 }

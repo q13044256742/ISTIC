@@ -136,20 +136,16 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             txt_SearchKey.Text = null;
         }
 
-        private void dgv_DataList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void Dgv_DataList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if(e.RowIndex != -1 && e.ColumnIndex != -1)
             {
-                string columnName = dgv_DataList.Columns[e.ColumnIndex].Name;
-                if("name".Equals(columnName))
-                {
-                    object pid = dgv_DataList.Rows[e.RowIndex].Cells["id"].Value;
-                    LoadTableInfo(pid);
+                object pid = dgv_DataList.Rows[e.RowIndex].Cells["id"].Value;
+                LoadTableInfo(pid);
 
-                    txt_SearchKey.Text = null;
-                    btn_Back.Enabled = true;
-                    dgv_DataList.Tag = pid;
-                }
+                txt_SearchKey.Text = null;
+                btn_Back.Enabled = true;
+                dgv_DataList.Tag = pid;
             }
         }
 
@@ -166,6 +162,11 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 dgv_DataList.Rows[index].Cells["note"].Value = row["dd_note"];
                 dgv_DataList.Rows[index].Cells["sort"].Value = row["dd_sort"];
             }
+        }
+
+        private void Dgv_DataList_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            Btn_updateClick(sender, e);
         }
     }
     

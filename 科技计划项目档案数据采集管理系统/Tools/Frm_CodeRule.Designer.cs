@@ -74,7 +74,7 @@
             this.cbo_Type.Name = "cbo_Type";
             this.cbo_Type.Size = new System.Drawing.Size(160, 28);
             this.cbo_Type.TabIndex = 1;
-            this.cbo_Type.SelectedIndexChanged += new System.EventHandler(this.cbo_Type_SelectedIndexChanged);
+            this.cbo_Type.SelectedIndexChanged += new System.EventHandler(this.Cbo_Type_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -173,7 +173,7 @@
             this.btn_Save.Size = new System.Drawing.Size(68, 30);
             this.btn_Save.TabIndex = 10;
             this.btn_Save.Text = "保存";
-            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
+            this.btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // btn_Reset
             // 
@@ -200,9 +200,9 @@
             // 
             this.txt_Mdi.Location = new System.Drawing.Point(155, 280);
             this.txt_Mdi.Name = "txt_Mdi";
+            this.txt_Mdi.ReadOnly = true;
             this.txt_Mdi.Size = new System.Drawing.Size(37, 26);
             this.txt_Mdi.TabIndex = 13;
-            this.txt_Mdi.Text = "-";
             this.txt_Mdi.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txt_Mdi.TextChanged += new System.EventHandler(this.txt_Mdi_TextChanged);
             // 

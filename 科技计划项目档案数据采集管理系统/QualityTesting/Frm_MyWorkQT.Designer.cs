@@ -29,21 +29,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_MyWorkQT));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
             this.treeView = new System.Windows.Forms.TreeView();
             this.strip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,7 +79,7 @@
             this.special_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.special_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.special_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage28 = new DevExpress.XtraTab.XtraTabPage();
+            this.tp_Special_Box = new DevExpress.XtraTab.XtraTabPage();
             this.txt_Special_AJ_Name = new System.Windows.Forms.TextBox();
             this.txt_Special_AJ_Code = new System.Windows.Forms.TextBox();
             this.label162 = new System.Windows.Forms.Label();
@@ -98,7 +98,7 @@
             this.lbl_Special_Box_Add = new System.Windows.Forms.LinkLabel();
             this.cbo_Special_Box = new System.Windows.Forms.ComboBox();
             this.label145 = new System.Windows.Forms.Label();
-            this.pal_Imp_Dev_BtnGroup = new System.Windows.Forms.Panel();
+            this.pal_Special_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_Special_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Special_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Special_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -141,7 +141,7 @@
             this.imp_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imp_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.imp_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage24 = new DevExpress.XtraTab.XtraTabPage();
+            this.tp_Imp_Box = new DevExpress.XtraTab.XtraTabPage();
             this.txt_Imp_AJ_Name = new System.Windows.Forms.TextBox();
             this.txt_Imp_AJ_Code = new System.Windows.Forms.TextBox();
             this.label158 = new System.Windows.Forms.Label();
@@ -199,7 +199,7 @@
             this.subject_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subject_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.subject_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage19 = new DevExpress.XtraTab.XtraTabPage();
+            this.tp_Subject_Box = new DevExpress.XtraTab.XtraTabPage();
             this.txt_Subject_AJ_Name = new System.Windows.Forms.TextBox();
             this.txt_Subject_AJ_Code = new System.Windows.Forms.TextBox();
             this.label154 = new System.Windows.Forms.Label();
@@ -218,17 +218,19 @@
             this.lbl_Subject_Box_Add = new System.Windows.Forms.LinkLabel();
             this.cbo_Subject_Box = new System.Windows.Forms.ComboBox();
             this.label87 = new System.Windows.Forms.Label();
-            this.pal_JH_XM_KT_ZKT_BtnGroup = new System.Windows.Forms.Panel();
+            this.pal_Subject_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_Subject_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Subject_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Subject_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Subject_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.pal_Subject = new System.Windows.Forms.Panel();
+            this.txt_Subject_EndTime = new System.Windows.Forms.TextBox();
+            this.txt_Subject_StartTime = new System.Windows.Forms.TextBox();
+            this.dtp_Subject_EndTime = new System.Windows.Forms.DateTimePicker();
+            this.dtp_Subject_StartTime = new System.Windows.Forms.DateTimePicker();
             this.txt_Subject_Province = new System.Windows.Forms.TextBox();
             this.txt_Subject_Unit = new System.Windows.Forms.TextBox();
             this.txt_Subject_Fund = new System.Windows.Forms.NumericUpDown();
-            this.dtp_Subject_EndTime = new System.Windows.Forms.DateTimePicker();
-            this.dtp_Subject_StartTime = new System.Windows.Forms.DateTimePicker();
             this.txt_Subject_ProUser = new System.Windows.Forms.TextBox();
             this.label88 = new System.Windows.Forms.Label();
             this.txt_Subject_Unituser = new System.Windows.Forms.TextBox();
@@ -277,7 +279,7 @@
             this.topic_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.topic_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.topic_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage8 = new DevExpress.XtraTab.XtraTabPage();
+            this.tp_Topic_Box = new DevExpress.XtraTab.XtraTabPage();
             this.txt_Topic_AJ_Name = new System.Windows.Forms.TextBox();
             this.txt_Topic_AJ_Code = new System.Windows.Forms.TextBox();
             this.label136 = new System.Windows.Forms.Label();
@@ -296,17 +298,19 @@
             this.lbl_Topic_Box_Add = new System.Windows.Forms.LinkLabel();
             this.cbo_Topic_Box = new System.Windows.Forms.ComboBox();
             this.label71 = new System.Windows.Forms.Label();
-            this.pal_JH_KT_BtnGroup = new System.Windows.Forms.Panel();
+            this.pal_Topic_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_Topic_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Topic_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Topic_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Topic_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.pal_Topic = new System.Windows.Forms.Panel();
+            this.txt_Topic_EndTime = new System.Windows.Forms.TextBox();
+            this.txt_Topic_StartTime = new System.Windows.Forms.TextBox();
+            this.dtp_Topic_EndTime = new System.Windows.Forms.DateTimePicker();
+            this.dtp_Topic_StartTime = new System.Windows.Forms.DateTimePicker();
             this.txt_Topic_Province = new System.Windows.Forms.TextBox();
             this.txt_Topic_Unit = new System.Windows.Forms.TextBox();
             this.txt_Topic_Fund = new System.Windows.Forms.NumericUpDown();
-            this.dtp_Topic_EndTime = new System.Windows.Forms.DateTimePicker();
-            this.dtp_Topic_StartTime = new System.Windows.Forms.DateTimePicker();
             this.txt_Topic_ProUser = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txt_Topic_UnitUser = new System.Windows.Forms.TextBox();
@@ -356,7 +360,7 @@
             this.project_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.project_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.project_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage4 = new DevExpress.XtraTab.XtraTabPage();
+            this.tp_Project_Box = new DevExpress.XtraTab.XtraTabPage();
             this.txt_Project_AJ_Name = new System.Windows.Forms.TextBox();
             this.txt_Project_AJ_Code = new System.Windows.Forms.TextBox();
             this.label114 = new System.Windows.Forms.Label();
@@ -375,17 +379,19 @@
             this.lbl_Project_Box_Add = new System.Windows.Forms.LinkLabel();
             this.cbo_Project_Box = new System.Windows.Forms.ComboBox();
             this.label63 = new System.Windows.Forms.Label();
-            this.pal_JH_XM_BtnGroup = new System.Windows.Forms.Panel();
+            this.pal_Project_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_Project_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Project_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Project_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Project_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.pal_Project = new System.Windows.Forms.Panel();
+            this.txt_Project_EndTime = new System.Windows.Forms.TextBox();
+            this.txt_Project_StartTime = new System.Windows.Forms.TextBox();
+            this.dtp_Project_EndTime = new System.Windows.Forms.DateTimePicker();
+            this.dtp_Project_StartTime = new System.Windows.Forms.DateTimePicker();
             this.txt_Project_Province = new System.Windows.Forms.TextBox();
             this.txt_Project_Unit = new System.Windows.Forms.TextBox();
             this.txt_Project_Funds = new System.Windows.Forms.NumericUpDown();
-            this.dtp_Project_EndTime = new System.Windows.Forms.DateTimePicker();
-            this.dtp_Project_StartTime = new System.Windows.Forms.DateTimePicker();
             this.txt_Project_ProUser = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txt_Project_UnitUser = new System.Windows.Forms.TextBox();
@@ -435,7 +441,7 @@
             this.plan_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.plan_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.plan_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.box = new DevExpress.XtraTab.XtraTabPage();
+            this.tp_Plan_Box = new DevExpress.XtraTab.XtraTabPage();
             this.txt_Plan_AJ_Name = new System.Windows.Forms.TextBox();
             this.txt_Plan_AJ_Code = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
@@ -454,7 +460,7 @@
             this.lbl_Plan_Box_Add = new System.Windows.Forms.LinkLabel();
             this.cbo_Plan_Box = new System.Windows.Forms.ComboBox();
             this.label54 = new System.Windows.Forms.Label();
-            this.pal_JH_BtnGroup = new System.Windows.Forms.Panel();
+            this.pal_Plan_BtnGroup = new System.Windows.Forms.Panel();
             this.btn_Plan_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Plan_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Plan_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -467,6 +473,7 @@
             this.lbl_Plan_Name = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.tab_MenuList = new System.Windows.Forms.TabControl();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.strip.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.special.SuspendLayout();
@@ -476,8 +483,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Special_FileList)).BeginInit();
             this.tabPage26.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Special_FileValid)).BeginInit();
-            this.tabPage28.SuspendLayout();
-            this.pal_Imp_Dev_BtnGroup.SuspendLayout();
+            this.tp_Special_Box.SuspendLayout();
+            this.pal_Special_BtnGroup.SuspendLayout();
             this.pal_Special.SuspendLayout();
             this.imp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab_Imp_Info)).BeginInit();
@@ -486,7 +493,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_FileList)).BeginInit();
             this.tabPage22.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_FileValid)).BeginInit();
-            this.tabPage24.SuspendLayout();
+            this.tp_Imp_Box.SuspendLayout();
             this.pal_Imp_BtnGroup.SuspendLayout();
             this.pal_Imp.SuspendLayout();
             this.subject.SuspendLayout();
@@ -496,8 +503,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Subject_FileList)).BeginInit();
             this.tabPage17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Subject_FileValid)).BeginInit();
-            this.tabPage19.SuspendLayout();
-            this.pal_JH_XM_KT_ZKT_BtnGroup.SuspendLayout();
+            this.tp_Subject_Box.SuspendLayout();
+            this.pal_Subject_BtnGroup.SuspendLayout();
             this.pal_Subject.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Subject_Fund)).BeginInit();
             this.topic.SuspendLayout();
@@ -507,8 +514,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Topic_FileList)).BeginInit();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Topic_FileValid)).BeginInit();
-            this.tabPage8.SuspendLayout();
-            this.pal_JH_KT_BtnGroup.SuspendLayout();
+            this.tp_Topic_Box.SuspendLayout();
+            this.pal_Topic_BtnGroup.SuspendLayout();
             this.pal_Topic.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Topic_Fund)).BeginInit();
             this.project.SuspendLayout();
@@ -518,8 +525,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project_FileList)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project_FileValid)).BeginInit();
-            this.tabPage4.SuspendLayout();
-            this.pal_JH_XM_BtnGroup.SuspendLayout();
+            this.tp_Project_Box.SuspendLayout();
+            this.pal_Project_BtnGroup.SuspendLayout();
             this.pal_Project.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Project_Funds)).BeginInit();
             this.plan.SuspendLayout();
@@ -529,10 +536,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Plan_FileList)).BeginInit();
             this.fileCheck.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Plan_FileValid)).BeginInit();
-            this.box.SuspendLayout();
-            this.pal_JH_BtnGroup.SuspendLayout();
+            this.tp_Plan_Box.SuspendLayout();
+            this.pal_Plan_BtnGroup.SuspendLayout();
             this.pal_Plan.SuspendLayout();
             this.tab_MenuList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // treeView
@@ -559,14 +567,14 @@
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
             this.toolStripMenuItem1.Text = "添加文件(&A)";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(141, 22);
             this.toolStripMenuItem2.Text = "删除文件(&D)";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
             // contextMenuStrip1
             // 
@@ -602,7 +610,7 @@
             // 
             this.special.BackColor = System.Drawing.SystemColors.Control;
             this.special.Controls.Add(this.tab_Special_Info);
-            this.special.Controls.Add(this.pal_Imp_Dev_BtnGroup);
+            this.special.Controls.Add(this.pal_Special_BtnGroup);
             this.special.Controls.Add(this.pal_Special);
             this.special.Location = new System.Drawing.Point(4, 30);
             this.special.Name = "special";
@@ -623,7 +631,7 @@
             this.tab_Special_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage25,
             this.tabPage26,
-            this.tabPage28});
+            this.tp_Special_Box});
             this.tab_Special_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage25
@@ -640,14 +648,14 @@
             // 
             this.dgv_Special_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Special_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Special_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle29.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle29.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle29.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle29.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle29.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Special_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle29;
             this.dgv_Special_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Special_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.special_fl_id,
@@ -673,7 +681,7 @@
             this.dgv_Special_FileList.Size = new System.Drawing.Size(1068, 314);
             this.dgv_Special_FileList.TabIndex = 0;
             this.dgv_Special_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
-            this.dgv_Special_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
+            this.dgv_Special_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_FileList_CellMouseDown);
             this.dgv_Special_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Special_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Special_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
@@ -791,14 +799,14 @@
             this.dgv_Special_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Special_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Special_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Special_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle30.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle30.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle30.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Special_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle30;
             this.dgv_Special_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Special_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.special_fc_id,
@@ -853,31 +861,31 @@
             this.special_fc_remark.HeaderText = "备注";
             this.special_fc_remark.Name = "special_fc_remark";
             // 
-            // tabPage28
+            // tp_Special_Box
             // 
-            this.tabPage28.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.tabPage28.Appearance.Header.Options.UseFont = true;
-            this.tabPage28.Controls.Add(this.txt_Special_AJ_Name);
-            this.tabPage28.Controls.Add(this.txt_Special_AJ_Code);
-            this.tabPage28.Controls.Add(this.label162);
-            this.tabPage28.Controls.Add(this.label163);
-            this.tabPage28.Controls.Add(this.btn_Special_Box_Bottom);
-            this.tabPage28.Controls.Add(this.btn_Special_Box_Top);
-            this.tabPage28.Controls.Add(this.btn_Special_Box_LeftAll);
-            this.tabPage28.Controls.Add(this.btn_Special_Box_Left);
-            this.tabPage28.Controls.Add(this.btn_Special_Box_RightAll);
-            this.tabPage28.Controls.Add(this.btn_Special_Box_Right);
-            this.tabPage28.Controls.Add(this.lsv_Imp_Dev_File2);
-            this.tabPage28.Controls.Add(this.lsv_Imp_Dev_File1);
-            this.tabPage28.Controls.Add(this.txt_Special_Box_GCID);
-            this.tabPage28.Controls.Add(this.label144);
-            this.tabPage28.Controls.Add(this.lbl_Special_Box_Remove);
-            this.tabPage28.Controls.Add(this.lbl_Special_Box_Add);
-            this.tabPage28.Controls.Add(this.cbo_Special_Box);
-            this.tabPage28.Controls.Add(this.label145);
-            this.tabPage28.Name = "tabPage28";
-            this.tabPage28.Size = new System.Drawing.Size(1074, 320);
-            this.tabPage28.Text = "卷盒信息";
+            this.tp_Special_Box.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tp_Special_Box.Appearance.Header.Options.UseFont = true;
+            this.tp_Special_Box.Controls.Add(this.txt_Special_AJ_Name);
+            this.tp_Special_Box.Controls.Add(this.txt_Special_AJ_Code);
+            this.tp_Special_Box.Controls.Add(this.label162);
+            this.tp_Special_Box.Controls.Add(this.label163);
+            this.tp_Special_Box.Controls.Add(this.btn_Special_Box_Bottom);
+            this.tp_Special_Box.Controls.Add(this.btn_Special_Box_Top);
+            this.tp_Special_Box.Controls.Add(this.btn_Special_Box_LeftAll);
+            this.tp_Special_Box.Controls.Add(this.btn_Special_Box_Left);
+            this.tp_Special_Box.Controls.Add(this.btn_Special_Box_RightAll);
+            this.tp_Special_Box.Controls.Add(this.btn_Special_Box_Right);
+            this.tp_Special_Box.Controls.Add(this.lsv_Imp_Dev_File2);
+            this.tp_Special_Box.Controls.Add(this.lsv_Imp_Dev_File1);
+            this.tp_Special_Box.Controls.Add(this.txt_Special_Box_GCID);
+            this.tp_Special_Box.Controls.Add(this.label144);
+            this.tp_Special_Box.Controls.Add(this.lbl_Special_Box_Remove);
+            this.tp_Special_Box.Controls.Add(this.lbl_Special_Box_Add);
+            this.tp_Special_Box.Controls.Add(this.cbo_Special_Box);
+            this.tp_Special_Box.Controls.Add(this.label145);
+            this.tp_Special_Box.Name = "tp_Special_Box";
+            this.tp_Special_Box.Size = new System.Drawing.Size(1074, 320);
+            this.tp_Special_Box.Text = "卷盒信息";
             // 
             // txt_Special_AJ_Name
             // 
@@ -1072,17 +1080,18 @@
             this.label145.TabIndex = 0;
             this.label145.Text = "盒号:";
             // 
-            // pal_Imp_Dev_BtnGroup
+            // pal_Special_BtnGroup
             // 
-            this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Special_QTReason);
-            this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Special_AddFile);
-            this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Special_Submit);
-            this.pal_Imp_Dev_BtnGroup.Controls.Add(this.btn_Special_Save);
-            this.pal_Imp_Dev_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_Imp_Dev_BtnGroup.Location = new System.Drawing.Point(0, 667);
-            this.pal_Imp_Dev_BtnGroup.Name = "pal_Imp_Dev_BtnGroup";
-            this.pal_Imp_Dev_BtnGroup.Size = new System.Drawing.Size(1086, 40);
-            this.pal_Imp_Dev_BtnGroup.TabIndex = 5;
+            this.pal_Special_BtnGroup.Controls.Add(this.btn_Special_QTReason);
+            this.pal_Special_BtnGroup.Controls.Add(this.btn_Special_AddFile);
+            this.pal_Special_BtnGroup.Controls.Add(this.btn_Special_Submit);
+            this.pal_Special_BtnGroup.Controls.Add(this.btn_Special_Save);
+            this.pal_Special_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pal_Special_BtnGroup.Location = new System.Drawing.Point(0, 667);
+            this.pal_Special_BtnGroup.Name = "pal_Special_BtnGroup";
+            this.pal_Special_BtnGroup.Size = new System.Drawing.Size(1086, 40);
+            this.pal_Special_BtnGroup.TabIndex = 5;
+            this.pal_Special_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
             // 
             // btn_Special_QTReason
             // 
@@ -1288,7 +1297,7 @@
             this.tab_Imp_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage21,
             this.tabPage22,
-            this.tabPage24});
+            this.tp_Imp_Box});
             this.tab_Imp_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage21
@@ -1305,14 +1314,14 @@
             // 
             this.dgv_Imp_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Imp_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle31.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle31.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle31.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle31.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle31.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle31;
             this.dgv_Imp_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.imp_fl_id,
             this.imp_fl_stage,
@@ -1337,7 +1346,7 @@
             this.dgv_Imp_FileList.Size = new System.Drawing.Size(1068, 311);
             this.dgv_Imp_FileList.TabIndex = 0;
             this.dgv_Imp_FileList.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
-            this.dgv_Imp_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
+            this.dgv_Imp_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_FileList_CellMouseDown);
             this.dgv_Imp_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Imp_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Imp_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
@@ -1455,14 +1464,14 @@
             this.dgv_Imp_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Imp_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Imp_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle32.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle32.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle32.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
             this.dgv_Imp_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.imp_fc_id,
             this.imp_fc_categor,
@@ -1516,31 +1525,31 @@
             this.imp_fc_remark.HeaderText = "备注";
             this.imp_fc_remark.Name = "imp_fc_remark";
             // 
-            // tabPage24
+            // tp_Imp_Box
             // 
-            this.tabPage24.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.tabPage24.Appearance.Header.Options.UseFont = true;
-            this.tabPage24.Controls.Add(this.txt_Imp_AJ_Name);
-            this.tabPage24.Controls.Add(this.txt_Imp_AJ_Code);
-            this.tabPage24.Controls.Add(this.label158);
-            this.tabPage24.Controls.Add(this.label159);
-            this.tabPage24.Controls.Add(this.btn_Imp_Box_Bottom);
-            this.tabPage24.Controls.Add(this.btn_Imp_Box_Top);
-            this.tabPage24.Controls.Add(this.btn_Imp_Box_LeftAll);
-            this.tabPage24.Controls.Add(this.btn_Imp_Box_Left);
-            this.tabPage24.Controls.Add(this.btn_Imp_Box_RightAll);
-            this.tabPage24.Controls.Add(this.btn_Imp_Box_Right);
-            this.tabPage24.Controls.Add(this.lsv_Imp_File2);
-            this.tabPage24.Controls.Add(this.lsv_Imp_File1);
-            this.tabPage24.Controls.Add(this.txt_Imp_Box_GCID);
-            this.tabPage24.Controls.Add(this.label131);
-            this.tabPage24.Controls.Add(this.lbl_Imp_Box_Remove);
-            this.tabPage24.Controls.Add(this.lbl_Imp_Box_Add);
-            this.tabPage24.Controls.Add(this.cbo_Imp_Box);
-            this.tabPage24.Controls.Add(this.label132);
-            this.tabPage24.Name = "tabPage24";
-            this.tabPage24.Size = new System.Drawing.Size(1074, 317);
-            this.tabPage24.Text = "卷盒信息";
+            this.tp_Imp_Box.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tp_Imp_Box.Appearance.Header.Options.UseFont = true;
+            this.tp_Imp_Box.Controls.Add(this.txt_Imp_AJ_Name);
+            this.tp_Imp_Box.Controls.Add(this.txt_Imp_AJ_Code);
+            this.tp_Imp_Box.Controls.Add(this.label158);
+            this.tp_Imp_Box.Controls.Add(this.label159);
+            this.tp_Imp_Box.Controls.Add(this.btn_Imp_Box_Bottom);
+            this.tp_Imp_Box.Controls.Add(this.btn_Imp_Box_Top);
+            this.tp_Imp_Box.Controls.Add(this.btn_Imp_Box_LeftAll);
+            this.tp_Imp_Box.Controls.Add(this.btn_Imp_Box_Left);
+            this.tp_Imp_Box.Controls.Add(this.btn_Imp_Box_RightAll);
+            this.tp_Imp_Box.Controls.Add(this.btn_Imp_Box_Right);
+            this.tp_Imp_Box.Controls.Add(this.lsv_Imp_File2);
+            this.tp_Imp_Box.Controls.Add(this.lsv_Imp_File1);
+            this.tp_Imp_Box.Controls.Add(this.txt_Imp_Box_GCID);
+            this.tp_Imp_Box.Controls.Add(this.label131);
+            this.tp_Imp_Box.Controls.Add(this.lbl_Imp_Box_Remove);
+            this.tp_Imp_Box.Controls.Add(this.lbl_Imp_Box_Add);
+            this.tp_Imp_Box.Controls.Add(this.cbo_Imp_Box);
+            this.tp_Imp_Box.Controls.Add(this.label132);
+            this.tp_Imp_Box.Name = "tp_Imp_Box";
+            this.tp_Imp_Box.Size = new System.Drawing.Size(1074, 317);
+            this.tp_Imp_Box.Text = "卷盒信息";
             // 
             // txt_Imp_AJ_Name
             // 
@@ -1746,6 +1755,7 @@
             this.pal_Imp_BtnGroup.Name = "pal_Imp_BtnGroup";
             this.pal_Imp_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Imp_BtnGroup.TabIndex = 5;
+            this.pal_Imp_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
             // 
             // btn_Imp_QTReason
             // 
@@ -1886,7 +1896,7 @@
             // 
             this.subject.BackColor = System.Drawing.SystemColors.Control;
             this.subject.Controls.Add(this.tab_Subject_Info);
-            this.subject.Controls.Add(this.pal_JH_XM_KT_ZKT_BtnGroup);
+            this.subject.Controls.Add(this.pal_Subject_BtnGroup);
             this.subject.Controls.Add(this.pal_Subject);
             this.subject.Location = new System.Drawing.Point(4, 30);
             this.subject.Name = "subject";
@@ -1908,7 +1918,7 @@
             this.tab_Subject_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage16,
             this.tabPage17,
-            this.tabPage19});
+            this.tp_Subject_Box});
             this.tab_Subject_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage16
@@ -1925,14 +1935,14 @@
             // 
             this.dgv_Subject_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Subject_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Subject_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle33.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle33.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle33.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle33.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle33.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Subject_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle33;
             this.dgv_Subject_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Subject_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.subject_fl_id,
@@ -1958,7 +1968,7 @@
             this.dgv_Subject_FileList.Size = new System.Drawing.Size(1068, 311);
             this.dgv_Subject_FileList.TabIndex = 0;
             this.dgv_Subject_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
-            this.dgv_Subject_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
+            this.dgv_Subject_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_FileList_CellMouseDown);
             this.dgv_Subject_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Subject_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Subject_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
@@ -2076,14 +2086,14 @@
             this.dgv_Subject_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Subject_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Subject_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Subject_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle34.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle34.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle34.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle34.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle34.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Subject_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle34;
             this.dgv_Subject_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Subject_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.subject_fc_id,
@@ -2137,31 +2147,31 @@
             this.subject_fc_remark.HeaderText = "备注";
             this.subject_fc_remark.Name = "subject_fc_remark";
             // 
-            // tabPage19
+            // tp_Subject_Box
             // 
-            this.tabPage19.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.tabPage19.Appearance.Header.Options.UseFont = true;
-            this.tabPage19.Controls.Add(this.txt_Subject_AJ_Name);
-            this.tabPage19.Controls.Add(this.txt_Subject_AJ_Code);
-            this.tabPage19.Controls.Add(this.label154);
-            this.tabPage19.Controls.Add(this.label155);
-            this.tabPage19.Controls.Add(this.btn_Subject_Box_Bottom);
-            this.tabPage19.Controls.Add(this.btn_Subject_Box_Top);
-            this.tabPage19.Controls.Add(this.btn_Subject_Box_LeftAll);
-            this.tabPage19.Controls.Add(this.btn_Subject_Box_Left);
-            this.tabPage19.Controls.Add(this.btn_Subject_Box_RightAll);
-            this.tabPage19.Controls.Add(this.btn_Subject_Box_Right);
-            this.tabPage19.Controls.Add(this.lsv_JH_XM_KT_ZKT_File2);
-            this.tabPage19.Controls.Add(this.lsv_JH_XM_KT_ZKT_File1);
-            this.tabPage19.Controls.Add(this.txt_Subject_Box_GCID);
-            this.tabPage19.Controls.Add(this.label86);
-            this.tabPage19.Controls.Add(this.lbl_Subject_Box_Remove);
-            this.tabPage19.Controls.Add(this.lbl_Subject_Box_Add);
-            this.tabPage19.Controls.Add(this.cbo_Subject_Box);
-            this.tabPage19.Controls.Add(this.label87);
-            this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Size = new System.Drawing.Size(1074, 317);
-            this.tabPage19.Text = "卷盒信息";
+            this.tp_Subject_Box.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tp_Subject_Box.Appearance.Header.Options.UseFont = true;
+            this.tp_Subject_Box.Controls.Add(this.txt_Subject_AJ_Name);
+            this.tp_Subject_Box.Controls.Add(this.txt_Subject_AJ_Code);
+            this.tp_Subject_Box.Controls.Add(this.label154);
+            this.tp_Subject_Box.Controls.Add(this.label155);
+            this.tp_Subject_Box.Controls.Add(this.btn_Subject_Box_Bottom);
+            this.tp_Subject_Box.Controls.Add(this.btn_Subject_Box_Top);
+            this.tp_Subject_Box.Controls.Add(this.btn_Subject_Box_LeftAll);
+            this.tp_Subject_Box.Controls.Add(this.btn_Subject_Box_Left);
+            this.tp_Subject_Box.Controls.Add(this.btn_Subject_Box_RightAll);
+            this.tp_Subject_Box.Controls.Add(this.btn_Subject_Box_Right);
+            this.tp_Subject_Box.Controls.Add(this.lsv_JH_XM_KT_ZKT_File2);
+            this.tp_Subject_Box.Controls.Add(this.lsv_JH_XM_KT_ZKT_File1);
+            this.tp_Subject_Box.Controls.Add(this.txt_Subject_Box_GCID);
+            this.tp_Subject_Box.Controls.Add(this.label86);
+            this.tp_Subject_Box.Controls.Add(this.lbl_Subject_Box_Remove);
+            this.tp_Subject_Box.Controls.Add(this.lbl_Subject_Box_Add);
+            this.tp_Subject_Box.Controls.Add(this.cbo_Subject_Box);
+            this.tp_Subject_Box.Controls.Add(this.label87);
+            this.tp_Subject_Box.Name = "tp_Subject_Box";
+            this.tp_Subject_Box.Size = new System.Drawing.Size(1074, 317);
+            this.tp_Subject_Box.Text = "卷盒信息";
             // 
             // txt_Subject_AJ_Name
             // 
@@ -2356,18 +2366,19 @@
             this.label87.TabIndex = 0;
             this.label87.Text = "盒号:";
             // 
-            // pal_JH_XM_KT_ZKT_BtnGroup
+            // pal_Subject_BtnGroup
             // 
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_Subject_QTReason);
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_Subject_AddFile);
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_Subject_Submit);
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Controls.Add(this.btn_Subject_Save);
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Font = new System.Drawing.Font("宋体", 11F);
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Location = new System.Drawing.Point(3, 664);
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Name = "pal_JH_XM_KT_ZKT_BtnGroup";
-            this.pal_JH_XM_KT_ZKT_BtnGroup.Size = new System.Drawing.Size(1080, 40);
-            this.pal_JH_XM_KT_ZKT_BtnGroup.TabIndex = 10;
+            this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_QTReason);
+            this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_AddFile);
+            this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_Submit);
+            this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_Save);
+            this.pal_Subject_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pal_Subject_BtnGroup.Font = new System.Drawing.Font("宋体", 11F);
+            this.pal_Subject_BtnGroup.Location = new System.Drawing.Point(3, 664);
+            this.pal_Subject_BtnGroup.Name = "pal_Subject_BtnGroup";
+            this.pal_Subject_BtnGroup.Size = new System.Drawing.Size(1080, 40);
+            this.pal_Subject_BtnGroup.TabIndex = 10;
+            this.pal_Subject_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
             // 
             // btn_Subject_QTReason
             // 
@@ -2428,11 +2439,13 @@
             this.pal_Subject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pal_Subject.BackColor = System.Drawing.SystemColors.Control;
+            this.pal_Subject.Controls.Add(this.txt_Subject_EndTime);
+            this.pal_Subject.Controls.Add(this.txt_Subject_StartTime);
+            this.pal_Subject.Controls.Add(this.dtp_Subject_EndTime);
+            this.pal_Subject.Controls.Add(this.dtp_Subject_StartTime);
             this.pal_Subject.Controls.Add(this.txt_Subject_Province);
             this.pal_Subject.Controls.Add(this.txt_Subject_Unit);
             this.pal_Subject.Controls.Add(this.txt_Subject_Fund);
-            this.pal_Subject.Controls.Add(this.dtp_Subject_EndTime);
-            this.pal_Subject.Controls.Add(this.dtp_Subject_StartTime);
             this.pal_Subject.Controls.Add(this.txt_Subject_ProUser);
             this.pal_Subject.Controls.Add(this.label88);
             this.pal_Subject.Controls.Add(this.txt_Subject_Unituser);
@@ -2459,12 +2472,48 @@
             this.pal_Subject.Size = new System.Drawing.Size(1078, 302);
             this.pal_Subject.TabIndex = 8;
             // 
+            // txt_Subject_EndTime
+            // 
+            this.txt_Subject_EndTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.txt_Subject_EndTime.Location = new System.Drawing.Point(467, 69);
+            this.txt_Subject_EndTime.Name = "txt_Subject_EndTime";
+            this.txt_Subject_EndTime.Size = new System.Drawing.Size(206, 30);
+            this.txt_Subject_EndTime.TabIndex = 76;
+            // 
+            // txt_Subject_StartTime
+            // 
+            this.txt_Subject_StartTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.txt_Subject_StartTime.Location = new System.Drawing.Point(111, 69);
+            this.txt_Subject_StartTime.Name = "txt_Subject_StartTime";
+            this.txt_Subject_StartTime.Size = new System.Drawing.Size(206, 30);
+            this.txt_Subject_StartTime.TabIndex = 75;
+            // 
+            // dtp_Subject_EndTime
+            // 
+            this.dtp_Subject_EndTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dtp_Subject_EndTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.dtp_Subject_EndTime.Location = new System.Drawing.Point(675, 69);
+            this.dtp_Subject_EndTime.Name = "dtp_Subject_EndTime";
+            this.dtp_Subject_EndTime.Size = new System.Drawing.Size(16, 30);
+            this.dtp_Subject_EndTime.TabIndex = 74;
+            this.dtp_Subject_EndTime.ValueChanged += new System.EventHandler(this.EndTime_ValueChanged);
+            // 
+            // dtp_Subject_StartTime
+            // 
+            this.dtp_Subject_StartTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dtp_Subject_StartTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.dtp_Subject_StartTime.Location = new System.Drawing.Point(319, 69);
+            this.dtp_Subject_StartTime.Name = "dtp_Subject_StartTime";
+            this.dtp_Subject_StartTime.Size = new System.Drawing.Size(16, 30);
+            this.dtp_Subject_StartTime.TabIndex = 73;
+            this.dtp_Subject_StartTime.ValueChanged += new System.EventHandler(this.StartTime_ValueChanged);
+            // 
             // txt_Subject_Province
             // 
             this.txt_Subject_Province.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Subject_Province.Location = new System.Drawing.Point(467, 100);
             this.txt_Subject_Province.Name = "txt_Subject_Province";
-            this.txt_Subject_Province.Size = new System.Drawing.Size(215, 30);
+            this.txt_Subject_Province.Size = new System.Drawing.Size(224, 30);
             this.txt_Subject_Province.TabIndex = 72;
             // 
             // txt_Subject_Unit
@@ -2477,33 +2526,17 @@
             // 
             // txt_Subject_Fund
             // 
+            this.txt_Subject_Fund.DecimalPlaces = 2;
             this.txt_Subject_Fund.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Subject_Fund.Location = new System.Drawing.Point(826, 38);
+            this.txt_Subject_Fund.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
             this.txt_Subject_Fund.Name = "txt_Subject_Fund";
-            this.txt_Subject_Fund.Size = new System.Drawing.Size(215, 30);
+            this.txt_Subject_Fund.Size = new System.Drawing.Size(224, 30);
             this.txt_Subject_Fund.TabIndex = 68;
-            // 
-            // dtp_Subject_EndTime
-            // 
-            this.dtp_Subject_EndTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Subject_EndTime.CustomFormat = "yyyy-MM-dd";
-            this.dtp_Subject_EndTime.Font = new System.Drawing.Font("宋体", 15F);
-            this.dtp_Subject_EndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Subject_EndTime.Location = new System.Drawing.Point(467, 69);
-            this.dtp_Subject_EndTime.Name = "dtp_Subject_EndTime";
-            this.dtp_Subject_EndTime.Size = new System.Drawing.Size(215, 30);
-            this.dtp_Subject_EndTime.TabIndex = 67;
-            // 
-            // dtp_Subject_StartTime
-            // 
-            this.dtp_Subject_StartTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Subject_StartTime.CustomFormat = "yyyy-MM-dd";
-            this.dtp_Subject_StartTime.Font = new System.Drawing.Font("宋体", 15F);
-            this.dtp_Subject_StartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Subject_StartTime.Location = new System.Drawing.Point(111, 69);
-            this.dtp_Subject_StartTime.Name = "dtp_Subject_StartTime";
-            this.dtp_Subject_StartTime.Size = new System.Drawing.Size(224, 30);
-            this.dtp_Subject_StartTime.TabIndex = 66;
             // 
             // txt_Subject_ProUser
             // 
@@ -2528,7 +2561,7 @@
             this.txt_Subject_Unituser.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Subject_Unituser.Location = new System.Drawing.Point(467, 131);
             this.txt_Subject_Unituser.Name = "txt_Subject_Unituser";
-            this.txt_Subject_Unituser.Size = new System.Drawing.Size(215, 30);
+            this.txt_Subject_Unituser.Size = new System.Drawing.Size(224, 30);
             this.txt_Subject_Unituser.TabIndex = 63;
             // 
             // label89
@@ -2548,7 +2581,7 @@
             this.txt_Subject_Intro.Multiline = true;
             this.txt_Subject_Intro.Name = "txt_Subject_Intro";
             this.txt_Subject_Intro.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_Subject_Intro.Size = new System.Drawing.Size(930, 122);
+            this.txt_Subject_Intro.Size = new System.Drawing.Size(939, 122);
             this.txt_Subject_Intro.TabIndex = 61;
             // 
             // label90
@@ -2576,7 +2609,7 @@
             this.txt_Subject_Year.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Subject_Year.Location = new System.Drawing.Point(826, 69);
             this.txt_Subject_Year.Name = "txt_Subject_Year";
-            this.txt_Subject_Year.Size = new System.Drawing.Size(215, 30);
+            this.txt_Subject_Year.Size = new System.Drawing.Size(224, 30);
             this.txt_Subject_Year.TabIndex = 55;
             // 
             // label93
@@ -2624,7 +2657,7 @@
             this.txt_Subject_Theme.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Subject_Theme.Location = new System.Drawing.Point(467, 38);
             this.txt_Subject_Theme.Name = "txt_Subject_Theme";
-            this.txt_Subject_Theme.Size = new System.Drawing.Size(215, 30);
+            this.txt_Subject_Theme.Size = new System.Drawing.Size(224, 30);
             this.txt_Subject_Theme.TabIndex = 50;
             // 
             // label97
@@ -2670,7 +2703,7 @@
             this.txt_Subject_Name.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Subject_Name.Location = new System.Drawing.Point(467, 7);
             this.txt_Subject_Name.Name = "txt_Subject_Name";
-            this.txt_Subject_Name.Size = new System.Drawing.Size(574, 30);
+            this.txt_Subject_Name.Size = new System.Drawing.Size(583, 30);
             this.txt_Subject_Name.TabIndex = 44;
             // 
             // label100
@@ -2705,7 +2738,7 @@
             // 
             this.topic.BackColor = System.Drawing.SystemColors.Control;
             this.topic.Controls.Add(this.tab_Topic_Info);
-            this.topic.Controls.Add(this.pal_JH_KT_BtnGroup);
+            this.topic.Controls.Add(this.pal_Topic_BtnGroup);
             this.topic.Controls.Add(this.pal_Topic);
             this.topic.Location = new System.Drawing.Point(4, 30);
             this.topic.Name = "topic";
@@ -2727,7 +2760,7 @@
             this.tab_Topic_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage5,
             this.tabPage6,
-            this.tabPage8});
+            this.tp_Topic_Box});
             this.tab_Topic_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage5
@@ -2744,14 +2777,14 @@
             // 
             this.dgv_Topic_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Topic_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Topic_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle35.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle35.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle35.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle35.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle35.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle35.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Topic_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle35;
             this.dgv_Topic_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Topic_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.topic_fl_id,
@@ -2777,7 +2810,7 @@
             this.dgv_Topic_FileList.Size = new System.Drawing.Size(1068, 311);
             this.dgv_Topic_FileList.TabIndex = 0;
             this.dgv_Topic_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
-            this.dgv_Topic_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
+            this.dgv_Topic_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_FileList_CellMouseDown);
             this.dgv_Topic_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Topic_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Topic_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
@@ -2894,14 +2927,14 @@
             this.dgv_Topic_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Topic_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Topic_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Topic_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle36.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle36.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle36.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle36.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle36.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Topic_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle36;
             this.dgv_Topic_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Topic_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.topic_fc_id,
@@ -2955,31 +2988,31 @@
             this.topic_fc_remark.HeaderText = "备注";
             this.topic_fc_remark.Name = "topic_fc_remark";
             // 
-            // tabPage8
+            // tp_Topic_Box
             // 
-            this.tabPage8.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.tabPage8.Appearance.Header.Options.UseFont = true;
-            this.tabPage8.Controls.Add(this.txt_Topic_AJ_Name);
-            this.tabPage8.Controls.Add(this.txt_Topic_AJ_Code);
-            this.tabPage8.Controls.Add(this.label136);
-            this.tabPage8.Controls.Add(this.label146);
-            this.tabPage8.Controls.Add(this.btn_Topic_Box_Bottom);
-            this.tabPage8.Controls.Add(this.btn_Topic_Box_Top);
-            this.tabPage8.Controls.Add(this.btn_Topic_Box_LeftAll);
-            this.tabPage8.Controls.Add(this.btn_Topic_Box_Left);
-            this.tabPage8.Controls.Add(this.btn_Topic_Box_RightAll);
-            this.tabPage8.Controls.Add(this.btn_Topic_Box_Right);
-            this.tabPage8.Controls.Add(this.lsv_JH_KT_File2);
-            this.tabPage8.Controls.Add(this.lsv_JH_KT_File1);
-            this.tabPage8.Controls.Add(this.txt_Topic_Box_GCID);
-            this.tabPage8.Controls.Add(this.label70);
-            this.tabPage8.Controls.Add(this.lbl_Topic_Box_Remove);
-            this.tabPage8.Controls.Add(this.lbl_Topic_Box_Add);
-            this.tabPage8.Controls.Add(this.cbo_Topic_Box);
-            this.tabPage8.Controls.Add(this.label71);
-            this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1074, 317);
-            this.tabPage8.Text = "卷盒信息";
+            this.tp_Topic_Box.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tp_Topic_Box.Appearance.Header.Options.UseFont = true;
+            this.tp_Topic_Box.Controls.Add(this.txt_Topic_AJ_Name);
+            this.tp_Topic_Box.Controls.Add(this.txt_Topic_AJ_Code);
+            this.tp_Topic_Box.Controls.Add(this.label136);
+            this.tp_Topic_Box.Controls.Add(this.label146);
+            this.tp_Topic_Box.Controls.Add(this.btn_Topic_Box_Bottom);
+            this.tp_Topic_Box.Controls.Add(this.btn_Topic_Box_Top);
+            this.tp_Topic_Box.Controls.Add(this.btn_Topic_Box_LeftAll);
+            this.tp_Topic_Box.Controls.Add(this.btn_Topic_Box_Left);
+            this.tp_Topic_Box.Controls.Add(this.btn_Topic_Box_RightAll);
+            this.tp_Topic_Box.Controls.Add(this.btn_Topic_Box_Right);
+            this.tp_Topic_Box.Controls.Add(this.lsv_JH_KT_File2);
+            this.tp_Topic_Box.Controls.Add(this.lsv_JH_KT_File1);
+            this.tp_Topic_Box.Controls.Add(this.txt_Topic_Box_GCID);
+            this.tp_Topic_Box.Controls.Add(this.label70);
+            this.tp_Topic_Box.Controls.Add(this.lbl_Topic_Box_Remove);
+            this.tp_Topic_Box.Controls.Add(this.lbl_Topic_Box_Add);
+            this.tp_Topic_Box.Controls.Add(this.cbo_Topic_Box);
+            this.tp_Topic_Box.Controls.Add(this.label71);
+            this.tp_Topic_Box.Name = "tp_Topic_Box";
+            this.tp_Topic_Box.Size = new System.Drawing.Size(1074, 317);
+            this.tp_Topic_Box.Text = "卷盒信息";
             // 
             // txt_Topic_AJ_Name
             // 
@@ -3174,17 +3207,18 @@
             this.label71.TabIndex = 0;
             this.label71.Text = "盒号:";
             // 
-            // pal_JH_KT_BtnGroup
+            // pal_Topic_BtnGroup
             // 
-            this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_Topic_QTReason);
-            this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_Topic_AddFile);
-            this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_Topic_Submit);
-            this.pal_JH_KT_BtnGroup.Controls.Add(this.btn_Topic_Save);
-            this.pal_JH_KT_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_JH_KT_BtnGroup.Location = new System.Drawing.Point(3, 664);
-            this.pal_JH_KT_BtnGroup.Name = "pal_JH_KT_BtnGroup";
-            this.pal_JH_KT_BtnGroup.Size = new System.Drawing.Size(1080, 40);
-            this.pal_JH_KT_BtnGroup.TabIndex = 7;
+            this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_QTReason);
+            this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_AddFile);
+            this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_Submit);
+            this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_Save);
+            this.pal_Topic_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pal_Topic_BtnGroup.Location = new System.Drawing.Point(3, 664);
+            this.pal_Topic_BtnGroup.Name = "pal_Topic_BtnGroup";
+            this.pal_Topic_BtnGroup.Size = new System.Drawing.Size(1080, 40);
+            this.pal_Topic_BtnGroup.TabIndex = 7;
+            this.pal_Topic_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
             // 
             // btn_Topic_QTReason
             // 
@@ -3245,11 +3279,13 @@
             this.pal_Topic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pal_Topic.BackColor = System.Drawing.SystemColors.Control;
+            this.pal_Topic.Controls.Add(this.txt_Topic_EndTime);
+            this.pal_Topic.Controls.Add(this.txt_Topic_StartTime);
+            this.pal_Topic.Controls.Add(this.dtp_Topic_EndTime);
+            this.pal_Topic.Controls.Add(this.dtp_Topic_StartTime);
             this.pal_Topic.Controls.Add(this.txt_Topic_Province);
             this.pal_Topic.Controls.Add(this.txt_Topic_Unit);
             this.pal_Topic.Controls.Add(this.txt_Topic_Fund);
-            this.pal_Topic.Controls.Add(this.dtp_Topic_EndTime);
-            this.pal_Topic.Controls.Add(this.dtp_Topic_StartTime);
             this.pal_Topic.Controls.Add(this.txt_Topic_ProUser);
             this.pal_Topic.Controls.Add(this.label2);
             this.pal_Topic.Controls.Add(this.txt_Topic_UnitUser);
@@ -3278,12 +3314,50 @@
             this.pal_Topic.Size = new System.Drawing.Size(1081, 302);
             this.pal_Topic.TabIndex = 5;
             // 
+            // txt_Topic_EndTime
+            // 
+            this.txt_Topic_EndTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.txt_Topic_EndTime.Location = new System.Drawing.Point(467, 69);
+            this.txt_Topic_EndTime.Name = "txt_Topic_EndTime";
+            this.txt_Topic_EndTime.Size = new System.Drawing.Size(206, 30);
+            this.txt_Topic_EndTime.TabIndex = 77;
+            // 
+            // txt_Topic_StartTime
+            // 
+            this.txt_Topic_StartTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.txt_Topic_StartTime.Location = new System.Drawing.Point(111, 69);
+            this.txt_Topic_StartTime.Name = "txt_Topic_StartTime";
+            this.txt_Topic_StartTime.Size = new System.Drawing.Size(206, 30);
+            this.txt_Topic_StartTime.TabIndex = 76;
+            // 
+            // dtp_Topic_EndTime
+            // 
+            this.dtp_Topic_EndTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dtp_Topic_EndTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.dtp_Topic_EndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_Topic_EndTime.Location = new System.Drawing.Point(675, 69);
+            this.dtp_Topic_EndTime.Name = "dtp_Topic_EndTime";
+            this.dtp_Topic_EndTime.Size = new System.Drawing.Size(16, 30);
+            this.dtp_Topic_EndTime.TabIndex = 75;
+            this.dtp_Topic_EndTime.ValueChanged += new System.EventHandler(this.EndTime_ValueChanged);
+            // 
+            // dtp_Topic_StartTime
+            // 
+            this.dtp_Topic_StartTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dtp_Topic_StartTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.dtp_Topic_StartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_Topic_StartTime.Location = new System.Drawing.Point(319, 69);
+            this.dtp_Topic_StartTime.Name = "dtp_Topic_StartTime";
+            this.dtp_Topic_StartTime.Size = new System.Drawing.Size(16, 30);
+            this.dtp_Topic_StartTime.TabIndex = 74;
+            this.dtp_Topic_StartTime.ValueChanged += new System.EventHandler(this.StartTime_ValueChanged);
+            // 
             // txt_Topic_Province
             // 
             this.txt_Topic_Province.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Topic_Province.Location = new System.Drawing.Point(467, 100);
             this.txt_Topic_Province.Name = "txt_Topic_Province";
-            this.txt_Topic_Province.Size = new System.Drawing.Size(215, 30);
+            this.txt_Topic_Province.Size = new System.Drawing.Size(224, 30);
             this.txt_Topic_Province.TabIndex = 73;
             // 
             // txt_Topic_Unit
@@ -3296,33 +3370,17 @@
             // 
             // txt_Topic_Fund
             // 
+            this.txt_Topic_Fund.DecimalPlaces = 2;
             this.txt_Topic_Fund.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Topic_Fund.Location = new System.Drawing.Point(826, 38);
+            this.txt_Topic_Fund.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
             this.txt_Topic_Fund.Name = "txt_Topic_Fund";
-            this.txt_Topic_Fund.Size = new System.Drawing.Size(215, 30);
+            this.txt_Topic_Fund.Size = new System.Drawing.Size(224, 30);
             this.txt_Topic_Fund.TabIndex = 68;
-            // 
-            // dtp_Topic_EndTime
-            // 
-            this.dtp_Topic_EndTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Topic_EndTime.CustomFormat = "yyyy-MM-dd";
-            this.dtp_Topic_EndTime.Font = new System.Drawing.Font("宋体", 15F);
-            this.dtp_Topic_EndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Topic_EndTime.Location = new System.Drawing.Point(467, 69);
-            this.dtp_Topic_EndTime.Name = "dtp_Topic_EndTime";
-            this.dtp_Topic_EndTime.Size = new System.Drawing.Size(215, 30);
-            this.dtp_Topic_EndTime.TabIndex = 67;
-            // 
-            // dtp_Topic_StartTime
-            // 
-            this.dtp_Topic_StartTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Topic_StartTime.CustomFormat = "yyyy-MM-dd";
-            this.dtp_Topic_StartTime.Font = new System.Drawing.Font("宋体", 15F);
-            this.dtp_Topic_StartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Topic_StartTime.Location = new System.Drawing.Point(111, 69);
-            this.dtp_Topic_StartTime.Name = "dtp_Topic_StartTime";
-            this.dtp_Topic_StartTime.Size = new System.Drawing.Size(224, 30);
-            this.dtp_Topic_StartTime.TabIndex = 66;
             // 
             // txt_Topic_ProUser
             // 
@@ -3347,7 +3405,7 @@
             this.txt_Topic_UnitUser.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Topic_UnitUser.Location = new System.Drawing.Point(826, 100);
             this.txt_Topic_UnitUser.Name = "txt_Topic_UnitUser";
-            this.txt_Topic_UnitUser.Size = new System.Drawing.Size(215, 30);
+            this.txt_Topic_UnitUser.Size = new System.Drawing.Size(224, 30);
             this.txt_Topic_UnitUser.TabIndex = 63;
             // 
             // label20
@@ -3367,7 +3425,7 @@
             this.txt_Topic_Intro.Multiline = true;
             this.txt_Topic_Intro.Name = "txt_Topic_Intro";
             this.txt_Topic_Intro.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_Topic_Intro.Size = new System.Drawing.Size(930, 104);
+            this.txt_Topic_Intro.Size = new System.Drawing.Size(939, 104);
             this.txt_Topic_Intro.TabIndex = 61;
             // 
             // label21
@@ -3395,7 +3453,7 @@
             this.txt_Topic_Year.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Topic_Year.Location = new System.Drawing.Point(826, 69);
             this.txt_Topic_Year.Name = "txt_Topic_Year";
-            this.txt_Topic_Year.Size = new System.Drawing.Size(215, 30);
+            this.txt_Topic_Year.Size = new System.Drawing.Size(224, 30);
             this.txt_Topic_Year.TabIndex = 55;
             // 
             // label24
@@ -3443,7 +3501,7 @@
             this.txt_Topic_Theme.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Topic_Theme.Location = new System.Drawing.Point(467, 38);
             this.txt_Topic_Theme.Name = "txt_Topic_Theme";
-            this.txt_Topic_Theme.Size = new System.Drawing.Size(215, 30);
+            this.txt_Topic_Theme.Size = new System.Drawing.Size(224, 30);
             this.txt_Topic_Theme.TabIndex = 50;
             // 
             // label28
@@ -3489,7 +3547,7 @@
             this.txt_Topic_Name.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Topic_Name.Location = new System.Drawing.Point(467, 7);
             this.txt_Topic_Name.Name = "txt_Topic_Name";
-            this.txt_Topic_Name.Size = new System.Drawing.Size(574, 30);
+            this.txt_Topic_Name.Size = new System.Drawing.Size(583, 30);
             this.txt_Topic_Name.TabIndex = 44;
             // 
             // label31
@@ -3548,7 +3606,7 @@
             // project
             // 
             this.project.Controls.Add(this.tab_Project_Info);
-            this.project.Controls.Add(this.pal_JH_XM_BtnGroup);
+            this.project.Controls.Add(this.pal_Project_BtnGroup);
             this.project.Controls.Add(this.pal_Project);
             this.project.Location = new System.Drawing.Point(4, 30);
             this.project.Name = "project";
@@ -3570,7 +3628,7 @@
             this.tab_Project_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage1,
             this.tabPage2,
-            this.tabPage4});
+            this.tp_Project_Box});
             this.tab_Project_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // tabPage1
@@ -3587,14 +3645,14 @@
             // 
             this.dgv_Project_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Project_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Project_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle37.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle37.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Project_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle37;
             this.dgv_Project_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Project_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.project_fl_id,
@@ -3619,7 +3677,7 @@
             this.dgv_Project_FileList.Size = new System.Drawing.Size(1068, 311);
             this.dgv_Project_FileList.TabIndex = 0;
             this.dgv_Project_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
-            this.dgv_Project_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
+            this.dgv_Project_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_FileList_CellMouseDown);
             this.dgv_Project_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Project_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Project_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
@@ -3731,14 +3789,14 @@
             this.dgv_Project_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Project_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Project_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Project_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle38.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle38.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle38.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle38.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle38.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Project_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle38;
             this.dgv_Project_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Project_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.project_fc_id,
@@ -3792,31 +3850,31 @@
             this.project_fc_remark.HeaderText = "备注";
             this.project_fc_remark.Name = "project_fc_remark";
             // 
-            // tabPage4
+            // tp_Project_Box
             // 
-            this.tabPage4.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.tabPage4.Appearance.Header.Options.UseFont = true;
-            this.tabPage4.Controls.Add(this.txt_Project_AJ_Name);
-            this.tabPage4.Controls.Add(this.txt_Project_AJ_Code);
-            this.tabPage4.Controls.Add(this.label114);
-            this.tabPage4.Controls.Add(this.label133);
-            this.tabPage4.Controls.Add(this.btn_Project_Box_Bottom);
-            this.tabPage4.Controls.Add(this.btn_Project_Box_Top);
-            this.tabPage4.Controls.Add(this.btn_Project_Box_LeftAll);
-            this.tabPage4.Controls.Add(this.btn_Project_Box_Left);
-            this.tabPage4.Controls.Add(this.btn_Project_Box_RightAll);
-            this.tabPage4.Controls.Add(this.btn_Project_Box_Right);
-            this.tabPage4.Controls.Add(this.lsv_JH_XM_File2);
-            this.tabPage4.Controls.Add(this.lsv_JH_XM_File1);
-            this.tabPage4.Controls.Add(this.txt_Project_Box_GCID);
-            this.tabPage4.Controls.Add(this.label62);
-            this.tabPage4.Controls.Add(this.lbl_Project_Box_Remove);
-            this.tabPage4.Controls.Add(this.lbl_Project_Box_Add);
-            this.tabPage4.Controls.Add(this.cbo_Project_Box);
-            this.tabPage4.Controls.Add(this.label63);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1074, 317);
-            this.tabPage4.Text = "卷盒信息";
+            this.tp_Project_Box.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tp_Project_Box.Appearance.Header.Options.UseFont = true;
+            this.tp_Project_Box.Controls.Add(this.txt_Project_AJ_Name);
+            this.tp_Project_Box.Controls.Add(this.txt_Project_AJ_Code);
+            this.tp_Project_Box.Controls.Add(this.label114);
+            this.tp_Project_Box.Controls.Add(this.label133);
+            this.tp_Project_Box.Controls.Add(this.btn_Project_Box_Bottom);
+            this.tp_Project_Box.Controls.Add(this.btn_Project_Box_Top);
+            this.tp_Project_Box.Controls.Add(this.btn_Project_Box_LeftAll);
+            this.tp_Project_Box.Controls.Add(this.btn_Project_Box_Left);
+            this.tp_Project_Box.Controls.Add(this.btn_Project_Box_RightAll);
+            this.tp_Project_Box.Controls.Add(this.btn_Project_Box_Right);
+            this.tp_Project_Box.Controls.Add(this.lsv_JH_XM_File2);
+            this.tp_Project_Box.Controls.Add(this.lsv_JH_XM_File1);
+            this.tp_Project_Box.Controls.Add(this.txt_Project_Box_GCID);
+            this.tp_Project_Box.Controls.Add(this.label62);
+            this.tp_Project_Box.Controls.Add(this.lbl_Project_Box_Remove);
+            this.tp_Project_Box.Controls.Add(this.lbl_Project_Box_Add);
+            this.tp_Project_Box.Controls.Add(this.cbo_Project_Box);
+            this.tp_Project_Box.Controls.Add(this.label63);
+            this.tp_Project_Box.Name = "tp_Project_Box";
+            this.tp_Project_Box.Size = new System.Drawing.Size(1074, 317);
+            this.tp_Project_Box.Text = "卷盒信息";
             // 
             // txt_Project_AJ_Name
             // 
@@ -4011,17 +4069,18 @@
             this.label63.TabIndex = 0;
             this.label63.Text = "盒号:";
             // 
-            // pal_JH_XM_BtnGroup
+            // pal_Project_BtnGroup
             // 
-            this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_Project_QTReason);
-            this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_Project_AddFile);
-            this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_Project_Submit);
-            this.pal_JH_XM_BtnGroup.Controls.Add(this.btn_Project_Save);
-            this.pal_JH_XM_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_JH_XM_BtnGroup.Location = new System.Drawing.Point(3, 664);
-            this.pal_JH_XM_BtnGroup.Name = "pal_JH_XM_BtnGroup";
-            this.pal_JH_XM_BtnGroup.Size = new System.Drawing.Size(1080, 40);
-            this.pal_JH_XM_BtnGroup.TabIndex = 4;
+            this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_QTReason);
+            this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_AddFile);
+            this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_Submit);
+            this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_Save);
+            this.pal_Project_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pal_Project_BtnGroup.Location = new System.Drawing.Point(3, 664);
+            this.pal_Project_BtnGroup.Name = "pal_Project_BtnGroup";
+            this.pal_Project_BtnGroup.Size = new System.Drawing.Size(1080, 40);
+            this.pal_Project_BtnGroup.TabIndex = 4;
+            this.pal_Project_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
             // 
             // btn_Project_QTReason
             // 
@@ -4081,11 +4140,13 @@
             // 
             this.pal_Project.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pal_Project.Controls.Add(this.txt_Project_EndTime);
+            this.pal_Project.Controls.Add(this.txt_Project_StartTime);
+            this.pal_Project.Controls.Add(this.dtp_Project_EndTime);
+            this.pal_Project.Controls.Add(this.dtp_Project_StartTime);
             this.pal_Project.Controls.Add(this.txt_Project_Province);
             this.pal_Project.Controls.Add(this.txt_Project_Unit);
             this.pal_Project.Controls.Add(this.txt_Project_Funds);
-            this.pal_Project.Controls.Add(this.dtp_Project_EndTime);
-            this.pal_Project.Controls.Add(this.dtp_Project_StartTime);
             this.pal_Project.Controls.Add(this.txt_Project_ProUser);
             this.pal_Project.Controls.Add(this.label19);
             this.pal_Project.Controls.Add(this.txt_Project_UnitUser);
@@ -4114,12 +4175,50 @@
             this.pal_Project.Size = new System.Drawing.Size(1081, 302);
             this.pal_Project.TabIndex = 0;
             // 
+            // txt_Project_EndTime
+            // 
+            this.txt_Project_EndTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.txt_Project_EndTime.Location = new System.Drawing.Point(467, 69);
+            this.txt_Project_EndTime.Name = "txt_Project_EndTime";
+            this.txt_Project_EndTime.Size = new System.Drawing.Size(206, 30);
+            this.txt_Project_EndTime.TabIndex = 75;
+            // 
+            // txt_Project_StartTime
+            // 
+            this.txt_Project_StartTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.txt_Project_StartTime.Location = new System.Drawing.Point(111, 69);
+            this.txt_Project_StartTime.Name = "txt_Project_StartTime";
+            this.txt_Project_StartTime.Size = new System.Drawing.Size(206, 30);
+            this.txt_Project_StartTime.TabIndex = 73;
+            // 
+            // dtp_Project_EndTime
+            // 
+            this.dtp_Project_EndTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dtp_Project_EndTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.dtp_Project_EndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_Project_EndTime.Location = new System.Drawing.Point(675, 69);
+            this.dtp_Project_EndTime.Name = "dtp_Project_EndTime";
+            this.dtp_Project_EndTime.Size = new System.Drawing.Size(16, 30);
+            this.dtp_Project_EndTime.TabIndex = 76;
+            this.dtp_Project_EndTime.ValueChanged += new System.EventHandler(this.EndTime_ValueChanged);
+            // 
+            // dtp_Project_StartTime
+            // 
+            this.dtp_Project_StartTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dtp_Project_StartTime.Font = new System.Drawing.Font("宋体", 15F);
+            this.dtp_Project_StartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_Project_StartTime.Location = new System.Drawing.Point(319, 69);
+            this.dtp_Project_StartTime.Name = "dtp_Project_StartTime";
+            this.dtp_Project_StartTime.Size = new System.Drawing.Size(16, 30);
+            this.dtp_Project_StartTime.TabIndex = 74;
+            this.dtp_Project_StartTime.ValueChanged += new System.EventHandler(this.StartTime_ValueChanged);
+            // 
             // txt_Project_Province
             // 
             this.txt_Project_Province.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Project_Province.Location = new System.Drawing.Point(467, 100);
             this.txt_Project_Province.Name = "txt_Project_Province";
-            this.txt_Project_Province.Size = new System.Drawing.Size(215, 30);
+            this.txt_Project_Province.Size = new System.Drawing.Size(224, 30);
             this.txt_Project_Province.TabIndex = 72;
             // 
             // txt_Project_Unit
@@ -4132,33 +4231,17 @@
             // 
             // txt_Project_Funds
             // 
+            this.txt_Project_Funds.DecimalPlaces = 2;
             this.txt_Project_Funds.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Project_Funds.Location = new System.Drawing.Point(826, 38);
+            this.txt_Project_Funds.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
             this.txt_Project_Funds.Name = "txt_Project_Funds";
-            this.txt_Project_Funds.Size = new System.Drawing.Size(215, 30);
+            this.txt_Project_Funds.Size = new System.Drawing.Size(224, 30);
             this.txt_Project_Funds.TabIndex = 68;
-            // 
-            // dtp_Project_EndTime
-            // 
-            this.dtp_Project_EndTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Project_EndTime.CustomFormat = "yyyy-MM-dd";
-            this.dtp_Project_EndTime.Font = new System.Drawing.Font("宋体", 15F);
-            this.dtp_Project_EndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Project_EndTime.Location = new System.Drawing.Point(467, 69);
-            this.dtp_Project_EndTime.Name = "dtp_Project_EndTime";
-            this.dtp_Project_EndTime.Size = new System.Drawing.Size(215, 30);
-            this.dtp_Project_EndTime.TabIndex = 67;
-            // 
-            // dtp_Project_StartTime
-            // 
-            this.dtp_Project_StartTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Project_StartTime.CustomFormat = "yyyy-MM-dd";
-            this.dtp_Project_StartTime.Font = new System.Drawing.Font("宋体", 15F);
-            this.dtp_Project_StartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Project_StartTime.Location = new System.Drawing.Point(111, 69);
-            this.dtp_Project_StartTime.Name = "dtp_Project_StartTime";
-            this.dtp_Project_StartTime.Size = new System.Drawing.Size(224, 30);
-            this.dtp_Project_StartTime.TabIndex = 66;
             // 
             // txt_Project_ProUser
             // 
@@ -4183,7 +4266,7 @@
             this.txt_Project_UnitUser.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Project_UnitUser.Location = new System.Drawing.Point(826, 100);
             this.txt_Project_UnitUser.Name = "txt_Project_UnitUser";
-            this.txt_Project_UnitUser.Size = new System.Drawing.Size(215, 30);
+            this.txt_Project_UnitUser.Size = new System.Drawing.Size(224, 30);
             this.txt_Project_UnitUser.TabIndex = 63;
             // 
             // label3
@@ -4203,7 +4286,7 @@
             this.txt_Project_Intro.Multiline = true;
             this.txt_Project_Intro.Name = "txt_Project_Intro";
             this.txt_Project_Intro.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_Project_Intro.Size = new System.Drawing.Size(930, 104);
+            this.txt_Project_Intro.Size = new System.Drawing.Size(939, 104);
             this.txt_Project_Intro.TabIndex = 61;
             // 
             // label16
@@ -4231,7 +4314,7 @@
             this.txt_Project_Year.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Project_Year.Location = new System.Drawing.Point(826, 69);
             this.txt_Project_Year.Name = "txt_Project_Year";
-            this.txt_Project_Year.Size = new System.Drawing.Size(215, 30);
+            this.txt_Project_Year.Size = new System.Drawing.Size(224, 30);
             this.txt_Project_Year.TabIndex = 55;
             // 
             // label13
@@ -4279,7 +4362,7 @@
             this.txt_Project_Theme.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Project_Theme.Location = new System.Drawing.Point(467, 38);
             this.txt_Project_Theme.Name = "txt_Project_Theme";
-            this.txt_Project_Theme.Size = new System.Drawing.Size(215, 30);
+            this.txt_Project_Theme.Size = new System.Drawing.Size(224, 30);
             this.txt_Project_Theme.TabIndex = 50;
             // 
             // label8
@@ -4325,7 +4408,7 @@
             this.txt_Project_Name.Font = new System.Drawing.Font("宋体", 15F);
             this.txt_Project_Name.Location = new System.Drawing.Point(467, 7);
             this.txt_Project_Name.Name = "txt_Project_Name";
-            this.txt_Project_Name.Size = new System.Drawing.Size(574, 30);
+            this.txt_Project_Name.Size = new System.Drawing.Size(583, 30);
             this.txt_Project_Name.TabIndex = 44;
             // 
             // label10
@@ -4383,7 +4466,7 @@
             // plan
             // 
             this.plan.Controls.Add(this.tab_Plan_Info);
-            this.plan.Controls.Add(this.pal_JH_BtnGroup);
+            this.plan.Controls.Add(this.pal_Plan_BtnGroup);
             this.plan.Controls.Add(this.pal_Plan);
             this.plan.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.plan.Location = new System.Drawing.Point(4, 30);
@@ -4406,7 +4489,7 @@
             this.tab_Plan_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.fileList,
             this.fileCheck,
-            this.box});
+            this.tp_Plan_Box});
             this.tab_Plan_Info.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.Tab_FileInfo_SelectedIndexChanged);
             // 
             // fileList
@@ -4423,14 +4506,14 @@
             // 
             this.dgv_Plan_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Plan_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Plan_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle39.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle39.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle39.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle39.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle39.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle39.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Plan_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle39;
             this.dgv_Plan_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.plan_fl_id,
             this.plan_fl_stage,
@@ -4454,7 +4537,7 @@
             this.dgv_Plan_FileList.Size = new System.Drawing.Size(1068, 311);
             this.dgv_Plan_FileList.TabIndex = 0;
             this.dgv_Plan_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
-            this.dgv_Plan_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
+            this.dgv_Plan_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_FileList_CellMouseDown);
             this.dgv_Plan_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Plan_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Plan_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
@@ -4462,8 +4545,8 @@
             // 
             // plan_fl_id
             // 
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.plan_fl_id.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.plan_fl_id.DefaultCellStyle = dataGridViewCellStyle40;
             this.plan_fl_id.HeaderText = "序号";
             this.plan_fl_id.Name = "plan_fl_id";
             this.plan_fl_id.Visible = false;
@@ -4496,8 +4579,8 @@
             // 
             // plan_fl_name
             // 
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.plan_fl_name.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.plan_fl_name.DefaultCellStyle = dataGridViewCellStyle41;
             this.plan_fl_name.HeaderText = "文件名称";
             this.plan_fl_name.Name = "plan_fl_name";
             this.plan_fl_name.Width = 250;
@@ -4569,14 +4652,14 @@
             this.dgv_Plan_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Plan_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Plan_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Plan_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle42.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle42.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle42.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle42.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle42.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle42.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Plan_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle42;
             this.dgv_Plan_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Plan_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.plan_fc_id,
@@ -4630,31 +4713,31 @@
             this.plan_fc_remark.HeaderText = "备注";
             this.plan_fc_remark.Name = "plan_fc_remark";
             // 
-            // box
+            // tp_Plan_Box
             // 
-            this.box.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.box.Appearance.Header.Options.UseFont = true;
-            this.box.Controls.Add(this.txt_Plan_AJ_Name);
-            this.box.Controls.Add(this.txt_Plan_AJ_Code);
-            this.box.Controls.Add(this.label18);
-            this.box.Controls.Add(this.label23);
-            this.box.Controls.Add(this.btn_Plan_Box_Bottom);
-            this.box.Controls.Add(this.btn_Plan_Box_Top);
-            this.box.Controls.Add(this.btn_Plan_Box_LeftAll);
-            this.box.Controls.Add(this.btn_Plan_Box_Left);
-            this.box.Controls.Add(this.btn_Plan_Box_RightAll);
-            this.box.Controls.Add(this.btn_Plan_Box_Right);
-            this.box.Controls.Add(this.lsv_JH_File2);
-            this.box.Controls.Add(this.lsv_JH_File1);
-            this.box.Controls.Add(this.txt_Plan_Box_GCID);
-            this.box.Controls.Add(this.label55);
-            this.box.Controls.Add(this.lbl_Plan_Box_Remove);
-            this.box.Controls.Add(this.lbl_Plan_Box_Add);
-            this.box.Controls.Add(this.cbo_Plan_Box);
-            this.box.Controls.Add(this.label54);
-            this.box.Name = "box";
-            this.box.Size = new System.Drawing.Size(1074, 317);
-            this.box.Text = "卷盒信息";
+            this.tp_Plan_Box.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.tp_Plan_Box.Appearance.Header.Options.UseFont = true;
+            this.tp_Plan_Box.Controls.Add(this.txt_Plan_AJ_Name);
+            this.tp_Plan_Box.Controls.Add(this.txt_Plan_AJ_Code);
+            this.tp_Plan_Box.Controls.Add(this.label18);
+            this.tp_Plan_Box.Controls.Add(this.label23);
+            this.tp_Plan_Box.Controls.Add(this.btn_Plan_Box_Bottom);
+            this.tp_Plan_Box.Controls.Add(this.btn_Plan_Box_Top);
+            this.tp_Plan_Box.Controls.Add(this.btn_Plan_Box_LeftAll);
+            this.tp_Plan_Box.Controls.Add(this.btn_Plan_Box_Left);
+            this.tp_Plan_Box.Controls.Add(this.btn_Plan_Box_RightAll);
+            this.tp_Plan_Box.Controls.Add(this.btn_Plan_Box_Right);
+            this.tp_Plan_Box.Controls.Add(this.lsv_JH_File2);
+            this.tp_Plan_Box.Controls.Add(this.lsv_JH_File1);
+            this.tp_Plan_Box.Controls.Add(this.txt_Plan_Box_GCID);
+            this.tp_Plan_Box.Controls.Add(this.label55);
+            this.tp_Plan_Box.Controls.Add(this.lbl_Plan_Box_Remove);
+            this.tp_Plan_Box.Controls.Add(this.lbl_Plan_Box_Add);
+            this.tp_Plan_Box.Controls.Add(this.cbo_Plan_Box);
+            this.tp_Plan_Box.Controls.Add(this.label54);
+            this.tp_Plan_Box.Name = "tp_Plan_Box";
+            this.tp_Plan_Box.Size = new System.Drawing.Size(1074, 317);
+            this.tp_Plan_Box.Text = "卷盒信息";
             // 
             // txt_Plan_AJ_Name
             // 
@@ -4851,18 +4934,19 @@
             this.label54.TabIndex = 0;
             this.label54.Text = "盒号:";
             // 
-            // pal_JH_BtnGroup
+            // pal_Plan_BtnGroup
             // 
-            this.pal_JH_BtnGroup.Controls.Add(this.btn_Plan_QTReason);
-            this.pal_JH_BtnGroup.Controls.Add(this.btn_Plan_AddFile);
-            this.pal_JH_BtnGroup.Controls.Add(this.btn_Plan_Submit);
-            this.pal_JH_BtnGroup.Controls.Add(this.btn_Plan_Save);
-            this.pal_JH_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_JH_BtnGroup.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pal_JH_BtnGroup.Location = new System.Drawing.Point(3, 664);
-            this.pal_JH_BtnGroup.Name = "pal_JH_BtnGroup";
-            this.pal_JH_BtnGroup.Size = new System.Drawing.Size(1080, 40);
-            this.pal_JH_BtnGroup.TabIndex = 2;
+            this.pal_Plan_BtnGroup.Controls.Add(this.btn_Plan_QTReason);
+            this.pal_Plan_BtnGroup.Controls.Add(this.btn_Plan_AddFile);
+            this.pal_Plan_BtnGroup.Controls.Add(this.btn_Plan_Submit);
+            this.pal_Plan_BtnGroup.Controls.Add(this.btn_Plan_Save);
+            this.pal_Plan_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pal_Plan_BtnGroup.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pal_Plan_BtnGroup.Location = new System.Drawing.Point(3, 664);
+            this.pal_Plan_BtnGroup.Name = "pal_Plan_BtnGroup";
+            this.pal_Plan_BtnGroup.Size = new System.Drawing.Size(1080, 40);
+            this.pal_Plan_BtnGroup.TabIndex = 2;
+            this.pal_Plan_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
             // 
             // btn_Plan_QTReason
             // 
@@ -5020,6 +5104,10 @@
             this.tab_MenuList.TabIndex = 3;
             this.tab_MenuList.SelectedIndexChanged += new System.EventHandler(this.Tab_MenuList_SelectedIndexChanged);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // Frm_MyWorkQT
             // 
             this.Appearance.Options.UseFont = true;
@@ -5045,9 +5133,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Special_FileList)).EndInit();
             this.tabPage26.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Special_FileValid)).EndInit();
-            this.tabPage28.ResumeLayout(false);
-            this.tabPage28.PerformLayout();
-            this.pal_Imp_Dev_BtnGroup.ResumeLayout(false);
+            this.tp_Special_Box.ResumeLayout(false);
+            this.tp_Special_Box.PerformLayout();
+            this.pal_Special_BtnGroup.ResumeLayout(false);
             this.pal_Special.ResumeLayout(false);
             this.pal_Special.PerformLayout();
             this.imp.ResumeLayout(false);
@@ -5057,8 +5145,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_FileList)).EndInit();
             this.tabPage22.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp_FileValid)).EndInit();
-            this.tabPage24.ResumeLayout(false);
-            this.tabPage24.PerformLayout();
+            this.tp_Imp_Box.ResumeLayout(false);
+            this.tp_Imp_Box.PerformLayout();
             this.pal_Imp_BtnGroup.ResumeLayout(false);
             this.pal_Imp.ResumeLayout(false);
             this.pal_Imp.PerformLayout();
@@ -5069,9 +5157,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Subject_FileList)).EndInit();
             this.tabPage17.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Subject_FileValid)).EndInit();
-            this.tabPage19.ResumeLayout(false);
-            this.tabPage19.PerformLayout();
-            this.pal_JH_XM_KT_ZKT_BtnGroup.ResumeLayout(false);
+            this.tp_Subject_Box.ResumeLayout(false);
+            this.tp_Subject_Box.PerformLayout();
+            this.pal_Subject_BtnGroup.ResumeLayout(false);
             this.pal_Subject.ResumeLayout(false);
             this.pal_Subject.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Subject_Fund)).EndInit();
@@ -5082,9 +5170,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Topic_FileList)).EndInit();
             this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Topic_FileValid)).EndInit();
-            this.tabPage8.ResumeLayout(false);
-            this.tabPage8.PerformLayout();
-            this.pal_JH_KT_BtnGroup.ResumeLayout(false);
+            this.tp_Topic_Box.ResumeLayout(false);
+            this.tp_Topic_Box.PerformLayout();
+            this.pal_Topic_BtnGroup.ResumeLayout(false);
             this.pal_Topic.ResumeLayout(false);
             this.pal_Topic.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Topic_Fund)).EndInit();
@@ -5095,9 +5183,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project_FileList)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project_FileValid)).EndInit();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
-            this.pal_JH_XM_BtnGroup.ResumeLayout(false);
+            this.tp_Project_Box.ResumeLayout(false);
+            this.tp_Project_Box.PerformLayout();
+            this.pal_Project_BtnGroup.ResumeLayout(false);
             this.pal_Project.ResumeLayout(false);
             this.pal_Project.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Project_Funds)).EndInit();
@@ -5108,12 +5196,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Plan_FileList)).EndInit();
             this.fileCheck.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Plan_FileValid)).EndInit();
-            this.box.ResumeLayout(false);
-            this.box.PerformLayout();
-            this.pal_JH_BtnGroup.ResumeLayout(false);
+            this.tp_Plan_Box.ResumeLayout(false);
+            this.tp_Plan_Box.PerformLayout();
+            this.pal_Plan_BtnGroup.ResumeLayout(false);
             this.pal_Plan.ResumeLayout(false);
             this.pal_Plan.PerformLayout();
             this.tab_MenuList.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -5134,7 +5223,7 @@
         private System.Windows.Forms.DataGridView dgv_Special_FileList;
         private DevExpress.XtraTab.XtraTabPage tabPage26;
         private System.Windows.Forms.DataGridView dgv_Special_FileValid;
-        private DevExpress.XtraTab.XtraTabPage tabPage28;
+        private DevExpress.XtraTab.XtraTabPage tp_Special_Box;
         private System.Windows.Forms.Label label162;
         private System.Windows.Forms.Label label163;
         private KyoControl.KyoButton btn_Special_Box_Bottom;
@@ -5151,7 +5240,7 @@
         private System.Windows.Forms.LinkLabel lbl_Special_Box_Add;
         private System.Windows.Forms.ComboBox cbo_Special_Box;
         private System.Windows.Forms.Label label145;
-        private System.Windows.Forms.Panel pal_Imp_Dev_BtnGroup;
+        private System.Windows.Forms.Panel pal_Special_BtnGroup;
         private KyoControl.KyoButton btn_Special_QTReason;
         private KyoControl.KyoButton btn_Special_AddFile;
         private KyoControl.KyoButton btn_Special_Submit;
@@ -5172,7 +5261,7 @@
         private System.Windows.Forms.DataGridView dgv_Imp_FileList;
         private DevExpress.XtraTab.XtraTabPage tabPage22;
         private System.Windows.Forms.DataGridView dgv_Imp_FileValid;
-        private DevExpress.XtraTab.XtraTabPage tabPage24;
+        private DevExpress.XtraTab.XtraTabPage tp_Imp_Box;
         private System.Windows.Forms.Label label158;
         private System.Windows.Forms.Label label159;
         private KyoControl.KyoButton btn_Imp_Box_Bottom;
@@ -5206,7 +5295,7 @@
         private System.Windows.Forms.DataGridView dgv_Subject_FileList;
         private DevExpress.XtraTab.XtraTabPage tabPage17;
         private System.Windows.Forms.DataGridView dgv_Subject_FileValid;
-        private DevExpress.XtraTab.XtraTabPage tabPage19;
+        private DevExpress.XtraTab.XtraTabPage tp_Subject_Box;
         private System.Windows.Forms.Label label154;
         private System.Windows.Forms.Label label155;
         private KyoControl.KyoButton btn_Subject_Box_Bottom;
@@ -5223,7 +5312,7 @@
         private System.Windows.Forms.LinkLabel lbl_Subject_Box_Add;
         private System.Windows.Forms.ComboBox cbo_Subject_Box;
         private System.Windows.Forms.Label label87;
-        private System.Windows.Forms.Panel pal_JH_XM_KT_ZKT_BtnGroup;
+        private System.Windows.Forms.Panel pal_Subject_BtnGroup;
         private KyoControl.KyoButton btn_Subject_QTReason;
         private KyoControl.KyoButton btn_Subject_AddFile;
         private KyoControl.KyoButton btn_Subject_Submit;
@@ -5232,8 +5321,6 @@
         private System.Windows.Forms.TextBox txt_Subject_Province;
         private System.Windows.Forms.TextBox txt_Subject_Unit;
         private System.Windows.Forms.NumericUpDown txt_Subject_Fund;
-        private System.Windows.Forms.DateTimePicker dtp_Subject_EndTime;
-        private System.Windows.Forms.DateTimePicker dtp_Subject_StartTime;
         private System.Windows.Forms.TextBox txt_Subject_ProUser;
         private System.Windows.Forms.Label label88;
         private System.Windows.Forms.TextBox txt_Subject_Unituser;
@@ -5261,7 +5348,7 @@
         private System.Windows.Forms.DataGridView dgv_Topic_FileList;
         private DevExpress.XtraTab.XtraTabPage tabPage6;
         private System.Windows.Forms.DataGridView dgv_Topic_FileValid;
-        private DevExpress.XtraTab.XtraTabPage tabPage8;
+        private DevExpress.XtraTab.XtraTabPage tp_Topic_Box;
         private System.Windows.Forms.Label label136;
         private System.Windows.Forms.Label label146;
         private KyoControl.KyoButton btn_Topic_Box_Bottom;
@@ -5278,7 +5365,7 @@
         private System.Windows.Forms.LinkLabel lbl_Topic_Box_Add;
         private System.Windows.Forms.ComboBox cbo_Topic_Box;
         private System.Windows.Forms.Label label71;
-        private System.Windows.Forms.Panel pal_JH_KT_BtnGroup;
+        private System.Windows.Forms.Panel pal_Topic_BtnGroup;
         private KyoControl.KyoButton btn_Topic_QTReason;
         private KyoControl.KyoButton btn_Topic_AddFile;
         private KyoControl.KyoButton btn_Topic_Submit;
@@ -5287,8 +5374,6 @@
         private System.Windows.Forms.TextBox txt_Topic_Province;
         private System.Windows.Forms.TextBox txt_Topic_Unit;
         private System.Windows.Forms.NumericUpDown txt_Topic_Fund;
-        private System.Windows.Forms.DateTimePicker dtp_Topic_EndTime;
-        private System.Windows.Forms.DateTimePicker dtp_Topic_StartTime;
         private System.Windows.Forms.TextBox txt_Topic_ProUser;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txt_Topic_UnitUser;
@@ -5318,7 +5403,7 @@
         private System.Windows.Forms.DataGridView dgv_Project_FileList;
         private DevExpress.XtraTab.XtraTabPage tabPage2;
         private System.Windows.Forms.DataGridView dgv_Project_FileValid;
-        private DevExpress.XtraTab.XtraTabPage tabPage4;
+        private DevExpress.XtraTab.XtraTabPage tp_Project_Box;
         private System.Windows.Forms.Label label114;
         private System.Windows.Forms.Label label133;
         private KyoControl.KyoButton btn_Project_Box_Bottom;
@@ -5335,7 +5420,7 @@
         private System.Windows.Forms.LinkLabel lbl_Project_Box_Add;
         private System.Windows.Forms.ComboBox cbo_Project_Box;
         private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.Panel pal_JH_XM_BtnGroup;
+        private System.Windows.Forms.Panel pal_Project_BtnGroup;
         private KyoControl.KyoButton btn_Project_QTReason;
         private KyoControl.KyoButton btn_Project_AddFile;
         private KyoControl.KyoButton btn_Project_Submit;
@@ -5344,8 +5429,6 @@
         private System.Windows.Forms.TextBox txt_Project_Province;
         private System.Windows.Forms.TextBox txt_Project_Unit;
         private System.Windows.Forms.NumericUpDown txt_Project_Funds;
-        private System.Windows.Forms.DateTimePicker dtp_Project_EndTime;
-        private System.Windows.Forms.DateTimePicker dtp_Project_StartTime;
         private System.Windows.Forms.TextBox txt_Project_ProUser;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txt_Project_UnitUser;
@@ -5375,7 +5458,7 @@
         private System.Windows.Forms.DataGridView dgv_Plan_FileList;
         private DevExpress.XtraTab.XtraTabPage fileCheck;
         private System.Windows.Forms.DataGridView dgv_Plan_FileValid;
-        private DevExpress.XtraTab.XtraTabPage box;
+        private DevExpress.XtraTab.XtraTabPage tp_Plan_Box;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label23;
         private KyoControl.KyoButton btn_Plan_Box_Bottom;
@@ -5392,7 +5475,7 @@
         private System.Windows.Forms.LinkLabel lbl_Plan_Box_Add;
         private System.Windows.Forms.ComboBox cbo_Plan_Box;
         private System.Windows.Forms.Label label54;
-        private System.Windows.Forms.Panel pal_JH_BtnGroup;
+        private System.Windows.Forms.Panel pal_Plan_BtnGroup;
         private KyoControl.KyoButton btn_Plan_QTReason;
         private KyoControl.KyoButton btn_Plan_AddFile;
         private KyoControl.KyoButton btn_Plan_Submit;
@@ -5543,5 +5626,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn plan_fc_name;
         private System.Windows.Forms.DataGridViewComboBoxColumn plan_fc_reason;
         private System.Windows.Forms.DataGridViewTextBoxColumn plan_fc_remark;
+        private System.Windows.Forms.TextBox txt_Project_EndTime;
+        private System.Windows.Forms.TextBox txt_Project_StartTime;
+        private System.Windows.Forms.DateTimePicker dtp_Project_EndTime;
+        private System.Windows.Forms.DateTimePicker dtp_Project_StartTime;
+        private System.Windows.Forms.TextBox txt_Topic_EndTime;
+        private System.Windows.Forms.TextBox txt_Topic_StartTime;
+        private System.Windows.Forms.DateTimePicker dtp_Topic_EndTime;
+        private System.Windows.Forms.DateTimePicker dtp_Topic_StartTime;
+        private System.Windows.Forms.TextBox txt_Subject_EndTime;
+        private System.Windows.Forms.TextBox txt_Subject_StartTime;
+        private System.Windows.Forms.DateTimePicker dtp_Subject_EndTime;
+        private System.Windows.Forms.DateTimePicker dtp_Subject_StartTime;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

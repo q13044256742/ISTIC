@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_Cover : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_Cover : XtraForm
     {
         /// <summary>
         /// 案卷名称
