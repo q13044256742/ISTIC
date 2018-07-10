@@ -528,6 +528,25 @@ namespace 科技计划项目档案数据采集管理系统
                 result = false;
             }
 
+            string dateString = txt_date.Text;
+            if(!string.IsNullOrEmpty(dateString))
+            {
+                if(!dateString.Contains("-"))
+                {
+                    errorProvider1.SetError(dtp_date, "提示：请输入格式为 yyyy-MM-dd 的有效日期。");
+                    result = false;
+                }
+                else
+                {
+                    bool flag = DateTime.TryParse(dateString, out DateTime date);
+                    if(!flag)
+                    {
+                        errorProvider1.SetError(dtp_date, "提示：请输入格式为 yyyy-MM-dd 的有效日期。");
+                        result = false;
+                    }
+                }
+            }
+
             return result;
         }
 

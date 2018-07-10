@@ -1024,21 +1024,37 @@ namespace 科技计划项目档案数据采集管理系统
                 string startDate = txt_Project_StartTime.Text;
                 if(!string.IsNullOrEmpty(startDate))
                 {
-                    DateTime time = new DateTime();
-                    if(!DateTime.TryParse(startDate, out time))
+                    if(!startDate.Contains("-"))
                     {
-                        errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入合法的日期");
+                        errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(startDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
                     }
                 }
                 string endDate = txt_Project_EndTime.Text;
                 if(!string.IsNullOrEmpty(endDate))
                 {
-                    DateTime time = new DateTime();
-                    if(!DateTime.TryParse(endDate, out time))
+                    if(!endDate.Contains("-"))
                     {
-                        errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入合法的日期");
+                        errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(endDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
                     }
                 }
             }
@@ -1084,21 +1100,37 @@ namespace 科技计划项目档案数据采集管理系统
                 string startDate = txt_Topic_StartTime.Text;
                 if(!string.IsNullOrEmpty(startDate))
                 {
-                    DateTime time = new DateTime();
-                    if(!DateTime.TryParse(startDate, out time))
+                    if(!startDate.Contains("-"))
                     {
-                        errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入合法的日期");
+                        errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(startDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
                     }
                 }
                 string endDate = txt_Topic_EndTime.Text;
                 if(!string.IsNullOrEmpty(endDate))
                 {
-                    DateTime time = new DateTime();
-                    if(!DateTime.TryParse(endDate, out time))
+                    if(!endDate.Contains("-"))
                     {
-                        errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入合法的日期");
+                        errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(endDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
                     }
                 }
             }
@@ -1143,21 +1175,37 @@ namespace 科技计划项目档案数据采集管理系统
                 string startDate = txt_Subject_StartTime.Text;
                 if(!string.IsNullOrEmpty(startDate))
                 {
-                    DateTime time = new DateTime();
-                    if(!DateTime.TryParse(startDate, out time))
+                    if(!startDate.Contains("-"))
                     {
-                        errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入合法的日期");
+                        errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(startDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
                     }
                 }
                 string endDate = txt_Subject_EndTime.Text;
                 if(!string.IsNullOrEmpty(endDate))
                 {
-                    DateTime time = new DateTime();
-                    if(!DateTime.TryParse(endDate, out time))
+                    if(!endDate.Contains("-"))
                     {
-                        errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入合法的日期");
+                        errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
+                    }
+                    else
+                    {
+                        DateTime time = new DateTime();
+                        if(!DateTime.TryParse(endDate, out time))
+                        {
+                            errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入合法的日期");
+                            result = false;
+                        }
                     }
                 }
             }
@@ -1366,14 +1414,22 @@ namespace 科技计划项目档案数据采集管理系统
                 DataGridViewCell dateCell = rows[i].Cells[key + "date"];
                 if(!string.IsNullOrEmpty(GetValue(dateCell.Value)))
                 {
-                    bool flag = DateTime.TryParse(GetValue(dateCell.Value), out DateTime date);
-                    if(!flag)
+                    if(!GetValue(dateCell.Value).Contains("-"))
                     {
                         dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
                         result = false;
                     }
                     else
-                        dateCell.ErrorText = null;
+                    {
+                        bool flag = DateTime.TryParse(GetValue(dateCell.Value), out DateTime date);
+                        if(!flag)
+                        {
+                            dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
+                            result = false;
+                        }
+                        else
+                            dateCell.ErrorText = null;
+                    }
                 }
             }
             return result;
@@ -5688,14 +5744,22 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewCell dateCell = row.Cells[key + "date"];
             if(!string.IsNullOrEmpty(GetValue(dateCell.Value)))
             {
-                bool flag = DateTime.TryParse(GetValue(dateCell.Value), out DateTime date);
-                if(!flag)
+                if(!GetValue(dateCell.Value).Contains("-"))
                 {
                     dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
                     result = false;
                 }
                 else
-                    dateCell.ErrorText = null;
+                {
+                    bool flag = DateTime.TryParse(GetValue(dateCell.Value), out DateTime date);
+                    if(!flag)
+                    {
+                        dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
+                        result = false;
+                    }
+                    else
+                        dateCell.ErrorText = null;
+                }
             }
 
             return result;

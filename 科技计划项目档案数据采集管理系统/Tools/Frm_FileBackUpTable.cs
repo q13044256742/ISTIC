@@ -25,6 +25,8 @@ namespace 科技计划项目档案数据采集管理系统
 
             lbl_LiJuanRen.Text = UserHelper.GetInstance().User.RealName;
             lbl_date1.Text = DateTime.Now.ToString("yyyy 年 MM 月 dd 日");
+
+            //pal_Show.Height = 800;
         }
 
         private string GetValue(object value) => value == null ? string.Empty : value.ToString();
@@ -49,7 +51,7 @@ namespace 科技计划项目档案数据采集管理系统
             Graphics graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.White);
             pal_Show.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
-            int left = (e.PageBounds.Width - bitmap.Width) / 2;
+            int left = (e.PageBounds.Width - bitmap.Width) / 2 - 15;
             e.Graphics.DrawImage(bitmap, left, 0);
         }
 

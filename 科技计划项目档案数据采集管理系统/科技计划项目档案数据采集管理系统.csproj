@@ -469,6 +469,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\2.png" />
+    <None Include="Resources\1.png" />
+    <None Include="Resources\3.png" />
     <None Include="Resources\pdf.png" />
     <None Include="Resources\lock.jpg" />
     <None Include="Resources\word.png" />

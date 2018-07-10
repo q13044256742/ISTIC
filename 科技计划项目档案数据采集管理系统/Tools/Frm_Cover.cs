@@ -1,6 +1,8 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -44,6 +46,9 @@ namespace 科技计划项目档案数据采集管理系统
             lbl_BGD.Text = bgDate;
             lbl_GCH.Text = gcCode;
             lbl_Secret.Text = secret;
+
+            trackBar.MinimumSize = new Size(85, 0);
+            trackBar.MaximumSize = new Size(120, 0);
         }
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
@@ -52,18 +57,32 @@ namespace 科技计划项目档案数据采集管理系统
             Graphics graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.White);
             pal_Show.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
-
-            e.Graphics.DrawImage(bitmap, 0f, 0f);
+            int left = (e.PageBounds.Width - bitmap.Width) / 2 - 15;
+            e.Graphics.DrawImage(bitmap, left, 0);
+            
         }
 
-        private void btn_Print_Click(object sender, System.EventArgs e)
+        private void Btn_Print_Click(object sender, System.EventArgs e)
         {
+            DialogResult result = XtraMessageBox.Show("是否需要导出图像文件?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
+            if(result == DialogResult.Yes)
+            {
+                dialog.Description = "请选择导出文件存放地址。";
+                if(dialog.ShowDialog() == DialogResult.OK)
+                {
+                    string savePath = dialog.SelectedPath + "\\temp.jpg";
+                    File.Delete(savePath);
+                    Bitmap bitmap = new Bitmap(pal_Show.Width, pal_Show.Height, PixelFormat.Format24bppRgb);
+                    Graphics graphics = Graphics.FromImage(bitmap);
+                    graphics.Clear(Color.White);
+                    pal_Show.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
+                    bitmap.Save($"{savePath}", ImageFormat.Jpeg);
+                    WinFormOpenHelper.OpenWinForm(0, "open", savePath, null, null, ShowWindowCommands.SW_NORMAL);
+                }
+            }
             try
             {
-                if(printPreviewDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    printDocument1.Print();
-                }
+                printDocument1.Print();
             }
             catch(Exception ex)
             {
@@ -95,6 +114,12 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_Secret.Font = fontDialog1.Font;
                 lbl_Unit.Font = fontDialog1.Font;
             }
+        }
+
+        private void trackBar_EditValueChanged(object sender, EventArgs e)
+        {
+            int i = 85;
+            panel8.Height = i + trackBar.Value * 5;
         }
     }
 }

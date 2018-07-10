@@ -314,7 +314,7 @@
             // 
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.fb_id.DefaultCellStyle = dataGridViewCellStyle2;
-            this.fb_id.FillWeight = 50F;
+            this.fb_id.FillWeight = 10F;
             this.fb_id.HeaderText = "序号";
             this.fb_id.Name = "fb_id";
             this.fb_id.ReadOnly = true;
@@ -322,7 +322,7 @@
             // 
             // fb_code
             // 
-            this.fb_code.FillWeight = 120F;
+            this.fb_code.FillWeight = 15F;
             this.fb_code.HeaderText = "文件编号";
             this.fb_code.Name = "fb_code";
             this.fb_code.ReadOnly = true;
@@ -332,7 +332,7 @@
             // 
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.fb_name.DefaultCellStyle = dataGridViewCellStyle3;
-            this.fb_name.FillWeight = 200F;
+            this.fb_name.FillWeight = 30F;
             this.fb_name.HeaderText = "文件名称";
             this.fb_name.Name = "fb_name";
             this.fb_name.ReadOnly = true;
@@ -342,7 +342,7 @@
             // 
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.fb_page.DefaultCellStyle = dataGridViewCellStyle4;
-            this.fb_page.FillWeight = 50F;
+            this.fb_page.FillWeight = 10F;
             this.fb_page.HeaderText = "页数";
             this.fb_page.Name = "fb_page";
             this.fb_page.ReadOnly = true;
@@ -352,7 +352,7 @@
             // 
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.fb_count.DefaultCellStyle = dataGridViewCellStyle5;
-            this.fb_count.FillWeight = 50F;
+            this.fb_count.FillWeight = 10F;
             this.fb_count.HeaderText = "份数";
             this.fb_count.Name = "fb_count";
             this.fb_count.ReadOnly = true;
@@ -360,7 +360,7 @@
             // 
             // fb_remark
             // 
-            this.fb_remark.FillWeight = 60F;
+            this.fb_remark.FillWeight = 15F;
             this.fb_remark.HeaderText = "备注";
             this.fb_remark.Name = "fb_remark";
             this.fb_remark.ReadOnly = true;
