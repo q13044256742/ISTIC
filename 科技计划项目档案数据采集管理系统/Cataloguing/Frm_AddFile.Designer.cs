@@ -63,6 +63,8 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.txt_date = new System.Windows.Forms.TextBox();
+            this.num_Count = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
             this.btn_Reset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Exit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Save_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -70,6 +72,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Pages)).BeginInit();
             this.pal_type.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Count)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_OpenFile
@@ -121,7 +124,7 @@
             this.txt_Unit.Location = new System.Drawing.Point(114, 241);
             this.txt_Unit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_Unit.Name = "txt_Unit";
-            this.txt_Unit.Size = new System.Drawing.Size(600, 30);
+            this.txt_Unit.Size = new System.Drawing.Size(407, 30);
             this.txt_Unit.TabIndex = 45;
             // 
             // label10
@@ -417,8 +420,33 @@
             // 
             this.txt_date.Location = new System.Drawing.Point(114, 149);
             this.txt_date.Name = "txt_date";
-            this.txt_date.Size = new System.Drawing.Size(206, 30);
+            this.txt_date.Size = new System.Drawing.Size(209, 30);
             this.txt_date.TabIndex = 78;
+            // 
+            // num_Count
+            // 
+            this.num_Count.Font = new System.Drawing.Font("宋体", 15F);
+            this.num_Count.Location = new System.Drawing.Point(601, 241);
+            this.num_Count.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.num_Count.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.num_Count.Name = "num_Count";
+            this.num_Count.Size = new System.Drawing.Size(115, 30);
+            this.num_Count.TabIndex = 79;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
+            this.label6.Location = new System.Drawing.Point(540, 244);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(48, 25);
+            this.label6.TabIndex = 80;
+            this.label6.Text = "份数";
             // 
             // btn_Reset
             // 
@@ -469,6 +497,8 @@
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(743, 612);
+            this.Controls.Add(this.num_Count);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.txt_date);
             this.Controls.Add(this.lsv_LinkList);
             this.Controls.Add(this.txt_fileName);
@@ -514,6 +544,7 @@
             this.pal_type.ResumeLayout(false);
             this.pal_type.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Count)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -557,5 +588,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.TextBox txt_date;
+        private System.Windows.Forms.NumericUpDown num_Count;
+        private System.Windows.Forms.Label label6;
     }
 }

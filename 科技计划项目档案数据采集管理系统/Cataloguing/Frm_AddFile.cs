@@ -62,8 +62,9 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_fileName.Text = GetValue(row["pfl_name"]);
                 dtp_date.Value = GetDateTime(row["pfl_date"], "yyyy-MM-dd");
                 num_Pages.Value = Convert.ToInt32(row["pfl_pages"]);
-                SetRadioValue(row["pfl_type"], pal_type);
+                num_Count.Value = Convert.ToInt32(row["pfl_count"]);
                 num_Amount.Value = Convert.ToInt32(row["pfl_amount"]);
+                SetRadioValue(row["pfl_type"], pal_type);
                 txt_Unit.Text = GetValue(row["pfl_unit"]);
                 LoadFileLinkList(GetValue(row["pfl_file_id"]));
                 txt_Remark.Text = GetValue(row["pfl_remark"]);
@@ -123,7 +124,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LoadCategorByStage(object stageValue)
         {
-            string querySql = $"SELECT dd_id, dd_name+' '+extend_3 AS dd_name FROM data_dictionary WHERE dd_pId='{stageValue}' ORDER BY dd_sort";
+            string querySql = $"SELECT dd_id, dd_name+' '+extend_3 AS dd_name FROM data_dictionary WHERE dd_pId='{stageValue}' ORDER BY dd_name";
             cbo_categor.DataSource = SqlHelper.ExecuteQuery(querySql);
             cbo_categor.DisplayMember = "dd_name";
             cbo_categor.ValueMember = "dd_id";
@@ -266,6 +267,7 @@ namespace 科技计划项目档案数据采集管理系统
             row.Cells[key + "user"].Value = txt_User.Text;
             row.Cells[key + "type"].Value = GetRadioValue(pal_type);
             row.Cells[key + "pages"].Value = num_Pages.Value;
+            row.Cells[key + "count"].Value = num_Count.Value;
             row.Cells[key + "amount"].Value = num_Amount.Value;
             row.Cells[key + "date"].Value = txt_date.Text;
             row.Cells[key + "unit"].Value = txt_Unit.Text;
@@ -278,11 +280,12 @@ namespace 科技计划项目档案数据采集管理系统
                 object stage = row.Cells[key + "stage"].Value;
                 object categor = row.Cells[key + "categor"].Value;
                 object code = row.Cells[key + "code"].Value;
-                object name = row.Cells[key + "name"].Value;
+                object name = GetValue(row.Cells[key + "name"].Value).Replace("'", "''");
                 object user = row.Cells[key + "user"].Value;
                 object type = row.Cells[key + "type"].Value;
                 object pages = row.Cells[key + "pages"].Value;
-                object count = row.Cells[key + "amount"].Value;
+                object count = row.Cells[key + "count"].Value;
+                object amount = row.Cells[key + "amount"].Value;
                 DateTime date = DateTime.Now;
                 string _date = GetValue(row.Cells[key + "date"].Value);
                 if(!string.IsNullOrEmpty(_date))
@@ -320,8 +323,8 @@ namespace 科技计划项目档案数据采集管理系统
                 }
 
                 string insertSql = "INSERT INTO processing_file_list (" +
-                "pfl_id, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort, pfl_remark) " +
-                $"VALUES( '{primaryKey}', '{stage}', '{categor}', '{code}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{date}', '{unit}', '{carrier}', '{link}', '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}', '{parentId}', -1, '{row.Index}', '{remark}');";
+                "pfl_id, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort, pfl_remark) " +
+                $"VALUES( '{primaryKey}', '{stage}', '{categor}', '{code}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}', '{parentId}', -1, '{row.Index}', '{remark}');";
                 //将备份表中的文件标记为已选取
                 if(!string.IsNullOrEmpty(fileId))
                     insertSql += $"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({fileId});";
@@ -335,11 +338,12 @@ namespace 科技计划项目档案数据采集管理系统
                 object stage = row.Cells[key + "stage"].Value;
                 object categor = row.Cells[key + "categor"].Value;
                 object code = row.Cells[key + "code"].Value;
-                object name = row.Cells[key + "name"].Value;
+                object name = GetValue(row.Cells[key + "name"].Value).Replace("'", "''");
                 object user = row.Cells[key + "user"].Value;
                 object type = row.Cells[key + "type"].Value;
                 object pages = row.Cells[key + "pages"].Value;
-                object count = row.Cells[key + "amount"].Value;
+                object count = row.Cells[key + "count"].Value;
+                object amount = row.Cells[key + "amount"].Value;
                 DateTime date = DateTime.Now;
                 string _date = GetValue(row.Cells[key + "date"].Value);
                 if(!string.IsNullOrEmpty(_date))
@@ -368,7 +372,8 @@ namespace 科技计划项目档案数据采集管理系统
                         $",[pfl_user] = '{user}'" +
                         $",[pfl_type] = '{type}'" +
                         $",[pfl_pages] = '{pages}'" +
-                        $",[pfl_amount] = '{count}'" +
+                        $",[pfl_count] = '{count}'" +
+                        $",[pfl_amount] = '{amount}'" +
                         $",[pfl_date] = '{date}'" +
                         $",[pfl_unit] = '{unit}'" +
                         $",[pfl_carrier] = '{carrier}'" +
