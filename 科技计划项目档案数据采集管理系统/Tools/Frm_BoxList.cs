@@ -72,9 +72,6 @@ namespace 科技计划项目档案数据采集管理系统
             try
             {
                 dgv_DataList.ClearSelection();
-                dgv_DataList.BackgroundColor = Color.White;
-                dgv_DataList.DefaultCellStyle.BackColor = Color.White;
-                dgv_DataList.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
                 if(printPreviewDialog1.ShowDialog() == DialogResult.OK)
                 {
                     printDocument1.Print();
