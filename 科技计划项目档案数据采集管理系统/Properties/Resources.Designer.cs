@@ -111,6 +111,36 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         }
         
         /// <summary>
+        ///   查找类似 &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///	&lt;title&gt;&lt;/title&gt;
+        ///	&lt;style type=&quot;text/css&quot;&gt;
+        ///		.ipt1{
+        ///			border: none;
+        ///			border-bottom: 1px solid black;
+        ///			font-size: 22px;
+        ///			text-align: center;
+        ///			width: 500px;
+        ///		}
+        ///		.ipt2{
+        ///			border: none;
+        ///			font-size: 22px;
+        ///		}
+        ///	&lt;/style&gt;
+        ///&lt;/head&gt;
+        ///&lt;body style=&quot;text-align: center;&quot;&gt;
+        ///	&lt;div style=&quot;width: 1200px;&quot;&gt;&lt;h1 style=&quot;padding: 10px;&quot;&gt;卷内备考表&lt;/h1&gt;&lt;/div&gt;
+        ///	&lt;div style=&quot;width: 1200px; border: 1px solid black; text-align: center; padding: 15px;&quot;&gt;
+        ///		&lt;div style=&quot;text-align: le [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string bkb {
+            get {
+                return ResourceManager.GetString("bkb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap current2 {
@@ -167,6 +197,49 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
             get {
                 object obj = ResourceManager.GetObject("file2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &lt;html xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot;
+        ///	xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot;
+        ///	xmlns:w=&quot;urn:schemas-microsoft-com:office:word&quot;
+        ///	xmlns:m=&quot;http://schemas.microsoft.com/office/2004/12/omml&quot;
+        ///	xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;
+        ///&lt;head&gt;
+        ///&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=EmulateIE8&quot; /&gt;
+        ///&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;
+        ///&lt;meta name=&quot;ProgId&quot; content=&quot;Word.Document&quot; /&gt;
+        ///&lt;meta name=&quot;Generator&quot; content=&quot;Microsoft Word 15&quot; /&gt;
+        ///&lt;meta name=&quot;O [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string fm {
+            get {
+                return ResourceManager.GetString("fm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 
+        ///&lt;html&gt;
+        ///&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+        ///&lt;body&gt;
+        ///	&lt;h1
+        ///		style=&quot;word-break: break-all; text-align: center;; font-family: 黑体;&quot;&gt;卷内文件目录&lt;/h1&gt;
+        ///	&lt;br /&gt;
+        ///	&lt;br /&gt;
+        ///	&lt;div style=&quot;word-break: break-all; font-family: 黑体;&quot;&gt;
+        ///		&lt;b&gt;项目名称:&lt;/b&gt;&lt;span style=&apos;border-bottom: black solid 1px; width: 80%;&apos;
+        ///			id=&quot;xmmc&quot;&gt;&lt;/span&gt;
+        ///	&lt;/div&gt;
+        ///	&lt;br /&gt;
+        ///	&lt;div style=&quot;word-break: break-all; font-family: 黑体;&quot;&gt;
+        ///		&lt;b&gt;项目编号:&lt;/b&gt;&lt;span style=&apos;border-bottom: black solid 1px; width: 80%;&apos;
+        ///			id=&quot;xmbh&quot;&gt;&lt;/span [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string jnml {
+            get {
+                return ResourceManager.GetString("jnml", resourceCulture);
             }
         }
         

@@ -264,6 +264,12 @@
     <Compile Include="Tools\Frm_FileBackUpTable.Designer.cs">
       <DependentUpon>Frm_FileBackUpTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\Frm_PrintBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\Frm_PrintBox.Designer.cs">
+      <DependentUpon>Frm_PrintBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\LocalizationCHS.cs" />
     <Compile Include="Tools\MicrosoftWordHelper.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
@@ -422,6 +428,9 @@
     <EmbeddedResource Include="Tools\Frm_FileBackUpTable.resx">
       <DependentUpon>Frm_FileBackUpTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tools\Frm_PrintBox.resx">
+      <DependentUpon>Frm_PrintBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>
     </EmbeddedResource>
@@ -469,6 +478,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\bkb.html" />
+    <None Include="Resources\jnml.html" />
+    <None Include="Resources\fm.html" />
     <None Include="Resources\2.png" />
     <None Include="Resources\1.png" />
     <None Include="Resources\3.png" />

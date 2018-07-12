@@ -5557,26 +5557,20 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void btn_Plan_Print_Click(object sender, EventArgs e)
+        private void Btn_Plan_Print_Click(object sender, EventArgs e)
         {
             string controlName = (sender as KyoButton).Name;
             object objId = null, boxId = null, docNumber = null;
             string objName = null, gcCode = null;
-            if(controlName.Contains("Plan"))
-            {
-                objId = tab_Plan_Info.Tag;
-                boxId = cbo_Plan_Box.SelectedValue;
-                docNumber = txt_Plan_AJ_Code.Text;
-                objName = txt_Plan_AJ_Name.Text;
-                gcCode = txt_Plan_GCID.Text;
-            }
-            else if(controlName.Contains("Project"))
+            DataTable boxTable = null;
+            if(controlName.Contains("Project"))
             {
                 objId = tab_Project_Info.Tag;
                 boxId = cbo_Project_Box.SelectedValue;
                 docNumber = txt_Project_AJ_Code.Text;
                 objName = txt_Project_AJ_Name.Text;
                 gcCode = txt_Project_GCID.Text;
+                boxTable = (DataTable)cbo_Project_Box.DataSource;
             }
             else if(controlName.Contains("Topic"))
             {
@@ -5585,6 +5579,7 @@ namespace 科技计划项目档案数据采集管理系统
                 docNumber = txt_Topic_AJ_Code.Text;
                 objName = txt_Topic_AJ_Name.Text;
                 gcCode = txt_Topic_GCID.Text;
+                boxTable = (DataTable)cbo_Topic_Box.DataSource;
             }
             else if(controlName.Contains("Subject"))
             {
@@ -5593,14 +5588,7 @@ namespace 科技计划项目档案数据采集管理系统
                 docNumber = txt_Subject_AJ_Code.Text;
                 objName = txt_Subject_AJ_Name.Text;
                 gcCode = txt_Subject_GCID.Text;
-            }
-            else if(controlName.Contains("Imp"))
-            {
-                objId = tab_Imp_Info.Tag;
-                boxId = cbo_Imp_Box.SelectedValue;
-                docNumber = txt_Imp_AJ_Code.Text;
-                objName = txt_Imp_AJ_Name.Text;
-                gcCode = txt_Imp_GCID.Text;
+                boxTable = (DataTable)cbo_Subject_Box.DataSource;
             }
             else if(controlName.Contains("Special"))
             {
@@ -5609,8 +5597,52 @@ namespace 科技计划项目档案数据采集管理系统
                 docNumber = txt_Special_AJ_Code.Text;
                 objName = txt_Special_AJ_Name.Text;
                 gcCode = txt_Special_GCID.Text;
+                boxTable = (DataTable)cbo_Special_Box.DataSource;
             }
-            Frm_Print frm = new Frm_Print(objId, boxId, docNumber, objName, gcCode);
+            else if(controlName.Contains("Imp"))
+            {
+                objId = tab_Imp_Info.Tag;
+                boxId = cbo_Imp_Box.SelectedValue;
+                docNumber = txt_Imp_AJ_Code.Text;
+                objName = txt_Imp_AJ_Name.Text;
+                gcCode = txt_Imp_GCID.Text;
+                boxTable = (DataTable)cbo_Imp_Box.DataSource;
+            }
+            else if(controlName.Contains("Plan"))
+            {
+                objId = tab_Plan_Info.Tag;
+                boxId = cbo_Plan_Box.SelectedValue;
+                docNumber = txt_Plan_AJ_Code.Text;
+                objName = txt_Plan_AJ_Name.Text;
+                gcCode = txt_Plan_GCID.Text;
+                boxTable = (DataTable)cbo_Plan_Box.DataSource;
+            }
+            object _fileAmount = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'");
+            string[] _files = GetValue(_fileAmount).Split(',');
+            int fileAmount = 0;
+            int filePages = 0;
+            for(int i = 0; i < _files.Length; i++)
+            {
+                if(!string.IsNullOrEmpty(_files[i]))
+                {
+                    fileAmount++;
+                    object _page = SqlHelper.ExecuteOnlyOneQuery($"SELECT pfl_pages FROM processing_file_list WHERE pfl_id='{_files[i]}'");
+                    if(!string.IsNullOrEmpty(GetValue(_page)))
+                        filePages += Convert.ToInt32(_page);
+                }
+            }
+
+            Frm_PrintBox frm = new Frm_PrintBox();
+            frm.boxTable = boxTable;
+            frm.fileAmount = fileAmount;
+            frm.filePages = filePages;
+            frm.objectCode = docNumber;
+            frm.gcCode = gcCode;
+            frm.objectName = objName;
+            frm.bzDate = DateTime.Now.ToString("yyyy-MM-dd");
+            frm.bgDate = DateTime.Now.ToString("yyyy-MM-dd");
+            frm.unitName = UserHelper.GetInstance().User.UnitName;
+            frm.proCode = GetValue(docNumber);
             frm.ShowDialog();
         }
 

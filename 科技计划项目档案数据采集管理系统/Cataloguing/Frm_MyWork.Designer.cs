@@ -1008,7 +1008,7 @@
             this.btn_Special_Print.Size = new System.Drawing.Size(65, 25);
             this.btn_Special_Print.TabIndex = 48;
             this.btn_Special_Print.Text = "打印";
-            this.btn_Special_Print.Click += new System.EventHandler(this.btn_Plan_Print_Click);
+            this.btn_Special_Print.Click += new System.EventHandler(this.Btn_Plan_Print_Click);
             // 
             // txt_Special_AJ_Name
             // 
@@ -1707,7 +1707,7 @@
             this.btn_Imp_Print.Size = new System.Drawing.Size(65, 25);
             this.btn_Imp_Print.TabIndex = 44;
             this.btn_Imp_Print.Text = "打印";
-            this.btn_Imp_Print.Click += new System.EventHandler(this.btn_Plan_Print_Click);
+            this.btn_Imp_Print.Click += new System.EventHandler(this.Btn_Plan_Print_Click);
             // 
             // txt_Imp_AJ_Name
             // 
@@ -2364,7 +2364,7 @@
             this.btn_Subject_Print.Size = new System.Drawing.Size(65, 25);
             this.btn_Subject_Print.TabIndex = 36;
             this.btn_Subject_Print.Text = "打印";
-            this.btn_Subject_Print.Click += new System.EventHandler(this.btn_Plan_Print_Click);
+            this.btn_Subject_Print.Click += new System.EventHandler(this.Btn_Plan_Print_Click);
             // 
             // txt_Subject_AJ_Name
             // 
@@ -3253,7 +3253,7 @@
             this.btn_Topic_Print.Size = new System.Drawing.Size(65, 25);
             this.btn_Topic_Print.TabIndex = 28;
             this.btn_Topic_Print.Text = "打印";
-            this.btn_Topic_Print.Click += new System.EventHandler(this.btn_Plan_Print_Click);
+            this.btn_Topic_Print.Click += new System.EventHandler(this.Btn_Plan_Print_Click);
             // 
             // txt_Topic_AJ_Name
             // 
@@ -4172,7 +4172,7 @@
             this.btn_Project_Print.Size = new System.Drawing.Size(65, 25);
             this.btn_Project_Print.TabIndex = 24;
             this.btn_Project_Print.Text = "打印";
-            this.btn_Project_Print.Click += new System.EventHandler(this.btn_Plan_Print_Click);
+            this.btn_Project_Print.Click += new System.EventHandler(this.Btn_Plan_Print_Click);
             // 
             // txt_Project_AJ_Name
             // 
@@ -5113,7 +5113,7 @@
             this.btn_Plan_Print.Size = new System.Drawing.Size(65, 25);
             this.btn_Plan_Print.TabIndex = 19;
             this.btn_Plan_Print.Text = "打印";
-            this.btn_Plan_Print.Click += new System.EventHandler(this.btn_Plan_Print_Click);
+            this.btn_Plan_Print.Click += new System.EventHandler(this.Btn_Plan_Print_Click);
             // 
             // txt_Plan_AJ_Name
             // 
