@@ -485,7 +485,9 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 System.Windows.Forms.ComboBox box = e.Control as System.Windows.Forms.ComboBox;
                 if(box.Items.Count > 0)
+                {
                     box.SelectedValue = box.Items[0];
+                }
             }
         }
 
@@ -5563,6 +5565,7 @@ namespace 科技计划项目档案数据采集管理系统
             object objId = null, boxId = null, docNumber = null;
             string objName = null, gcCode = null;
             DataTable boxTable = null;
+            string proName = null, proCode = null;
             if(controlName.Contains("Project"))
             {
                 objId = tab_Project_Info.Tag;
@@ -5570,6 +5573,8 @@ namespace 科技计划项目档案数据采集管理系统
                 docNumber = txt_Project_AJ_Code.Text;
                 objName = txt_Project_AJ_Name.Text;
                 gcCode = txt_Project_GCID.Text;
+                proName = txt_Project_Name.Text;
+                proCode = txt_Project_Code.Text;
                 boxTable = (DataTable)cbo_Project_Box.DataSource;
             }
             else if(controlName.Contains("Topic"))
@@ -5579,6 +5584,8 @@ namespace 科技计划项目档案数据采集管理系统
                 docNumber = txt_Topic_AJ_Code.Text;
                 objName = txt_Topic_AJ_Name.Text;
                 gcCode = txt_Topic_GCID.Text;
+                proName = txt_Topic_Name.Text;
+                proCode = txt_Topic_Code.Text;
                 boxTable = (DataTable)cbo_Topic_Box.DataSource;
             }
             else if(controlName.Contains("Subject"))
@@ -5588,6 +5595,8 @@ namespace 科技计划项目档案数据采集管理系统
                 docNumber = txt_Subject_AJ_Code.Text;
                 objName = txt_Subject_AJ_Name.Text;
                 gcCode = txt_Subject_GCID.Text;
+                proName = txt_Subject_Name.Text;
+                proCode = txt_Subject_Code.Text;
                 boxTable = (DataTable)cbo_Subject_Box.DataSource;
             }
             else if(controlName.Contains("Special"))
@@ -5597,6 +5606,8 @@ namespace 科技计划项目档案数据采集管理系统
                 docNumber = txt_Special_AJ_Code.Text;
                 objName = txt_Special_AJ_Name.Text;
                 gcCode = txt_Special_GCID.Text;
+                proName = txt_Special_Name.Text;
+                proCode = txt_Special_Code.Text;
                 boxTable = (DataTable)cbo_Special_Box.DataSource;
             }
             else if(controlName.Contains("Imp"))
@@ -5606,6 +5617,8 @@ namespace 科技计划项目档案数据采集管理系统
                 docNumber = txt_Imp_AJ_Code.Text;
                 objName = txt_Imp_AJ_Name.Text;
                 gcCode = txt_Imp_GCID.Text;
+                proName = lbl_Imp_Name.Text;
+                proCode = GetValue(docNumber);
                 boxTable = (DataTable)cbo_Imp_Box.DataSource;
             }
             else if(controlName.Contains("Plan"))
@@ -5615,6 +5628,8 @@ namespace 科技计划项目档案数据采集管理系统
                 docNumber = txt_Plan_AJ_Code.Text;
                 objName = txt_Plan_AJ_Name.Text;
                 gcCode = txt_Plan_GCID.Text;
+                proName = lbl_Plan_Name.Text;
+                proCode = GetValue(docNumber);
                 boxTable = (DataTable)cbo_Plan_Box.DataSource;
             }
             object _fileAmount = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'");
@@ -5642,7 +5657,8 @@ namespace 科技计划项目档案数据采集管理系统
             frm.bzDate = DateTime.Now.ToString("yyyy-MM-dd");
             frm.bgDate = DateTime.Now.ToString("yyyy-MM-dd");
             frm.unitName = UserHelper.GetInstance().User.UnitName;
-            frm.proCode = GetValue(docNumber);
+            frm.proCode = proCode;
+            frm.proName = proName;
             frm.ShowDialog();
         }
 
@@ -5713,13 +5729,12 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(togle.IsOn)
             {
-                treeView.Width = 250;
+                Pal_LeftBar.Width = 250;
             }
             else
             {
-                treeView.Width = 0;
+                Pal_LeftBar.Width = 0;
             }
-            tab_MenuList.Update();
         }
 
         /// <summary>
@@ -5959,6 +5974,43 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void FileList_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
+        }
+
+        private void SearchText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(treeView.Nodes.Count > 0 && e.KeyCode == Keys.Enter)
+            {
+                string key = SearchText.Text;
+                if(!string.IsNullOrEmpty(key))
+                {
+                    TreeNode node = GetTreeNodeByKey(treeView.Nodes[0], key);
+                    if(node == null)
+                        MessageBox.Show("找不到相关数据。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    else
+                        TreeView_NodeMouseClick(null, new TreeNodeMouseClickEventArgs(node, MouseButtons.Left, 1, 0, 0));
+                }
+            }
+        }
+
+        private TreeNode GetTreeNodeByKey(TreeNode node, string key)
+        {
+            foreach(TreeNode item in node.Nodes)
+            {
+                ControlType type = (ControlType)item.Tag;
+                int count = 0;
+                if(type == ControlType.Project)
+                    count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_id='{item.Name}' AND (pi_code LIKE '%{key}%' OR pi_name LIKE '%{key}%')");
+                else if(type == ControlType.Topic)
+                    count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE ti_id='{item.Name}' AND (ti_code LIKE '%{key}%' OR ti_name LIKE '%{key}%')");
+                else if(type == ControlType.Subject)
+                    count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(si_id) FROM subject_info WHERE si_id='{item.Name}' AND (si_code LIKE '%{key}%' OR si_name LIKE '%{key}%')");
+                if(count > 0)
+                    return item;
+                TreeNode treeNode =  GetTreeNodeByKey(item, key);
+                if(treeNode != null)
+                    return treeNode;
+            }
+            return null;
         }
     }
 }

@@ -28,11 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_PrintBox));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.view = new System.Windows.Forms.DataGridView();
             this.chk_PrintAll = new System.Windows.Forms.CheckBox();
             this.chk_BKB = new System.Windows.Forms.CheckBox();
@@ -41,10 +40,10 @@
             this.cbo_BJ = new System.Windows.Forms.ComboBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tip = new System.Windows.Forms.ToolStripStatusLabel();
-            this.web = new System.Windows.Forms.WebBrowser();
             this.btn_StartPrint = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.print = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bkb = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.fm = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.fmbj = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -60,42 +59,27 @@
             this.view.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.view.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.view.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(5);
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.view.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5);
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.view.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.view.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.view.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.print,
             this.id,
+            this.amount,
             this.bkb,
             this.fm,
             this.fmbj,
             this.jnml});
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.view.DefaultCellStyle = dataGridViewCellStyle7;
             this.view.Dock = System.Windows.Forms.DockStyle.Top;
             this.view.Location = new System.Drawing.Point(0, 0);
             this.view.Name = "view";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.view.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.view.RowHeadersVisible = false;
             this.view.RowTemplate.Height = 23;
             this.view.Size = new System.Drawing.Size(824, 422);
@@ -176,16 +160,6 @@
             this.tip.Name = "tip";
             this.tip.Size = new System.Drawing.Size(0, 17);
             // 
-            // web
-            // 
-            this.web.Location = new System.Drawing.Point(264, 224);
-            this.web.MinimumSize = new System.Drawing.Size(20, 20);
-            this.web.Name = "web";
-            this.web.Size = new System.Drawing.Size(296, 130);
-            this.web.TabIndex = 9;
-            this.web.Visible = false;
-            this.web.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.Web_DocumentCompleted);
-            // 
             // btn_StartPrint
             // 
             this.btn_StartPrint.Image = ((System.Drawing.Image)(resources.GetObject("btn_StartPrint.Image")));
@@ -206,12 +180,22 @@
             // 
             // id
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.id.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.id.DefaultCellStyle = dataGridViewCellStyle2;
             this.id.FillWeight = 10F;
             this.id.HeaderText = "盒号";
             this.id.Name = "id";
+            this.id.ReadOnly = true;
             this.id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // amount
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.amount.DefaultCellStyle = dataGridViewCellStyle3;
+            this.amount.FillWeight = 13F;
+            this.amount.HeaderText = "文件数";
+            this.amount.Name = "amount";
+            this.amount.ReadOnly = true;
             // 
             // bkb
             // 
@@ -249,7 +233,6 @@
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(824, 579);
-            this.Controls.Add(this.web);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cbo_BJ);
             this.Controls.Add(this.chk_JNML);
@@ -284,9 +267,9 @@
         private System.Windows.Forms.ComboBox cbo_BJ;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tip;
-        private System.Windows.Forms.WebBrowser web;
         private System.Windows.Forms.DataGridViewCheckBoxColumn print;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn amount;
         private System.Windows.Forms.DataGridViewCheckBoxColumn bkb;
         private System.Windows.Forms.DataGridViewCheckBoxColumn fm;
         private System.Windows.Forms.DataGridViewComboBoxColumn fmbj;
