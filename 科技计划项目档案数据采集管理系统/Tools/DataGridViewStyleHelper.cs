@@ -143,7 +143,7 @@ namespace 科技计划项目档案数据采集管理系统
             return new DataGridViewCellStyle()
             {
                 Alignment = DataGridViewContentAlignment.MiddleLeft,
-                Font = new System.Drawing.Font("宋体", DefaultCellFontSize, System.Drawing.FontStyle.Regular)
+                Font = new System.Drawing.Font("华文中宋", DefaultCellFontSize, System.Drawing.FontStyle.Regular)
             };
         }
 

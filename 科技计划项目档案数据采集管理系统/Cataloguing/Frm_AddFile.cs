@@ -383,7 +383,7 @@ namespace 科技计划项目档案数据采集管理系统
                         $",[pfl_file_id] = '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}'" +
                         $" WHERE pfl_id= '{primaryKey}';";
                 if(!string.IsNullOrEmpty(fileId))
-                    updateSql += $"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id='{fileId}';";
+                    updateSql += $"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({fileId});";
                 SqlHelper.ExecuteNonQuery(updateSql);
 
                 XtraMessageBox.Show("数据已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -643,21 +643,19 @@ namespace 科技计划项目档案数据采集管理系统
             Frm_AddFile_FileSelect frm = new Frm_AddFile_FileSelect(rootId);
             if(frm.ShowDialog() == DialogResult.OK)
             {
-                string fullPath = frm.SelectedFileName;
-                if(File.Exists(fullPath))
+                string[] fullPath = frm.SelectedFileName;
+                for(int i = 0; i < fullPath.Length; i++)
                 {
-                    if(NotExist(fullPath))
+                    if(File.Exists(fullPath[i]))
                     {
-                        AddFileToList(fullPath, frm.SelectedFileId);
-
-                        if(XtraMessageBox.Show("已从服务器拷贝文件到本地，是否现在打开？", "操作确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                            WinFormOpenHelper.OpenWinForm(0, "open", fullPath, null, null, ShowWindowCommands.SW_NORMAL);
+                        if(NotExist(fullPath[i]))
+                            AddFileToList(fullPath[i], frm.SelectedFileId[i]);
+                        else
+                            XtraMessageBox.Show($"{Path.GetFileName(fullPath[i])}文件已存在，不可重复添加。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else
-                        XtraMessageBox.Show("此文件已存在，不可重复添加。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        XtraMessageBox.Show($"服务器不存在文件{Path.GetFileName(fullPath[i])}。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
-                else
-                    XtraMessageBox.Show("服务器不存在此文件。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 

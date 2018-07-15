@@ -10,11 +10,13 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
     public partial class Frm_CDRead : DevExpress.XtraEditors.XtraForm
     {
         private object trcId;
-        public Frm_CDRead(object trcId)
+        private object trpName;
+        public Frm_CDRead(object trcId, object trpName)
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             this.trcId = trcId;
+            this.trpName = trpName;
         }
 
         private void Btn_Sure_Click(object sender, EventArgs e)
@@ -33,22 +35,22 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             {
                 new Thread(delegate ()
                 {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(sourPath);
                     pgb_CD.Tag = false;
-                    int totalFileAmount = Directory.GetFiles(sourPath, "*", SearchOption.AllDirectories).Length - Directory.GetFiles(sourPath, "ISTIC*.db", SearchOption.AllDirectories).Length;
+                    int totalFileAmount = GetFilesCount(directoryInfo);
                     pgb_CD.Value = pgb_CD.Minimum;
                     pgb_CD.Maximum = totalFileAmount;
 
-                    string primaryKey = Guid.NewGuid().ToString();
-                    string rootName = Path.GetFileName(sourPath);
-
-                    object localKey = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{rootName}'");
+                    object localKey = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{trpName}'");
                     if(localKey != null)
                         SqlHelper.ExecuteNonQuery($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_userid='{UserHelper.GetInstance().User.UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{localKey}'");
                     else
+                    {
+                        localKey = Guid.NewGuid().ToString();
                         SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                            $"('{primaryKey}', '{rootName}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', -1)");
-
-                    CopyFile(sourPath, targetPath, primaryKey);
+                            $"('{localKey}', '{trpName}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', -1)");
+                    }
+                    CopyFile(directoryInfo, targetPath, localKey);
                     pgb_CD.Tag = true;
                     SetButtonState();
                     DevExpress.XtraEditors.XtraMessageBox.Show("文件备份完成。");
@@ -83,6 +85,39 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 pgb_DS.Tag = true;
         }
 
+        /// <summary>
+        /// 获取指定文件夹下的所有文件总数
+        /// </summary>
+        /// <param name="dirInfo">指定文件夹</param>
+        private int GetFilesCount(DirectoryInfo dirInfo)
+        {
+            int totalFile = 0;
+            if(!IsSystemHidden(dirInfo))
+            {
+                totalFile += dirInfo.GetFiles().Length;
+                foreach(DirectoryInfo subdir in dirInfo.GetDirectories())
+                    totalFile += GetFilesCount(subdir);
+            }
+            return totalFile;
+        }
+
+        /// <summary>
+        /// 判断指定文件夹是否是系统文件夹
+        /// </summary>
+        private bool IsSystemHidden(DirectoryInfo dirInfo)
+        {
+            if(dirInfo.Parent == null)
+            {
+                return false;
+            }
+            string attributes = dirInfo.Attributes.ToString();
+            if(attributes.IndexOf("Hidden") > -1 || attributes.IndexOf("System") > -1)
+            {
+                return true;
+            }
+            return false;
+        }
+
         private void SetButtonState()
         {
             if(true.Equals(pgb_CD.Tag) && true.Equals(pgb_DS.Tag))
@@ -97,38 +132,32 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// <summary>
         /// 将光盘中的文档复制到本地（服务器）
         /// </summary>
-        /// <param name="sPath">源文件夹路径</param>
+        /// <param name="sPath">源文件夹目录</param>
         /// <param name="tPath">目标文件夹基路径</param>
-        private void CopyFile(string sPath, string tPath, string pid)
+        private void CopyFile(DirectoryInfo sPath, string tPath, object pid)
         {
-            DirectoryInfo info = new DirectoryInfo(sPath);
-            FileInfo[] file = info.GetFiles();
+            FileInfo[] file = sPath.GetFiles();
             for(int i = 0; i < file.Length; i++)
             {
                 string fileName = file[i].Name;
-                if(!(fileName.Contains("ISTIC") && file[i].Extension.Contains("db")))
-                {
-                    string primaryKey = Guid.NewGuid().ToString();
-                    try
-                    {
-                        SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                            $"('{primaryKey}', '{fileName}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 0)");
-
-                        UploadFile(file[i].FullName, tPath, fileName);
-
-                        pgb_CD.Value++;
-                    }
-                    catch(Exception)
-                    { }
-                }
-            }
-            DirectoryInfo[] infos = info.GetDirectories();
-            for(int i = 0; i < infos.Length; i++)
-            {
                 string primaryKey = Guid.NewGuid().ToString();
                 SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                   $"('{primaryKey}', '{infos[i].Name}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 1)");
-                CopyFile(infos[i].FullName, tPath + "\\" + infos[i].Name + @"\", primaryKey);
+                    $"('{primaryKey}', '{fileName}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 0)");
+
+                UploadFile(file[i].FullName, tPath, fileName);
+
+                pgb_CD.Value++;
+            }
+            DirectoryInfo[] infos = sPath.GetDirectories();
+            for(int i = 0; i < infos.Length; i++)
+            {
+                if(!IsSystemHidden(infos[i]))
+                {
+                    string primaryKey = Guid.NewGuid().ToString();
+                    SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                       $"('{primaryKey}', '{infos[i].Name}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 1)");
+                    CopyFile(infos[i], tPath + "\\" + infos[i].Name + @"\", primaryKey);
+                }
             }
         }
 
@@ -140,19 +169,26 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// <param name="fileName">上传到远程服务器后的文件扩展名</param>  
         public static void UploadFile(string src, string dst, string fileName)
         {
-            FileStream inFileStream = new FileStream(src, FileMode.Open);    //此处假定本地文件存在，不然程序会报错     
-            if(!Directory.Exists(dst))        //判断上传到的远程服务器路径是否存在  
-                Directory.CreateDirectory(dst);
-            dst = dst + "\\" + fileName;            //上传到远程服务器共享文件夹后文件的绝对路径  
-            FileStream outFileStream = new FileStream(dst, FileMode.OpenOrCreate);
-            byte[] buf = new byte[inFileStream.Length];
-            int byteCount;
-            while((byteCount = inFileStream.Read(buf, 0, buf.Length)) > 0)
-                outFileStream.Write(buf, 0, byteCount);
-            inFileStream.Flush();
-            inFileStream.Close();
-            outFileStream.Flush();
-            outFileStream.Close();
+            try
+            {
+                FileStream inFileStream = new FileStream(src, FileMode.Open);    //此处假定本地文件存在，不然程序会报错     
+                if(!Directory.Exists(dst))        //判断上传到的远程服务器路径是否存在  
+                    Directory.CreateDirectory(dst);
+                dst = dst + "\\" + fileName;            //上传到远程服务器共享文件夹后文件的绝对路径  
+                FileStream outFileStream = new FileStream(dst, FileMode.OpenOrCreate);
+                byte[] buf = new byte[inFileStream.Length];
+                int byteCount;
+                while((byteCount = inFileStream.Read(buf, 0, buf.Length)) > 0)
+                    outFileStream.Write(buf, 0, byteCount);
+                inFileStream.Flush();
+                inFileStream.Close();
+                outFileStream.Flush();
+                outFileStream.Close();
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         private void Frm_CDRead_FormClosing(object sender, FormClosingEventArgs e)

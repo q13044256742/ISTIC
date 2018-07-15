@@ -1624,7 +1624,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string name = txt_Project_Name.Text.Replace("'", "''");
                 string filed = txt_Project_Field.Text;
                 string theme = txt_Project_Theme.Text;
-                decimal funds = txt_Project_Funds.Value;
+                string funds = txt_Project_Funds.Text;
                 string starttime = txt_Project_StartTime.Text;
                 string endtime = txt_Project_EndTime.Text;
                 string year = txt_Project_Year.Text;
@@ -1648,7 +1648,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string name = txt_Topic_Name.Text.Replace("'", "''");
                 string field = txt_Topic_Field.Text;
                 string theme = txt_Topic_Theme.Text;
-                decimal funds = txt_Topic_Fund.Value;
+                string funds = txt_Topic_Fund.Text;
                 string starttime = txt_Topic_StartTime.Text;
                 string endtime = txt_Topic_EndTime.Text;
                 string year = txt_Topic_Year.Text;
@@ -1673,7 +1673,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string planType = string.Empty;
                 string field = txt_Subject_Field.Text;
                 string theme = txt_Subject_Theme.Text;
-                decimal funds = txt_Subject_Fund.Value;
+                string funds = txt_Subject_Fund.Text;
                 string starttime = txt_Subject_StartTime.Text;
                 string endtime = txt_Subject_EndTime.Text;
                 string year = txt_Subject_Year.Text;
@@ -4501,7 +4501,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Project_Name.Text = GetValue(row["pi_name"]);
                     txt_Project_Field.Text = GetValue(row["pi_field"]);
                     txt_Project_Theme.Text = GetValue(row["pb_theme"]);
-                    txt_Project_Funds.Value = GetDecemalValue(row["pi_funds"]);
+                    txt_Project_Funds.Text = GetValue(row["pi_funds"]);
 
                     string startTime = GetValue(row["pi_start_datetime"]);
                     DateTime _startTime = new DateTime();
@@ -4550,7 +4550,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Topic_Name.Text = GetValue(row["ti_name"]);
                     txt_Topic_Field.Text = GetValue(row["ti_field"]);
                     txt_Topic_Theme.Text = GetValue(row["tb_theme"]);
-                    txt_Topic_Fund.Value = GetDecemalValue(row["ti_funds"]);
+                    txt_Topic_Fund.Text = GetValue(row["ti_funds"]);
 
                     string startTime = GetValue(row["ti_start_datetime"]);
                     DateTime _startTime = new DateTime();
@@ -4599,7 +4599,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Subject_Name.Text = GetValue(row["si_name"]);
                     txt_Subject_Field.Text = GetValue(row["si_field"]);
                     txt_Subject_Theme.Text = GetValue(row["si_theme"]);
-                    txt_Subject_Fund.Value = GetDecemalValue(row["si_funds"]);
+                    txt_Subject_Fund.Text = GetValue(row["si_funds"]);
 
                     string startTime = GetValue(row["si_start_datetime"]);
                     DateTime _startTime = new DateTime();
@@ -4668,15 +4668,6 @@ namespace 科技计划项目档案数据采集管理系统
                 LoadFileValidList(dgv_Special_FileValid, node.Name, "special_fc_");
                 LoadDocList(node.Name, ControlType.Special);
             }
-        }
-
-        private decimal GetDecemalValue(object value)
-        {
-            decimal result = 0;
-            string param = GetValue(value);
-            if(!string.IsNullOrEmpty(param))
-                Decimal.TryParse(param, out result);
-            return result;
         }
 
         /// <summary>
@@ -5263,20 +5254,10 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridView view = sender as DataGridView;
             if(e.Button == MouseButtons.Right && e.RowIndex != -1 && e.ColumnIndex != -1)
             {
-                if(view.Columns[e.ColumnIndex].Name.Contains("link"))
-                {
-                    view.ClearSelection();
-                    view.CurrentCell = view.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                    strip.Tag = view;
-                    strip.Show(MousePosition);
-                }
-                else
-                {
-                    view.ClearSelection();
-                    view.CurrentCell = view.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                    contextMenuStrip1.Tag = view;
-                    contextMenuStrip1.Show(MousePosition);
-                }
+                view.ClearSelection();
+                view.CurrentCell = view.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                contextMenuStrip1.Tag = view;
+                contextMenuStrip1.Show(MousePosition);
             }
             else if(e.Button == MouseButtons.Left)
             {
@@ -5309,36 +5290,6 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-        }
-
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            DataGridView view = (DataGridView)((sender as ToolStripItem).GetCurrentParent() as ContextMenuStrip).Tag;
-            object[] rootId = SqlHelper.ExecuteSingleColumnQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_trcid='{OBJECT_ID}' AND bfi_sort=-1");
-            Frm_AddFile_FileSelect frm = new Frm_AddFile_FileSelect(rootId);
-            if(frm.ShowDialog() == DialogResult.OK)
-            {
-                string fullPath = frm.SelectedFileName;
-                if(File.Exists(fullPath))
-                {
-                    string savePath = Application.StartupPath + @"\TempBackupFolder\";
-                    if(!Directory.Exists(savePath))
-                        Directory.CreateDirectory(savePath);
-                    string filePath = savePath + new FileInfo(fullPath).Name;
-                    File.Copy(fullPath, filePath, true);
-                    view.CurrentCell.Value = fullPath;
-                    if(XtraMessageBox.Show("已从服务器拷贝文件到本地，是否现在打开？", "操作确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        System.Diagnostics.Process.Start("EXPLORER.EXE", filePath);
-                }
-                else
-                    XtraMessageBox.Show("服务器不存在此文件。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
-        }
-
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            DataGridView view = (DataGridView)((sender as ToolStripItem).GetCurrentParent() as ContextMenuStrip).Tag;
-            view.CurrentCell.Value = string.Empty;
         }
 
         private void Tsm_InsertRow_Click(object sender, EventArgs e)

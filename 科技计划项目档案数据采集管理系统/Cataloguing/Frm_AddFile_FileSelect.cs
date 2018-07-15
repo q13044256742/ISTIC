@@ -7,8 +7,8 @@ namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_AddFile_FileSelect : DevExpress.XtraEditors.XtraForm
     {
-        public string SelectedFileName;
-        public string SelectedFileId;
+        public string[] SelectedFileName;
+        public string[] SelectedFileId;
         private ImageList imageList;
         private object[] rootId;
         public Frm_AddFile_FileSelect(object[] rootId)
@@ -64,33 +64,21 @@ namespace 科技计划项目档案数据采集管理系统
             return result;
         }
 
-        private void Tv_file_AfterSelect(object sender, TreeViewEventArgs e)
+        private void Btn_Sure_Click(object sender, EventArgs e)
         {
-            TreeNode node = e.Node;
-            int type = Convert.ToInt32(node.ToolTipText);//0:文件 1:文件夹
-            string state = node.StateImageKey;//1:已加工
-            if(type == 0 && !"1".Equals(state))
+            SelectedFileId = new string[lsv_Selected.Items.Count];
+            SelectedFileName = new string[lsv_Selected.Items.Count];
+            for(int i = 0; i < SelectedFileId.Length; i++)
             {
-                SelectedFileId = node.Name;
-                lbl_filename.Text = node.Text;
-                SelectedFileName = node.Tag + "\\" + node.Text;
+                SelectedFileId[i] = lsv_Selected.Items[i].Name;
+                SelectedFileName[i] = GetValue(lsv_Selected.Items[i].Tag);
             }
-            else
-            {
-                lbl_filename.Text = string.Empty;
-                SelectedFileName = string.Empty;
-                SelectedFileId = string.Empty;
-            }
-        }
-
-        private void Btn_sure_Click(object sender, EventArgs e)
-        {
-            if(!string.IsNullOrEmpty(SelectedFileName))
+            if(SelectedFileId.Length > 0)
                 DialogResult = DialogResult.OK;
             Close();
         }
 
-        private void chk_ShowAll_CheckedChanged(object sender, EventArgs e)
+        private void Chk_ShowAll_CheckedChanged(object sender, EventArgs e)
         {
             LoadRootTree(chk_ShowAll.Checked);
         }
@@ -182,9 +170,69 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Tv_file_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            Tv_file_NodeMouseClick(sender, e);
+
+            Btn_Sure_Click(null, null);
+        }
+
+        private void Tv_file_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
             if(e.Button == MouseButtons.Left)
-                if(!string.IsNullOrEmpty(SelectedFileName))
-                    Btn_sure_Click(null, null);
+            {
+                TreeNode node = e.Node;
+                int type = Convert.ToInt32(node.ToolTipText);//0:文件 1:文件夹
+                string state = node.StateImageKey;//1:已加工
+                if(type == 0 && !"1".Equals(state))
+                {
+                    ListViewItem item = new ListViewItem()
+                    {
+                        Name = node.Name,
+                        Text = node.Text,
+                        Tag = node.Tag + "\\" + node.Text
+                    };
+                    if(Control.ModifierKeys != Keys.Control)
+                        lsv_Selected.Items.Clear();
+                    if(IsNotExist(item))
+                        ChangeItem(item, true);
+                }
+            }
+        }
+        private bool IsNotExist(ListViewItem item)
+        {
+            bool flag = true;
+            foreach(ListViewItem _item in lsv_Selected.Items)
+            {
+                if(_item.Name.Equals(item.Name))
+                {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        }
+
+        /// <summary>
+        /// 添加Item
+        /// </summary>
+        /// <param name="isAdd">是否新增</param>
+        private void ChangeItem(ListViewItem item, bool isAdd)
+        {
+            lsv_Selected.BeginUpdate();
+            if(isAdd)
+                lsv_Selected.Items.Add(item);
+            else
+                lsv_Selected.Items.Remove(item);
+            lsv_Selected.EndUpdate();
+            label1.Text = $"当前已选择文件数({lsv_Selected.Items.Count})：";
+        }
+
+        private void Lb_Selected_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Delete)
+            {
+                foreach(ListViewItem item in lsv_Selected.SelectedItems)
+                    ChangeItem(item, false);
+            }
         }
     }
 }

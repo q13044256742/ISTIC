@@ -233,8 +233,10 @@ namespace 科技计划项目档案数据采集管理系统
                         dataTable.ImportRow(row);
                 }
             }
+            int fileCount = 0, pageCount = 0;
             if(dataTable != null)
             {
+                fileCount = dataTable.Rows.Count;
                 for(int i = 0; i < dataTable.Rows.Count; i++)
                 {
                     string newRr = "<tr>" +
@@ -246,9 +248,25 @@ namespace 科技计划项目档案数据采集管理系统
                         $"<td>{dataTable.Rows[i]["pfl_remark"]}&nbsp;</td>" +
                         $"</tr>";
                     jnmlString = jnmlString.Replace("</tbody>", $"{newRr}</tbody>");
+                    pageCount += GetIntValue(dataTable.Rows[i]["fi_pages"]);
                 }
             }
+            jnmlString = jnmlString.Replace("id=\"fileCount\">", $"id=\"fileCount\">{fileCount}");
+            jnmlString = jnmlString.Replace("id=\"pageCount\">", $"id=\"pageCount\">{pageCount}");
             new WebBrowser() { DocumentText = jnmlString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
+        }
+
+        private int GetIntValue(object value)
+        {
+            if(value == null)
+                return 0;
+            else
+            {
+                if(int.TryParse(GetValue(value), out int result))
+                    return result;
+                else
+                    return 0;
+            }
         }
 
         private string GetValue(object value) => value == null ? string.Empty : value.ToString();
@@ -259,13 +277,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void PrintFM(object id, object bj)
         {
             string fmString = Resources.fm;
-            fmString = fmString.Replace("20mm", $"{bj}");
-            fmString = fmString.Replace("id=\"ajmc\">", $"id=\"ajmc\">{objectName}");
-            fmString = fmString.Replace("id=\"bzdw\">", $"id=\"bzdw\">{unitName}");
-            fmString = fmString.Replace("id=\"bzrq\">", $"id=\"bzrq\">{bzDate}");
-            fmString = fmString.Replace("id=\"bgrq\">", $"id=\"bgrq\">{bgDate}");
-            fmString = fmString.Replace("id=\"mj\">", $"id=\"mj\">{secret}");
-            fmString = fmString.Replace("id=\"gch\">", $"id=\"dh\">{gcCode}");
+            fmString = GetCoverHtmlString(fmString, bj);
 
             new WebBrowser() { DocumentText = fmString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
         }
@@ -288,10 +300,64 @@ namespace 科技计划项目档案数据采集管理系统
             new WebBrowser() { DocumentText = bkbString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
         }
 
+        /// <summary>
+        /// 打印文档
+        /// </summary>
         private void Web_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             (sender as WebBrowser).Print();
             (sender as WebBrowser).Dispose();
+        }
+
+        private void View_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string columnName = view.Columns[e.ColumnIndex].Name;
+            if("font".Equals(columnName))
+            {
+                if(fontDialog.ShowDialog() == DialogResult.OK)
+                {
+                    view.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = fontDialog.Font;
+                }
+            }
+            else if("preview".Equals(columnName))
+            {
+                string fmString = Resources.fm;
+                Font font = (Font)view.Rows[e.RowIndex].Cells["font"].Tag;
+                if(font != null)
+                {
+                    fmString = fmString.Replace("font-family:;", $"font-family:{font.FontFamily};");
+                    fmString = fmString.Replace("font-size:;", $"font-size:{font.Size};");
+                }
+                object bj = view.Rows[e.RowIndex].Cells["fmbj"].Value;
+                fmString = GetCoverHtmlString(fmString, bj);
+
+                new WebBrowser() { DocumentText = fmString, ScriptErrorsSuppressed = false }.DocumentCompleted += Preview_DocumentCompleted;
+            }
+        }
+
+        /// <summary>
+        /// 打印预览
+        /// </summary>
+        private void Preview_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            (sender as WebBrowser).ShowPrintPreviewDialog();
+            (sender as WebBrowser).Dispose();
+        }
+
+        /// <summary>
+        /// 获取完整的封面HTML模板页
+        /// </summary>
+        /// <param name="bj">边距mm数</param>
+        private string GetCoverHtmlString(string fmString, object bj)
+        {
+            fmString = fmString.Replace("20mm", $"{bj}");
+            fmString = fmString.Replace("id=\"ajmc\">", $"id=\"ajmc\">{objectName}");
+            fmString = fmString.Replace("id=\"bzdw\">", $"id=\"bzdw\">{unitName}");
+            fmString = fmString.Replace("id=\"bzrq\">", $"id=\"bzrq\">{bzDate}");
+            fmString = fmString.Replace("id=\"bgrq\">", $"id=\"bgrq\">{bgDate}");
+            fmString = fmString.Replace("id=\"mj\">", $"id=\"mj\">{secret}");
+            fmString = fmString.Replace("id=\"gch\">", $"id=\"dh\">{gcCode}");
+            return fmString;
         }
     }
 }
