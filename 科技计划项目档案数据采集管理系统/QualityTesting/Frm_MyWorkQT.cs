@@ -3880,7 +3880,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                 pal_Special_BtnGroup.Enabled = !(node.ForeColor == DisEnbleColor);
 
-                LoadFileList(dgv_Special_FileList, "special_fl_", GetValue(row["imp_id"]));
+                LoadFileList(dgv_Special_FileList, "special_fl_", node.Name);
                 LoadFileValidList(dgv_Special_FileValid, node.Name, "special_fc_");
                 LoadDocList(node.Name, ControlType.Special);
             }
@@ -4059,6 +4059,8 @@ namespace 科技计划项目档案数据采集管理系统
 
                 if(objId != null)
                 {
+                    updateSql += "INSERT INTO remake_log(rl_id, rl_date, rl_user_id, rl_obj_id, rl_type) VALUES (" +
+                        $"'{Guid.NewGuid().ToString()}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}', '{objId}', '{(int)type}');";
                     SqlHelper.ExecuteNonQuery(updateSql);
                     EnableControls(type, false);
                     XtraMessageBox.Show("操作成功.");

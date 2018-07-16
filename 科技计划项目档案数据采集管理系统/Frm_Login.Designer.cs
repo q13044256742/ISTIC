@@ -140,6 +140,7 @@ namespace 科技计划项目档案数据采集管理系统
             "著录加工",
             "档案质检",
             "档案接收",
+            "工作统计",
             "后台管理"});
             this.cbo_Identity.Location = new System.Drawing.Point(309, 266);
             this.cbo_Identity.Name = "cbo_Identity";

@@ -1635,10 +1635,10 @@ namespace 科技计划项目档案数据采集管理系统
                 string intro = txt_Project_Intro.Text.Replace("'", "''");
 
                 string insertSql = "INSERT INTO project_info(pi_id, pi_code, pi_name, pi_field, pb_theme, pi_funds, pi_start_datetime, pi_end_datetime, pi_year, pi_unit, pi_uniter" +
-                    ",pi_province, pi_prouser, pi_intro, pi_work_status, pi_obj_id, pi_categor, pi_submit_status, pi_worker_id)" +
+                    ",pi_province, pi_prouser, pi_intro, pi_work_status, pi_obj_id, pi_categor, pi_submit_status, pi_worker_id, pi_worker_date)" +
                     "VALUES" +
                     $"('{primaryKey}', '{code}', '{name}', '{filed}', '{theme}', '{funds}', '{starttime}', '{endtime}', '{year}', '{unit}', '{unituser}'" +
-                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type}, {1},'{UserHelper.GetInstance().User.UserKey}')";
+                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type}, {1}, '{UserHelper.GetInstance().User.UserKey}', '{DateTime.Now}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1657,12 +1657,14 @@ namespace 科技计划项目档案数据采集管理系统
                 string unituser = txt_Topic_UnitUser.Text;
                 string objuser = txt_Topic_ProUser.Text;
                 string intro = txt_Topic_Intro.Text.Replace("'", "''");
+                //判断是直属课题还是项目下的课题
+                int categor = SqlHelper.ExecuteCountQuery($"SELECT COUNT(imp_id) FROM imp_dev_info WHERE imp_id='{parentId}'") > 0 ? -3 : 3;
 
                 string insertSql = "INSERT INTO topic_info(ti_id, ti_code, ti_name, ti_field, tb_theme, ti_funds, ti_start_datetime, ti_end_datetime, ti_year, ti_unit, ti_uniter" +
-                    ",ti_province, ti_prouser, ti_intro, ti_work_status, ti_obj_id, ti_categor, ti_submit_status, ti_worker_id)" +
+                    ",ti_province, ti_prouser, ti_intro, ti_work_status, ti_obj_id, ti_categor, ti_submit_status, ti_worker_id, ti_worker_date)" +
                     "VALUES" +
                     $"('{primaryKey}', '{code}', '{name}',  '{field}', '{theme}', '{funds}', '{starttime}', '{endtime}', '{year}', '{unit}', '{unituser}'" +
-                    $",'{province}','{objuser}','{intro}', 0, '{parentId}', '{(int)type}', 1, '{UserHelper.GetInstance().User.UserKey}')";
+                    $",'{province}','{objuser}','{intro}', 0, '{parentId}', '{categor}', 1, '{UserHelper.GetInstance().User.UserKey}', '{DateTime.Now}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1684,9 +1686,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string intro = txt_Subject_Intro.Text.Replace("'", "''");
 
                 string insertSql = "INSERT INTO subject_info(si_id, si_code, si_name, si_field, si_theme, si_funds, si_start_datetime, si_end_datetime, si_year, si_unit, si_uniter" +
-                    ", si_province, si_prouser, si_intro, si_obj_id, si_work_status, si_categor, si_submit_status, si_worker_id)" +
+                    ", si_province, si_prouser, si_intro, si_obj_id, si_work_status, si_categor, si_submit_status, si_worker_id, si_worker_date)" +
                    $" VALUES ('{primaryKey}', '{code}', '{name}', '{field}', '{theme}', '{funds}', '{starttime}', '{endtime}', '{year}', '{unit}', '{unituser}', '{province}', '{objuser}'" +
-                   $",'{intro}', '{parentId}', 1, '{(int)type}', 1, '{UserHelper.GetInstance().User.UserKey}')";
+                   $",'{intro}', '{parentId}', 1, '{(int)type}', 1, '{UserHelper.GetInstance().User.UserKey}', '{DateTime.Now}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Imp)
@@ -1775,8 +1777,8 @@ namespace 科技计划项目档案数据采集管理系统
                 sqlString += "INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
                     $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');";
             }
-            sqlString += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort) " +
-                $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{format}', '{link}', '{fileId}', '{parentId}', '{status}', '{sort}');";
+            sqlString += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort, pfl_worker_id, pfl_worker_date) " +
+                $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{format}', '{link}', '{fileId}', '{parentId}', '{status}', '{sort}', '{UserHelper.GetInstance().User.UserKey}', '{DateTime.Now}');";
             if(fileId != null)
             {
                 int value = link == null ? 0 : 1;

@@ -235,34 +235,22 @@
       <DependentUpon>Frm_QT.cs</DependentUpon>
     </Compile>
     <Compile Include="QualityTesting\QualityTesting.cs" />
+    <Compile Include="QueryAndCount\Frm_Query.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QueryAndCount\Frm_Query.Designer.cs">
+      <DependentUpon>Frm_Query.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Chinese2Spell.cs" />
     <Compile Include="KyoControl\KyoButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tools\DefaultValue.cs" />
-    <Compile Include="Tools\Frm_BoxList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Frm_BoxList.Designer.cs">
-      <DependentUpon>Frm_BoxList.cs</DependentUpon>
-    </Compile>
     <Compile Include="Tools\Frm_CodeRule.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tools\Frm_CodeRule.Designer.cs">
       <DependentUpon>Frm_CodeRule.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\Frm_Cover.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Frm_Cover.Designer.cs">
-      <DependentUpon>Frm_Cover.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\Frm_FileBackUpTable.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Frm_FileBackUpTable.Designer.cs">
-      <DependentUpon>Frm_FileBackUpTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Frm_PrintBox.cs">
       <SubType>Form</SubType>
@@ -416,17 +404,11 @@
     <EmbeddedResource Include="QualityTesting\Frm_QT.resx">
       <DependentUpon>Frm_QT.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Frm_BoxList.resx">
-      <DependentUpon>Frm_BoxList.cs</DependentUpon>
+    <EmbeddedResource Include="QueryAndCount\Frm_Query.resx">
+      <DependentUpon>Frm_Query.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Frm_CodeRule.resx">
       <DependentUpon>Frm_CodeRule.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Frm_Cover.resx">
-      <DependentUpon>Frm_Cover.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Frm_FileBackUpTable.resx">
-      <DependentUpon>Frm_FileBackUpTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Frm_PrintBox.resx">
       <DependentUpon>Frm_PrintBox.cs</DependentUpon>

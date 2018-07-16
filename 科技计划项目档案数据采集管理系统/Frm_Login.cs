@@ -30,14 +30,18 @@ namespace 科技计划项目档案数据采集管理系统
                     UserHelper.GetInstance().User = user;
                     int i = cbo_Identity.SelectedIndex;
                     user.Remark = i;
-                    if (i == 4)
+                    if(i == 4)
+                    {
+                        Frm_Query frm = new Frm_Query(this);
+                        frm.Show();
+                    }
+                    else if(i == 5)
                     {
                         if(UserHelper.GetInstance().GetUserRole() == UserRole.Worker)
                         {
                             Frm_MainFrameManager fm = new Frm_MainFrameManager(user);
                             fm.WindowState = FormWindowState.Maximized;
                             fm.Show();
-                            Hide();
                         }
                         else
                             DevExpress.XtraEditors.XtraMessageBox.Show("此操作不被允许。");
@@ -47,8 +51,8 @@ namespace 科技计划项目档案数据采集管理系统
                         Frm_MainFrame fm = new Frm_MainFrame(user);
                         fm.WindowState = FormWindowState.Maximized;
                         fm.Show();
-                        Hide();
                     }
+                    Hide();
                 }
                 else
                 {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -689,8 +690,33 @@ namespace 科技计划项目档案数据采集管理系统
                     if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Project.Rows[e.RowIndex].Cells["pro_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
+                        object objId = SqlHelper.ExecuteOnlyOneQuery($"SELECT wm_obj_id FROM work_myreg WHERE wm_id='{wmid}'");
+
+                        StringBuilder updateSQL = new StringBuilder();
+                        updateSQL.Append($"UPDATE project_info SET pi_checker_id='{UserHelper.GetInstance().User.UserKey}', pi_checker_date='{DateTime.Now}' WHERE pi_id='{objId}';");
+                        updateSQL.Append($"UPDATE topic_info SET ti_checker_id='{UserHelper.GetInstance().User.UserKey}', ti_checker_date='{DateTime.Now}' WHERE ti_id='{objId}';");
+                        updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetInstance().User.UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{objId}';");
+
+                        DataTable topicTable = SqlHelper.ExecuteQuery($"SELECT ti_id FROM topic_info WHERE ti_obj_id='{objId}' UNION ALL SELECT si_id FROM subject_info WHERE si_obj_id='{objId}'");
+                        foreach(DataRow row in topicTable.Rows)
+                        {
+                            updateSQL.Append($"UPDATE topic_info SET ti_checker_id='{UserHelper.GetInstance().User.UserKey}', ti_checker_date='{DateTime.Now}' WHERE ti_id='{row["ti_id"]}';");
+                            updateSQL.Append($"UPDATE subject_info SET si_checker_id='{UserHelper.GetInstance().User.UserKey}', si_checker_date='{DateTime.Now}' WHERE si_id='{row["ti_id"]}';");
+                            updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetInstance().User.UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{row["ti_id"]}';");
+
+                            DataTable subjectTable = SqlHelper.ExecuteQuery($"SELECT si_id FROM subject_info WHERE si_obj_id='{row["ti_id"]}'");
+                            foreach(DataRow subRow in subjectTable.Rows)
+                            {
+                                updateSQL.Append($"UPDATE subject_info SET si_checker_id='{UserHelper.GetInstance().User.UserKey}', si_checker_date='{DateTime.Now}' WHERE si_id='{subRow["si_id"]}';");
+                                updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetInstance().User.UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{subRow["si_id"]}';");
+                            }
+                        }
+                        updateSQL.Append($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}';");
+
+                        SqlHelper.ExecuteNonQuery(updateSQL.ToString());
+
                         dgv_Project.Rows.RemoveAt(e.RowIndex);
+                        XtraMessageBox.Show("操作成功。");
                     }
                 }
                 //else if("pro_subAmount".Equals(columnName))
@@ -753,7 +779,7 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
                                     XtraMessageBox.Show("操作成功。");
                                 }
@@ -771,7 +797,7 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
                                     XtraMessageBox.Show("操作成功。");
                                 }
@@ -789,7 +815,7 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
                                     XtraMessageBox.Show("操作成功。");
                                 }
@@ -807,7 +833,7 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                                 {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                                     LoadMyRegList();
                                     XtraMessageBox.Show("操作成功。");
                                 }
