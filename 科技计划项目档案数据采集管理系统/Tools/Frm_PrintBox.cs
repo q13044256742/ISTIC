@@ -62,6 +62,18 @@ namespace 科技计划项目档案数据采集管理系统
         /// 所属对象父级名称
         /// </summary>
         public object parentObjectName;
+        /// <summary>
+        /// 盒号
+        /// </summary>
+        public int boxNumber;
+        /// <summary>
+        /// 其他密切相关文档
+        /// </summary>
+        public DataTable otherDoc;
+        public string ljPeople;
+        public string ljDate;
+        public string jcPeople;
+        public string jcDate;
         public Frm_PrintBox()
         {
             InitializeComponent();
@@ -211,11 +223,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void PrintJNML(object boxId)
         {
             string jnmlString = Resources.jnml;
-
-            jnmlString = jnmlString.Replace("id=\"xmmc\">", $"id=\"xmmc\">{proName}");
-            jnmlString = jnmlString.Replace("id=\"xmbh\">", $"id=\"xmbh\">{proCode}");
             jnmlString = jnmlString.Replace("id=\"ajbh\">", $"id=\"ajbh\">{objectCode}");
-            jnmlString = jnmlString.Replace("id=\"gch\">", $"id=\"gch\">{gcCode}");
 
             string files = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'"));
             string[] fids = files.Split(',');
@@ -223,16 +231,17 @@ namespace 科技计划项目档案数据采集管理系统
             dataTable.Columns.AddRange(new DataColumn[]
             {
                 new DataColumn("pfl_code"),
+                new DataColumn("pfl_user"),
                 new DataColumn("pfl_name"),
                 new DataColumn("pfl_pages"),
-                new DataColumn("pfl_amount"),
+                new DataColumn("pfl_date"),
                 new DataColumn("pfl_remark"),
             });
             for(int i = 0; i < fids.Length; i++)
             {
                 if(!string.IsNullOrEmpty(fids[i]))
                 {
-                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_code, pfl_name, pfl_pages, pfl_amount, pfl_remark FROM processing_file_list WHERE pfl_id='{fids[i]}'");
+                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_code, pfl_user, pfl_name, pfl_pages, pfl_date, pfl_remark FROM processing_file_list WHERE pfl_id='{fids[i]}'");
                     if(row != null)
                         dataTable.ImportRow(row);
                 }
@@ -246,18 +255,32 @@ namespace 科技计划项目档案数据采集管理系统
                     string newRr = "<tr>" +
                         $"<td>{i + 1}</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_code"]}&nbsp;</td>" +
+                        $"<td>{dataTable.Rows[i]["pfl_user"]}&nbsp;</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_name"]}&nbsp;</td>" +
+                        $"<td>{GetDateValue(dataTable.Rows[i]["pfl_date"])}&nbsp;</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_pages"]}&nbsp;</td>" +
-                        $"<td>{dataTable.Rows[i]["pfl_count"]}&nbsp;</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_remark"]}&nbsp;</td>" +
                         $"</tr>";
                     jnmlString = jnmlString.Replace("</tbody>", $"{newRr}</tbody>");
-                    pageCount += GetIntValue(dataTable.Rows[i]["fi_pages"]);
+                    pageCount += GetIntValue(dataTable.Rows[i]["pfl_pages"]);
                 }
             }
             jnmlString = jnmlString.Replace("id=\"fileCount\">", $"id=\"fileCount\">{fileCount}");
             jnmlString = jnmlString.Replace("id=\"pageCount\">", $"id=\"pageCount\">{pageCount}");
             new WebBrowser() { DocumentText = jnmlString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
+        }
+
+        private object GetDateValue(object date)
+        {
+            if(date != null)
+            {
+                if(DateTime.TryParse(GetValue(date), out DateTime result))
+                {
+                    if(result.Date != new DateTime(1900, 01, 01))
+                        return result.ToString("yyyy-MM-dd");
+                }
+            }
+            return null;
         }
 
         private int GetIntValue(object value)
@@ -294,12 +317,28 @@ namespace 科技计划项目档案数据采集管理系统
             string bkbString = Resources.bkb;
             string fa = MicrosoftWordHelper.GetZN(fileAmount);
             string fp = MicrosoftWordHelper.GetZN(filePages);
+            string hh = MicrosoftWordHelper.GetZN(boxNumber);
 
             bkbString = bkbString.Replace("name=\"count\"", $"name=\"count\" value=\"{fa}\"");
             bkbString = bkbString.Replace("name=\"pages\"", $"name=\"pages\" value=\"{fp}\"");
+            bkbString = bkbString.Replace("name=\"number\"", $"name=\"number\" value=\"{hh}\"");
+
+            foreach(DataRow row in otherDoc.Rows)
+            {
+                string newTr = $"<tr>" +
+                    $"<td>{row["od_name"]}</td>" +
+                    $"<td>{row["od_code"]}</td>" +
+                    $"<td>{row["od_carrier"]}</td>" +
+                    $"<td>{row["od_intro"]}</td>" +
+                    $"</tr>";
+                bkbString = bkbString.Replace("</tbody>", $"{newTr}</tbody>");
+            }
+
             bkbString = bkbString.Replace("id=\"dh\">", $"id=\"dh\">{objectCode}");
-            bkbString = bkbString.Replace("id=\"ljr\">", $"id=\"dh\">{UserHelper.GetInstance().User.RealName}");
-            bkbString = bkbString.Replace("id=\"ljrq\">", $"id=\"dh\">{DateTime.Now.ToString("yyyy年MM月dd日")}");
+            bkbString = bkbString.Replace("id=\"ljr\">", $"id=\"dh\">{ljPeople}");
+            bkbString = bkbString.Replace("id=\"ljrq\">", $"id=\"dh\">{ljDate}");
+            bkbString = bkbString.Replace("id=\"jcr\">", $"id=\"jcr\">{jcPeople}");
+            bkbString = bkbString.Replace("id=\"jcrq\">", $"id=\"jcrq\">{jcDate}");
 
             new WebBrowser() { DocumentText = bkbString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
         }
@@ -309,7 +348,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Web_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            (sender as WebBrowser).Print();
+            (sender as WebBrowser).ShowPrintPreviewDialog();
             (sender as WebBrowser).Dispose();
         }
 

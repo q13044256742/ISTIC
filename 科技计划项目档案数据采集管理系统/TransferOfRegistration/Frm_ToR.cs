@@ -315,7 +315,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             int amount = dgv_SWDJ.SelectedRows.Count;
             if (amount > 0)
             {
-                if (XtraMessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                if (XtraMessageBox.Show("此操作可能会导致已加工的数据被删除，是否继续？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                 {
                     int deleteAmount = 0;
                     if ("PC".Equals(dgv_SWDJ.Tag))
@@ -324,6 +324,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
                         {
                             object pid = row.Cells["trp_id"].Value;
+                            sb.Append($"DELETE FROM work_registration WHERE wr_type=1 AND wr_obj_id='{pid}';");
                             sb.Append($"DELETE FROM transfer_registration_pc WHERE trp_id = '{pid}';");
                             deleteAmount++;
                         }
@@ -338,6 +339,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         {
                             object cid = row.Cells["trc_id"].Value;
                             pid = row.Tag; pname = row.Cells["trc_read"].Tag;
+                            sb.Append($"DELETE FROM work_registration WHERE wr_type=2 AND wr_obj_id='{cid}';");
                             sb.Append($"DELETE FROM transfer_registraion_cd WHERE trc_id = '{cid}';");
                             deleteAmount++;
                         }

@@ -171,8 +171,8 @@ namespace 科技计划项目档案数据采集管理系统
         private void Tv_file_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             Tv_file_NodeMouseClick(sender, e);
-
-            Btn_Sure_Click(null, null);
+            if(lsv_Selected.Items.Count > 0)
+                Btn_Sure_Click(null, null);
         }
 
         private void Tv_file_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

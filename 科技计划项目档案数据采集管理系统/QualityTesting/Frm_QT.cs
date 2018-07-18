@@ -607,19 +607,19 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataColumn("wm_ticker"),
                 new DataColumn("trp_code")
             });
-            string querySql = "SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wm.wm_ticker, trp.trp_code FROM project_info pi " +
-                "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
+            string querySql = "SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wm.wm_ticker, trp.trp_code " +
+                "FROM project_info pi, work_myreg wm " +
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                 "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                $"WHERE wm.wm_type = '{(int)WorkType.ProjectWork}' AND wm.wm_status = 1 " +
+                $"WHERE wm.wm_obj_id = pi.pi_id AND wm.wm_type = '{(int)WorkType.ProjectWork}' AND wm.wm_status = 1 " +
                 "UNION ALL " +
-                "SELECT dd.dd_name, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wm.wm_ticker, trp.trp_code FROM topic_info ti " +
-                "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
+                "SELECT dd.dd_name, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wm.wm_ticker, trp.trp_code " +
+                "FROM topic_info ti ,work_myreg wm " +
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                 "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                $"WHERE wm.wm_type = '{(int)WorkType.ProjectWork}' AND wm.wm_status = 1 " +
+                $"WHERE wm.wm_obj_id = ti.ti_id AND wm.wm_type = '{(int)WorkType.ProjectWork}' AND wm.wm_status = 1 " +
                 "ORDER BY dd_name;";
             DataTable _table = SqlHelper.ExecuteQuery(querySql);
             foreach(DataRow row in _table.Rows)

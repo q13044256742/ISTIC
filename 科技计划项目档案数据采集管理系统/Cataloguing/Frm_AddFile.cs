@@ -271,7 +271,7 @@ namespace 科技计划项目档案数据采集管理系统
             row.Cells[key + "carrier"].Value = GetCarrierValue();
 
             row.Cells[key + "link"].Value = GetFullStringBySplit(GetLinkList(2), "；", string.Empty);
-            row.Cells[key + "link"].Tag = GetFullStringBySplit(GetLinkList(1), ";", "'");
+            row.Cells[key + "link"].Tag = GetFullStringBySplit(GetLinkList(1), ",", string.Empty);
             if(isAdd)
             {
                 object stage = row.Cells[key + "stage"].Value;

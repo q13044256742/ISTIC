@@ -302,24 +302,6 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Special_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
 
-            foreach(DataGridViewColumn column in dgv_Plan_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Plan_FileList.Columns["plan_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
-            foreach(DataGridViewColumn column in dgv_Project_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Project_FileList.Columns["project_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
-            foreach(DataGridViewColumn column in dgv_Topic_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Topic_FileList.Columns["topic_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
-            foreach(DataGridViewColumn column in dgv_Subject_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Subject_FileList.Columns["subject_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
-            foreach(DataGridViewColumn column in dgv_Imp_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Imp_FileList.Columns["imp_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
-            foreach(DataGridViewColumn column in dgv_Special_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Special_FileList.Columns["special_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
         }
  
         /// <summary>
@@ -4430,10 +4412,20 @@ namespace 科技计划项目档案数据采集管理系统
             }
             if(objId != null && objName != null)
             {
-                Frm_Advice frm = new Frm_Advice(objId, objName, type, false);
-                frm.Show();
+                Form form = GetAdviceFrom(objId, objName, type, false);
+                form.Show();
+                form.Activate();
             }
         }
+
+        private Form GetAdviceFrom(object objId, string objName, int type, bool isBackWork)
+        {
+            if(adviceFrom == null || adviceFrom.IsDisposed)
+                adviceFrom = new Frm_Advice(objId, objName, type, isBackWork);
+            return adviceFrom;
+        }
+
+        private Frm_Advice adviceFrom;
 
         private void Dgv_FileList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -4717,6 +4709,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Project_FileList.AllowUserToAddRows = panel.Enabled;
                 lbl_Project_Box_Add.Enabled = panel.Enabled;
                 lbl_Project_Box_Remove.Enabled = panel.Enabled;
+                btn_Project_OtherDoc.Enabled = panel.Enabled;
                 foreach(Control item in tp_Project_Box.Controls)
                     if(item is KyoButton || item is LinkLabel)
                         item.Enabled = panel.Enabled;
@@ -4732,6 +4725,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Topic_FileList.AllowUserToAddRows = panel.Enabled;
                 lbl_Topic_Box_Add.Enabled = panel.Enabled;
                 lbl_Topic_Box_Remove.Enabled = panel.Enabled;
+                btn_Topic_OtherDoc.Enabled = panel.Enabled;
                 foreach(Control item in tp_Topic_Box.Controls)
                     if(item is KyoButton || item is LinkLabel)
                         item.Enabled = panel.Enabled;
@@ -4746,6 +4740,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Subject_FileList.AllowUserToAddRows = panel.Enabled;
                 lbl_Subject_Box_Add.Enabled = panel.Enabled;
                 lbl_Subject_Box_Remove.Enabled = panel.Enabled;
+                btn_Subject_OtherDoc.Enabled = panel.Enabled;
                 foreach(Control item in tp_Subject_Box.Controls)
                     if(item is KyoButton || item is LinkLabel)
                         item.Enabled = panel.Enabled;
@@ -4773,6 +4768,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Special_FileList.AllowUserToAddRows = panel.Enabled;
                 lbl_Special_Box_Add.Enabled = panel.Enabled;
                 lbl_Special_Box_Remove.Enabled = panel.Enabled;
+                btn_Special_OtherDoc.Enabled = panel.Enabled;
                 foreach(Control item in tp_Special_Box.Controls)
                     if(item is KyoButton || item is LinkLabel)
                         item.Enabled = panel.Enabled;
@@ -4782,5 +4778,192 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_Special_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
             }
         }
+
+        private void Btn_Print_Click(object sender, EventArgs e)
+        {
+            string controlName = (sender as KyoButton).Name;
+            object objId = null, boxId = null, docNumber = null;
+            string objName = null, gcCode = null;
+            DataTable boxTable = null;
+            string proName = null, proCode = null;
+            object parentObjectName = null;
+            int boxNumber = 0;
+            if(controlName.Contains("Project"))
+            {
+                objId = tab_Project_Info.Tag;
+                boxId = cbo_Project_Box.SelectedValue;
+                docNumber = txt_Project_AJ_Code.Text;
+                objName = txt_Project_AJ_Name.Text;
+                gcCode = txt_Project_Box_GCID.Text;
+                proName = txt_Project_Name.Text;
+                proCode = txt_Project_Code.Text;
+                boxTable = (DataTable)cbo_Project_Box.DataSource;
+                boxNumber = cbo_Project_Box.SelectedIndex + 1;
+            }
+            else if(controlName.Contains("Topic"))
+            {
+                objId = tab_Topic_Info.Tag;
+                boxId = cbo_Topic_Box.SelectedValue;
+                docNumber = txt_Topic_AJ_Code.Text;
+                objName = txt_Topic_AJ_Name.Text;
+                gcCode = txt_Topic_Box_GCID.Text;
+                proName = txt_Topic_Name.Text;
+                proCode = txt_Topic_Code.Text;
+                boxTable = (DataTable)cbo_Topic_Box.DataSource;
+                parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_name FROM project_info WHERE pi_id=(SELECT ti_obj_id FROM topic_info WHERE ti_id='{objId}')");
+                boxNumber = cbo_Topic_Box.SelectedIndex + 1;
+            }
+            else if(controlName.Contains("Subject"))
+            {
+                objId = tab_Subject_Info.Tag;
+                boxId = cbo_Subject_Box.SelectedValue;
+                docNumber = txt_Subject_AJ_Code.Text;
+                objName = txt_Subject_AJ_Name.Text;
+                gcCode = txt_Subject_Box_GCID.Text;
+                proName = txt_Subject_Name.Text;
+                proCode = txt_Subject_Code.Text;
+                boxTable = (DataTable)cbo_Subject_Box.DataSource;
+                parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_name FROM topic_info WHERE ti_id=(SELECT si_obj_id FROM subject_info WHERE si_id='{objId}')");
+                boxNumber = cbo_Subject_Box.SelectedIndex + 1;
+            }
+            else if(controlName.Contains("Special"))
+            {
+                objId = tab_Special_Info.Tag;
+                boxId = cbo_Special_Box.SelectedValue;
+                docNumber = txt_Special_AJ_Code.Text;
+                objName = txt_Special_AJ_Name.Text;
+                gcCode = txt_Special_Box_GCID.Text;
+                proName = txt_Special_Name.Text;
+                proCode = txt_Special_Code.Text;
+                boxTable = (DataTable)cbo_Special_Box.DataSource;
+                boxNumber = cbo_Special_Box.SelectedIndex + 1;
+            }
+            else if(controlName.Contains("Imp"))
+            {
+                objId = tab_Imp_Info.Tag;
+                boxId = cbo_Imp_Box.SelectedValue;
+                docNumber = txt_Imp_AJ_Code.Text;
+                objName = txt_Imp_AJ_Name.Text;
+                gcCode = txt_Imp_Box_GCID.Text;
+                proName = lbl_Imp_Name.Text;
+                proCode = GetValue(docNumber);
+                boxTable = (DataTable)cbo_Imp_Box.DataSource;
+                boxNumber = cbo_Imp_Box.SelectedIndex + 1;
+            }
+            else if(controlName.Contains("Plan"))
+            {
+                objId = tab_Plan_Info.Tag;
+                boxId = cbo_Plan_Box.SelectedValue;
+                docNumber = txt_Plan_AJ_Code.Text;
+                objName = txt_Plan_AJ_Name.Text;
+                gcCode = txt_Plan_Box_GCID.Text;
+                proName = lbl_Plan_Name.Text;
+                proCode = GetValue(docNumber);
+                boxTable = (DataTable)cbo_Plan_Box.DataSource;
+                boxNumber = cbo_Plan_Box.SelectedIndex + 1;
+            }
+            object _fileAmount = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'");
+            string[] _files = GetValue(_fileAmount).Split(',');
+            int fileAmount = 0;
+            int filePages = 0;
+            for(int i = 0; i < _files.Length; i++)
+            {
+                if(!string.IsNullOrEmpty(_files[i]))
+                {
+                    fileAmount++;
+                    object _page = SqlHelper.ExecuteOnlyOneQuery($"SELECT pfl_pages FROM processing_file_list WHERE pfl_id='{_files[i]}'");
+                    if(!string.IsNullOrEmpty(GetValue(_page)))
+                        filePages += Convert.ToInt32(_page);
+                }
+            }
+
+            Frm_PrintBox frm = new Frm_PrintBox
+            {
+                boxTable = boxTable,
+                fileAmount = fileAmount,
+                filePages = filePages,
+                objectCode = docNumber,
+                gcCode = gcCode,
+                objectName = objName,
+                bzDate = GetBzDate(boxId),
+                bgDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                unitName = UserHelper.GetInstance().User.UnitName,
+                proCode = proCode,
+                proName = proName,
+                parentObjectName = parentObjectName,
+                boxNumber = boxNumber,
+                ljPeople = UserHelper.GetInstance().GetUserNameById(GetWorker(objId, 1)),
+                ljDate = GetWorker(objId, 2),
+                jcPeople = UserHelper.GetInstance().GetUserNameById(GetWorker(objId, 3)),
+                jcDate = GetWorker(objId, 4),
+                otherDoc = SqlHelper.ExecuteQuery($"SELECT * FROM other_doc WHERE od_obj_id='{objId}'"),
+            };
+            frm.ShowDialog();
+        }
+
+        /// <summary>
+        /// 获取当前盒的编制日期（当前盒内文件的最早至最晚形成日期）
+        /// </summary>
+        private string GetBzDate(object boxId)
+        {
+            object fileIds = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'");
+            if(!string.IsNullOrEmpty(GetValue(fileIds)))
+            {
+                string[] ids = GetValue(fileIds).Split(',');
+                string idsString = string.Empty;
+                foreach(string id in ids)
+                    if(!string.IsNullOrEmpty(id))
+                        idsString += $"'{id}',";
+                if(!string.IsNullOrEmpty(idsString))
+                {
+                    idsString = idsString.Substring(0, idsString.Length - 1);
+                    DateTime minDate = Convert.ToDateTime(SqlHelper.ExecuteOnlyOneQuery($"SELECT MIN(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01';"));
+                    DateTime maxDate = Convert.ToDateTime(SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pfl_date) FROM processing_file_list where pfl_id IN ({idsString});"));
+                    return $"{minDate.ToString("yyyy-MM-dd")} ~ {maxDate.ToString("yyyy-MM-dd")}";
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 根据指定ID获取对应类型的数据
+        /// </summary>
+        /// <param name="objId">指定对象的ID</param>
+        /// <param name="type">
+        /// <para>1:著录人</para>
+        /// <para>2:著录日期</para>
+        /// <para>3:检查人</para>
+        /// <para>4:检查日期</para>
+        /// </param>
+        private string GetWorker(object objId, int type)
+        {
+            string key = type == 1 ? "worker_id" : type == 2 ? "worker_date" : type == 3 ? "checker_id" : "checker_date";
+            object result = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_{key} FROM project_info WHERE pi_id='{objId}'") ??
+                SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_{key} FROM topic_info WHERE ti_id='{objId}'") ??
+                SqlHelper.ExecuteOnlyOneQuery($"SELECT si_{key} FROM subject_info WHERE si_id='{objId}'");
+            return GetValue(result);
+        }
+
+        private void Btn_OtherDoc_Click(object sender, EventArgs e)
+        {
+            string name = (sender as KyoButton).Name;
+            object objid = null;
+            if(name.Contains("Project"))
+                objid = tab_Project_Info.Tag;
+            else if(name.Contains("Topic"))
+                objid = tab_Topic_Info.Tag;
+            else if(name.Contains("Subject"))
+                objid = tab_Subject_Info.Tag;
+            else if(name.Contains("Special"))
+                objid = tab_Special_Info.Tag;
+            if(objid != null)
+            {
+                Frm_OtherDoc frm = new Frm_OtherDoc(objid);
+                frm.ShowDialog();
+            }
+            else
+                XtraMessageBox.Show("请先保存基本信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
     }
+
 }

@@ -103,6 +103,12 @@
     <Compile Include="Cataloguing\Frm_CG.Designer.cs">
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cataloguing\Frm_OtherDoc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cataloguing\Frm_OtherDoc.Designer.cs">
+      <DependentUpon>Frm_OtherDoc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cataloguing\WorkRegistration.cs" />
     <Compile Include="Cataloguing\Frm_MyWork.cs">
       <SubType>Form</SubType>
@@ -342,6 +348,9 @@
     <EmbeddedResource Include="Cataloguing\Frm_MyWork.resx">
       <DependentUpon>Frm_MyWork.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cataloguing\Frm_OtherDoc.resx">
+      <DependentUpon>Frm_OtherDoc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DocumentAccept\Frm_DomAccept.resx">
       <DependentUpon>Frm_DomAccept.cs</DependentUpon>
     </EmbeddedResource>
@@ -381,6 +390,7 @@
     <EmbeddedResource Include="Manager\Frm_userInfoAdd.resx">
       <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="QualityTesting\Frm_AdviceHistroy.resx">
       <DependentUpon>Frm_AdviceHistroy.cs</DependentUpon>
     </EmbeddedResource>

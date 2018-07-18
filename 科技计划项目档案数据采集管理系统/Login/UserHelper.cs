@@ -1,4 +1,6 @@
-﻿namespace 科技计划项目档案数据采集管理系统
+﻿using System;
+
+namespace 科技计划项目档案数据采集管理系统
 {
     /// <summary>
     /// 用户角色
@@ -47,6 +49,15 @@
             else if("dic_key_role_manager".Equals(obj))
                 return UserRole.Worker;
             return UserRole.Error;
+        }
+
+        /// <summary>
+        /// 根据用户ID获取用户姓名
+        /// </summary>
+        public string GetUserNameById(object userId)
+        {
+            object value = SqlHelper.ExecuteOnlyOneQuery($"SELECT real_name FROM user_list WHERE ul_id='{userId}'");
+            return value == null ? string.Empty : value.ToString();
         }
     }
 }
