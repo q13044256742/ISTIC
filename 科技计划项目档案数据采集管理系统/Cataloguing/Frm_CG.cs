@@ -602,12 +602,14 @@ namespace 科技计划项目档案数据采集管理系统
                                     Frm_MyWork frm = new Frm_MyWork(WorkType.CDWork_Imp, planId, objId, ControlType.Imp, false);
                                     //frm.planCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_code FROM project_info WHERE pi_id='{planId}'"));
                                     //frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
+                                    frm.trcId = objId;
                                     frm.ShowDialog();
                                 }
                                 else
                                 {
                                     Frm_ProTypeSelect frm = new Frm_ProTypeSelect(WorkType.CDWork, objId);
                                     frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
+                                    frm.trcId = objId;
                                     frm.ShowDialog();
                                 }
                             }

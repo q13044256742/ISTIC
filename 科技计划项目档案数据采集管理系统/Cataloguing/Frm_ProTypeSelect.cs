@@ -11,6 +11,7 @@ namespace 科技计划项目档案数据采集管理系统
         private WorkType workType;
         private object objId;
         public object unitCode;
+        public object trcId;
         public Frm_ProTypeSelect(WorkType workType,object objId)
         {
             InitializeComponent();
@@ -65,6 +66,7 @@ namespace 科技计划项目档案数据采集管理系统
                 Frm_MyWork frm = new Frm_MyWork(_type, cbo_TypeSelect.SelectedValue, objId, _ctype, false);
                 frm.planCode = obj;
                 frm.unitCode = unitCode;
+                frm.trcId = trcId;
                 frm.ShowDialog();
             }
         }
