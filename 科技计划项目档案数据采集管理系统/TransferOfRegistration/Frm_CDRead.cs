@@ -38,6 +38,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     DirectoryInfo directoryInfo = new DirectoryInfo(sourPath);
                     pgb_CD.Tag = false;
                     int totalFileAmount = GetFilesCount(directoryInfo);
+                    SetDocProcessTip(0, totalFileAmount);
                     pgb_CD.Value = pgb_CD.Minimum;
                     pgb_CD.Maximum = totalFileAmount;
 
@@ -50,7 +51,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                         SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
                             $"('{localKey}', '{trpName}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', -1)");
                     }
-                    CopyFile(directoryInfo, targetPath, localKey);
+                    CopyFile(directoryInfo, targetPath, localKey, totalFileAmount);
                     pgb_CD.Tag = true;
                     SetButtonState();
                     DevExpress.XtraEditors.XtraMessageBox.Show("文件备份完成。");
@@ -83,6 +84,11 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             }
             else
                 pgb_DS.Tag = true;
+        }
+
+        private void SetDocProcessTip(params object[] value)
+        {
+            lbl_DocProcess.Text = $"文档读写进度（{value[0]}/{value[1]}）";
         }
 
         /// <summary>
@@ -134,7 +140,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         /// <param name="sPath">源文件夹目录</param>
         /// <param name="tPath">目标文件夹基路径</param>
-        private void CopyFile(DirectoryInfo sPath, string tPath, object pid)
+        private void CopyFile(DirectoryInfo sPath, string tPath, object pid, int totalFileAmount)
         {
             FileInfo[] file = sPath.GetFiles();
             for(int i = 0; i < file.Length; i++)
@@ -145,8 +151,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     $"('{primaryKey}', '{fileName}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 0)");
 
                 UploadFile(file[i].FullName, tPath, fileName);
-
                 pgb_CD.Value++;
+                SetDocProcessTip(pgb_CD.Value, totalFileAmount);
             }
             DirectoryInfo[] infos = sPath.GetDirectories();
             for(int i = 0; i < infos.Length; i++)
@@ -156,7 +162,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     string primaryKey = Guid.NewGuid().ToString();
                     SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
                        $"('{primaryKey}', '{infos[i].Name}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 1)");
-                    CopyFile(infos[i], tPath + "\\" + infos[i].Name + @"\", primaryKey);
+                    CopyFile(infos[i], tPath + "\\" + infos[i].Name + @"\", primaryKey, totalFileAmount);
                 }
             }
         }
@@ -171,7 +177,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             try
             {
-                FileStream inFileStream = new FileStream(src, FileMode.Open);    //此处假定本地文件存在，不然程序会报错     
+                FileStream inFileStream = new FileStream(src, FileMode.Open, FileAccess.Read);    //此处假定本地文件存在，不然程序会报错     
                 if(!Directory.Exists(dst))        //判断上传到的远程服务器路径是否存在  
                     Directory.CreateDirectory(dst);
                 dst = dst + "\\" + fileName;            //上传到远程服务器共享文件夹后文件的绝对路径  
@@ -187,7 +193,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             }
             catch(Exception e)
             {
-
+                LogsHelper.AddErrorLogs("UploadFile", e.Message);
             }
         }
 

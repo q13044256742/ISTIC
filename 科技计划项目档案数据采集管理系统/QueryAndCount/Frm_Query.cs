@@ -150,7 +150,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(type == 1)
             {
                 int count = 0;
-                string querySQL = $"SELECT wm_ticker FROM work_myreg WHERE wm_user='{userId}' AND CONVERT(DATE, wm_accepter_date)='{date}'";
+                string querySQL = $"SELECT wm_ticker FROM work_myreg WHERE wm_user='{userId}' AND wm_accepter_date='{date}'";
                 object[] tics = SqlHelper.ExecuteSingleColumnQuery(querySQL);
                 foreach(object item in tics)
                     count += (int)item;

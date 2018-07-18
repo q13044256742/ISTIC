@@ -57,7 +57,6 @@
             this.rdo_type_3 = new System.Windows.Forms.RadioButton();
             this.rdo_type_4 = new System.Windows.Forms.RadioButton();
             this.rdo_type_1 = new System.Windows.Forms.RadioButton();
-            this.txt_fileName = new System.Windows.Forms.ComboBox();
             this.lsv_LinkList = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -68,6 +67,7 @@
             this.btn_Reset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Exit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Save_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.txt_fileName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.num_Amount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Pages)).BeginInit();
             this.pal_type.SuspendLayout();
@@ -79,7 +79,7 @@
             // 
             this.lbl_OpenFile.AutoSize = true;
             this.lbl_OpenFile.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lbl_OpenFile.Location = new System.Drawing.Point(689, 290);
+            this.lbl_OpenFile.Location = new System.Drawing.Point(689, 302);
             this.lbl_OpenFile.Name = "lbl_OpenFile";
             this.lbl_OpenFile.Size = new System.Drawing.Size(42, 21);
             this.lbl_OpenFile.TabIndex = 63;
@@ -89,7 +89,7 @@
             // 
             // txt_Remark
             // 
-            this.txt_Remark.Location = new System.Drawing.Point(114, 449);
+            this.txt_Remark.Location = new System.Drawing.Point(114, 459);
             this.txt_Remark.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_Remark.Multiline = true;
             this.txt_Remark.Name = "txt_Remark";
@@ -101,7 +101,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label15.Location = new System.Drawing.Point(55, 449);
+            this.label15.Location = new System.Drawing.Point(55, 459);
             this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(48, 25);
@@ -112,7 +112,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label14.Location = new System.Drawing.Point(19, 290);
+            this.label14.Location = new System.Drawing.Point(19, 302);
             this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(84, 25);
@@ -121,7 +121,7 @@
             // 
             // txt_Unit
             // 
-            this.txt_Unit.Location = new System.Drawing.Point(114, 241);
+            this.txt_Unit.Location = new System.Drawing.Point(114, 253);
             this.txt_Unit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_Unit.Name = "txt_Unit";
             this.txt_Unit.Size = new System.Drawing.Size(407, 30);
@@ -131,7 +131,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label10.Location = new System.Drawing.Point(19, 244);
+            this.label10.Location = new System.Drawing.Point(19, 256);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(84, 25);
@@ -141,7 +141,7 @@
             // dtp_date
             // 
             this.dtp_date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_date.Location = new System.Drawing.Point(325, 149);
+            this.dtp_date.Location = new System.Drawing.Point(325, 161);
             this.dtp_date.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dtp_date.Name = "dtp_date";
             this.dtp_date.Size = new System.Drawing.Size(16, 30);
@@ -152,7 +152,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label9.Location = new System.Drawing.Point(19, 152);
+            this.label9.Location = new System.Drawing.Point(19, 164);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(84, 25);
@@ -161,7 +161,7 @@
             // 
             // num_Amount
             // 
-            this.num_Amount.Location = new System.Drawing.Point(489, 195);
+            this.num_Amount.Location = new System.Drawing.Point(489, 207);
             this.num_Amount.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.num_Amount.Maximum = new decimal(new int[] {
             9999,
@@ -176,7 +176,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label8.Location = new System.Drawing.Point(392, 198);
+            this.label8.Location = new System.Drawing.Point(392, 210);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(84, 25);
@@ -185,7 +185,7 @@
             // 
             // num_Pages
             // 
-            this.num_Pages.Location = new System.Drawing.Point(489, 149);
+            this.num_Pages.Location = new System.Drawing.Point(489, 161);
             this.num_Pages.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.num_Pages.Maximum = new decimal(new int[] {
             9999,
@@ -200,7 +200,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(428, 152);
+            this.label7.Location = new System.Drawing.Point(428, 164);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(48, 25);
@@ -219,7 +219,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(19, 198);
+            this.label5.Location = new System.Drawing.Point(19, 210);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(84, 25);
@@ -241,7 +241,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(19, 106);
+            this.label3.Location = new System.Drawing.Point(19, 103);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 25);
@@ -318,7 +318,7 @@
             this.pal_type.Controls.Add(this.rdo_type_3);
             this.pal_type.Controls.Add(this.rdo_type_4);
             this.pal_type.Controls.Add(this.rdo_type_1);
-            this.pal_type.Location = new System.Drawing.Point(114, 196);
+            this.pal_type.Location = new System.Drawing.Point(114, 208);
             this.pal_type.Name = "pal_type";
             this.pal_type.Size = new System.Drawing.Size(265, 29);
             this.pal_type.TabIndex = 68;
@@ -375,15 +375,6 @@
             this.rdo_type_1.Text = "技术";
             this.rdo_type_1.UseVisualStyleBackColor = true;
             // 
-            // txt_fileName
-            // 
-            this.txt_fileName.FormattingEnabled = true;
-            this.txt_fileName.Location = new System.Drawing.Point(114, 104);
-            this.txt_fileName.Name = "txt_fileName";
-            this.txt_fileName.Size = new System.Drawing.Size(602, 28);
-            this.txt_fileName.TabIndex = 76;
-            this.txt_fileName.SelectionChangeCommitted += new System.EventHandler(this.FileName_SelectionChangeCommitted);
-            // 
             // lsv_LinkList
             // 
             this.lsv_LinkList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -393,7 +384,7 @@
             this.lsv_LinkList.FullRowSelect = true;
             this.lsv_LinkList.GridLines = true;
             this.lsv_LinkList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lsv_LinkList.Location = new System.Drawing.Point(114, 290);
+            this.lsv_LinkList.Location = new System.Drawing.Point(114, 302);
             this.lsv_LinkList.MultiSelect = false;
             this.lsv_LinkList.Name = "lsv_LinkList";
             this.lsv_LinkList.Size = new System.Drawing.Size(572, 141);
@@ -418,7 +409,7 @@
             // 
             // txt_date
             // 
-            this.txt_date.Location = new System.Drawing.Point(114, 149);
+            this.txt_date.Location = new System.Drawing.Point(114, 161);
             this.txt_date.Name = "txt_date";
             this.txt_date.Size = new System.Drawing.Size(209, 30);
             this.txt_date.TabIndex = 78;
@@ -426,7 +417,7 @@
             // num_Count
             // 
             this.num_Count.Font = new System.Drawing.Font("宋体", 15F);
-            this.num_Count.Location = new System.Drawing.Point(601, 241);
+            this.num_Count.Location = new System.Drawing.Point(601, 253);
             this.num_Count.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.num_Count.Maximum = new decimal(new int[] {
             9999,
@@ -441,7 +432,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(540, 244);
+            this.label6.Location = new System.Drawing.Point(540, 256);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 25);
@@ -455,7 +446,7 @@
             this.btn_Reset.Image = ((System.Drawing.Image)(resources.GetObject("btn_Reset.Image")));
             this.btn_Reset.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Reset.ImageToTextIndent = 5;
-            this.btn_Reset.Location = new System.Drawing.Point(267, 567);
+            this.btn_Reset.Location = new System.Drawing.Point(267, 573);
             this.btn_Reset.Name = "btn_Reset";
             this.btn_Reset.Size = new System.Drawing.Size(67, 30);
             this.btn_Reset.TabIndex = 64;
@@ -469,7 +460,7 @@
             this.btn_Exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exit.Image")));
             this.btn_Exit.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Exit.ImageToTextIndent = 5;
-            this.btn_Exit.Location = new System.Drawing.Point(409, 567);
+            this.btn_Exit.Location = new System.Drawing.Point(409, 573);
             this.btn_Exit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(67, 30);
@@ -484,7 +475,7 @@
             this.btn_Save_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save_Add.Image")));
             this.btn_Save_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Save_Add.ImageToTextIndent = 5;
-            this.btn_Save_Add.Location = new System.Drawing.Point(338, 567);
+            this.btn_Save_Add.Location = new System.Drawing.Point(338, 573);
             this.btn_Save_Add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Save_Add.Name = "btn_Save_Add";
             this.btn_Save_Add.Size = new System.Drawing.Size(67, 30);
@@ -492,16 +483,24 @@
             this.btn_Save_Add.Text = "保存";
             this.btn_Save_Add.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
+            // txt_fileName
+            // 
+            this.txt_fileName.Location = new System.Drawing.Point(114, 103);
+            this.txt_fileName.Multiline = true;
+            this.txt_fileName.Name = "txt_fileName";
+            this.txt_fileName.Size = new System.Drawing.Size(602, 46);
+            this.txt_fileName.TabIndex = 81;
+            // 
             // Frm_AddFile
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(743, 612);
+            this.Controls.Add(this.txt_fileName);
             this.Controls.Add(this.num_Count);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txt_date);
             this.Controls.Add(this.lsv_LinkList);
-            this.Controls.Add(this.txt_fileName);
             this.Controls.Add(this.pal_type);
             this.Controls.Add(this.txt_fileCode);
             this.Controls.Add(this.label16);
@@ -582,7 +581,6 @@
         private System.Windows.Forms.RadioButton rdo_type_3;
         private System.Windows.Forms.RadioButton rdo_type_4;
         private System.Windows.Forms.RadioButton rdo_type_1;
-        private System.Windows.Forms.ComboBox txt_fileName;
         private System.Windows.Forms.ListView lsv_LinkList;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
@@ -590,5 +588,6 @@
         private System.Windows.Forms.TextBox txt_date;
         private System.Windows.Forms.NumericUpDown num_Count;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txt_fileName;
     }
 }

@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_AdviceHistroy));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_Delete = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.dgv_BW = new System.Windows.Forms.DataGridView();
             this.lbl_ObjName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,14 +45,27 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btn_Delete);
             this.panel1.Controls.Add(this.dgv_BW);
             this.panel1.Controls.Add(this.lbl_ObjName);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(868, 496);
+            this.panel1.Size = new System.Drawing.Size(951, 536);
             this.panel1.TabIndex = 0;
+            // 
+            // btn_Delete
+            // 
+            this.btn_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_Delete.Image")));
+            this.btn_Delete.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Delete.Location = new System.Drawing.Point(870, 14);
+            this.btn_Delete.Name = "btn_Delete";
+            this.btn_Delete.Size = new System.Drawing.Size(67, 28);
+            this.btn_Delete.TabIndex = 8;
+            this.btn_Delete.Text = "删除";
+            this.btn_Delete.Click += new System.EventHandler(this.Btn_Delete_Click);
             // 
             // dgv_BW
             // 
@@ -78,7 +93,7 @@
             this.dgv_BW.Name = "dgv_BW";
             this.dgv_BW.ReadOnly = true;
             this.dgv_BW.RowTemplate.Height = 23;
-            this.dgv_BW.Size = new System.Drawing.Size(839, 426);
+            this.dgv_BW.Size = new System.Drawing.Size(922, 466);
             this.dgv_BW.TabIndex = 7;
             // 
             // lbl_ObjName
@@ -118,7 +133,6 @@
             // 
             // bw_date
             // 
-            this.bw_date.FillWeight = 50F;
             this.bw_date.HeaderText = "填写日期";
             this.bw_date.Name = "bw_date";
             this.bw_date.ReadOnly = true;
@@ -127,7 +141,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(868, 496);
+            this.ClientSize = new System.Drawing.Size(951, 536);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -148,6 +162,7 @@
         private System.Windows.Forms.Label lbl_ObjName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgv_BW;
+        private KyoControl.KyoButton btn_Delete;
         private System.Windows.Forms.DataGridViewTextBoxColumn bw_type;
         private System.Windows.Forms.DataGridViewTextBoxColumn bw_text;
         private System.Windows.Forms.DataGridViewTextBoxColumn bw_date;

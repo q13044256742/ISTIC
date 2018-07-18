@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -21,14 +23,16 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Frm_Advice_Load(object sender, EventArgs e)
         {
-            string querySql = $"SELECT qa_type, qa_advice, qa_time FROM quality_advices WHERE qa_obj_id='{objId}' ORDER BY qa_type, qa_time";
-            List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySql, 3);
-            for(int i = 0; i < list.Count; i++)
+            dgv_BW.Rows.Clear();
+            string querySql = $"SELECT qa_id, qa_type, qa_advice, qa_time FROM quality_advices WHERE qa_obj_id='{objId}' ORDER BY qa_type, qa_time";
+            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            foreach(DataRow row in table.Rows)
             {
                 int index = dgv_BW.Rows.Add();
-                dgv_BW.Rows[index].Cells[0].Value = GetTypeValue(list[i][0]);
-                dgv_BW.Rows[index].Cells[1].Value = list[i][1];
-                dgv_BW.Rows[index].Cells[2].Value = list[i][2];
+                dgv_BW.Rows[index].Tag = row["qa_id"];
+                dgv_BW.Rows[index].Cells[0].Value = GetTypeValue(row["qa_type"]);
+                dgv_BW.Rows[index].Cells[1].Value = row["qa_advice"];
+                dgv_BW.Rows[index].Cells[2].Value = row["qa_time"];
             }
 
             dgv_BW.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
@@ -66,6 +70,25 @@ namespace 科技计划项目档案数据采集管理系统
         {
             object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT qa_id, qa_advice FROM quality_advices WHERE qa_obj_id='{id}' AND qa_user='{UserHelper.GetInstance().User.UserKey}' AND qa_type={type}");
             return _obj ?? null;
+        }
+
+        private void Btn_Delete_Click(object sender, EventArgs e)
+        {
+            int count = dgv_BW.SelectedRows.Count;
+            if(count > 0)
+            {
+                DialogResult dialogResult = XtraMessageBox.Show("确定要删除选中行吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                if(dialogResult == DialogResult.OK)
+                {
+                    string ids = string.Empty;
+                    foreach(DataGridViewRow row in dgv_BW.SelectedRows)
+                        ids += $"'{row.Tag}',";
+                    ids = ids.Substring(0, ids.Length - 1);
+                    SqlHelper.ExecuteNonQuery($"DELETE FROM quality_advices WHERE qa_id IN ({ids})");
+                    Frm_Advice_Load(null, null);
+                    XtraMessageBox.Show("删除成功.");
+                }
+            }
         }
     }
 }

@@ -45,6 +45,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.project = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Project = new System.Windows.Forms.DataGridView();
             this.dgv_MyReg = new System.Windows.Forms.DataGridView();
+            this.searchControl = new DevExpress.XtraEditors.SearchControl();
             this.pal_LeftMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).BeginInit();
@@ -56,6 +57,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.project.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchControl.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // pal_LeftMenu
@@ -145,18 +147,18 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Imp.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_Imp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_Imp.Location = new System.Drawing.Point(4, 5);
+            this.dgv_Imp.Location = new System.Drawing.Point(4, 8);
             this.dgv_Imp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgv_Imp.Name = "dgv_Imp";
             this.dgv_Imp.ReadOnly = true;
             this.dgv_Imp.RowTemplate.Height = 23;
-            this.dgv_Imp.Size = new System.Drawing.Size(665, 429);
+            this.dgv_Imp.Size = new System.Drawing.Size(665, 419);
             this.dgv_Imp.TabIndex = 2;
             this.dgv_Imp.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Imp_CellClick);
             // 
             // tab_Menulist
             // 
-            this.tab_Menulist.Appearance.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tab_Menulist.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F);
             this.tab_Menulist.Appearance.Options.UseFont = true;
             this.tab_Menulist.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tab_Menulist.Location = new System.Drawing.Point(239, 0);
@@ -173,20 +175,20 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // imp
             // 
-            this.imp.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.imp.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 14F);
             this.imp.Appearance.Header.Options.UseFont = true;
             this.imp.Appearance.PageClient.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.imp.Appearance.PageClient.Options.UseFont = true;
             this.imp.Controls.Add(this.dgv_Imp);
             this.imp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.imp.Name = "imp";
-            this.imp.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.imp.Size = new System.Drawing.Size(673, 439);
+            this.imp.Padding = new System.Windows.Forms.Padding(4, 8, 4, 8);
+            this.imp.Size = new System.Drawing.Size(673, 435);
             this.imp.Text = "计划";
             // 
             // imp_dev
             // 
-            this.imp_dev.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.imp_dev.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 14F);
             this.imp_dev.Appearance.Header.Options.UseFont = true;
             this.imp_dev.Appearance.PageClient.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.imp_dev.Appearance.PageClient.Options.UseFont = true;
@@ -194,7 +196,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.imp_dev.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.imp_dev.Name = "imp_dev";
             this.imp_dev.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.imp_dev.Size = new System.Drawing.Size(673, 439);
+            this.imp_dev.Size = new System.Drawing.Size(673, 435);
             this.imp_dev.Text = "专项";
             // 
             // dgv_Imp_Dev
@@ -211,13 +213,13 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Imp_Dev.Name = "dgv_Imp_Dev";
             this.dgv_Imp_Dev.ReadOnly = true;
             this.dgv_Imp_Dev.RowTemplate.Height = 23;
-            this.dgv_Imp_Dev.Size = new System.Drawing.Size(665, 429);
+            this.dgv_Imp_Dev.Size = new System.Drawing.Size(665, 425);
             this.dgv_Imp_Dev.TabIndex = 0;
             this.dgv_Imp_Dev.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Imp_Dev_CellClick);
             // 
             // project
             // 
-            this.project.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.project.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 14F);
             this.project.Appearance.Header.Options.UseFont = true;
             this.project.Appearance.PageClient.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.project.Appearance.PageClient.Options.UseFont = true;
@@ -225,7 +227,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.project.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.project.Name = "project";
             this.project.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.project.Size = new System.Drawing.Size(673, 439);
+            this.project.Size = new System.Drawing.Size(673, 435);
             this.project.Text = "项目/课题";
             // 
             // dgv_Project
@@ -242,7 +244,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Project.Name = "dgv_Project";
             this.dgv_Project.ReadOnly = true;
             this.dgv_Project.RowTemplate.Height = 23;
-            this.dgv_Project.Size = new System.Drawing.Size(665, 429);
+            this.dgv_Project.Size = new System.Drawing.Size(665, 425);
             this.dgv_Project.TabIndex = 0;
             this.dgv_Project.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Project_CellClick);
             // 
@@ -263,10 +265,27 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_MyReg.Visible = false;
             this.dgv_MyReg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_MyReg_CellClick);
             // 
+            // searchControl
+            // 
+            this.searchControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.searchControl.Location = new System.Drawing.Point(683, 1);
+            this.searchControl.Name = "searchControl";
+            this.searchControl.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchControl.Properties.Appearance.Options.UseFont = true;
+            this.searchControl.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.searchControl.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Repository.ClearButton(),
+            new DevExpress.XtraEditors.Repository.SearchButton()});
+            this.searchControl.Properties.NullValuePrompt = "输入关键字查询";
+            this.searchControl.Size = new System.Drawing.Size(231, 30);
+            this.searchControl.TabIndex = 3;
+            this.searchControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchControl_KeyDown);
+            // 
             // Frm_QT
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(918, 475);
+            this.Controls.Add(this.searchControl);
             this.Controls.Add(this.tab_Menulist);
             this.Controls.Add(this.dgv_MyReg);
             this.Controls.Add(this.pal_LeftMenu);
@@ -289,6 +308,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.project.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchControl.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -307,5 +327,6 @@ namespace 科技计划项目档案数据采集管理系统
         private DevExpress.XtraBars.Navigation.AccordionControlElement acg_Worked;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_Login;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_MyLog;
+        private DevExpress.XtraEditors.SearchControl searchControl;
     }
 }

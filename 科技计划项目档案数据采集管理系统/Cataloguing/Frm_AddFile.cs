@@ -145,9 +145,6 @@ namespace 科技计划项目档案数据采集管理系统
             object key = _tempKey;
             object value = comboBox.SelectedValue;
 
-            object[] fileName = SqlHelper.ExecuteSingleColumnQuery($"SELECT pfl_name FROM processing_file_list WHERE pfl_categor='{value}' AND pfl_obj_id='{parentId}'");
-            txt_fileName.Items.Clear();
-            txt_fileName.Items.AddRange(fileName);
             txt_fileName.Text = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_note FROM data_dictionary WHERE dd_id='{value}'"));
 
             int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_categor='{value}' AND pfl_obj_id='{parentId}'");
@@ -676,21 +673,6 @@ namespace 科技计划项目档案数据采集管理系统
                 new ListViewItem.ListViewSubItem(){ Text = tPath },
             });
             item.Tag = fid;
-        }
-
-        private void Frm_AddFile_FormClosing(object sender, FormClosingEventArgs e)
-        {
-        }
-
-        private void FileName_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            object fileName = txt_fileName.SelectedItem;
-            if(fileName != null)
-            {
-                Hide();
-                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_id FROM processing_file_list WHERE pfl_name='{fileName}' AND pfl_obj_id='{parentId}'");
-                new Frm_AddFile(view, key, row["fi_id"], trcId).ShowDialog();
-            }
         }
 
         private void Lsv_FileList_KeyDown(object sender, KeyEventArgs e)

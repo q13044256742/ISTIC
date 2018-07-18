@@ -45,7 +45,7 @@
             this.tv_file.LineColor = System.Drawing.Color.DimGray;
             this.tv_file.Location = new System.Drawing.Point(3, 132);
             this.tv_file.Name = "tv_file";
-            this.tv_file.Size = new System.Drawing.Size(806, 576);
+            this.tv_file.Size = new System.Drawing.Size(806, 560);
             this.tv_file.TabIndex = 0;
             this.tv_file.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.Tv_file_NodeMouseClick);
             this.tv_file.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.Tv_file_NodeMouseDoubleClick);
@@ -57,12 +57,11 @@
             this.btn_sure.Appearance.Options.UseFont = true;
             this.btn_sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_sure.Image")));
             this.btn_sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_sure.ImageToTextIndent = 5;
-            this.btn_sure.Location = new System.Drawing.Point(373, 719);
+            this.btn_sure.Location = new System.Drawing.Point(373, 703);
             this.btn_sure.Name = "btn_sure";
-            this.btn_sure.Size = new System.Drawing.Size(67, 30);
+            this.btn_sure.Size = new System.Drawing.Size(79, 30);
             this.btn_sure.TabIndex = 1;
-            this.btn_sure.Text = "确定";
+            this.btn_sure.Text = "确定(&S)";
             this.btn_sure.Click += new System.EventHandler(this.Btn_Sure_Click);
             // 
             // label1
@@ -105,7 +104,7 @@
             // 
             this.AcceptButton = this.btn_sure;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(812, 757);
+            this.ClientSize = new System.Drawing.Size(812, 741);
             this.Controls.Add(this.lsv_Selected);
             this.Controls.Add(this.chk_ShowAll);
             this.Controls.Add(this.label1);

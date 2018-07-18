@@ -103,12 +103,6 @@
     <Compile Include="Cataloguing\Frm_CG.Designer.cs">
       <DependentUpon>Frm_CG.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cataloguing\Frm_Print.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Cataloguing\Frm_Print.designer.cs">
-      <DependentUpon>Frm_Print.cs</DependentUpon>
-    </Compile>
     <Compile Include="Cataloguing\WorkRegistration.cs" />
     <Compile Include="Cataloguing\Frm_MyWork.cs">
       <SubType>Form</SubType>
@@ -259,6 +253,7 @@
       <DependentUpon>Frm_PrintBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\LocalizationCHS.cs" />
+    <Compile Include="Tools\LogsHelper.cs" />
     <Compile Include="Tools\MicrosoftWordHelper.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
     <Compile Include="Tools\SQLiteBackupHelper.cs" />
@@ -346,9 +341,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Cataloguing\Frm_MyWork.resx">
       <DependentUpon>Frm_MyWork.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cataloguing\Frm_Print.resx">
-      <DependentUpon>Frm_Print.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DocumentAccept\Frm_DomAccept.resx">
       <DependentUpon>Frm_DomAccept.cs</DependentUpon>

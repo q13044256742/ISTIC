@@ -301,6 +301,25 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Subject_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Special_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+            foreach(DataGridViewColumn column in dgv_Plan_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Plan_FileList.Columns["plan_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            foreach(DataGridViewColumn column in dgv_Project_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Project_FileList.Columns["project_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            foreach(DataGridViewColumn column in dgv_Topic_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Topic_FileList.Columns["topic_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            foreach(DataGridViewColumn column in dgv_Subject_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Subject_FileList.Columns["subject_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            foreach(DataGridViewColumn column in dgv_Imp_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Imp_FileList.Columns["imp_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            foreach(DataGridViewColumn column in dgv_Special_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Special_FileList.Columns["special_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
         }
  
         /// <summary>
@@ -4418,13 +4437,44 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Dgv_FileList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
+            DataGridView view = sender as DataGridView;
             if(e.Button == MouseButtons.Right && e.RowIndex != -1 && e.ColumnIndex != -1)
             {
-                DataGridView view = sender as DataGridView;
                 view.ClearSelection();
                 view.CurrentCell = view.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 contextMenuStrip1.Tag = view;
                 contextMenuStrip1.Show(MousePosition);
+            }
+            else if(e.Button == MouseButtons.Left)
+            {
+                if(view.CurrentRow != null && view.RowCount > 1 && e.RowIndex != view.RowCount - 1)
+                {
+                    string name = view.Name;
+                    if(name.Contains("Plan"))
+                    {
+                        lbl_Plan_Tip.Text = $"共{view.RowCount - 1}份文件，当前选中{e.RowIndex + 1}行";
+                    }
+                    else if(name.Contains("Project"))
+                    {
+                        lbl_Project_Tip.Text = $"共{view.RowCount - 1}份文件，当前选中{e.RowIndex + 1}行";
+                    }
+                    else if(name.Contains("Subject"))
+                    {
+                        lbl_Subject_Tip.Text = $"共{view.RowCount - 1}份文件，当前选中{e.RowIndex + 1}行";
+                    }
+                    else if(name.Contains("Topic"))
+                    {
+                        lbl_Topic_Tip.Text = $"共{view.RowCount - 1}份文件，当前选中{e.RowIndex + 1}行";
+                    }
+                    else if(name.Contains("Imp"))
+                    {
+                        lbl_Imp_Tip.Text = $"共{view.RowCount - 1}份文件，当前选中{e.RowIndex + 1}行";
+                    }
+                    else if(name.Contains("Special"))
+                    {
+                        lbl_Special_Tip.Text = $"共{view.RowCount - 1}份文件，当前选中{e.RowIndex + 1}行";
+                    }
+                }
             }
         }
 
@@ -4476,12 +4526,13 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 int index = tab_Plan_Info.SelectedTabPageIndex;
                 object objid = tab_Plan_Info.Tag;
+                lbl_Plan_Tip.Visible = false;
                 if(objid != null)
                 {
-                    if(index == 1)
-                    {
+                    if(index == 0)
+                        lbl_Plan_Tip.Visible = true;
+                    else if(index == 1)
                         LoadFileValidList(dgv_Plan_FileValid, objid, "plan_fc_");
-                    }
                     else if(index == 2)
                         LoadDocList(objid, ControlType.Project);
                 }
@@ -4490,12 +4541,13 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 int index = tab_Imp_Info.SelectedTabPageIndex;
                 object objid = tab_Imp_Info.Tag;
+                lbl_Imp_Tip.Visible = false;
                 if(objid != null)
                 {
+                    if(index == 0)
+                        lbl_Imp_Tip.Visible = true;
                     if(index == 1)
-                    {
                         LoadFileValidList(dgv_Imp_FileValid, objid, "imp_fc_");
-                    }
                     else if(index == 2)
                         LoadDocList(objid, ControlType.Imp);
                 }
@@ -4504,12 +4556,13 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 int index = tab_Special_Info.SelectedTabPageIndex;
                 object objid = tab_Special_Info.Tag;
+                lbl_Special_Tip.Visible = false;
                 if(objid != null)
                 {
+                    if(index == 0)
+                        lbl_Special_Tip.Visible = true;
                     if(index == 1)
-                    {
                         LoadFileValidList(dgv_Special_FileValid, objid, "special_fc_");
-                    }
                     else if(index == 2)
                         LoadDocList(objid, ControlType.Special);
                 }
@@ -4518,8 +4571,11 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 int index = tab_Project_Info.SelectedTabPageIndex;
                 object objid = tab_Project_Info.Tag;
+                lbl_Project_Tip.Visible = false;
                 if(objid != null)
                 {
+                    if(index == 0)
+                        lbl_Project_Tip.Visible = true;
                     if(index == 1)
                         LoadFileValidList(dgv_Project_FileValid, objid, "project_fc_");
                     else if(index == 2)
@@ -4530,8 +4586,11 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 int index = tab_Topic_Info.SelectedTabPageIndex;
                 object objid = tab_Topic_Info.Tag;
+                lbl_Topic_Tip.Visible = false;
                 if(objid != null)
                 {
+                    if(index == 0)
+                        lbl_Topic_Tip.Visible = true;
                     if(index == 1)
                         LoadFileValidList(dgv_Topic_FileValid, objid, "topic_fc_");
                     else if(index == 2)
@@ -4542,8 +4601,11 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 int index = tab_Subject_Info.SelectedTabPageIndex;
                 object objId = tab_Subject_Info.Tag;
+                lbl_Subject_Tip.Visible = false;
                 if(objId != null)
                 {
+                    if(index == 0)
+                        lbl_Subject_Tip.Visible = true;
                     if(index == 1)
                         LoadFileValidList(dgv_Subject_FileValid, objId, "subject_fc_");
                     else if(index == 2)

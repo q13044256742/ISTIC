@@ -96,6 +96,7 @@
             this.cbo_Special_Box = new System.Windows.Forms.ComboBox();
             this.label145 = new System.Windows.Forms.Label();
             this.pal_Special_BtnGroup = new System.Windows.Forms.Panel();
+            this.lbl_Special_Tip = new DevExpress.XtraEditors.LabelControl();
             this.btn_Special_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Special_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Special_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -158,6 +159,7 @@
             this.cbo_Imp_Box = new System.Windows.Forms.ComboBox();
             this.label132 = new System.Windows.Forms.Label();
             this.pal_Imp_BtnGroup = new System.Windows.Forms.Panel();
+            this.lbl_Imp_Tip = new DevExpress.XtraEditors.LabelControl();
             this.btn_Imp_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Imp_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Imp_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -216,11 +218,13 @@
             this.cbo_Subject_Box = new System.Windows.Forms.ComboBox();
             this.label87 = new System.Windows.Forms.Label();
             this.pal_Subject_BtnGroup = new System.Windows.Forms.Panel();
+            this.lbl_Subject_Tip = new DevExpress.XtraEditors.LabelControl();
             this.btn_Subject_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Subject_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Subject_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Subject_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.pal_Subject = new System.Windows.Forms.Panel();
+            this.txt_Subject_Fund = new System.Windows.Forms.TextBox();
             this.txt_Subject_EndTime = new System.Windows.Forms.TextBox();
             this.txt_Subject_StartTime = new System.Windows.Forms.TextBox();
             this.dtp_Subject_EndTime = new System.Windows.Forms.DateTimePicker();
@@ -295,11 +299,13 @@
             this.cbo_Topic_Box = new System.Windows.Forms.ComboBox();
             this.label71 = new System.Windows.Forms.Label();
             this.pal_Topic_BtnGroup = new System.Windows.Forms.Panel();
+            this.lbl_Topic_Tip = new DevExpress.XtraEditors.LabelControl();
             this.btn_Topic_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Topic_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Topic_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Topic_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.pal_Topic = new System.Windows.Forms.Panel();
+            this.txt_Topic_Fund = new System.Windows.Forms.TextBox();
             this.txt_Topic_EndTime = new System.Windows.Forms.TextBox();
             this.txt_Topic_StartTime = new System.Windows.Forms.TextBox();
             this.dtp_Topic_EndTime = new System.Windows.Forms.DateTimePicker();
@@ -375,11 +381,13 @@
             this.cbo_Project_Box = new System.Windows.Forms.ComboBox();
             this.label63 = new System.Windows.Forms.Label();
             this.pal_Project_BtnGroup = new System.Windows.Forms.Panel();
+            this.lbl_Project_Tip = new DevExpress.XtraEditors.LabelControl();
             this.btn_Project_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Project_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Project_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Project_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.pal_Project = new System.Windows.Forms.Panel();
+            this.txt_Project_Funds = new System.Windows.Forms.TextBox();
             this.txt_Project_EndTime = new System.Windows.Forms.TextBox();
             this.txt_Project_StartTime = new System.Windows.Forms.TextBox();
             this.dtp_Project_EndTime = new System.Windows.Forms.DateTimePicker();
@@ -455,6 +463,7 @@
             this.cbo_Plan_Box = new System.Windows.Forms.ComboBox();
             this.label54 = new System.Windows.Forms.Label();
             this.pal_Plan_BtnGroup = new System.Windows.Forms.Panel();
+            this.lbl_Plan_Tip = new DevExpress.XtraEditors.LabelControl();
             this.btn_Plan_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Plan_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Plan_Submit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -468,9 +477,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.tab_MenuList = new System.Windows.Forms.TabControl();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.txt_Project_Funds = new System.Windows.Forms.TextBox();
-            this.txt_Topic_Fund = new System.Windows.Forms.TextBox();
-            this.txt_Subject_Fund = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1.SuspendLayout();
             this.special.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab_Special_Info)).BeginInit();
@@ -1053,6 +1059,7 @@
             // 
             // pal_Special_BtnGroup
             // 
+            this.pal_Special_BtnGroup.Controls.Add(this.lbl_Special_Tip);
             this.pal_Special_BtnGroup.Controls.Add(this.btn_Special_QTReason);
             this.pal_Special_BtnGroup.Controls.Add(this.btn_Special_AddFile);
             this.pal_Special_BtnGroup.Controls.Add(this.btn_Special_Submit);
@@ -1063,6 +1070,15 @@
             this.pal_Special_BtnGroup.Size = new System.Drawing.Size(1086, 40);
             this.pal_Special_BtnGroup.TabIndex = 5;
             this.pal_Special_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
+            // 
+            // lbl_Special_Tip
+            // 
+            this.lbl_Special_Tip.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Special_Tip.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Special_Tip.Location = new System.Drawing.Point(416, 7);
+            this.lbl_Special_Tip.Name = "lbl_Special_Tip";
+            this.lbl_Special_Tip.Size = new System.Drawing.Size(0, 27);
+            this.lbl_Special_Tip.TabIndex = 82;
             // 
             // btn_Special_QTReason
             // 
@@ -1717,6 +1733,7 @@
             // 
             // pal_Imp_BtnGroup
             // 
+            this.pal_Imp_BtnGroup.Controls.Add(this.lbl_Imp_Tip);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_QTReason);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_AddFile);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Submit);
@@ -1727,6 +1744,15 @@
             this.pal_Imp_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Imp_BtnGroup.TabIndex = 5;
             this.pal_Imp_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
+            // 
+            // lbl_Imp_Tip
+            // 
+            this.lbl_Imp_Tip.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Imp_Tip.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Imp_Tip.Location = new System.Drawing.Point(416, 7);
+            this.lbl_Imp_Tip.Name = "lbl_Imp_Tip";
+            this.lbl_Imp_Tip.Size = new System.Drawing.Size(0, 27);
+            this.lbl_Imp_Tip.TabIndex = 82;
             // 
             // btn_Imp_QTReason
             // 
@@ -2339,6 +2365,7 @@
             // 
             // pal_Subject_BtnGroup
             // 
+            this.pal_Subject_BtnGroup.Controls.Add(this.lbl_Subject_Tip);
             this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_QTReason);
             this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_AddFile);
             this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_Submit);
@@ -2350,6 +2377,15 @@
             this.pal_Subject_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Subject_BtnGroup.TabIndex = 10;
             this.pal_Subject_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
+            // 
+            // lbl_Subject_Tip
+            // 
+            this.lbl_Subject_Tip.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Subject_Tip.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Subject_Tip.Location = new System.Drawing.Point(416, 7);
+            this.lbl_Subject_Tip.Name = "lbl_Subject_Tip";
+            this.lbl_Subject_Tip.Size = new System.Drawing.Size(0, 27);
+            this.lbl_Subject_Tip.TabIndex = 82;
             // 
             // btn_Subject_QTReason
             // 
@@ -2442,6 +2478,14 @@
             this.pal_Subject.Name = "pal_Subject";
             this.pal_Subject.Size = new System.Drawing.Size(1078, 302);
             this.pal_Subject.TabIndex = 8;
+            // 
+            // txt_Subject_Fund
+            // 
+            this.txt_Subject_Fund.Font = new System.Drawing.Font("华文中宋", 15F);
+            this.txt_Subject_Fund.Location = new System.Drawing.Point(826, 37);
+            this.txt_Subject_Fund.Name = "txt_Subject_Fund";
+            this.txt_Subject_Fund.Size = new System.Drawing.Size(224, 34);
+            this.txt_Subject_Fund.TabIndex = 77;
             // 
             // txt_Subject_EndTime
             // 
@@ -3166,6 +3210,7 @@
             // 
             // pal_Topic_BtnGroup
             // 
+            this.pal_Topic_BtnGroup.Controls.Add(this.lbl_Topic_Tip);
             this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_QTReason);
             this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_AddFile);
             this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_Submit);
@@ -3176,6 +3221,15 @@
             this.pal_Topic_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Topic_BtnGroup.TabIndex = 7;
             this.pal_Topic_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
+            // 
+            // lbl_Topic_Tip
+            // 
+            this.lbl_Topic_Tip.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Topic_Tip.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Topic_Tip.Location = new System.Drawing.Point(416, 7);
+            this.lbl_Topic_Tip.Name = "lbl_Topic_Tip";
+            this.lbl_Topic_Tip.Size = new System.Drawing.Size(0, 27);
+            this.lbl_Topic_Tip.TabIndex = 82;
             // 
             // btn_Topic_QTReason
             // 
@@ -3270,6 +3324,14 @@
             this.pal_Topic.Name = "pal_Topic";
             this.pal_Topic.Size = new System.Drawing.Size(1081, 305);
             this.pal_Topic.TabIndex = 5;
+            // 
+            // txt_Topic_Fund
+            // 
+            this.txt_Topic_Fund.Font = new System.Drawing.Font("华文中宋", 15F);
+            this.txt_Topic_Fund.Location = new System.Drawing.Point(826, 37);
+            this.txt_Topic_Fund.Name = "txt_Topic_Fund";
+            this.txt_Topic_Fund.Size = new System.Drawing.Size(224, 34);
+            this.txt_Topic_Fund.TabIndex = 78;
             // 
             // txt_Topic_EndTime
             // 
@@ -4014,6 +4076,7 @@
             // 
             // pal_Project_BtnGroup
             // 
+            this.pal_Project_BtnGroup.Controls.Add(this.lbl_Project_Tip);
             this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_QTReason);
             this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_AddFile);
             this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_Submit);
@@ -4024,6 +4087,15 @@
             this.pal_Project_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Project_BtnGroup.TabIndex = 4;
             this.pal_Project_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
+            // 
+            // lbl_Project_Tip
+            // 
+            this.lbl_Project_Tip.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Project_Tip.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Project_Tip.Location = new System.Drawing.Point(416, 7);
+            this.lbl_Project_Tip.Name = "lbl_Project_Tip";
+            this.lbl_Project_Tip.Size = new System.Drawing.Size(0, 27);
+            this.lbl_Project_Tip.TabIndex = 82;
             // 
             // btn_Project_QTReason
             // 
@@ -4117,6 +4189,14 @@
             this.pal_Project.Name = "pal_Project";
             this.pal_Project.Size = new System.Drawing.Size(1081, 305);
             this.pal_Project.TabIndex = 0;
+            // 
+            // txt_Project_Funds
+            // 
+            this.txt_Project_Funds.Font = new System.Drawing.Font("华文中宋", 15F);
+            this.txt_Project_Funds.Location = new System.Drawing.Point(826, 38);
+            this.txt_Project_Funds.Name = "txt_Project_Funds";
+            this.txt_Project_Funds.Size = new System.Drawing.Size(224, 34);
+            this.txt_Project_Funds.TabIndex = 77;
             // 
             // txt_Project_EndTime
             // 
@@ -4865,6 +4945,7 @@
             // 
             // pal_Plan_BtnGroup
             // 
+            this.pal_Plan_BtnGroup.Controls.Add(this.lbl_Plan_Tip);
             this.pal_Plan_BtnGroup.Controls.Add(this.btn_Plan_QTReason);
             this.pal_Plan_BtnGroup.Controls.Add(this.btn_Plan_AddFile);
             this.pal_Plan_BtnGroup.Controls.Add(this.btn_Plan_Submit);
@@ -4876,6 +4957,15 @@
             this.pal_Plan_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Plan_BtnGroup.TabIndex = 2;
             this.pal_Plan_BtnGroup.EnabledChanged += new System.EventHandler(this.BtnGroup_EnabledChanged);
+            // 
+            // lbl_Plan_Tip
+            // 
+            this.lbl_Plan_Tip.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Plan_Tip.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Plan_Tip.Location = new System.Drawing.Point(416, 7);
+            this.lbl_Plan_Tip.Name = "lbl_Plan_Tip";
+            this.lbl_Plan_Tip.Size = new System.Drawing.Size(0, 27);
+            this.lbl_Plan_Tip.TabIndex = 82;
             // 
             // btn_Plan_QTReason
             // 
@@ -5037,30 +5127,6 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // txt_Project_Funds
-            // 
-            this.txt_Project_Funds.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.txt_Project_Funds.Location = new System.Drawing.Point(826, 38);
-            this.txt_Project_Funds.Name = "txt_Project_Funds";
-            this.txt_Project_Funds.Size = new System.Drawing.Size(224, 34);
-            this.txt_Project_Funds.TabIndex = 77;
-            // 
-            // txt_Topic_Fund
-            // 
-            this.txt_Topic_Fund.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.txt_Topic_Fund.Location = new System.Drawing.Point(826, 37);
-            this.txt_Topic_Fund.Name = "txt_Topic_Fund";
-            this.txt_Topic_Fund.Size = new System.Drawing.Size(224, 34);
-            this.txt_Topic_Fund.TabIndex = 78;
-            // 
-            // txt_Subject_Fund
-            // 
-            this.txt_Subject_Fund.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.txt_Subject_Fund.Location = new System.Drawing.Point(826, 37);
-            this.txt_Subject_Fund.Name = "txt_Subject_Fund";
-            this.txt_Subject_Fund.Size = new System.Drawing.Size(224, 34);
-            this.txt_Subject_Fund.TabIndex = 77;
-            // 
             // Frm_MyWorkQT
             // 
             this.Appearance.Options.UseFont = true;
@@ -5088,6 +5154,7 @@
             this.tp_Special_Box.ResumeLayout(false);
             this.tp_Special_Box.PerformLayout();
             this.pal_Special_BtnGroup.ResumeLayout(false);
+            this.pal_Special_BtnGroup.PerformLayout();
             this.pal_Special.ResumeLayout(false);
             this.pal_Special.PerformLayout();
             this.imp.ResumeLayout(false);
@@ -5100,6 +5167,7 @@
             this.tp_Imp_Box.ResumeLayout(false);
             this.tp_Imp_Box.PerformLayout();
             this.pal_Imp_BtnGroup.ResumeLayout(false);
+            this.pal_Imp_BtnGroup.PerformLayout();
             this.pal_Imp.ResumeLayout(false);
             this.pal_Imp.PerformLayout();
             this.subject.ResumeLayout(false);
@@ -5112,6 +5180,7 @@
             this.tp_Subject_Box.ResumeLayout(false);
             this.tp_Subject_Box.PerformLayout();
             this.pal_Subject_BtnGroup.ResumeLayout(false);
+            this.pal_Subject_BtnGroup.PerformLayout();
             this.pal_Subject.ResumeLayout(false);
             this.pal_Subject.PerformLayout();
             this.topic.ResumeLayout(false);
@@ -5124,6 +5193,7 @@
             this.tp_Topic_Box.ResumeLayout(false);
             this.tp_Topic_Box.PerformLayout();
             this.pal_Topic_BtnGroup.ResumeLayout(false);
+            this.pal_Topic_BtnGroup.PerformLayout();
             this.pal_Topic.ResumeLayout(false);
             this.pal_Topic.PerformLayout();
             this.project.ResumeLayout(false);
@@ -5136,6 +5206,7 @@
             this.tp_Project_Box.ResumeLayout(false);
             this.tp_Project_Box.PerformLayout();
             this.pal_Project_BtnGroup.ResumeLayout(false);
+            this.pal_Project_BtnGroup.PerformLayout();
             this.pal_Project.ResumeLayout(false);
             this.pal_Project.PerformLayout();
             this.plan.ResumeLayout(false);
@@ -5148,6 +5219,7 @@
             this.tp_Plan_Box.ResumeLayout(false);
             this.tp_Plan_Box.PerformLayout();
             this.pal_Plan_BtnGroup.ResumeLayout(false);
+            this.pal_Plan_BtnGroup.PerformLayout();
             this.pal_Plan.ResumeLayout(false);
             this.pal_Plan.PerformLayout();
             this.tab_MenuList.ResumeLayout(false);
@@ -5585,5 +5657,11 @@
         private System.Windows.Forms.TextBox txt_Subject_Fund;
         private System.Windows.Forms.TextBox txt_Topic_Fund;
         private System.Windows.Forms.TextBox txt_Project_Funds;
+        private DevExpress.XtraEditors.LabelControl lbl_Special_Tip;
+        private DevExpress.XtraEditors.LabelControl lbl_Imp_Tip;
+        private DevExpress.XtraEditors.LabelControl lbl_Subject_Tip;
+        private DevExpress.XtraEditors.LabelControl lbl_Topic_Tip;
+        private DevExpress.XtraEditors.LabelControl lbl_Project_Tip;
+        private DevExpress.XtraEditors.LabelControl lbl_Plan_Tip;
     }
 }

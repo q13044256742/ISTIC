@@ -33,7 +33,7 @@
             this.txt_CD_Path = new System.Windows.Forms.TextBox();
             this.txt_DS_Path = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lbl_DocProcess = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_CdPath = new System.Windows.Forms.LinkLabel();
             this.lbl_DataPath = new System.Windows.Forms.LinkLabel();
@@ -93,16 +93,16 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "源数据路径：";
             // 
-            // label3
+            // lbl_DocProcess
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(23, 156);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(107, 19);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "文档读写进度：";
+            this.lbl_DocProcess.AutoSize = true;
+            this.lbl_DocProcess.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_DocProcess.Location = new System.Drawing.Point(23, 156);
+            this.lbl_DocProcess.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbl_DocProcess.Name = "lbl_DocProcess";
+            this.lbl_DocProcess.Size = new System.Drawing.Size(146, 19);
+            this.lbl_DocProcess.TabIndex = 6;
+            this.lbl_DocProcess.Text = "文档读写进度（0/0）";
             // 
             // label4
             // 
@@ -227,7 +227,7 @@
             this.groupBox1.Controls.Add(this.txt_SavePath);
             this.groupBox1.Controls.Add(this.pgb_CD);
             this.groupBox1.Controls.Add(this.lbl_CdPath);
-            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.lbl_DocProcess);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Italic);
             this.groupBox1.Location = new System.Drawing.Point(6, 0);
@@ -288,7 +288,7 @@
         private System.Windows.Forms.TextBox txt_CD_Path;
         private System.Windows.Forms.TextBox txt_DS_Path;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbl_DocProcess;
         private System.Windows.Forms.Label label4;
         private KyoControl.KyoButton btn_Sure;
         private KyoControl.KyoProgressBar pgb_CD;

@@ -7,7 +7,6 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.Cataloguing;
 using 科技计划项目档案数据采集管理系统.KyoControl;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -314,6 +313,25 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Subject_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Special_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+            foreach(DataGridViewColumn column in dgv_Plan_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Plan_FileList.Columns["plan_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            foreach(DataGridViewColumn column in dgv_Project_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Project_FileList.Columns["project_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            foreach(DataGridViewColumn column in dgv_Topic_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Topic_FileList.Columns["topic_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            foreach(DataGridViewColumn column in dgv_Subject_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Subject_FileList.Columns["subject_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            foreach(DataGridViewColumn column in dgv_Imp_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Imp_FileList.Columns["imp_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            foreach(DataGridViewColumn column in dgv_Special_FileList.Columns)
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgv_Special_FileList.Columns["special_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
         }
 
         /// <summary>
@@ -5512,13 +5530,14 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void Btn_Plan_Print_Click(object sender, EventArgs e)
+        private void Btn_Print_Click(object sender, EventArgs e)
         {
             string controlName = (sender as KyoButton).Name;
             object objId = null, boxId = null, docNumber = null;
             string objName = null, gcCode = null;
             DataTable boxTable = null;
             string proName = null, proCode = null;
+            object parentObjectName = null;
             if(controlName.Contains("Project"))
             {
                 objId = tab_Project_Info.Tag;
@@ -5540,6 +5559,7 @@ namespace 科技计划项目档案数据采集管理系统
                 proName = txt_Topic_Name.Text;
                 proCode = txt_Topic_Code.Text;
                 boxTable = (DataTable)cbo_Topic_Box.DataSource;
+                parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_name FROM project_info WHERE pi_id=(SELECT ti_obj_id FROM topic_info WHERE ti_id='{objId}')");
             }
             else if(controlName.Contains("Subject"))
             {
@@ -5551,6 +5571,7 @@ namespace 科技计划项目档案数据采集管理系统
                 proName = txt_Subject_Name.Text;
                 proCode = txt_Subject_Code.Text;
                 boxTable = (DataTable)cbo_Subject_Box.DataSource;
+                parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_name FROM topic_info WHERE ti_id=(SELECT si_obj_id FROM subject_info WHERE si_id='{objId}')");
             }
             else if(controlName.Contains("Special"))
             {
@@ -5600,18 +5621,21 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
 
-            Frm_PrintBox frm = new Frm_PrintBox();
-            frm.boxTable = boxTable;
-            frm.fileAmount = fileAmount;
-            frm.filePages = filePages;
-            frm.objectCode = docNumber;
-            frm.gcCode = gcCode;
-            frm.objectName = objName;
-            frm.bzDate = DateTime.Now.ToString("yyyy-MM-dd");
-            frm.bgDate = DateTime.Now.ToString("yyyy-MM-dd");
-            frm.unitName = UserHelper.GetInstance().User.UnitName;
-            frm.proCode = proCode;
-            frm.proName = proName;
+            Frm_PrintBox frm = new Frm_PrintBox
+            {
+                boxTable = boxTable,
+                fileAmount = fileAmount,
+                filePages = filePages,
+                objectCode = docNumber,
+                gcCode = gcCode,
+                objectName = objName,
+                bzDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                bgDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                unitName = UserHelper.GetInstance().User.UnitName,
+                proCode = proCode,
+                proName = proName,
+                parentObjectName = parentObjectName,
+            };
             frm.ShowDialog();
         }
 

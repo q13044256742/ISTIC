@@ -32,6 +32,8 @@ namespace 科技计划项目档案数据采集管理系统
 
             LoadImpList();
             ace_LeftMenu.SelectedElement = ace_Login;
+
+            searchControl.Visible = false;
         }
       
         /// <summary>
@@ -45,6 +47,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_MyReg.Visible = false;
                 tab_Menulist.Visible = true;
                 tab_Menulist.SelectedTabPageIndex = 0;
+                if(tab_Menulist.SelectedTabPageIndex == 2)
+                    searchControl.Visible = true;
             }
             else if("ace_MyLog".Equals(name))
             {
@@ -53,6 +57,8 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_MyReg.DefaultCellStyle = dgv_Project.DefaultCellStyle;
                 dgv_MyReg.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 LoadMyRegList();
+                searchControl.Visible = false;
+                searchControl.ResetText();
             }
         }
       
@@ -450,6 +456,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Tab_Menulist_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = tab_Menulist.SelectedTabPageIndex;
+            searchControl.Visible = false;
             if(index == 0)//计划
             {
                 LoadImpList();
@@ -461,6 +468,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if(index == 2)
             {
                 LoadProjectList();
+                searchControl.Visible = true;
             }
         }
         
@@ -578,6 +586,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 new DataGridViewTextBoxColumn(){Name = "pro_id"},
                 new DataGridViewTextBoxColumn(){Name = "pro_unit", HeaderText = "来源单位", FillWeight = 12},
+                new DataGridViewTextBoxColumn(){Name = "pro_pcode", HeaderText = "批次号", FillWeight = 8},
                 new DataGridViewTextBoxColumn(){Name = "pro_code", HeaderText = "项目/课题编号", FillWeight = 10},
                 new DataGridViewTextBoxColumn(){Name = "pro_name", HeaderText = "项目/课题名称", FillWeight = 15},
                 new DataGridViewTextBoxColumn(){Name = "pro_subAmount", HeaderText = "课题/子课题数", FillWeight = 8},
@@ -595,16 +604,17 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataColumn("pi_id"),
                 new DataColumn("pi_code"),
                 new DataColumn("pi_name"),
-                new DataColumn("wm_ticker")
+                new DataColumn("wm_ticker"),
+                new DataColumn("trp_code")
             });
-            string querySql = "SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wm.wm_ticker FROM project_info pi " +
+            string querySql = "SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wm.wm_ticker, trp.trp_code FROM project_info pi " +
                 "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                 "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
                 $"WHERE wm.wm_type = '{(int)WorkType.ProjectWork}' AND wm.wm_status = 1 " +
                 "UNION ALL " +
-                "SELECT dd.dd_name, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wm.wm_ticker FROM topic_info ti " +
+                "SELECT dd.dd_name, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wm.wm_ticker, trp.trp_code FROM topic_info ti " +
                 "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
@@ -622,6 +632,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Project.Rows[_index].Cells["pro_id"].Value = row["pi_id"];
                 dgv_Project.Rows[_index].Cells["pro_unit"].Value = row["dd_name"]; 
                 dgv_Project.Rows[_index].Cells["pro_code"].Value = row["pi_code"];
+                dgv_Project.Rows[_index].Cells["pro_pcode"].Value = row["trp_code"];
                 dgv_Project.Rows[_index].Cells["pro_name"].Value = row["pi_name"];
                 dgv_Project.Rows[_index].Cells["pro_subAmount"].Value = GetSubAmount(row["pi_id"]);
                 dgv_Project.Rows[_index].Cells["pro_fileAmount"].Value = GetFileAmountById(row["pi_id"]);
@@ -634,7 +645,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private object GetSubAmount(object pId) => SqlHelper.ExecuteCountQuery($"SELECT COUNT(si_id)+(SELECT COUNT(ti_id) FROM topic_info WHERE ti_obj_id='{pId}') FROM subject_info WHERE si_obj_id='{pId}'");
 
-        private object GetValue(object obj) => (obj == null || string.IsNullOrEmpty(obj.ToString())) ? null : obj.ToString();
+        private string GetValue(object value) => value == null ? string.Empty : value.ToString();
         
         /// <summary>
         /// 计划 - 单元格 点击事件
@@ -690,6 +701,13 @@ namespace 科技计划项目档案数据采集管理系统
                     if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Project.Rows[e.RowIndex].Cells["pro_id"].Tag;
+                        int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(wm_id) FROM work_myreg WHERE wm_status=1 AND wm_id='{wmid}'");
+                        if(index == 0)
+                        {
+                            XtraMessageBox.Show("此条数据已被领取。", "领取失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dgv_Project.Rows.RemoveAt(e.RowIndex);
+                            return;
+                        }
                         object objId = SqlHelper.ExecuteOnlyOneQuery($"SELECT wm_obj_id FROM work_myreg WHERE wm_id='{wmid}'");
 
                         StringBuilder updateSQL = new StringBuilder();
@@ -889,6 +907,25 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
             return result;
+        }
+
+        private void SearchControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                dgv_Project.ClearSelection();
+                string key = searchControl.Text;
+                foreach(DataGridViewRow row in dgv_Project.Rows)
+                {
+                    string code = GetValue(row.Cells["pro_code"].Value);
+                    string name = GetValue(row.Cells["pro_name"].Value);
+                    if(code.Contains(key) || name.Contains(key))
+                    {
+                        row.Selected = true;
+                        return;
+                    }
+                }
+            }
         }
     }
 }

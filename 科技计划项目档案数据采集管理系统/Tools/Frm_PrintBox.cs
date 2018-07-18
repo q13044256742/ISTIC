@@ -58,6 +58,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// 盒列表
         /// </summary>
         public DataTable boxTable;
+        /// <summary>
+        /// 所属对象父级名称
+        /// </summary>
+        public object parentObjectName;
         public Frm_PrintBox()
         {
             InitializeComponent();
@@ -221,14 +225,14 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataColumn("pfl_code"),
                 new DataColumn("pfl_name"),
                 new DataColumn("pfl_pages"),
-                new DataColumn("pfl_count"),
+                new DataColumn("pfl_amount"),
                 new DataColumn("pfl_remark"),
             });
             for(int i = 0; i < fids.Length; i++)
             {
                 if(!string.IsNullOrEmpty(fids[i]))
                 {
-                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_code, pfl_name, pfl_pages, pfl_count, pfl_remark FROM processing_file_list WHERE pfl_id='{fids[i]}'");
+                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_code, pfl_name, pfl_pages, pfl_amount, pfl_remark FROM processing_file_list WHERE pfl_id='{fids[i]}'");
                     if(row != null)
                         dataTable.ImportRow(row);
                 }
@@ -351,7 +355,8 @@ namespace 科技计划项目档案数据采集管理系统
         private string GetCoverHtmlString(string fmString, object bj)
         {
             fmString = fmString.Replace("20mm", $"{bj}");
-            fmString = fmString.Replace("id=\"ajmc\">", $"id=\"ajmc\">{objectName}");
+            fmString = fmString.Replace("id=\"ajmc\">", $"id=\"ajmc\">{parentObjectName}");
+            fmString = fmString.Replace("id=\"ktmc\">", $"id=\"ktmc\">{objectName}");
             fmString = fmString.Replace("id=\"bzdw\">", $"id=\"bzdw\">{unitName}");
             fmString = fmString.Replace("id=\"bzrq\">", $"id=\"bzrq\">{bzDate}");
             fmString = fmString.Replace("id=\"bgrq\">", $"id=\"bgrq\">{bgDate}");
