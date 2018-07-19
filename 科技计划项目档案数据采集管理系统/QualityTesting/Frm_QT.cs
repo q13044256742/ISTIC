@@ -396,14 +396,14 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(type == WorkType.ProjectWork)
                 {
-                    string querySql = "SELECT dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name FROM project_info pi " +
+                    string querySql = "SELECT dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id FROM project_info pi " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
                         $"WHERE wm.wm_obj_id = '{objId}' " +
                         "UNION ALL " +
-                        "SELECT dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name FROM topic_info ti " +
+                        "SELECT dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wr.wr_obj_id FROM topic_info ti " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
@@ -418,6 +418,7 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = proRow["pi_id"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = proRow["pi_name"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = proRow["pi_code"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Tag = proRow["wr_obj_id"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = proRow["dd_name"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Tag = proRow["dd_code"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(proRow["pi_id"]);
@@ -625,6 +626,7 @@ namespace 科技计划项目档案数据采集管理系统
             foreach(DataRow row in _table.Rows)
                 table.ImportRow(row);
 
+            searchControl.Properties.Items.Clear();
             foreach(DataRow row in table.Rows)
             {
                 int _index = dgv_Project.Rows.Add();
@@ -637,6 +639,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Project.Rows[_index].Cells["pro_subAmount"].Value = GetSubAmount(row["pi_id"]);
                 dgv_Project.Rows[_index].Cells["pro_fileAmount"].Value = GetFileAmountById(row["pi_id"]);
                 dgv_Project.Rows[_index].Cells["pro_qtAmount"].Value = row["wm_ticker"];
+                searchControl.Properties.Items.AddRange(new object[] { row["pi_code"], row["pi_name"] });
             }
 
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_Project, new string[] { "pro_fileAmount", "pro_qtAmount", "pro_subAmount" });

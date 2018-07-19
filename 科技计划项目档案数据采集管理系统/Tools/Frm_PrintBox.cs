@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Properties;
 
@@ -34,10 +33,6 @@ namespace 科技计划项目档案数据采集管理系统
         /// 编制日期
         /// </summary>
         public string bzDate;
-        /// <summary>
-        /// 保管日期
-        /// </summary>
-        public string bgDate;
         /// <summary>
         /// 密级
         /// </summary>
@@ -224,6 +219,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string jnmlString = Resources.jnml;
             jnmlString = jnmlString.Replace("id=\"ajbh\">", $"id=\"ajbh\">{objectCode}");
+            jnmlString = jnmlString.Replace("id=\"gch\">", $"id=\"gch\">{gcCode}");
 
             string files = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'"));
             string[] fids = files.Split(',');
@@ -257,7 +253,7 @@ namespace 科技计划项目档案数据采集管理系统
                         $"<td>{dataTable.Rows[i]["pfl_code"]}&nbsp;</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_user"]}&nbsp;</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_name"]}&nbsp;</td>" +
-                        $"<td>{GetDateValue(dataTable.Rows[i]["pfl_date"])}&nbsp;</td>" +
+                        $"<td>{GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd")}&nbsp;</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_pages"]}&nbsp;</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_remark"]}&nbsp;</td>" +
                         $"</tr>";
@@ -270,15 +266,17 @@ namespace 科技计划项目档案数据采集管理系统
             new WebBrowser() { DocumentText = jnmlString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
         }
 
-        private object GetDateValue(object date)
+        private object GetDateValue(object date, string format)
         {
             if(date != null)
             {
                 if(DateTime.TryParse(GetValue(date), out DateTime result))
                 {
                     if(result.Date != new DateTime(1900, 01, 01))
-                        return result.ToString("yyyy-MM-dd");
+                        return result.ToString(format);
                 }
+                else
+                    return date;
             }
             return null;
         }
@@ -336,9 +334,9 @@ namespace 科技计划项目档案数据采集管理系统
 
             bkbString = bkbString.Replace("id=\"dh\">", $"id=\"dh\">{objectCode}");
             bkbString = bkbString.Replace("id=\"ljr\">", $"id=\"dh\">{ljPeople}");
-            bkbString = bkbString.Replace("id=\"ljrq\">", $"id=\"dh\">{ljDate}");
+            bkbString = bkbString.Replace("id=\"ljrq\">", $"id=\"dh\">{GetDateValue(ljDate, "yyyy-MM-dd")}");
             bkbString = bkbString.Replace("id=\"jcr\">", $"id=\"jcr\">{jcPeople}");
-            bkbString = bkbString.Replace("id=\"jcrq\">", $"id=\"jcrq\">{jcDate}");
+            bkbString = bkbString.Replace("id=\"jcrq\">", $"id=\"jcrq\">{GetDateValue(jcDate, "yyyy-MM-dd")}");
 
             new WebBrowser() { DocumentText = bkbString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
         }
@@ -348,7 +346,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Web_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            (sender as WebBrowser).ShowPrintPreviewDialog();
+            (sender as WebBrowser).Print();
             (sender as WebBrowser).Dispose();
         }
 
@@ -398,7 +396,7 @@ namespace 科技计划项目档案数据采集管理系统
             fmString = fmString.Replace("id=\"ktmc\">", $"id=\"ktmc\">{objectName}");
             fmString = fmString.Replace("id=\"bzdw\">", $"id=\"bzdw\">{unitName}");
             fmString = fmString.Replace("id=\"bzrq\">", $"id=\"bzrq\">{bzDate}");
-            fmString = fmString.Replace("id=\"bgrq\">", $"id=\"bgrq\">{bgDate}");
+            fmString = fmString.Replace("id=\"bgrq\">", $"id=\"bgrq\">永久");
             fmString = fmString.Replace("id=\"mj\">", $"id=\"mj\">{secret}");
             fmString = fmString.Replace("id=\"gch\">", $"id=\"dh\">{gcCode}");
             return fmString;

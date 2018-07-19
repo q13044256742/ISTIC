@@ -285,6 +285,14 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 else if("trc_read".Equals(name))
                 {
                     object trcId = dgv_SWDJ.Rows[e.RowIndex].Cells["trc_id"].Value;
+                    int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(bfi_id) FROM backup_files_info WHERE bfi_trcid='{trcId}'");
+                    if(count > 0)
+                    {
+                        if(XtraMessageBox.Show("此光盘已读取，重复读取会删除旧数据，是否继续？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                            SqlHelper.ExecuteNonQuery($"DELETE FROM backup_files_info WHERE bfi_trcid='{trcId}'");
+                        else
+                            return;
+                    }
                     object trpName = dgv_SWDJ.Rows[e.RowIndex].Cells["trc_read"].Tag;
                     Frm_CDRead read = new Frm_CDRead(trcId, trpName);
                     if(read.ShowDialog() == DialogResult.OK)

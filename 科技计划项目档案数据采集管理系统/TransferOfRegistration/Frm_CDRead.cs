@@ -42,7 +42,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     pgb_CD.Value = pgb_CD.Minimum;
                     pgb_CD.Maximum = totalFileAmount;
 
-                    object localKey = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{trpName}'");
+                    object localKey = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{trpName}' AND bfi_trcid='{trcId}'");
                     if(localKey != null)
                         SqlHelper.ExecuteNonQuery($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_userid='{UserHelper.GetInstance().User.UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{localKey}'");
                     else

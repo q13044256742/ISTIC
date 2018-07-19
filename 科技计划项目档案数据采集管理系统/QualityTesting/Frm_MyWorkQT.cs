@@ -4886,7 +4886,6 @@ namespace 科技计划项目档案数据采集管理系统
                 gcCode = gcCode,
                 objectName = objName,
                 bzDate = GetBzDate(boxId),
-                bgDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 unitName = UserHelper.GetInstance().User.UnitName,
                 proCode = proCode,
                 proName = proName,
@@ -4917,9 +4916,14 @@ namespace 科技计划项目档案数据采集管理系统
                 if(!string.IsNullOrEmpty(idsString))
                 {
                     idsString = idsString.Substring(0, idsString.Length - 1);
-                    DateTime minDate = Convert.ToDateTime(SqlHelper.ExecuteOnlyOneQuery($"SELECT MIN(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01';"));
-                    DateTime maxDate = Convert.ToDateTime(SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pfl_date) FROM processing_file_list where pfl_id IN ({idsString});"));
-                    return $"{minDate.ToString("yyyy-MM-dd")} ~ {maxDate.ToString("yyyy-MM-dd")}";
+                    object minDateObject = SqlHelper.ExecuteOnlyOneQuery($"SELECT MIN(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01' AND CONVERT(DATE, pfl_date) <> '0001-01-01';");
+                    object maxDateObject = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01' AND CONVERT(DATE, pfl_date) <> '0001-01-01';");
+                    if(minDateObject != null && maxDateObject != null)
+                    {
+                        DateTime minDate = Convert.ToDateTime(minDateObject);
+                        DateTime maxDate = Convert.ToDateTime(maxDateObject);
+                        return $"{minDate.ToString("yyyy-MM-dd")} ~ {maxDate.ToString("yyyy-MM-dd")}";
+                    }
                 }
             }
             return null;

@@ -15,16 +15,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_OtherDoc_Load(object sender, EventArgs e)
         {
-            //CREATE TABLE other_doc(
-            //od_id varchar(100) primary key not null,
-            //od_name varchar(500) not null,
-            //od_code varchar(100) not null,
-            //od_carrier varchar(100) not null,
-            //od_intro varchar(1000) not null,
-            //od_obj_id varchar(100) not null
-            //)
-
-
+            view.Rows.Clear();
             DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM other_doc WHERE od_obj_id='{objId}'");
             foreach(DataRow row in table.Rows)
             {

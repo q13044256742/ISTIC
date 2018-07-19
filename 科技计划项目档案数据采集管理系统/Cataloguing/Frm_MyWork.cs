@@ -5005,6 +5005,7 @@ namespace 科技计划项目档案数据采集管理系统
                     cbo_Imp_HasNext.SelectedIndex = 0;
             }
         }
+       
         /// <summary>
         /// 文件链接点击事件
         /// </summary>
@@ -5024,7 +5025,7 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 try
                                 {
-                                    System.Diagnostics.Process.Start("Explorer.exe", path);
+                                    WinFormOpenHelper.OpenWinForm(0, "open", path, null, null, ShowWindowCommands.SW_NORMAL);
                                 }
                                 catch(Exception ex)
                                 {
@@ -5683,7 +5684,6 @@ namespace 科技计划项目档案数据采集管理系统
                 gcCode = gcCode,
                 objectName = objName,
                 bzDate = GetBzDate(boxId),
-                bgDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 unitName = UserHelper.GetInstance().User.UnitName,
                 proCode = proCode,
                 proName = proName,

@@ -204,7 +204,6 @@
             this.txt_SavePath.Location = new System.Drawing.Point(23, 114);
             this.txt_SavePath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txt_SavePath.Name = "txt_SavePath";
-            this.txt_SavePath.ReadOnly = true;
             this.txt_SavePath.Size = new System.Drawing.Size(465, 24);
             this.txt_SavePath.TabIndex = 15;
             // 

@@ -134,7 +134,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.ace_MyLog.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
             this.ace_MyLog.Name = "ace_MyLog";
             this.ace_MyLog.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.ace_MyLog.Text = "我的质检";
+            this.ace_MyLog.Text = "质检中";
             this.ace_MyLog.TextToImageDistance = 15;
             this.ace_MyLog.Click += new System.EventHandler(this.Sub_Click);
             // 
@@ -276,7 +276,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.searchControl.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Repository.ClearButton(),
             new DevExpress.XtraEditors.Repository.SearchButton()});
-            this.searchControl.Properties.NullValuePrompt = "输入关键字查询";
+            this.searchControl.Properties.NullValuePrompt = "输入关键字模糊查询";
             this.searchControl.Size = new System.Drawing.Size(231, 30);
             this.searchControl.TabIndex = 3;
             this.searchControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchControl_KeyDown);
