@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using 科技计划项目档案数据采集管理系统.Cataloguing;
 using 科技计划项目档案数据采集管理系统.KyoControl;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -4115,23 +4116,19 @@ namespace 科技计划项目档案数据采集管理系统
                     string path = GetValue(dataGridView.CurrentCell.Value);
                     if(!string.IsNullOrEmpty(path))
                     {
-                        if(XtraMessageBox.Show("是否打开文件?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                        if(path.Contains("；"))
                         {
-                            if(File.Exists(path))
-                            {
-                                try
-                                {
-                                    System.Diagnostics.Process.Start("Explorer.exe", path);
-                                }
-                                catch(Exception ex)
-                                {
-                                    XtraMessageBox.Show(ex.Message, "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
-                            else
-                                XtraMessageBox.Show("文件不存在。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                            string[] linkString = path.Split('；');
+                            Frm_FileList fileList = new Frm_FileList(linkString);
+                            fileList.ShowDialog();
                         }
+                        else if(File.Exists(path))
+                        {
+                            if(XtraMessageBox.Show("是否打开文件?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                                WinFormOpenHelper.OpenWinForm(0, "open", path, null, null, ShowWindowCommands.SW_NORMAL);
+                        }
+                        else
+                            XtraMessageBox.Show("文件不存在。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -4967,6 +4964,19 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else
                 XtraMessageBox.Show("请先保存基本信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+
+        private void toggleSwitch1_Toggled(object sender, EventArgs e)
+        {
+            treeView.Width = toggleSwitch1.IsOn ? 250 : 0;
+        }
+
+        protected override bool ShowWithoutActivation
+        {
+            get
+            {
+                return true;
+            }
         }
     }
 

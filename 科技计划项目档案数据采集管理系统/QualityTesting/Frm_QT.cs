@@ -263,7 +263,10 @@ namespace 科技计划项目档案数据采集管理系统
                     WorkType type = (WorkType)Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_type FROM work_registration WHERE wr_id='{wrid}'"));
                     object planId = GetRootId(objid, type);
                     if(planId != null)
-                        new Frm_MyWorkQT(type, objid, null, ControlType.Default).ShowDialog();
+                    {
+                        Frm_MyWorkQT frm = new Frm_MyWorkQT(type, objid, null, ControlType.Default);
+                        frm.Show();
+                    }
                     else
                     {
                         planId = GetRootId(objid, WorkType.TopicWork);
@@ -317,6 +320,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 new DataGridViewTextBoxColumn(){ Name = "mr_id"},
                 new DataGridViewTextBoxColumn(){ Name = "mr_unit", HeaderText = "来源单位", FillWeight = 15},
+                new DataGridViewTextBoxColumn(){ Name = "mr_pcode", HeaderText = "批次号", FillWeight = 15},
                 new DataGridViewTextBoxColumn(){ Name = "mr_code", HeaderText = "编号", FillWeight = 15},
                 new DataGridViewTextBoxColumn(){ Name = "mr_name", HeaderText = "名称", FillWeight = 20},
                 new DataGridViewTextBoxColumn(){ Name = "mr_fileamount", HeaderText = "文件数", FillWeight = 5},
@@ -331,7 +335,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object objId = row["wm_obj_id"];
                 if(type == WorkType.PaperWork_Plan)
                 {
-                    string querySql = "SELECT dd_name, dd_code, pi_code, pi_name, pi_id FROM work_myreg wm " +
+                    string querySql = "SELECT dd_name, dd_code, pi_code, pi_name, pi_id, trp.trp_code FROM work_myreg wm " +
                         "LEFT JOIN project_info pi ON pi.pi_id = wm.wm_obj_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
@@ -346,6 +350,7 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Tag = type;
                         dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = planRow["pi_id"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = planRow["pi_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_pcode"].Value = planRow["trp_code"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = planRow["pi_code"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = planRow["dd_name"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Tag = planRow["dd_code"];
@@ -354,7 +359,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(type == WorkType.PaperWork_Imp || type == WorkType.CDWork_Imp)
                 {
-                    string querySql = "SELECT dd_name, dd_code, imp_code, imp_name, imp_id FROM imp_info ii " +
+                    string querySql = "SELECT dd_name, dd_code, imp_code, imp_name, imp_id, trp.trp_code FROM imp_info ii " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ii.imp_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
@@ -369,6 +374,7 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Tag = type;
                         dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = impRow["imp_id"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = impRow["imp_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_pcode"].Value = impRow["trp_code"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = impRow["imp_code"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = impRow["dd_name"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Tag = impRow["dd_code"];
@@ -377,7 +383,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(type == WorkType.PaperWork_Special || type == WorkType.CDWork_Special)
                 {
-                    string querySql = "SELECT dd_name, dd_code, idi.imp_code, idi.imp_name, idi.imp_id FROM imp_dev_info idi " +
+                    string querySql = "SELECT dd_name, dd_code, idi.imp_code, idi.imp_name, idi.imp_id, trp.trp_code FROM imp_dev_info idi " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = idi.imp_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
@@ -389,6 +395,7 @@ namespace 科技计划项目档案数据采集管理系统
                     dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Tag = type;
                     dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = speRow["imp_id"];
                     dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = speRow["imp_name"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mr_pcode"].Value = speRow["trp_code"];
                     dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = speRow["imp_code"];
                     dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = speRow["dd_name"];
                     dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Tag = speRow["dd_code"];
@@ -396,14 +403,14 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(type == WorkType.ProjectWork)
                 {
-                    string querySql = "SELECT dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id FROM project_info pi " +
+                    string querySql = "SELECT dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id, trp.trp_code FROM project_info pi " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
                         $"WHERE wm.wm_obj_id = '{objId}' " +
                         "UNION ALL " +
-                        "SELECT dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wr.wr_obj_id FROM topic_info ti " +
+                        "SELECT dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wr.wr_obj_id, trp.trp_code FROM topic_info ti " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
@@ -417,6 +424,7 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Tag = type;
                         dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = proRow["pi_id"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = proRow["pi_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_pcode"].Value = proRow["trp_code"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = proRow["pi_code"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Tag = proRow["wr_obj_id"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = proRow["dd_name"];
@@ -483,6 +491,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 new DataGridViewTextBoxColumn(){ Name = "imp_id"},
                 new DataGridViewTextBoxColumn(){ Name = "imp_unit", HeaderText = "来源单位", FillWeight = 12},
+                new DataGridViewTextBoxColumn(){ Name = "imp_pcode", HeaderText = "批次号", FillWeight = 10 },
                 new DataGridViewTextBoxColumn(){ Name = "imp_code", HeaderText = "计划编号", FillWeight = 10 },
                 new DataGridViewTextBoxColumn(){ Name = "imp_name", HeaderText = "计划名称", FillWeight = 15 },
                 new DataGridViewTextBoxColumn(){ Name = "imp_fileAmount", HeaderText = "文件数", FillWeight = 5 },
@@ -492,7 +501,7 @@ namespace 科技计划项目档案数据采集管理系统
             });
             //查询已提交至质检的计划
             /* ---------------------重点计划------------------ */
-            string querySql = "SELECT imp_id, dd_id, dd_name, imp_code, imp_name, trp.trp_id, wm.wm_id, wm.wm_ticker FROM work_myreg wm " +
+            string querySql = "SELECT imp_id, dd_id, dd_name, imp_code, imp_name, trp.trp_id, wm.wm_id, wm.wm_ticker, trp.trp_code FROM work_myreg wm " +
                 "LEFT JOIN imp_info ii ON wm.wm_obj_id = ii.imp_id " +
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
@@ -501,7 +510,7 @@ namespace 科技计划项目档案数据采集管理系统
             LoadDataGridViewData(SqlHelper.ExecuteQuery(querySql));
             
             /* ---------------------普通计划------------------ */
-            querySql = "SELECT pi_id as imp_id, dd_id, dd_name, pi_code as imp_code, pi_name as imp_name, trp.trp_id, wm.wm_id, wm.wm_ticker FROM work_myreg wm " +
+            querySql = "SELECT pi_id as imp_id, dd_id, dd_name, pi_code as imp_code, pi_name as imp_name, trp.trp_id, wm.wm_id, wm.wm_ticker, trp.trp_code FROM work_myreg wm " +
                 "LEFT JOIN project_info pi ON pi.pi_id = wm.wm_obj_id " +
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
@@ -525,6 +534,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Imp.Rows[_index].Cells["imp_id"].Value = row["imp_id"];
                 dgv_Imp.Rows[_index].Cells["imp_unit"].Tag = row["dd_id"];
                 dgv_Imp.Rows[_index].Cells["imp_unit"].Value = row["dd_name"];
+                dgv_Imp.Rows[_index].Cells["imp_pcode"].Value = row["trp_code"];
                 dgv_Imp.Rows[_index].Cells["imp_code"].Value = row["imp_code"];
                 dgv_Imp.Rows[_index].Cells["imp_name"].Value = row["imp_name"];
                 dgv_Imp.Rows[_index].Cells["imp_fileAmount"].Value = GetFileAmountById(row["imp_id"]);
@@ -544,6 +554,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_id"},
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_unit", HeaderText = "来源单位", FillWeight = 12},
+                new DataGridViewTextBoxColumn(){Name = "imp_dev_pcode", HeaderText = "批次号", FillWeight = 10},
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_code", HeaderText = "专项编号", FillWeight = 10},
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_name", HeaderText = "专项名称", FillWeight = 15},
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_fileAmount", HeaderText = "文件数", FillWeight = 5},
@@ -552,7 +563,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_via", HeaderText = "数据途径", FillWeight = 6},
             });
 
-            string querySql = "SELECT wm.wm_id, idi.imp_id, dd_id, dd_name, trp.trp_id, idi.imp_code, idi.imp_name, wm.wm_ticker FROM imp_dev_info idi " +
+            string querySql = "SELECT wm.wm_id, idi.imp_id, dd_id, dd_name, trp.trp_id, idi.imp_code, idi.imp_name, wm.wm_ticker, trp.trp_code FROM imp_dev_info idi " +
                 "LEFT JOIN work_myreg wm ON wm.wm_obj_id = idi.imp_id " +
                 "LEFT JOIN work_registration wr ON wm.wr_id = wr.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
@@ -567,6 +578,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_id"].Value = row["imp_id"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_unit"].Tag = row["dd_id"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_unit"].Value = row["dd_name"];
+                dgv_Imp_Dev.Rows[_index].Cells["imp_dev_pcode"].Value = row["trp_code"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_code"].Value = row["imp_code"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_name"].Value = row["imp_name"];
                 dgv_Imp_Dev.Rows[_index].Cells["imp_dev_fileAmount"].Value = GetFileAmountById(row["imp_id"]);
@@ -627,6 +639,7 @@ namespace 科技计划项目档案数据采集管理系统
                 table.ImportRow(row);
 
             searchControl.Properties.Items.Clear();
+            dgv_Project.SuspendLayout();
             foreach(DataRow row in table.Rows)
             {
                 int _index = dgv_Project.Rows.Add();
@@ -641,7 +654,7 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Project.Rows[_index].Cells["pro_qtAmount"].Value = row["wm_ticker"];
                 searchControl.Properties.Items.AddRange(new object[] { row["pi_code"], row["pi_name"] });
             }
-
+            dgv_Project.ResumeLayout();
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_Project, new string[] { "pro_fileAmount", "pro_qtAmount", "pro_subAmount" });
             dgv_Project.Columns["pro_id"].Visible = false;
         }
@@ -924,6 +937,8 @@ namespace 科技计划项目档案数据采集管理系统
                     string name = GetValue(row.Cells["pro_name"].Value);
                     if(code.Contains(key) || name.Contains(key))
                     {
+                        dgv_Project.FirstDisplayedScrollingRowIndex = row.Index;
+                        //dgv_Project.CurrentCell = row.Cells[1];
                         row.Selected = true;
                         return;
                     }

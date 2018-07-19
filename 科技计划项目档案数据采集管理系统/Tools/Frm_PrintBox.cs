@@ -350,11 +350,15 @@ namespace 科技计划项目档案数据采集管理系统
             (sender as WebBrowser).Dispose();
         }
 
+        /// <summary>
+        /// 字体设置|预览
+        /// </summary>
         private void View_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             string columnName = view.Columns[e.ColumnIndex].Name;
             if("font".Equals(columnName))
             {
+                fontDialog.Font = new Font("华文中宋", 22f);
                 if(fontDialog.ShowDialog() == DialogResult.OK)
                 {
                     view.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = fontDialog.Font;
@@ -381,6 +385,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Preview_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            
             (sender as WebBrowser).ShowPrintPreviewDialog();
             (sender as WebBrowser).Dispose();
         }

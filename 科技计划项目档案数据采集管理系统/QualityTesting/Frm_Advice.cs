@@ -117,8 +117,17 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Btn_HistroyOpinion_Click(object sender, EventArgs e)
         {
-            Frm_AdviceHistroy frm = new Frm_AdviceHistroy(objId, lbl_ObjName.Text);
-            frm.ShowDialog();
+            Form form = GetHistoryFrom(objId, lbl_ObjName.Text);
+            form.Show();
+            form.Activate();
+        }
+
+        private Frm_AdviceHistroy frm;
+        private Form GetHistoryFrom(object param1, object param2)
+        {
+            if(frm == null || frm.IsDisposed)
+                frm = new Frm_AdviceHistroy(param1, param2);
+            return frm;
         }
     }
 }

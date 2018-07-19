@@ -216,7 +216,9 @@
             this.cbo_BJ.FormattingEnabled = true;
             this.cbo_BJ.Items.AddRange(new object[] {
             "20mm",
+            "30mm",
             "40mm",
+            "50mm",
             "60mm",
             "80mm"});
             this.cbo_BJ.Location = new System.Drawing.Point(150, 498);
