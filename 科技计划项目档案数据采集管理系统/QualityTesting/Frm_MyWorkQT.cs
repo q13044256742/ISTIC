@@ -25,7 +25,11 @@ namespace 科技计划项目档案数据采集管理系统
         private WorkType workType;
     
         private object wmid;
-
+        private Frm_Advice adviceFrom;
+        /// <summary>
+        /// 我的质检列表【只读】
+        /// </summary>
+        private readonly bool isReadOnly;
         /// <summary>
         /// 所属对象主键
         /// </summary>
@@ -64,7 +68,21 @@ namespace 科技计划项目档案数据采集管理系统
                 if(!string.IsNullOrEmpty(GetValue(_type)))
                     DEV_TYPE = Convert.ToInt32(_type);
             }
-            InitialForm(objId, controlType);
+        }
+
+        public Frm_MyWorkQT(WorkType workType, object objId, object wmid, ControlType controlType, bool isReadOnly) : this(workType, objId, wmid, controlType)
+        {
+            if(isReadOnly)
+            {
+                pal_Imp_BtnGroup.Enabled = false;
+                pal_Plan_BtnGroup.Enabled = false;
+                pal_Project_BtnGroup.Enabled = false;
+                pal_Topic_BtnGroup.Enabled = false;
+                pal_Subject_BtnGroup.Enabled = false;
+                pal_Special_BtnGroup.Enabled = false;
+                Text += "[我的质检]";
+            }
+            this.isReadOnly = isReadOnly;
         }
 
         /// <summary>
@@ -231,7 +249,9 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Imp_FileList.Columns["imp_fl_link"].Visible = false;
                 dgv_Special_FileList.Columns["special_fl_link"].Visible = false;
             }
-            
+
+            InitialForm(objId, controlType);
+
             //阶段
             InitialStageList(dgv_Plan_FileList.Columns["plan_fl_stage"]);
             InitialStageList(dgv_Project_FileList.Columns["project_fl_stage"]);
@@ -998,7 +1018,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Project_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!float.TryParse(funds, out float flag))
+                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
                     {
                         errorProvider1.SetError(txt_Project_Funds, "提示：请输入合法经费");
                         result = false;
@@ -1017,7 +1037,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         if(!DateTime.TryParse(startDate, out DateTime time))
                         {
-                            errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入合法的日期");
+                            errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入保留两位小数的合法经费");
                             result = false;
                         }
                     }
@@ -1076,9 +1096,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Topic_Fund.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!float.TryParse(funds, out float flag))
+                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
                     {
-                        errorProvider1.SetError(txt_Topic_Fund, "提示：请输入合法经费");
+                        errorProvider1.SetError(txt_Topic_Fund, "提示：请输入保留两位小数的合法经费");
                         result = false;
                     }
                 }
@@ -1154,9 +1174,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Subject_Fund.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!float.TryParse(funds, out float flag))
+                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
                     {
-                        errorProvider1.SetError(txt_Subject_Fund, "提示：请输入合法经费");
+                        errorProvider1.SetError(txt_Subject_Fund, "提示：请输入保留两位小数的合法经费");
                         result = false;
                     }
                 }
@@ -4490,8 +4510,6 @@ namespace 科技计划项目档案数据采集管理系统
             return adviceFrom;
         }
 
-        private Frm_Advice adviceFrom;
-
         private void Dgv_FileList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView view = sender as DataGridView;
@@ -4751,94 +4769,98 @@ namespace 科技计划项目档案数据采集管理系统
         private void BtnGroup_EnabledChanged(object sender, EventArgs e)
         {
             Panel panel = sender as Panel;
-            if(panel.Name.Contains("Plan"))
+            if(!isReadOnly)
             {
-                dgv_Plan_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Plan_Box_Add.Enabled = panel.Enabled;
-                lbl_Plan_Box_Remove.Enabled = panel.Enabled;
-                foreach(Control item in tp_Plan_Box.Controls)
-                    if(item is KyoButton || item is LinkLabel)
-                        item.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Plan_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Plan_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                if(panel.Name.Contains("Plan"))
+                {
+                    dgv_Plan_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Plan_Box_Add.Enabled = panel.Enabled;
+                    lbl_Plan_Box_Remove.Enabled = panel.Enabled;
+                    foreach(Control item in tp_Plan_Box.Controls)
+                        if(item is KyoButton || item is LinkLabel)
+                            item.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Plan_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Plan_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
+                else if(panel.Name.Contains("Project"))
+                {
+                    dgv_Project_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Project_Box_Add.Enabled = panel.Enabled;
+                    lbl_Project_Box_Remove.Enabled = panel.Enabled;
+                    btn_Project_OtherDoc.Enabled = panel.Enabled;
+                    foreach(Control item in tp_Project_Box.Controls)
+                        if(item is KyoButton || item is LinkLabel)
+                            item.Enabled = panel.Enabled;
+                    //可以继承别人做的项目
+                    cbo_Project_HasNext.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Project_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Project_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
+                else if(panel.Name.Contains("Topic"))
+                {
+                    dgv_Topic_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Topic_Box_Add.Enabled = panel.Enabled;
+                    lbl_Topic_Box_Remove.Enabled = panel.Enabled;
+                    btn_Topic_OtherDoc.Enabled = panel.Enabled;
+                    foreach(Control item in tp_Topic_Box.Controls)
+                        if(item is KyoButton || item is LinkLabel)
+                            item.Enabled = panel.Enabled;
+                    cbo_Topic_HasNext.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Topic_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Topic_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
+                else if(panel.Name.Contains("Subject"))
+                {
+                    dgv_Subject_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Subject_Box_Add.Enabled = panel.Enabled;
+                    lbl_Subject_Box_Remove.Enabled = panel.Enabled;
+                    btn_Subject_OtherDoc.Enabled = panel.Enabled;
+                    foreach(Control item in tp_Subject_Box.Controls)
+                        if(item is KyoButton || item is LinkLabel)
+                            item.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Subject_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Subject_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
+                else if(panel.Name.Contains("Imp"))
+                {
+                    dgv_Imp_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Imp_Box_Add.Enabled = panel.Enabled;
+                    lbl_Imp_Box_Remove.Enabled = panel.Enabled;
+                    foreach(Control item in tp_Imp_Box.Controls)
+                        if(item is KyoButton || item is LinkLabel)
+                            item.Enabled = panel.Enabled;
+                    cbo_Imp_HasNext.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Imp_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Imp_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
+                else if(panel.Name.Contains("Special"))
+                {
+                    dgv_Special_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Special_Box_Add.Enabled = panel.Enabled;
+                    lbl_Special_Box_Remove.Enabled = panel.Enabled;
+                    btn_Special_OtherDoc.Enabled = panel.Enabled;
+                    foreach(Control item in tp_Special_Box.Controls)
+                        if(item is KyoButton || item is LinkLabel)
+                            item.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Special_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Special_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
             }
-            else if(panel.Name.Contains("Project"))
-            {
-                dgv_Project_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Project_Box_Add.Enabled = panel.Enabled;
-                lbl_Project_Box_Remove.Enabled = panel.Enabled;
-                btn_Project_OtherDoc.Enabled = panel.Enabled;
-                foreach(Control item in tp_Project_Box.Controls)
-                    if(item is KyoButton || item is LinkLabel)
-                        item.Enabled = panel.Enabled;
-                //可以继承别人做的项目
-                cbo_Project_HasNext.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Project_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Project_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
-            }
-            else if(panel.Name.Contains("Topic"))
-            {
-                dgv_Topic_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Topic_Box_Add.Enabled = panel.Enabled;
-                lbl_Topic_Box_Remove.Enabled = panel.Enabled;
-                btn_Topic_OtherDoc.Enabled = panel.Enabled;
-                foreach(Control item in tp_Topic_Box.Controls)
-                    if(item is KyoButton || item is LinkLabel)
-                        item.Enabled = panel.Enabled;
-                cbo_Topic_HasNext.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Topic_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Topic_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
-            }
-            else if(panel.Name.Contains("Subject"))
-            {
-                dgv_Subject_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Subject_Box_Add.Enabled = panel.Enabled;
-                lbl_Subject_Box_Remove.Enabled = panel.Enabled;
-                btn_Subject_OtherDoc.Enabled = panel.Enabled;
-                foreach(Control item in tp_Subject_Box.Controls)
-                    if(item is KyoButton || item is LinkLabel)
-                        item.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Subject_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Subject_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
-            }
-            else if(panel.Name.Contains("Imp"))
-            {
-                dgv_Imp_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Imp_Box_Add.Enabled = panel.Enabled;
-                lbl_Imp_Box_Remove.Enabled = panel.Enabled;
-                foreach(Control item in tp_Imp_Box.Controls)
-                    if(item is KyoButton || item is LinkLabel)
-                        item.Enabled = panel.Enabled;
-                cbo_Imp_HasNext.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Imp_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Imp_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
-            }
-            else if(panel.Name.Contains("Special"))
-            {
-                dgv_Special_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Special_Box_Add.Enabled = panel.Enabled;
-                lbl_Special_Box_Remove.Enabled = panel.Enabled;
-                btn_Special_OtherDoc.Enabled = panel.Enabled;
-                foreach(Control item in tp_Special_Box.Controls)
-                    if(item is KyoButton || item is LinkLabel)
-                        item.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Special_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Special_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
-            }
+            else
+                panel.Enabled = false;
         }
-
         private void Btn_Print_Click(object sender, EventArgs e)
         {
             string controlName = (sender as KyoButton).Name;
@@ -5029,19 +5051,12 @@ namespace 科技计划项目档案数据采集管理系统
             treeView.Width = toggleSwitch1.IsOn ? 250 : 0;
         }
 
-        protected override bool ShowWithoutActivation
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public Action<WorkType, object, object, object> BackCallMethod { get; internal set; }
+        public Action<WorkType, object, object, object> BackCallMethod;
 
         private void Frm_MyWorkQT_FormClosed(object sender, FormClosedEventArgs e)
         {
-            BackCallMethod(workType, objId, wmid, objId);
+            if(BackCallMethod != null)
+                BackCallMethod(workType, objId, wmid, objId);
         }
     }
 

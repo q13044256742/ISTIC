@@ -37,6 +37,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.acg_Worked = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.ace_Login = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.ace_MyLog = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.ace_MyQT = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.dgv_Imp = new System.Windows.Forms.DataGridView();
             this.tab_Menulist = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.imp = new DevExpress.XtraTab.XtraTabPage();
@@ -96,19 +97,22 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // acg_Worked
             // 
-            this.acg_Worked.Appearance.Hovered.Font = new System.Drawing.Font("微软雅黑", 11.5F);
+            this.acg_Worked.Appearance.Hovered.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.acg_Worked.Appearance.Hovered.ForeColor = System.Drawing.Color.Black;
             this.acg_Worked.Appearance.Hovered.Options.UseFont = true;
             this.acg_Worked.Appearance.Hovered.Options.UseForeColor = true;
-            this.acg_Worked.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 11.5F);
+            this.acg_Worked.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.acg_Worked.Appearance.Normal.ForeColor = System.Drawing.Color.Black;
             this.acg_Worked.Appearance.Normal.Options.UseFont = true;
             this.acg_Worked.Appearance.Normal.Options.UseForeColor = true;
             this.acg_Worked.Appearance.Normal.Options.UseTextOptions = true;
             this.acg_Worked.Appearance.Normal.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.acg_Worked.Appearance.Pressed.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.acg_Worked.Appearance.Pressed.Options.UseFont = true;
             this.acg_Worked.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
             this.ace_Login,
-            this.ace_MyLog});
+            this.ace_MyLog,
+            this.ace_MyQT});
             this.acg_Worked.Expanded = true;
             this.acg_Worked.Height = 50;
             this.acg_Worked.Image = ((System.Drawing.Image)(resources.GetObject("acg_Worked.Image")));
@@ -118,6 +122,10 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // ace_Login
             // 
+            this.ace_Login.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.ace_Login.Appearance.Normal.Options.UseFont = true;
+            this.ace_Login.Appearance.Pressed.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.ace_Login.Appearance.Pressed.Options.UseFont = true;
             this.ace_Login.Height = 35;
             this.ace_Login.Image = ((System.Drawing.Image)(resources.GetObject("ace_Login.Image")));
             this.ace_Login.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Stretch;
@@ -129,6 +137,10 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             // ace_MyLog
             // 
+            this.ace_MyLog.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.ace_MyLog.Appearance.Normal.Options.UseFont = true;
+            this.ace_MyLog.Appearance.Pressed.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.ace_MyLog.Appearance.Pressed.Options.UseFont = true;
             this.ace_MyLog.Height = 35;
             this.ace_MyLog.Image = ((System.Drawing.Image)(resources.GetObject("ace_MyLog.Image")));
             this.ace_MyLog.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
@@ -137,6 +149,21 @@ namespace 科技计划项目档案数据采集管理系统
             this.ace_MyLog.Text = "质检中";
             this.ace_MyLog.TextToImageDistance = 15;
             this.ace_MyLog.Click += new System.EventHandler(this.Sub_Click);
+            // 
+            // ace_MyQT
+            // 
+            this.ace_MyQT.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.ace_MyQT.Appearance.Normal.Options.UseFont = true;
+            this.ace_MyQT.Appearance.Pressed.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.ace_MyQT.Appearance.Pressed.Options.UseFont = true;
+            this.ace_MyQT.Height = 35;
+            this.ace_MyQT.Image = ((System.Drawing.Image)(resources.GetObject("ace_MyQT.Image")));
+            this.ace_MyQT.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
+            this.ace_MyQT.Name = "ace_MyQT";
+            this.ace_MyQT.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.ace_MyQT.Text = "我的质检";
+            this.ace_MyQT.TextToImageDistance = 15;
+            this.ace_MyQT.Click += new System.EventHandler(this.Sub_Click);
             // 
             // dgv_Imp
             // 
@@ -328,5 +355,6 @@ namespace 科技计划项目档案数据采集管理系统
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_Login;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_MyLog;
         private DevExpress.XtraEditors.SearchControl searchControl;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement ace_MyQT;
     }
 }

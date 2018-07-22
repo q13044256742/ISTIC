@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using 科技计划项目档案数据采集管理系统.Tools;
 
 namespace 科技计划项目档案数据采集管理系统.TransferOfRegistration
 {

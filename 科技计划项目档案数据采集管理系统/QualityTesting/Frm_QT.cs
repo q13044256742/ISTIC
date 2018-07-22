@@ -36,7 +36,7 @@ namespace 科技计划项目档案数据采集管理系统
 
             searchControl.Visible = false;
         }
-      
+
         /// <summary>
         /// 二级菜单点击事件
         /// </summary>
@@ -61,8 +61,90 @@ namespace 科技计划项目档案数据采集管理系统
                 searchControl.Visible = false;
                 searchControl.ResetText();
             }
+            else if("ace_MyQT".Equals(name))
+            {
+                tab_Menulist.Visible = false;
+                dgv_MyReg.Visible = true;
+                dgv_MyReg.DefaultCellStyle = dgv_Project.DefaultCellStyle;
+                dgv_MyReg.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+                LoadMyRegedList();
+                searchControl.Visible = false;
+                searchControl.ResetText();
+            }
         }
-      
+
+        /// <summary>
+        /// 我的质检
+        /// </summary>
+        private void LoadMyRegedList()
+        {
+            DataGridViewStyleHelper.ResetDataGridView(dgv_MyReg, true);
+            dgv_MyReg.Columns.AddRange(new DataGridViewColumn[]
+            {
+                new DataGridViewTextBoxColumn(){ Name = "mrl_id", Visible = false},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_unit", HeaderText = "来源单位", FillWeight = 15},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_pcode", HeaderText = "批次号", FillWeight = 15},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_code", HeaderText = "编号", FillWeight = 15},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_name", HeaderText = "名称", FillWeight = 20},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_fileamount", HeaderText = "文件数", FillWeight = 5},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_state", HeaderText = "状态", FillWeight = 8},
+                new DataGridViewButtonColumn(){ Name = "mrl_edit", HeaderText = "操作", FillWeight = 5, Text = "查看", UseColumnTextForButtonValue = true},
+            });
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT wm_id, wm_obj_id FROM work_myreg WHERE wm_accepter='{UserHelper.GetInstance().User.UserKey}' AND wm_type=3 AND wm_status<>1");
+            foreach(DataRow row in table.Rows)
+            {
+                object objId = row["wm_obj_id"];
+                string querySql = "SELECT dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status FROM project_info pi " +
+                    "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
+                    "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
+                    "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                    "LEFT JOIN transfer_registraion_cd trc ON trp.trp_id = trc.trp_id " +
+                    "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
+                    $"WHERE wm.wm_obj_id = '{objId}' " +
+                    "UNION ALL " +
+                    "SELECT dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status FROM topic_info ti " +
+                    "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
+                    "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
+                    "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                    "LEFT JOIN transfer_registraion_cd trc ON trp.trp_id = trc.trp_id " +
+                    "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
+                    $"WHERE wm.wm_obj_id = '{objId}'";
+                DataTable proTable = SqlHelper.ExecuteQuery(querySql);
+                foreach(DataRow proRow in proTable.Rows)
+                {
+                    int rowIndex = dgv_MyReg.Rows.Add();
+                    dgv_MyReg.Rows[rowIndex].Tag = row["wm_id"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_id"].Value = proRow["pi_id"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_name"].Value = proRow["pi_name"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_pcode"].Value = proRow["trp_code"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_pcode"].Tag = proRow["trc_id"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_code"].Value = proRow["pi_code"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_code"].Tag = proRow["wr_obj_id"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_unit"].Value = proRow["dd_name"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_unit"].Tag = proRow["dd_code"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_state"].Value = GetMyWorkState(proRow["wm_status"]); 
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_fileamount"].Value = GetFileAmountById(proRow["pi_id"]);
+                }
+            }
+            dgv_MyReg.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dgv_MyReg.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private string GetMyWorkState(object state)
+        {
+            if(state != null)
+            {
+                QualityStatus status = (QualityStatus)(int)state;
+                if(status == QualityStatus.QualitySuccess)
+                    return "质检中";
+                else if(status == QualityStatus.QualityFinish)
+                    return "质检通过";
+                else if(status == QualityStatus.QualityBack)
+                    return "返工中";
+            }
+            return string.Empty;
+        }
+
         /// <summary>
         /// 加载待质检列表
         /// </summary>
@@ -238,61 +320,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return resultList;
         }
-        /// <summary>
-        /// ----------------------------过期-------------------------------
-        /// 【计划/专项】单元格点击事件
-        /// </summary>
-        private void Dgv_Plan_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(e.RowIndex != -1 && e.ColumnIndex != -1)
-            {
-                object columnName = dgv_Imp.Columns[e.ColumnIndex].Name;
-                //待质检 - 【计划/专项】质检
-                if("plan_edit".Equals(columnName))
-                {
-                    object objid = dgv_Imp.Rows[e.RowIndex].Cells["plan_id"].Value;
-                    SqlHelper.ExecuteNonQuery($"UPDATE work_registration SET wr_receive_status={(int)ReceiveStatus.ReceiveSuccess} WHERE wr_id='{objid}'");
-                    SqlHelper.ExecuteNonQuery($"INSERT INTO work_myreg(wm_id,wr_id,wm_status,wm_user)" +
-                        $" VALUES('{Guid.NewGuid().ToString()}','{objid}','{(int)QualityStatus.NonQuality}','{UserHelper.GetInstance().User.UserKey}')");
-                    LoadMyRegList();
-                }
-                //我的质检 -  编辑
-                else if("mr_edit".Equals(columnName))
-                {
-                    object objid = dgv_Imp.Rows[e.RowIndex].Cells["mr_id"].Value;
-                    object wrid = dgv_Imp.Rows[e.RowIndex].Cells["mr_code"].Tag;
-                    WorkType type = (WorkType)Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT wr_type FROM work_registration WHERE wr_id='{wrid}'"));
-                    object planId = GetRootId(objid, type);
-                    if(planId != null)
-                    {
-                        Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(type, objid, null, ControlType.Default);
-                        frm.Show();
-                        frm.Activate();
-                    }
-                    else
-                    {
-                        planId = GetRootId(objid, WorkType.TopicWork);
-                        if(planId != null)
-                            new Frm_MyWorkQT(WorkType.TopicWork, planId, null, ControlType.Default).ShowDialog();
-                        else
-                            XtraMessageBox.Show("未找到此项目/课题所属计划。");
-                    }
-                }
-                //我的质检 - 提交（返工）
-                else if("mr_submit".Equals(columnName))
-                {
-                    object wmid = dgv_Imp.Rows[e.RowIndex].Cells["mr_id"].Tag;
-                    if(wmid != null)
-                    {
-                        if(XtraMessageBox.Show("确定要将选中的数据返工吗?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        {
-                            SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)ObjectSubmitStatus.Back} WHERE wm_id='{wmid}'");
-                            LoadMyRegList();
-                        }
-                    }
-                }
-            }
-        }
+       
         /// <summary>
         /// 获取指定项目/课题获取其所属计划ID
         /// </summary>
@@ -313,7 +341,7 @@ namespace 科技计划项目档案数据采集管理系统
         }
         
         /// <summary>
-        /// 我的质检列表
+        /// 质检中
         /// </summary>
         private void LoadMyRegList()
         {
@@ -800,11 +828,11 @@ namespace 科技计划项目档案数据采集管理系统
             if(e.RowIndex != -1 && e.ColumnIndex != -1)
             {
                 object wmid = dgv_MyReg.Rows[e.RowIndex].Tag;
-                object objid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
                 object columnName = dgv_MyReg.Columns[e.ColumnIndex].Name;
                 //编辑
                 if("mr_edit".Equals(columnName))
                 {
+                    object objid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
                     object unitCode = dgv_MyReg.Rows[e.RowIndex].Cells["mr_unit"].Tag;
                     WorkType type = (WorkType)dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Tag;
                     if(type == WorkType.PaperWork_Imp || type == WorkType.CDWork_Imp)
@@ -851,6 +879,14 @@ namespace 科技计划项目档案数据采集管理系统
                         SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualityFinish}' WHERE wm_id='{wmid}'");
                     }
                     LoadMyRegList();
+                }
+                //我的质检
+                else if("mrl_edit".Equals(columnName))
+                {
+                    object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mrl_id"].Value;
+                    Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(WorkType.ProjectWork, piid, wmid, ControlType.Project, true);
+                    frm.Show();
+                    frm.Activate();
                 }
             }
         }

@@ -62,7 +62,7 @@ namespace 科技计划项目档案数据采集管理系统
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                 for(int i = 0; i < list.Count; i++)
                 {
-                    object date = list[i][0];
+                    object date = GetDateValue(list[i][0], "yyyy-MM-dd");
                     object pcount = list[i][1];
                     object tcount = GetTopicAmount(date, userId, 1);
                     object fcount = GetFileAmount(date, userId, 1);
@@ -85,7 +85,7 @@ namespace 科技计划项目档案数据采集管理系统
                 List<object[]> list2 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                 for(int i = 0; i < list2.Count; i++)
                 {
-                    object date = list2[i][0];
+                    object date = GetDateValue(list2[i][0], "yyyy-MM-dd");
                     object pcount = 0;
                     object tcount = list2[i][1];
                     object fcount = GetFileAmount(date, userId, 1);
@@ -101,7 +101,7 @@ namespace 科技计划项目档案数据采集管理系统
                 List<object[]> list3 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                 for(int i = 0; i < list3.Count; i++)
                 {
-                    object date = list3[i][0];
+                    object date = GetDateValue(list3[i][0], "yyyy-MM-dd");
                     object pcount = 0;
                     object tcount = 0;
                     object fcount = Convert.ToInt32(list3[i][1]);
@@ -131,7 +131,7 @@ namespace 科技计划项目档案数据采集管理系统
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                 for(int i = 0; i < list.Count; i++)
                 {
-                    object date = list[i][0];
+                    object date = GetDateValue(list[i][0], "yyyy-MM-dd");
                     object pcount = list[i][1];
                     object tcount = GetTopicAmount(date, userId, 2);
                     object fcount = GetFileAmount(date, userId, 2);
@@ -176,7 +176,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(type == 1)
             {
                 int count = 0;
-                string querySQL = $"SELECT wm_ticker FROM work_myreg WHERE wm_user='{userId}' AND wm_accepter_date='{date}'";
+                string querySQL = $"SELECT wm_ticker FROM work_myreg WHERE wm_user='{userId}' AND CONVERT(DATE, wm_accepter_date)='{date}'";
                 object[] tics = SqlHelper.ExecuteSingleColumnQuery(querySQL);
                 foreach(object item in tics)
                     count += (int)item;
@@ -234,7 +234,7 @@ namespace 科技计划项目档案数据采集管理系统
             foreach(DataRow row in table.Rows)
             {
                 int i = view.Rows.Add();
-                view.Rows[i].Cells["date"].Value = GetDateValue(row["date"]);
+                view.Rows[i].Cells["date"].Value = GetDateValue(row["date"], "yyyy-MM-dd");
                 view.Rows[i].Cells["pcount"].Value = row["pcount"];
                 view.Rows[i].Cells["tcount"].Value = row["tcount"];
                 view.Rows[i].Cells["fcount"].Value = row["fcount"];
@@ -243,14 +243,14 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private object GetDateValue(object value)
+        private object GetDateValue(object value, string format)
         {
             if(value == null)
                 return null;
             else
             {
                 if(DateTime.TryParse(value.ToString(), out DateTime result))
-                    return result.ToString("yyyy-MM-dd");
+                    return result.ToString(format);
                 else
                     return null;
             }

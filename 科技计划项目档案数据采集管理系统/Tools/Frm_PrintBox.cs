@@ -430,9 +430,10 @@ namespace 科技计划项目档案数据采集管理系统
                 if(!string.IsNullOrEmpty(idsString))
                 {
                     idsString = idsString.Substring(0, idsString.Length - 1);
-                    DateTime minDate = Convert.ToDateTime(SqlHelper.ExecuteOnlyOneQuery($"SELECT MIN(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01';"));
-                    DateTime maxDate = Convert.ToDateTime(SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pfl_date) FROM processing_file_list where pfl_id IN ({idsString});"));
-                    return $"{minDate.ToString("yyyy-MM-dd")} ~ {maxDate.ToString("yyyy-MM-dd")}";
+                    object minDate = SqlHelper.ExecuteOnlyOneQuery($"SELECT MIN(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01';");
+                    object maxDate = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01';");
+                    if(minDate != null && maxDate != null)
+                        return $"{((DateTime)minDate).ToString("yyyy-MM-dd")} ~ {((DateTime)maxDate).ToString("yyyy-MM-dd")}";
                 }
             }
             return null;

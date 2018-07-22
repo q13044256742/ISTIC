@@ -11,7 +11,6 @@ using System.Threading;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Cataloguing;
 using 科技计划项目档案数据采集管理系统.KyoControl;
-using 科技计划项目档案数据采集管理系统.Tools;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -39,18 +38,19 @@ namespace 科技计划项目档案数据采集管理系统
         /// 是否是返工后再次编辑
         /// </summary>
         public bool isBacked;
-
         /// <summary>
         /// 加工类型【返工】
         /// </summary>
         private ControlType controlType;
-
         /// <summary>
         /// 禁用背景色
         /// </summary>
         private Color DisEnbleColor = Color.Gray;
-
         List<TabPage> tabList = new List<TabPage>();
+        /// <summary>
+        /// 我的加工 - 只查看
+        /// </summary>
+        private bool isReadOnly;
 
         /// <summary>
         /// 开始加工指定的对象
@@ -66,21 +66,24 @@ namespace 科技计划项目档案数据采集管理系统
             PLAN_ID = planId;
             this.workType = workType;
             this.controlType = controlType;
-            if(isBacked)
-            {
-                Text += "[返工]";
-                btn_Plan_QTReason.Visible = isBacked;
-                btn_Imp_QTReason.Visible = isBacked;
-                btn_Special_QTReason.Visible = isBacked;
-                btn_Project_QTReason.Visible = isBacked;
-                btn_Topic_QTReason.Visible = isBacked;
-                btn_Subject_QTReason.Visible = isBacked;
-            }
             if(workType == WorkType.ProjectWork)
                 trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id='{objId}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id='{objId}'");
             else if(workType == WorkType.CDWork_Plan)
                 trcId = objId;
-            InitialForm(planId, controlType);
+        }
+
+        public Frm_MyWork(WorkType workType, object planId, object objId, ControlType controlType, bool isBacked, bool isReadOnly) : this(workType, planId, objId, controlType, isBacked)
+        {
+            if(isReadOnly)
+            {
+                pal_Imp_BtnGroup.Enabled = false;
+                pal_Project_BtnGroup.Enabled = false;
+                pal_Topic_BtnGroup.Enabled = false;
+                pal_Subject_BtnGroup.Enabled = false;
+                pal_Plan_BtnGroup.Enabled = false;
+                pal_Special_BtnGroup.Enabled = false;
+            }
+            this.isReadOnly = isReadOnly;
         }
 
         /// <summary>
@@ -234,6 +237,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Frm_MyWork_Load(object sender, EventArgs e)
         {
+            InitialForm(PLAN_ID, controlType);
+
             SearchText.Properties.DropDownRows = 10;
             tab_Plan_Info.Height = 358;
             tab_Plan_Info.Top = 310;
@@ -261,6 +266,18 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Special_FileList.Columns["special_fl_link"].Visible = false;
             }
 
+            if(isBacked && !isReadOnly)
+            {
+                Text += "[返工]";
+                btn_Plan_QTReason.Visible = isBacked;
+                btn_Imp_QTReason.Visible = isBacked;
+                btn_Special_QTReason.Visible = isBacked;
+                btn_Project_QTReason.Visible = isBacked;
+                btn_Topic_QTReason.Visible = isBacked;
+                btn_Subject_QTReason.Visible = isBacked;
+            }
+            else if(isReadOnly)
+                Text += "[查看]";
             //阶段
             InitialStageList(dgv_Plan_FileList.Columns["plan_fl_stage"]);
             InitialStageList(dgv_Project_FileList.Columns["project_fl_stage"]);
@@ -311,6 +328,8 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Subject_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Imp_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Special_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            dgv_Subject_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_Subject_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
 
             dgv_Plan_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Project_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
@@ -1049,9 +1068,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Project_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!float.TryParse(funds, out float flag))
+                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
                     {
-                        errorProvider1.SetError(txt_Project_Funds, "提示：请输入合法经费");
+                        errorProvider1.SetError(txt_Project_Funds, "提示：请输入保留两位小数的合法经费");
                         result = false;
                     }
                 }
@@ -1119,9 +1138,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Topic_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!float.TryParse(funds, out float flag))
+                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
                     {
-                        errorProvider1.SetError(txt_Topic_Funds, "提示：请输入合法经费");
+                        errorProvider1.SetError(txt_Topic_Funds, "提示：请输入保留两位小数的合法经费");
                         result = false;
                     }
                 }
@@ -1203,9 +1222,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Subject_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!float.TryParse(funds, out float flag))
+                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
                     {
-                        errorProvider1.SetError(txt_Subject_Funds, "提示：请输入合法经费");
+                        errorProvider1.SetError(txt_Subject_Funds, "提示：请输入保留两位小数的合法经费");
                         result = false;
                     }
                 }
@@ -4563,65 +4582,6 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 根目录切换事件
-        /// </summary>
-        private void Tab_MenuList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int index = tab_MenuList.SelectedIndex;
-            if(index != -1)
-            {
-                string currentPageName = tab_MenuList.TabPages[index].Name;
-                if("plan".Equals(currentPageName))
-                {
-                }
-                else if("project".Equals(currentPageName))
-                {
-                    if(string.IsNullOrEmpty(txt_Project_Name.Text))
-                    {
-                        dgv_Project_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-                        dgv_Project_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-                        dgv_Project_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-                        dgv_Project_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-                    }
-                }
-                else if("Subject".Equals(currentPageName))
-                {
-                    if(string.IsNullOrEmpty(txt_Subject_Name.Text))
-                    {
-                        dgv_Subject_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-                        dgv_Subject_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-                        dgv_Subject_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-                        dgv_Subject_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-                    }
-                }
-                else if("plan_topic".Equals(currentPageName))
-                {
-                    if(string.IsNullOrEmpty(txt_Topic_Name.Text))
-                    {
-                        dgv_Topic_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-                        dgv_Topic_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-                        dgv_Topic_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-                        dgv_Topic_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-                    }
-                }
-                else if("imp".Equals(currentPageName))
-                {
-
-                }
-                else if("Special".Equals(currentPageName))
-                {
-                    if(string.IsNullOrEmpty(txt_Special_Name.Text))
-                    {
-                        dgv_Special_FileList.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-                        dgv_Special_FileList.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-                        dgv_Special_FileValid.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-                        dgv_Special_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// 加载基本信息和文件列表
         /// </summary>
         /// <param name="planId">【项目/课题】ID</param>
@@ -5387,6 +5347,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void dgv_FileList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if(isReadOnly) return;
             DataGridView view = sender as DataGridView;
             if(e.Button == MouseButtons.Right && e.RowIndex != -1 && e.ColumnIndex != -1)
             {
@@ -5993,84 +5954,89 @@ namespace 科技计划项目档案数据采集管理系统
         private void BtnGroup_EnabledChanged(object sender, EventArgs e)
         {
             Panel panel = sender as Panel;
-            if(panel.Name.Contains("Plan"))
+            if(!isReadOnly)
             {
-                dgv_Plan_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Plan_Box_Add.Enabled = panel.Enabled;
-                lbl_Plan_Box_Remove.Enabled = panel.Enabled;
-                pal_Plan_MoveBtnGroup.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Plan_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Plan_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                if(panel.Name.Contains("Plan"))
+                {
+                    dgv_Plan_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Plan_Box_Add.Enabled = panel.Enabled;
+                    lbl_Plan_Box_Remove.Enabled = panel.Enabled;
+                    pal_Plan_MoveBtnGroup.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Plan_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Plan_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
+                else if(panel.Name.Contains("Project"))
+                {
+                    dgv_Project_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Project_Box_Add.Enabled = panel.Enabled;
+                    lbl_Project_Box_Remove.Enabled = panel.Enabled;
+                    pal_Project_MoveBtnGroup.Enabled = panel.Enabled;
+                    btn_Project_OtherDoc.Enabled = panel.Enabled;
+                    //可以继承别人做的项目
+                    cbo_Project_HasNext.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Project_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Project_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
+                else if(panel.Name.Contains("Topic"))
+                {
+                    dgv_Topic_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Topic_Box_Add.Enabled = panel.Enabled;
+                    lbl_Topic_Box_Remove.Enabled = panel.Enabled;
+                    pal_Topic_MoveBtnGroup.Enabled = panel.Enabled;
+                    cbo_Topic_HasNext.Enabled = panel.Enabled;
+                    btn_Topic_OtherDoc.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Topic_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Topic_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
+                else if(panel.Name.Contains("Subject"))
+                {
+                    dgv_Subject_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Subject_Box_Add.Enabled = panel.Enabled;
+                    lbl_Subject_Box_Remove.Enabled = panel.Enabled;
+                    pal_Subject_MoveBtnGroup.Enabled = panel.Enabled;
+                    btn_Subject_OtherDoc.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Subject_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Subject_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
+                else if(panel.Name.Contains("Imp"))
+                {
+                    dgv_Imp_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Imp_Box_Add.Enabled = panel.Enabled;
+                    lbl_Imp_Box_Remove.Enabled = panel.Enabled;
+                    pal_Imp_MoveBtnGroup.Enabled = panel.Enabled;
+                    cbo_Imp_HasNext.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Imp_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Imp_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
+                else if(panel.Name.Contains("Special"))
+                {
+                    dgv_Special_FileList.AllowUserToAddRows = panel.Enabled;
+                    lbl_Special_Box_Add.Enabled = panel.Enabled;
+                    lbl_Special_Box_Remove.Enabled = panel.Enabled;
+                    pal_Special_MoveBtnGroup.Enabled = panel.Enabled;
+                    btn_Special_OtherDoc.Enabled = panel.Enabled;
+                    if(!panel.Enabled)
+                        dgv_Special_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
+                    else
+                        dgv_Special_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                }
             }
-            else if(panel.Name.Contains("Project"))
+            else
             {
-                dgv_Project_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Project_Box_Add.Enabled = panel.Enabled;
-                lbl_Project_Box_Remove.Enabled = panel.Enabled;
-                pal_Project_MoveBtnGroup.Enabled = panel.Enabled;
-                btn_Project_OtherDoc.Enabled = panel.Enabled;
-                //可以继承别人做的项目
-                cbo_Project_HasNext.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Project_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Project_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
+                panel.EnabledChanged -= BtnGroup_EnabledChanged;
+                panel.Enabled = false;
+                panel.EnabledChanged += BtnGroup_EnabledChanged;
             }
-            else if(panel.Name.Contains("Topic"))
-            {
-                dgv_Topic_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Topic_Box_Add.Enabled = panel.Enabled;
-                lbl_Topic_Box_Remove.Enabled = panel.Enabled;
-                pal_Topic_MoveBtnGroup.Enabled = panel.Enabled;
-                cbo_Topic_HasNext.Enabled = panel.Enabled;
-                btn_Topic_OtherDoc.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Topic_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Topic_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
-            }
-            else if(panel.Name.Contains("Subject"))
-            {
-                dgv_Subject_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Subject_Box_Add.Enabled = panel.Enabled;
-                lbl_Subject_Box_Remove.Enabled = panel.Enabled;
-                pal_Subject_MoveBtnGroup.Enabled = panel.Enabled;
-                btn_Subject_OtherDoc.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Subject_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Subject_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
-            }
-            else if(panel.Name.Contains("Imp"))
-            {
-                dgv_Imp_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Imp_Box_Add.Enabled = panel.Enabled;
-                lbl_Imp_Box_Remove.Enabled = panel.Enabled;
-                pal_Imp_MoveBtnGroup.Enabled = panel.Enabled;
-                cbo_Imp_HasNext.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Imp_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Imp_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
-            }
-            else if(panel.Name.Contains("Special"))
-            {
-                dgv_Special_FileList.AllowUserToAddRows = panel.Enabled;
-                lbl_Special_Box_Add.Enabled = panel.Enabled;
-                lbl_Special_Box_Remove.Enabled = panel.Enabled;
-                pal_Special_MoveBtnGroup.Enabled = panel.Enabled;
-                btn_Special_OtherDoc.Enabled = panel.Enabled;
-                if(!panel.Enabled)
-                    dgv_Special_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
-                else
-                    dgv_Special_FileList.RowHeaderMouseDoubleClick += FileList_RowHeaderMouseDoubleClick;
-            }
-        }
-
-        private void FileList_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
         }
 
         private void SearchText_KeyDown(object sender, KeyEventArgs e)

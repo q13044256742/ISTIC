@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 
-namespace 科技计划项目档案数据采集管理系统
+namespace 科技计划项目档案数据采集管理系统.Tools
 {
     /// <summary>  
     /// SqlServer数据访问帮助类  

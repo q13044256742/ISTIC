@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_CG));
-            this.dgv_WorkLog = new 科技计划项目档案数据采集管理系统.KyoControl.HeaderUnitView(this.components);
+            this.view = new 科技计划项目档案数据采集管理系统.KyoControl.HeaderUnitView(this.components);
             this.txt_Search = new DevExpress.XtraEditors.SearchControl();
             this.cbo_CompanyList = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,22 +43,23 @@
             this.ac_Worked = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pal_UnitList = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_WorkLog)).BeginInit();
+            this.ac_MyWork = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Search.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             this.panel1.SuspendLayout();
             this.pal_UnitList.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dgv_WorkLog
+            // view
             // 
-            this.dgv_WorkLog.AllowUserToAddRows = false;
-            this.dgv_WorkLog.AllowUserToDeleteRows = false;
-            this.dgv_WorkLog.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_WorkLog.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgv_WorkLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_WorkLog.CellHeight = 17;
-            this.dgv_WorkLog.ColumnDeep = 1;
+            this.view.AllowUserToAddRows = false;
+            this.view.AllowUserToDeleteRows = false;
+            this.view.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.view.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.view.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.view.CellHeight = 17;
+            this.view.ColumnDeep = 1;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F);
@@ -66,20 +67,20 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_WorkLog.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgv_WorkLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_WorkLog.ColumnTreeView = null;
-            this.dgv_WorkLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_WorkLog.Location = new System.Drawing.Point(223, 52);
-            this.dgv_WorkLog.MergeColumnNames = ((System.Collections.Generic.List<string>)(resources.GetObject("dgv_WorkLog.MergeColumnNames")));
-            this.dgv_WorkLog.Name = "dgv_WorkLog";
-            this.dgv_WorkLog.ReadOnly = true;
-            this.dgv_WorkLog.RefreshAtHscroll = false;
-            this.dgv_WorkLog.RowHeadersVisible = false;
-            this.dgv_WorkLog.RowTemplate.Height = 23;
-            this.dgv_WorkLog.Size = new System.Drawing.Size(778, 439);
-            this.dgv_WorkLog.TabIndex = 15;
-            this.dgv_WorkLog.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_WorkLog_CellClick);
+            this.view.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.view.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.view.ColumnTreeView = null;
+            this.view.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.view.Location = new System.Drawing.Point(223, 52);
+            this.view.MergeColumnNames = ((System.Collections.Generic.List<string>)(resources.GetObject("view.MergeColumnNames")));
+            this.view.Name = "view";
+            this.view.ReadOnly = true;
+            this.view.RefreshAtHscroll = false;
+            this.view.RowHeadersVisible = false;
+            this.view.RowTemplate.Height = 23;
+            this.view.Size = new System.Drawing.Size(778, 439);
+            this.view.TabIndex = 15;
+            this.view.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_WorkLog_CellClick);
             // 
             // txt_Search
             // 
@@ -169,7 +170,8 @@
             this.acg_Worked.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
             this.ac_Login,
             this.ac_Working,
-            this.ac_Worked});
+            this.ac_Worked,
+            this.ac_MyWork});
             this.acg_Worked.Expanded = true;
             this.acg_Worked.Height = 50;
             this.acg_Worked.Image = ((System.Drawing.Image)(resources.GetObject("acg_Worked.Image")));
@@ -240,11 +242,24 @@
             this.pal_UnitList.Size = new System.Drawing.Size(345, 39);
             this.pal_UnitList.TabIndex = 18;
             // 
+            // ac_MyWork
+            // 
+            this.ac_MyWork.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.ac_MyWork.Appearance.Normal.Options.UseFont = true;
+            this.ac_MyWork.Height = 35;
+            this.ac_MyWork.Image = ((System.Drawing.Image)(resources.GetObject("ac_MyWork.Image")));
+            this.ac_MyWork.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
+            this.ac_MyWork.Name = "ac_MyWork";
+            this.ac_MyWork.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.ac_MyWork.Text = "我的加工";
+            this.ac_MyWork.TextToImageDistance = 15;
+            this.ac_MyWork.Click += new System.EventHandler(this.Sub_Menu_Click);
+            // 
             // Frm_CG
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1001, 491);
-            this.Controls.Add(this.dgv_WorkLog);
+            this.Controls.Add(this.view);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.ace_LeftMenu);
             this.Font = new System.Drawing.Font("微软雅黑", 12F);
@@ -255,7 +270,7 @@
             this.ShowInTaskbar = false;
             this.Text = "著录加工";
             this.Load += new System.EventHandler(this.Frm_CG_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_WorkLog)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Search.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -269,7 +284,7 @@
         private KyoControl.KyoButton btn_Back;
         private System.Windows.Forms.ComboBox cbo_CompanyList;
         private System.Windows.Forms.Label label1;
-        private KyoControl.HeaderUnitView dgv_WorkLog;
+        private KyoControl.HeaderUnitView view;
         private KyoControl.KyoAccordion ace_LeftMenu;
         private DevExpress.XtraBars.Navigation.AccordionControlElement acg_Worked;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ac_Login;
@@ -278,5 +293,6 @@
         private DevExpress.XtraEditors.SearchControl txt_Search;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel pal_UnitList;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement ac_MyWork;
     }
 }
