@@ -28,11 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_OtherDoc));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_Sure = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.txt_Intro = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txt_Carrier = new System.Windows.Forms.TextBox();
@@ -47,7 +46,9 @@
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.carrier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.intro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_Sure = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Edit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Delete = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
@@ -57,7 +58,6 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.btn_Sure);
             this.groupBox1.Controls.Add(this.txt_Intro);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txt_Carrier);
@@ -68,10 +68,24 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 1);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(759, 285);
+            this.groupBox1.Size = new System.Drawing.Size(759, 233);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "信息录入";
+            // 
+            // btn_Sure
+            // 
+            this.btn_Sure.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Sure.Appearance.Options.UseFont = true;
+            this.btn_Sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_Sure.Image")));
+            this.btn_Sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Sure.ImageToTextIndent = 0;
+            this.btn_Sure.Location = new System.Drawing.Point(672, 243);
+            this.btn_Sure.Name = "btn_Sure";
+            this.btn_Sure.Size = new System.Drawing.Size(69, 31);
+            this.btn_Sure.TabIndex = 5;
+            this.btn_Sure.Text = "保存";
+            this.btn_Sure.Click += new System.EventHandler(this.Btn_Sure_Click);
             // 
             // txt_Intro
             // 
@@ -79,7 +93,7 @@
             this.txt_Intro.Multiline = true;
             this.txt_Intro.Name = "txt_Intro";
             this.txt_Intro.Size = new System.Drawing.Size(592, 84);
-            this.txt_Intro.TabIndex = 7;
+            this.txt_Intro.TabIndex = 4;
             // 
             // label4
             // 
@@ -96,7 +110,7 @@
             this.txt_Carrier.Location = new System.Drawing.Point(122, 101);
             this.txt_Carrier.Name = "txt_Carrier";
             this.txt_Carrier.Size = new System.Drawing.Size(592, 29);
-            this.txt_Carrier.TabIndex = 5;
+            this.txt_Carrier.TabIndex = 3;
             // 
             // label3
             // 
@@ -113,7 +127,7 @@
             this.txt_Code.Location = new System.Drawing.Point(122, 66);
             this.txt_Code.Name = "txt_Code";
             this.txt_Code.Size = new System.Drawing.Size(592, 29);
-            this.txt_Code.TabIndex = 3;
+            this.txt_Code.TabIndex = 2;
             // 
             // label2
             // 
@@ -148,9 +162,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.view);
-            this.groupBox2.Location = new System.Drawing.Point(12, 298);
+            this.groupBox2.Location = new System.Drawing.Point(12, 279);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(762, 390);
+            this.groupBox2.Size = new System.Drawing.Size(762, 392);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "档案列表";
@@ -160,6 +174,7 @@
             this.view.AllowUserToAddRows = false;
             this.view.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.view.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.view.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -174,30 +189,15 @@
             this.code,
             this.carrier,
             this.intro});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.view.DefaultCellStyle = dataGridViewCellStyle2;
             this.view.Dock = System.Windows.Forms.DockStyle.Fill;
             this.view.GridColor = System.Drawing.Color.Black;
             this.view.Location = new System.Drawing.Point(3, 25);
             this.view.Name = "view";
             this.view.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.view.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(756, 362);
+            this.view.Size = new System.Drawing.Size(756, 364);
             this.view.TabIndex = 0;
+            this.view.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.view_RowHeaderMouseDoubleClick);
             this.view.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.View_UserDeletingRow);
             // 
             // name
@@ -233,24 +233,57 @@
             this.intro.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.intro.Width = 204;
             // 
-            // btn_Sure
+            // btn_Edit
             // 
-            this.btn_Sure.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Sure.Appearance.Options.UseFont = true;
-            this.btn_Sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_Sure.Image")));
-            this.btn_Sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Sure.Location = new System.Drawing.Point(639, 237);
-            this.btn_Sure.Name = "btn_Sure";
-            this.btn_Sure.Size = new System.Drawing.Size(75, 31);
-            this.btn_Sure.TabIndex = 8;
-            this.btn_Sure.Text = "确定";
-            this.btn_Sure.Click += new System.EventHandler(this.Btn_Sure_Click);
+            this.btn_Edit.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Edit.Appearance.Options.UseFont = true;
+            this.btn_Edit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Edit.Image")));
+            this.btn_Edit.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Edit.ImageToTextIndent = 0;
+            this.btn_Edit.Location = new System.Drawing.Point(597, 243);
+            this.btn_Edit.Name = "btn_Edit";
+            this.btn_Edit.Size = new System.Drawing.Size(69, 31);
+            this.btn_Edit.TabIndex = 6;
+            this.btn_Edit.Text = "编辑";
+            this.btn_Edit.Click += new System.EventHandler(this.kyoButton1_Click);
+            // 
+            // btn_Delete
+            // 
+            this.btn_Delete.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Delete.Appearance.Options.UseFont = true;
+            this.btn_Delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_Delete.Image")));
+            this.btn_Delete.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Delete.ImageToTextIndent = 0;
+            this.btn_Delete.Location = new System.Drawing.Point(522, 243);
+            this.btn_Delete.Name = "btn_Delete";
+            this.btn_Delete.Size = new System.Drawing.Size(69, 31);
+            this.btn_Delete.TabIndex = 7;
+            this.btn_Delete.Text = "删除";
+            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
+            // 
+            // btn_Add
+            // 
+            this.btn_Add.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Add.Appearance.Options.UseFont = true;
+            this.btn_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Add.Image")));
+            this.btn_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Add.ImageToTextIndent = 0;
+            this.btn_Add.Location = new System.Drawing.Point(447, 243);
+            this.btn_Add.Name = "btn_Add";
+            this.btn_Add.Size = new System.Drawing.Size(69, 31);
+            this.btn_Add.TabIndex = 8;
+            this.btn_Add.Text = "新增";
+            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
             // 
             // Frm_OtherDoc
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(786, 700);
+            this.ClientSize = new System.Drawing.Size(786, 679);
+            this.Controls.Add(this.btn_Add);
+            this.Controls.Add(this.btn_Delete);
+            this.Controls.Add(this.btn_Edit);
+            this.Controls.Add(this.btn_Sure);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -287,5 +320,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn code;
         private System.Windows.Forms.DataGridViewTextBoxColumn carrier;
         private System.Windows.Forms.DataGridViewTextBoxColumn intro;
+        private KyoControl.KyoButton btn_Edit;
+        private KyoControl.KyoButton btn_Delete;
+        private KyoControl.KyoButton btn_Add;
     }
 }

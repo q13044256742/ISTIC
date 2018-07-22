@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Cataloguing;
 using 科技计划项目档案数据采集管理系统.KyoControl;
@@ -994,18 +995,27 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
+                string funds = txt_Project_Funds.Text;
+                if(!string.IsNullOrEmpty(funds))
+                {
+                    if(!float.TryParse(funds, out float flag))
+                    {
+                        errorProvider1.SetError(txt_Project_Funds, "提示：请输入合法经费");
+                        result = false;
+                    }
+                }
+
                 string startDate = txt_Project_StartTime.Text;
                 if(!string.IsNullOrEmpty(startDate))
                 {
-                    if(!startDate.Contains("-"))
+                    if(!Regex.IsMatch(startDate, "\\d{4}-\\d{2}-\\d{2}"))
                     {
                         errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
                     }
                     else
                     {
-                        DateTime time = new DateTime();
-                        if(!DateTime.TryParse(startDate, out time))
+                        if(!DateTime.TryParse(startDate, out DateTime time))
                         {
                             errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入合法的日期");
                             result = false;
@@ -1015,15 +1025,14 @@ namespace 科技计划项目档案数据采集管理系统
                 string endDate = txt_Project_EndTime.Text;
                 if(!string.IsNullOrEmpty(endDate))
                 {
-                    if(!endDate.Contains("-"))
+                    if(!Regex.IsMatch(endDate, "\\d{4}-\\d{2}-\\d{2}"))
                     {
                         errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
                     }
                     else
                     {
-                        DateTime time = new DateTime();
-                        if(!DateTime.TryParse(endDate, out time))
+                        if(!DateTime.TryParse(endDate, out DateTime time))
                         {
                             errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入合法的日期");
                             result = false;
@@ -1064,18 +1073,27 @@ namespace 科技计划项目档案数据采集管理系统
                     result = false;
                 }
 
+                string funds = txt_Topic_Fund.Text;
+                if(!string.IsNullOrEmpty(funds))
+                {
+                    if(!float.TryParse(funds, out float flag))
+                    {
+                        errorProvider1.SetError(txt_Topic_Fund, "提示：请输入合法经费");
+                        result = false;
+                    }
+                }
+
                 string startDate = txt_Topic_StartTime.Text;
                 if(!string.IsNullOrEmpty(startDate))
                 {
-                    if(!startDate.Contains("-"))
+                    if(!Regex.IsMatch(startDate, "\\d{4}-\\d{2}-\\d{2}"))
                     {
                         errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
                     }
                     else
                     {
-                        DateTime time = new DateTime();
-                        if(!DateTime.TryParse(startDate, out time))
+                        if(!DateTime.TryParse(startDate, out DateTime time))
                         {
                             errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入合法的日期");
                             result = false;
@@ -1085,15 +1103,14 @@ namespace 科技计划项目档案数据采集管理系统
                 string endDate = txt_Topic_EndTime.Text;
                 if(!string.IsNullOrEmpty(endDate))
                 {
-                    if(!endDate.Contains("-"))
+                    if(!Regex.IsMatch(endDate, "\\d{4}-\\d{2}-\\d{2}"))
                     {
                         errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
                     }
                     else
                     {
-                        DateTime time = new DateTime();
-                        if(!DateTime.TryParse(endDate, out time))
+                        if(!DateTime.TryParse(endDate, out DateTime time))
                         {
                             errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入合法的日期");
                             result = false;
@@ -1134,18 +1151,27 @@ namespace 科技计划项目档案数据采集管理系统
                     result = false;
                 }
 
+                string funds = txt_Subject_Fund.Text;
+                if(!string.IsNullOrEmpty(funds))
+                {
+                    if(!float.TryParse(funds, out float flag))
+                    {
+                        errorProvider1.SetError(txt_Subject_Fund, "提示：请输入合法经费");
+                        result = false;
+                    }
+                }
+
                 string startDate = txt_Subject_StartTime.Text;
                 if(!string.IsNullOrEmpty(startDate))
                 {
-                    if(!startDate.Contains("-"))
+                    if(!Regex.IsMatch(startDate, "\\d{4}-\\d{2}-\\d{2}"))
                     {
                         errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
                     }
                     else
                     {
-                        DateTime time = new DateTime();
-                        if(!DateTime.TryParse(startDate, out time))
+                        if(!DateTime.TryParse(startDate, out DateTime time))
                         {
                             errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入合法的日期");
                             result = false;
@@ -1155,15 +1181,14 @@ namespace 科技计划项目档案数据采集管理系统
                 string endDate = txt_Subject_EndTime.Text;
                 if(!string.IsNullOrEmpty(endDate))
                 {
-                    if(!endDate.Contains("-"))
+                    if(!Regex.IsMatch(endDate, "\\d{4}-\\d{2}-\\d{2}"))
                     {
                         errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
                         result = false;
                     }
                     else
                     {
-                        DateTime time = new DateTime();
-                        if(!DateTime.TryParse(endDate, out time))
+                        if(!DateTime.TryParse(endDate, out DateTime time))
                         {
                             errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入合法的日期");
                             result = false;
@@ -1340,6 +1365,34 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
+                //份数
+                DataGridViewCell countCell = rows[i].Cells[key + "count"];
+                if(!string.IsNullOrEmpty(GetValue(countCell.Value)))
+                {
+                    bool flag = int.TryParse(GetValue(countCell.Value), out int page);
+                    if(!flag)
+                    {
+                        countCell.ErrorText = "温馨提示：请输入有效数字。";
+                        result = false;
+                    }
+                    else
+                        countCell.ErrorText = null;
+                }
+
+                //份数移交
+                DataGridViewCell amountCell = rows[i].Cells[key + "amount"];
+                if(!string.IsNullOrEmpty(GetValue(amountCell.Value)))
+                {
+                    bool flag = int.TryParse(GetValue(amountCell.Value), out int page);
+                    if(!flag)
+                    {
+                        amountCell.ErrorText = "温馨提示：请输入有效数字。";
+                        result = false;
+                    }
+                    else
+                        amountCell.ErrorText = null;
+                }
+
                 bool isOtherType = "其他".Equals(GetValue(rows[i].Cells[key + "categor"].FormattedValue).Trim());
                 DataGridViewCell cellCategor = rows[i].Cells[key + "categorname"];
                 if(isOtherType)
@@ -1358,7 +1411,7 @@ namespace 科技计划项目档案数据采集管理系统
                 DataGridViewCell dateCell = rows[i].Cells[key + "date"];
                 if(!string.IsNullOrEmpty(GetValue(dateCell.Value)))
                 {
-                    if(!GetValue(dateCell.Value).Contains("-"))
+                    if(!Regex.IsMatch(GetValue(dateCell.Value), "\\d{4}-\\d{2}-\\d{2}"))
                     {
                         dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
                         result = false;
@@ -1539,6 +1592,21 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
+        private string GetFloatValue(string text, int length)
+        {
+            if(!string.IsNullOrEmpty(text))
+            {
+                if(float.TryParse(text, out float result))
+                {
+                    string format = $"0.{"0".PadLeft(length, '0')}";
+                    return result.ToString(format);
+                }
+                else
+                    return string.Empty;
+            }
+            return string.Empty;
+        }
+
         /// <summary>
         /// 保存 计划-项目 基本信息
         /// </summary>
@@ -1555,7 +1623,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string planType = string.Empty;
                 string ly = txt_Project_Field.Text;
                 string zt = txt_Project_Theme.Text;
-                string jf = txt_Project_Funds.Text;
+                string funds = GetFloatValue(txt_Project_Funds.Text, 2);
                 DateTime starttime = dtp_Project_StartTime.Value;
                 DateTime endtime = dtp_Project_EndTime.Value;
                 string year = txt_Project_Year.Text;
@@ -1569,7 +1637,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ",pb_belong_type,pi_money,pi_start_datetime,pi_end_datetime,pi_year,pi_company_id,pi_company_user" +
                     ",pi_province,pi_project_user,pi_introduction,pi_work_status,pi_obj_id,pi_categor,pi_submit_status,pi_worker_id)" +
                     "VALUES" +
-                    $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{jf}','{starttime}'" +
+                    $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{funds}','{starttime}'" +
                     $",'{endtime}','{year}','{unit}','{unituser}'" +
                     $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type},{(int)ObjectSubmitStatus.NonSubmit},'{UserHelper.GetInstance().User.UserKey}')";
 
@@ -1582,7 +1650,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string planType = string.Empty;
                 string ly = txt_Topic_Field.Text;
                 string zt = txt_Topic_Theme.Text;
-                string jf = txt_Topic_Fund.Text;
+                string funds = GetFloatValue(txt_Topic_Fund.Text, 2);
                 DateTime starttime = dtp_Topic_StartTime.Value;
                 DateTime endtime = dtp_Topic_EndTime.Value;
                 string year = txt_Topic_Year.Text;
@@ -1595,7 +1663,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string insertSql = "INSERT INTO topic_info(ti_id, trc_id, ti_code, ti_name, ti_type, tb_belong, tb_belong_type, ti_money, ti_start_datetime, ti_end_datetime, ti_year, ti_company_id, ti_company_user" +
                     ",ti_province, ti_project_user, ti_introduction, ti_work_status, ti_obj_id, ti_categor, ti_submit_status, ti_worker_id)" +
                     "VALUES" +
-                    $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{jf}','{starttime}'" +
+                    $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{funds}','{starttime}'" +
                     $",'{endtime}','{year}','{unit}','{unituser}'" +
                     $",'{province}','{objuser}','{intro}','{0}','{parentId}','{(int)type}','1','{UserHelper.GetInstance().User.UserKey}')";
 
@@ -1608,7 +1676,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string planType = string.Empty;
                 string ly = txt_Subject_Field.Text;
                 string zt = txt_Subject_Theme.Text;
-                string jf = txt_Subject_Fund.Text;
+                string funds = GetFloatValue(txt_Subject_Fund.Text, 2);
                 DateTime starttime = dtp_Subject_StartTime.Value;
                 DateTime endtime = dtp_Subject_EndTime.Value;
                 string year = txt_Subject_Year.Text;
@@ -1621,7 +1689,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string insertSql = "INSERT INTO subject_info(si_id, pi_id, si_code, si_name, si_type, si_field, si_belong, si_money, si_start_datetime," +
                    "si_end_datetime, si_year, si_company, si_company_user, si_province, si_project_user, si_introduction, si_work_status, si_categor, si_submit_status," +
                    "si_worker_id) VALUES " +
-                   $"('{primaryKey}','{parentId}','{code}','{name}','{planType}','{ly}','{zt}','{jf}'" +
+                   $"('{primaryKey}','{parentId}','{code}','{name}','{planType}','{ly}','{zt}','{funds}'" +
                    $",'{starttime}','{endtime}','{year}','{unit}','{unituser}','{province}','{objuser}'" +
                    $",'{intro}','{(int)WorkStatus.NonWork}','{(int)type}',{(int)ObjectSubmitStatus.NonSubmit},'{UserHelper.GetInstance().User.UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
@@ -3559,7 +3627,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         private void LoadBoxList(object objId, ControlType type)
         {
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT pb_id, pb_box_number FROM processing_box WHERE pb_obj_id='{objId}' ORDER BY pb_box_number ASC");
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM processing_box WHERE pb_obj_id='{objId}' ORDER BY pb_box_number ASC");
             if(type == ControlType.Plan)
             {
                 cbo_Plan_Box.DataSource = table;
@@ -4658,11 +4726,6 @@ namespace 科技计划项目档案数据采集管理系统
                 Btn_AddFile_Click(btn_Special_AddFile, e);
         }
 
-        private void Frm_MyWorkQT_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
         private void StartTime_ValueChanged(object sender, EventArgs e)
         {
             DateTimePicker picker = sender as DateTimePicker;
@@ -4877,17 +4940,12 @@ namespace 科技计划项目档案数据采集管理系统
             Frm_PrintBox frm = new Frm_PrintBox
             {
                 boxTable = boxTable,
-                fileAmount = fileAmount,
-                filePages = filePages,
                 objectCode = docNumber,
-                gcCode = gcCode,
                 objectName = objName,
-                bzDate = GetBzDate(boxId),
                 unitName = UserHelper.GetInstance().User.UnitName,
                 proCode = proCode,
                 proName = proName,
                 parentObjectName = parentObjectName,
-                boxNumber = boxNumber,
                 ljPeople = UserHelper.GetInstance().GetUserNameById(GetWorker(objId, 1)),
                 ljDate = GetWorker(objId, 2),
                 jcPeople = UserHelper.GetInstance().GetUserNameById(GetWorker(objId, 3)),
@@ -4977,6 +5035,13 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 return true;
             }
+        }
+
+        public Action<WorkType, object, object, object> BackCallMethod { get; internal set; }
+
+        private void Frm_MyWorkQT_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            BackCallMethod(workType, objId, wmid, objId);
         }
     }
 

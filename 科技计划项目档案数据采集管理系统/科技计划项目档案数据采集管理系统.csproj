@@ -270,6 +270,7 @@
     <Compile Include="Tools\Frm_PrintBox.Designer.cs">
       <DependentUpon>Frm_PrintBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\GetFromHelper.cs" />
     <Compile Include="Tools\LocalizationCHS.cs" />
     <Compile Include="Tools\LogsHelper.cs" />
     <Compile Include="Tools\MicrosoftWordHelper.cs" />

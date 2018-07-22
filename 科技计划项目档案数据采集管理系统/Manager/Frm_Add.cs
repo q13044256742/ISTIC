@@ -41,7 +41,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             object pName = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_name FROM data_dictionary WHERE dd_id='{pId}'");
             if(pName != null)
             {
-                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_name, dd_code, dd_sort, dd_note FROM data_dictionary where dd_id = '{id}'");
+                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_name, dd_code, dd_sort, dd_note, extend_3 FROM data_dictionary where dd_id = '{id}'");
                 //给文本框赋值
                 txt_ParentName.Text = GetValue(pName);
                 txt_ParentName.Tag = pId;
@@ -51,6 +51,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 num_Sort.Text = GetValue(row["dd_sort"]);
                 txt_Intro.Text = GetValue(row["dd_note"]);
                 txt_Name.Tag = GetValue(id);
+                txt_extend.Text = GetValue(row["extend_3"]);
             }
         }
 
@@ -66,20 +67,20 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                     int _sort = (int)num_Sort.Value;
                     string note = txt_Intro.Text;
                     object pid = txt_ParentName.Tag;
-
+                    object extend3 = txt_extend.Text;
                     //新增信息
                     if(isAdd)
                     {
                         string dd_id = Guid.NewGuid().ToString();
-                        string querySql = $"INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_code, dd_note, dd_sort) VALUES " +
-                            $"('{dd_id}', '{name}', '{pid}', '{code}', '{note}', '{_sort}')";
+                        string querySql = $"INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_code, dd_note, dd_sort, extend_3) VALUES " +
+                            $"('{dd_id}', '{name}', '{pid}', '{code}', '{note}', '{_sort}', '{extend3}')";
                         SqlHelper.ExecuteQuery(querySql);
                     }
                     //更新信息
                     else
                     {
                         string dd_id = (string)txt_Name.Tag;
-                        string querySql = $"UPDATE data_dictionary SET dd_name='{name}', dd_code='{code}', dd_sort='{_sort}',dd_note='{note}' WHERE dd_id='{dd_id}'";
+                        string querySql = $"UPDATE data_dictionary SET dd_name='{name}', dd_code='{code}', dd_sort='{_sort}',dd_note='{note}', extend_3='{extend3}' WHERE dd_id='{dd_id}'";
                         SqlHelper.ExecuteQuery(querySql);
                     }
                     if(MessageBox.Show((isAdd ? "添加" : "更新") + "成功，是否返回列表页", "温馨提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
@@ -119,5 +120,9 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             Close();
         }
 
+        private void Frm_Add_Load(object sender, EventArgs e)
+        {
+
+        }
     }  
 }

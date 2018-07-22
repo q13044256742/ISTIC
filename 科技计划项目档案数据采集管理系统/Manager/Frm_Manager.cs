@@ -152,7 +152,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         private void LoadTableInfo(object parentId)
         {
             dgv_DataList.Rows.Clear();
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT dd_id, dd_name, dd_code, dd_note, dd_sort FROM  data_dictionary WHERE dd_pId='{parentId}' ORDER BY dd_sort");
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT dd_id, dd_name, dd_code, dd_note, extend_3, dd_sort FROM  data_dictionary WHERE dd_pId='{parentId}' ORDER BY dd_sort");
             foreach(DataRow row in table.Rows)
             {
                 int index = dgv_DataList.Rows.Add();
@@ -160,6 +160,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
                 dgv_DataList.Rows[index].Cells["name"].Value = row["dd_name"];
                 dgv_DataList.Rows[index].Cells["code"].Value = row["dd_code"];
                 dgv_DataList.Rows[index].Cells["note"].Value = row["dd_note"];
+                dgv_DataList.Rows[index].Cells["extend_3"].Value = row["extend_3"];
                 dgv_DataList.Rows[index].Cells["sort"].Value = row["dd_sort"];
             }
         }
@@ -167,6 +168,11 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         private void Dgv_DataList_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             Btn_updateClick(sender, e);
+        }
+
+        private void Frm_Manager_Load(object sender, EventArgs e)
+        {
+
         }
     }
     

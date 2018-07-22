@@ -94,6 +94,22 @@ namespace 科技计划项目档案数据采集管理系统
                     table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
                 }
 
+                //单独统计文件加工工作量
+                querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list LEFT JOIN project_info ON pi_id = pfl_obj_id " +
+                    $"WHERE pfl_worker_id = '{userId}' AND pi_worker_date<>pfl_worker_date " +
+                    $"GROUP BY pfl_worker_date";
+                List<object[]> list3 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
+                for(int i = 0; i < list3.Count; i++)
+                {
+                    object date = list3[i][0];
+                    object pcount = 0;
+                    object tcount = 0;
+                    object fcount = Convert.ToInt32(list3[i][1]);
+                    object bcount = 0;
+                    object pgcount = GetFilePageByFid($"SELECT pfl_id FROM processing_file_list LEFT JOIN project_info ON pi_id = pfl_obj_id " +
+                        $"WHERE pfl_worker_id = '{userId}' AND pi_worker_date <> pfl_worker_date");
+                    table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
+                }
                 LoadViewList(table);
             }
             //质检人员工作量统计
@@ -126,6 +142,16 @@ namespace 科技计划项目档案数据采集管理系统
 
                 LoadViewList(table);
             }
+        }
+
+        private int GetFilePageByFid(string querySql)
+        {
+            int count = 0;
+            string querySQL = $"SELECT pfl_pages FROM processing_file_list WHERE pfl_id IN ({querySql})";
+            object[] tics = SqlHelper.ExecuteSingleColumnQuery(querySQL);
+            foreach(object item in tics)
+                count += (int)item;
+            return count;
         }
 
         /// <summary>

@@ -588,6 +588,7 @@ namespace 科技计划项目档案数据采集管理系统
                         if(planId != null)//普通计划
                         {
                             Frm_MyWork frm = new Frm_MyWork(WorkType.CDWork_Plan, planId, objId, ControlType.Plan, false);
+                            frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
                             frm.Show();
                         }
                         else
@@ -601,7 +602,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 {
                                     Frm_MyWork frm = new Frm_MyWork(WorkType.CDWork_Imp, planId, objId, ControlType.Imp, false);
                                     //frm.planCode = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_code FROM project_info WHERE pi_id='{planId}'"));
-                                    //frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
+                                    frm.unitCode = dgv_WorkLog.Rows[e.RowIndex].Cells["dd_name"].Tag;
                                     frm.trcId = objId;
                                     frm.Show();
                                 }

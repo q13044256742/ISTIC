@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -533,7 +534,7 @@ namespace 科技计划项目档案数据采集管理系统
             string dateString = txt_date.Text;
             if(!string.IsNullOrEmpty(dateString))
             {
-                if(!dateString.Contains("-"))
+                if(!Regex.IsMatch(dateString, "\\d{4}-\\d{2}-\\d{2}"))
                 {
                     errorProvider1.SetError(dtp_date, "提示：请输入格式为 yyyy-MM-dd 的有效日期。");
                     result = false;

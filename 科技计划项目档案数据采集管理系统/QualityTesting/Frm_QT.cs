@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using 科技计划项目档案数据采集管理系统.Tools;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -264,8 +265,9 @@ namespace 科技计划项目档案数据采集管理系统
                     object planId = GetRootId(objid, type);
                     if(planId != null)
                     {
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(type, objid, null, ControlType.Default);
+                        Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(type, objid, null, ControlType.Default);
                         frm.Show();
+                        frm.Activate();
                     }
                     else
                     {
@@ -403,17 +405,19 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(type == WorkType.ProjectWork)
                 {
-                    string querySql = "SELECT dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id, trp.trp_code FROM project_info pi " +
+                    string querySql = "SELECT dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id, trp.trp_code, trc.trc_id FROM project_info pi " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                        "LEFT JOIN transfer_registraion_cd trc ON trp.trp_id = trc.trp_id " +
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
                         $"WHERE wm.wm_obj_id = '{objId}' " +
                         "UNION ALL " +
-                        "SELECT dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wr.wr_obj_id, trp.trp_code FROM topic_info ti " +
+                        "SELECT dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wr.wr_obj_id, trp.trp_code, trc.trc_id FROM topic_info ti " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                        "LEFT JOIN transfer_registraion_cd trc ON trp.trp_id = trc.trp_id " +
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
                         $"WHERE wm.wm_obj_id = '{objId}'";
                     DataRow proRow = SqlHelper.ExecuteSingleRowQuery(querySql);
@@ -425,6 +429,7 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = proRow["pi_id"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = proRow["pi_name"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_pcode"].Value = proRow["trp_code"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_pcode"].Tag = proRow["trc_id"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = proRow["pi_code"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Tag = proRow["wr_obj_id"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = proRow["dd_name"];
@@ -804,75 +809,38 @@ namespace 科技计划项目档案数据采集管理系统
                     WorkType type = (WorkType)dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Tag;
                     if(type == WorkType.PaperWork_Imp || type == WorkType.CDWork_Imp)
                     {
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(type, objid, wmid, ControlType.Imp);
+                        Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(type, objid, wmid, ControlType.Imp);
                         frm.unitCode = unitCode;
-                        if(frm.ShowDialog() == DialogResult.OK)
-                        {
-                            int _index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_info WHERE imp_id='{objid}' AND imp_submit_status=1");
-                            if(_index > 0)
-                            {
-                                if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
-                                {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
-                                    LoadMyRegList();
-                                    XtraMessageBox.Show("操作成功。");
-                                }
-                            }
-                        }
+                        frm.BackCallMethod = CheckExistBackLog;
+                        frm.Show();
+                        frm.Activate();
                     }
                     else if(type == WorkType.PaperWork_Special || type == WorkType.CDWork_Special)
                     {
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(type, objid, wmid, ControlType.Special);
+                        Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(type, objid, wmid, ControlType.Special);
                         frm.unitCode = unitCode;
-                        if(frm.ShowDialog() == DialogResult.OK)
-                        {
-                            int _index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_dev_info WHERE imp_id='{objid}' AND imp_submit_status=1");
-                            if(_index > 0)
-                            {
-                                if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
-                                {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
-                                    LoadMyRegList();
-                                    XtraMessageBox.Show("操作成功。");
-                                }
-                            }
-                        }
+                        frm.BackCallMethod = CheckExistBackLog;
+                        frm.Show();
+                        frm.Activate();
                     }
                     else if(type == WorkType.ProjectWork)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.ProjectWork, piid, null, ControlType.Project);
+                        Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(WorkType.ProjectWork, piid, wmid, ControlType.Project);
+                        frm.trcId = dgv_MyReg.Rows[e.RowIndex].Cells["mr_pcode"].Tag;
                         frm.unitCode = unitCode;
-                        if(frm.ShowDialog() == DialogResult.OK)
-                        {
-                            if(HaveBacked(piid))
-                            {
-                                if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
-                                {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
-                                    LoadMyRegList();
-                                    XtraMessageBox.Show("操作成功。");
-                                }
-                            }
-                        }
+                        frm.BackCallMethod = CheckExistBackLog;
+                        frm.Show();
+                        frm.Activate();
                     }
                     else if(type == WorkType.PaperWork_Plan)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = new Frm_MyWorkQT(WorkType.PaperWork_Plan, piid, objid, ControlType.Plan);
+                        Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(WorkType.PaperWork_Plan, piid, objid, ControlType.Plan);
                         frm.unitCode = unitCode;
-                        if(frm.ShowDialog() == DialogResult.OK)
-                        {
-                            if(HaveBacked(piid))
-                            {
-                                if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
-                                {
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
-                                    LoadMyRegList();
-                                    XtraMessageBox.Show("操作成功。");
-                                }
-                            }
-                        }
+                        frm.BackCallMethod = CheckExistBackLog;
+                        frm.Show();
+                        frm.Activate();
                     }
                 }
                 //完成质检
@@ -883,6 +851,40 @@ namespace 科技计划项目档案数据采集管理系统
                         SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualityFinish}' WHERE wm_id='{wmid}'");
                     }
                     LoadMyRegList();
+                }
+            }
+        }
+
+        private void CheckExistBackLog(WorkType type, object objid, object wmid, object piid)
+        {
+            int index = 0;
+            if(type == WorkType.PaperWork_Imp || type == WorkType.CDWork_Imp)
+            {
+                index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_info WHERE imp_id='{objid}' AND imp_submit_status=1");
+            }
+            else if(type == WorkType.PaperWork_Special || type == WorkType.CDWork_Special)
+            {
+                index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM imp_dev_info WHERE imp_id='{objid}' AND imp_submit_status=1");
+            }
+            else if(type == WorkType.ProjectWork || type == WorkType.PaperWork_Plan)
+            {
+                if(HaveBacked(piid))
+                {
+                    if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                    {
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
+                        LoadMyRegList();
+                        XtraMessageBox.Show("操作成功。");
+                    }
+                }
+            }
+            if(index > 0)
+            {
+                if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                {
+                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
+                    LoadMyRegList();
+                    XtraMessageBox.Show("操作成功。");
                 }
             }
         }

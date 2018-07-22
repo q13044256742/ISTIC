@@ -29,21 +29,22 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Manager));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgv_DataList = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sort = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txt_SearchKey = new System.Windows.Forms.TextBox();
             this.btn_Back = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.button4 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.button3 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Search = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.txt_SearchKey = new System.Windows.Forms.TextBox();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.extend_3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sort = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataList)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -69,6 +70,7 @@
             this.name,
             this.code,
             this.note,
+            this.extend_3,
             this.sort});
             this.dgv_DataList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_DataList.Location = new System.Drawing.Point(0, 64);
@@ -79,42 +81,6 @@
             this.dgv_DataList.TabIndex = 1;
             this.dgv_DataList.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_DataList_CellMouseDoubleClick);
             this.dgv_DataList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_DataList_ColumnHeaderMouseDoubleClick);
-            // 
-            // id
-            // 
-            this.id.HeaderText = "id";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            // 
-            // name
-            // 
-            this.name.FillWeight = 80F;
-            this.name.HeaderText = "名称";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            // 
-            // code
-            // 
-            this.code.FillWeight = 60F;
-            this.code.HeaderText = "编码";
-            this.code.Name = "code";
-            this.code.ReadOnly = true;
-            // 
-            // note
-            // 
-            this.note.HeaderText = "描述";
-            this.note.Name = "note";
-            this.note.ReadOnly = true;
-            // 
-            // sort
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sort.DefaultCellStyle = dataGridViewCellStyle2;
-            this.sort.FillWeight = 50F;
-            this.sort.HeaderText = "排序";
-            this.sort.Name = "sort";
-            this.sort.ReadOnly = true;
             // 
             // groupBox1
             // 
@@ -131,6 +97,14 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "快速检索";
+            // 
+            // txt_SearchKey
+            // 
+            this.txt_SearchKey.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_SearchKey.Location = new System.Drawing.Point(13, 27);
+            this.txt_SearchKey.Name = "txt_SearchKey";
+            this.txt_SearchKey.Size = new System.Drawing.Size(244, 26);
+            this.txt_SearchKey.TabIndex = 8;
             // 
             // btn_Back
             // 
@@ -190,13 +164,49 @@
             this.btn_Search.Text = "查询";
             this.btn_Search.Click += new System.EventHandler(this.btn_Search_Click);
             // 
-            // txt_SearchKey
+            // id
             // 
-            this.txt_SearchKey.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_SearchKey.Location = new System.Drawing.Point(13, 27);
-            this.txt_SearchKey.Name = "txt_SearchKey";
-            this.txt_SearchKey.Size = new System.Drawing.Size(244, 26);
-            this.txt_SearchKey.TabIndex = 8;
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            // 
+            // name
+            // 
+            this.name.FillWeight = 80F;
+            this.name.HeaderText = "名称";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            // 
+            // code
+            // 
+            this.code.FillWeight = 60F;
+            this.code.HeaderText = "编码";
+            this.code.Name = "code";
+            this.code.ReadOnly = true;
+            // 
+            // note
+            // 
+            this.note.FillWeight = 250F;
+            this.note.HeaderText = "描述";
+            this.note.Name = "note";
+            this.note.ReadOnly = true;
+            // 
+            // extend_3
+            // 
+            this.extend_3.FillWeight = 50F;
+            this.extend_3.HeaderText = "扩展";
+            this.extend_3.Name = "extend_3";
+            this.extend_3.ReadOnly = true;
+            // 
+            // sort
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sort.DefaultCellStyle = dataGridViewCellStyle2;
+            this.sort.FillWeight = 50F;
+            this.sort.HeaderText = "排序";
+            this.sort.Name = "sort";
+            this.sort.ReadOnly = true;
             // 
             // Frm_Manager
             // 
@@ -207,6 +217,7 @@
             this.Name = "Frm_Manager";
             this.Text = "后台管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Frm_Manager_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataList)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -227,6 +238,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn code;
         private System.Windows.Forms.DataGridViewTextBoxColumn note;
+        private System.Windows.Forms.DataGridViewTextBoxColumn extend_3;
         private System.Windows.Forms.DataGridViewTextBoxColumn sort;
     }
 }
