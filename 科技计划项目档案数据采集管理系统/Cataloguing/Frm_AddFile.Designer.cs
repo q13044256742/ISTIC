@@ -460,7 +460,7 @@
             this.btn_Exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exit.Image")));
             this.btn_Exit.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Exit.ImageToTextIndent = 5;
-            this.btn_Exit.Location = new System.Drawing.Point(409, 573);
+            this.btn_Exit.Location = new System.Drawing.Point(418, 573);
             this.btn_Exit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(67, 30);
@@ -474,13 +474,13 @@
             this.btn_Save_Add.Appearance.Options.UseFont = true;
             this.btn_Save_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save_Add.Image")));
             this.btn_Save_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Save_Add.ImageToTextIndent = 5;
+            this.btn_Save_Add.ImageToTextIndent = 0;
             this.btn_Save_Add.Location = new System.Drawing.Point(338, 573);
             this.btn_Save_Add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Save_Add.Name = "btn_Save_Add";
-            this.btn_Save_Add.Size = new System.Drawing.Size(67, 30);
+            this.btn_Save_Add.Size = new System.Drawing.Size(76, 30);
             this.btn_Save_Add.TabIndex = 54;
-            this.btn_Save_Add.Text = "保存";
+            this.btn_Save_Add.Text = "保存(&S)";
             this.btn_Save_Add.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // txt_fileName

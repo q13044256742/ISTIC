@@ -54,12 +54,12 @@
             this.dtp_TransferTime = new System.Windows.Forms.DateTimePicker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgv_CDlist = new System.Windows.Forms.DataGridView();
+            this.btn_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Cancel = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpmc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpbh = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bz = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Cancel = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_CDlist)).BeginInit();
@@ -239,7 +239,7 @@
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.txt_Receiver);
-            this.groupBox1.Font = new System.Drawing.Font("宋体", 10F);
+            this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(739, 252);
@@ -259,7 +259,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.dgv_CDlist);
-            this.groupBox2.Font = new System.Drawing.Font("宋体", 10F);
+            this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox2.Location = new System.Drawing.Point(6, 268);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(739, 269);
@@ -270,11 +270,12 @@
             // dgv_CDlist
             // 
             this.dgv_CDlist.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_CDlist.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_CDlist.BackgroundColor = System.Drawing.Color.White;
             this.dgv_CDlist.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 10F);
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -288,44 +289,13 @@
             this.bz});
             this.dgv_CDlist.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_CDlist.EnableHeadersVisualStyles = false;
-            this.dgv_CDlist.Location = new System.Drawing.Point(3, 19);
+            this.dgv_CDlist.Location = new System.Drawing.Point(3, 25);
             this.dgv_CDlist.Name = "dgv_CDlist";
             this.dgv_CDlist.RowTemplate.Height = 23;
-            this.dgv_CDlist.Size = new System.Drawing.Size(733, 247);
+            this.dgv_CDlist.Size = new System.Drawing.Size(733, 241);
             this.dgv_CDlist.TabIndex = 10;
-            this.dgv_CDlist.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_CellEnter);
+            this.dgv_CDlist.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_CDlist_CellEnter);
             this.dgv_CDlist.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CDlist_RowLeave);
-            // 
-            // id
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.id.DefaultCellStyle = dataGridViewCellStyle2;
-            this.id.HeaderText = "编号";
-            this.id.Name = "id";
-            // 
-            // gpmc
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.gpmc.DefaultCellStyle = dataGridViewCellStyle3;
-            this.gpmc.FillWeight = 200F;
-            this.gpmc.HeaderText = "光盘名称";
-            this.gpmc.Name = "gpmc";
-            // 
-            // gpbh
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.gpbh.DefaultCellStyle = dataGridViewCellStyle4;
-            this.gpbh.FillWeight = 150F;
-            this.gpbh.HeaderText = "光盘编号";
-            this.gpbh.Name = "gpbh";
-            // 
-            // bz
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.bz.DefaultCellStyle = dataGridViewCellStyle5;
-            this.bz.FillWeight = 250F;
-            this.bz.HeaderText = "备注";
-            this.bz.Name = "bz";
             // 
             // btn_Save
             // 
@@ -358,6 +328,41 @@
             this.btn_Cancel.Text = "关闭";
             this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
             // 
+            // id
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.id.DefaultCellStyle = dataGridViewCellStyle2;
+            this.id.HeaderText = "编号";
+            this.id.Name = "id";
+            this.id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // gpmc
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.gpmc.DefaultCellStyle = dataGridViewCellStyle3;
+            this.gpmc.FillWeight = 200F;
+            this.gpmc.HeaderText = "光盘名称";
+            this.gpmc.Name = "gpmc";
+            this.gpmc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // gpbh
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.gpbh.DefaultCellStyle = dataGridViewCellStyle4;
+            this.gpbh.FillWeight = 150F;
+            this.gpbh.HeaderText = "光盘编号";
+            this.gpbh.Name = "gpbh";
+            this.gpbh.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // bz
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.bz.DefaultCellStyle = dataGridViewCellStyle5;
+            this.bz.FillWeight = 250F;
+            this.bz.HeaderText = "备注";
+            this.bz.Name = "bz";
+            this.bz.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // Frm_AddPC
             // 
             this.Appearance.Options.UseFont = true;
@@ -368,7 +373,7 @@
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;

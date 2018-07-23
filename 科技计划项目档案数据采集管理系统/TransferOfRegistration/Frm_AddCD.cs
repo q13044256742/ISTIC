@@ -72,9 +72,21 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         {
             object unitCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id =" +
                 $"(SELECT com_id FROM transfer_registration_pc WHERE trp_id='{pid}')");
-            int index = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM transfer_registraion_cd WHERE trp_id='{pid}'"));
-            txt_CDCode.Text = CreateBatchCode(unitCode, index + 1);
+            int index = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(trc_id) FROM transfer_registraion_cd WHERE trp_id='{pid}'"));
+            for(int i = 1; i <= index + 1; i++)
+            {
+                string code = CreateBatchCode(unitCode, i);
+                int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM transfer_registraion_cd WHERE trc_code='{code}'");
+                if(count == 0)
+                {
+                    txt_CDCode.Text = code;
+                    break;
+                }
+            }
         }
+
+        private string GetValue(object value) => value == null ? string.Empty : value.ToString();
+
         /// <summary>
         /// 自动生成批次编号
         /// </summary>

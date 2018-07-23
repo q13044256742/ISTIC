@@ -297,15 +297,61 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     Frm_CDRead read = new Frm_CDRead(trcId, trpName);
                     if(read.ShowDialog() == DialogResult.OK)
                     {
+                        StringBuilder sb = new StringBuilder();
                         //更新光盘信息
-                        string updateSql = $"UPDATE transfer_registraion_cd SET trc_status='{(int)ReadStatus.ReadSuccess}' WHERE trc_id='{trcId}'";
-                        SqlHelper.ExecuteNonQuery(updateSql);
+                        //如果当前光盘所属批次已提交且光盘是首次被读取，则证明是批次后补录光盘，则已录批次下所有项目课题均关联此光盘ID
+                        int pstate = (int)SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_submit_status FROM transfer_registration_pc WHERE trp_id=" +
+                            $"(SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcId}');");
+                        int cstate = (int)SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_status FROM transfer_registraion_cd WHERE trc_id='{trcId}';");
+                        if(pstate == 2 && cstate == 1)
+                        {
+                            /*-- 批次下的重大专项 - 项目/课题 --*/
+                            object trpId = dgv_SWDJ.Rows[e.RowIndex].Tag;
+                            object impId = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_id FROM imp_dev_info WHERE imp_obj_id=(SELECT imp_id FROM imp_info WHERE imp_obj_id = '{trpId}');");
+                            if(impId != null)
+                                UpdateTrcId(impId, trcId, ref sb);
+
+                            /*-- 批次下的计划 - 项目/课题 --*/
+                            object piId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{trpId}'");
+                            if(piId != null)
+                                UpdateTrcId(piId, trcId, ref sb);
+                        }
+                        sb.Append($"UPDATE transfer_registraion_cd SET trc_status='{(int)ReadStatus.ReadSuccess}' WHERE trc_id='{trcId}';");
+                        SqlHelper.ExecuteNonQuery(sb.ToString());
                         XtraMessageBox.Show("读写成功。");
                     }
                 }
             }
         }
-     
+
+        /// <summary>
+        /// 将已存在数据更新绑定光盘编号为新增光盘
+        /// </summary>
+        /// <param name="parentId">父级ID</param>
+        /// <param name="trcId">光盘ID</param>
+        private void UpdateTrcId(object parentId, object trcId, ref StringBuilder sb)
+        {
+            object[] proList = SqlHelper.ExecuteSingleColumnQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{parentId}' UNION ALL " +
+                                $"SELECT ti_id FROM topic_info WHERE ti_obj_id = '{parentId}'; ");
+            foreach(object proId in proList)
+            {
+                sb.Append($"UPDATE project_info SET trc_id=ISNULL(trc_id,'')+'{trcId};' WHERE pi_id='{proId}'; " +
+                    $"UPDATE topic_info SET trc_id=ISNULL(trc_id,'')+'{trcId};' WHERE ti_id='{proId}'; ");
+                object[] topList = SqlHelper.ExecuteSingleColumnQuery($"SELECT si_id FROM subject_info WHERE si_obj_id='{proId}' UNION ALL " +
+                $"SELECT ti_id FROM topic_info WHERE ti_obj_id = '{proId}'; ");
+                foreach(object topId in topList)
+                {
+                    sb.Append($"UPDATE subject_info SET trc_id=ISNULL(trc_id,'')+'{trcId};' WHERE si_id='{topId}'; " +
+                    $"UPDATE topic_info SET trc_id=ISNULL(trc_id,'')+'{trcId};' WHERE ti_id='{topId}'; ");
+                    object[] subList = SqlHelper.ExecuteSingleColumnQuery($"SELECT si_id FROM subject_info WHERE si_obj_id='{topId}';");
+                    foreach(object subId in subList)
+                    {
+                        sb.Append($"UPDATE subject_info SET trc_id=ISNULL(trc_id,'')+'{trcId};' WHERE si_id='{subId}'; ");
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// 返回上一页
         /// </summary>

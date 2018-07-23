@@ -293,7 +293,7 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 tempStr += "\t";
                             }
-                            tempStr += view.Rows[j].Cells[k].Value.ToString();
+                            tempStr += GetValue(view.Rows[j].Cells[k].Value);
                         }
                         sw.WriteLine(tempStr);
                     }
@@ -307,10 +307,10 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
-                catch(Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                //catch(Exception ex)
+                //{
+                //    MessageBox.Show(ex.Message);
+                //}
                 finally
                 {
                     sw.Close();
@@ -318,6 +318,8 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
+
+        private string GetValue(object value) => value == null ? string.Empty : value.ToString();
 
         private void Frm_Query_FormClosing(object sender, FormClosingEventArgs e)
         {

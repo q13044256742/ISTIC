@@ -363,12 +363,13 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 WorkType type = (WorkType)Convert.ToInt32(row["wm_type"]);
                 object objId = row["wm_obj_id"];
-                if(type == WorkType.PaperWork_Plan)
+                if(type == WorkType.PaperWork_Plan || type == WorkType.CDWork_Plan)
                 {
-                    string querySql = "SELECT dd_name, dd_code, pi_code, pi_name, pi_id, trp.trp_code FROM work_myreg wm " +
+                    string querySql = "SELECT dd_name, dd_code, pi_code, pi_name, pi_id, trp.trp_code, trc.trc_id FROM work_myreg wm " +
                         "LEFT JOIN project_info pi ON pi.pi_id = wm.wm_obj_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
+                        "LEFT JOIN transfer_registraion_cd trc ON pi.trc_id = trc.trc_id " +
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
                         $"WHERE wm.wm_obj_id = '{objId}'";
 
@@ -382,6 +383,7 @@ namespace 科技计划项目档案数据采集管理系统
                         dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = planRow["pi_name"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_pcode"].Value = planRow["trp_code"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = planRow["pi_code"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Tag = planRow["trc_id"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = planRow["dd_name"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Tag = planRow["dd_code"];
                         dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(planRow["pi_id"]);
@@ -861,12 +863,13 @@ namespace 科技计划项目档案数据采集管理系统
                         frm.Show();
                         frm.Activate();
                     }
-                    else if(type == WorkType.PaperWork_Plan)
+                    else if(type == WorkType.PaperWork_Plan || type == WorkType.CDWork_Plan)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
                         Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(WorkType.PaperWork_Plan, piid, objid, ControlType.Plan);
                         frm.unitCode = unitCode;
                         frm.BackCallMethod = CheckExistBackLog;
+                        frm.trcId = dgv_MyReg.Rows[e.RowIndex].Cells["mr_code"].Tag;
                         frm.Show();
                         frm.Activate();
                     }

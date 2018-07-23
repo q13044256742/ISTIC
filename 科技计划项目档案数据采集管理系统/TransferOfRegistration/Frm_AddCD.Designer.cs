@@ -89,6 +89,7 @@
             this.txt_CDCode.Location = new System.Drawing.Point(91, 92);
             this.txt_CDCode.Margin = new System.Windows.Forms.Padding(4);
             this.txt_CDCode.Name = "txt_CDCode";
+            this.txt_CDCode.ReadOnly = true;
             this.txt_CDCode.Size = new System.Drawing.Size(361, 27);
             this.txt_CDCode.TabIndex = 4;
             this.txt_CDCode.Enter += new System.EventHandler(this.Txt_CDCode_Enter);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
@@ -58,37 +59,37 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             if (amount > 0)
             {
                
-                if (MessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                if (XtraMessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                 {
                     int deleteAmount = 0;
                     string ids = string.Empty;
                     foreach(DataGridViewRow row in dgv_DataList.SelectedRows)
                     {
                         object id = row.Cells["id"].Value;
-                        int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(id) FROM data_dictionary WHERE dd_pId ='{id}'");
+                        int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(dd_id) FROM data_dictionary WHERE dd_pId ='{id}'");
                         if(count == 0)
                         {
                             ids += $"'{id}',";
                             deleteAmount++;
                         }
                         else
-                            MessageBox.Show($"编号【{row.Cells["code"]}】下存在子节点，无法删除。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show($"编号【{row.Cells["code"]}】下存在子节点，无法删除。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     if(!string.IsNullOrEmpty(ids))
                     {
                         ids = ids.Substring(0, ids.Length - 1);
-                        SqlHelper.ExecuteNonQuery($"DELETE FROM data_dictionary WHERE id IN ({ids})");
+                        SqlHelper.ExecuteNonQuery($"DELETE FROM data_dictionary WHERE dd_id IN ({ids})");
                     }
                     //获取当前列表的pId
                     string pId = GetValue(dgv_DataList.Tag);
-                    MessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txt_SearchKey.Text = null;
                     LoadZDDataScoure(pId);
                 }
             }
             else
             {
-                MessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                XtraMessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
@@ -111,7 +112,7 @@ namespace 科技计划项目档案数据采集管理系统.Manager
             }
             else
             {
-                MessageBox.Show("请先选择一条要修改的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                XtraMessageBox.Show("请先选择一条要修改的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 

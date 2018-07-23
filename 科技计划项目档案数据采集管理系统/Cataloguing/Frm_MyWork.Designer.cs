@@ -30,20 +30,20 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_MyWork));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
             this.treeView = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsm_InsertRow = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +70,11 @@
             this.special_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage26 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Special_FileValid = new System.Windows.Forms.DataGridView();
+            this.special_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.special_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage28 = new DevExpress.XtraTab.XtraTabPage();
             this.pal_Special_MoveBtnGroup = new System.Windows.Forms.Panel();
             this.btn_Special_Box_Right = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -130,6 +135,11 @@
             this.imp_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage22 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Imp_FileValid = new System.Windows.Forms.DataGridView();
+            this.imp_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage24 = new DevExpress.XtraTab.XtraTabPage();
             this.pal_Imp_MoveBtnGroup = new System.Windows.Forms.Panel();
             this.btn_Imp_Box_Right = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -185,6 +195,11 @@
             this.subject_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage17 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Subject_FileValid = new System.Windows.Forms.DataGridView();
+            this.subject_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.subject_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage19 = new DevExpress.XtraTab.XtraTabPage();
             this.pal_Subject_MoveBtnGroup = new System.Windows.Forms.Panel();
             this.btn_Subject_Box_Right = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -264,6 +279,11 @@
             this.topic_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage6 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Topic_FileValid = new System.Windows.Forms.DataGridView();
+            this.topic_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.topic_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage8 = new DevExpress.XtraTab.XtraTabPage();
             this.pal_Topic_MoveBtnGroup = new System.Windows.Forms.Panel();
             this.btn_Topic_Box_Right = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -345,6 +365,11 @@
             this.project_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Project_FileValid = new System.Windows.Forms.DataGridView();
+            this.project_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.project_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage4 = new DevExpress.XtraTab.XtraTabPage();
             this.pal_Project_MoveBtnGroup = new System.Windows.Forms.Panel();
             this.btn_Project_Box_Right = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -426,6 +451,11 @@
             this.plan_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fileCheck = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Plan_FileValid = new System.Windows.Forms.DataGridView();
+            this.plan_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.plan_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.plan_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.plan_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.plan_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box = new DevExpress.XtraTab.XtraTabPage();
             this.pal_Plan_MoveBtnGroup = new System.Windows.Forms.Panel();
             this.btn_Plan_Box_Right = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -466,36 +496,6 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.Pal_LeftBar = new System.Windows.Forms.Panel();
             this.SearchText = new DevExpress.XtraEditors.SearchControl();
-            this.plan_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.plan_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.plan_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.plan_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.plan_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.project_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.topic_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.subject_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fc_categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fc_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fc_reason = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.special_fc_remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1.SuspendLayout();
             this.special.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab_Special_Info)).BeginInit();
@@ -620,9 +620,9 @@
             this.special.Controls.Add(this.tab_Special_Info);
             this.special.Controls.Add(this.pal_Special_BtnGroup);
             this.special.Controls.Add(this.pal_Special);
-            this.special.Location = new System.Drawing.Point(4, 30);
+            this.special.Location = new System.Drawing.Point(4, 23);
             this.special.Name = "special";
-            this.special.Size = new System.Drawing.Size(1086, 707);
+            this.special.Size = new System.Drawing.Size(1086, 714);
             this.special.TabIndex = 7;
             this.special.Text = "专项信息";
             // 
@@ -657,14 +657,14 @@
             // 
             this.dgv_Special_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Special_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Special_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle43.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle43.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle43.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle43.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle43.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle43.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Special_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle43;
             this.dgv_Special_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Special_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.special_fl_id,
@@ -806,14 +806,14 @@
             this.dgv_Special_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Special_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Special_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Special_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle44.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle44.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle44.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle44.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle44.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle44.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Special_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle44;
             this.dgv_Special_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Special_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.special_fc_id,
@@ -829,6 +829,47 @@
             this.dgv_Special_FileValid.Size = new System.Drawing.Size(1074, 301);
             this.dgv_Special_FileValid.TabIndex = 0;
             this.dgv_Special_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
+            // 
+            // special_fc_id
+            // 
+            this.special_fc_id.FillWeight = 8F;
+            this.special_fc_id.HeaderText = "序号";
+            this.special_fc_id.Name = "special_fc_id";
+            this.special_fc_id.ReadOnly = true;
+            this.special_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // special_fc_categor
+            // 
+            this.special_fc_categor.FillWeight = 20F;
+            this.special_fc_categor.HeaderText = "文件类别";
+            this.special_fc_categor.Name = "special_fc_categor";
+            this.special_fc_categor.ReadOnly = true;
+            this.special_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // special_fc_name
+            // 
+            this.special_fc_name.FillWeight = 40F;
+            this.special_fc_name.HeaderText = "缺失文件名称";
+            this.special_fc_name.Name = "special_fc_name";
+            this.special_fc_name.ReadOnly = true;
+            this.special_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // special_fc_reason
+            // 
+            this.special_fc_reason.FillWeight = 20F;
+            this.special_fc_reason.HeaderText = "缺少原因";
+            this.special_fc_reason.Items.AddRange(new object[] {
+            "文件缺失",
+            "汇编包含"});
+            this.special_fc_reason.Name = "special_fc_reason";
+            this.special_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // special_fc_remark
+            // 
+            this.special_fc_remark.FillWeight = 25F;
+            this.special_fc_remark.HeaderText = "备注";
+            this.special_fc_remark.Name = "special_fc_remark";
+            this.special_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // tabPage28
             // 
@@ -850,7 +891,7 @@
             this.tabPage28.Controls.Add(this.label145);
             this.tabPage28.Image = ((System.Drawing.Image)(resources.GetObject("tabPage28.Image")));
             this.tabPage28.Name = "tabPage28";
-            this.tabPage28.Size = new System.Drawing.Size(1074, 308);
+            this.tabPage28.Size = new System.Drawing.Size(1074, 301);
             this.tabPage28.Text = "卷盒信息";
             // 
             // pal_Special_MoveBtnGroup
@@ -989,7 +1030,7 @@
             this.lsv_Imp_Dev_File2.GridLines = true;
             this.lsv_Imp_Dev_File2.Location = new System.Drawing.Point(574, 86);
             this.lsv_Imp_Dev_File2.Name = "lsv_Imp_Dev_File2";
-            this.lsv_Imp_Dev_File2.Size = new System.Drawing.Size(499, 219);
+            this.lsv_Imp_Dev_File2.Size = new System.Drawing.Size(499, 212);
             this.lsv_Imp_Dev_File2.TabIndex = 7;
             this.lsv_Imp_Dev_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_Imp_Dev_File2.View = System.Windows.Forms.View.Details;
@@ -1003,7 +1044,7 @@
             this.lsv_Imp_Dev_File1.GridLines = true;
             this.lsv_Imp_Dev_File1.Location = new System.Drawing.Point(3, 86);
             this.lsv_Imp_Dev_File1.Name = "lsv_Imp_Dev_File1";
-            this.lsv_Imp_Dev_File1.Size = new System.Drawing.Size(499, 219);
+            this.lsv_Imp_Dev_File1.Size = new System.Drawing.Size(499, 212);
             this.lsv_Imp_Dev_File1.TabIndex = 6;
             this.lsv_Imp_Dev_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_Imp_Dev_File1.View = System.Windows.Forms.View.Details;
@@ -1079,7 +1120,7 @@
             this.pal_Special_BtnGroup.Controls.Add(this.btn_Special_Submit);
             this.pal_Special_BtnGroup.Controls.Add(this.btn_Special_Save);
             this.pal_Special_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_Special_BtnGroup.Location = new System.Drawing.Point(0, 667);
+            this.pal_Special_BtnGroup.Location = new System.Drawing.Point(0, 674);
             this.pal_Special_BtnGroup.Name = "pal_Special_BtnGroup";
             this.pal_Special_BtnGroup.Size = new System.Drawing.Size(1086, 40);
             this.pal_Special_BtnGroup.TabIndex = 5;
@@ -1293,10 +1334,10 @@
             this.imp.Controls.Add(this.tab_Imp_Info);
             this.imp.Controls.Add(this.pal_Imp_BtnGroup);
             this.imp.Controls.Add(this.pal_Imp);
-            this.imp.Location = new System.Drawing.Point(4, 30);
+            this.imp.Location = new System.Drawing.Point(4, 23);
             this.imp.Name = "imp";
             this.imp.Padding = new System.Windows.Forms.Padding(3);
-            this.imp.Size = new System.Drawing.Size(1086, 707);
+            this.imp.Size = new System.Drawing.Size(1086, 714);
             this.imp.TabIndex = 6;
             this.imp.Text = "重大专项";
             // 
@@ -1331,14 +1372,14 @@
             // 
             this.dgv_Imp_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Imp_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle45.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle45.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle45.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle45.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle45.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle45.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Imp_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle45;
             this.dgv_Imp_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.imp_fl_id,
             this.imp_fl_stage,
@@ -1479,14 +1520,14 @@
             this.dgv_Imp_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Imp_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Imp_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle46.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle46.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle46.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle46.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle46.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle46.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Imp_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle46;
             this.dgv_Imp_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.imp_fc_id,
             this.imp_fc_categor,
@@ -1501,6 +1542,47 @@
             this.dgv_Imp_FileValid.Size = new System.Drawing.Size(1074, 291);
             this.dgv_Imp_FileValid.TabIndex = 0;
             this.dgv_Imp_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
+            // 
+            // imp_fc_id
+            // 
+            this.imp_fc_id.FillWeight = 8F;
+            this.imp_fc_id.HeaderText = "序号";
+            this.imp_fc_id.Name = "imp_fc_id";
+            this.imp_fc_id.ReadOnly = true;
+            this.imp_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // imp_fc_categor
+            // 
+            this.imp_fc_categor.FillWeight = 20F;
+            this.imp_fc_categor.HeaderText = "文件类别";
+            this.imp_fc_categor.Name = "imp_fc_categor";
+            this.imp_fc_categor.ReadOnly = true;
+            this.imp_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // imp_fc_name
+            // 
+            this.imp_fc_name.FillWeight = 40F;
+            this.imp_fc_name.HeaderText = "缺失文件名称";
+            this.imp_fc_name.Name = "imp_fc_name";
+            this.imp_fc_name.ReadOnly = true;
+            this.imp_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // imp_fc_reason
+            // 
+            this.imp_fc_reason.FillWeight = 20F;
+            this.imp_fc_reason.HeaderText = "缺少原因";
+            this.imp_fc_reason.Items.AddRange(new object[] {
+            "文件缺失",
+            "汇编包含"});
+            this.imp_fc_reason.Name = "imp_fc_reason";
+            this.imp_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // imp_fc_remark
+            // 
+            this.imp_fc_remark.FillWeight = 25F;
+            this.imp_fc_remark.HeaderText = "备注";
+            this.imp_fc_remark.Name = "imp_fc_remark";
+            this.imp_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // tabPage24
             // 
@@ -1522,7 +1604,7 @@
             this.tabPage24.Controls.Add(this.label132);
             this.tabPage24.Image = ((System.Drawing.Image)(resources.GetObject("tabPage24.Image")));
             this.tabPage24.Name = "tabPage24";
-            this.tabPage24.Size = new System.Drawing.Size(1074, 298);
+            this.tabPage24.Size = new System.Drawing.Size(1074, 291);
             this.tabPage24.Text = "卷盒信息";
             // 
             // pal_Imp_MoveBtnGroup
@@ -1661,7 +1743,7 @@
             this.lsv_Imp_File2.GridLines = true;
             this.lsv_Imp_File2.Location = new System.Drawing.Point(573, 84);
             this.lsv_Imp_File2.Name = "lsv_Imp_File2";
-            this.lsv_Imp_File2.Size = new System.Drawing.Size(499, 211);
+            this.lsv_Imp_File2.Size = new System.Drawing.Size(499, 204);
             this.lsv_Imp_File2.TabIndex = 7;
             this.lsv_Imp_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_Imp_File2.View = System.Windows.Forms.View.Details;
@@ -1675,7 +1757,7 @@
             this.lsv_Imp_File1.GridLines = true;
             this.lsv_Imp_File1.Location = new System.Drawing.Point(3, 84);
             this.lsv_Imp_File1.Name = "lsv_Imp_File1";
-            this.lsv_Imp_File1.Size = new System.Drawing.Size(499, 211);
+            this.lsv_Imp_File1.Size = new System.Drawing.Size(499, 204);
             this.lsv_Imp_File1.TabIndex = 6;
             this.lsv_Imp_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_Imp_File1.View = System.Windows.Forms.View.Details;
@@ -1751,7 +1833,7 @@
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Submit);
             this.pal_Imp_BtnGroup.Controls.Add(this.btn_Imp_Save);
             this.pal_Imp_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_Imp_BtnGroup.Location = new System.Drawing.Point(3, 664);
+            this.pal_Imp_BtnGroup.Location = new System.Drawing.Point(3, 671);
             this.pal_Imp_BtnGroup.Name = "pal_Imp_BtnGroup";
             this.pal_Imp_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Imp_BtnGroup.TabIndex = 5;
@@ -1908,10 +1990,10 @@
             this.subject.Controls.Add(this.tab_Subject_Info);
             this.subject.Controls.Add(this.pal_Subject_BtnGroup);
             this.subject.Controls.Add(this.pal_Subject);
-            this.subject.Location = new System.Drawing.Point(4, 30);
+            this.subject.Location = new System.Drawing.Point(4, 23);
             this.subject.Name = "subject";
             this.subject.Padding = new System.Windows.Forms.Padding(3);
-            this.subject.Size = new System.Drawing.Size(1086, 707);
+            this.subject.Size = new System.Drawing.Size(1086, 714);
             this.subject.TabIndex = 4;
             this.subject.Text = "子课题";
             // 
@@ -1939,21 +2021,21 @@
             this.tabPage16.Image = ((System.Drawing.Image)(resources.GetObject("tabPage16.Image")));
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(1074, 268);
+            this.tabPage16.Size = new System.Drawing.Size(1074, 319);
             this.tabPage16.Text = "文件列表";
             // 
             // dgv_Subject_FileList
             // 
             this.dgv_Subject_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Subject_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Subject_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle47.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle47.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle47.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle47.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle47.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle47.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Subject_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle47;
             this.dgv_Subject_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Subject_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.subject_fl_id,
@@ -1975,7 +2057,7 @@
             this.dgv_Subject_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Subject_FileList.Name = "dgv_Subject_FileList";
             this.dgv_Subject_FileList.RowTemplate.Height = 23;
-            this.dgv_Subject_FileList.Size = new System.Drawing.Size(1068, 262);
+            this.dgv_Subject_FileList.Size = new System.Drawing.Size(1068, 313);
             this.dgv_Subject_FileList.TabIndex = 0;
             this.dgv_Subject_FileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_FileList_CellClick);
             this.dgv_Subject_FileList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_FileList_CellMouseDown);
@@ -2095,14 +2177,14 @@
             this.dgv_Subject_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Subject_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Subject_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Subject_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle48.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle48.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle48.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle48.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle48.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle48.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Subject_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle48;
             this.dgv_Subject_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Subject_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.subject_fc_id,
@@ -2117,6 +2199,47 @@
             this.dgv_Subject_FileValid.RowTemplate.Height = 23;
             this.dgv_Subject_FileValid.Size = new System.Drawing.Size(1074, 319);
             this.dgv_Subject_FileValid.TabIndex = 0;
+            // 
+            // subject_fc_id
+            // 
+            this.subject_fc_id.FillWeight = 8F;
+            this.subject_fc_id.HeaderText = "序号";
+            this.subject_fc_id.Name = "subject_fc_id";
+            this.subject_fc_id.ReadOnly = true;
+            this.subject_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // subject_fc_categor
+            // 
+            this.subject_fc_categor.FillWeight = 20F;
+            this.subject_fc_categor.HeaderText = "文件类别";
+            this.subject_fc_categor.Name = "subject_fc_categor";
+            this.subject_fc_categor.ReadOnly = true;
+            this.subject_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // subject_fc_name
+            // 
+            this.subject_fc_name.FillWeight = 40F;
+            this.subject_fc_name.HeaderText = "缺失文件名称";
+            this.subject_fc_name.Name = "subject_fc_name";
+            this.subject_fc_name.ReadOnly = true;
+            this.subject_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // subject_fc_reason
+            // 
+            this.subject_fc_reason.FillWeight = 20F;
+            this.subject_fc_reason.HeaderText = "缺少原因";
+            this.subject_fc_reason.Items.AddRange(new object[] {
+            "文件缺失",
+            "汇编包含"});
+            this.subject_fc_reason.Name = "subject_fc_reason";
+            this.subject_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // subject_fc_remark
+            // 
+            this.subject_fc_remark.FillWeight = 25F;
+            this.subject_fc_remark.HeaderText = "备注";
+            this.subject_fc_remark.Name = "subject_fc_remark";
+            this.subject_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // tabPage19
             // 
@@ -2138,7 +2261,7 @@
             this.tabPage19.Controls.Add(this.label87);
             this.tabPage19.Image = ((System.Drawing.Image)(resources.GetObject("tabPage19.Image")));
             this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Size = new System.Drawing.Size(1074, 275);
+            this.tabPage19.Size = new System.Drawing.Size(1074, 319);
             this.tabPage19.Text = "卷盒信息";
             // 
             // pal_Subject_MoveBtnGroup
@@ -2277,7 +2400,7 @@
             this.lsv_JH_XM_KT_ZKT_File2.GridLines = true;
             this.lsv_JH_XM_KT_ZKT_File2.Location = new System.Drawing.Point(573, 86);
             this.lsv_JH_XM_KT_ZKT_File2.Name = "lsv_JH_XM_KT_ZKT_File2";
-            this.lsv_JH_XM_KT_ZKT_File2.Size = new System.Drawing.Size(498, 186);
+            this.lsv_JH_XM_KT_ZKT_File2.Size = new System.Drawing.Size(498, 230);
             this.lsv_JH_XM_KT_ZKT_File2.TabIndex = 7;
             this.lsv_JH_XM_KT_ZKT_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_KT_ZKT_File2.View = System.Windows.Forms.View.Details;
@@ -2291,7 +2414,7 @@
             this.lsv_JH_XM_KT_ZKT_File1.GridLines = true;
             this.lsv_JH_XM_KT_ZKT_File1.Location = new System.Drawing.Point(3, 86);
             this.lsv_JH_XM_KT_ZKT_File1.Name = "lsv_JH_XM_KT_ZKT_File1";
-            this.lsv_JH_XM_KT_ZKT_File1.Size = new System.Drawing.Size(499, 186);
+            this.lsv_JH_XM_KT_ZKT_File1.Size = new System.Drawing.Size(499, 230);
             this.lsv_JH_XM_KT_ZKT_File1.TabIndex = 6;
             this.lsv_JH_XM_KT_ZKT_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_KT_ZKT_File1.View = System.Windows.Forms.View.Details;
@@ -2369,7 +2492,7 @@
             this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_Save);
             this.pal_Subject_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pal_Subject_BtnGroup.Font = new System.Drawing.Font("宋体", 11F);
-            this.pal_Subject_BtnGroup.Location = new System.Drawing.Point(3, 664);
+            this.pal_Subject_BtnGroup.Location = new System.Drawing.Point(3, 671);
             this.pal_Subject_BtnGroup.Name = "pal_Subject_BtnGroup";
             this.pal_Subject_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Subject_BtnGroup.TabIndex = 10;
@@ -2768,10 +2891,10 @@
             this.topic.Controls.Add(this.tab_Topic_Info);
             this.topic.Controls.Add(this.pal_Topic_BtnGroup);
             this.topic.Controls.Add(this.pal_Topic);
-            this.topic.Location = new System.Drawing.Point(4, 30);
+            this.topic.Location = new System.Drawing.Point(4, 23);
             this.topic.Name = "topic";
             this.topic.Padding = new System.Windows.Forms.Padding(3);
-            this.topic.Size = new System.Drawing.Size(1086, 707);
+            this.topic.Size = new System.Drawing.Size(1086, 714);
             this.topic.TabIndex = 2;
             this.topic.Text = "课题";
             // 
@@ -2806,14 +2929,14 @@
             // 
             this.dgv_Topic_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Topic_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Topic_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle49.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle49.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle49.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle49.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle49.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle49.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Topic_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle49;
             this.dgv_Topic_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Topic_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.topic_fl_id,
@@ -2951,14 +3074,14 @@
             this.dgv_Topic_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Topic_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Topic_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Topic_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle50.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle50.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle50.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle50.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle50.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle50.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Topic_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle50;
             this.dgv_Topic_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Topic_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.topic_fc_id,
@@ -2973,6 +3096,47 @@
             this.dgv_Topic_FileValid.RowTemplate.Height = 23;
             this.dgv_Topic_FileValid.Size = new System.Drawing.Size(1074, 277);
             this.dgv_Topic_FileValid.TabIndex = 0;
+            // 
+            // topic_fc_id
+            // 
+            this.topic_fc_id.FillWeight = 8F;
+            this.topic_fc_id.HeaderText = "序号";
+            this.topic_fc_id.Name = "topic_fc_id";
+            this.topic_fc_id.ReadOnly = true;
+            this.topic_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // topic_fc_categor
+            // 
+            this.topic_fc_categor.FillWeight = 20F;
+            this.topic_fc_categor.HeaderText = "文件类别";
+            this.topic_fc_categor.Name = "topic_fc_categor";
+            this.topic_fc_categor.ReadOnly = true;
+            this.topic_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // topic_fc_name
+            // 
+            this.topic_fc_name.FillWeight = 40F;
+            this.topic_fc_name.HeaderText = "缺失文件名称";
+            this.topic_fc_name.Name = "topic_fc_name";
+            this.topic_fc_name.ReadOnly = true;
+            this.topic_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // topic_fc_reason
+            // 
+            this.topic_fc_reason.FillWeight = 20F;
+            this.topic_fc_reason.HeaderText = "缺少原因";
+            this.topic_fc_reason.Items.AddRange(new object[] {
+            "文件缺失",
+            "汇编包含"});
+            this.topic_fc_reason.Name = "topic_fc_reason";
+            this.topic_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // topic_fc_remark
+            // 
+            this.topic_fc_remark.FillWeight = 25F;
+            this.topic_fc_remark.HeaderText = "备注";
+            this.topic_fc_remark.Name = "topic_fc_remark";
+            this.topic_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // tabPage8
             // 
@@ -2994,7 +3158,7 @@
             this.tabPage8.Controls.Add(this.label71);
             this.tabPage8.Image = ((System.Drawing.Image)(resources.GetObject("tabPage8.Image")));
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1074, 284);
+            this.tabPage8.Size = new System.Drawing.Size(1074, 277);
             this.tabPage8.Text = "卷盒信息";
             // 
             // pal_Topic_MoveBtnGroup
@@ -3133,7 +3297,7 @@
             this.lsv_JH_KT_File2.GridLines = true;
             this.lsv_JH_KT_File2.Location = new System.Drawing.Point(573, 86);
             this.lsv_JH_KT_File2.Name = "lsv_JH_KT_File2";
-            this.lsv_JH_KT_File2.Size = new System.Drawing.Size(498, 195);
+            this.lsv_JH_KT_File2.Size = new System.Drawing.Size(498, 188);
             this.lsv_JH_KT_File2.TabIndex = 7;
             this.lsv_JH_KT_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_KT_File2.View = System.Windows.Forms.View.Details;
@@ -3147,7 +3311,7 @@
             this.lsv_JH_KT_File1.GridLines = true;
             this.lsv_JH_KT_File1.Location = new System.Drawing.Point(3, 86);
             this.lsv_JH_KT_File1.Name = "lsv_JH_KT_File1";
-            this.lsv_JH_KT_File1.Size = new System.Drawing.Size(499, 195);
+            this.lsv_JH_KT_File1.Size = new System.Drawing.Size(499, 188);
             this.lsv_JH_KT_File1.TabIndex = 6;
             this.lsv_JH_KT_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_KT_File1.View = System.Windows.Forms.View.Details;
@@ -3224,7 +3388,7 @@
             this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_Submit);
             this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_Save);
             this.pal_Topic_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_Topic_BtnGroup.Location = new System.Drawing.Point(3, 664);
+            this.pal_Topic_BtnGroup.Location = new System.Drawing.Point(3, 671);
             this.pal_Topic_BtnGroup.Name = "pal_Topic_BtnGroup";
             this.pal_Topic_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Topic_BtnGroup.TabIndex = 7;
@@ -3650,10 +3814,10 @@
             this.project.Controls.Add(this.tab_Project_Info);
             this.project.Controls.Add(this.pal_Project_BtnGroup);
             this.project.Controls.Add(this.pal_Project);
-            this.project.Location = new System.Drawing.Point(4, 30);
+            this.project.Location = new System.Drawing.Point(4, 23);
             this.project.Name = "project";
             this.project.Padding = new System.Windows.Forms.Padding(3);
-            this.project.Size = new System.Drawing.Size(1086, 707);
+            this.project.Size = new System.Drawing.Size(1086, 714);
             this.project.TabIndex = 1;
             this.project.Text = "项目";
             // 
@@ -3690,14 +3854,14 @@
             // 
             this.dgv_Project_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Project_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Project_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle51.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle51.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle51.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle51.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle51.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle51.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Project_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle51;
             this.dgv_Project_FileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Project_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.project_fl_id,
@@ -3838,14 +4002,14 @@
             this.dgv_Project_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Project_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Project_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Project_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle52.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle52.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle52.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle52.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle52.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle52.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Project_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle52;
             this.dgv_Project_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Project_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.project_fc_id,
@@ -3860,6 +4024,47 @@
             this.dgv_Project_FileValid.RowTemplate.Height = 23;
             this.dgv_Project_FileValid.Size = new System.Drawing.Size(1074, 266);
             this.dgv_Project_FileValid.TabIndex = 0;
+            // 
+            // project_fc_id
+            // 
+            this.project_fc_id.FillWeight = 8F;
+            this.project_fc_id.HeaderText = "序号";
+            this.project_fc_id.Name = "project_fc_id";
+            this.project_fc_id.ReadOnly = true;
+            this.project_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // project_fc_categor
+            // 
+            this.project_fc_categor.FillWeight = 20F;
+            this.project_fc_categor.HeaderText = "文件类别";
+            this.project_fc_categor.Name = "project_fc_categor";
+            this.project_fc_categor.ReadOnly = true;
+            this.project_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // project_fc_name
+            // 
+            this.project_fc_name.FillWeight = 40F;
+            this.project_fc_name.HeaderText = "缺失文件名称";
+            this.project_fc_name.Name = "project_fc_name";
+            this.project_fc_name.ReadOnly = true;
+            this.project_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // project_fc_reason
+            // 
+            this.project_fc_reason.FillWeight = 20F;
+            this.project_fc_reason.HeaderText = "缺少原因";
+            this.project_fc_reason.Items.AddRange(new object[] {
+            "文件缺失",
+            "汇编包含"});
+            this.project_fc_reason.Name = "project_fc_reason";
+            this.project_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // project_fc_remark
+            // 
+            this.project_fc_remark.FillWeight = 25F;
+            this.project_fc_remark.HeaderText = "备注";
+            this.project_fc_remark.Name = "project_fc_remark";
+            this.project_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // tabPage4
             // 
@@ -3881,7 +4086,7 @@
             this.tabPage4.Controls.Add(this.label63);
             this.tabPage4.Image = ((System.Drawing.Image)(resources.GetObject("tabPage4.Image")));
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1074, 273);
+            this.tabPage4.Size = new System.Drawing.Size(1074, 266);
             this.tabPage4.Text = "卷盒信息";
             // 
             // pal_Project_MoveBtnGroup
@@ -4025,7 +4230,7 @@
             this.lsv_JH_XM_File2.GridLines = true;
             this.lsv_JH_XM_File2.Location = new System.Drawing.Point(572, 83);
             this.lsv_JH_XM_File2.Name = "lsv_JH_XM_File2";
-            this.lsv_JH_XM_File2.Size = new System.Drawing.Size(500, 187);
+            this.lsv_JH_XM_File2.Size = new System.Drawing.Size(500, 180);
             this.lsv_JH_XM_File2.TabIndex = 7;
             this.lsv_JH_XM_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_File2.View = System.Windows.Forms.View.Details;
@@ -4039,7 +4244,7 @@
             this.lsv_JH_XM_File1.GridLines = true;
             this.lsv_JH_XM_File1.Location = new System.Drawing.Point(3, 83);
             this.lsv_JH_XM_File1.Name = "lsv_JH_XM_File1";
-            this.lsv_JH_XM_File1.Size = new System.Drawing.Size(499, 187);
+            this.lsv_JH_XM_File1.Size = new System.Drawing.Size(499, 180);
             this.lsv_JH_XM_File1.TabIndex = 6;
             this.lsv_JH_XM_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_File1.View = System.Windows.Forms.View.Details;
@@ -4116,7 +4321,7 @@
             this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_Submit);
             this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_Save);
             this.pal_Project_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pal_Project_BtnGroup.Location = new System.Drawing.Point(3, 664);
+            this.pal_Project_BtnGroup.Location = new System.Drawing.Point(3, 671);
             this.pal_Project_BtnGroup.Name = "pal_Project_BtnGroup";
             this.pal_Project_BtnGroup.Size = new System.Drawing.Size(1080, 40);
             this.pal_Project_BtnGroup.TabIndex = 4;
@@ -4583,14 +4788,14 @@
             // 
             this.dgv_Plan_FileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Plan_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Plan_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle53.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle53.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle53.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle53.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle53.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle53.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Plan_FileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle53;
             this.dgv_Plan_FileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.plan_fl_id,
             this.plan_fl_stage,
@@ -4623,8 +4828,8 @@
             // 
             // plan_fl_id
             // 
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.plan_fl_id.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.plan_fl_id.DefaultCellStyle = dataGridViewCellStyle54;
             this.plan_fl_id.HeaderText = "序号";
             this.plan_fl_id.Name = "plan_fl_id";
             this.plan_fl_id.ReadOnly = true;
@@ -4657,8 +4862,8 @@
             // 
             // plan_fl_name
             // 
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.plan_fl_name.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle55.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.plan_fl_name.DefaultCellStyle = dataGridViewCellStyle55;
             this.plan_fl_name.HeaderText = "文件名称";
             this.plan_fl_name.Name = "plan_fl_name";
             this.plan_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -4740,14 +4945,14 @@
             this.dgv_Plan_FileValid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Plan_FileValid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_Plan_FileValid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Plan_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle56.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle56.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle56.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle56.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle56.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle56.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Plan_FileValid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle56;
             this.dgv_Plan_FileValid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Plan_FileValid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.plan_fc_id,
@@ -4762,6 +4967,47 @@
             this.dgv_Plan_FileValid.RowTemplate.Height = 23;
             this.dgv_Plan_FileValid.Size = new System.Drawing.Size(1074, 317);
             this.dgv_Plan_FileValid.TabIndex = 0;
+            // 
+            // plan_fc_id
+            // 
+            this.plan_fc_id.FillWeight = 10F;
+            this.plan_fc_id.HeaderText = "序号";
+            this.plan_fc_id.Name = "plan_fc_id";
+            this.plan_fc_id.ReadOnly = true;
+            this.plan_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // plan_fc_categor
+            // 
+            this.plan_fc_categor.FillWeight = 20F;
+            this.plan_fc_categor.HeaderText = "文件类别";
+            this.plan_fc_categor.Name = "plan_fc_categor";
+            this.plan_fc_categor.ReadOnly = true;
+            this.plan_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // plan_fc_name
+            // 
+            this.plan_fc_name.FillWeight = 40F;
+            this.plan_fc_name.HeaderText = "缺失文件名称";
+            this.plan_fc_name.Name = "plan_fc_name";
+            this.plan_fc_name.ReadOnly = true;
+            this.plan_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // plan_fc_reason
+            // 
+            this.plan_fc_reason.FillWeight = 20F;
+            this.plan_fc_reason.HeaderText = "缺少原因";
+            this.plan_fc_reason.Items.AddRange(new object[] {
+            "文件缺失",
+            "汇编包含"});
+            this.plan_fc_reason.Name = "plan_fc_reason";
+            this.plan_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // plan_fc_remark
+            // 
+            this.plan_fc_remark.FillWeight = 25F;
+            this.plan_fc_remark.HeaderText = "备注";
+            this.plan_fc_remark.Name = "plan_fc_remark";
+            this.plan_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // box
             // 
@@ -5250,252 +5496,6 @@
             this.SearchText.TabIndex = 3;
             this.SearchText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchText_KeyDown);
             // 
-            // plan_fc_id
-            // 
-            this.plan_fc_id.FillWeight = 10F;
-            this.plan_fc_id.HeaderText = "序号";
-            this.plan_fc_id.Name = "plan_fc_id";
-            this.plan_fc_id.ReadOnly = true;
-            this.plan_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // plan_fc_categor
-            // 
-            this.plan_fc_categor.FillWeight = 20F;
-            this.plan_fc_categor.HeaderText = "文件类别";
-            this.plan_fc_categor.Name = "plan_fc_categor";
-            this.plan_fc_categor.ReadOnly = true;
-            this.plan_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // plan_fc_name
-            // 
-            this.plan_fc_name.FillWeight = 40F;
-            this.plan_fc_name.HeaderText = "缺失文件名称";
-            this.plan_fc_name.Name = "plan_fc_name";
-            this.plan_fc_name.ReadOnly = true;
-            this.plan_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // plan_fc_reason
-            // 
-            this.plan_fc_reason.FillWeight = 20F;
-            this.plan_fc_reason.HeaderText = "缺少原因";
-            this.plan_fc_reason.Items.AddRange(new object[] {
-            "文件缺失",
-            "汇编包含"});
-            this.plan_fc_reason.Name = "plan_fc_reason";
-            this.plan_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // plan_fc_remark
-            // 
-            this.plan_fc_remark.FillWeight = 25F;
-            this.plan_fc_remark.HeaderText = "备注";
-            this.plan_fc_remark.Name = "plan_fc_remark";
-            this.plan_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // project_fc_id
-            // 
-            this.project_fc_id.FillWeight = 8F;
-            this.project_fc_id.HeaderText = "序号";
-            this.project_fc_id.Name = "project_fc_id";
-            this.project_fc_id.ReadOnly = true;
-            this.project_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // project_fc_categor
-            // 
-            this.project_fc_categor.FillWeight = 20F;
-            this.project_fc_categor.HeaderText = "文件类别";
-            this.project_fc_categor.Name = "project_fc_categor";
-            this.project_fc_categor.ReadOnly = true;
-            this.project_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // project_fc_name
-            // 
-            this.project_fc_name.FillWeight = 40F;
-            this.project_fc_name.HeaderText = "缺失文件名称";
-            this.project_fc_name.Name = "project_fc_name";
-            this.project_fc_name.ReadOnly = true;
-            this.project_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // project_fc_reason
-            // 
-            this.project_fc_reason.FillWeight = 20F;
-            this.project_fc_reason.HeaderText = "缺少原因";
-            this.project_fc_reason.Items.AddRange(new object[] {
-            "文件缺失",
-            "汇编包含"});
-            this.project_fc_reason.Name = "project_fc_reason";
-            this.project_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // project_fc_remark
-            // 
-            this.project_fc_remark.FillWeight = 25F;
-            this.project_fc_remark.HeaderText = "备注";
-            this.project_fc_remark.Name = "project_fc_remark";
-            this.project_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // topic_fc_id
-            // 
-            this.topic_fc_id.FillWeight = 8F;
-            this.topic_fc_id.HeaderText = "序号";
-            this.topic_fc_id.Name = "topic_fc_id";
-            this.topic_fc_id.ReadOnly = true;
-            this.topic_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // topic_fc_categor
-            // 
-            this.topic_fc_categor.FillWeight = 20F;
-            this.topic_fc_categor.HeaderText = "文件类别";
-            this.topic_fc_categor.Name = "topic_fc_categor";
-            this.topic_fc_categor.ReadOnly = true;
-            this.topic_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // topic_fc_name
-            // 
-            this.topic_fc_name.FillWeight = 40F;
-            this.topic_fc_name.HeaderText = "缺失文件名称";
-            this.topic_fc_name.Name = "topic_fc_name";
-            this.topic_fc_name.ReadOnly = true;
-            this.topic_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // topic_fc_reason
-            // 
-            this.topic_fc_reason.FillWeight = 20F;
-            this.topic_fc_reason.HeaderText = "缺少原因";
-            this.topic_fc_reason.Items.AddRange(new object[] {
-            "文件缺失",
-            "汇编包含"});
-            this.topic_fc_reason.Name = "topic_fc_reason";
-            this.topic_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // topic_fc_remark
-            // 
-            this.topic_fc_remark.FillWeight = 25F;
-            this.topic_fc_remark.HeaderText = "备注";
-            this.topic_fc_remark.Name = "topic_fc_remark";
-            this.topic_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // subject_fc_id
-            // 
-            this.subject_fc_id.FillWeight = 8F;
-            this.subject_fc_id.HeaderText = "序号";
-            this.subject_fc_id.Name = "subject_fc_id";
-            this.subject_fc_id.ReadOnly = true;
-            this.subject_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // subject_fc_categor
-            // 
-            this.subject_fc_categor.FillWeight = 20F;
-            this.subject_fc_categor.HeaderText = "文件类别";
-            this.subject_fc_categor.Name = "subject_fc_categor";
-            this.subject_fc_categor.ReadOnly = true;
-            this.subject_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // subject_fc_name
-            // 
-            this.subject_fc_name.FillWeight = 40F;
-            this.subject_fc_name.HeaderText = "缺失文件名称";
-            this.subject_fc_name.Name = "subject_fc_name";
-            this.subject_fc_name.ReadOnly = true;
-            this.subject_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // subject_fc_reason
-            // 
-            this.subject_fc_reason.FillWeight = 20F;
-            this.subject_fc_reason.HeaderText = "缺少原因";
-            this.subject_fc_reason.Items.AddRange(new object[] {
-            "文件缺失",
-            "汇编包含"});
-            this.subject_fc_reason.Name = "subject_fc_reason";
-            this.subject_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // subject_fc_remark
-            // 
-            this.subject_fc_remark.FillWeight = 25F;
-            this.subject_fc_remark.HeaderText = "备注";
-            this.subject_fc_remark.Name = "subject_fc_remark";
-            this.subject_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // imp_fc_id
-            // 
-            this.imp_fc_id.FillWeight = 8F;
-            this.imp_fc_id.HeaderText = "序号";
-            this.imp_fc_id.Name = "imp_fc_id";
-            this.imp_fc_id.ReadOnly = true;
-            this.imp_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // imp_fc_categor
-            // 
-            this.imp_fc_categor.FillWeight = 20F;
-            this.imp_fc_categor.HeaderText = "文件类别";
-            this.imp_fc_categor.Name = "imp_fc_categor";
-            this.imp_fc_categor.ReadOnly = true;
-            this.imp_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // imp_fc_name
-            // 
-            this.imp_fc_name.FillWeight = 40F;
-            this.imp_fc_name.HeaderText = "缺失文件名称";
-            this.imp_fc_name.Name = "imp_fc_name";
-            this.imp_fc_name.ReadOnly = true;
-            this.imp_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // imp_fc_reason
-            // 
-            this.imp_fc_reason.FillWeight = 20F;
-            this.imp_fc_reason.HeaderText = "缺少原因";
-            this.imp_fc_reason.Items.AddRange(new object[] {
-            "文件缺失",
-            "汇编包含"});
-            this.imp_fc_reason.Name = "imp_fc_reason";
-            this.imp_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // imp_fc_remark
-            // 
-            this.imp_fc_remark.FillWeight = 25F;
-            this.imp_fc_remark.HeaderText = "备注";
-            this.imp_fc_remark.Name = "imp_fc_remark";
-            this.imp_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // special_fc_id
-            // 
-            this.special_fc_id.FillWeight = 8F;
-            this.special_fc_id.HeaderText = "序号";
-            this.special_fc_id.Name = "special_fc_id";
-            this.special_fc_id.ReadOnly = true;
-            this.special_fc_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // special_fc_categor
-            // 
-            this.special_fc_categor.FillWeight = 20F;
-            this.special_fc_categor.HeaderText = "文件类别";
-            this.special_fc_categor.Name = "special_fc_categor";
-            this.special_fc_categor.ReadOnly = true;
-            this.special_fc_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // special_fc_name
-            // 
-            this.special_fc_name.FillWeight = 40F;
-            this.special_fc_name.HeaderText = "缺失文件名称";
-            this.special_fc_name.Name = "special_fc_name";
-            this.special_fc_name.ReadOnly = true;
-            this.special_fc_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // special_fc_reason
-            // 
-            this.special_fc_reason.FillWeight = 20F;
-            this.special_fc_reason.HeaderText = "缺少原因";
-            this.special_fc_reason.Items.AddRange(new object[] {
-            "文件缺失",
-            "汇编包含"});
-            this.special_fc_reason.Name = "special_fc_reason";
-            this.special_fc_reason.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // special_fc_remark
-            // 
-            this.special_fc_remark.FillWeight = 25F;
-            this.special_fc_remark.HeaderText = "备注";
-            this.special_fc_remark.Name = "special_fc_remark";
-            this.special_fc_remark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // Frm_MyWork
             // 
             this.Appearance.Options.UseFont = true;
@@ -5507,11 +5507,13 @@
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Frm_MyWork";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "我的加工";
             this.Load += new System.EventHandler(this.Frm_MyWork_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frm_MyWork_KeyDown);
             this.contextMenuStrip1.ResumeLayout(false);
             this.special.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tab_Special_Info)).EndInit();

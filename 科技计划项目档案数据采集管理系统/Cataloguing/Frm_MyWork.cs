@@ -564,6 +564,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void CategorComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
+            comboBox.MaxDropDownItems = 10;
             if((ControlType)comboBox.Tag == ControlType.Plan)
                 SetNameByCategor(comboBox, dgv_Plan_FileList.CurrentRow, "plan_fl_", tab_Plan_Info.Tag);
             else if((ControlType)comboBox.Tag == ControlType.Project)
@@ -602,13 +603,16 @@ namespace 科技计划项目档案数据采集管理系统
                 object id = currentRow.Cells[key + "categorname"].Tag;
                 int _amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(dd_id) FROM data_dictionary WHERE dd_pId='{id}'");
                 string tempKey = ((DataRowView)comboBox.Items[0]).Row.ItemArray[1].ToString();
-                string _key = GetValue(tempKey).Substring(0, 1) + _amount.ToString().PadLeft(2, '0');
-                currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
+                if(Regex.IsMatch(tempKey, "^[A-D]"))
+                {
+                    string _key = GetValue(tempKey).Substring(0, 1) + _amount.ToString().PadLeft(2, '0');
+                    currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
+                }
             }
             else
             {
                 string _key = comboBox.Text.Split(' ')[0];
-                if(_key.Contains("A") || _key.Contains("B") || _key.Contains("C") || _key.Contains("D"))
+                if(Regex.IsMatch(_key, "^[A-D]"))
                     currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
             }
         }
@@ -1068,9 +1072,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Project_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{2})?$"))
                     {
-                        errorProvider1.SetError(txt_Project_Funds, "提示：请输入保留两位小数的合法经费");
+                        errorProvider1.SetError(txt_Project_Funds, "提示：请输入合法经费");
                         result = false;
                     }
                 }
@@ -1138,9 +1142,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Topic_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{2})?$"))
                     {
-                        errorProvider1.SetError(txt_Topic_Funds, "提示：请输入保留两位小数的合法经费");
+                        errorProvider1.SetError(txt_Topic_Funds, "提示：请输入合法经费");
                         result = false;
                     }
                 }
@@ -1222,7 +1226,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Subject_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{2})?$"))
                     {
                         errorProvider1.SetError(txt_Subject_Funds, "提示：请输入保留两位小数的合法经费");
                         result = false;
@@ -6100,6 +6104,14 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else
                 XtraMessageBox.Show("请先保存基本信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+
+        private void Frm_MyWork_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Escape)
+            {
+                Close();
+            }
         }
     }
 }

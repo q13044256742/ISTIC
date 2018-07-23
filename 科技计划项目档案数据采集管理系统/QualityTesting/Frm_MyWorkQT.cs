@@ -562,13 +562,16 @@ namespace 科技计划项目档案数据采集管理系统
 
                 int _amount = comboBox.Items.Count;
                 string tempKey = ((DataRowView)comboBox.Items[0]).Row.ItemArray[1].ToString();
-                string _key = GetValue(tempKey).Substring(0, 1) + _amount.ToString().PadLeft(2, '0');
-                currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
+                if(Regex.IsMatch(tempKey, "^[A-D]"))
+                {
+                    string _key = GetValue(tempKey).Substring(0, 1) + _amount.ToString().PadLeft(2, '0');
+                    currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
+                }
             }
             else
             {
                 string _key = comboBox.Text.Split(' ')[0];
-                if(_key.Contains("A") || _key.Contains("B") || _key.Contains("C") || _key.Contains("D"))
+                if(Regex.IsMatch(_key, "^[A-D]"))
                     currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
             }
         }
@@ -1018,7 +1021,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Project_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{2})?$"))
                     {
                         errorProvider1.SetError(txt_Project_Funds, "提示：请输入合法经费");
                         result = false;
@@ -1096,9 +1099,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Topic_Fund.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{2})?$"))
                     {
-                        errorProvider1.SetError(txt_Topic_Fund, "提示：请输入保留两位小数的合法经费");
+                        errorProvider1.SetError(txt_Topic_Fund, "提示：请输入合法经费");
                         result = false;
                     }
                 }
@@ -1174,9 +1177,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Subject_Fund.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!Regex.IsMatch(funds, "\\d+\\.\\d{2}$"))
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{2})?$"))
                     {
-                        errorProvider1.SetError(txt_Subject_Fund, "提示：请输入保留两位小数的合法经费");
+                        errorProvider1.SetError(txt_Subject_Fund, "提示：请输入合法经费");
                         result = false;
                     }
                 }

@@ -702,8 +702,10 @@ namespace 科技计划项目档案数据采集管理系统
                         object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
                         if(planId != null)
                         {
+                            object[] trcIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT trc_id FROM transfer_registraion_cd WHERE trp_id='{objId}'");
                             Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Plan, planId, objId, ControlType.Plan, false);
                             frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
+                            frm.trcId = GetFullStringBySplit(trcIds, ";", string.Empty);
                             frm.Show();
                         }
                         //重点研发计划
@@ -970,6 +972,7 @@ namespace 科技计划项目档案数据采集管理系统
                         object trpId = view.Rows[e.RowIndex].Cells["bk_id"].Tag;
                         object trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id='{piId}' UNION ALL SELECT trc_id FROM topic_info WHERE ti_id='{piId}'");
                         Frm_MyWork frm = new Frm_MyWork(type, piId, trcId, ControlType.Project, true);
+                        frm.trcId = trcId;
                         frm.Show();
                     }
                 }
@@ -1072,7 +1075,23 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
-     
+
+        /// <summary>
+        /// 将字符串数组转换成指定分隔符组合成的字符串
+        /// </summary>
+        /// <param name="_str">字符串数组</param>
+        /// <param name="flag">分隔符</param>
+        /// <param name="param">引号类型</param>
+        private string GetFullStringBySplit(object[] _str, string flag, string param)
+        {
+            string str = string.Empty;
+            for(int i = 0; i < _str.Length; i++)
+            {
+                str += $"{param}{_str[i]}{param}{flag}";
+            }
+            return string.IsNullOrEmpty(str) ? string.Empty : str.Substring(0, str.Length - 1);
+        }
+
         /// <summary>
         /// 根据指定ID查看是否其所属项目/课题是否全部提交
         /// </summary>

@@ -217,6 +217,25 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
+        /// 将用指定分隔符切割后的字符串用指定间隔符和引号重新组合
+        /// </summary>
+        /// <param name="_str">原字符串</param>
+        /// <param name="flag">间隔符</param>
+        /// <param name="param">包围符</param>
+        /// <param name="splitTag">切割符</param>
+        public string GetFullStringBySplit(string _str, string flag, string param, char splitTag)
+        {
+            string result = string.Empty;
+            string[] strs = _str.Split(splitTag);
+            for(int i = 0; i < strs.Length; i++)
+            {
+                if(!string.IsNullOrEmpty(strs[i]))
+                    result += $"{param}{strs[i]}{param}{flag}";
+            }
+            return result.Length > 0 ? result.Substring(0, result.Length - 1) : string.Empty;
+        }
+
+        /// <summary>
         /// 将字符串数组转换成指定分隔符组合成的字符串
         /// </summary>
         /// <param name="_str">字符串数组</param>
@@ -229,6 +248,8 @@ namespace 科技计划项目档案数据采集管理系统
                 str += $"{param}{_str[i]}{param}{flag}";
             return string.IsNullOrEmpty(str) ? string.Empty : str.Substring(0, str.Length - 1);
         }
+
+
 
         /// <summary>
         /// 获取文件链接主键
@@ -632,10 +653,16 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void OpenFile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            object[] rootId = SqlHelper.ExecuteSingleColumnQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_trcid='{trcId}' AND bfi_type=-1");
-            if(rootId.Length == 0)
+            string ids = GetFullStringBySplit(GetValue(trcId), ",", "'", ';');
+            if(string.IsNullOrEmpty(ids))
             {
                 XtraMessageBox.Show("尚未导入文件。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            object[] rootId = SqlHelper.ExecuteSingleColumnQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_trcid IN ({ids}) AND bfi_type=-1");
+            if(rootId.Length == 0)
+            {
+                XtraMessageBox.Show("生成文件树失败。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             Frm_AddFile_FileSelect frm = new Frm_AddFile_FileSelect(rootId);

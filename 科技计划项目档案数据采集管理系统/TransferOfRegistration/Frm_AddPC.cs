@@ -255,7 +255,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// Tab键触发自动生成光盘编号事件
         /// </summary>
-        private void dgv_CDlist_CellEnter(object sender, DataGridViewCellEventArgs e)
+        private void Dgv_CDlist_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1 && e.ColumnIndex != -1)
             {

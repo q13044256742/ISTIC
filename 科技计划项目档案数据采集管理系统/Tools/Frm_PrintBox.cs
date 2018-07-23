@@ -160,7 +160,7 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             object bj = row.Cells["fmbj"].Value;
                             object GCNumber = row.Cells["id"].Tag;
-                            PrintFM(id, bj, GCNumber);
+                            PrintFM(id, bj, GCNumber, row.Index);
                         }
                         bool printJnml = GetBooleanValue(row.Cells["jnml"].Value);
                         if(printJnml)
@@ -295,9 +295,16 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 打印封面
         /// </summary>
-        private void PrintFM(object boxId, object bj, object GCNumber)
+        private void PrintFM(object boxId, object bj, object GCNumber, int rowIndex)
         {
             string fmString = Resources.fm;
+            object fontObject = view.Rows[rowIndex].Cells["font"].Tag;
+            if(font != null)
+            {
+                Font font = (Font)fontObject;
+                fmString = fmString.Replace("font-family:;", $"font-family:{font.FontFamily};");
+                fmString = fmString.Replace("font-size:;", $"font-size:{font.Size};");
+            }
             fmString = GetCoverHtmlString(boxId, fmString, bj, GCNumber);
 
             new WebBrowser() { DocumentText = fmString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
@@ -354,7 +361,9 @@ namespace 科技计划项目档案数据采集管理系统
             string columnName = view.Columns[e.ColumnIndex].Name;
             if("font".Equals(columnName))
             {
-                fontDialog.Font = new Font("华文中宋", 22f);
+                object font = view.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag;
+                if(font != null)
+                    fontDialog.Font = (Font)font;
                 if(fontDialog.ShowDialog() == DialogResult.OK)
                 {
                     view.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = fontDialog.Font;
@@ -363,9 +372,10 @@ namespace 科技计划项目档案数据采集管理系统
             else if("preview".Equals(columnName))
             {
                 string fmString = Resources.fm;
-                Font font = (Font)view.Rows[e.RowIndex].Cells["font"].Tag;
+                object fontObject = view.Rows[e.RowIndex].Cells["font"].Tag;
                 if(font != null)
                 {
+                    Font font = (Font)fontObject;
                     fmString = fmString.Replace("font-family:;", $"font-family:{font.FontFamily};");
                     fmString = fmString.Replace("font-size:;", $"font-size:{font.Size};");
                 }
