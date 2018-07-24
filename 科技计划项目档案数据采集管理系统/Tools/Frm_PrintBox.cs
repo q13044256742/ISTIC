@@ -299,7 +299,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string fmString = Resources.fm;
             object fontObject = view.Rows[rowIndex].Cells["font"].Tag;
-            if(font != null)
+            if(fontObject != null)
             {
                 Font font = (Font)fontObject;
                 fmString = fmString.Replace("font-family:;", $"font-family:{font.FontFamily};");
@@ -361,9 +361,12 @@ namespace 科技计划项目档案数据采集管理系统
             string columnName = view.Columns[e.ColumnIndex].Name;
             if("font".Equals(columnName))
             {
-                object font = view.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag;
-                if(font != null)
+                object fontObject = view.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag;
+                if(fontObject != null)
+                {
+                    Font font = (Font)fontObject;
                     fontDialog.Font = (Font)font;
+                }
                 if(fontDialog.ShowDialog() == DialogResult.OK)
                 {
                     view.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = fontDialog.Font;
@@ -373,7 +376,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 string fmString = Resources.fm;
                 object fontObject = view.Rows[e.RowIndex].Cells["font"].Tag;
-                if(font != null)
+                if(fontObject != null)
                 {
                     Font font = (Font)fontObject;
                     fmString = fmString.Replace("font-family:;", $"font-family:{font.FontFamily};");

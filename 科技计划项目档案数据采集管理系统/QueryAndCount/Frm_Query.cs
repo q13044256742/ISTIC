@@ -79,7 +79,7 @@ namespace 科技计划项目档案数据采集管理系统
                         queryCondition = $"AND ti_worker_date >=  CONVERT(DATE, '{startDate}') AND ti_worker_date <=  CONVERT(DATE, '{endDate}')";
                 }
                 querySQL = "SELECT ti_worker_date, COUNT(ti_id) FROM topic_info " +
-                     $"LEFT JOIN project_info ON ti_obj_id = pi_id WHERE ti_categor = 3 AND ti_worker_id='{userId}' " +
+                     $"LEFT JOIN project_info ON ti_obj_id = pi_id WHERE ti_categor = -3 AND ti_worker_id='{userId}' " +
                      $"AND ti_worker_date <> pi_worker_date {queryCondition} " +
                      "GROUP BY ti_worker_date;";
                 List<object[]> list2 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
@@ -94,10 +94,20 @@ namespace 科技计划项目档案数据采集管理系统
                     table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
                 }
 
+                if(!flag)
+                {
+                    if(startDate.Date == endDate.Date)
+                        queryCondition = $"AND pfl_worker_date =  CONVERT(DATE, '{startDate}')";
+                    else
+                        queryCondition = $"AND pfl_worker_date >=  CONVERT(DATE, '{startDate}') AND pfl_worker_date <=  CONVERT(DATE, '{endDate}')";
+                }
                 //单独统计文件加工工作量
-                querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list LEFT JOIN project_info ON pi_id = pfl_obj_id " +
-                    $"WHERE pfl_worker_id = '{userId}' AND pi_worker_date<>pfl_worker_date " +
-                    $"GROUP BY pfl_worker_date";
+                querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list " +
+                    $"WHERE pfl_worker_id = '{userId}' " +
+                    $"{queryCondition} AND pfl_worker_id NOT IN( " +
+                    $"SELECT pi_worker_id FROM project_info WHERE pi_worker_id = '{userId}' AND pi_worker_date = pfl_worker_date UNION ALL " +
+                    $"SELECT ti_worker_id FROM topic_info WHERE ti_worker_id = '{userId}' AND ti_worker_date = pfl_worker_date) " +
+                    $"GROUP BY pfl_worker_date; ";
                 List<object[]> list3 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                 for(int i = 0; i < list3.Count; i++)
                 {

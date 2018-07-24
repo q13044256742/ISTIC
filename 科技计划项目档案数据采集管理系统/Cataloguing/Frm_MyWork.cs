@@ -1758,9 +1758,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string unituser = txt_Topic_UnitUser.Text;
                 string objuser = txt_Topic_ProUser.Text;
                 string intro = txt_Topic_Intro.Text.Replace("'", "''");
-                //判断是直属课题还是项目下的课题
-                int categor = SqlHelper.ExecuteCountQuery($"SELECT COUNT(imp_id) FROM imp_dev_info WHERE imp_id='{parentId}'") > 0 ? -3 : 3;
-
+                //判断是直属课题【-3】还是项目下的课题【3】
+                int categorType = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_categor=2 AND pi_id='{parentId}'");
+                int categor = categorType > 0 ? (int)type : -(int)type;
                 string insertSql = "INSERT INTO topic_info(ti_id, ti_code, ti_name, ti_field, tb_theme, ti_funds, ti_start_datetime, ti_end_datetime, ti_year, ti_unit, ti_uniter" +
                     ",ti_province, ti_prouser, ti_intro, ti_work_status, ti_obj_id, ti_categor, ti_submit_status, ti_worker_id, ti_worker_date)" +
                     "VALUES" +

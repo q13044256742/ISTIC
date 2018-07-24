@@ -1658,11 +1658,11 @@ namespace 科技计划项目档案数据采集管理系统
 
                 string insertSql = "INSERT INTO project_info(pi_id ,trc_id,pi_code,pi_name,pi_type,pb_belong" +
                     ",pb_belong_type,pi_money,pi_start_datetime,pi_end_datetime,pi_year,pi_company_id,pi_company_user" +
-                    ",pi_province,pi_project_user,pi_introduction,pi_work_status,pi_obj_id,pi_categor,pi_submit_status,pi_worker_id)" +
+                    ",pi_province, pi_project_user, pi_introduction, pi_work_status, pi_obj_id, pi_categor, pi_submit_status, pi_worker_id)" +
                     "VALUES" +
                     $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{funds}','{starttime}'" +
                     $",'{endtime}','{year}','{unit}','{unituser}'" +
-                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type},{(int)ObjectSubmitStatus.NonSubmit},'{UserHelper.GetInstance().User.UserKey}')";
+                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type}, 1,'{UserHelper.GetInstance().User.UserKey}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1682,13 +1682,15 @@ namespace 科技计划项目档案数据采集管理系统
                 string unituser = txt_Topic_UnitUser.Text;
                 string objuser = txt_Topic_ProUser.Text;
                 string intro = txt_Topic_Intro.Text;
-
+                //判断是直属课题【-3】还是项目下的课题【3】
+                int categorType = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_categor=2 AND pi_id='{parentId}'");
+                int categor = categorType > 0 ? (int)type : -(int)type;
                 string insertSql = "INSERT INTO topic_info(ti_id, trc_id, ti_code, ti_name, ti_type, tb_belong, tb_belong_type, ti_money, ti_start_datetime, ti_end_datetime, ti_year, ti_company_id, ti_company_user" +
                     ",ti_province, ti_project_user, ti_introduction, ti_work_status, ti_obj_id, ti_categor, ti_submit_status, ti_worker_id)" +
                     "VALUES" +
                     $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{funds}','{starttime}'" +
                     $",'{endtime}','{year}','{unit}','{unituser}'" +
-                    $",'{province}','{objuser}','{intro}','{0}','{parentId}','{(int)type}','1','{UserHelper.GetInstance().User.UserKey}')";
+                    $",'{province}', '{objuser}', '{intro}', '{0}', '{parentId}', '{categor}', '1', '{UserHelper.GetInstance().User.UserKey}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
