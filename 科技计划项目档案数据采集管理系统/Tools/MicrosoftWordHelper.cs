@@ -132,7 +132,7 @@ namespace 科技计划项目档案数据采集管理系统
                 sb.Append(number[index[i] - '0']);
                 sb.Append(dom[index.Length - 1 - i]);
             }
-            return sb.ToString();
+            return sb.ToString().EndsWith(number[0]) ? sb.ToString().Substring(0, sb.Length - 1) : sb.ToString();
         }
     }
     class EntityObject

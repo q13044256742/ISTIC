@@ -145,10 +145,12 @@ namespace 科技计划项目档案数据采集管理系统
         private void Sub_Menu_Click(object sender, EventArgs e)
         {
             AccordionControlElement element = sender as AccordionControlElement;
+            panel1.Visible = false;
             if("ac_Login".Equals(element.Name))//加工登记
             {
                 cbo_CompanyList.SelectedIndex = 0;
                 LoadPCList(null, null);
+                panel1.Visible = true;
             }
             else if("ac_Working".Equals(element.Name))//加工中
                 LoadWorkList(null, WorkStatus.WorkSuccess);
@@ -1768,6 +1770,39 @@ namespace 科技计划项目档案数据采集管理系统
         private void Ace_LeftMenu_SelectedElementChanged(object sender, SelectedElementChangedEventArgs e)
         {
             pal_UnitList.Visible = "ac_Login".Equals(e.Element.Name);
+        }
+
+        int index = -1;
+        private void Txt_Search_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                if("PC_LIST".Equals(view.Tag))
+                {
+                    string key = txt_Search.Text;
+                    if(!string.IsNullOrEmpty(key))
+                    {
+                        view.ClearSelection();
+                        foreach(DataGridViewRow row in view.Rows)
+                        {
+                            if(row.Index > index)
+                            {
+                                string code = GetValue(row.Cells["trp_code"].Value);
+                                string name = GetValue(row.Cells["trp_name"].Value);
+                                if(code.Contains(key) || name.Contains(key) ||
+                                    code.Contains(key.ToUpper()) || name.Contains(key.ToUpper()))
+                                {
+                                    view.FirstDisplayedScrollingRowIndex = row.Index;
+                                    row.Selected = true;
+                                    index = row.Index;
+                                    return;
+                                }
+                            }
+                        }
+                        index = -1;
+                    }
+                }
+            }
         }
     }
 }
