@@ -1105,13 +1105,6 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
-                string year = txt_Project_Year.Text;
-                if(!Regex.IsMatch(year, "^\\d{4}$"))
-                {
-                    errorProvider1.SetError(txt_Project_Year, "提示：请输入正确的立项年度");
-                    result = false;
-                }
-
             }
             else if(name.Contains("Topic"))
             {
@@ -1184,12 +1177,6 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
-                string year = txt_Topic_Year.Text;
-                if(!Regex.IsMatch(year, "^\\d{4}$"))
-                {
-                    errorProvider1.SetError(txt_Topic_Year, "提示：请输入正确的立项年度");
-                    result = false;
-                }
             }
             else if(name.Contains("Subject"))
             {
@@ -1260,12 +1247,6 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
-                string year = txt_Subject_Year.Text;
-                if(!Regex.IsMatch(year, "^\\d{4}$"))
-                {
-                    errorProvider1.SetError(txt_Subject_Year, "提示：请输入正确的立项年度");
-                    result = false;
-                }
             }
             else if(name.Contains("Special"))
             {
