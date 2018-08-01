@@ -35,8 +35,10 @@ namespace 科技计划项目档案数据采集管理系统
             });
             dgv_DataShow.Columns["id"].Visible = false;
 
-            string querySql = $"SELECT * FROM transfer_registration_pc LEFT JOIN data_dictionary ON dd_id = com_id";
-            if(!string.IsNullOrEmpty(unitId)) querySql += $" WHERE dd_id='{unitId}'";
+            string querySql = $"SELECT * FROM transfer_registration_pc LEFT JOIN data_dictionary ON dd_id = com_id " +
+                $"WHERE trp_work_status=2";
+            if(!string.IsNullOrEmpty(unitId)) querySql += $" AND dd_id='{unitId}'";
+
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < table.Rows.Count; i++)
             {
@@ -45,14 +47,18 @@ namespace 科技计划项目档案数据采集管理系统
                 newRow.Cells["unit"].Value = table.Rows[i]["dd_name"];
                 newRow.Cells["code"].Value = table.Rows[i]["trp_code"];
                 newRow.Cells["name"].Value = table.Rows[i]["trp_name"];
-                newRow.Cells["file"].Value = GetFileResult(table.Rows[i]["trp_id"]);
+                newRow.Cells["file"].Value = GetFileCompleteResult(table.Rows[i]["trp_id"]);
             }
         }
 
-        private object GetFileResult(object trpId)
+        /// <summary>
+        /// 获取文件缺失情况
+        /// </summary>
+        /// <param name="trpId">批次ID</param>
+        private string GetFileCompleteResult(object trpId)
         {
-            string result = "齐备";
-            string querySql = "SELECT wm.* FROM work_myreg wm " +
+            bool result = true;
+            string querySql = "SELECT wm.wm_obj_id, wm.wm_type FROM work_myreg wm " +
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
                 "WHERE trp.trp_id = '" + trpId + "'";
@@ -60,32 +66,33 @@ namespace 科技计划项目档案数据采集管理系统
             for(int i = 0; i < table.Rows.Count; i++)
             {
                 object objId = table.Rows[i]["wm_obj_id"];
-                int type = (int)table.Rows[i]["wm_type"];
-                if(type == 0 || type == 1)
+                WorkType type = (WorkType)(int)table.Rows[i]["wm_type"];
+                if(type == WorkType.PaperWork_Imp || type == WorkType.PaperWork_Plan)
                 {
                     if(HaveLostFile(objId))
-                        result = "不齐备";
+                        result = false;
                 }
-                else if(type == 2)
+                else if(type == WorkType.ProjectWork)
                 {
                     if(HaveLostFile(objId))
-                        result = "不齐备";
+                        result = false;
                     else
                     {
-                        List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT ti_id FROM topic_info WHERE ti_obj_id = '{objId}'", 1);
-                        for(int j = 0; j < list.Count; j++)
+                        object[] list = SqlHelper.ExecuteSingleColumnQuery($"SELECT ti_id FROM topic_info WHERE ti_obj_id = '{objId}' UNION ALL " +
+                            $"SELECT si_id FROM subject_info WHERE si_obj_id = '{objId}'");
+                        for(int j = 0; j < list.Length; j++)
                         {
-                            if(HaveLostFile(list[j][0]))
+                            if(HaveLostFile(list[j]))
                             {
-                                result = "不齐备";
+                                result = false;
                                 break;
                             }
-                            List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE si_obj_id = '{list[j][0]}'", 1);
-                            for(int k = 0; k < list2.Count; k++)
+                            object[] list2 = SqlHelper.ExecuteSingleColumnQuery($"SELECT si_id FROM subject_info WHERE si_obj_id = '{list[j]}'");
+                            for(int k = 0; k < list2.Length; k++)
                             {
-                                if(HaveLostFile(list2[k][0]))
+                                if(HaveLostFile(list2[k]))
                                 {
-                                    result = "不齐备";
+                                    result = false;
                                     break;
                                 }
                             }
@@ -93,13 +100,22 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-            return result;
+            return result ? "齐备" : "不齐备";
         }
 
         /// <summary>
         /// 是否缺失文件
         /// </summary>
-        private bool HaveLostFile(object id) => SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM processing_file_lost WHERE pfo_obj_id='{id}'") == 0 ? false : true;
+        private bool HaveLostFile(object id)
+        {
+            int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(dd_id) AS Expr1 FROM data_dictionary AS dd " +
+                "WHERE dd_pId IN (SELECT dd_id FROM data_dictionary " +
+                "WHERE dd_pId = (SELECT dd_id FROM data_dictionary " +
+                "WHERE dd_code = 'dic_file_jd')) AND dd_name NOT IN (SELECT dd.dd_name " +
+                "FROM processing_file_list AS fi LEFT OUTER JOIN data_dictionary AS dd ON fi.pfl_categor = dd.dd_id " +
+                $"WHERE fi.pfl_obj_id = '{id}') AND extend_2 = 1");
+            return count == 0 ? false : true;
+        }
 
         /// <summary>
         /// 加载来源单位列表

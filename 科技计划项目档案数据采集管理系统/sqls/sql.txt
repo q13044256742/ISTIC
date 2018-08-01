@@ -1,0 +1,8 @@
+﻿--登录日志表
+CREATE TABLE sys_login_log(
+	sll_id varchar(100) primary key not null,
+	sll_user_id varchar(100) not null,
+	sll_online_date varchar(100),
+	sll_offline_date varchar(100),
+	sll_ipaddress varchar(100)
+)

@@ -14,7 +14,7 @@ using 科技计划项目档案数据采集管理系统.KyoControl;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_MyWork : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_MyWork : XtraForm
     {
         /// <summary>
         /// 待删除文件ID

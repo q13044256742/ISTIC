@@ -31,12 +31,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.userGroup_DataList = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.userGroup_SearchKey = new System.Windows.Forms.TextBox();
             this.button1 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.button4 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.button3 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Search = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.userGroup_SearchKey = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.userGroup_DataList)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -78,14 +78,6 @@
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "快速检索";
-            // 
-            // userGroup_SearchKey
-            // 
-            this.userGroup_SearchKey.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userGroup_SearchKey.Location = new System.Drawing.Point(6, 21);
-            this.userGroup_SearchKey.Name = "userGroup_SearchKey";
-            this.userGroup_SearchKey.Size = new System.Drawing.Size(330, 26);
-            this.userGroup_SearchKey.TabIndex = 8;
             // 
             // button1
             // 
@@ -141,6 +133,14 @@
             this.btn_Search.Text = "查询";
             this.btn_Search.Click += new System.EventHandler(this.UG_btnSearch);
             // 
+            // userGroup_SearchKey
+            // 
+            this.userGroup_SearchKey.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.userGroup_SearchKey.Location = new System.Drawing.Point(6, 21);
+            this.userGroup_SearchKey.Name = "userGroup_SearchKey";
+            this.userGroup_SearchKey.Size = new System.Drawing.Size(330, 26);
+            this.userGroup_SearchKey.TabIndex = 8;
+            // 
             // Frm_userGroup
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -151,6 +151,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "用户组";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Frm_userGroup_Load);
             ((System.ComponentModel.ISupportInitialize)(this.userGroup_DataList)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
