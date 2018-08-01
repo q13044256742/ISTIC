@@ -125,14 +125,35 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string[] number = { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" };
             string[] dom = { "", "拾", "佰", "仟", "万", "拾万", "佰万", "仟万" };
-            string index = GetValue(param);
+            string index = param.ToString();
             StringBuilder sb = new StringBuilder();
             for(int i = 0; i < index.Length; i++)
             {
-                sb.Append(number[index[i] - '0']);
-                sb.Append(dom[index.Length - 1 - i]);
+                string key1 = number[index[i] - '0'];
+                sb.Append(key1);
+                if(!key1.Equals(number[0]))
+                {
+                    string key2 = dom[index.Length - 1 - i];
+                    sb.Append(key2);
+                }
             }
-            return sb.ToString().EndsWith(number[0]) ? sb.ToString().Substring(0, sb.Length - 1) : sb.ToString();
+            return FormatZNString(sb.ToString());
+        }
+
+        private static string FormatZNString(string value)
+        {
+            char[] strArray = value.ToCharArray();
+            string removeStr = string.Empty;
+            for(int i = strArray.Length - 1; i >= 0; i--)
+            {
+                if('零' == strArray[i])
+                    removeStr += strArray[i];
+                else
+                    break;
+            }
+            int startIndex = value.LastIndexOf(removeStr);
+            value = value.Remove(startIndex, removeStr.Length);
+            return System.Text.RegularExpressions.Regex.Replace(value, "零+", "零"); ;
         }
     }
     class EntityObject
