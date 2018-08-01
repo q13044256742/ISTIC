@@ -64,7 +64,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </returns>
         private object[] GetAdvice(object id, int type)
         {
-            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT qa_id, qa_advice FROM quality_advices WHERE qa_obj_id='{id}' AND qa_user='{UserHelper.GetInstance().User.UserKey}' AND qa_type={type}");
+            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT qa_id, qa_advice FROM quality_advices WHERE qa_obj_id='{id}' AND qa_user='{UserHelper.GetUser().UserKey}' AND qa_type={type}");
             return _obj ?? null;
         }
     }

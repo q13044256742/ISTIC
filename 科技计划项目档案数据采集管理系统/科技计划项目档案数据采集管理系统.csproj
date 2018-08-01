@@ -60,6 +60,7 @@
     <Reference Include="DevExpress.Sparkline.v15.2.Core" />
     <Reference Include="DevExpress.XtraBars.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v15.2" />
+    <Reference Include="DevExpress.XtraGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraTreeList.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -259,6 +260,12 @@
     <Compile Include="QueryAndCount\Frm_Query.Designer.cs">
       <DependentUpon>Frm_Query.cs</DependentUpon>
     </Compile>
+    <Compile Include="QueryAndCount\Frm_QueryBorrowing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QueryAndCount\Frm_QueryBorrowing.Designer.cs">
+      <DependentUpon>Frm_QueryBorrowing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Chinese2Spell.cs" />
     <Compile Include="KyoControl\KyoButton.cs">
       <SubType>Component</SubType>
@@ -282,6 +289,7 @@
     <Compile Include="Tools\MicrosoftWordHelper.cs" />
     <Compile Include="Tools\DictionaryHelper.cs" />
     <Compile Include="Tools\SQLiteBackupHelper.cs" />
+    <Compile Include="Tools\ToolHelper.cs" />
     <Compile Include="Tools\WinFormOpenHelper.cs" />
     <Compile Include="Tools\XmlHelper.cs" />
     <Compile Include="TransferOfRegistration\Frm_AddPC.cs">
@@ -436,6 +444,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="QueryAndCount\Frm_Query.resx">
       <DependentUpon>Frm_Query.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QueryAndCount\Frm_QueryBorrowing.resx">
+      <DependentUpon>Frm_QueryBorrowing.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Frm_CodeRule.resx">
       <DependentUpon>Frm_CodeRule.cs</DependentUpon>

@@ -133,7 +133,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(MessageBox.Show("本批次完结，请线下发送确认函和文件清单。", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                     {
                         object trpId = dgv_DataShow.Rows[e.RowIndex].Cells["id"].Value;
-                        SqlHelper.ExecuteNonQuery($"UPDATE transfer_registration_pc SET trp_complete_status='{(int)SubmitStatus.Completed}', trp_complete_user='{UserHelper.GetInstance().User.UserKey}' WHERE trp_id='{trpId}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE transfer_registration_pc SET trp_complete_status='{(int)SubmitStatus.Completed}', trp_complete_user='{UserHelper.GetUser().UserKey}' WHERE trp_id='{trpId}'");
                         LoadDataGridView(string.Empty);
                     }
                 }

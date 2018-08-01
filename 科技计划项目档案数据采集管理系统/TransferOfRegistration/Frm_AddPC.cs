@@ -174,7 +174,7 @@ namespace 科技计划项目档案数据采集管理系统
                     basicInfo_QuerySql.Append("'" + fileUpload + "',");
                     basicInfo_QuerySql.Append("'" + (int)SubmitStatus.NonSubmit + "',");
                     basicInfo_QuerySql.Append("'" + (int)WorkStatus.NonWork + "',");
-                    basicInfo_QuerySql.Append("'" + UserHelper.GetInstance().User.UserKey + "',");
+                    basicInfo_QuerySql.Append("'" + UserHelper.GetUser().UserKey + "',");
                     basicInfo_QuerySql.Append("'" + DateTime.Now + "')");
                     SqlHelper.ExecuteNonQuery(basicInfo_QuerySql.ToString());
 
@@ -195,7 +195,7 @@ namespace 科技计划项目档案数据采集管理系统
                     basicInfo_QuerySql.Append("trp_cd_amount='" + cdCount + "',");
                     basicInfo_QuerySql.Append("trp_attachment_id='" + fileUpload + "',");
                     basicInfo_QuerySql.Append("trp_submit_status=1, trp_work_status=1,");
-                    basicInfo_QuerySql.Append("trp_people='" + UserHelper.GetInstance().User.UserKey + "',");
+                    basicInfo_QuerySql.Append("trp_people='" + UserHelper.GetUser().UserKey + "',");
                     basicInfo_QuerySql.Append("trp_handle_time='" + DateTime.Now + "'");
                     basicInfo_QuerySql.Append(" WHERE trp_id='" + unitCode + "'");
                     SqlHelper.ExecuteNonQuery(basicInfo_QuerySql.ToString());
@@ -233,7 +233,7 @@ namespace 科技计划项目档案数据采集管理系统
                 cdInfo_querySql.Append("'" + cdRemark + "',");
                 cdInfo_querySql.Append("'" + (int)ReadStatus.NonRead + "',");
                 cdInfo_querySql.Append("'" + (int)WorkStatus.NonWork + "',");
-                cdInfo_querySql.Append("'" + UserHelper.GetInstance().User.UserKey + "',");
+                cdInfo_querySql.Append("'" + UserHelper.GetUser().UserKey + "',");
                 cdInfo_querySql.Append("'" + DateTime.Now + "', '" + i + "')");
                 SqlHelper.ExecuteNonQuery(cdInfo_querySql.ToString());
             }

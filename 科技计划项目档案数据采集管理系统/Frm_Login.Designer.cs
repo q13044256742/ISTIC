@@ -36,7 +36,6 @@ namespace 科技计划项目档案数据采集管理系统
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btn_Login = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.cbo_Identity = new System.Windows.Forms.ComboBox();
             this.pal_Login.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,7 +59,6 @@ namespace 科技计划项目档案数据采集管理系统
             this.pal_Login.Controls.Add(this.label1);
             this.pal_Login.Controls.Add(this.label2);
             this.pal_Login.Controls.Add(this.btn_Login);
-            this.pal_Login.Controls.Add(this.cbo_Identity);
             this.pal_Login.Location = new System.Drawing.Point(43, 67);
             this.pal_Login.Name = "pal_Login";
             this.pal_Login.Size = new System.Drawing.Size(834, 509);
@@ -70,10 +68,10 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.txt_loginName.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txt_loginName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_loginName.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.txt_loginName.Location = new System.Drawing.Point(307, 178);
+            this.txt_loginName.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.txt_loginName.Location = new System.Drawing.Point(307, 196);
             this.txt_loginName.Name = "txt_loginName";
-            this.txt_loginName.Size = new System.Drawing.Size(168, 27);
+            this.txt_loginName.Size = new System.Drawing.Size(168, 29);
             this.txt_loginName.TabIndex = 2;
             this.txt_loginName.Text = "admin";
             // 
@@ -81,23 +79,24 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.txt_loginPassword.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txt_loginPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_loginPassword.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.txt_loginPassword.Location = new System.Drawing.Point(308, 223);
+            this.txt_loginPassword.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.txt_loginPassword.Location = new System.Drawing.Point(307, 243);
             this.txt_loginPassword.Name = "txt_loginPassword";
             this.txt_loginPassword.PasswordChar = '*';
-            this.txt_loginPassword.Size = new System.Drawing.Size(168, 27);
+            this.txt_loginPassword.Size = new System.Drawing.Size(168, 29);
             this.txt_loginPassword.TabIndex = 3;
             this.txt_loginPassword.Text = "admin";
+            this.txt_loginPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_loginPassword_KeyDown);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label1.Location = new System.Drawing.Point(210, 181);
+            this.label1.Location = new System.Drawing.Point(218, 199);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 16);
+            this.label1.Size = new System.Drawing.Size(74, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "用户名：";
             // 
@@ -105,11 +104,11 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(226, 228);
+            this.label2.Location = new System.Drawing.Point(234, 246);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 16);
+            this.label2.Size = new System.Drawing.Size(58, 21);
             this.label2.TabIndex = 1;
             this.label2.Text = "密码：";
             // 
@@ -130,25 +129,9 @@ namespace 科技计划项目档案数据采集管理系统
             this.btn_Login.Text = "登录";
             this.btn_Login.Click += new System.EventHandler(this.btn_Login_Click);
             // 
-            // cbo_Identity
-            // 
-            this.cbo_Identity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbo_Identity.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cbo_Identity.FormattingEnabled = true;
-            this.cbo_Identity.Items.AddRange(new object[] {
-            "移交登记",
-            "著录加工",
-            "档案质检",
-            "档案接收",
-            "工作统计",
-            "后台管理"});
-            this.cbo_Identity.Location = new System.Drawing.Point(309, 266);
-            this.cbo_Identity.Name = "cbo_Identity";
-            this.cbo_Identity.Size = new System.Drawing.Size(126, 24);
-            this.cbo_Identity.TabIndex = 6;
-            // 
             // Frm_Login
             // 
+            this.AcceptButton = this.btn_Login;
             this.Appearance.BackColor = System.Drawing.SystemColors.Control;
             this.Appearance.Options.UseBackColor = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -164,7 +147,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.Name = "Frm_Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录系统";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frm_Login_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_Login_FormClosing);
             this.pal_Login.ResumeLayout(false);
             this.pal_Login.PerformLayout();
             this.ResumeLayout(false);
@@ -177,7 +160,6 @@ namespace 科技计划项目档案数据采集管理系统
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txt_loginName;
         private System.Windows.Forms.TextBox txt_loginPassword;
-        private System.Windows.Forms.ComboBox cbo_Identity;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel pal_Login;
         private KyoControl.KyoButton btn_Login;

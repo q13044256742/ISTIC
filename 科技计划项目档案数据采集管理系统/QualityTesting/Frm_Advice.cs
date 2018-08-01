@@ -65,7 +65,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 object advice = txt_Advice.Text;
                 string primaryKey = Guid.NewGuid().ToString();
-                string insertSql = $"INSERT INTO quality_advices VALUES('{primaryKey}','{UserHelper.GetInstance().User.UserKey}','{DateTime.Now}','{objId}','{advice}',{index})";
+                string insertSql = $"INSERT INTO quality_advices VALUES('{primaryKey}','{UserHelper.GetUser().UserKey}','{DateTime.Now}','{objId}','{advice}',{index})";
                 SqlHelper.ExecuteNonQuery(insertSql);
                 lbl_ObjName.Tag = primaryKey;
                 btn_Delete.Enabled = true;
@@ -109,7 +109,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </returns>
         private object[] GetAdvice(object id, int type)
         {
-            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT qa_id, qa_advice FROM quality_advices WHERE qa_obj_id='{id}' AND qa_user='{UserHelper.GetInstance().User.UserKey}' AND qa_type={type} ORDER BY qa_time DESC");
+            object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT qa_id, qa_advice FROM quality_advices WHERE qa_obj_id='{id}' AND qa_user='{UserHelper.GetUser().UserKey}' AND qa_type={type} ORDER BY qa_time DESC");
             return _obj ?? null;
         }
         /// <summary>

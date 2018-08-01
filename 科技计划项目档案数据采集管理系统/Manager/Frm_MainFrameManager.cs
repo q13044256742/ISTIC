@@ -82,7 +82,7 @@ namespace 科技计划项目档案数据采集管理系统
             //编码规则
             if("ace_CodeRule".Equals(element))
             {
-                Frm_CodeRule frm = new Frm_CodeRule(UserHelper.GetInstance().User.UserKey);
+                Frm_CodeRule frm = new Frm_CodeRule(UserHelper.GetUser().UserKey);
                 frm.MdiParent = this;
                 frm.Show();
             }

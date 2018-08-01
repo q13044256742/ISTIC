@@ -1114,6 +1114,14 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                 }
+
+                string year = txt_Project_Year.Text;
+                if(!Regex.IsMatch(year, "^\\d{4}$"))
+                {
+                    errorProvider1.SetError(txt_Project_Year, "提示：请输入正确的立项年度");
+                    result = false;
+                }
+
             }
             else if(name.Contains("Topic"))
             {
@@ -1199,6 +1207,13 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                 }
+
+                string year = txt_Topic_Year.Text;
+                if(!Regex.IsMatch(year, "^\\d{4}$"))
+                {
+                    errorProvider1.SetError(txt_Topic_Year, "提示：请输入正确的立项年度");
+                    result = false;
+                }
             }
             else if(name.Contains("Subject"))
             {
@@ -1282,6 +1297,13 @@ namespace 科技计划项目档案数据采集管理系统
                             result = false;
                         }
                     }
+                }
+
+                string year = txt_Subject_Year.Text;
+                if(!Regex.IsMatch(year, "^\\d{4}$"))
+                {
+                    errorProvider1.SetError(txt_Subject_Year, "提示：请输入正确的立项年度");
+                    result = false;
                 }
             }
             else if(name.Contains("Special"))
@@ -1429,29 +1451,20 @@ namespace 科技计划项目档案数据采集管理系统
 
                 //页数
                 DataGridViewCell pagesCell = rows[i].Cells[key + "pages"];
-                if(string.IsNullOrEmpty(GetValue(pagesCell.Value)))
+                if(pagesCell.Value == null)
                 {
                     pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
                     result = false;
                 }
                 else
                 {
-                    bool flag = int.TryParse(GetValue(pagesCell.Value), out int page);
-                    if(!flag)
+                    if(!Regex.IsMatch(GetValue(pagesCell.Value), "^[0-9]{1,4}$"))
                     {
-                        pagesCell.ErrorText = "温馨提示：页数不能为0。";
+                        pagesCell.ErrorText = "温馨提示：请输入小于4位数的合法数字。";
                         result = false;
                     }
                     else
-                    {
-                        if(page > 9999)
-                        {
-                            pagesCell.ErrorText = "温馨提示：页数不能超过4位数。";
-                            result = false;
-                        }
-                        else
-                            pagesCell.ErrorText = null;
-                    }
+                        pagesCell.ErrorText = null;
                 }
 
                 //份数
@@ -1716,7 +1729,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string name = lbl_Plan_Name.Text.Replace("'", "''");
                 string intro = txt_Plan_Intro.Text;
                 string insertSql = "INSERT INTO project_info(pi_id, trc_id, pi_code, pi_name, pi_intro, pi_obj_id, pi_categor, pi_submit_status, pi_worker_id) VALUES" +
-                    $"('{primaryKey}', '{OBJECT_ID}', '{code}', '{name}', '{intro}', '{parentId}', '{(int)type}', '{1}', '{UserHelper.GetInstance().User.UserKey}')";
+                    $"('{primaryKey}', '{OBJECT_ID}', '{code}', '{name}', '{intro}', '{parentId}', '{(int)type}', '{1}', '{UserHelper.GetUser().UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Project)
@@ -1739,7 +1752,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ",pi_province, pi_prouser, pi_intro, pi_work_status, pi_obj_id, pi_categor, pi_submit_status, pi_worker_id, pi_worker_date)" +
                     "VALUES" +
                     $"('{primaryKey}', '{code}', '{name}', '{filed}', '{theme}', '{funds}', '{starttime}', '{endtime}', '{year}', '{unit}', '{unituser}'" +
-                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type}, {1}, '{UserHelper.GetInstance().User.UserKey}', '{DateTime.Now}')";
+                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type}, {1}, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1765,7 +1778,7 @@ namespace 科技计划项目档案数据采集管理系统
                     ",ti_province, ti_prouser, ti_intro, ti_work_status, ti_obj_id, ti_categor, ti_submit_status, ti_worker_id, ti_worker_date)" +
                     "VALUES" +
                     $"('{primaryKey}', '{code}', '{name}',  '{field}', '{theme}', '{funds}', '{starttime}', '{endtime}', '{year}', '{unit}', '{unituser}'" +
-                    $",'{province}','{objuser}','{intro}', 0, '{parentId}', '{categor}', 1, '{UserHelper.GetInstance().User.UserKey}', '{DateTime.Now}')";
+                    $",'{province}','{objuser}','{intro}', 0, '{parentId}', '{categor}', 1, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1789,7 +1802,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string insertSql = "INSERT INTO subject_info(si_id, si_code, si_name, si_field, si_theme, si_funds, si_start_datetime, si_end_datetime, si_year, si_unit, si_uniter" +
                     ", si_province, si_prouser, si_intro, si_obj_id, si_work_status, si_categor, si_submit_status, si_worker_id, si_worker_date)" +
                    $" VALUES ('{primaryKey}', '{code}', '{name}', '{field}', '{theme}', '{funds}', '{starttime}', '{endtime}', '{year}', '{unit}', '{unituser}', '{province}', '{objuser}'" +
-                   $",'{intro}', '{parentId}', 1, '{(int)type}', 1, '{UserHelper.GetInstance().User.UserKey}', '{DateTime.Now}')";
+                   $",'{intro}', '{parentId}', 1, '{(int)type}', 1, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Imp)
@@ -1797,7 +1810,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string name = lbl_Imp_Name.Text;
                 object intro = txt_Imp_Intro.Text;
                 string insertSql = "INSERT INTO imp_info(imp_id, imp_code, imp_name, imp_intro, pi_categor, imp_submit_status, imp_obj_id, imp_source_id, imp_type) " +
-                    $"VALUES ('{primaryKey}', '{planCode}', '{name}', '{intro}', '{(int)type}', '{(int)ObjectSubmitStatus.NonSubmit}', '{parentId}', '{UserHelper.GetInstance().User.UserKey}', {(int)type})";
+                    $"VALUES ('{primaryKey}', '{planCode}', '{name}', '{intro}', '{(int)type}', '{(int)ObjectSubmitStatus.NonSubmit}', '{parentId}', '{UserHelper.GetUser().UserKey}', {(int)type})";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Special)
@@ -1808,7 +1821,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string intro = txt_Special_Intro.Text;
 
                 string insertSql = "INSERT INTO imp_dev_info ([imp_id], [imp_code], [imp_name], [imp_unit], [imp_intro], [pi_categor], [imp_submit_status], [imp_obj_id], [imp_source_id]) " +
-                    $"VALUES ('{primaryKey}', '{code}', '{name}', '{unit}', '{intro}', 6, 1, '{parentId}', '{UserHelper.GetInstance().User.UserKey}')";
+                    $"VALUES ('{primaryKey}', '{code}', '{name}', '{unit}', '{intro}', 6, 1, '{parentId}', '{UserHelper.GetUser().UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             return primaryKey;
@@ -1894,7 +1907,7 @@ namespace 科技计划项目档案数据采集管理系统
                     $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');";
             }
             sqlString += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort, pfl_worker_id, pfl_worker_date) " +
-                $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{format}', '{link}', '{fileId}', '{parentId}', '{status}', '{sort}', '{UserHelper.GetInstance().User.UserKey}', '{DateTime.Now}');";
+                $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{format}', '{link}', '{fileId}', '{parentId}', '{status}', '{sort}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');";
             if(!string.IsNullOrEmpty(GetValue(fileId)))
             {
                 int value = link == null ? 0 : 1;
@@ -1961,7 +1974,7 @@ namespace 科技计划项目档案数据采集管理系统
                             Tag = ControlType.Plan,
                             ForeColor = GetForeColorByState(row["pi_submit_status"]),
                         };
-                        if(!UserHelper.GetInstance().User.UserKey.Equals(row["pi_worker_id"]))
+                        if(!UserHelper.GetUser().UserKey.Equals(row["pi_worker_id"]))
                             treeNode.ForeColor = DisEnbleColor;
                         //根据【计划】查询【项目/课题】集
                         DataTable proTable = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_categor, pi_worker_id, pi_submit_status FROM project_info WHERE pi_obj_id='{treeNode.Name}' UNION ALL " +
@@ -1975,7 +1988,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 Tag = ControlType.Project,
                                 ForeColor = GetForeColorByState(proRow["pi_submit_status"]),
                             };
-                            if(!UserHelper.GetInstance().User.UserKey.Equals(proRow["pi_worker_id"]))
+                            if(!UserHelper.GetUser().UserKey.Equals(proRow["pi_worker_id"]))
                                 treeNode2.ForeColor = DisEnbleColor;
                             treeNode.Nodes.Add(treeNode2);
 
@@ -1990,7 +2003,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     Tag = ControlType.Topic,
                                     ForeColor = GetForeColorByState(topRow["ti_submit_status"]),
                                 };
-                                if(!UserHelper.GetInstance().User.UserKey.Equals(topRow["ti_worker_id"]))
+                                if(!UserHelper.GetUser().UserKey.Equals(topRow["ti_worker_id"]))
                                     treeNode3.ForeColor = DisEnbleColor;
                                 treeNode2.Nodes.Add(treeNode3);
 
@@ -2004,7 +2017,7 @@ namespace 科技计划项目档案数据采集管理系统
                                         Tag = ControlType.Subject,
                                         ForeColor = GetForeColorByState(subRow["si_submit_status"]),
                                     };
-                                    if(!UserHelper.GetInstance().User.UserKey.Equals(subRow["si_worker_id"]))
+                                    if(!UserHelper.GetUser().UserKey.Equals(subRow["si_worker_id"]))
                                         treeNode4.ForeColor = DisEnbleColor;
                                     treeNode3.Nodes.Add(treeNode4);
                                 }
@@ -2101,8 +2114,8 @@ namespace 科技计划项目档案数据采集管理系统
                                 ForeColor = Convert.ToInt32(proRow["pi_submit_status"]) == 1 ? Color.Black : DisEnbleColor
                             };
                             treeNode.Nodes.Add(proNode);
-                            DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_name, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{proRow["pi_id"]}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' UNION ALL " +
-                                $"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{proRow["pi_id"]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                            DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_name, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{proRow["pi_id"]}' AND ti_worker_id='{UserHelper.GetUser().UserKey}' UNION ALL " +
+                                $"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{proRow["pi_id"]}' AND si_worker_id='{UserHelper.GetUser().UserKey}';");
                             foreach(DataRow _row in topTable.Rows)
                             {
                                 TreeNode topNode = new TreeNode()
@@ -2114,7 +2127,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 };
                                 proNode.Nodes.Add(topNode);
 
-                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{_row["ti_id"]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{_row["ti_id"]}' AND si_worker_id='{UserHelper.GetUser().UserKey}';");
                                 foreach(DataRow subRow in subTable.Rows)
                                 {
                                     TreeNode subNode = new TreeNode()
@@ -2142,7 +2155,7 @@ namespace 科技计划项目档案数据采集管理系统
                             Tag = ControlType.Imp,
                             ForeColor = GetForeColorByState(impRow["imp_submit_status"]),
                         };
-                        if(!impRow["imp_source_id"].Equals(UserHelper.GetInstance().User.UserKey))
+                        if(!impRow["imp_source_id"].Equals(UserHelper.GetUser().UserKey))
                             treeNode.ForeColor = DisEnbleColor;
                         //根据重大专项查询具体专项信息
                         DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_code, imp_submit_status,imp_source_id FROM imp_dev_info WHERE imp_obj_id='{treeNode.Name}'");
@@ -2156,7 +2169,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 ForeColor = GetForeColorByState(row["imp_submit_status"]),
                             };
                             treeNode.Nodes.Add(treeNode2);
-                            if(!row["imp_source_id"].Equals(UserHelper.GetInstance().User.UserKey))
+                            if(!row["imp_source_id"].Equals(UserHelper.GetUser().UserKey))
                                 treeNode2.ForeColor = DisEnbleColor;
                             //根据【专项信息】查询【项目/课题】集
                             DataTable list = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_submit_status, pi_worker_id FROM project_info WHERE pi_obj_id='{treeNode2.Name}' UNION ALL " +
@@ -2171,7 +2184,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     ForeColor = GetForeColorByState(proRow["pi_submit_status"]),
                                 };
                                 treeNode2.Nodes.Add(treeNode3);
-                                if(!proRow["pi_worker_id"].Equals(UserHelper.GetInstance().User.UserKey))
+                                if(!proRow["pi_worker_id"].Equals(UserHelper.GetUser().UserKey))
                                     treeNode3.ForeColor = DisEnbleColor;
                                 //根据【项目/课题】查询【课题/子课题】集
                                 DataTable list2 = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_submit_status, ti_worker_id FROM topic_info WHERE ti_obj_id='{treeNode3.Name}' UNION ALL " +
@@ -2186,7 +2199,7 @@ namespace 科技计划项目档案数据采集管理系统
                                         ForeColor = GetForeColorByState(topRow["ti_submit_status"]),
                                     };
                                     treeNode3.Nodes.Add(treeNode4);
-                                    if(!topRow["ti_worker_id"].Equals(UserHelper.GetInstance().User.UserKey))
+                                    if(!topRow["ti_worker_id"].Equals(UserHelper.GetUser().UserKey))
                                         treeNode4.ForeColor = DisEnbleColor;
                                     DataTable list3 = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status, si_worker_id FROM subject_info WHERE si_obj_id='{treeNode4.Name}' ORDER BY si_code");
                                     foreach(DataRow subRow in list3.Rows)
@@ -2199,7 +2212,7 @@ namespace 科技计划项目档案数据采集管理系统
                                             ForeColor = GetForeColorByState(subRow["si_submit_status"]),
                                         };
                                         treeNode4.Nodes.Add(treeNode5);
-                                        if(!subRow["si_worker_id"].Equals(UserHelper.GetInstance().User.UserKey))
+                                        if(!subRow["si_worker_id"].Equals(UserHelper.GetUser().UserKey))
                                             treeNode5.ForeColor = DisEnbleColor;
                                     }
                                 }
@@ -2208,7 +2221,7 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else
                     {
-                        impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name, '{UserHelper.GetInstance().User.UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
+                        impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name, '{UserHelper.GetUser().UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
                         treeNode = new TreeNode()
                         {
                             Name = GetValue(impRow["dd_id"]),
@@ -2250,7 +2263,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 };
                                 treeNode.Nodes.Add(treeNode2);
                                 //根据【项目/课题】查询【课题/子课题】集
-                                DataTable list2 = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY ti_code");
+                                DataTable list2 = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' AND ti_worker_id='{UserHelper.GetUser().UserKey}' ORDER BY ti_code");
                                 foreach(DataRow topRow in list2.Rows)
                                 {
                                     TreeNode treeNode3 = new TreeNode()
@@ -2262,7 +2275,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     };
                                     treeNode2.Nodes.Add(treeNode3);
 
-                                    DataTable list3 = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code");
+                                    DataTable list3 = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetUser().UserKey}' ORDER BY si_code");
                                     foreach(DataRow subRow in list3.Rows)
                                     {
                                         TreeNode treeNode4 = new TreeNode()
@@ -2370,7 +2383,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     };
                                     treeNode.Nodes.Add(treeNode2);
 
-                                    DataTable list3 = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_categor, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code");
+                                    DataTable list3 = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_categor, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetUser().UserKey}' ORDER BY si_code");
                                     foreach(DataRow subRow in list3.Rows)
                                     {
                                         TreeNode treeNode3 = new TreeNode()
@@ -2477,7 +2490,7 @@ namespace 科技计划项目档案数据采集管理系统
                             };
                             treeNode.Nodes.Add(treeNode2);
                             //根据【项目/课题】查询【课题/子课题】集
-                            DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY ti_code");
+                            DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' AND ti_worker_id='{UserHelper.GetUser().UserKey}' ORDER BY ti_code");
                             foreach(DataRow topRow in topTable.Rows)
                             {
                                 TreeNode treeNode3 = new TreeNode()
@@ -2489,7 +2502,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 };
                                 treeNode2.Nodes.Add(treeNode3);
 
-                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code");
+                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetUser().UserKey}' ORDER BY si_code");
                                 foreach(DataRow subRow in subTable.Rows)
                                 {
                                     TreeNode treeNode4 = new TreeNode()
@@ -2518,7 +2531,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 };
                                 treeNode.Nodes.Add(treeNode3);
 
-                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' ORDER BY si_code");
+                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetUser().UserKey}' ORDER BY si_code");
                                 foreach(DataRow subRow in subTable.Rows)
                                 {
                                     TreeNode treeNode4 = new TreeNode()
@@ -2566,7 +2579,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 Tag = ControlType.Project,
                                 ForeColor = GetForeColorByState(proRow["pi_submit_status"]),
                             };
-                            if(!UserHelper.GetInstance().User.UserKey.Equals(proRow["pi_worker_id"]))
+                            if(!UserHelper.GetUser().UserKey.Equals(proRow["pi_worker_id"]))
                                 treeNode2.ForeColor = DisEnbleColor;
                             treeNode.Nodes.Add(treeNode2);
 
@@ -2581,7 +2594,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     Tag = ControlType.Topic,
                                     ForeColor = GetForeColorByState(topRow["ti_submit_status"]),
                                 };
-                                if(!UserHelper.GetInstance().User.UserKey.Equals(topRow["ti_worker_id"]))
+                                if(!UserHelper.GetUser().UserKey.Equals(topRow["ti_worker_id"]))
                                     treeNode3.ForeColor = DisEnbleColor;
                                 treeNode2.Nodes.Add(treeNode3);
 
@@ -2595,7 +2608,7 @@ namespace 科技计划项目档案数据采集管理系统
                                         Tag = ControlType.Subject,
                                         ForeColor = GetForeColorByState(subRow["si_submit_status"]),
                                     };
-                                    if(!UserHelper.GetInstance().User.UserKey.Equals(subRow["si_worker_id"]))
+                                    if(!UserHelper.GetUser().UserKey.Equals(subRow["si_worker_id"]))
                                         treeNode4.ForeColor = DisEnbleColor;
                                     treeNode3.Nodes.Add(treeNode4);
                                 }
@@ -2692,8 +2705,8 @@ namespace 科技计划项目档案数据采集管理系统
                                 ForeColor = Convert.ToInt32(proRow["pi_submit_status"]) == 1 ? Color.Black : DisEnbleColor
                             };
                             treeNode.Nodes.Add(proNode);
-                            DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_name, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{proRow["pi_id"]}' AND ti_worker_id='{UserHelper.GetInstance().User.UserKey}' UNION ALL " +
-                                $"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{proRow["pi_id"]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                            DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_name, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{proRow["pi_id"]}' AND ti_worker_id='{UserHelper.GetUser().UserKey}' UNION ALL " +
+                                $"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{proRow["pi_id"]}' AND si_worker_id='{UserHelper.GetUser().UserKey}';");
                             foreach(DataRow _row in topTable.Rows)
                             {
                                 TreeNode topNode = new TreeNode()
@@ -2705,7 +2718,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 };
                                 proNode.Nodes.Add(topNode);
 
-                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{_row["ti_id"]}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}';");
+                                DataTable subTable = SqlHelper.ExecuteQuery($"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{_row["ti_id"]}' AND si_worker_id='{UserHelper.GetUser().UserKey}';");
                                 foreach(DataRow subRow in subTable.Rows)
                                 {
                                     TreeNode subNode = new TreeNode()
@@ -2793,7 +2806,7 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else
                     {
-                        impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name, '{UserHelper.GetInstance().User.UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
+                        impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_id, dd_name, '{UserHelper.GetUser().UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
                         treeNode = new TreeNode()
                         {
                             Name = GetValue(impRow["dd_id"]),
@@ -3409,7 +3422,7 @@ namespace 科技计划项目档案数据采集管理系统
                 LoadFileValidList(dgv_Imp_FileValid, node.Name, "imp_fc_");
                 LoadDocList(node.Name, ControlType.Imp);
                 //如果非被人创建则不允许修改
-                if(!impRow["imp_source_id"].Equals(UserHelper.GetInstance().User.UserKey))
+                if(!impRow["imp_source_id"].Equals(UserHelper.GetUser().UserKey))
                 {
                     cbo_Imp_HasNext.Enabled = false;
                     pal_Imp_BtnGroup.Enabled = false;
@@ -4633,7 +4646,7 @@ namespace 科技计划项目档案数据采集管理系统
                     //灰色背景优先级高于加工人优先级
                     if(pal_Project_BtnGroup.Enabled)
                     {
-                        bool result = row["pi_worker_id"].Equals(UserHelper.GetInstance().User.UserKey);
+                        bool result = row["pi_worker_id"].Equals(UserHelper.GetUser().UserKey);
                         pal_Project_BtnGroup.Enabled = result;
                     }
                 }
@@ -4675,7 +4688,7 @@ namespace 科技计划项目档案数据采集管理系统
                     topic.Tag = row["ti_obj_id"];
                     if(pal_Topic_BtnGroup.Enabled)
                     {
-                        bool result = row["ti_worker_id"].Equals(UserHelper.GetInstance().User.UserKey);
+                        bool result = row["ti_worker_id"].Equals(UserHelper.GetUser().UserKey);
                         pal_Topic_BtnGroup.Enabled = result;
                     }
                     if(isBacked)
@@ -4725,7 +4738,7 @@ namespace 科技计划项目档案数据采集管理系统
                     subject.Tag = row["si_obj_id"];
                     if(pal_Subject_BtnGroup.Enabled)
                     {
-                        bool result = row["si_worker_id"].Equals(UserHelper.GetInstance().User.UserKey);
+                        bool result = row["si_worker_id"].Equals(UserHelper.GetUser().UserKey);
                         pal_Subject_BtnGroup.Enabled = result;
                     }
                     if(isBacked)
@@ -4763,7 +4776,7 @@ namespace 科技计划项目档案数据采集管理系统
                 pal_Special_BtnGroup.Enabled = !(node.ForeColor == DisEnbleColor);
                 if(pal_Special_BtnGroup.Enabled)
                 {
-                    bool result = row["imp_source_id"].Equals(UserHelper.GetInstance().User.UserKey);
+                    bool result = row["imp_source_id"].Equals(UserHelper.GetUser().UserKey);
                     //cbo_Special_HasNext.Enabled = false;
                     pal_Special_BtnGroup.Enabled = result;
                 }
@@ -5090,7 +5103,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", dgv_Plan_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", null, trcId);
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
                 }
@@ -5106,7 +5119,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", dgv_Project_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", null, trcId);
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
                 }
@@ -5122,7 +5135,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", dgv_Topic_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", null, trcId);
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
                 }
@@ -5138,7 +5151,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", dgv_Subject_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", null, trcId);
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
                 }
@@ -5155,7 +5168,7 @@ namespace 科技计划项目档案数据采集管理系统
                     else
                         frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", null, trcId);
                     frm.parentId = objId;
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.Show();
                 }
                 else
@@ -5170,7 +5183,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", dgv_Special_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", null, trcId);
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
                 }
@@ -5688,13 +5701,13 @@ namespace 科技计划项目档案数据采集管理系统
                 boxTable = boxTable,
                 objectCode = docNumber,
                 objectName = objName,
-                unitName = UserHelper.GetInstance().User.UnitName,
+                unitName = UserHelper.GetUser().UnitName,
                 proCode = proCode,
                 proName = proName,
                 parentObjectName = parentObjectName,
-                ljPeople = UserHelper.GetInstance().GetUserNameById(GetWorker(objId, 1)),
+                ljPeople = UserHelper.GetUserNameById(GetWorker(objId, 1)),
                 ljDate = GetWorker(objId, 2),
-                jcPeople = UserHelper.GetInstance().GetUserNameById(GetWorker(objId, 3)),
+                jcPeople = UserHelper.GetUserNameById(GetWorker(objId, 3)),
                 jcDate = GetWorker(objId, 4),
                 otherDoc = SqlHelper.ExecuteQuery($"SELECT * FROM other_doc WHERE od_obj_id='{objId}'"),
             };
@@ -5847,17 +5860,16 @@ namespace 科技计划项目档案数据采集管理系统
             }
 
             DataGridViewCell pagesCell = row.Cells[key + "pages"];
-            if(pagesCell.Value == null || string.IsNullOrEmpty(GetValue(pagesCell.Value)) || Convert.ToInt32(pagesCell.Value) == 0)
+            if(pagesCell.Value == null)
             {
                 pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
                 result = false;
             }
             else
             {
-                int pageValue = Convert.ToInt32(pagesCell.Value);
-                if(pageValue > 9999)
+                if(!Regex.IsMatch(GetValue(pagesCell.Value), "^[0-9]{1,4}$"))
                 {
-                    pagesCell.ErrorText = "温馨提示：页数不能超过4位数。";
+                    pagesCell.ErrorText = "温馨提示：请输入小于4位数的合法数字。";
                     result = false;
                 }
                 else
@@ -5897,7 +5909,7 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewCell dateCell = row.Cells[key + "date"];
             if(!string.IsNullOrEmpty(GetValue(dateCell.Value)))
             {
-                if(!GetValue(dateCell.Value).Contains("-"))
+                if(!Regex.IsMatch(GetValue(dateCell.Value), "\\d{4}-\\d{2}-\\d{2}"))
                 {
                     dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
                     result = false;

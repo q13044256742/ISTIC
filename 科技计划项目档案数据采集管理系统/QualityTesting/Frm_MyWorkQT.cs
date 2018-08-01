@@ -1662,7 +1662,7 @@ namespace 科技计划项目档案数据采集管理系统
                     "VALUES" +
                     $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{funds}','{starttime}'" +
                     $",'{endtime}','{year}','{unit}','{unituser}'" +
-                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type}, 1,'{UserHelper.GetInstance().User.UserKey}')";
+                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type}, 1,'{UserHelper.GetUser().UserKey}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1690,7 +1690,7 @@ namespace 科技计划项目档案数据采集管理系统
                     "VALUES" +
                     $"('{primaryKey}',null,'{code}','{name}','{planType}','{ly}','{zt}','{funds}','{starttime}'" +
                     $",'{endtime}','{year}','{unit}','{unituser}'" +
-                    $",'{province}', '{objuser}', '{intro}', '{0}', '{parentId}', '{categor}', '1', '{UserHelper.GetInstance().User.UserKey}')";
+                    $",'{province}', '{objuser}', '{intro}', '{0}', '{parentId}', '{categor}', '1', '{UserHelper.GetUser().UserKey}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1716,7 +1716,7 @@ namespace 科技计划项目档案数据采集管理系统
                    "si_worker_id) VALUES " +
                    $"('{primaryKey}','{parentId}','{code}','{name}','{planType}','{ly}','{zt}','{funds}'" +
                    $",'{starttime}','{endtime}','{year}','{unit}','{unituser}','{province}','{objuser}'" +
-                   $",'{intro}','{(int)WorkStatus.NonWork}','{(int)type}',{(int)ObjectSubmitStatus.NonSubmit},'{UserHelper.GetInstance().User.UserKey}')";
+                   $",'{intro}','{(int)WorkStatus.NonWork}','{(int)type}',{(int)ObjectSubmitStatus.NonSubmit},'{UserHelper.GetUser().UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Imp)
@@ -1724,7 +1724,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string name = lbl_Imp_Name.Text;
                 object intro = txt_Imp_Intro.Text;
                 string insertSql = "INSERT INTO imp_info(imp_id, imp_code, imp_name, imp_intro, pi_categor, imp_submit_status, imp_obj_id, imp_source_id, imp_type) " +
-                    $"VALUES ('{primaryKey}', '{planCode}', '{name}', '{intro}', '{(int)type}', '{(int)ObjectSubmitStatus.NonSubmit}', '{parentId}', '{UserHelper.GetInstance().User.UserKey}', {DEV_TYPE})";
+                    $"VALUES ('{primaryKey}', '{planCode}', '{name}', '{intro}', '{(int)type}', '{(int)ObjectSubmitStatus.NonSubmit}', '{parentId}', '{UserHelper.GetUser().UserKey}', {DEV_TYPE})";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Special)
@@ -1742,7 +1742,7 @@ namespace 科技计划项目档案数据采集管理系统
                     $",'{(int)ControlType.Special}'" +
                     $",'{(int)SubmitStatus.NonSubmit}'" +
                     $",'{parentId}'" +
-                    $",'{UserHelper.GetInstance().User.UserKey}')";
+                    $",'{UserHelper.GetUser().UserKey}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             return primaryKey;
@@ -1848,7 +1848,7 @@ namespace 科技计划项目档案数据采集管理系统
             //光盘加工
             if(workType == WorkType.CDWork)
             {
-                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}'");
+                object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_id='{planId}' AND pi_worker_id='{UserHelper.GetUser().UserKey}'");
                 if(_obj == null)
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id,pi_name,pi_categor FROM project_info WHERE pi_obj_id='{objId}'");
                 if(_obj == null)
@@ -1860,7 +1860,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = ControlType.Plan,
                 };
                 //根据【计划】查询【项目/课题】集
-                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_worker_id='{UserHelper.GetInstance().User.UserKey}' " +
+                List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id,pi_code,pi_categor FROM project_info WHERE pi_obj_id='{treeNode.Name}' AND pi_worker_id='{UserHelper.GetUser().UserKey}' " +
                     $"ORDER BY pi_code", 3);
                 for(int i = 0; i < list.Count; i++)
                 {
@@ -1872,7 +1872,7 @@ namespace 科技计划项目档案数据采集管理系统
                     };
                     treeNode.Nodes.Add(treeNode2);
                     //根据【项目/课题】查询【课题/子课题】集
-                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' " +
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetUser().UserKey}' " +
                         $"ORDER BY si_code", 3);
                     for(int j = 0; j < list2.Count; j++)
                     {
@@ -1884,7 +1884,7 @@ namespace 科技计划项目档案数据采集管理系统
                         };
                         treeNode2.Nodes.Add(treeNode3);
 
-                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}' " +
+                        List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetUser().UserKey}' " +
                             $"ORDER BY si_id", 3);
                         for(int k = 0; k < list3.Count; k++)
                         {
@@ -2143,7 +2143,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT pi_id, pi_name, pi_worker_id FROM project_info WHERE pi_id='{planId}'");
                 if(_obj == null)
-                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id, dd_name,'{UserHelper.GetInstance().User.UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
+                    _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id, dd_name,'{UserHelper.GetUser().UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()
                 {
                     Name = GetValue(_obj[0]),
@@ -2151,7 +2151,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Tag = ControlType.Plan
                 };
                 //如果当前任务并非登录人加工，则无法编辑【文字置灰】
-                if(!UserHelper.GetInstance().User.UserKey.Equals(_obj[2]))
+                if(!UserHelper.GetUser().UserKey.Equals(_obj[2]))
                     treeNode.ForeColor = DisEnbleColor;
                 //根据【计划】查询【项目/课题】集
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id, pi_code, pi_categor, pi_worker_id FROM project_info WHERE pi_obj_id='{treeNode.Name}'", 4);
@@ -2164,10 +2164,10 @@ namespace 科技计划项目档案数据采集管理系统
                         Tag = (ControlType)list[i][2]
                     };
                     //如果当前任务并非登录人加工，则无法编辑【文字置灰】
-                    if(!UserHelper.GetInstance().User.UserKey.Equals(list[i][3]))
+                    if(!UserHelper.GetUser().UserKey.Equals(list[i][3]))
                         treeNode2.ForeColor = DisEnbleColor;
                     //根据【项目/课题】查询【课题/子课题】集
-                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id, si_code, si_categor, si_worker_id FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 4);
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id, si_code, si_categor, si_worker_id FROM subject_info WHERE pi_id='{treeNode2.Name}' AND si_worker_id='{UserHelper.GetUser().UserKey}'", 4);
                     for(int j = 0; j < list2.Count; j++)
                     {
                         TreeNode treeNode3 = new TreeNode()
@@ -2177,14 +2177,14 @@ namespace 科技计划项目档案数据采集管理系统
                             Tag = (ControlType)list2[j][2]
                         };
                         //如果当前任务并非登录人加工，则无法编辑【文字置灰】
-                        if(!UserHelper.GetInstance().User.UserKey.Equals(list2[j][3]))
+                        if(!UserHelper.GetUser().UserKey.Equals(list2[j][3]))
                             treeNode3.ForeColor = DisEnbleColor;
                         //【当前定位为课题子课题，则只取一条即可】
                         if(treeNode3.Name.Equals(objId))
                         {
                             treeNode.Nodes.Add(treeNode2);
                             treeNode2.Nodes.Add(treeNode3);
-                            List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetInstance().User.UserKey}'", 3);
+                            List<object[]> list3 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id,si_code,si_categor FROM subject_info WHERE pi_id='{treeNode3.Name}' AND si_worker_id='{UserHelper.GetUser().UserKey}'", 3);
                             for(int k = 0; k < list3.Count; k++)
                             {
                                 TreeNode treeNode4 = new TreeNode()
@@ -4155,7 +4155,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     updateSql += "INSERT INTO remake_log(rl_id, rl_date, rl_user_id, rl_obj_id, rl_type) VALUES (" +
-                        $"'{Guid.NewGuid().ToString()}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}', '{objId}', '{(int)type}');";
+                        $"'{Guid.NewGuid().ToString()}', '{DateTime.Now}', '{UserHelper.GetUser().UserKey}', '{objId}', '{(int)type}');";
                     SqlHelper.ExecuteNonQuery(updateSql);
                     EnableControls(type, false);
                     XtraMessageBox.Show("操作成功.");
@@ -4243,7 +4243,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", dgv_Plan_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", null, trcId);
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
                 }
@@ -4259,7 +4259,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", dgv_Project_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", null, trcId);
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
                 }
@@ -4275,7 +4275,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", dgv_Topic_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", null, trcId);
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
                 }
@@ -4291,7 +4291,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", dgv_Subject_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", null, trcId);
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
                 }
@@ -4308,7 +4308,7 @@ namespace 科技计划项目档案数据采集管理系统
                     else
                         frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", null, trcId);
                     frm.parentId = objId;
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.Show();
                 }
                 else
@@ -4323,7 +4323,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", dgv_Special_FileList.CurrentRow.Cells[0].Tag, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", null, trcId);
-                    frm.txt_Unit.Text = UserHelper.GetInstance().User.UnitName;
+                    frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
                 }
@@ -4969,13 +4969,13 @@ namespace 科技计划项目档案数据采集管理系统
                 boxTable = boxTable,
                 objectCode = docNumber,
                 objectName = objName,
-                unitName = UserHelper.GetInstance().User.UnitName,
+                unitName = UserHelper.GetUser().UnitName,
                 proCode = proCode,
                 proName = proName,
                 parentObjectName = parentObjectName,
-                ljPeople = UserHelper.GetInstance().GetUserNameById(GetWorker(objId, 1)),
+                ljPeople = UserHelper.GetUserNameById(GetWorker(objId, 1)),
                 ljDate = GetWorker(objId, 2),
-                jcPeople = UserHelper.GetInstance().GetUserNameById(GetWorker(objId, 3)),
+                jcPeople = UserHelper.GetUserNameById(GetWorker(objId, 3)),
                 jcDate = GetWorker(objId, 4),
                 otherDoc = SqlHelper.ExecuteQuery($"SELECT * FROM other_doc WHERE od_obj_id='{objId}'"),
             };

@@ -1,7 +1,9 @@
 ﻿using DevExpress.LookAndFeel;
+using DevExpress.XtraEditors;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using 科技计划项目档案数据采集管理系统.FirstPage;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -17,55 +19,37 @@ namespace 科技计划项目档案数据采集管理系统
             BackColor = Color.FromArgb(255, 246, 243, 243);
         }
 
-        private void btn_Login_Click(object sender, EventArgs e) {
+        private void btn_Login_Click(object sender, EventArgs e)
+        {
             string loginName = txt_loginName.Text.Trim();
             string loginPassword = txt_loginPassword.Text.Trim();
-            if (!string.IsNullOrEmpty(loginName) && !string.IsNullOrEmpty(loginPassword))
+            if(!string.IsNullOrEmpty(loginName) && !string.IsNullOrEmpty(loginPassword))
             {
                 UserLogin userLogin = new UserLogin();
                 bool result = userLogin.IsExist(new User(loginName, loginPassword));
-                if (result)
+                if(result)
                 {
                     User user = userLogin.GetUser(loginName, loginPassword);
-                    UserHelper.GetInstance().User = user;
-                    int i = cbo_Identity.SelectedIndex;
-                    user.Remark = i;
-                    if(i == 4)
-                    {
-                        Frm_Query frm = new Frm_Query(this);
-                        frm.Show();
-                    }
-                    else if(i == 5)
-                    {
-                        if(UserHelper.GetInstance().GetUserRole() == UserRole.Worker)
-                        {
-                            Frm_MainFrameManager fm = new Frm_MainFrameManager(user);
-                            fm.WindowState = FormWindowState.Maximized;
-                            fm.Show();
-                        }
-                        else
-                            DevExpress.XtraEditors.XtraMessageBox.Show("此操作不被允许。");
-                    }
-                    else
-                    {
-                        Frm_MainFrame fm = new Frm_MainFrame(user);
-                        fm.WindowState = FormWindowState.Maximized;
-                        fm.Show();
-                    }
+                    UserHelper.SetUser(user);
                     Hide();
+                    Frm_FirstPage frm = new Frm_FirstPage();
+                    frm.ShowDialog();
                 }
                 else
-                {
-                    MessageBox.Show("用户名或密码错误！");
-                }
-            }else
-            {
-                MessageBox.Show("用户名和密码不能为空!");
+                    XtraMessageBox.Show("用户名或密码错误。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            else
+                XtraMessageBox.Show("用户名和密码不能为空。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void frm_Login_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e) {
+        private void Frm_Login_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e) {
             Application.Exit();
+        }
+
+        private void Txt_loginPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+                btn_Login_Click(null, null);
         }
     }
 }

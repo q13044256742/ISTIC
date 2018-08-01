@@ -391,7 +391,14 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if("print".Equals(columnName))
             {
-                
+                bool state = (bool)view.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue;
+                foreach(DataGridViewCell cell in view.Rows[e.RowIndex].Cells)
+                {
+                    if(cell is DataGridViewCheckBoxCell)
+                    {
+                        (cell as DataGridViewCheckBoxCell).Value = state;
+                    }
+                }
             }
         }
 

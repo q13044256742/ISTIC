@@ -138,7 +138,7 @@ namespace 科技计划项目档案数据采集管理系统
                 insertSql += $" cr_split_symbol, cr_template, cr_create_date, cr_special_id) VALUES ('{cbo_Type.Tag}', '{type}', '{txt_Fixed.Text}', ";
                 for(int i = 0; i < values.Length; i++)
                     insertSql += $"'{values[i]}', ";
-                insertSql += $"'{symbol}', '{lbl_Template.Text}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}')";
+                insertSql += $"'{symbol}', '{lbl_Template.Text}', '{DateTime.Now}', '{UserHelper.GetUser().UserKey}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
                 DevExpress.XtraEditors.XtraMessageBox.Show("保存成功。");

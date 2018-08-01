@@ -90,7 +90,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){ Name = "mrl_state", HeaderText = "状态", FillWeight = 8},
                 new DataGridViewButtonColumn(){ Name = "mrl_edit", HeaderText = "操作", FillWeight = 5, Text = "查看", UseColumnTextForButtonValue = true},
             });
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT wm_id, wm_obj_id FROM work_myreg WHERE wm_accepter='{UserHelper.GetInstance().User.UserKey}' AND wm_type=3 AND wm_status<>1");
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT wm_id, wm_obj_id FROM work_myreg WHERE wm_accepter='{UserHelper.GetUser().UserKey}' AND wm_type=3 AND wm_status<>1");
             foreach(DataRow row in table.Rows)
             {
                 object objId = row["wm_obj_id"];
@@ -327,7 +327,7 @@ namespace 科技计划项目档案数据采集管理系统
         private object GetRootId(object objId, WorkType type)
         {
             if(type == WorkType.PaperWork)
-                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}' AND pi_source_id='{UserHelper.GetInstance().User.UserKey}'");
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}' AND pi_source_id='{UserHelper.GetUser().UserKey}'");
             else if(type == WorkType.CDWork)
                 return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}'");
             if(type == WorkType.ProjectWork)
@@ -358,7 +358,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewButtonColumn(){ Name = "mr_submit", HeaderText = "完成", FillWeight = 8, Text = "提交", UseColumnTextForButtonValue = true}
             });
 
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT wm_id, wm_type, wm_obj_id FROM work_myreg WHERE wm_accepter='{UserHelper.GetInstance().User.UserKey}' AND wm_status=2");
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT wm_id, wm_type, wm_obj_id FROM work_myreg WHERE wm_accepter='{UserHelper.GetUser().UserKey}' AND wm_status=2");
             foreach(DataRow  row in table.Rows)
             {
                 WorkType type = (WorkType)Convert.ToInt32(row["wm_type"]);
@@ -483,14 +483,14 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void GetAllProjectByPid(object objid)
         {
-            SqlHelper.ExecuteNonQuery($"UPDATE project_info SET pi_checker_id='{UserHelper.GetInstance().User.UserKey}' WHERE pi_id='{objid}'");
+            SqlHelper.ExecuteNonQuery($"UPDATE project_info SET pi_checker_id='{UserHelper.GetUser().UserKey}' WHERE pi_id='{objid}'");
             List<object[]> _obj = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{objid}'", 1);
             for(int i = 0; i < _obj.Count; i++)
             {
-                SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_checker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj[i][0]}'");
+                SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_checker_id='{UserHelper.GetUser().UserKey}' WHERE si_id='{_obj[i][0]}'");
                 List<object[]> _obj2 = SqlHelper.ExecuteColumnsQuery($"SELECT si_id FROM subject_info WHERE pi_id='{_obj[i][0]}'", 1);
                 for(int j = 0; j < _obj2.Count; j++)
-                    SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_checker_id='{UserHelper.GetInstance().User.UserKey}' WHERE si_id='{_obj2[j][0]}'");
+                    SqlHelper.ExecuteNonQuery($"UPDATE subject_info SET si_checker_id='{UserHelper.GetUser().UserKey}' WHERE si_id='{_obj2[j][0]}'");
             }
         }
         
@@ -711,7 +711,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp.Rows[e.RowIndex].Cells["imp_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
                         dgv_Imp.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -732,7 +732,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp_Dev.Rows[e.RowIndex].Cells["imp_dev_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
                         dgv_Imp_Dev.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -762,25 +762,25 @@ namespace 科技计划项目档案数据采集管理系统
                         object objId = SqlHelper.ExecuteOnlyOneQuery($"SELECT wm_obj_id FROM work_myreg WHERE wm_id='{wmid}'");
 
                         StringBuilder updateSQL = new StringBuilder();
-                        updateSQL.Append($"UPDATE project_info SET pi_checker_id='{UserHelper.GetInstance().User.UserKey}', pi_checker_date='{DateTime.Now}' WHERE pi_id='{objId}';");
-                        updateSQL.Append($"UPDATE topic_info SET ti_checker_id='{UserHelper.GetInstance().User.UserKey}', ti_checker_date='{DateTime.Now}' WHERE ti_id='{objId}';");
-                        updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetInstance().User.UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{objId}';");
+                        updateSQL.Append($"UPDATE project_info SET pi_checker_id='{UserHelper.GetUser().UserKey}', pi_checker_date='{DateTime.Now}' WHERE pi_id='{objId}';");
+                        updateSQL.Append($"UPDATE topic_info SET ti_checker_id='{UserHelper.GetUser().UserKey}', ti_checker_date='{DateTime.Now}' WHERE ti_id='{objId}';");
+                        updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetUser().UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{objId}';");
 
                         DataTable topicTable = SqlHelper.ExecuteQuery($"SELECT ti_id FROM topic_info WHERE ti_obj_id='{objId}' UNION ALL SELECT si_id FROM subject_info WHERE si_obj_id='{objId}'");
                         foreach(DataRow row in topicTable.Rows)
                         {
-                            updateSQL.Append($"UPDATE topic_info SET ti_checker_id='{UserHelper.GetInstance().User.UserKey}', ti_checker_date='{DateTime.Now}' WHERE ti_id='{row["ti_id"]}';");
-                            updateSQL.Append($"UPDATE subject_info SET si_checker_id='{UserHelper.GetInstance().User.UserKey}', si_checker_date='{DateTime.Now}' WHERE si_id='{row["ti_id"]}';");
-                            updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetInstance().User.UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{row["ti_id"]}';");
+                            updateSQL.Append($"UPDATE topic_info SET ti_checker_id='{UserHelper.GetUser().UserKey}', ti_checker_date='{DateTime.Now}' WHERE ti_id='{row["ti_id"]}';");
+                            updateSQL.Append($"UPDATE subject_info SET si_checker_id='{UserHelper.GetUser().UserKey}', si_checker_date='{DateTime.Now}' WHERE si_id='{row["ti_id"]}';");
+                            updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetUser().UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{row["ti_id"]}';");
 
                             DataTable subjectTable = SqlHelper.ExecuteQuery($"SELECT si_id FROM subject_info WHERE si_obj_id='{row["ti_id"]}'");
                             foreach(DataRow subRow in subjectTable.Rows)
                             {
-                                updateSQL.Append($"UPDATE subject_info SET si_checker_id='{UserHelper.GetInstance().User.UserKey}', si_checker_date='{DateTime.Now}' WHERE si_id='{subRow["si_id"]}';");
-                                updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetInstance().User.UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{subRow["si_id"]}';");
+                                updateSQL.Append($"UPDATE subject_info SET si_checker_id='{UserHelper.GetUser().UserKey}', si_checker_date='{DateTime.Now}' WHERE si_id='{subRow["si_id"]}';");
+                                updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetUser().UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{subRow["si_id"]}';");
                             }
                         }
-                        updateSQL.Append($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetInstance().User.UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}';");
+                        updateSQL.Append($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}';");
 
                         SqlHelper.ExecuteNonQuery(updateSQL.ToString());
 

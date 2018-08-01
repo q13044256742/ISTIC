@@ -45,12 +45,12 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
                     object localKey = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{trpName}' AND bfi_trcid='{trcId}'");
                     if(localKey != null)
-                        SqlHelper.ExecuteNonQuery($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_userid='{UserHelper.GetInstance().User.UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{localKey}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_userid='{UserHelper.GetUser().UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{localKey}'");
                     else
                     {
                         localKey = Guid.NewGuid().ToString();
                         SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                            $"('{localKey}', '{trpName}', '{DateTime.Now}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', -1)");
+                            $"('{localKey}', '{trpName}', '{DateTime.Now}', '{UserHelper.GetUser().UserKey}', '{trcId}', -1)");
                     }
                     CopyFile(directoryInfo, targetPath, localKey, totalFileAmount);
                     pgb_CD.Tag = true;
@@ -149,7 +149,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 string fileName = file[i].Name;
                 string primaryKey = Guid.NewGuid().ToString();
                 SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                    $"('{primaryKey}', '{fileName}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 0)");
+                    $"('{primaryKey}', '{fileName}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetUser().UserKey}', '{trcId}', 0)");
 
                 UploadFile(file[i].FullName, tPath, fileName);
                 pgb_CD.Value++;
@@ -162,7 +162,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 {
                     string primaryKey = Guid.NewGuid().ToString();
                     SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                       $"('{primaryKey}', '{infos[i].Name}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetInstance().User.UserKey}', '{trcId}', 1)");
+                       $"('{primaryKey}', '{infos[i].Name}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetUser().UserKey}', '{trcId}', 1)");
                     CopyFile(infos[i], tPath + "\\" + infos[i].Name + @"\", primaryKey, totalFileAmount);
                 }
             }
@@ -247,7 +247,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 DataRow row = specialTable.Rows[i];
                 sqlString.Append($"DELETE FROM project_info WHERE pi_id='{row["spi_id"]}';");
                 sqlString.Append("INSERT INTO project_info(pi_id, pi_code, pi_name, pi_unit, pi_obj_id, pi_categor, pi_submit_status, pi_source_id) " +
-                    $"VALUES ('{row["spi_id"]}', '{row["spi_code"]}', '{row["spi_name"]}', '{row["spi_unit"]}', '{trcId}', '{(int)ControlType.Plan}', 1, '{UserHelper.GetInstance().User.UserKey}');");
+                    $"VALUES ('{row["spi_id"]}', '{row["spi_code"]}', '{row["spi_name"]}', '{row["spi_unit"]}', '{trcId}', '{(int)ControlType.Plan}', 1, '{UserHelper.GetUser().UserKey}');");
                 pgb_DS.Value += 1;
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());
@@ -265,7 +265,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     ",[pi_categor] ,[pi_submit_status] ,[pi_source_id]) " +
                     $" VALUES('{row["pi_id"]}', '{trcId}', '{row["pi_code"]}', '{row["pi_name"]}', '{row["pi_field"]}', '{row["pi_theme"]}', '{row["pi_funds"]}', '{row["pi_startdate"]}', '{row["pi_finishdate"]}'" +
                     $",'{row["pi_year"]}', '{row["pi_unit"]}', '{row["pi_province"]}', '{row["pi_unit_user"]}', '{row["pi_project_user"]}', '{row["pi_introduction"]}', {(int)WorkStatus.NonWork}, '{row["pi_obj_id"]}'" +
-                    $",'{(int)ControlType.Project}', '{(int)ObjectSubmitStatus.NonSubmit}' ,'{UserHelper.GetInstance().User.UserKey}');");
+                    $",'{(int)ControlType.Project}', '{(int)ObjectSubmitStatus.NonSubmit}' ,'{UserHelper.GetUser().UserKey}');");
                 pgb_DS.Value += 1;
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());
@@ -285,7 +285,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     ",[ti_unit],[ti_province],[ti_uniter],[ti_prouser],[ti_work_status],[ti_intro],[ti_obj_id],[ti_categor],[ti_submit_status],[ti_source_id]) " +
                     $"VALUES('{row["ti_id"]}','{(_trcId.Equals(tid) ? trcId : null)}', '{row["ti_code"]}', '{row["ti_name"]}', '{row["ti_field"]}', '{row["ti_theme"]}', '{row["ti_funds"]}', '{row["ti_startdate"]}', '{row["ti_finishdate"]}'" +
                     $",'{row["ti_year"]}', '{row["ti_unit"]}', '{row["ti_province"]}', '{row["ti_unit_user"]}', '{row["ti_project_user"]}', '{(int)WorkStatus.NonWork}', '{ row["ti_introduction"]}', '{tid}'" +
-                    $",'{(int)ControlType.Topic}', '{(int)ObjectSubmitStatus.NonSubmit}' ,'{UserHelper.GetInstance().User.UserKey}');");
+                    $",'{(int)ControlType.Topic}', '{(int)ObjectSubmitStatus.NonSubmit}' ,'{UserHelper.GetUser().UserKey}');");
                 pgb_DS.Value += 1;
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());
@@ -303,7 +303,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     "VALUES(" +
                     $"'{row["si_id"]}', '{row["si_code"]}', '{row["si_name"]}', '{row["si_field"]}', '{row["si_theme"]}', '{row["si_funds"]}', '{row["si_startdate"]}', '{row["si_finishdate"]}'," +
                     $"'{row["si_year"]}', '{row["si_unit"]}', '{row["si_province"]}', '{row["si_unit_user"]}', '{row["si_project_user"]}', '{row["si_introduction"]}', '{row["si_obj_id"]}', '{(int)WorkStatus.NonWork}'" +
-                    $",'{(int)ControlType.Subject}', '{(int)ObjectSubmitStatus.NonSubmit}' ,'{UserHelper.GetInstance().User.UserKey}');");
+                    $",'{(int)ControlType.Subject}', '{(int)ObjectSubmitStatus.NonSubmit}' ,'{UserHelper.GetUser().UserKey}');");
                 pgb_DS.Value += 1;
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());

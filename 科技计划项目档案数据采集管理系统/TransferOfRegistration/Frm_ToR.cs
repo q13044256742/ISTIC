@@ -7,8 +7,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Properties;
+using 科技计划项目档案数据采集管理系统.TransferOfRegistration;
 
-namespace 科技计划项目档案数据采集管理系统.TransferOfRegistration
+namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_ToR : Form
     {

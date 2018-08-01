@@ -343,7 +343,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                 string insertSql = "INSERT INTO processing_file_list (" +
                 "pfl_id, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort, pfl_remark, pfl_worker_id, pfl_worker_date) " +
-                $"VALUES( '{primaryKey}', '{stage}', '{categor}', '{code}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}', '{parentId}', -1, '{row.Index}', '{remark}', '{UserHelper.GetInstance().User.UserKey}', '{DateTime.Now}');";
+                $"VALUES( '{primaryKey}', '{stage}', '{categor}', '{code}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}', '{parentId}', -1, '{row.Index}', '{remark}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');";
                 //将备份表中的文件标记为已选取
                 if(!string.IsNullOrEmpty(fileId))
                     insertSql += $"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({fileId});";
