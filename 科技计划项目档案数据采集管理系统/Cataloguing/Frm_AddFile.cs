@@ -555,19 +555,10 @@ namespace 科技计划项目档案数据采集管理系统
             string dateString = txt_date.Text;
             if(!string.IsNullOrEmpty(dateString))
             {
-                if(!Regex.IsMatch(dateString, "\\d{4}-\\d{2}-\\d{2}"))
+                if(!Regex.IsMatch(dateString, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(dateString, out DateTime date))
                 {
                     errorProvider1.SetError(dtp_date, "提示：请输入格式为 yyyy-MM-dd 的有效日期。");
                     result = false;
-                }
-                else
-                {
-                    bool flag = DateTime.TryParse(dateString, out DateTime date);
-                    if(!flag)
-                    {
-                        errorProvider1.SetError(dtp_date, "提示：请输入格式为 yyyy-MM-dd 的有效日期。");
-                        result = false;
-                    }
                 }
             }
 
@@ -581,7 +572,7 @@ namespace 科技计划项目档案数据采集管理系统
         public void SetCategorByStage(object jdId, DataGridViewRow dataGridViewRow, object key)
         {
             DataGridViewComboBoxCell categorCell = dataGridViewRow.Cells[key + "categor"] as DataGridViewComboBoxCell;
-            string querySql = $"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_pId='{jdId}' ORDER BY dd_sort";
+            string querySql = $"SELECT dd_id, dd_name+' '+extend_3 as dd_name FROM data_dictionary WHERE dd_pId='{jdId}' ORDER BY dd_sort";
             categorCell.DataSource = SqlHelper.ExecuteQuery(querySql);
             categorCell.DisplayMember = "dd_name";
             categorCell.ValueMember = "dd_id";

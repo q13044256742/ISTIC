@@ -14,7 +14,7 @@ using 科技计划项目档案数据采集管理系统.KyoControl;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_MyWork : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_MyWork : XtraForm
     {
         /// <summary>
         /// 待删除文件ID
@@ -1078,40 +1078,30 @@ namespace 科技计划项目档案数据采集管理系统
                         result = false;
                     }
                 }
+                string year = txt_Project_Year.Text;
+                if(string.IsNullOrEmpty(year) || !Regex.IsMatch(year, "^\\d{4}$"))
+                {
+                    errorProvider1.SetError(txt_Project_Year, "提示：请输入有效的立项年度");
+                    result = false;
+                }
 
                 string startDate = txt_Project_StartTime.Text;
                 if(!string.IsNullOrEmpty(startDate))
                 {
-                    
-                    if(!Regex.IsMatch(startDate, "\\d{4}-\\d{2}-\\d{2}"))
+
+                    if(!Regex.IsMatch(startDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(startDate, out DateTime time))
                     {
-                        errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
-                    }
-                    else
-                    {
-                        if(!DateTime.TryParse(startDate, out DateTime time))
-                        {
-                            errorProvider1.SetError(dtp_Project_StartTime, "提示：请输入合法的日期");
-                            result = false;
-                        }
                     }
                 }
                 string endDate = txt_Project_EndTime.Text;
                 if(!string.IsNullOrEmpty(endDate))
                 {
-                    if(!Regex.IsMatch(endDate, "\\d{4}-\\d{2}-\\d{2}"))
+                    if(!Regex.IsMatch(endDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(endDate, out DateTime time))
                     {
-                        errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
-                    }
-                    else
-                    {
-                        if(!DateTime.TryParse(endDate, out DateTime time))
-                        {
-                            errorProvider1.SetError(dtp_Project_EndTime, "提示：请输入合法的日期");
-                            result = false;
-                        }
                     }
                 }
 
@@ -1157,11 +1147,13 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
-                if(string.IsNullOrEmpty(txt_Topic_Year.Text))
+                string year = txt_Topic_Year.Text;
+                if(string.IsNullOrEmpty(year) || !Regex.IsMatch(year, "^\\d{4}$"))
                 {
-                    errorProvider1.SetError(txt_Topic_Year, "提示：立项年度不能为空");
+                    errorProvider1.SetError(txt_Topic_Year, "提示：请输入有效的立项年度");
                     result = false;
                 }
+
                 if(string.IsNullOrEmpty(txt_Topic_Unit.Text))
                 {
                     errorProvider1.SetError(txt_Topic_Unit, "提示：承担单位不能为空");
@@ -1176,35 +1168,19 @@ namespace 科技计划项目档案数据采集管理系统
                 string startDate = txt_Topic_StartTime.Text;
                 if(!string.IsNullOrEmpty(startDate))
                 {
-                    if(!Regex.IsMatch(startDate, "\\d{4}-\\d{2}-\\d{2}"))
+                    if(!Regex.IsMatch(startDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(startDate, out DateTime time))
                     {
-                        errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
-                    }
-                    else
-                    {
-                        if(!DateTime.TryParse(startDate, out DateTime time))
-                        {
-                            errorProvider1.SetError(dtp_Topic_StartTime, "提示：请输入合法的日期");
-                            result = false;
-                        }
                     }
                 }
                 string endDate = txt_Topic_EndTime.Text;
                 if(!string.IsNullOrEmpty(endDate))
                 {
-                    if(!Regex.IsMatch(endDate, "\\d{4}-\\d{2}-\\d{2}"))
+                    if(!Regex.IsMatch(endDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(endDate, out DateTime time))
                     {
-                        errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
-                    }
-                    else
-                    {
-                        if(!DateTime.TryParse(endDate, out DateTime time))
-                        {
-                            errorProvider1.SetError(dtp_Topic_EndTime, "提示：请输入合法的日期");
-                            result = false;
-                        }
                     }
                 }
 
@@ -1248,9 +1224,10 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
 
-                if(string.IsNullOrEmpty(txt_Subject_Year.Text))
+                string year = txt_Subject_Year.Text;
+                if(string.IsNullOrEmpty(year) || !Regex.IsMatch(year, "^\\d{4}$"))
                 {
-                    errorProvider1.SetError(txt_Subject_Year, "提示：立项年度不能为空");
+                    errorProvider1.SetError(txt_Subject_Year, "提示：请输入有效的立项年度");
                     result = false;
                 }
                 if(string.IsNullOrEmpty(txt_Subject_Unit.Text))
@@ -1267,35 +1244,19 @@ namespace 科技计划项目档案数据采集管理系统
                 string startDate = txt_Subject_StartTime.Text;
                 if(!string.IsNullOrEmpty(startDate))
                 {
-                    if(!Regex.IsMatch(startDate, "\\d{4}-\\d{2}-\\d{2}"))
+                    if(!Regex.IsMatch(startDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(startDate, out DateTime time))
                     {
-                        errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
-                    }
-                    else
-                    {
-                        if(!DateTime.TryParse(startDate, out DateTime time))
-                        {
-                            errorProvider1.SetError(dtp_Subject_StartTime, "提示：请输入合法的日期");
-                            result = false;
-                        }
                     }
                 }
                 string endDate = txt_Subject_EndTime.Text;
                 if(!string.IsNullOrEmpty(endDate))
                 {
-                    if(!Regex.IsMatch(endDate, "\\d{4}-\\d{2}-\\d{2}"))
+                    if(!Regex.IsMatch(endDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(endDate, out DateTime time))
                     {
-                        errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入yyyy-MM-dd格式的日期");
+                        errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
-                    }
-                    else
-                    {
-                        if(!DateTime.TryParse(endDate, out DateTime time))
-                        {
-                            errorProvider1.SetError(dtp_Subject_EndTime, "提示：请输入合法的日期");
-                            result = false;
-                        }
                     }
                 }
 

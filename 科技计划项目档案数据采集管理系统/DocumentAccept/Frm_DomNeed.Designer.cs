@@ -48,33 +48,36 @@
             // lbl_Code
             // 
             this.lbl_Code.AutoSize = true;
+            this.lbl_Code.Font = new System.Drawing.Font("华文中宋", 13F);
             this.lbl_Code.Location = new System.Drawing.Point(674, 81);
             this.lbl_Code.Name = "lbl_Code";
-            this.lbl_Code.Size = new System.Drawing.Size(51, 20);
+            this.lbl_Code.Size = new System.Drawing.Size(63, 20);
             this.lbl_Code.TabIndex = 1;
             this.lbl_Code.Text = "编号：";
             // 
             // lbl_Recever
             // 
             this.lbl_Recever.AutoSize = true;
-            this.lbl_Recever.Location = new System.Drawing.Point(660, 352);
+            this.lbl_Recever.Font = new System.Drawing.Font("华文中宋", 13F);
+            this.lbl_Recever.Location = new System.Drawing.Point(656, 352);
             this.lbl_Recever.Name = "lbl_Recever";
-            this.lbl_Recever.Size = new System.Drawing.Size(65, 20);
+            this.lbl_Recever.Size = new System.Drawing.Size(81, 20);
             this.lbl_Recever.TabIndex = 3;
             this.lbl_Recever.Text = "接收人：";
             // 
             // lbl_ReceDate
             // 
             this.lbl_ReceDate.AutoSize = true;
-            this.lbl_ReceDate.Location = new System.Drawing.Point(646, 392);
+            this.lbl_ReceDate.Font = new System.Drawing.Font("华文中宋", 13F);
+            this.lbl_ReceDate.Location = new System.Drawing.Point(638, 392);
             this.lbl_ReceDate.Name = "lbl_ReceDate";
-            this.lbl_ReceDate.Size = new System.Drawing.Size(79, 20);
+            this.lbl_ReceDate.Size = new System.Drawing.Size(99, 20);
             this.lbl_ReceDate.TabIndex = 4;
             this.lbl_ReceDate.Text = "确认日期：";
             // 
             // lbl_Body
             // 
-            this.lbl_Body.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_Body.Font = new System.Drawing.Font("华文中宋", 13F);
             this.lbl_Body.Location = new System.Drawing.Point(28, 116);
             this.lbl_Body.Name = "lbl_Body";
             this.lbl_Body.Size = new System.Drawing.Size(806, 204);
@@ -96,8 +99,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_DomNeed";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "档案接收确认函";
             this.Load += new System.EventHandler(this.Frm_DomRec_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

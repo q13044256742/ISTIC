@@ -175,6 +175,12 @@
     <Compile Include="Manager\Frm_ImportData.Designer.cs">
       <DependentUpon>Frm_ImportData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manager\Frm_LogList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager\Frm_LogList.Designer.cs">
+      <DependentUpon>Frm_LogList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Manager\Frm_MainFrameManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -402,6 +408,9 @@
     <EmbeddedResource Include="Manager\Frm_ImportData.resx">
       <DependentUpon>Frm_ImportData.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Manager\Frm_LogList.resx">
+      <DependentUpon>Frm_LogList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_MainFrameManager.resx">
       <DependentUpon>Frm_MainFrameManager.cs</DependentUpon>
     </EmbeddedResource>
@@ -501,6 +510,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sqls\sql.txt" />
     <None Include="Resources\bkb.html" />
     <None Include="Resources\jnml.html" />
     <None Include="Resources\fm.html" />

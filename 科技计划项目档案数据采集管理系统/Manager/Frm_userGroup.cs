@@ -9,7 +9,7 @@ namespace 科技计划项目档案数据采集管理系统
         public Frm_userGroup()
         {
             InitializeComponent();
-            LoadUserGroupDataScoure();
+           
         }
 
         //加载实时数据
@@ -139,6 +139,11 @@ namespace 科技计划项目档案数据采集管理系统
         private string GetValue(object obj)
         {
             return obj == null ? string.Empty : obj.ToString();
+        }
+
+        private void Frm_userGroup_Load(object sender, EventArgs e)
+        {
+            LoadUserGroupDataScoure();
         }
     }
 }

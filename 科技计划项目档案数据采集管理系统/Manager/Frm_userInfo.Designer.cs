@@ -145,6 +145,7 @@
             this.Name = "Frm_userInfo";
             this.Text = "用户管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Frm_userInfo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.u_DataList)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

@@ -294,6 +294,7 @@
             this.ace_LoginLog.Name = "ace_LoginLog";
             this.ace_LoginLog.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.ace_LoginLog.Text = "登录日志";
+            this.ace_LoginLog.Click += new System.EventHandler(this.Ace_LoginLog_Click);
             // 
             // ace_WorkLog
             // 

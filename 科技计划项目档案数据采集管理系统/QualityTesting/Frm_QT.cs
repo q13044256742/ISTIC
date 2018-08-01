@@ -966,23 +966,31 @@ namespace 科技计划项目档案数据采集管理系统
             return result;
         }
 
+        int index = -1;
         private void SearchControl_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter)
             {
-                dgv_Project.ClearSelection();
                 string key = searchControl.Text;
-                foreach(DataGridViewRow row in dgv_Project.Rows)
+                if(!string.IsNullOrEmpty(key))
                 {
-                    string code = GetValue(row.Cells["pro_code"].Value);
-                    string name = GetValue(row.Cells["pro_name"].Value);
-                    if(code.Contains(key) || name.Contains(key))
+                    dgv_Project.ClearSelection();
+                    foreach(DataGridViewRow row in dgv_Project.Rows)
                     {
-                        dgv_Project.FirstDisplayedScrollingRowIndex = row.Index;
-                        //dgv_Project.CurrentCell = row.Cells[1];
-                        row.Selected = true;
-                        return;
+                        if(row.Index > index)
+                        {
+                            string code = GetValue(row.Cells["pro_code"].Value);
+                            string name = GetValue(row.Cells["pro_name"].Value);
+                            if(code.Contains(key) || name.Contains(key))
+                            {
+                                dgv_Project.FirstDisplayedScrollingRowIndex = row.Index;
+                                row.Selected = true;
+                                index = row.Index;
+                                return;
+                            }
+                        }
                     }
+                    index = -1;
                 }
             }
         }

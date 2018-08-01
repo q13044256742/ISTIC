@@ -47,6 +47,8 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void ExitSystem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            foreach(Form item in MdiChildren)
+                item.Close();
             Frm_Login frm_Login = new Frm_Login();
             frm_Login.Show();
             Hide();
@@ -54,6 +56,8 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void UserGroup_Click(object sender, EventArgs e)
         {
+            foreach(Form item in MdiChildren)
+                item.Close();
             Frm_userGroup frm = new Frm_userGroup();
             frm.MdiParent = this;
             frm.Show();
@@ -61,6 +65,8 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void UserInfo_Click(object sender, EventArgs e)
         {
+            foreach(Form item in MdiChildren)
+                item.Close();
             Frm_userInfo frm = new Frm_userInfo();
             frm.MdiParent = this;
             frm.Show();
@@ -68,6 +74,8 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Dictionary_Click(object sender, EventArgs e)
         {
+            foreach(Form item in MdiChildren)
+                item.Close();
             AccordionControlElement element = sender as AccordionControlElement;
             Manager.Frm_Manager frm = new Manager.Frm_Manager(element.Tag);
             frm.MdiParent = this;
@@ -86,6 +94,16 @@ namespace 科技计划项目档案数据采集管理系统
                 frm.MdiParent = this;
                 frm.Show();
             }
+        }
+
+        private void Ace_LoginLog_Click(object sender, EventArgs e)
+        {
+            foreach(Form item in MdiChildren)
+                item.Close();
+            Frm_LogList frm = new Frm_LogList();
+            frm.MdiParent = this;
+            frm.Text = "登录日志";
+            frm.Show();
         }
     }
 }

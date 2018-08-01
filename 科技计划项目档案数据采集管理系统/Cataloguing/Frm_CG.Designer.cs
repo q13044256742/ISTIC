@@ -41,9 +41,9 @@
             this.ac_Login = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.ac_Working = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.ac_Worked = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.ac_MyWork = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pal_UnitList = new System.Windows.Forms.Panel();
-            this.ac_MyWork = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Search.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
@@ -100,6 +100,7 @@
             this.txt_Search.Properties.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.Txt_Search_Properties_ButtonClick);
             this.txt_Search.Size = new System.Drawing.Size(232, 28);
             this.txt_Search.TabIndex = 8;
+            this.txt_Search.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Search_KeyDown);
             // 
             // cbo_CompanyList
             // 
@@ -222,6 +223,19 @@
             this.ac_Worked.TextToImageDistance = 15;
             this.ac_Worked.Click += new System.EventHandler(this.Sub_Menu_Click);
             // 
+            // ac_MyWork
+            // 
+            this.ac_MyWork.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.ac_MyWork.Appearance.Normal.Options.UseFont = true;
+            this.ac_MyWork.Height = 35;
+            this.ac_MyWork.Image = ((System.Drawing.Image)(resources.GetObject("ac_MyWork.Image")));
+            this.ac_MyWork.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
+            this.ac_MyWork.Name = "ac_MyWork";
+            this.ac_MyWork.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.ac_MyWork.Text = "我的加工";
+            this.ac_MyWork.TextToImageDistance = 15;
+            this.ac_MyWork.Click += new System.EventHandler(this.Sub_Menu_Click);
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.pal_UnitList);
@@ -241,19 +255,6 @@
             this.pal_UnitList.Name = "pal_UnitList";
             this.pal_UnitList.Size = new System.Drawing.Size(345, 39);
             this.pal_UnitList.TabIndex = 18;
-            // 
-            // ac_MyWork
-            // 
-            this.ac_MyWork.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.ac_MyWork.Appearance.Normal.Options.UseFont = true;
-            this.ac_MyWork.Height = 35;
-            this.ac_MyWork.Image = ((System.Drawing.Image)(resources.GetObject("ac_MyWork.Image")));
-            this.ac_MyWork.ImageLayoutMode = DevExpress.XtraBars.Navigation.ImageLayoutMode.Squeeze;
-            this.ac_MyWork.Name = "ac_MyWork";
-            this.ac_MyWork.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.ac_MyWork.Text = "我的加工";
-            this.ac_MyWork.TextToImageDistance = 15;
-            this.ac_MyWork.Click += new System.EventHandler(this.Sub_Menu_Click);
             // 
             // Frm_CG
             // 

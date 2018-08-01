@@ -8,7 +8,6 @@ namespace 科技计划项目档案数据采集管理系统
         public Frm_userInfo()
         {
             InitializeComponent();
-            LoadUserDataScoure();
         }
 
         //查询
@@ -98,6 +97,11 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 MessageBox.Show("请先选择一条数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
+        }
+
+        private void Frm_userInfo_Load(object sender, EventArgs e)
+        {
+            LoadUserDataScoure();
         }
     }
 }

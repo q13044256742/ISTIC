@@ -218,7 +218,7 @@ namespace 科技计划项目档案数据采集管理系统
                         $"<td>{i + 1}</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_code"]}&nbsp;</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_user"]}&nbsp;</td>" +
-                        $"<td>{dataTable.Rows[i]["pfl_name"]}&nbsp;</td>" +
+                        $"<td style='text-align: left;'>{dataTable.Rows[i]["pfl_name"]}&nbsp;</td>" +
                         $"<td>{GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd")}&nbsp;</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_pages"]}&nbsp;</td>" +
                         $"<td>{dataTable.Rows[i]["pfl_remark"]}&nbsp;</td>" +
@@ -323,17 +323,17 @@ namespace 科技计划项目档案数据采集管理系统
             bkbString = bkbString.Replace("name=\"count\"", $"name=\"count\" value=\"{fa}\"");
             bkbString = bkbString.Replace("name=\"pages\"", $"name=\"pages\" value=\"{fp}\"");
             bkbString = bkbString.Replace("name=\"number\"", $"name=\"number\" value=\"{hh}\"");
-
-            foreach(DataRow row in otherDoc.Rows)
-            {
-                string newTr = $"<tr>" +
-                    $"<td>{row["od_name"]}</td>" +
-                    $"<td>{row["od_code"]}</td>" +
-                    $"<td>{row["od_carrier"]}</td>" +
-                    $"<td>{row["od_intro"]}</td>" +
-                    $"</tr>";
-                bkbString = bkbString.Replace("</tbody>", $"{newTr}</tbody>");
-            }
+            string newTr = string.Empty;
+            if(otherDoc.Rows.Count > 0)
+                foreach(DataRow row in otherDoc.Rows)
+                    newTr = $"<tr><td>{row["od_name"]}</td>" +
+                        $"<td>{row["od_code"]}</td>" +
+                        $"<td>{row["od_carrier"]}</td>" +
+                        $"<td>{row["od_intro"]}</td></tr>";
+            else
+                newTr = "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>" +
+                    "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+            bkbString = bkbString.Replace("</tbody>", $"{newTr}</tbody>");
 
             bkbString = bkbString.Replace("id=\"dh\">", $"id=\"dh\">{objectCode}");
             bkbString = bkbString.Replace("id=\"ljr\">", $"id=\"dh\">{ljPeople}");
