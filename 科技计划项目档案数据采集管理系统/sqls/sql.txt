@@ -6,3 +6,23 @@ CREATE TABLE sys_login_log(
 	sll_offline_date varchar(100),
 	sll_ipaddress varchar(100)
 )
+--查询借阅记录表
+CREATE TABLE [dbo].[borrow_log](
+	[bl_id] [varchar](100) NOT NULL,
+	[bl_file_id] [varchar](100) NOT NULL,
+	[bl_borrow_state] [int] NULL,
+	[bl_return_state] [int] NULL,
+	[bl_form] [int] NULL,
+	[bl_user] [varchar](100) NULL,
+	[bl_user_unit] [varchar](100) NULL,
+	[bl_user_phone] [varchar](100) NULL,
+	[bl_date] [varchar](100) NULL,
+	[bl_term] [varchar](100) NULL,
+	[bl_should_return_term] [varchar](100) NULL,
+	[bl_real_return_term] [varchar](100) NULL,
+	[bl_log_user] [varchar](100) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[bl_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]

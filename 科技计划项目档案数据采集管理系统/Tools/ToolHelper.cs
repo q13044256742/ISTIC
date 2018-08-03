@@ -144,6 +144,18 @@ namespace 科技计划项目档案数据采集管理系统
             return string.Concat(GetLunisolarYear(year), "年", isleap ? "闰" : string.Empty, GetLunisolarMonth(month), "月", GetLunisolarDay(day));
         }
 
+        public static int GetIntValue(object value)
+        {
+            string str = GetValue(value);
+            if(!string.IsNullOrEmpty(str))
+            {
+                if(int.TryParse(str, out int result))
+                    return result;
+                else
+                    return -1;
+            }
+            return -1;
+        }
     }
 
 }

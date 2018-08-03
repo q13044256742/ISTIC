@@ -22,22 +22,26 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
         private void Frm_QueryBorrowing_Load(object sender, EventArgs e)
         {
             navigationPane1.SelectedPage = navigationPage1;
-            string planKey = "dic_key_plan";
-            string querySql = $"SELECT dd_id, dd_name FROM data_dictionary WHERE dd_pid=(SELECT top(1) dd_id FROM data_dictionary WHERE dd_code = '{planKey}') ORDER BY dd_sort";
-            DataTable table = SqlHelper.ExecuteQuery(querySql);
-            cbo_PlanTypeList.DataSource = table;
-            cbo_PlanTypeList.DisplayMember = "dd_name";
-            cbo_PlanTypeList.ValueMember = "dd_id";
+            string querySql = "SELECT dd_name FROM data_dictionary WHERE (dd_pId IN (SELECT dd_id " +
+                "FROM data_dictionary WHERE(dd_code = 'dic_key_plan') OR (dd_code = 'dic_key_project'))) " +
+                "ORDER BY dd_pId, dd_sort";
+            object[] list = SqlHelper.ExecuteSingleColumnQuery(querySql);
+            cbo_PlanTypeList.Items.AddRange(list);
             cbo_PlanTypeList.ResetText();
             LoadList(1);
             view1.Tag = false;
             GetTotalSize();
-            view1.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle()
+            view2.ColumnHeadersDefaultCellStyle = view1.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle()
             {
                 Padding = new Padding(0, 3, 0, 3),
                 Font = new System.Drawing.Font("微软雅黑", 13f, System.Drawing.FontStyle.Regular),
                 Alignment = DataGridViewContentAlignment.MiddleCenter
             };
+            view2.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            //panel3.Width = navigationPage1.Width;
+            //panel1.Width = navigationPage2.Width;
+            panel3.Bounds = new System.Drawing.Rectangle(0, panel3.Top, navigationPage1.Width, navigationPage1.Height - panel3.Top);
+            panel1.Bounds = new System.Drawing.Rectangle(0, panel1.Top, navigationPage2.Width, navigationPage2.Height - panel1.Top);
         }
 
         private void GetTotalSize()
@@ -93,6 +97,7 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
             foreach(DataRow row in table.Rows)
             {
                 int i = view1.Rows.Add();
+                view1.Rows[i].Tag = row["pi_id"];
                 view1.Rows[i].Cells["id"].Value = (i + 1).ToString();
                 view1.Rows[i].Cells["code"].Value = row["pi_code"];
                 view1.Rows[i].Cells["name"].Value = row["pi_name"];
@@ -216,12 +221,12 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
         {
             int page = 1;
             page = int.TryParse(sender.ToString(), out page) ? page : 1;
-            object planType = cbo_PlanTypeList.SelectedValue;
+            string planType = cbo_PlanTypeList.Text;
             string batchName = txt_BatchName.Text;
             string proCode = txt_ProjectCode.Text;
             string proName = txt_ProjectName.Text;
-            string sDate = dtp_sDate.Text;
-            string eDate = dtp_eDate.Text;
+            string sDate = chk_allDate.Checked ? null : dtp_sDate.Text;
+            string eDate = chk_allDate.Checked ? null : dtp_eDate.Text;
             //如果查询条件全部为空，则默认显示首页查询
             if(string.IsNullOrEmpty(cbo_PlanTypeList.Text) && string.IsNullOrEmpty(batchName) && string.IsNullOrEmpty(proCode)
                 && string.IsNullOrEmpty(proName) && string.IsNullOrEmpty(sDate) && string.IsNullOrEmpty(eDate))
@@ -240,41 +245,68 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
         /// 加载查询数据
         /// </summary>
         /// <param name="page">当前页码</param>
-        private void LoadDataList(int page, object planType, string batchName, string proCode, string proName, object sDate, object eDate)
+        private void LoadDataList(int page, string planType, string batchName, string proCode, string proName, string sDate, string eDate)
         {
-            string querySQL = $"SELECT TOP({pageSize}) * FROM( " +
-                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_uniter, pi_year, pi_funds, pi_worker_date, pi_worker_id " +
+            string querySQL = $"SELECT TOP({pageSize}) A.* FROM( " +
+                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_uniter, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_obj_id " +
                 "FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-                "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_uniter, ti_year, ti_funds, ti_worker_date, ti_worker_id FROM topic_info) A " +
+                "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_uniter, ti_year, ti_funds, ti_worker_date, ti_worker_id, ti_obj_id FROM topic_info) A " +
+                "LEFT JOIN project_info pi ON (A.pi_obj_id = pi.pi_id AND pi.pi_categor=1) " +
+                "LEFT JOIN imp_dev_info idi ON (A.pi_obj_id = idi.imp_id)" +
                 "WHERE 1 = 1 ";
             if(!string.IsNullOrEmpty(proCode))
-                querySQL += $"AND pi_code LIKE '%{proCode}%' ";
+                querySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
-                querySQL += $"AND pi_name LIKE '%{proName}%' ";
+                querySQL += $"AND A.pi_name LIKE '%{proName}%' ";
+            if(!string.IsNullOrEmpty(planType))
+                querySQL += $"AND ((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
+                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) ";
+            if(!string.IsNullOrEmpty(sDate))
+                querySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
+            if(!string.IsNullOrEmpty(eDate))
+                querySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
 
-            string totalQuerySQL = $"SELECT TOP({pageSize * (page - 1)}) pi_id FROM( " +
-                "SELECT pi_id, pi_code FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-                "SELECT ti_id, ti_code FROM topic_info) A1 " +
+            string totalQuerySQL = $"SELECT TOP({pageSize * (page - 1)}) B.pi_id FROM( " +
+                "SELECT pi_id, pi_code, pi_obj_id, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
+                "SELECT ti_id, ti_code, ti_obj_id, ti_start_datetime FROM topic_info) B " +
+                "LEFT JOIN project_info pi ON (B.pi_obj_id = pi.pi_id AND pi.pi_categor = 1) " +
+                "LEFT JOIN imp_dev_info idi ON (B.pi_obj_id = idi.imp_id)" +
                 "WHERE 1 = 1 ";
             if(!string.IsNullOrEmpty(proCode))
-                totalQuerySQL += $"AND pi_code LIKE '%{proCode}%' ";
+                totalQuerySQL += $"AND B.pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
-                totalQuerySQL += $"AND pi_name LIKE '%{proName}%' ";
+                totalQuerySQL += $"AND B.pi_name LIKE '%{proName}%' ";
+            if(!string.IsNullOrEmpty(planType))
+                totalQuerySQL += $"AND ((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
+                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) ";
+            if(!string.IsNullOrEmpty(sDate))
+                totalQuerySQL += $"AND B.pi_start_datetime >= '{sDate}' ";
+            if(!string.IsNullOrEmpty(eDate))
+                totalQuerySQL += $"AND B.pi_start_datetime <= '{eDate}' ";
 
-            string countQuerySQL = $"SELECT COUNT(pi_id) FROM( " +
-                "SELECT pi_id, pi_code FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-                "SELECT ti_id, ti_code FROM topic_info) A1 " +
+            string countQuerySQL = $"SELECT COUNT(A.pi_id) FROM( " +
+                "SELECT pi_id, pi_code, pi_obj_id, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_code, ti_obj_id, ti_start_datetime FROM topic_info) A " +
+                "LEFT JOIN project_info pi ON (A.pi_obj_id = pi.pi_id AND pi.pi_categor = 1) " +
+                "LEFT JOIN imp_dev_info idi ON (A.pi_obj_id = idi.imp_id)" +
                 "WHERE 1 = 1 ";
             if(!string.IsNullOrEmpty(proCode))
-                countQuerySQL += $"AND pi_code LIKE '%{proCode}%' ";
+                countQuerySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
-                countQuerySQL += $"AND pi_name LIKE '%{proName}%' ";
+                countQuerySQL += $"AND A.pi_name LIKE '%{proName}%' ";
+            if(!string.IsNullOrEmpty(planType))
+                countQuerySQL += $"AND ((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
+                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) ";
+            if(!string.IsNullOrEmpty(sDate))
+                countQuerySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
+            if(!string.IsNullOrEmpty(eDate))
+                countQuerySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
 
             int totalSize = SqlHelper.ExecuteCountQuery(countQuerySQL);
             maxPage = totalSize % pageSize == 0 ? totalSize / pageSize : totalSize / pageSize + 1;
             label1.Text = $"共 {totalSize} 条记录，每页共 {pageSize} 条，共 {maxPage} 页";
 
-            querySQL += $" AND pi_id NOT IN ({totalQuerySQL})";
+            querySQL += $"AND A.pi_id NOT IN ({totalQuerySQL})";
             
             CreateDataList(page, querySQL);
         }
@@ -287,8 +319,165 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
             txt_ProjectName.ResetText();
             dtp_sDate.ResetText();
             dtp_eDate.ResetText();
+            chk_allDate.Checked = true;
             GetTotalSize();
             LoadList(1);
+        }
+
+        private void chk_allDate_CheckedChanged(object sender, EventArgs e)
+        {
+            dtp_sDate.Enabled = dtp_eDate.Enabled = !chk_allDate.Checked;
+        }
+
+        private void Pane1_SelectedPageChanged(object sender, DevExpress.XtraBars.Navigation.SelectedPageChangedEventArgs e)
+        {
+            if("档案借阅".Equals(e.Page.PageText))
+            {
+                LoadFileList(null);
+            }
+        }
+
+        private void View1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string columnName = view1.Columns[e.ColumnIndex].Name;
+            //文件数
+            if("fcount".Equals(columnName))
+            {
+                object id = view1.Rows[e.RowIndex].Tag;
+                LoadFileList(id);
+            }
+        }
+
+        /// <summary>
+        /// 加载指定项目/课题下的文件列表
+        /// </summary>
+        /// <param name="id"></param>
+        private void LoadFileList(object id)
+        {
+            view2.Rows.Clear();
+            string querySql = $"SELECT * FROM processing_file_list WHERE pfl_obj_id='{id}' ORDER BY pfl_sort";
+
+            if(id == null)
+                querySql = "SELECT TOP(50) bl.bl_id, bl.bl_borrow_state, bl.bl_return_state, pfl.pfl_id, pi.pi_code, pi.pi_name, ti.ti_code, ti.ti_name, si.si_code, si.si_name, pfl.pfl_name, dd.dd_name + ' ' + dd.extend_3 as categor " +
+                    "FROM processing_file_list pfl " +
+                    "LEFT JOIN project_info pi ON pi.pi_id = pfl.pfl_obj_id " +
+                    "LEFT JOIN topic_info ti ON ti.ti_id = pfl.pfl_obj_id " +
+                    "LEFT JOIN subject_info si ON si.si_id = pfl.pfl_obj_id " +
+                    "LEFT JOIN data_dictionary dd ON dd.dd_id = pfl.pfl_categor " +
+                    "LEFT JOIN borrow_log bl ON bl.bl_file_id = pfl.pfl_id " +
+                    "ORDER BY pfl.pfl_worker_date DESC";
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
+            foreach(DataRow row in dataTable.Rows)
+            {
+                int i = view2.Rows.Add();
+                view2.Rows[i].Tag = row["pfl_id"];
+                view2.Rows[i].Cells["fid"].Value = (i + 1).ToString();
+                view2.Rows[i].Cells["fpcode"].Value = IsNull(row["pi_code"]) ?? IsNull(row["ti_code"]) ?? IsNull(row["si_code"]);
+                view2.Rows[i].Cells["fpname"].Value = IsNull(row["pi_name"]) ?? IsNull(row["ti_name"]) ?? IsNull(row["si_name"]);
+                view2.Rows[i].Cells["fname"].Value = row["pfl_name"];
+                view2.Rows[i].Cells["fcategor"].Value = row["categor"];
+                view2.Rows[i].Cells["fbstate"].Tag = row["bl_id"];
+                view2.Rows[i].Cells["fbstate"].Value = GetBorrowState(row["bl_borrow_state"]);
+                view2.Rows[i].Cells["frstate"].Value = GetReturnState(row["bl_return_state"]);
+            }
+        }
+
+        private object GetReturnState(object value)
+        {
+            int i = ToolHelper.GetIntValue(value);
+            if(i == 0)
+                return "未归还";
+            else if(i == 1)
+                return "已归还";
+            else
+                return "-";
+        }
+
+        private string GetBorrowState(object value)
+        {
+            int i = ToolHelper.GetIntValue(value);
+            if(i == 1)
+                return "借出";
+            else
+                return "在库";
+        }
+
+        private object IsNull(object value)
+        {
+            if(value == null)
+                return null;
+            else
+            {
+                string result = value.ToString();
+                if(string.IsNullOrEmpty(result))
+                    return null;
+                else
+                    return result;
+            }
+        }
+
+        private void View2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string columnName = view2.Columns[e.ColumnIndex].Name;
+            //借阅状态
+            if("fbstate".Equals(columnName))
+            {
+                if("在库".Equals(view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                {
+                    object fid = view2.Rows[e.RowIndex].Tag;
+                    object fcode = view2.Rows[e.RowIndex].Cells["fcategor"].Value;
+                    object fname = view2.Rows[e.RowIndex].Cells["fname"].Value;
+                    Frm_BorrowEdit frm = new Frm_BorrowEdit(ToolHelper.GetValue(fcode), ToolHelper.GetValue(fname));
+                    frm.FILE_ID = fid;
+                    frm.txt_Real_Return_Date.Enabled = false;
+                    if(frm.ShowDialog() == DialogResult.OK)
+                    {
+                        view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = frm.Tag;
+                        view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "借出";
+                        view2.Rows[e.RowIndex].Cells["frstate"].Value = "未归还";
+                    }
+                }
+            }
+            //归还状态
+            else if("frstate".Equals(columnName))
+            {
+                if("未归还".Equals(view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                {
+                    object fcode = view2.Rows[e.RowIndex].Cells["fcategor"].Value;
+                    object fname = view2.Rows[e.RowIndex].Cells["fname"].Value;
+                    object id = view2.Rows[e.RowIndex].Cells["fbstate"].Tag;
+                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM borrow_log WHERE bl_id='{id}'");
+                    if(row != null)
+                    {
+                        Frm_BorrowEdit frm = new Frm_BorrowEdit(ToolHelper.GetValue(fcode), ToolHelper.GetValue(fname));
+                        frm.txt_Unit.Text = ToolHelper.GetValue(row["bl_user_unit"]);
+                        frm.txt_Unit.ReadOnly = true;
+                        frm.txt_User.Text = ToolHelper.GetValue(row["bl_user"]);
+                        frm.txt_User.ReadOnly = true;
+                        frm.txt_Phone.Text = ToolHelper.GetValue(row["bl_user_phone"]);
+                        frm.txt_Phone.ReadOnly = true;
+                        frm.txt_Borrow_Date.Text = ToolHelper.GetValue(row["bl_date"]);
+                        frm.txt_Borrow_Date.ReadOnly = true;
+                        frm.txt_Borrow_Term.Text = ToolHelper.GetValue(row["bl_term"]);
+                        frm.txt_Borrow_Term.ReadOnly = true;
+                        frm.cbo_FileType.SelectedIndex = ToolHelper.GetIntValue(row["bl_form"]);
+                        frm.cbo_FileType.Enabled = false;
+                        frm.txt_Should_Return_Date.Text = ToolHelper.GetValue(row["bl_should_return_term"]);
+                        frm.txt_Should_Return_Date.ReadOnly = true;
+                        frm.txt_Real_Return_Date.Text = DateTime.Now.ToString();
+                        frm.lbl_FIleName.Tag = id;
+                        frm.FILE_ID = fid;
+                        frm.btn_Sure.Text = "确认归还";
+                        frm.txt_Real_Return_Date.Focus();
+                        if(frm.ShowDialog() == DialogResult.OK)
+                        {
+                            view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = frm.Tag;
+                            view2.Rows[e.RowIndex].Cells["fbstate"].Value = "在库";
+                            view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "归还";
+                        }
+                    }
+                }
+            }
         }
 
     }

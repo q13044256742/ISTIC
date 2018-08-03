@@ -260,6 +260,12 @@
       <DependentUpon>Frm_QT.cs</DependentUpon>
     </Compile>
     <Compile Include="QualityTesting\QualityTesting.cs" />
+    <Compile Include="QueryAndCount\Frm_BorrowEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QueryAndCount\Frm_BorrowEdit.Designer.cs">
+      <DependentUpon>Frm_BorrowEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="QueryAndCount\Frm_Query.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -450,6 +456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="QualityTesting\Frm_QT.resx">
       <DependentUpon>Frm_QT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QueryAndCount\Frm_BorrowEdit.resx">
+      <DependentUpon>Frm_BorrowEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="QueryAndCount\Frm_Query.resx">
       <DependentUpon>Frm_Query.cs</DependentUpon>
