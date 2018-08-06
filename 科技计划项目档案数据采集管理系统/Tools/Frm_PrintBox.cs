@@ -229,7 +229,10 @@ namespace 科技计划项目档案数据采集管理系统
             }
             jnmlString = jnmlString.Replace("id=\"fileCount\">", $"id=\"fileCount\">{fileCount}");
             jnmlString = jnmlString.Replace("id=\"pageCount\">", $"id=\"pageCount\">{pageCount}");
-            new WebBrowser() { DocumentText = jnmlString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
+
+            WebBrowser browser = new WebBrowser() { ScriptErrorsSuppressed = false };
+            browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(Web_DocumentCompleted);
+            browser.DocumentText = jnmlString;
         }
 
         private object GetDateValue(object date, string format)
@@ -307,7 +310,9 @@ namespace 科技计划项目档案数据采集管理系统
             }
             fmString = GetCoverHtmlString(boxId, fmString, bj, GCNumber);
 
-            new WebBrowser() { DocumentText = fmString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
+            WebBrowser browser = new WebBrowser() { ScriptErrorsSuppressed = false };
+            browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(Web_DocumentCompleted);
+            browser.DocumentText = fmString;
         }
 
         /// <summary>
@@ -341,7 +346,9 @@ namespace 科技计划项目档案数据采集管理系统
             bkbString = bkbString.Replace("id=\"jcr\">", $"id=\"jcr\">{jcPeople}");
             bkbString = bkbString.Replace("id=\"jcrq\">", $"id=\"jcrq\">{GetDateValue(jcDate, "yyyy-MM-dd")}");
 
-            new WebBrowser() { DocumentText = bkbString, ScriptErrorsSuppressed = false }.DocumentCompleted += Web_DocumentCompleted;
+            WebBrowser browser = new WebBrowser() { ScriptErrorsSuppressed = false };
+            browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(Web_DocumentCompleted);
+            browser.DocumentText = bkbString;
         }
 
         /// <summary>
@@ -349,8 +356,12 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Web_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            (sender as WebBrowser).Print();
-            (sender as WebBrowser).Dispose();
+            WebBrowser browser = sender as WebBrowser;
+            if(browser.ReadyState == WebBrowserReadyState.Complete)
+            {
+                browser.Print();
+                browser.Dispose();
+            }
         }
 
         /// <summary>
