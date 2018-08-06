@@ -1,21 +1,19 @@
 ﻿using DevExpress.XtraEditors;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.FirstPage
 {
     public partial class Frm_FirstPage : DevExpress.XtraEditors.XtraForm
     {
-        public Frm_FirstPage()
+        Frm_Login loginFrom;
+        public Frm_FirstPage(Frm_Login loginFrom)
         {
             InitializeComponent();
             InitialForm();
+            this.loginFrom = loginFrom;
         }
 
         private void InitialForm()
@@ -71,7 +69,7 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
         private void LoadLastData()
         {
             search.Properties.Items.Clear();
-            string querySQL = "SELECT TOP(25) * FROM (" +
+            string querySQL = "SELECT TOP(100) * FROM (" +
                 "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_year, pi_funds, pi_worker_date, pi_worker_id FROM project_info WHERE pi_categor = 2 " +
                 "UNION ALL " +
                 "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_year, ti_funds, ti_worker_date, ti_worker_id FROM topic_info " +
@@ -165,11 +163,29 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                 Hide();
                 frm.ShowDialog();
             }
-            else if("tbar_Count".Equals(itemName))//统计分析
+            else if("tbar_WorkCount".Equals(itemName))//工作量统计
             {
                 Frm_Query frm = new Frm_Query(this);
                 frm.ShowDialog();
             }
+            else if("tbar_Count".Equals(itemName))//统计分析
+            {
+                Frm_Statistics frm = new Frm_Statistics();
+                frm.ShowDialog();
+            }
+            else if("tbar_Query".Equals(itemName))//查询借阅
+            {
+                Frm_QueryBorrowing frm = new Frm_QueryBorrowing(this);
+                Hide();
+                frm.ShowDialog();
+            }
+            
+        }
+
+        private void btn_QuitUser_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            Close();
+            loginFrom.Show();
         }
     }
 }

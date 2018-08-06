@@ -1,4 +1,4 @@
-﻿namespace 科技计划项目档案数据采集管理系统.QueryAndCount
+﻿namespace 科技计划项目档案数据采集管理系统
 {
     partial class Frm_QueryBorrowing
     {
@@ -28,13 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_QueryBorrowing));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.navigationPane1 = new DevExpress.XtraBars.Navigation.NavigationPane();
             this.navigationPage1 = new DevExpress.XtraBars.Navigation.NavigationPage();
             this.chk_allDate = new System.Windows.Forms.CheckBox();
@@ -68,19 +62,21 @@
             this.btn_epage = new DevExpress.XtraEditors.SimpleButton();
             this.btn_fpage = new DevExpress.XtraEditors.SimpleButton();
             this.label1 = new System.Windows.Forms.Label();
+            this.btn_Reset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Query = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.navigationPage2 = new DevExpress.XtraBars.Navigation.NavigationPage();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rdo_All = new System.Windows.Forms.RadioButton();
+            this.rdo_In = new System.Windows.Forms.RadioButton();
+            this.rdo_Out = new System.Windows.Forms.RadioButton();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.textEdit7 = new DevExpress.XtraEditors.TextEdit();
+            this.txt_FileName = new DevExpress.XtraEditors.TextEdit();
             this.labelControl10 = new DevExpress.XtraEditors.LabelControl();
-            this.textEdit4 = new DevExpress.XtraEditors.TextEdit();
+            this.txt_Pname = new DevExpress.XtraEditors.TextEdit();
             this.labelControl11 = new DevExpress.XtraEditors.LabelControl();
-            this.textEdit5 = new DevExpress.XtraEditors.TextEdit();
+            this.txt_Pcode = new DevExpress.XtraEditors.TextEdit();
             this.labelControl12 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl13 = new DevExpress.XtraEditors.LabelControl();
-            this.textEdit6 = new DevExpress.XtraEditors.TextEdit();
+            this.txt_FileCategor = new DevExpress.XtraEditors.TextEdit();
             this.panel1 = new System.Windows.Forms.Panel();
             this.view2 = new System.Windows.Forms.DataGridView();
             this.fid = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -91,11 +87,10 @@
             this.fbstate = new System.Windows.Forms.DataGridViewButtonColumn();
             this.frstate = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lbl_TotalFileAmount = new DevExpress.XtraEditors.LabelControl();
             this.labelControl14 = new DevExpress.XtraEditors.LabelControl();
-            this.btn_Reset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Query = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.kyoButton1 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.kyoButton2 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_FileReset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_FileQuery = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.navigationPane1.SuspendLayout();
             this.navigationPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectName.Properties)).BeginInit();
@@ -107,10 +102,10 @@
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_page.Properties)).BeginInit();
             this.navigationPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit7.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit4.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit5.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit6.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_FileName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_Pname.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_Pcode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_FileCategor.Properties)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.view2)).BeginInit();
             this.panel2.SuspendLayout();
@@ -141,7 +136,6 @@
             this.navigationPane1.Size = new System.Drawing.Size(1228, 749);
             this.navigationPane1.TabIndex = 2;
             this.navigationPane1.StateChanged += new DevExpress.XtraBars.Navigation.StateChangedEventHandler(this.navigationPane1_StateChanged);
-            this.navigationPane1.SelectedPageChanged += new DevExpress.XtraBars.Navigation.SelectedPageChangedEventHandler(this.Pane1_SelectedPageChanged);
             // 
             // navigationPage1
             // 
@@ -317,7 +311,7 @@
             this.panel3.Location = new System.Drawing.Point(0, 205);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1342, 585);
+            this.panel3.Size = new System.Drawing.Size(1922, 790);
             this.panel3.TabIndex = 1;
             // 
             // view1
@@ -327,14 +321,6 @@
             this.view1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.view1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.view1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.view1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.view1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.view1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
@@ -344,28 +330,12 @@
             this.sdate,
             this.tcount,
             this.fcount});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.view1.DefaultCellStyle = dataGridViewCellStyle2;
             this.view1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.view1.Location = new System.Drawing.Point(0, 30);
             this.view1.Name = "view1";
             this.view1.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.view1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.view1.RowTemplate.Height = 23;
-            this.view1.Size = new System.Drawing.Size(1342, 522);
+            this.view1.Size = new System.Drawing.Size(1922, 727);
             this.view1.TabIndex = 1;
             this.view1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View1_CellContentClick);
             // 
@@ -425,7 +395,7 @@
             this.pal1.Dock = System.Windows.Forms.DockStyle.Top;
             this.pal1.Location = new System.Drawing.Point(0, 0);
             this.pal1.Name = "pal1";
-            this.pal1.Size = new System.Drawing.Size(1342, 30);
+            this.pal1.Size = new System.Drawing.Size(1922, 30);
             this.pal1.TabIndex = 0;
             // 
             // labelControl2
@@ -449,15 +419,15 @@
             this.panel4.Controls.Add(this.btn_fpage);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 552);
+            this.panel4.Location = new System.Drawing.Point(0, 757);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1342, 33);
+            this.panel4.Size = new System.Drawing.Size(1922, 33);
             this.panel4.TabIndex = 3;
             // 
             // txt_page
             // 
             this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_page.Location = new System.Drawing.Point(1133, 3);
+            this.txt_page.Location = new System.Drawing.Point(1713, 3);
             this.txt_page.Name = "txt_page";
             this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.txt_page.Properties.Appearance.Options.UseFont = true;
@@ -476,7 +446,7 @@
             this.btn_lpage.Appearance.Options.UseFont = true;
             this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
             this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_lpage.Location = new System.Drawing.Point(1087, 5);
+            this.btn_lpage.Location = new System.Drawing.Point(1667, 5);
             this.btn_lpage.Name = "btn_lpage";
             this.btn_lpage.Size = new System.Drawing.Size(41, 23);
             this.btn_lpage.TabIndex = 6;
@@ -489,7 +459,7 @@
             this.btn_npage.Appearance.Options.UseFont = true;
             this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
             this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_npage.Location = new System.Drawing.Point(1171, 5);
+            this.btn_npage.Location = new System.Drawing.Point(1751, 5);
             this.btn_npage.Name = "btn_npage";
             this.btn_npage.Size = new System.Drawing.Size(41, 23);
             this.btn_npage.TabIndex = 5;
@@ -502,7 +472,7 @@
             this.btn_epage.Appearance.Options.UseFont = true;
             this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
             this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_epage.Location = new System.Drawing.Point(1214, 5);
+            this.btn_epage.Location = new System.Drawing.Point(1794, 5);
             this.btn_epage.Name = "btn_epage";
             this.btn_epage.Size = new System.Drawing.Size(41, 23);
             this.btn_epage.TabIndex = 4;
@@ -515,7 +485,7 @@
             this.btn_fpage.Appearance.Options.UseFont = true;
             this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
             this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_fpage.Location = new System.Drawing.Point(1044, 5);
+            this.btn_fpage.Location = new System.Drawing.Point(1624, 5);
             this.btn_fpage.Name = "btn_fpage";
             this.btn_fpage.Size = new System.Drawing.Size(41, 23);
             this.btn_fpage.TabIndex = 3;
@@ -530,6 +500,32 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "总计 0 条记录，每页共 0 条，共 0 页";
             // 
+            // btn_Reset
+            // 
+            this.btn_Reset.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Reset.Appearance.Options.UseFont = true;
+            this.btn_Reset.Image = ((System.Drawing.Image)(resources.GetObject("btn_Reset.Image")));
+            this.btn_Reset.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Reset.Location = new System.Drawing.Point(809, 153);
+            this.btn_Reset.Name = "btn_Reset";
+            this.btn_Reset.Size = new System.Drawing.Size(67, 32);
+            this.btn_Reset.TabIndex = 17;
+            this.btn_Reset.Text = "重置";
+            this.btn_Reset.Click += new System.EventHandler(this.Btn_Reset_Click);
+            // 
+            // btn_Query
+            // 
+            this.btn_Query.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.btn_Query.Appearance.Options.UseFont = true;
+            this.btn_Query.Image = ((System.Drawing.Image)(resources.GetObject("btn_Query.Image")));
+            this.btn_Query.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Query.Location = new System.Drawing.Point(704, 153);
+            this.btn_Query.Name = "btn_Query";
+            this.btn_Query.Size = new System.Drawing.Size(99, 32);
+            this.btn_Query.TabIndex = 16;
+            this.btn_Query.Text = "立即查询";
+            this.btn_Query.Click += new System.EventHandler(this.Btn_Query_Click);
+            // 
             // navigationPage2
             // 
             this.navigationPage2.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
@@ -537,21 +533,21 @@
             this.navigationPage2.AutoSize = true;
             this.navigationPage2.BackgroundPadding = new System.Windows.Forms.Padding(0);
             this.navigationPage2.Caption = "高级检索";
-            this.navigationPage2.Controls.Add(this.radioButton3);
-            this.navigationPage2.Controls.Add(this.radioButton2);
-            this.navigationPage2.Controls.Add(this.radioButton1);
+            this.navigationPage2.Controls.Add(this.rdo_All);
+            this.navigationPage2.Controls.Add(this.rdo_In);
+            this.navigationPage2.Controls.Add(this.rdo_Out);
             this.navigationPage2.Controls.Add(this.labelControl1);
-            this.navigationPage2.Controls.Add(this.textEdit7);
+            this.navigationPage2.Controls.Add(this.txt_FileName);
             this.navigationPage2.Controls.Add(this.labelControl10);
-            this.navigationPage2.Controls.Add(this.textEdit4);
+            this.navigationPage2.Controls.Add(this.txt_Pname);
             this.navigationPage2.Controls.Add(this.labelControl11);
-            this.navigationPage2.Controls.Add(this.textEdit5);
+            this.navigationPage2.Controls.Add(this.txt_Pcode);
             this.navigationPage2.Controls.Add(this.labelControl12);
             this.navigationPage2.Controls.Add(this.labelControl13);
-            this.navigationPage2.Controls.Add(this.textEdit6);
+            this.navigationPage2.Controls.Add(this.txt_FileCategor);
             this.navigationPage2.Controls.Add(this.panel1);
-            this.navigationPage2.Controls.Add(this.kyoButton1);
-            this.navigationPage2.Controls.Add(this.kyoButton2);
+            this.navigationPage2.Controls.Add(this.btn_FileReset);
+            this.navigationPage2.Controls.Add(this.btn_FileQuery);
             this.navigationPage2.CustomHeaderButtons.AddRange(new DevExpress.XtraBars.Docking2010.IButton[] {
             new DevExpress.XtraBars.Docking.CustomHeaderButton("", ((System.Drawing.Image)(resources.GetObject("navigationPage2.CustomHeaderButtons"))), -1, DevExpress.XtraBars.Docking2010.ButtonStyle.CheckButton, -1)});
             this.navigationPage2.Image = ((System.Drawing.Image)(resources.GetObject("navigationPage2.Image")));
@@ -566,39 +562,39 @@
             this.navigationPage2.Properties.ShowCollapseButton = DevExpress.Utils.DefaultBoolean.False;
             this.navigationPage2.Properties.ShowExpandButton = DevExpress.Utils.DefaultBoolean.False;
             this.navigationPage2.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
-            this.navigationPage2.Size = new System.Drawing.Size(1112, 708);
+            this.navigationPage2.Size = new System.Drawing.Size(1112, 1218);
             // 
-            // radioButton3
+            // rdo_All
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Checked = true;
-            this.radioButton3.Location = new System.Drawing.Point(138, 111);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(60, 25);
-            this.radioButton3.TabIndex = 38;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "全部";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.rdo_All.AutoSize = true;
+            this.rdo_All.Checked = true;
+            this.rdo_All.Location = new System.Drawing.Point(138, 111);
+            this.rdo_All.Name = "rdo_All";
+            this.rdo_All.Size = new System.Drawing.Size(60, 25);
+            this.rdo_All.TabIndex = 38;
+            this.rdo_All.TabStop = true;
+            this.rdo_All.Text = "全部";
+            this.rdo_All.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // rdo_In
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(270, 111);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(60, 25);
-            this.radioButton2.TabIndex = 37;
-            this.radioButton2.Text = "在库";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rdo_In.AutoSize = true;
+            this.rdo_In.Location = new System.Drawing.Point(270, 111);
+            this.rdo_In.Name = "rdo_In";
+            this.rdo_In.Size = new System.Drawing.Size(60, 25);
+            this.rdo_In.TabIndex = 37;
+            this.rdo_In.Text = "在库";
+            this.rdo_In.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // rdo_Out
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(204, 111);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(60, 25);
-            this.radioButton1.TabIndex = 36;
-            this.radioButton1.Text = "借出";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rdo_Out.AutoSize = true;
+            this.rdo_Out.Location = new System.Drawing.Point(204, 111);
+            this.rdo_Out.Name = "rdo_Out";
+            this.rdo_Out.Size = new System.Drawing.Size(60, 25);
+            this.rdo_Out.TabIndex = 36;
+            this.rdo_Out.Text = "借出";
+            this.rdo_Out.UseVisualStyleBackColor = true;
             // 
             // labelControl1
             // 
@@ -609,15 +605,15 @@
             this.labelControl1.TabIndex = 35;
             this.labelControl1.Text = "借阅状态：";
             // 
-            // textEdit7
+            // txt_FileName
             // 
-            this.textEdit7.EditValue = "";
-            this.textEdit7.Location = new System.Drawing.Point(138, 15);
-            this.textEdit7.Name = "textEdit7";
-            this.textEdit7.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textEdit7.Properties.Appearance.Options.UseFont = true;
-            this.textEdit7.Size = new System.Drawing.Size(292, 28);
-            this.textEdit7.TabIndex = 33;
+            this.txt_FileName.EditValue = "";
+            this.txt_FileName.Location = new System.Drawing.Point(138, 15);
+            this.txt_FileName.Name = "txt_FileName";
+            this.txt_FileName.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_FileName.Properties.Appearance.Options.UseFont = true;
+            this.txt_FileName.Size = new System.Drawing.Size(292, 28);
+            this.txt_FileName.TabIndex = 33;
             // 
             // labelControl10
             // 
@@ -628,15 +624,15 @@
             this.labelControl10.TabIndex = 26;
             this.labelControl10.Text = "项目/课题名称：";
             // 
-            // textEdit4
+            // txt_Pname
             // 
-            this.textEdit4.EditValue = "";
-            this.textEdit4.Location = new System.Drawing.Point(623, 62);
-            this.textEdit4.Name = "textEdit4";
-            this.textEdit4.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textEdit4.Properties.Appearance.Options.UseFont = true;
-            this.textEdit4.Size = new System.Drawing.Size(292, 28);
-            this.textEdit4.TabIndex = 25;
+            this.txt_Pname.EditValue = "";
+            this.txt_Pname.Location = new System.Drawing.Point(623, 62);
+            this.txt_Pname.Name = "txt_Pname";
+            this.txt_Pname.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_Pname.Properties.Appearance.Options.UseFont = true;
+            this.txt_Pname.Size = new System.Drawing.Size(292, 28);
+            this.txt_Pname.TabIndex = 25;
             // 
             // labelControl11
             // 
@@ -647,15 +643,15 @@
             this.labelControl11.TabIndex = 24;
             this.labelControl11.Text = "项目/课题编号：";
             // 
-            // textEdit5
+            // txt_Pcode
             // 
-            this.textEdit5.EditValue = "";
-            this.textEdit5.Location = new System.Drawing.Point(138, 62);
-            this.textEdit5.Name = "textEdit5";
-            this.textEdit5.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textEdit5.Properties.Appearance.Options.UseFont = true;
-            this.textEdit5.Size = new System.Drawing.Size(292, 28);
-            this.textEdit5.TabIndex = 23;
+            this.txt_Pcode.EditValue = "";
+            this.txt_Pcode.Location = new System.Drawing.Point(138, 62);
+            this.txt_Pcode.Name = "txt_Pcode";
+            this.txt_Pcode.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_Pcode.Properties.Appearance.Options.UseFont = true;
+            this.txt_Pcode.Size = new System.Drawing.Size(292, 28);
+            this.txt_Pcode.TabIndex = 23;
             // 
             // labelControl12
             // 
@@ -675,15 +671,15 @@
             this.labelControl13.TabIndex = 20;
             this.labelControl13.Text = "文件名称：";
             // 
-            // textEdit6
+            // txt_FileCategor
             // 
-            this.textEdit6.EditValue = "";
-            this.textEdit6.Location = new System.Drawing.Point(623, 15);
-            this.textEdit6.Name = "textEdit6";
-            this.textEdit6.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textEdit6.Properties.Appearance.Options.UseFont = true;
-            this.textEdit6.Size = new System.Drawing.Size(292, 28);
-            this.textEdit6.TabIndex = 19;
+            this.txt_FileCategor.EditValue = "";
+            this.txt_FileCategor.Location = new System.Drawing.Point(623, 15);
+            this.txt_FileCategor.Name = "txt_FileCategor";
+            this.txt_FileCategor.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_FileCategor.Properties.Appearance.Options.UseFont = true;
+            this.txt_FileCategor.Size = new System.Drawing.Size(292, 28);
+            this.txt_FileCategor.TabIndex = 19;
             // 
             // panel1
             // 
@@ -695,7 +691,7 @@
             this.panel1.Location = new System.Drawing.Point(5, 196);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1108, 330);
+            this.panel1.Size = new System.Drawing.Size(1688, 1045);
             this.panel1.TabIndex = 18;
             // 
             // view2
@@ -705,14 +701,6 @@
             this.view2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.view2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.view2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.view2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.view2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.view2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.fid,
@@ -722,28 +710,12 @@
             this.fcategor,
             this.fbstate,
             this.frstate});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.view2.DefaultCellStyle = dataGridViewCellStyle5;
             this.view2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.view2.Location = new System.Drawing.Point(0, 30);
             this.view2.Name = "view2";
             this.view2.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.view2.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.view2.RowTemplate.Height = 23;
-            this.view2.Size = new System.Drawing.Size(1108, 300);
+            this.view2.Size = new System.Drawing.Size(1688, 1015);
             this.view2.TabIndex = 1;
             this.view2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View2_CellContentClick);
             // 
@@ -807,12 +779,22 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel2.Controls.Add(this.lbl_TotalFileAmount);
             this.panel2.Controls.Add(this.labelControl14);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1108, 30);
+            this.panel2.Size = new System.Drawing.Size(1688, 30);
             this.panel2.TabIndex = 0;
+            // 
+            // lbl_TotalFileAmount
+            // 
+            this.lbl_TotalFileAmount.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.lbl_TotalFileAmount.Location = new System.Drawing.Point(961, 5);
+            this.lbl_TotalFileAmount.Name = "lbl_TotalFileAmount";
+            this.lbl_TotalFileAmount.Size = new System.Drawing.Size(105, 21);
+            this.lbl_TotalFileAmount.TabIndex = 1;
+            this.lbl_TotalFileAmount.Text = "共计文件数：0";
             // 
             // labelControl14
             // 
@@ -826,59 +808,31 @@
             this.labelControl14.TabIndex = 0;
             this.labelControl14.Text = "文件列表";
             // 
-            // btn_Reset
+            // btn_FileReset
             // 
-            this.btn_Reset.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Reset.Appearance.Options.UseFont = true;
-            this.btn_Reset.Image = ((System.Drawing.Image)(resources.GetObject("btn_Reset.Image")));
-            this.btn_Reset.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Reset.ImageToTextIndent = 0;
-            this.btn_Reset.Location = new System.Drawing.Point(809, 153);
-            this.btn_Reset.Name = "btn_Reset";
-            this.btn_Reset.Size = new System.Drawing.Size(67, 32);
-            this.btn_Reset.TabIndex = 17;
-            this.btn_Reset.Text = "重置";
-            this.btn_Reset.Click += new System.EventHandler(this.Btn_Reset_Click);
+            this.btn_FileReset.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_FileReset.Appearance.Options.UseFont = true;
+            this.btn_FileReset.Image = ((System.Drawing.Image)(resources.GetObject("btn_FileReset.Image")));
+            this.btn_FileReset.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_FileReset.Location = new System.Drawing.Point(839, 154);
+            this.btn_FileReset.Name = "btn_FileReset";
+            this.btn_FileReset.Size = new System.Drawing.Size(67, 28);
+            this.btn_FileReset.TabIndex = 32;
+            this.btn_FileReset.Text = "清空";
+            this.btn_FileReset.Click += new System.EventHandler(this.Btn_FileReset_Click);
             // 
-            // btn_Query
+            // btn_FileQuery
             // 
-            this.btn_Query.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.btn_Query.Appearance.Options.UseFont = true;
-            this.btn_Query.Image = ((System.Drawing.Image)(resources.GetObject("btn_Query.Image")));
-            this.btn_Query.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Query.ImageToTextIndent = 0;
-            this.btn_Query.Location = new System.Drawing.Point(704, 153);
-            this.btn_Query.Name = "btn_Query";
-            this.btn_Query.Size = new System.Drawing.Size(99, 32);
-            this.btn_Query.TabIndex = 16;
-            this.btn_Query.Text = "立即查询";
-            this.btn_Query.Click += new System.EventHandler(this.Btn_Query_Click);
-            // 
-            // kyoButton1
-            // 
-            this.kyoButton1.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kyoButton1.Appearance.Options.UseFont = true;
-            this.kyoButton1.Image = ((System.Drawing.Image)(resources.GetObject("kyoButton1.Image")));
-            this.kyoButton1.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.kyoButton1.ImageToTextIndent = 0;
-            this.kyoButton1.Location = new System.Drawing.Point(839, 154);
-            this.kyoButton1.Name = "kyoButton1";
-            this.kyoButton1.Size = new System.Drawing.Size(67, 28);
-            this.kyoButton1.TabIndex = 32;
-            this.kyoButton1.Text = "重置";
-            // 
-            // kyoButton2
-            // 
-            this.kyoButton2.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.kyoButton2.Appearance.Options.UseFont = true;
-            this.kyoButton2.Image = ((System.Drawing.Image)(resources.GetObject("kyoButton2.Image")));
-            this.kyoButton2.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.kyoButton2.ImageToTextIndent = 0;
-            this.kyoButton2.Location = new System.Drawing.Point(734, 154);
-            this.kyoButton2.Name = "kyoButton2";
-            this.kyoButton2.Size = new System.Drawing.Size(99, 28);
-            this.kyoButton2.TabIndex = 31;
-            this.kyoButton2.Text = "立即查询";
+            this.btn_FileQuery.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.btn_FileQuery.Appearance.Options.UseFont = true;
+            this.btn_FileQuery.Image = ((System.Drawing.Image)(resources.GetObject("btn_FileQuery.Image")));
+            this.btn_FileQuery.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_FileQuery.Location = new System.Drawing.Point(734, 154);
+            this.btn_FileQuery.Name = "btn_FileQuery";
+            this.btn_FileQuery.Size = new System.Drawing.Size(99, 28);
+            this.btn_FileQuery.TabIndex = 31;
+            this.btn_FileQuery.Text = "立即查询";
+            this.btn_FileQuery.Click += new System.EventHandler(this.Btn_FileQuery_Click);
             // 
             // Frm_QueryBorrowing
             // 
@@ -887,10 +841,12 @@
             this.ClientSize = new System.Drawing.Size(1228, 749);
             this.Controls.Add(this.navigationPane1);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "Frm_QueryBorrowing";
             this.Text = "查询借阅";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_QueryBorrowing_FormClosing);
             this.Load += new System.EventHandler(this.Frm_QueryBorrowing_Load);
             this.navigationPane1.ResumeLayout(false);
             this.navigationPane1.PerformLayout();
@@ -908,10 +864,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_page.Properties)).EndInit();
             this.navigationPage2.ResumeLayout(false);
             this.navigationPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit7.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit4.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit5.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit6.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_FileName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_Pname.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_Pcode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_FileCategor.Properties)).EndInit();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.view2)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -940,24 +896,24 @@
         private DevExpress.XtraEditors.TextEdit txt_ProjectName;
         private KyoControl.KyoButton btn_Query;
         private KyoControl.KyoButton btn_Reset;
-        private KyoControl.KyoButton kyoButton1;
-        private KyoControl.KyoButton kyoButton2;
+        private KyoControl.KyoButton btn_FileReset;
+        private KyoControl.KyoButton btn_FileQuery;
         private DevExpress.XtraEditors.LabelControl labelControl10;
-        private DevExpress.XtraEditors.TextEdit textEdit4;
+        private DevExpress.XtraEditors.TextEdit txt_Pname;
         private DevExpress.XtraEditors.LabelControl labelControl11;
-        private DevExpress.XtraEditors.TextEdit textEdit5;
+        private DevExpress.XtraEditors.TextEdit txt_Pcode;
         private DevExpress.XtraEditors.LabelControl labelControl12;
         private DevExpress.XtraEditors.LabelControl labelControl13;
-        private DevExpress.XtraEditors.TextEdit textEdit6;
+        private DevExpress.XtraEditors.TextEdit txt_FileCategor;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView view2;
         private System.Windows.Forms.Panel panel2;
         private DevExpress.XtraEditors.LabelControl labelControl14;
         private DevExpress.XtraEditors.LabelControl labelControl1;
-        private DevExpress.XtraEditors.TextEdit textEdit7;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private DevExpress.XtraEditors.TextEdit txt_FileName;
+        private System.Windows.Forms.RadioButton rdo_All;
+        private System.Windows.Forms.RadioButton rdo_In;
+        private System.Windows.Forms.RadioButton rdo_Out;
         private System.Windows.Forms.ComboBox cbo_PlanTypeList;
         private System.Windows.Forms.Panel panel4;
         private DevExpress.XtraEditors.SimpleButton btn_lpage;
@@ -983,5 +939,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn fcategor;
         private System.Windows.Forms.DataGridViewButtonColumn fbstate;
         private System.Windows.Forms.DataGridViewButtonColumn frstate;
+        private DevExpress.XtraEditors.LabelControl lbl_TotalFileAmount;
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using 科技计划项目档案数据采集管理系统.FirstPage;
 
-namespace 科技计划项目档案数据采集管理系统.QueryAndCount
+namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_QueryBorrowing : DevExpress.XtraEditors.XtraForm
     {
@@ -14,9 +15,17 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
         /// 总页数
         /// </summary>
         int maxPage = 0;
+        private Frm_FirstPage frm_FirstPage;
+
         public Frm_QueryBorrowing()
         {
             InitializeComponent();
+        }
+
+        public Frm_QueryBorrowing(Frm_FirstPage frm_FirstPage)
+        {
+            InitializeComponent();
+            this.frm_FirstPage = frm_FirstPage;
         }
 
         private void Frm_QueryBorrowing_Load(object sender, EventArgs e)
@@ -38,10 +47,9 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
                 Alignment = DataGridViewContentAlignment.MiddleCenter
             };
             view2.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            //panel3.Width = navigationPage1.Width;
-            //panel1.Width = navigationPage2.Width;
             panel3.Bounds = new System.Drawing.Rectangle(0, panel3.Top, navigationPage1.Width, navigationPage1.Height - panel3.Top);
             panel1.Bounds = new System.Drawing.Rectangle(0, panel1.Top, navigationPage2.Width, navigationPage2.Height - panel1.Top);
+            lbl_TotalFileAmount.Anchor = AnchorStyles.Right | AnchorStyles.Top;
         }
 
         private void GetTotalSize()
@@ -329,14 +337,6 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
             dtp_sDate.Enabled = dtp_eDate.Enabled = !chk_allDate.Checked;
         }
 
-        private void Pane1_SelectedPageChanged(object sender, DevExpress.XtraBars.Navigation.SelectedPageChangedEventArgs e)
-        {
-            if("档案借阅".Equals(e.Page.PageText))
-            {
-                LoadFileList(null);
-            }
-        }
-
         private void View1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             string columnName = view1.Columns[e.ColumnIndex].Name;
@@ -344,7 +344,14 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
             if("fcount".Equals(columnName))
             {
                 object id = view1.Rows[e.RowIndex].Tag;
-                LoadFileList(id);
+                string pcode = ToolHelper.GetValue(view1.Rows[e.RowIndex].Cells["code"].Value);
+                string pname = ToolHelper.GetValue(view1.Rows[e.RowIndex].Cells["name"].Value);
+                txt_FileName.Tag = id;
+                txt_Pcode.Text = pcode;
+                txt_Pname.Text = pname;
+
+                Btn_FileQuery_Click(null, null);
+                navigationPane1.SelectedPage = navigationPage2;
             }
         }
 
@@ -352,21 +359,34 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
         /// 加载指定项目/课题下的文件列表
         /// </summary>
         /// <param name="id"></param>
-        private void LoadFileList(object id)
+        private void LoadFileList(object id, string fname, string fcategor, string pcode, string pname)
         {
             view2.Rows.Clear();
-            string querySql = $"SELECT * FROM processing_file_list WHERE pfl_obj_id='{id}' ORDER BY pfl_sort";
+            string querySQL = "SELECT bl.bl_id, bl.bl_borrow_state, bl.bl_return_state, pfl.pfl_id, pi.pi_code, pi.pi_name, ti.ti_code, ti.ti_name, si.si_code, si.si_name, pfl.pfl_name, dd.dd_name + ' ' + dd.extend_3 as categor " +
+              "FROM processing_file_list pfl " +
+              "LEFT JOIN project_info pi ON pi.pi_id = pfl.pfl_obj_id " +
+              "LEFT JOIN topic_info ti ON ti.ti_id = pfl.pfl_obj_id " +
+              "LEFT JOIN subject_info si ON si.si_id = pfl.pfl_obj_id " +
+              "LEFT JOIN data_dictionary dd ON dd.dd_id = pfl.pfl_categor " +
+              "LEFT JOIN borrow_log bl ON (bl.bl_file_id = pfl.pfl_id AND bl.bl_borrow_state=1) " +
+              "WHERE 1=1 ";
+            if(id != null)
+                querySQL += $"AND pfl.pfl_obj_id='{id}' ";
+            if(!string.IsNullOrEmpty(fname))
+                querySQL += $"AND pfl.pfl_name LIKE '%{fname}%' ";
+            if(!string.IsNullOrEmpty(fcategor))
+                querySQL += $"AND dd.dd_name LIKE '%{fcategor}%' ";
+            if(!string.IsNullOrEmpty(pcode))
+                querySQL += $"AND (pi.pi_code LIKE '%{pcode}%' OR ti.ti_code LIKE '%{pcode}%' OR si.si_code LIKE '%{pcode}%') ";
+            if(!string.IsNullOrEmpty(pname))
+                querySQL += $"AND (pi.pi_name LIKE '%{pname}%' OR ti.ti_name LIKE '%{pname}%' OR si.si_name LIKE '%{pname}%') ";
+            if(rdo_Out.Checked)
+                querySQL += $"AND bl.bl_borrow_state = 1 ";
+            else if(rdo_In.Checked)
+                querySQL += $"AND (bl.bl_borrow_state = 0 OR bl.bl_borrow_state IS NULL) ";
 
-            if(id == null)
-                querySql = "SELECT TOP(50) bl.bl_id, bl.bl_borrow_state, bl.bl_return_state, pfl.pfl_id, pi.pi_code, pi.pi_name, ti.ti_code, ti.ti_name, si.si_code, si.si_name, pfl.pfl_name, dd.dd_name + ' ' + dd.extend_3 as categor " +
-                    "FROM processing_file_list pfl " +
-                    "LEFT JOIN project_info pi ON pi.pi_id = pfl.pfl_obj_id " +
-                    "LEFT JOIN topic_info ti ON ti.ti_id = pfl.pfl_obj_id " +
-                    "LEFT JOIN subject_info si ON si.si_id = pfl.pfl_obj_id " +
-                    "LEFT JOIN data_dictionary dd ON dd.dd_id = pfl.pfl_categor " +
-                    "LEFT JOIN borrow_log bl ON bl.bl_file_id = pfl.pfl_id " +
-                    "ORDER BY pfl.pfl_worker_date DESC";
-            DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
+            querySQL += "ORDER BY pfl.pfl_worker_date, pfl.pfl_sort DESC";
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySQL);
             foreach(DataRow row in dataTable.Rows)
             {
                 int i = view2.Rows.Add();
@@ -380,6 +400,7 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
                 view2.Rows[i].Cells["fbstate"].Value = GetBorrowState(row["bl_borrow_state"]);
                 view2.Rows[i].Cells["frstate"].Value = GetReturnState(row["bl_return_state"]);
             }
+            lbl_TotalFileAmount.Text = $"共计文件数：{view2.RowCount}";
         }
 
         private object GetReturnState(object value)
@@ -480,5 +501,37 @@ namespace 科技计划项目档案数据采集管理系统.QueryAndCount
             }
         }
 
+        private void Btn_FileQuery_Click(object sender, EventArgs e)
+        {
+            object fid = txt_FileName.Tag;
+            string fname = txt_FileName.Text;
+            string fcategor = txt_FileCategor.Text;
+            string pcode = txt_Pcode.Text;
+            string pname = txt_Pname.Text;
+            if(fid != null || !string.IsNullOrEmpty(fname) || !string.IsNullOrEmpty(fcategor) || !string.IsNullOrEmpty(pcode) || !string.IsNullOrEmpty(pname)
+                || rdo_Out.Checked)
+            {
+                LoadFileList(fid, fname, fcategor, pcode, pname);
+            }
+            else
+                Btn_FileReset_Click(null, null);
+        }
+
+        private void Btn_FileReset_Click(object sender, EventArgs e)
+        {
+            txt_FileName.Tag = null;
+            txt_FileName.ResetText();
+            txt_FileCategor.ResetText();
+            txt_Pcode.ResetText();
+            txt_Pname.ResetText();
+            rdo_All.Checked = true;
+            view2.Rows.Clear();
+            lbl_TotalFileAmount.Text = "共计文件数：0";
+        }
+
+        private void Frm_QueryBorrowing_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            frm_FirstPage.Show();
+        }
     }
 }

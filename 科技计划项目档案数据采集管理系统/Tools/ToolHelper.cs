@@ -156,6 +156,24 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return -1;
         }
+
+        /// <summary>
+        /// 将对象转换成其整型
+        /// </summary>
+        /// <param name="value">object对象</param>
+        /// <param name="defaultValue">转换失败时的默认值</param>
+        public static int GetIntValue(object value, int defaultValue)
+        {
+            string str = GetValue(value);
+            if(!string.IsNullOrEmpty(str))
+            {
+                if(int.TryParse(str, out int result))
+                    return result;
+                else
+                    return defaultValue;
+            }
+            return defaultValue;
+        }
     }
 
 }

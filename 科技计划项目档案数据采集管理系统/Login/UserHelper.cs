@@ -44,13 +44,13 @@ namespace 科技计划项目档案数据采集管理系统
         public static UserRole GetUserRole()
         {
             object value = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{GetUser().Role}'");
-            if("role_worker".Equals(value))
+            if("dic_key_role_worker".Equals(value))
                 return UserRole.Worker;
-            else if("role_quality".Equals(value))
+            else if("dic_key_role_valider".Equals(value))
                 return UserRole.Qualityer;
-            else if("role_WQManager".Equals(value))
+            else if("dic_key_role_manager".Equals(value))
                 return UserRole.W_Q_Manager;
-            else if("role_DocManager".Equals(value))
+            else if("dic_key_role_administrator".Equals(value))
                 return UserRole.DocManager;
             return UserRole.Error;
         }
@@ -74,14 +74,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         public static string GetUserRoleName()
         {
-            object value = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{GetUser().Role}'");
-            if("role_worker".Equals(value))
-                return "著录加工";
-            else if("role_quality".Equals(value))
-                return "档案质检";
-            else if("role_WQManager".Equals(value))
-                return "加工质检管理员";
-            else if("role_DocManager".Equals(value))
+            if(UserHelper.GetUserRole() == UserRole.Worker)
+                return "加工人员";
+            else if(UserHelper.GetUserRole() == UserRole.Qualityer)
+                return "质检人员";
+            else if(UserHelper.GetUserRole() == UserRole.W_Q_Manager)
+                return "管理员(线上)";
+            else if(UserHelper.GetUserRole() == UserRole.DocManager)
                 return "档案管理员";
             return "未知身份";
         }

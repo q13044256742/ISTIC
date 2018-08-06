@@ -130,14 +130,12 @@ namespace 科技计划项目档案数据采集管理系统
                 AccordionControlElement element = new AccordionControlElement()
                 {
                     Style = ElementStyle.Item,
-                    Name = GetValue(table.Rows[i]["dd_id"]),
-                    Text = GetValue(table.Rows[i]["dd_name"]),
+                    Name = ToolHelper.GetValue(table.Rows[i]["dd_id"]),
+                    Text = ToolHelper.GetValue(table.Rows[i]["dd_name"]),
                 };
                 acg_Register.Elements.Add(element);
             }
         }
-
-        private string GetValue(object v) => v == null ? string.Empty : v.ToString();
 
         private void Dgv_DataShow_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

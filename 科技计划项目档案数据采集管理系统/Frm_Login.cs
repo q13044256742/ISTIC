@@ -32,7 +32,7 @@ namespace 科技计划项目档案数据采集管理系统
                     User user = userLogin.GetUser(loginName, loginPassword);
                     UserHelper.SetUser(user);
                     Hide();
-                    Frm_FirstPage frm = new Frm_FirstPage();
+                    Frm_FirstPage frm = new Frm_FirstPage(this);
                     frm.ShowDialog();
                 }
                 else

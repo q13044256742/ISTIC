@@ -236,11 +236,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         public static int ExecuteCountQuery(string querySql)
         {
-            object obj = SqlHelper.ExecuteOnlyOneQuery(querySql);
-            if(obj != null && !string.IsNullOrEmpty(obj.ToString()))
-                return Convert.ToInt32(obj);
-            else
-                return 0;
+            object value = SqlHelper.ExecuteOnlyOneQuery(querySql);
+            return ToolHelper.GetIntValue(value, 0);
         }
 
         public static string GetValueByKey(object companyId)

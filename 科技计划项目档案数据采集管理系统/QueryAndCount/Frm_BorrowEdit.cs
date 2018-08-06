@@ -20,7 +20,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Frm_BorrowEdit_Load(object sender, EventArgs e)
         {
             txt_Borrow_Date.Text = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd");
-            //lbl_LogUser.Text = UserHelper.GetUser().RealName;
+            lbl_LogUser.Text = UserHelper.GetUser().RealName;
         }
 
         private void Btn_Sure_Click(object sender, EventArgs e)

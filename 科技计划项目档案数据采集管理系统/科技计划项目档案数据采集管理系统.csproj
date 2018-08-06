@@ -278,6 +278,12 @@
     <Compile Include="QueryAndCount\Frm_QueryBorrowing.Designer.cs">
       <DependentUpon>Frm_QueryBorrowing.cs</DependentUpon>
     </Compile>
+    <Compile Include="QueryAndCount\Frm_Statistics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QueryAndCount\Frm_Statistics.Designer.cs">
+      <DependentUpon>Frm_Statistics.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Chinese2Spell.cs" />
     <Compile Include="KyoControl\KyoButton.cs">
       <SubType>Component</SubType>
@@ -441,7 +447,6 @@
     <EmbeddedResource Include="Manager\Frm_userInfoAdd.resx">
       <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Properties\licenses.licx" />
     <EmbeddedResource Include="QualityTesting\Frm_AdviceHistroy.resx">
       <DependentUpon>Frm_AdviceHistroy.cs</DependentUpon>
     </EmbeddedResource>
@@ -465,6 +470,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="QueryAndCount\Frm_QueryBorrowing.resx">
       <DependentUpon>Frm_QueryBorrowing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QueryAndCount\Frm_Statistics.resx">
+      <DependentUpon>Frm_Statistics.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Frm_CodeRule.resx">
       <DependentUpon>Frm_CodeRule.cs</DependentUpon>
@@ -519,6 +527,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\qbico.ico" />
     <Content Include="sqls\sql.txt" />
     <None Include="Resources\bkb.html" />
     <None Include="Resources\jnml.html" />

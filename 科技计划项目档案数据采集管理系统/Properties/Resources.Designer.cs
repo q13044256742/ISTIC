@@ -119,20 +119,22 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         ///		.ipt1{
         ///			border: none;
         ///			border-bottom: 1px solid black;
-        ///			font-size: 22px;
         ///			text-align: center;
-        ///			width: 500px;
+        ///			width: 50mm;
         ///		}
         ///		.ipt2{
         ///			border: none;
-        ///			font-size: 22px;
         ///		}
+        ///        thead td{
+        ///            text-align: center;
+        ///            padding: 7px 0px;
+        ///        }
         ///	&lt;/style&gt;
         ///&lt;/head&gt;
-        ///&lt;body style=&quot;text-align: center;&quot;&gt;
-        ///	&lt;div style=&quot;width: 1200px;&quot;&gt;&lt;h1 style=&quot;padding: 10px;&quot;&gt;卷内备考表&lt;/h1&gt;&lt;/div&gt;
-        ///	&lt;div style=&quot;width: 1200px; border: 1px solid black; text-align: center; padding: 15px;&quot;&gt;
-        ///		&lt;div style=&quot;text-align: le [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///&lt;body style=&quot;text-align: center; font-size: 14px;&quot;&gt;
+        ///	&lt;div&gt;&lt;h1&gt;卷内备考表&lt;/h1&gt;&lt;/div&gt;
+        ///    &lt;p style=&quot;text-align: left&quot;&gt;档号：&lt;span id=&quot;dh&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+        ///	&lt;div style=&quot;border: 1px solid blac [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string bkb {
             get {
@@ -202,16 +204,15 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         
         /// <summary>
         ///   查找类似 &lt;html xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot;
-        ///	xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot;
-        ///	xmlns:w=&quot;urn:schemas-microsoft-com:office:word&quot;
-        ///	xmlns:m=&quot;http://schemas.microsoft.com/office/2004/12/omml&quot;
-        ///	xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;
+        ///      xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot;
+        ///      xmlns:w=&quot;urn:schemas-microsoft-com:office:word&quot;
+        ///      xmlns:m=&quot;http://schemas.microsoft.com/office/2004/12/omml&quot;
+        ///      xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;
         ///&lt;head&gt;
-        ///&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=EmulateIE8&quot; /&gt;
-        ///&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;
-        ///&lt;meta name=&quot;ProgId&quot; content=&quot;Word.Document&quot; /&gt;
-        ///&lt;meta name=&quot;Generator&quot; content=&quot;Microsoft Word 15&quot; /&gt;
-        ///&lt;meta name=&quot;O [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=EmulateIE8&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;
+        ///    &lt;meta name=&quot;ProgId&quot; content=&quot;Word.Document&quot; /&gt;
+        ///    &lt;meta name=&quot;Generator&quot; content=&quot; [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string fm {
             get {
@@ -223,19 +224,26 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         ///   查找类似 
         ///&lt;html&gt;
         ///&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+        ///&lt;head&gt;
+        ///	&lt;style&gt;
+        ///        thead td {
+        ///            text-align: center;
+        ///            padding: 7px 0px;
+        ///        }
+        ///		td {
+        ///			border: 1px solid black;
+        ///			text-align: center;
+        ///		}
+        ///	&lt;/style&gt;
+        ///&lt;/head&gt;
         ///&lt;body&gt;
         ///	&lt;h1
-        ///		style=&quot;word-break: break-all; text-align: center;; font-family: 黑体;&quot;&gt;卷内文件目录&lt;/h1&gt;
+        ///		style=&quot;word-break: break-all; text-align: center;; font-family: 黑体;&quot;&gt;卷内目录&lt;/h1&gt;
         ///	&lt;br /&gt;
         ///	&lt;br /&gt;
-        ///	&lt;div style=&quot;word-break: break-all; font-family: 黑体;&quot;&gt;
-        ///		&lt;b&gt;项目名称:&lt;/b&gt;&lt;span style=&apos;border-bottom: black solid 1px; width: 80%;&apos;
-        ///			id=&quot;xmmc&quot;&gt;&lt;/span&gt;
-        ///	&lt;/div&gt;
-        ///	&lt;br /&gt;
-        ///	&lt;div style=&quot;word-break: break-all; font-family: 黑体;&quot;&gt;
-        ///		&lt;b&gt;项目编号:&lt;/b&gt;&lt;span style=&apos;border-bottom: black solid 1px; width: 80%;&apos;
-        ///			id=&quot;xmbh&quot;&gt;&lt;/span [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///	&lt;p style=&quot;word-break: break-all; font-family: 黑体; margin:13px 5px;&quot;&gt;
+        ///		&lt;b&gt;档号:&lt;/b&gt;&lt;span id=&quot;ajbh&quot;&gt;&lt;/span&gt;
+        ///		&lt;span styl [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string jnml {
             get {
@@ -274,7 +282,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         }
         
         /// <summary>
-        ///   查找类似于 (Icon) 的 System.Drawing.Icon 类型的本地化资源。
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon logo2 {
             get {
@@ -290,6 +298,16 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
             get {
                 object obj = ResourceManager.GetObject("pdf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon qbico {
+            get {
+                object obj = ResourceManager.GetObject("qbico", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
