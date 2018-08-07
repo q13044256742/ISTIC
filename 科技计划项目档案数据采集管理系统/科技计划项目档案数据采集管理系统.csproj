@@ -447,6 +447,7 @@
     <EmbeddedResource Include="Manager\Frm_userInfoAdd.resx">
       <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\licenses.licx" />
     <EmbeddedResource Include="QualityTesting\Frm_AdviceHistroy.resx">
       <DependentUpon>Frm_AdviceHistroy.cs</DependentUpon>
     </EmbeddedResource>

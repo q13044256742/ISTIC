@@ -163,11 +163,6 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                 Hide();
                 frm.ShowDialog();
             }
-            else if("tbar_WorkCount".Equals(itemName))//工作量统计
-            {
-                Frm_Query frm = new Frm_Query(this);
-                frm.ShowDialog();
-            }
             else if("tbar_Count".Equals(itemName))//统计分析
             {
                 Frm_Statistics frm = new Frm_Statistics();

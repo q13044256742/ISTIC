@@ -30,24 +30,23 @@
         {
             this.components = new System.ComponentModel.Container();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.XtraEditors.TileItemElement tileItemElement21 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement1 = new DevExpress.XtraEditors.TileItemElement();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_FirstPage));
-            DevExpress.XtraEditors.TileItemElement tileItemElement22 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement23 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement24 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement25 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement26 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement27 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement28 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement29 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement30 = new DevExpress.XtraEditors.TileItemElement();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            DevExpress.XtraEditors.TileItemElement tileItemElement2 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement3 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement4 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement5 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement6 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement7 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement8 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement9 = new DevExpress.XtraEditors.TileItemElement();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.search = new DevExpress.XtraEditors.SearchControl();
             this.tileBar1 = new DevExpress.XtraBars.Navigation.TileBar();
             this.tileBarGroup2 = new DevExpress.XtraBars.Navigation.TileBarGroup();
@@ -64,8 +63,6 @@
             this.tbar_Query = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.tileBarGroup1 = new DevExpress.XtraBars.Navigation.TileBarGroup();
             this.tbar_Count = new DevExpress.XtraBars.Navigation.TileBarItem();
-            this.tileBarGroup7 = new DevExpress.XtraBars.Navigation.TileBarGroup();
-            this.tbar_WorkCount = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.tileBarGroup11 = new DevExpress.XtraBars.Navigation.TileBarGroup();
             this.tbar_Download = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.tileBarGroup9 = new DevExpress.XtraBars.Navigation.TileBarGroup();
@@ -157,7 +154,6 @@
             this.tileBar1.Groups.Add(this.tileBarGroup6);
             this.tileBar1.Groups.Add(this.tileBarGroup8);
             this.tileBar1.Groups.Add(this.tileBarGroup1);
-            this.tileBar1.Groups.Add(this.tileBarGroup7);
             this.tileBar1.Groups.Add(this.tileBarGroup11);
             this.tileBar1.Groups.Add(this.tileBarGroup9);
             this.tileBar1.IndentBetweenGroups = 1;
@@ -167,7 +163,7 @@
             this.tileBar1.Location = new System.Drawing.Point(-1, 26);
             this.tileBar1.MaxId = 11;
             this.tileBar1.Name = "tileBar1";
-            this.tileBar1.Position = 270;
+            this.tileBar1.Position = 176;
             this.tileBar1.ScrollMode = DevExpress.XtraEditors.TileControlScrollMode.ScrollButtons;
             this.tileBar1.SelectedItem = this.tbar_FirstPage;
             this.tileBar1.ShowGroupText = false;
@@ -185,11 +181,11 @@
             // 
             this.tbar_FirstPage.BorderVisibility = DevExpress.XtraEditors.TileItemBorderVisibility.Never;
             this.tbar_FirstPage.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement21.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement21.Image")));
-            tileItemElement21.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement21.Text = "首页";
-            tileItemElement21.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
-            this.tbar_FirstPage.Elements.Add(tileItemElement21);
+            tileItemElement1.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement1.Image")));
+            tileItemElement1.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
+            tileItemElement1.Text = "首页";
+            tileItemElement1.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
+            this.tbar_FirstPage.Elements.Add(tileItemElement1);
             this.tbar_FirstPage.Id = 0;
             this.tbar_FirstPage.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_FirstPage.Name = "tbar_FirstPage";
@@ -203,11 +199,11 @@
             // tbar_YJDJ
             // 
             this.tbar_YJDJ.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement22.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement22.Image")));
-            tileItemElement22.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement22.Text = "移交登记";
-            tileItemElement22.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
-            this.tbar_YJDJ.Elements.Add(tileItemElement22);
+            tileItemElement2.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement2.Image")));
+            tileItemElement2.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
+            tileItemElement2.Text = "移交登记";
+            tileItemElement2.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
+            this.tbar_YJDJ.Elements.Add(tileItemElement2);
             this.tbar_YJDJ.Id = 1;
             this.tbar_YJDJ.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_YJDJ.Name = "tbar_YJDJ";
@@ -221,11 +217,11 @@
             // tbar_ZLJG
             // 
             this.tbar_ZLJG.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement23.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement23.Image")));
-            tileItemElement23.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement23.Text = "著录加工";
-            tileItemElement23.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
-            this.tbar_ZLJG.Elements.Add(tileItemElement23);
+            tileItemElement3.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement3.Image")));
+            tileItemElement3.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
+            tileItemElement3.Text = "著录加工";
+            tileItemElement3.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
+            this.tbar_ZLJG.Elements.Add(tileItemElement3);
             this.tbar_ZLJG.Id = 2;
             this.tbar_ZLJG.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_ZLJG.Name = "tbar_ZLJG";
@@ -239,11 +235,11 @@
             // tbar_DAZJ
             // 
             this.tbar_DAZJ.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement24.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement24.Image")));
-            tileItemElement24.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement24.Text = "档案质检";
-            tileItemElement24.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
-            this.tbar_DAZJ.Elements.Add(tileItemElement24);
+            tileItemElement4.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement4.Image")));
+            tileItemElement4.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
+            tileItemElement4.Text = "档案质检";
+            tileItemElement4.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
+            this.tbar_DAZJ.Elements.Add(tileItemElement4);
             this.tbar_DAZJ.Id = 3;
             this.tbar_DAZJ.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_DAZJ.Name = "tbar_DAZJ";
@@ -257,11 +253,11 @@
             // tbar_DAJS
             // 
             this.tbar_DAJS.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement25.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement25.Image")));
-            tileItemElement25.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement25.Text = "档案接收";
-            tileItemElement25.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
-            this.tbar_DAJS.Elements.Add(tileItemElement25);
+            tileItemElement5.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement5.Image")));
+            tileItemElement5.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
+            tileItemElement5.Text = "档案接收";
+            tileItemElement5.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
+            this.tbar_DAJS.Elements.Add(tileItemElement5);
             this.tbar_DAJS.Id = 8;
             this.tbar_DAJS.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_DAJS.Name = "tbar_DAJS";
@@ -275,11 +271,11 @@
             // tbar_Query
             // 
             this.tbar_Query.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement26.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement26.Image")));
-            tileItemElement26.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement26.Text = "查询借阅";
-            tileItemElement26.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
-            this.tbar_Query.Elements.Add(tileItemElement26);
+            tileItemElement6.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement6.Image")));
+            tileItemElement6.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
+            tileItemElement6.Text = "查询借阅";
+            tileItemElement6.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
+            this.tbar_Query.Elements.Add(tileItemElement6);
             this.tbar_Query.Id = 4;
             this.tbar_Query.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_Query.Name = "tbar_Query";
@@ -293,33 +289,15 @@
             // tbar_Count
             // 
             this.tbar_Count.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement27.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement27.Image")));
-            tileItemElement27.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement27.Text = "统计分析";
-            tileItemElement27.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
-            this.tbar_Count.Elements.Add(tileItemElement27);
+            tileItemElement7.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement7.Image")));
+            tileItemElement7.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
+            tileItemElement7.Text = "统计分析";
+            tileItemElement7.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
+            this.tbar_Count.Elements.Add(tileItemElement7);
             this.tbar_Count.Id = 5;
             this.tbar_Count.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_Count.Name = "tbar_Count";
             this.tbar_Count.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.Tbar_ItemClick);
-            // 
-            // tileBarGroup7
-            // 
-            this.tileBarGroup7.Items.Add(this.tbar_WorkCount);
-            this.tileBarGroup7.Name = "tileBarGroup7";
-            // 
-            // tbar_WorkCount
-            // 
-            this.tbar_WorkCount.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement28.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement28.Image")));
-            tileItemElement28.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement28.Text = "工作量统计";
-            tileItemElement28.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
-            this.tbar_WorkCount.Elements.Add(tileItemElement28);
-            this.tbar_WorkCount.Id = 10;
-            this.tbar_WorkCount.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
-            this.tbar_WorkCount.Name = "tbar_WorkCount";
-            this.tbar_WorkCount.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.Tbar_ItemClick);
             // 
             // tileBarGroup11
             // 
@@ -329,11 +307,11 @@
             // tbar_Download
             // 
             this.tbar_Download.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement29.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement29.Image")));
-            tileItemElement29.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement29.Text = "相关下载";
-            tileItemElement29.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
-            this.tbar_Download.Elements.Add(tileItemElement29);
+            tileItemElement8.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement8.Image")));
+            tileItemElement8.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
+            tileItemElement8.Text = "相关下载";
+            tileItemElement8.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
+            this.tbar_Download.Elements.Add(tileItemElement8);
             this.tbar_Download.Id = 7;
             this.tbar_Download.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_Download.Name = "tbar_Download";
@@ -347,11 +325,11 @@
             // tbar_Manage
             // 
             this.tbar_Manage.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement30.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement30.Image")));
-            tileItemElement30.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement30.Text = "后台管理";
-            tileItemElement30.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
-            this.tbar_Manage.Elements.Add(tileItemElement30);
+            tileItemElement9.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement9.Image")));
+            tileItemElement9.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
+            tileItemElement9.Text = "后台管理";
+            tileItemElement9.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
+            this.tbar_Manage.Elements.Add(tileItemElement9);
             this.tbar_Manage.Id = 6;
             this.tbar_Manage.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_Manage.Name = "tbar_Manage";
@@ -361,8 +339,8 @@
             // 
             this.view.AllowUserToAddRows = false;
             this.view.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.view.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.view.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.view.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -370,14 +348,14 @@
             this.view.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.view.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.view.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.view.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.view.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.view.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.view.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
@@ -397,8 +375,8 @@
             // 
             // id
             // 
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.id.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.id.DefaultCellStyle = dataGridViewCellStyle3;
             this.id.FillWeight = 35F;
             this.id.HeaderText = "序号";
             this.id.Name = "id";
@@ -423,8 +401,8 @@
             // 
             // sdate
             // 
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sdate.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sdate.DefaultCellStyle = dataGridViewCellStyle4;
             this.sdate.FillWeight = 60F;
             this.sdate.HeaderText = "开始时间";
             this.sdate.Name = "sdate";
@@ -433,8 +411,8 @@
             // 
             // year
             // 
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.year.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.year.DefaultCellStyle = dataGridViewCellStyle5;
             this.year.FillWeight = 50F;
             this.year.HeaderText = "立项年度";
             this.year.Name = "year";
@@ -451,8 +429,8 @@
             // 
             // idate
             // 
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.idate.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.idate.DefaultCellStyle = dataGridViewCellStyle6;
             this.idate.FillWeight = 60F;
             this.idate.HeaderText = "录入时间";
             this.idate.Name = "idate";
@@ -461,8 +439,8 @@
             // 
             // user
             // 
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.user.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.user.DefaultCellStyle = dataGridViewCellStyle7;
             this.user.FillWeight = 60F;
             this.user.HeaderText = "录入人";
             this.user.Name = "user";
@@ -696,8 +674,6 @@
         private DevExpress.XtraBars.Bar bar2;
         private DevExpress.XtraBars.BarButtonItem btn_ExitSystem;
         private DevExpress.XtraBars.BarEditItem barEditItem1;
-        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup7;
-        private DevExpress.XtraBars.Navigation.TileBarItem tbar_WorkCount;
         private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup11;
         private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup9;
     }

@@ -8,11 +8,9 @@ namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_Query : DevExpress.XtraEditors.XtraForm
     {
-        private Form parentForm;
-        public Frm_Query(Form parentForm)
+        public Frm_Query()
         {
             InitializeComponent();
-            this.parentForm = parentForm;
         }
 
         private void Frm_Query_Load(object sender, EventArgs e)
@@ -330,11 +328,6 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         private string GetValue(object value) => value == null ? string.Empty : value.ToString();
-
-        private void Frm_Query_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            parentForm.Show();
-        }
 
         private void rdo_ZJ_CheckedChanged(object sender, EventArgs e)
         {

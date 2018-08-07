@@ -50,5 +50,17 @@ namespace 科技计划项目档案数据采集管理系统
                 myWorkQT = new Frm_MyWorkQT(type, objid, wmid, imp);
             return myWorkQT;
         }
+
+        private static Frm_Query query;
+        /// <summary>
+        /// 工作量统计
+        /// </summary>
+        /// <param name="form">父窗体</param>
+        public static Frm_Query GetQueryFrom()
+        {
+            if(query == null || query.IsDisposed)
+                query = new Frm_Query();
+            return query;
+        }
     }
 }

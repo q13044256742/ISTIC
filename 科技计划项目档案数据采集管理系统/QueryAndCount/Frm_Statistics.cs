@@ -140,5 +140,12 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return SqlHelper.ExecuteCountQuery(querySQL);
         }
+
+        private void acg_WorkCount_Click(object sender, EventArgs e)
+        {
+            Frm_Query query = GetFromHelper.GetQueryFrom();
+            query.Show();
+            query.Activate();
+        }
     }
 }
