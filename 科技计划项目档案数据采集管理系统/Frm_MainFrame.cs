@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.TransferOfRegistration;
 
 namespace 科技计划项目档案数据采集管理系统
 {
