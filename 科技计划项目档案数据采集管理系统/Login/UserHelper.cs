@@ -55,6 +55,54 @@ namespace 科技计划项目档案数据采集管理系统
             return UserRole.Error;
         }
 
+        /// <summary>
+        /// 记录登录/退出日志
+        /// </summary>
+        /// <param name="isLogin">登录或退出</param>
+        public static void SetLogin(bool isLogin)
+        {
+            if(isLogin)
+            {
+                string insertSQL = "INSERT INTO sys_login_log VALUES" +
+                    $"('{GetUser().LoginKey}', '{GetUser().UserKey}', '{DateTime.Now}', '', '{GetIPAddress()}')";
+                SqlHelper.ExecuteNonQuery(insertSQL);
+            }
+            else
+            {
+                string updateSQL = $"UPDATE sys_login_log SET sll_offline_date='{DateTime.Now}' WHERE sll_id='{GetUser().LoginKey}';";
+                SqlHelper.ExecuteNonQuery(updateSQL);
+            }
+        }
+
+        /// <summary>
+        /// 获取当前主机的IPv4地址
+        /// </summary>
+        /// <returns></returns>
+        private static string GetIPAddress()
+        {
+            try
+            {
+                string HostName = System.Net.Dns.GetHostName(); //得到主机名
+                System.Net.IPHostEntry IpEntry = System.Net.Dns.GetHostEntry(HostName);
+                for(int i = 0; i < IpEntry.AddressList.Length; i++)
+                {
+                    //从IP地址列表中筛选出IPv4类型的IP地址
+                    //AddressFamily.InterNetwork表示此IP为IPv4,
+                    //AddressFamily.InterNetworkV6表示此地址为IPv6类型
+                    if(IpEntry.AddressList[i].AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        return IpEntry.AddressList[i].ToString();
+                    }
+                }
+                return string.Empty;
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+
         public static void SetUser(User _user)
         {
             user = new User
@@ -65,7 +113,8 @@ namespace 科技计划项目档案数据采集管理系统
                 UserKey = _user.UserKey,
                 UnitName = _user.UnitName,
                 Role = _user.Role,
-                Group = _user.Group
+                Group = _user.Group,
+                LoginKey = Guid.NewGuid().ToString()
             };
         }
 

@@ -11,6 +11,7 @@
         private string unitName;
         private string unitCode;
         private object[] group;
+        private string loginKey;
 
         public User() { }
         public User(string loginUserName, string loginPassword)
@@ -58,5 +59,9 @@
         /// 单位编码
         /// </summary>
         public string UnitCode { get => unitCode; set => unitCode = value; }
+        /// <summary>
+        /// 本次登录key（用于记录登录日志）
+        /// </summary>
+        public string LoginKey { get => loginKey; set => loginKey = value; }
     }
 }

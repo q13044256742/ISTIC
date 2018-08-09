@@ -136,30 +136,30 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             {
                 Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_CG());
                 Hide();
-                frm.Show();
+                frm.ShowDialog();
             }
             else if("tbar_YJDJ".Equals(itemName))//移交登记
             {
                 Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_ToR());
                 Hide();
-                frm.Show();
+                frm.ShowDialog();
             }
             else if("tbar_DAJS".Equals(itemName))//档案接收
             {
                 Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_DomAccept());
                 Hide();
-                frm.Show();
+                frm.ShowDialog();
             }
             else if("tbar_DAZJ".Equals(itemName))//档案质检
             {
                 Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_QT());
                 Hide();
-                frm.Show();
+                frm.ShowDialog();
             }
             
             else if("tbar_Manage".Equals(itemName))//后台管理
             {
-                Frm_MainFrameManager frm = new Frm_MainFrameManager(UserHelper.GetUser());
+                Frm_MainFrameManager frm = new Frm_MainFrameManager(this, UserHelper.GetUser());
                 Hide();
                 frm.ShowDialog();
             }
@@ -181,6 +181,17 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
         {
             Close();
             loginFrom.Show();
+        }
+
+        private void Frm_FirstPage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            UserHelper.SetLogin(false);
+            Application.Exit();
+        }
+
+        private void btn_ExitSystem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            Frm_FirstPage_FormClosing(null, null);
         }
     }
 }

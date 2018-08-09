@@ -1,16 +1,17 @@
 ﻿using DevExpress.XtraBars.Navigation;
 using System;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.TransferOfRegistration;
 
 namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_MainFrameManager : DevExpress.XtraEditors.XtraForm
     {
         public User user;
-        public Frm_MainFrameManager(User user)
+        private Form parentForm;
+        public Frm_MainFrameManager(Form parentForm, User user)
         {
             this.user = user;
+            this.parentForm = parentForm;
             InitializeComponent();
             InitalForm();
         }
@@ -33,9 +34,10 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void Frm_MainFrame_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
+        private void Frm_MainFrame_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            parentForm.Show();
+            parentForm.Activate();
         }
 
 

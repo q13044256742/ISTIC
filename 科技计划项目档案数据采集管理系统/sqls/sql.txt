@@ -26,3 +26,15 @@ PRIMARY KEY CLUSTERED
 	[bl_id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
+--备注
+历史数据导入时，需将processing_box表的字段设置为非必填项；
+
+--历史数据（绑定文件和所属盒号）
+CREATE FUNCTION GetFileIdsByBoxId(@BoxId VARCHAR(100)) RETURNS VARCHAR(5000)
+AS
+BEGIN
+	DECLARE @RESULT VARCHAR(5000)
+		SET @RESULT = (SELECT STUFF((select ','+ pfl_id from processing_file_list where pfl_file_id=@BoxId for xml path('')) ,1,1,'') AS ids)
+	RETURN @RESULT;
+END

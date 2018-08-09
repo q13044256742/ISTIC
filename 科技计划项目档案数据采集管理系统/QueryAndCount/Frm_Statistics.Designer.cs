@@ -37,7 +37,7 @@
             this.view = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.searchControl = new DevExpress.XtraEditors.SearchControl();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_Query = new DevExpress.XtraEditors.SimpleButton();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             this.panel2.SuspendLayout();
@@ -147,7 +147,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.searchControl);
-            this.panel1.Controls.Add(this.simpleButton1);
+            this.panel1.Controls.Add(this.btn_Query);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -170,15 +170,15 @@
             this.searchControl.Size = new System.Drawing.Size(263, 28);
             this.searchControl.TabIndex = 3;
             // 
-            // simpleButton1
+            // btn_Query
             // 
-            this.simpleButton1.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.simpleButton1.Appearance.Options.UseFont = true;
-            this.simpleButton1.Location = new System.Drawing.Point(723, 18);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(79, 32);
-            this.simpleButton1.TabIndex = 2;
-            this.simpleButton1.Text = "查询(&Q)";
+            this.btn_Query.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.btn_Query.Appearance.Options.UseFont = true;
+            this.btn_Query.Location = new System.Drawing.Point(389, 20);
+            this.btn_Query.Name = "btn_Query";
+            this.btn_Query.Size = new System.Drawing.Size(71, 29);
+            this.btn_Query.TabIndex = 2;
+            this.btn_Query.Text = "查询(&Q)";
             // 
             // label1
             // 
@@ -217,7 +217,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.DataGridView view;
         private System.Windows.Forms.Panel panel1;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton btn_Query;
         private System.Windows.Forms.Label label1;
         private DevExpress.XtraEditors.SearchControl searchControl;
         private DevExpress.XtraBars.Navigation.AccordionControlElement acg_WorkCount;

@@ -77,6 +77,7 @@ namespace 科技计划项目档案数据采集管理系统
                 $"ORDER BY dd_code ";
 
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
+            searchControl.Properties.Items.Clear();
             foreach(DataRow row in table.Rows)
             {
                 int rowIndex = view.Rows.Add();
@@ -84,6 +85,7 @@ namespace 科技计划项目档案数据采集管理系统
                 view.Rows[rowIndex].Cells["pAmount"].Value = row["amount"];
                 view.Rows[rowIndex].Cells["fAmount"].Value = GetFileAmount(row["dd_code"]);
                 view.Rows[rowIndex].Cells["bAmount"].Value = GetBoxAmount(row["dd_code"]);
+                searchControl.Properties.Items.Add(row["dd_name"]);
             }
             view.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             view.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;

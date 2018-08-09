@@ -256,8 +256,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadDataList(int page, string planType, string batchName, string proCode, string proName, string sDate, string eDate)
         {
             string querySQL = $"SELECT TOP({pageSize}) A.* FROM( " +
-                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_uniter, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_obj_id " +
-                "FROM project_info WHERE(pi_categor = 2) UNION ALL " +
+                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_uniter, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_obj_id FROM project_info WHERE(pi_categor = 2) UNION ALL " +
                 "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_uniter, ti_year, ti_funds, ti_worker_date, ti_worker_id, ti_obj_id FROM topic_info) A " +
                 "LEFT JOIN project_info pi ON (A.pi_obj_id = pi.pi_id AND pi.pi_categor=1) " +
                 "LEFT JOIN imp_dev_info idi ON (A.pi_obj_id = idi.imp_id)" +
@@ -275,8 +274,8 @@ namespace 科技计划项目档案数据采集管理系统
                 querySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
 
             string totalQuerySQL = $"SELECT TOP({pageSize * (page - 1)}) B.pi_id FROM( " +
-                "SELECT pi_id, pi_code, pi_obj_id, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-                "SELECT ti_id, ti_code, ti_obj_id, ti_start_datetime FROM topic_info) B " +
+                "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
+                "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime FROM topic_info) B " +
                 "LEFT JOIN project_info pi ON (B.pi_obj_id = pi.pi_id AND pi.pi_categor = 1) " +
                 "LEFT JOIN imp_dev_info idi ON (B.pi_obj_id = idi.imp_id)" +
                 "WHERE 1 = 1 ";
@@ -293,8 +292,8 @@ namespace 科技计划项目档案数据采集管理系统
                 totalQuerySQL += $"AND B.pi_start_datetime <= '{eDate}' ";
 
             string countQuerySQL = $"SELECT COUNT(A.pi_id) FROM( " +
-                "SELECT pi_id, pi_code, pi_obj_id, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT ti_id, ti_code, ti_obj_id, ti_start_datetime FROM topic_info) A " +
+                "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime FROM topic_info) A " +
                 "LEFT JOIN project_info pi ON (A.pi_obj_id = pi.pi_id AND pi.pi_categor = 1) " +
                 "LEFT JOIN imp_dev_info idi ON (A.pi_obj_id = idi.imp_id)" +
                 "WHERE 1 = 1 ";
@@ -345,10 +344,8 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 object id = view1.Rows[e.RowIndex].Tag;
                 string pcode = ToolHelper.GetValue(view1.Rows[e.RowIndex].Cells["code"].Value);
-                string pname = ToolHelper.GetValue(view1.Rows[e.RowIndex].Cells["name"].Value);
                 txt_FileName.Tag = id;
                 txt_Pcode.Text = pcode;
-                txt_Pname.Text = pname;
 
                 Btn_FileQuery_Click(null, null);
                 navigationPane1.SelectedPage = navigationPage2;

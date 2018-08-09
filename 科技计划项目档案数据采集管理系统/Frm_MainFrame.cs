@@ -26,9 +26,10 @@ namespace 科技计划项目档案数据采集管理系统
             subForm.Show();
         }
 
-        private void Frm_MainFrame_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
+        private void Frm_MainFrame_FormClosing(object sender, FormClosingEventArgs e)
         {
             parentForm.Show();
+            parentForm.Activate();
         }
 
         private void lst_DataList_DrawItem(object sender, DrawItemEventArgs e)
