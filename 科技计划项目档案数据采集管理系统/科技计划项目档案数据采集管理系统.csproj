@@ -266,12 +266,6 @@
     <Compile Include="QueryAndCount\Frm_BorrowEdit.Designer.cs">
       <DependentUpon>Frm_BorrowEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="QueryAndCount\Frm_Query.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="QueryAndCount\Frm_Query.Designer.cs">
-      <DependentUpon>Frm_Query.cs</DependentUpon>
-    </Compile>
     <Compile Include="QueryAndCount\Frm_QueryBorrowing.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -447,6 +441,7 @@
     <EmbeddedResource Include="Manager\Frm_userInfoAdd.resx">
       <DependentUpon>Frm_userInfoAdd.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="QualityTesting\Frm_AdviceHistroy.resx">
       <DependentUpon>Frm_AdviceHistroy.cs</DependentUpon>
     </EmbeddedResource>
@@ -464,9 +459,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="QueryAndCount\Frm_BorrowEdit.resx">
       <DependentUpon>Frm_BorrowEdit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="QueryAndCount\Frm_Query.resx">
-      <DependentUpon>Frm_Query.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="QueryAndCount\Frm_QueryBorrowing.resx">
       <DependentUpon>Frm_QueryBorrowing.cs</DependentUpon>
