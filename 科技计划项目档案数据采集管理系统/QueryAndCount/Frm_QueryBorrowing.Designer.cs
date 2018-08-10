@@ -132,7 +132,7 @@
             this.navigationPage2});
             this.navigationPane1.RegularSize = new System.Drawing.Size(1228, 749);
             this.navigationPane1.SelectedPage = this.navigationPage1;
-            this.navigationPane1.SelectedPageIndex = 0;
+            this.navigationPane1.SelectedPageIndex = 1;
             this.navigationPane1.Size = new System.Drawing.Size(1228, 749);
             this.navigationPane1.TabIndex = 2;
             this.navigationPane1.StateChanged += new DevExpress.XtraBars.Navigation.StateChangedEventHandler(this.navigationPane1_StateChanged);
@@ -311,7 +311,7 @@
             this.panel3.Location = new System.Drawing.Point(0, 205);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1922, 790);
+            this.panel3.Size = new System.Drawing.Size(2038, 831);
             this.panel3.TabIndex = 1;
             // 
             // view1
@@ -335,7 +335,7 @@
             this.view1.Name = "view1";
             this.view1.ReadOnly = true;
             this.view1.RowTemplate.Height = 23;
-            this.view1.Size = new System.Drawing.Size(1922, 727);
+            this.view1.Size = new System.Drawing.Size(2038, 768);
             this.view1.TabIndex = 1;
             this.view1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View1_CellContentClick);
             // 
@@ -395,7 +395,7 @@
             this.pal1.Dock = System.Windows.Forms.DockStyle.Top;
             this.pal1.Location = new System.Drawing.Point(0, 0);
             this.pal1.Name = "pal1";
-            this.pal1.Size = new System.Drawing.Size(1922, 30);
+            this.pal1.Size = new System.Drawing.Size(2038, 30);
             this.pal1.TabIndex = 0;
             // 
             // labelControl2
@@ -419,15 +419,15 @@
             this.panel4.Controls.Add(this.btn_fpage);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 757);
+            this.panel4.Location = new System.Drawing.Point(0, 798);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1922, 33);
+            this.panel4.Size = new System.Drawing.Size(2038, 33);
             this.panel4.TabIndex = 3;
             // 
             // txt_page
             // 
             this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_page.Location = new System.Drawing.Point(1713, 3);
+            this.txt_page.Location = new System.Drawing.Point(1829, 3);
             this.txt_page.Name = "txt_page";
             this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.txt_page.Properties.Appearance.Options.UseFont = true;
@@ -446,7 +446,7 @@
             this.btn_lpage.Appearance.Options.UseFont = true;
             this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
             this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_lpage.Location = new System.Drawing.Point(1667, 5);
+            this.btn_lpage.Location = new System.Drawing.Point(1783, 5);
             this.btn_lpage.Name = "btn_lpage";
             this.btn_lpage.Size = new System.Drawing.Size(41, 23);
             this.btn_lpage.TabIndex = 6;
@@ -459,7 +459,7 @@
             this.btn_npage.Appearance.Options.UseFont = true;
             this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
             this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_npage.Location = new System.Drawing.Point(1751, 5);
+            this.btn_npage.Location = new System.Drawing.Point(1867, 5);
             this.btn_npage.Name = "btn_npage";
             this.btn_npage.Size = new System.Drawing.Size(41, 23);
             this.btn_npage.TabIndex = 5;
@@ -472,7 +472,7 @@
             this.btn_epage.Appearance.Options.UseFont = true;
             this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
             this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_epage.Location = new System.Drawing.Point(1794, 5);
+            this.btn_epage.Location = new System.Drawing.Point(1910, 5);
             this.btn_epage.Name = "btn_epage";
             this.btn_epage.Size = new System.Drawing.Size(41, 23);
             this.btn_epage.TabIndex = 4;
@@ -485,7 +485,7 @@
             this.btn_fpage.Appearance.Options.UseFont = true;
             this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
             this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_fpage.Location = new System.Drawing.Point(1624, 5);
+            this.btn_fpage.Location = new System.Drawing.Point(1740, 5);
             this.btn_fpage.Name = "btn_fpage";
             this.btn_fpage.Size = new System.Drawing.Size(41, 23);
             this.btn_fpage.TabIndex = 3;
@@ -562,7 +562,7 @@
             this.navigationPage2.Properties.ShowCollapseButton = DevExpress.Utils.DefaultBoolean.False;
             this.navigationPage2.Properties.ShowExpandButton = DevExpress.Utils.DefaultBoolean.False;
             this.navigationPage2.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
-            this.navigationPage2.Size = new System.Drawing.Size(1112, 1218);
+            this.navigationPage2.Size = new System.Drawing.Size(1112, 1178);
             // 
             // rdo_All
             // 
@@ -691,7 +691,7 @@
             this.panel1.Location = new System.Drawing.Point(5, 196);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1688, 1045);
+            this.panel1.Size = new System.Drawing.Size(1804, 1097);
             this.panel1.TabIndex = 18;
             // 
             // view2
@@ -715,7 +715,7 @@
             this.view2.Name = "view2";
             this.view2.ReadOnly = true;
             this.view2.RowTemplate.Height = 23;
-            this.view2.Size = new System.Drawing.Size(1688, 1015);
+            this.view2.Size = new System.Drawing.Size(1804, 1067);
             this.view2.TabIndex = 1;
             this.view2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View2_CellContentClick);
             // 
@@ -784,7 +784,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1688, 30);
+            this.panel2.Size = new System.Drawing.Size(1804, 30);
             this.panel2.TabIndex = 0;
             // 
             // lbl_TotalFileAmount

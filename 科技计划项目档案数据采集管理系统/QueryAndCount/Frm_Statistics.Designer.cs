@@ -29,17 +29,21 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Statistics));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ac_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.acg_Register = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.ace_all = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.view = new System.Windows.Forms.DataGridView();
+            this.pName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.searchControl = new DevExpress.XtraEditors.SearchControl();
             this.btn_Query = new DevExpress.XtraEditors.SimpleButton();
@@ -66,10 +70,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.tabNavigationPage2 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.pName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             this.panel1.SuspendLayout();
@@ -154,6 +154,38 @@
             this.view.RowTemplate.Height = 23;
             this.view.Size = new System.Drawing.Size(971, 604);
             this.view.TabIndex = 0;
+            // 
+            // pName
+            // 
+            this.pName.FillWeight = 40F;
+            this.pName.HeaderText = "计划类别名称";
+            this.pName.Name = "pName";
+            this.pName.ReadOnly = true;
+            this.pName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // pAmount
+            // 
+            this.pAmount.FillWeight = 20F;
+            this.pAmount.HeaderText = "项目/课题名称";
+            this.pAmount.Name = "pAmount";
+            this.pAmount.ReadOnly = true;
+            this.pAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fAmount
+            // 
+            this.fAmount.FillWeight = 20F;
+            this.fAmount.HeaderText = "文件数";
+            this.fAmount.Name = "fAmount";
+            this.fAmount.ReadOnly = true;
+            this.fAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // bAmount
+            // 
+            this.bAmount.FillWeight = 20F;
+            this.bAmount.HeaderText = "盒数";
+            this.bAmount.Name = "bAmount";
+            this.bAmount.ReadOnly = true;
+            this.bAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // panel1
             // 
@@ -298,22 +330,22 @@
             // 
             this.countView.AllowUserToAddRows = false;
             this.countView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle22.BackColor = System.Drawing.Color.White;
-            this.countView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            this.countView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.countView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.countView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.countView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle23.Padding = new System.Windows.Forms.Padding(3);
-            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.countView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(3);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.countView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.countView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.countView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.date,
@@ -338,8 +370,8 @@
             // 
             // pcount
             // 
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.pcount.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.pcount.DefaultCellStyle = dataGridViewCellStyle3;
             this.pcount.HeaderText = "项目/课题数";
             this.pcount.Name = "pcount";
             this.pcount.ReadOnly = true;
@@ -347,8 +379,8 @@
             // 
             // tcount
             // 
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.tcount.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.tcount.DefaultCellStyle = dataGridViewCellStyle4;
             this.tcount.HeaderText = "课题/子课题数";
             this.tcount.Name = "tcount";
             this.tcount.ReadOnly = true;
@@ -356,8 +388,8 @@
             // 
             // fcount
             // 
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.fcount.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.fcount.DefaultCellStyle = dataGridViewCellStyle5;
             this.fcount.HeaderText = "文件数";
             this.fcount.Name = "fcount";
             this.fcount.ReadOnly = true;
@@ -365,8 +397,8 @@
             // 
             // bcount
             // 
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.bcount.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.bcount.DefaultCellStyle = dataGridViewCellStyle6;
             this.bcount.HeaderText = "被返工数";
             this.bcount.Name = "bcount";
             this.bcount.ReadOnly = true;
@@ -374,8 +406,8 @@
             // 
             // pgcount
             // 
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.pgcount.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.pgcount.DefaultCellStyle = dataGridViewCellStyle7;
             this.pgcount.FillWeight = 40F;
             this.pgcount.HeaderText = "页数";
             this.pgcount.Name = "pgcount";
@@ -464,38 +496,6 @@
             this.tabNavigationPage2.PageText = "档案统计";
             this.tabNavigationPage2.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.tabNavigationPage2.Size = new System.Drawing.Size(1246, 673);
-            // 
-            // pName
-            // 
-            this.pName.FillWeight = 40F;
-            this.pName.HeaderText = "计划类别名称";
-            this.pName.Name = "pName";
-            this.pName.ReadOnly = true;
-            this.pName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // pAmount
-            // 
-            this.pAmount.FillWeight = 20F;
-            this.pAmount.HeaderText = "项目/课题名称";
-            this.pAmount.Name = "pAmount";
-            this.pAmount.ReadOnly = true;
-            this.pAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // fAmount
-            // 
-            this.fAmount.FillWeight = 20F;
-            this.fAmount.HeaderText = "文件数";
-            this.fAmount.Name = "fAmount";
-            this.fAmount.ReadOnly = true;
-            this.fAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // bAmount
-            // 
-            this.bAmount.FillWeight = 20F;
-            this.bAmount.HeaderText = "盒数";
-            this.bAmount.Name = "bAmount";
-            this.bAmount.ReadOnly = true;
-            this.bAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Frm_Statistics
             // 

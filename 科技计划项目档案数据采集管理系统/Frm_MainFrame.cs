@@ -69,7 +69,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void lbl_ExitSystem_Click(object sender, EventArgs e)
         {
-            Frm_Login frm_Login = new Frm_Login();
+            Frm_Login frm_Login = GetFromHelper.GetLoginForm();
             frm_Login.Show();
             Hide();
         }

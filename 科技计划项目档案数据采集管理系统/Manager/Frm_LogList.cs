@@ -25,7 +25,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 querySQL += $" AND ul.real_name LIKE '%{key}%' ";
             }
-            querySQL += "ORDER BY sll_online_date DESC";
+            querySQL += "ORDER BY CONVERT(DATETIME, sll_online_date) DESC";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             foreach(DataRow row in table.Rows)
             {

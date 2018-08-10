@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.FirstPage
 {
-    public partial class Frm_FirstPage : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_FirstPage : XtraForm
     {
         Frm_Login loginFrom;
         public Frm_FirstPage(Frm_Login loginFrom)
@@ -28,7 +28,7 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             string[] keys = new string[0];
             if(UserHelper.GetUserRole() == UserRole.Worker)
             {
-                //keys = new string[] { "tbar_FirstPage", "tbar_ZLJG", "tbar_Download" };
+                keys = new string[] { "tbar_FirstPage", "tbar_ZLJG", "tbar_Download" };
             }
             else if(UserHelper.GetUserRole() == UserRole.Qualityer)
             {
@@ -37,6 +37,10 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             else if(UserHelper.GetUserRole() == UserRole.W_Q_Manager)
             {
                 keys = new string[] { "tbar_FirstPage", "tbar_ZLJG", "tbar_Count", "tbar_DAZJ", "tbar_Download" };
+            }
+            else if(UserHelper.GetUserRole() == UserRole.Ordinary)
+            {
+                keys = new string[] { "tbar_FirstPage", "tbar_Download" };
             }
             if(keys.Length > 0)
                 foreach(TileGroup group in tileBar1.Groups)
@@ -179,8 +183,10 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
 
         private void btn_QuitUser_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            Close();
+            UserHelper.SetLogin(false);
             loginFrom.Show();
+            loginFrom.Activate();
+            Hide();
         }
 
         private void Frm_FirstPage_FormClosing(object sender, FormClosingEventArgs e)
@@ -189,7 +195,7 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             Application.Exit();
         }
 
-        private void btn_ExitSystem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void Btn_ExitSystem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             Frm_FirstPage_FormClosing(null, null);
         }

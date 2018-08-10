@@ -1,19 +1,4 @@
-﻿using DevExpress.XtraEditors;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.Cataloguing;
-using 科技计划项目档案数据采集管理系统.KyoControl;
-using 科技计划项目档案数据采集管理系统.Tools;
-
-namespace 科技计划项目档案数据采集管理系统
+﻿namespace 科技计划项目档案数据采集管理系统
 {
     /// <summary>
     /// 通过单例模式获取窗体
@@ -49,6 +34,14 @@ namespace 科技计划项目档案数据采集管理系统
             if(myWorkQT == null || myWorkQT.IsDisposed)
                 myWorkQT = new Frm_MyWorkQT(type, objid, wmid, imp);
             return myWorkQT;
+        }
+
+        private static Frm_Login loginForm;
+        public static Frm_Login GetLoginForm()
+        {
+            if(loginForm == null || loginForm.IsDisposed)
+                loginForm = new Frm_Login();
+            return loginForm;
         }
 
     }

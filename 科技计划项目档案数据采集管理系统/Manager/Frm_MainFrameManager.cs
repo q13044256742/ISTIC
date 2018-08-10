@@ -51,7 +51,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             foreach(Form item in MdiChildren)
                 item.Close();
-            Frm_Login frm_Login = new Frm_Login();
+            Frm_Login frm_Login = GetFromHelper.GetLoginForm();
             frm_Login.Show();
             Hide();
         }

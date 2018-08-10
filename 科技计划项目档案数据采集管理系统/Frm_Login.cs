@@ -1,5 +1,4 @@
-﻿using DevExpress.LookAndFeel;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,7 +6,7 @@ using 科技计划项目档案数据采集管理系统.FirstPage;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_Login : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_Login : XtraForm
     {
         public Frm_Login() {
             InitializeComponent();
@@ -34,7 +33,7 @@ namespace 科技计划项目档案数据采集管理系统
                     UserHelper.SetLogin(true);
                     Hide();
                     Frm_FirstPage frm = new Frm_FirstPage(this);
-                    frm.ShowDialog();
+                    frm.Show();
                 }
                 else
                     XtraMessageBox.Show("用户名或密码错误。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);

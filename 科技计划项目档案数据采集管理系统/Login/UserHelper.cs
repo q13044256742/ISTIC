@@ -27,6 +27,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// 档案管理员
         /// </summary>
         DocManager = 4,
+        /// <summary>
+        /// 普通用户
+        /// </summary>
+        Ordinary = 5,
     }
     public class UserHelper
     {
@@ -52,6 +56,8 @@ namespace 科技计划项目档案数据采集管理系统
                 return UserRole.W_Q_Manager;
             else if("dic_key_role_administrator".Equals(value))
                 return UserRole.DocManager;
+            else if("dic_key_role_ordinary".Equals(value))
+                return UserRole.Ordinary;
             return UserRole.Error;
         }
 
@@ -131,6 +137,8 @@ namespace 科技计划项目档案数据采集管理系统
                 return "管理员(线上)";
             else if(UserHelper.GetUserRole() == UserRole.DocManager)
                 return "档案管理员";
+            else if(UserHelper.GetUserRole() == UserRole.Ordinary)
+                return "普通用户";
             return "未知身份";
         }
 

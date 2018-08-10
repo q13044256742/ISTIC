@@ -33,6 +33,7 @@ namespace 科技计划项目档案数据采集管理系统
             navigationPane1.SelectedPage = navigationPage1;
             string querySql = "SELECT dd_name FROM data_dictionary WHERE (dd_pId IN (SELECT dd_id " +
                 "FROM data_dictionary WHERE(dd_code = 'dic_key_plan') OR (dd_code = 'dic_key_project'))) " +
+                "AND dd_code<>'ZX' AND dd_code<>'YF'" +
                 "ORDER BY dd_pId, dd_sort";
             object[] list = SqlHelper.ExecuteSingleColumnQuery(querySql);
             cbo_PlanTypeList.Items.AddRange(list);
@@ -338,6 +339,8 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void View1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            if(e.ColumnIndex == -1 || e.RowIndex == -1)
+                return;
             string columnName = view1.Columns[e.ColumnIndex].Name;
             //文件数
             if("fcount".Equals(columnName))
@@ -359,7 +362,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadFileList(object id, string fname, string fcategor, string pcode, string pname)
         {
             view2.Rows.Clear();
-            string querySQL = "SELECT bl.bl_id, bl.bl_borrow_state, bl.bl_return_state, pfl.pfl_id, pi.pi_code, pi.pi_name, ti.ti_code, ti.ti_name, si.si_code, si.si_name, pfl.pfl_name, dd.dd_name + ' ' + dd.extend_3 as categor " +
+            string querySQL = "SELECT TOP(1000) bl.bl_id, bl.bl_borrow_state, bl.bl_return_state, pfl.pfl_id, pi.pi_code, pi.pi_name, ti.ti_code, ti.ti_name, si.si_code, si.si_name, pfl.pfl_name, dd.dd_name + ' ' + dd.extend_3 as categor " +
               "FROM processing_file_list pfl " +
               "LEFT JOIN project_info pi ON pi.pi_id = pfl.pfl_obj_id " +
               "LEFT JOIN topic_info ti ON ti.ti_id = pfl.pfl_obj_id " +
