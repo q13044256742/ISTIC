@@ -37,7 +37,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ac_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
-            this.acg_Register = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.ace_all = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.view = new System.Windows.Forms.DataGridView();
             this.pName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,6 +68,9 @@
             this.cbo_UserList = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tabNavigationPage2 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
@@ -78,6 +80,8 @@
             this.tabNavigationPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.countView)).BeginInit();
             this.tabNavigationPage2.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ac_LeftMenu
@@ -95,37 +99,17 @@
             this.ac_LeftMenu.Appearance.Item.Normal.Options.UseFont = true;
             this.ac_LeftMenu.Appearance.Item.Pressed.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.ac_LeftMenu.Appearance.Item.Pressed.Options.UseFont = true;
-            this.ac_LeftMenu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ac_LeftMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ac_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.acg_Register});
-            this.ac_LeftMenu.Location = new System.Drawing.Point(0, 0);
+            this.ace_all});
+            this.ac_LeftMenu.Location = new System.Drawing.Point(3, 3);
             this.ac_LeftMenu.LookAndFeel.SkinName = "McSkin";
             this.ac_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
             this.ac_LeftMenu.Name = "ac_LeftMenu";
             this.ac_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.ac_LeftMenu.ShowToolTips = false;
-            this.ac_LeftMenu.Size = new System.Drawing.Size(275, 673);
+            this.ac_LeftMenu.Size = new System.Drawing.Size(248, 633);
             this.ac_LeftMenu.TabIndex = 13;
-            // 
-            // acg_Register
-            // 
-            this.acg_Register.Appearance.Hovered.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.acg_Register.Appearance.Hovered.ForeColor = System.Drawing.Color.Navy;
-            this.acg_Register.Appearance.Hovered.Options.UseFont = true;
-            this.acg_Register.Appearance.Hovered.Options.UseForeColor = true;
-            this.acg_Register.Appearance.Normal.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.acg_Register.Appearance.Normal.Options.UseFont = true;
-            this.acg_Register.Appearance.Pressed.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.acg_Register.Appearance.Pressed.ForeColor = System.Drawing.Color.Navy;
-            this.acg_Register.Appearance.Pressed.Options.UseFont = true;
-            this.acg_Register.Appearance.Pressed.Options.UseForeColor = true;
-            this.acg_Register.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.ace_all});
-            this.acg_Register.Expanded = true;
-            this.acg_Register.Image = ((System.Drawing.Image)(resources.GetObject("acg_Register.Image")));
-            this.acg_Register.Name = "acg_Register";
-            this.acg_Register.Text = "数据统计";
-            this.acg_Register.TextToImageDistance = 10;
             // 
             // ace_all
             // 
@@ -148,11 +132,11 @@
             this.fAmount,
             this.bAmount});
             this.view.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.view.Location = new System.Drawing.Point(275, 69);
+            this.view.Location = new System.Drawing.Point(0, 0);
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(971, 604);
+            this.view.Size = new System.Drawing.Size(1246, 673);
             this.view.TabIndex = 0;
             // 
             // pName
@@ -194,9 +178,9 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.Location = new System.Drawing.Point(275, 0);
+            this.panel1.Location = new System.Drawing.Point(262, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(971, 69);
+            this.panel1.Size = new System.Drawing.Size(984, 69);
             this.panel1.TabIndex = 16;
             // 
             // searchControl
@@ -487,15 +471,47 @@
             this.tabNavigationPage2.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tabNavigationPage2.Appearance.Options.UseFont = true;
             this.tabNavigationPage2.Caption = "tabNavigationPage2";
-            this.tabNavigationPage2.Controls.Add(this.view);
             this.tabNavigationPage2.Controls.Add(this.panel1);
-            this.tabNavigationPage2.Controls.Add(this.ac_LeftMenu);
+            this.tabNavigationPage2.Controls.Add(this.tabControl1);
+            this.tabNavigationPage2.Controls.Add(this.view);
             this.tabNavigationPage2.Image = ((System.Drawing.Image)(resources.GetObject("tabNavigationPage2.Image")));
             this.tabNavigationPage2.ItemShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.tabNavigationPage2.Name = "tabNavigationPage2";
             this.tabNavigationPage2.PageText = "档案统计";
             this.tabNavigationPage2.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.tabNavigationPage2.Size = new System.Drawing.Size(1246, 673);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(262, 673);
+            this.tabControl1.TabIndex = 17;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.ac_LeftMenu);
+            this.tabPage1.Location = new System.Drawing.Point(4, 30);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(254, 639);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "来源单位";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 30);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(254, 639);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "计划类别";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // Frm_Statistics
             // 
@@ -518,6 +534,8 @@
             this.tabNavigationPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.countView)).EndInit();
             this.tabNavigationPage2.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -525,7 +543,6 @@
         #endregion
 
         private DevExpress.XtraBars.Navigation.AccordionControl ac_LeftMenu;
-        private DevExpress.XtraBars.Navigation.AccordionControlElement acg_Register;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_all;
         private System.Windows.Forms.DataGridView view;
         private System.Windows.Forms.Panel panel1;
@@ -558,5 +575,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn pAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn fAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn bAmount;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }

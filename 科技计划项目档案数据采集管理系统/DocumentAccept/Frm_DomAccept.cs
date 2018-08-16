@@ -19,6 +19,7 @@ namespace 科技计划项目档案数据采集管理系统
             LoadCompanySource();
             LoadDataGridView(string.Empty);
             dgv_DataShow.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_DataShow.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
         }
 
         private void LoadDataGridView(string unitId)

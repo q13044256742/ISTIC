@@ -5060,8 +5060,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_MyWorkQT_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if(BackCallMethod != null)
-                BackCallMethod(workType, objId, wmid, objId);
+            BackCallMethod?.Invoke(workType, objId, wmid, objId);
         }
     }
 

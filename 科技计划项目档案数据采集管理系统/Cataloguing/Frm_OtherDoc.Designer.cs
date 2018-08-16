@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_OtherDoc));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btn_Sure = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.txt_Intro = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txt_Carrier = new System.Windows.Forms.TextBox();
@@ -40,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txt_Name = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btn_Sure = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.view = new System.Windows.Forms.DataGridView();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,20 +72,6 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "信息录入";
-            // 
-            // btn_Sure
-            // 
-            this.btn_Sure.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Sure.Appearance.Options.UseFont = true;
-            this.btn_Sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_Sure.Image")));
-            this.btn_Sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Sure.ImageToTextIndent = 0;
-            this.btn_Sure.Location = new System.Drawing.Point(672, 243);
-            this.btn_Sure.Name = "btn_Sure";
-            this.btn_Sure.Size = new System.Drawing.Size(69, 31);
-            this.btn_Sure.TabIndex = 5;
-            this.btn_Sure.Text = "保存";
-            this.btn_Sure.Click += new System.EventHandler(this.Btn_Sure_Click);
             // 
             // txt_Intro
             // 
@@ -133,11 +119,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(26, 69);
+            this.label2.Location = new System.Drawing.Point(42, 69);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 22);
+            this.label2.Size = new System.Drawing.Size(58, 22);
             this.label2.TabIndex = 2;
-            this.label2.Text = "馆藏号：";
+            this.label2.Text = "编号：";
             // 
             // txt_Name
             // 
@@ -155,6 +141,20 @@
             this.label1.Size = new System.Drawing.Size(58, 22);
             this.label1.TabIndex = 0;
             this.label1.Text = "名称：";
+            // 
+            // btn_Sure
+            // 
+            this.btn_Sure.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_Sure.Appearance.Options.UseFont = true;
+            this.btn_Sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_Sure.Image")));
+            this.btn_Sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Sure.ImageToTextIndent = 0;
+            this.btn_Sure.Location = new System.Drawing.Point(672, 243);
+            this.btn_Sure.Name = "btn_Sure";
+            this.btn_Sure.Size = new System.Drawing.Size(69, 31);
+            this.btn_Sure.TabIndex = 5;
+            this.btn_Sure.Text = "保存";
+            this.btn_Sure.Click += new System.EventHandler(this.Btn_Sure_Click);
             // 
             // groupBox2
             // 

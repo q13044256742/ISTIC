@@ -489,7 +489,7 @@ namespace 科技计划项目档案数据采集管理系统
                 //批次完结（仅批次管理员可用）
                 else if("trp_finish".Equals(columnName))
                 {
-                    if(UserHelper.GetUserRole() == UserRole.Worker)
+                    if(UserHelper.GetUserRole() == UserRole.W_Q_Manager)
                     {
                         if(XtraMessageBox.Show("是否确认完结当前批次。", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                         {
@@ -500,7 +500,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                     else
-                        XtraMessageBox.Show("不允许进行此操作。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        XtraMessageBox.Show("仅允许管理员(线上)完结批次。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 //光盘页 - 总数
                 else if("trc_total_amount".Equals(columnName))

@@ -67,11 +67,5 @@ namespace 科技计划项目档案数据采集管理系统
             lbl_OtherInfo.Text = $"当前时间：{DateTime.Now.Year}年{DateTime.Now.Month}月{DateTime.Now.Day}日 {System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)}";
         }
 
-        private void lbl_ExitSystem_Click(object sender, EventArgs e)
-        {
-            Frm_Login frm_Login = GetFromHelper.GetLoginForm();
-            frm_Login.Show();
-            Hide();
-        }
     }
 }

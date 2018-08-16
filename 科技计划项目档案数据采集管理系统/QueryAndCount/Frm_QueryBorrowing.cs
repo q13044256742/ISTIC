@@ -257,54 +257,57 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadDataList(int page, string planType, string batchName, string proCode, string proName, string sDate, string eDate)
         {
             string querySQL = $"SELECT TOP({pageSize}) A.* FROM( " +
-                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_uniter, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_obj_id FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-                "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_uniter, ti_year, ti_funds, ti_worker_date, ti_worker_id, ti_obj_id FROM topic_info) A " +
+                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_uniter, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_obj_id, pi_source_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_uniter, ti_year, ti_funds, ti_worker_date, ti_worker_id, ti_obj_id, ti_source_id FROM topic_info) A " +
                 "LEFT JOIN project_info pi ON (A.pi_obj_id = pi.pi_id AND pi.pi_categor=1) " +
-                "LEFT JOIN imp_dev_info idi ON (A.pi_obj_id = idi.imp_id)" +
+                "LEFT JOIN imp_dev_info idi ON A.pi_obj_id = idi.imp_id " +
+                "LEFT JOIN T_Plan ON F_ID=A.pi_source_id " +
                 "WHERE 1 = 1 ";
             if(!string.IsNullOrEmpty(proCode))
                 querySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
                 querySQL += $"AND A.pi_name LIKE '%{proName}%' ";
             if(!string.IsNullOrEmpty(planType))
-                querySQL += $"AND ((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
-                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) ";
+                querySQL += $"AND (((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
+                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) OR (F_Title LIKE '%{planType}%'))";
             if(!string.IsNullOrEmpty(sDate))
                 querySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
             if(!string.IsNullOrEmpty(eDate))
                 querySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
 
             string totalQuerySQL = $"SELECT TOP({pageSize * (page - 1)}) B.pi_id FROM( " +
-                "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-                "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime FROM topic_info) B " +
+                "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id FROM topic_info) B " +
                 "LEFT JOIN project_info pi ON (B.pi_obj_id = pi.pi_id AND pi.pi_categor = 1) " +
-                "LEFT JOIN imp_dev_info idi ON (B.pi_obj_id = idi.imp_id)" +
+                "LEFT JOIN imp_dev_info idi ON (B.pi_obj_id = idi.imp_id) " +
+                "LEFT JOIN T_Plan ON F_ID=B.pi_source_id " +
                 "WHERE 1 = 1 ";
             if(!string.IsNullOrEmpty(proCode))
                 totalQuerySQL += $"AND B.pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
                 totalQuerySQL += $"AND B.pi_name LIKE '%{proName}%' ";
             if(!string.IsNullOrEmpty(planType))
-                totalQuerySQL += $"AND ((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
-                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) ";
+                totalQuerySQL += $"AND (((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
+                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) OR (F_Title LIKE '%{planType}%'))";
             if(!string.IsNullOrEmpty(sDate))
                 totalQuerySQL += $"AND B.pi_start_datetime >= '{sDate}' ";
             if(!string.IsNullOrEmpty(eDate))
                 totalQuerySQL += $"AND B.pi_start_datetime <= '{eDate}' ";
 
             string countQuerySQL = $"SELECT COUNT(A.pi_id) FROM( " +
-                "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime FROM topic_info) A " +
+                "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id FROM topic_info) A " +
                 "LEFT JOIN project_info pi ON (A.pi_obj_id = pi.pi_id AND pi.pi_categor = 1) " +
-                "LEFT JOIN imp_dev_info idi ON (A.pi_obj_id = idi.imp_id)" +
+                "LEFT JOIN imp_dev_info idi ON (A.pi_obj_id = idi.imp_id) " +
+                "LEFT JOIN T_Plan ON F_ID=A.pi_source_id " +
                 "WHERE 1 = 1 ";
             if(!string.IsNullOrEmpty(proCode))
                 countQuerySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
                 countQuerySQL += $"AND A.pi_name LIKE '%{proName}%' ";
             if(!string.IsNullOrEmpty(planType))
-                countQuerySQL += $"AND ((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
-                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) ";
+                countQuerySQL += $"AND (((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
+                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) OR (F_Title LIKE '%{planType}%'))";
             if(!string.IsNullOrEmpty(sDate))
                 countQuerySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
             if(!string.IsNullOrEmpty(eDate))
@@ -352,6 +355,17 @@ namespace 科技计划项目档案数据采集管理系统
 
                 Btn_FileQuery_Click(null, null);
                 navigationPane1.SelectedPage = navigationPage2;
+            }
+            else if("name".Equals(columnName))
+            {
+                object id = view1.Rows[e.RowIndex].Tag;
+                DataRow data = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM project_info WHERE pi_id='{id}' UNION ALL " +
+                    $"SELECT * FROM topic_info WHERE ti_id='{id}'");
+                if(data != null)
+                {
+                    Frm_QueryDetail detail = new Frm_QueryDetail(data);
+                    detail.ShowDialog();
+                }
             }
         }
 

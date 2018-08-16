@@ -47,15 +47,6 @@ namespace 科技计划项目档案数据采集管理系统
             UserInfo_Click(null, null);
         }
 
-        private void ExitSystem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            foreach(Form item in MdiChildren)
-                item.Close();
-            Frm_Login frm_Login = GetFromHelper.GetLoginForm();
-            frm_Login.Show();
-            Hide();
-        }
-
         private void UserGroup_Click(object sender, EventArgs e)
         {
             foreach(Form item in MdiChildren)

@@ -82,7 +82,6 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.AutoSize = true;
             this.button1.Location = new System.Drawing.Point(927, 20);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(68, 27);
@@ -93,7 +92,6 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.AutoSize = true;
             this.button4.Location = new System.Drawing.Point(851, 20);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(68, 27);
@@ -104,7 +102,6 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.AutoSize = true;
             this.button3.Location = new System.Drawing.Point(775, 20);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(68, 27);
@@ -115,7 +112,6 @@
             // btn_Add
             // 
             this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Add.AutoSize = true;
             this.btn_Add.Location = new System.Drawing.Point(699, 20);
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(68, 27);

@@ -38,3 +38,10 @@ BEGIN
 		SET @RESULT = (SELECT STUFF((select ','+ pfl_id from processing_file_list where pfl_file_id=@BoxId for xml path('')) ,1,1,'') AS ids)
 	RETURN @RESULT;
 END
+
+--历史数据计划类别关联表
+CREATE TABLE [dbo].[T_Plan](
+	[F_Title] [nvarchar](250) NOT NULL,
+	[F_ID] [nvarchar](50) NOT NULL
+) ON [PRIMARY]
+GO

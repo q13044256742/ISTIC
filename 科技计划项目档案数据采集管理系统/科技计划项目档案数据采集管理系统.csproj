@@ -272,6 +272,12 @@
     <Compile Include="QueryAndCount\Frm_QueryBorrowing.Designer.cs">
       <DependentUpon>Frm_QueryBorrowing.cs</DependentUpon>
     </Compile>
+    <Compile Include="QueryAndCount\Frm_QueryDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QueryAndCount\Frm_QueryDetail.Designer.cs">
+      <DependentUpon>Frm_QueryDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="QueryAndCount\Frm_Statistics.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -462,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="QueryAndCount\Frm_QueryBorrowing.resx">
       <DependentUpon>Frm_QueryBorrowing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QueryAndCount\Frm_QueryDetail.resx">
+      <DependentUpon>Frm_QueryDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="QueryAndCount\Frm_Statistics.resx">
       <DependentUpon>Frm_Statistics.cs</DependentUpon>

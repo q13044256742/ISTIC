@@ -81,6 +81,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 row.Cells["print"].Value = flag;
             }
+            chk_BKB.Checked = chk_FMBJ.Checked = chk_JNML.Checked = flag;
         }
 
         private void Chk_BKB_CheckedChanged(object sender, EventArgs e)
@@ -350,7 +351,7 @@ namespace 科技计划项目档案数据采集管理系统
             browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(Web_DocumentCompleted);
             browser.DocumentText = bkbString;
         }
-
+        
         /// <summary>
         /// 打印文档
         /// </summary>
@@ -418,7 +419,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Preview_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            
+            int i = DateTime.Now.Second;
+            while(DateTime.Now.Second - i < 3)
+            {
+                System.Threading.Thread.Sleep(500);
+            };
             (sender as WebBrowser).ShowPrintPreviewDialog();
             (sender as WebBrowser).Dispose();
         }
@@ -464,7 +469,7 @@ namespace 科技计划项目档案数据采集管理系统
                     object minDate = SqlHelper.ExecuteOnlyOneQuery($"SELECT MIN(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01';");
                     object maxDate = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01';");
                     if(minDate != null && maxDate != null)
-                        return $"{((DateTime)minDate).ToString("yyyy-MM-dd")} ~ {((DateTime)maxDate).ToString("yyyy-MM-dd")}";
+                        return $"{Convert.ToDateTime(minDate).ToString("yyyy-MM-dd")} ~ {Convert.ToDateTime(maxDate).ToString("yyyy-MM-dd")}";
                 }
             }
             return null;

@@ -94,7 +94,7 @@ namespace 科技计划项目档案数据采集管理系统
             foreach(DataRow row in table.Rows)
             {
                 object objId = row["wm_obj_id"];
-                string querySql = "SELECT dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status FROM project_info pi " +
+                string querySql = "SELECT TOP(1) dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status FROM project_info pi " +
                     "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
                     "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                     "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
@@ -102,28 +102,28 @@ namespace 科技计划项目档案数据采集管理系统
                     "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
                     $"WHERE wm.wm_obj_id = '{objId}' " +
                     "UNION ALL " +
-                    "SELECT dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status FROM topic_info ti " +
+                    "SELECT TOP(1) dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status FROM topic_info ti " +
                     "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
                     "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                     "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                     "LEFT JOIN transfer_registraion_cd trc ON trp.trp_id = trc.trp_id " +
                     "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
                     $"WHERE wm.wm_obj_id = '{objId}'";
-                DataTable proTable = SqlHelper.ExecuteQuery(querySql);
-                foreach(DataRow proRow in proTable.Rows)
+                DataRow dataRow = SqlHelper.ExecuteSingleRowQuery(querySql);
+                if(dataRow != null)
                 {
                     int rowIndex = dgv_MyReg.Rows.Add();
                     dgv_MyReg.Rows[rowIndex].Tag = row["wm_id"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_id"].Value = proRow["pi_id"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_name"].Value = proRow["pi_name"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_pcode"].Value = proRow["trp_code"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_pcode"].Tag = proRow["trc_id"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_code"].Value = proRow["pi_code"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_code"].Tag = proRow["wr_obj_id"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_unit"].Value = proRow["dd_name"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_unit"].Tag = proRow["dd_code"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_state"].Value = GetMyWorkState(proRow["wm_status"]); 
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_fileamount"].Value = GetFileAmountById(proRow["pi_id"]);
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_id"].Value = dataRow["pi_id"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_name"].Value = dataRow["pi_name"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_pcode"].Value = dataRow["trp_code"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_pcode"].Tag = dataRow["trc_id"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_code"].Value = dataRow["pi_code"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_code"].Tag = dataRow["wr_obj_id"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_unit"].Value = dataRow["dd_name"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_unit"].Tag = dataRow["dd_code"];
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_state"].Value = GetMyWorkState(dataRow["wm_status"]);
+                    dgv_MyReg.Rows[rowIndex].Cells["mrl_fileamount"].Value = GetFileAmountById(dataRow["pi_id"]);
                 }
             }
             dgv_MyReg.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
@@ -823,7 +823,7 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 我的质检 - 单元格 点击事件
+        /// 质检中 - 单元格 点击事件
         /// </summary>
         private void Dgv_MyReg_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -916,6 +916,7 @@ namespace 科技计划项目档案数据采集管理系统
                         XtraMessageBox.Show("操作成功。");
                     }
                 }
+                return;
             }
             if(index > 0)
             {
