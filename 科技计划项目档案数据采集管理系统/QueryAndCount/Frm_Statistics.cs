@@ -30,25 +30,38 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LoadCompanySource()
         {
-            string querySql = "SELECT dd_id, dd_name FROM data_dictionary WHERE dd_pId=" +
-                "(SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_key_company_source') ORDER BY dd_sort";
+            string querySql = "SELECT * FROM T_SourceOrg ORDER BY F_ID";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < table.Rows.Count; i++)
             {
                 AccordionControlElement element = new AccordionControlElement()
                 {
                     Style = ElementStyle.Item,
-                    Name = ToolHelper.GetValue(table.Rows[i]["dd_id"]),
-                    Text = ToolHelper.GetValue(table.Rows[i]["dd_name"]),
+                    Name = ToolHelper.GetValue(table.Rows[i]["F_ID"]),
+                    Text = ToolHelper.GetValue(table.Rows[i]["F_Title"]),
                 };
                 element.Click += Item_Click;
-                acg_Register.Elements.Add(element);
+                ac_LeftMenu.Elements.Add(element);
+            }
+
+            querySql = "SELECT * FROM T_Plan ORDER BY F_ID";
+            table = SqlHelper.ExecuteQuery(querySql);
+            for(int i = 0; i < table.Rows.Count; i++)
+            {
+                AccordionControlElement element = new AccordionControlElement()
+                {
+                    Style = ElementStyle.Item,
+                    Name = ToolHelper.GetValue(table.Rows[i]["F_ID"]),
+                    Text = ToolHelper.GetValue(table.Rows[i]["F_Title"]),
+                };
+                element.Click += Bc_Element_Click;
+                bc_LeftMenu.Elements.Add(element);
             }
         }
 
         private void Frm_Statistics_Load(object sender, EventArgs e)
         {
-            LoadDataList(null);
+            LoadDataList(null, null);
             cbo_UserList.DataSource = SqlHelper.ExecuteQuery($"SELECT ul_id, real_name FROM user_list");
             cbo_UserList.ValueMember = "ul_id";
             cbo_UserList.DisplayMember = "real_name";
@@ -59,29 +72,30 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 加载统计列表
         /// </summary>
-        /// <param name="value">来源单位ID</param>
-        private void LoadDataList(string value)
+        /// <param name="value">来源单位</param>
+        /// <param name="ptype">计划类别</param>
+        private void LoadDataList(string value, string ptype)
         {
             view.Rows.Clear();
-            string querySQL = $"SELECT dd_code, dd_name FROM (" +
-                $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId = " +
-                $"(SELECT TOP(1) dd_id FROM data_dictionary WHERE dd_code = 'dic_key_plan')) B " +
-                $"WHERE(dd_code <> 'ZX' AND dd_code <> 'YF') " +
-                $"UNION ALL " +
-                $"SELECT dd_code, dd_name FROM data_dictionary " +
-                $"WHERE dd_pId = (SELECT TOP(1) dd_id FROM data_dictionary WHERE dd_code = 'dic_key_project') " +
-                $"ORDER BY dd_code ";
-
+            if(!string.IsNullOrEmpty(value))
+                value = $"AND trc_id={value}";
+            if(!string.IsNullOrEmpty(ptype))
+                ptype = $"AND F_ID='{ptype}'";
+            string querySQL = $"SELECT * FROM(SELECT F_ID, F_Title, COUNT(A.pi_id) pCount FROM T_PLAN p " +
+                $"LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor= 2 " +
+                $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON A.pi_source_id = p.F_ID {value} " +
+                $"GROUP BY F_ID, F_Title) B WHERE B.pCount <> 0 {ptype}";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             searchControl.Properties.Items.Clear();
             foreach(DataRow row in table.Rows)
             {
                 int rowIndex = view.Rows.Add();
-                view.Rows[rowIndex].Cells["pName"].Value = row["dd_name"];
-                view.Rows[rowIndex].Cells["pAmount"].Value = GetProjectAmount(row["dd_code"], value);
-                view.Rows[rowIndex].Cells["fAmount"].Value = GetFileAmount(row["dd_code"], value);
-                view.Rows[rowIndex].Cells["bAmount"].Value = GetBoxAmount(row["dd_code"], value);
-                searchControl.Properties.Items.Add(row["dd_name"]);
+                view.Rows[rowIndex].Tag = row["F_ID"];
+                view.Rows[rowIndex].Cells["pName"].Value = row["F_Title"];
+                view.Rows[rowIndex].Cells["pAmount"].Value = row["pCount"];
+                view.Rows[rowIndex].Cells["fAmount"].Value = GetFileAmount(row["F_ID"], value);
+                view.Rows[rowIndex].Cells["bAmount"].Value = GetBoxAmount(row["F_ID"], value);
+                searchControl.Properties.Items.Add(row["F_Title"]);
             }
         }
 
@@ -141,52 +155,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// 获取指定计划类别下的盒数
         /// </summary>
         /// <param name="planTypeCode">计划类别编号</param>
-        private object GetBoxAmount(object planTypeCode, string unitID)
+        private object GetBoxAmount(object planTypeCode, string unitCode)
         {
-            string querySQL = string.Empty;
-            if(string.IsNullOrEmpty(unitID))
-            {
-                if(!ToolHelper.GetValue(planTypeCode).Contains("ZX"))
-                {
-                    querySQL = "SELECT COUNT(pb.pb_id) FROM project_info pi " +
-                      "LEFT JOIN( SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor= 2 " +
-                      "UNION ALL SELECT ti_id, ti_obj_id FROM topic_info) A ON A.pi_obj_id = pi.pi_id " +
-                      "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
-                      $"WHERE pi.pi_code = '{planTypeCode}' GROUP BY pi.pi_code";
-                }
-                else
-                {
-                    querySQL = "SELECT COUNT(pb.pb_id) FROM imp_dev_info idi " +
-                        "LEFT JOIN(SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 " +
-                        "UNION ALL SELECT ti_id, ti_obj_id FROM topic_info) A ON A.pi_obj_id = idi.imp_id " +
-                        "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
-                        $"WHERE idi.imp_code = '{planTypeCode}' GROUP BY imp_code";
-                }
-            }
-            else
-            {
-                if(ToolHelper.GetValue(planTypeCode).Contains("ZX"))
-                {
-                    querySQL = " SELECT COUNT(pfl.pb_id) FROM transfer_registration_pc trp " +
-                        "LEFT JOIN imp_info ii ON trp.trp_id = ii.imp_obj_id " +
-                       $"LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id AND idi.imp_code = '{planTypeCode}' " +
-                        "LEFT JOIN(SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                        "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A ON A.pi_obj_id = idi.imp_id " +
-                        "LEFT JOIN processing_box pfl ON pfl.pb_obj_id = A.pi_id " +
-                       $"WHERE trp.com_id = '{unitID}' " +
-                       $"GROUP BY com_id";
-                }
-                else
-                {
-                    querySQL = "SELECT COUNT(pfl.pb_id) FROM transfer_registration_pc trp " +
-                      $"LEFT JOIN project_info pi ON(trp.trp_id = pi.trc_id AND pi.pi_categor = 1 AND pi.pi_code = '{planTypeCode}') " +
-                       "LEFT JOIN (SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                       "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A ON A.pi_obj_id = pi.pi_id " +
-                       "LEFT JOIN processing_box pfl ON pfl.pb_obj_id = A.pi_id " +
-                      $"WHERE trp.com_id = '{unitID}' " +
-                       "GROUP BY com_id";
-                }
-            }
+            string querySQL = "SELECT COUNT(pb.pb_id) FROM T_Plan p " +
+                "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor= 2 " +
+               $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON A.pi_source_id = p.F_ID {unitCode}" +
+                "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
+               $"WHERE p.F_ID = '{planTypeCode}' GROUP BY F_ID";
             return SqlHelper.ExecuteCountQuery(querySQL);
         }
 
@@ -194,52 +169,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// 获取指定计划类别下的文件数
         /// </summary>
         /// <param name="planTypeCode">计划类别编号</param>
-        private int GetFileAmount(object planTypeCode, string unitID)
+        private int GetFileAmount(object planTypeCode, string unitCode)
         {
-            string querySQL = string.Empty;
-            if(string.IsNullOrEmpty(unitID))
-            {
-                if(ToolHelper.GetValue(planTypeCode).Contains("ZX"))
-                {
-                    querySQL = "SELECT COUNT(pfl.pfl_id) FROM imp_dev_info idi " +
-                        "LEFT JOIN(SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 " +
-                        "UNION ALL SELECT ti_id, ti_obj_id FROM topic_info) A ON A.pi_obj_id = idi.imp_id " +
-                        "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
-                        $"WHERE idi.imp_code = '{planTypeCode}' GROUP BY imp_code";
-                }
-                else
-                {
-                    querySQL = "SELECT COUNT(pfl.pfl_id) FROM project_info pi " +
-                      "LEFT JOIN( SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor= 2 " +
-                      "UNION ALL SELECT ti_id, ti_obj_id FROM topic_info) A ON A.pi_obj_id = pi.pi_id " +
-                      "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
-                      $"WHERE pi.pi_code = '{planTypeCode}' GROUP BY pi.pi_code";
-                }
-            }
-            else
-            {
-                if(ToolHelper.GetValue(planTypeCode).Contains("ZX"))
-                {
-                    querySQL = " SELECT COUNT(pfl.pfl_id) FROM transfer_registration_pc trp " +
-                        "LEFT JOIN imp_info ii ON trp.trp_id = ii.imp_obj_id " +
-                       $"LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id AND idi.imp_code = '{planTypeCode}' " +
-                        "LEFT JOIN(SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                        "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A ON A.pi_obj_id = idi.imp_id " +
-                        "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id=A.pi_id " +
-                       $"WHERE trp.com_id = '{unitID}' " +
-                       $"GROUP BY com_id";
-                }
-                else
-                {
-                    querySQL = "SELECT COUNT(pfl.pfl_id) FROM transfer_registration_pc trp " +
-                      $"LEFT JOIN project_info pi ON(trp.trp_id = pi.trc_id AND pi.pi_categor = 1 AND pi.pi_code = '{planTypeCode}') " +
-                       "LEFT JOIN (SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                       "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A ON A.pi_obj_id = pi.pi_id " +
-                       "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
-                      $"WHERE trp.com_id = '{unitID}' " +
-                       "GROUP BY com_id";
-                }
-            }
+            string querySQL = "SELECT COUNT(pfl.pfl_id) FROM T_Plan p " +
+                "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor= 2 " +
+               $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON A.pi_source_id = p.F_ID {unitCode} " +
+                "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
+               $"WHERE p.F_ID = '{planTypeCode}' GROUP BY F_ID";
             return SqlHelper.ExecuteCountQuery(querySQL);
         }
 
@@ -561,8 +497,16 @@ namespace 科技计划项目档案数据采集管理系统
             string value = (sender as AccordionControlElement).Name;
             if("ace_all".Equals(value))
                 value = string.Empty;
-            LoadDataList(value);
+            LoadDataList(value, null);
 
+        }
+
+        private void Bc_Element_Click(object sender, EventArgs e)
+        {
+            string value = (sender as AccordionControlElement).Name;
+            if("all_ptype".Equals(value))
+                value = string.Empty;
+            LoadDataList(null, value);
         }
     }
 }

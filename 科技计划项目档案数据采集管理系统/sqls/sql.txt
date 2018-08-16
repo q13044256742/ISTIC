@@ -27,8 +27,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
---备注
-历史数据导入时，需将processing_box表的字段设置为非必填项；
+--备注历史数据导入时，需将processing_box表的字段设置为非必填项；
 
 --历史数据（绑定文件和所属盒号）
 CREATE FUNCTION GetFileIdsByBoxId(@BoxId VARCHAR(100)) RETURNS VARCHAR(5000)
@@ -45,3 +44,52 @@ CREATE TABLE [dbo].[T_Plan](
 	[F_ID] [nvarchar](50) NOT NULL
 ) ON [PRIMARY]
 GO
+
+--10个来源单位
+CREATE TABLE [dbo].[T_SourceOrg](
+	[F_ID] [nvarchar](50) NOT NULL,
+	[F_Title] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_T_SourceOrg] PRIMARY KEY CLUSTERED 
+(
+	[F_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [dbo].[T_SourceOrg] ([F_ID], [F_Title]) VALUES (N'01', N'中国农村技术开发中心')
+GO
+INSERT [dbo].[T_SourceOrg] ([F_ID], [F_Title]) VALUES (N'02', N'科技部火炬高技术产业开发中心')
+GO
+INSERT [dbo].[T_SourceOrg] ([F_ID], [F_Title]) VALUES (N'03', N'中国生物技术发展中心')
+GO
+INSERT [dbo].[T_SourceOrg] ([F_ID], [F_Title]) VALUES (N'04', N'中国21世纪议程管理中心')
+GO
+INSERT [dbo].[T_SourceOrg] ([F_ID], [F_Title]) VALUES (N'05', N'工信部产业发展促进中心')
+GO
+INSERT [dbo].[T_SourceOrg] ([F_ID], [F_Title]) VALUES (N'06', N'卫计委医药卫生科技发展研究中心')
+GO
+INSERT [dbo].[T_SourceOrg] ([F_ID], [F_Title]) VALUES (N'07', N'农业部科技发展中心')
+GO
+INSERT [dbo].[T_SourceOrg] ([F_ID], [F_Title]) VALUES (N'08', N'国家科技风险开发事业中心')
+GO
+INSERT [dbo].[T_SourceOrg] ([F_ID], [F_Title]) VALUES (N'09', N'科技部高技术研究发展中心')
+GO
+INSERT [dbo].[T_SourceOrg] ([F_ID], [F_Title]) VALUES (N'10', N'科技部科技评估中心')
+GO
+
+--导入文件后执行（重新关联项目/课题主键）
+UPDATE processing_file_list SET pfl_obj_id=
+(SELECT pi_id FROM project_info WHERE pi_old_id=pfl_old_obj_id)
+WHERE pfl_worker_id IS NULL;	
+
+UPDATE processing_file_list SET pfl_obj_id=
+(SELECT ti_id FROM topic_info WHERE ti_old_id=pfl_old_obj_id)
+WHERE pfl_obj_id IS NULL;
+
+--导入盒后执行（重新关联项目/课题主键）
+UPDATE processing_box SET pb_obj_id=
+(SELECT pi_id FROM project_info WHERE pi_old_id=pb_old_obj_id)
+WHERE pb_obj_id IS NULL;
+
+UPDATE processing_box SET pb_obj_id=
+(SELECT ti_id FROM topic_info WHERE ti_old_id=pb_old_obj_id)
+WHERE pb_obj_id IS NULL;

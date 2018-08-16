@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Statistics));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Statistics));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ac_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.ace_all = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.view = new System.Windows.Forms.DataGridView();
@@ -71,6 +72,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.bc_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
+            this.all_ptype = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
@@ -82,10 +85,13 @@
             this.tabNavigationPage2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bc_LeftMenu)).BeginInit();
             this.SuspendLayout();
             // 
             // ac_LeftMenu
             // 
+            this.ac_LeftMenu.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.False;
             this.ac_LeftMenu.AllowItemSelection = true;
             this.ac_LeftMenu.Appearance.Group.Hovered.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.ac_LeftMenu.Appearance.Group.Hovered.Options.UseFont = true;
@@ -93,22 +99,24 @@
             this.ac_LeftMenu.Appearance.Group.Normal.Options.UseFont = true;
             this.ac_LeftMenu.Appearance.Group.Pressed.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.ac_LeftMenu.Appearance.Group.Pressed.Options.UseFont = true;
-            this.ac_LeftMenu.Appearance.Item.Hovered.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.ac_LeftMenu.Appearance.Item.Hovered.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.ac_LeftMenu.Appearance.Item.Hovered.Options.UseFont = true;
             this.ac_LeftMenu.Appearance.Item.Normal.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.ac_LeftMenu.Appearance.Item.Normal.ForeColor = System.Drawing.Color.Black;
             this.ac_LeftMenu.Appearance.Item.Normal.Options.UseFont = true;
-            this.ac_LeftMenu.Appearance.Item.Pressed.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.ac_LeftMenu.Appearance.Item.Normal.Options.UseForeColor = true;
+            this.ac_LeftMenu.Appearance.Item.Pressed.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
             this.ac_LeftMenu.Appearance.Item.Pressed.Options.UseFont = true;
+            this.ac_LeftMenu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ac_LeftMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ac_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
             this.ace_all});
             this.ac_LeftMenu.Location = new System.Drawing.Point(3, 3);
-            this.ac_LeftMenu.LookAndFeel.SkinName = "McSkin";
+            this.ac_LeftMenu.LookAndFeel.SkinName = "Office 2007 Silver";
             this.ac_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
             this.ac_LeftMenu.Name = "ac_LeftMenu";
-            this.ac_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
-            this.ac_LeftMenu.ShowToolTips = false;
-            this.ac_LeftMenu.Size = new System.Drawing.Size(248, 633);
+            this.ac_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
+            this.ac_LeftMenu.Size = new System.Drawing.Size(278, 633);
             this.ac_LeftMenu.TabIndex = 13;
             // 
             // ace_all
@@ -125,6 +133,14 @@
             this.view.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.view.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.view.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.view.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.view.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.view.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.pName,
@@ -132,11 +148,11 @@
             this.fAmount,
             this.bAmount});
             this.view.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.view.Location = new System.Drawing.Point(0, 0);
+            this.view.Location = new System.Drawing.Point(292, 69);
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(1246, 673);
+            this.view.Size = new System.Drawing.Size(954, 604);
             this.view.TabIndex = 0;
             // 
             // pName
@@ -150,7 +166,7 @@
             // pAmount
             // 
             this.pAmount.FillWeight = 20F;
-            this.pAmount.HeaderText = "项目/课题名称";
+            this.pAmount.HeaderText = "项目/课题数";
             this.pAmount.Name = "pAmount";
             this.pAmount.ReadOnly = true;
             this.pAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -178,9 +194,9 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.Location = new System.Drawing.Point(262, 0);
+            this.panel1.Location = new System.Drawing.Point(292, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(984, 69);
+            this.panel1.Size = new System.Drawing.Size(954, 69);
             this.panel1.TabIndex = 16;
             // 
             // searchControl
@@ -314,22 +330,22 @@
             // 
             this.countView.AllowUserToAddRows = false;
             this.countView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            this.countView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            this.countView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.countView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.countView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.countView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(3);
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.countView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(3);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.countView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.countView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.countView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.date,
@@ -354,8 +370,8 @@
             // 
             // pcount
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.pcount.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.pcount.DefaultCellStyle = dataGridViewCellStyle4;
             this.pcount.HeaderText = "项目/课题数";
             this.pcount.Name = "pcount";
             this.pcount.ReadOnly = true;
@@ -363,8 +379,8 @@
             // 
             // tcount
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.tcount.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.tcount.DefaultCellStyle = dataGridViewCellStyle5;
             this.tcount.HeaderText = "课题/子课题数";
             this.tcount.Name = "tcount";
             this.tcount.ReadOnly = true;
@@ -372,8 +388,8 @@
             // 
             // fcount
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.fcount.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.fcount.DefaultCellStyle = dataGridViewCellStyle6;
             this.fcount.HeaderText = "文件数";
             this.fcount.Name = "fcount";
             this.fcount.ReadOnly = true;
@@ -381,8 +397,8 @@
             // 
             // bcount
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.bcount.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.bcount.DefaultCellStyle = dataGridViewCellStyle7;
             this.bcount.HeaderText = "被返工数";
             this.bcount.Name = "bcount";
             this.bcount.ReadOnly = true;
@@ -390,8 +406,8 @@
             // 
             // pgcount
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.pgcount.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.pgcount.DefaultCellStyle = dataGridViewCellStyle8;
             this.pgcount.FillWeight = 40F;
             this.pgcount.HeaderText = "页数";
             this.pgcount.Name = "pgcount";
@@ -471,9 +487,9 @@
             this.tabNavigationPage2.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tabNavigationPage2.Appearance.Options.UseFont = true;
             this.tabNavigationPage2.Caption = "tabNavigationPage2";
+            this.tabNavigationPage2.Controls.Add(this.view);
             this.tabNavigationPage2.Controls.Add(this.panel1);
             this.tabNavigationPage2.Controls.Add(this.tabControl1);
-            this.tabNavigationPage2.Controls.Add(this.view);
             this.tabNavigationPage2.Image = ((System.Drawing.Image)(resources.GetObject("tabNavigationPage2.Image")));
             this.tabNavigationPage2.ItemShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.tabNavigationPage2.Name = "tabNavigationPage2";
@@ -489,7 +505,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(262, 673);
+            this.tabControl1.Size = new System.Drawing.Size(292, 673);
             this.tabControl1.TabIndex = 17;
             // 
             // tabPage1
@@ -498,20 +514,59 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(254, 639);
+            this.tabPage1.Size = new System.Drawing.Size(284, 639);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "来源单位";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.bc_LeftMenu);
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(254, 639);
+            this.tabPage2.Size = new System.Drawing.Size(284, 639);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "计划类别";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // bc_LeftMenu
+            // 
+            this.bc_LeftMenu.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.False;
+            this.bc_LeftMenu.AllowItemSelection = true;
+            this.bc_LeftMenu.Appearance.Group.Hovered.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.bc_LeftMenu.Appearance.Group.Hovered.Options.UseFont = true;
+            this.bc_LeftMenu.Appearance.Group.Normal.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.bc_LeftMenu.Appearance.Group.Normal.Options.UseFont = true;
+            this.bc_LeftMenu.Appearance.Group.Pressed.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.bc_LeftMenu.Appearance.Group.Pressed.Options.UseFont = true;
+            this.bc_LeftMenu.Appearance.Item.Hovered.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.bc_LeftMenu.Appearance.Item.Hovered.Options.UseFont = true;
+            this.bc_LeftMenu.Appearance.Item.Normal.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.bc_LeftMenu.Appearance.Item.Normal.ForeColor = System.Drawing.Color.Black;
+            this.bc_LeftMenu.Appearance.Item.Normal.Options.UseFont = true;
+            this.bc_LeftMenu.Appearance.Item.Normal.Options.UseForeColor = true;
+            this.bc_LeftMenu.Appearance.Item.Pressed.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
+            this.bc_LeftMenu.Appearance.Item.Pressed.Options.UseFont = true;
+            this.bc_LeftMenu.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bc_LeftMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bc_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
+            this.all_ptype});
+            this.bc_LeftMenu.Location = new System.Drawing.Point(3, 3);
+            this.bc_LeftMenu.LookAndFeel.SkinName = "Office 2007 Silver";
+            this.bc_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
+            this.bc_LeftMenu.Name = "bc_LeftMenu";
+            this.bc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
+            this.bc_LeftMenu.ShowToolTips = false;
+            this.bc_LeftMenu.Size = new System.Drawing.Size(278, 633);
+            this.bc_LeftMenu.TabIndex = 14;
+            // 
+            // all_ptype
+            // 
+            this.all_ptype.Name = "all_ptype";
+            this.all_ptype.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.all_ptype.Text = "全部计划类别";
+            this.all_ptype.Click += new System.EventHandler(this.Bc_Element_Click);
             // 
             // Frm_Statistics
             // 
@@ -536,6 +591,8 @@
             this.tabNavigationPage2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bc_LeftMenu)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -571,12 +628,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn fcount;
         private System.Windows.Forms.DataGridViewTextBoxColumn bcount;
         private System.Windows.Forms.DataGridViewTextBoxColumn pgcount;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridViewTextBoxColumn pName;
         private System.Windows.Forms.DataGridViewTextBoxColumn pAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn fAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn bAmount;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private DevExpress.XtraBars.Navigation.AccordionControl bc_LeftMenu;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement all_ptype;
     }
 }
