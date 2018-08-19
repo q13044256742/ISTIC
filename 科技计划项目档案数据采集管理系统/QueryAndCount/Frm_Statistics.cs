@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -61,42 +62,15 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_Statistics_Load(object sender, EventArgs e)
         {
-            LoadDataList(null, null);
             cbo_UserList.DataSource = SqlHelper.ExecuteQuery($"SELECT ul_id, real_name FROM user_list");
             cbo_UserList.ValueMember = "ul_id";
             cbo_UserList.DisplayMember = "real_name";
 
             tabPane1.SelectedPage = tabNavigationPage1;
-        }
-
-        /// <summary>
-        /// 加载统计列表
-        /// </summary>
-        /// <param name="value">来源单位</param>
-        /// <param name="ptype">计划类别</param>
-        private void LoadDataList(string value, string ptype)
-        {
-            view.Rows.Clear();
-            if(!string.IsNullOrEmpty(value))
-                value = $"AND trc_id={value}";
-            if(!string.IsNullOrEmpty(ptype))
-                ptype = $"AND F_ID='{ptype}'";
-            string querySQL = $"SELECT * FROM(SELECT F_ID, F_Title, COUNT(A.pi_id) pCount FROM T_PLAN p " +
-                $"LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor= 2 " +
-                $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON A.pi_source_id = p.F_ID {value} " +
-                $"GROUP BY F_ID, F_Title) B WHERE B.pCount <> 0 {ptype}";
-            DataTable table = SqlHelper.ExecuteQuery(querySQL);
-            searchControl.Properties.Items.Clear();
-            foreach(DataRow row in table.Rows)
-            {
-                int rowIndex = view.Rows.Add();
-                view.Rows[rowIndex].Tag = row["F_ID"];
-                view.Rows[rowIndex].Cells["pName"].Value = row["F_Title"];
-                view.Rows[rowIndex].Cells["pAmount"].Value = row["pCount"];
-                view.Rows[rowIndex].Cells["fAmount"].Value = GetFileAmount(row["F_ID"], value);
-                view.Rows[rowIndex].Cells["bAmount"].Value = GetBoxAmount(row["F_ID"], value);
-                searchControl.Properties.Items.Add(row["F_Title"]);
-            }
+            chart1.Series.Clear();
+            chart2.Series.Clear();
+            chart3.Series.Clear();
+            ////////////////
         }
 
         /// <summary>
@@ -155,28 +129,53 @@ namespace 科技计划项目档案数据采集管理系统
         /// 获取指定计划类别下的盒数
         /// </summary>
         /// <param name="planTypeCode">计划类别编号</param>
-        private object GetBoxAmount(object planTypeCode, string unitCode)
+        private object GetBoxsAmount(object planTypeCode, string unitCode, int type)
         {
-            string querySQL = "SELECT COUNT(pb.pb_id) FROM T_Plan p " +
-                "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor= 2 " +
-               $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON A.pi_source_id = p.F_ID {unitCode}" +
-                "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
-               $"WHERE p.F_ID = '{planTypeCode}' GROUP BY F_ID";
-            return SqlHelper.ExecuteCountQuery(querySQL);
+            if(type == 0)
+            {
+                string querySQL = "SELECT COUNT(pb.pb_id) FROM T_Plan p " +
+                    "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor= 2 " +
+                   $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON A.pi_source_id = p.F_ID {unitCode}" +
+                    "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
+                   $"WHERE p.F_ID = '{planTypeCode}' GROUP BY F_ID";
+                return SqlHelper.ExecuteCountQuery(querySQL);
+            }
+            else
+            {
+                string querySQL = "SELECT COUNT(pb.pb_id) FROM T_SourceOrg AS s " +
+                   "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor = 2 " +
+                  $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON s.F_ID = A.trc_id {unitCode} " +
+                   "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
+                  $"WHERE F_ID = '{planTypeCode}' GROUP BY F_ID";
+                return SqlHelper.ExecuteCountQuery(querySQL);
+            }
         }
 
         /// <summary>
         /// 获取指定计划类别下的文件数
         /// </summary>
-        /// <param name="planTypeCode">计划类别编号</param>
-        private int GetFileAmount(object planTypeCode, string unitCode)
+        /// <param name="planTypeCode">来源单位编号</param>
+        /// <param name="unitCode">计划类别编号</param>
+        private int GetFilesAmount(object planTypeCode, string unitCode, int type)
         {
-            string querySQL = "SELECT COUNT(pfl.pfl_id) FROM T_Plan p " +
-                "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor= 2 " +
-               $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON A.pi_source_id = p.F_ID {unitCode} " +
-                "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
-               $"WHERE p.F_ID = '{planTypeCode}' GROUP BY F_ID";
-            return SqlHelper.ExecuteCountQuery(querySQL);
+            if(type == 0)
+            {
+                string querySQL = "SELECT COUNT(pfl.pfl_id) FROM T_Plan p " +
+                    "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor= 2 " +
+                   $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON A.pi_source_id = p.F_ID {unitCode} " +
+                    "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
+                   $"WHERE p.F_ID = '{planTypeCode}' GROUP BY F_ID";
+                return SqlHelper.ExecuteCountQuery(querySQL);
+            }
+            else
+            {
+                string querySQL = "SELECT COUNT(pfl.pfl_id) FROM T_SourceOrg AS s " +
+                    "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor = 2 " +
+                   $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON s.F_ID = A.trc_id {unitCode} " +
+                    "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
+                   $"WHERE F_ID = '{planTypeCode}' GROUP BY F_ID";
+                return SqlHelper.ExecuteCountQuery(querySQL);
+            }
         }
 
         private void chk_AllDate_CheckedChanged(object sender, EventArgs e)
@@ -492,21 +491,194 @@ namespace 科技计划项目档案数据采集管理系统
             countView.Rows.Clear();
         }
 
+        /// <summary>
+        /// /来源单位点击事件
+        /// </summary>
         private void Item_Click(object sender, EventArgs e)
         {
+            view.Columns["pName"].HeaderText = "计划类别名称";
             string value = (sender as AccordionControlElement).Name;
             if("ace_all".Equals(value))
                 value = string.Empty;
-            LoadDataList(value, null);
+            else
+                value = $"AND A.trc_id = '{value}'";
 
+            string querySQL = "SELECT F_ID, F_Title, pCount FROM (SELECT p.F_ID, p.F_Title, COUNT(A.pi_id) AS pCount FROM T_Plan AS p " +
+                "LEFT OUTER JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE(pi_categor = 2) " +
+               $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) AS A ON (A.pi_source_id = p.F_ID {value}) " +
+                "GROUP BY p.F_ID, p.F_Title) AS B WHERE (pCount <> 0)";
+
+            DataTable table = SqlHelper.ExecuteQuery(querySQL);
+            view.Rows.Clear();
+            int totalPcount = 0, totalFcount = 0, totalBcount = 0;
+            foreach(DataRow row in table.Rows)
+            {
+                int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
+                int _fcount = ToolHelper.GetIntValue(GetFilesAmount(row["F_ID"], value, 0), 0);
+                int _bcount = ToolHelper.GetIntValue(GetBoxsAmount(row["F_ID"], value, 0), 0);
+                int rowIndex = view.Rows.Add();
+                view.Rows[rowIndex].Tag = row["F_ID"];
+                view.Rows[rowIndex].Cells["pName"].Value = row["F_Title"];
+                view.Rows[rowIndex].Cells["pAmount"].Value = _pcount;
+                view.Rows[rowIndex].Cells["fAmount"].Value = _fcount;
+                view.Rows[rowIndex].Cells["bAmount"].Value = _bcount;
+                totalPcount += _pcount;
+                totalFcount += _fcount;
+                totalBcount += _bcount;
+            }
+
+            int addRowIndex = view.Rows.Add();
+            view.Rows[addRowIndex].Cells["pName"].Value = "合计";
+            view.Rows[addRowIndex].Cells["pAmount"].Value = totalPcount;
+            view.Rows[addRowIndex].Cells["fAmount"].Value = totalFcount;
+            view.Rows[addRowIndex].Cells["bAmount"].Value = totalBcount;
+
+            //如果当前是图形选项卡，则更新图形
+            if(tabPane2.SelectedPageIndex == 1)
+            {
+                tabPane2_SelectedPageIndexChanged(null, null);
+            }
         }
-
+        
+        /// <summary>
+        /// 计划类别点击事件
+        /// </summary>
         private void Bc_Element_Click(object sender, EventArgs e)
         {
+            view.Columns["pName"].HeaderText = "来源单位名称";
             string value = (sender as AccordionControlElement).Name;
             if("all_ptype".Equals(value))
                 value = string.Empty;
-            LoadDataList(null, value);
+            else
+                value = $"AND A.pi_source_id = '{value}'";
+            
+            string querySQL = "SELECT * FROM(SELECT s.F_ID, s.F_Title, COUNT(A.pi_id) AS pCount FROM T_SourceOrg AS s " +
+                "LEFT OUTER JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE(pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, trc_id " +
+               $"FROM topic_info) AS A ON (s.F_ID = A.trc_id {value}) GROUP BY s.F_ID, s.F_Title) B WHERE pCount <> 0";
+
+            DataTable table = SqlHelper.ExecuteQuery(querySQL);
+            view.Rows.Clear();
+            int totalPcount = 0, totalFcount = 0, totalBcount = 0;
+            foreach(DataRow row in table.Rows)
+            {
+                int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
+                int _fcount = ToolHelper.GetIntValue(GetFilesAmount(row["F_ID"], value, 1), 0);
+                int _bcount = ToolHelper.GetIntValue(GetBoxsAmount(row["F_ID"], value, 1), 0);
+                int rowIndex = view.Rows.Add();
+                view.Rows[rowIndex].Tag = row["F_ID"];
+                view.Rows[rowIndex].Cells["pName"].Value = row["F_Title"];
+                view.Rows[rowIndex].Cells["pAmount"].Value = _pcount;
+                view.Rows[rowIndex].Cells["fAmount"].Value = _fcount;
+                view.Rows[rowIndex].Cells["bAmount"].Value = _bcount;
+                totalPcount += _pcount;
+                totalFcount += _fcount;
+                totalBcount += _bcount;
+            }
+
+            int addRowIndex = view.Rows.Add();
+            view.Rows[addRowIndex].Cells["pName"].Value = "合计";
+            view.Rows[addRowIndex].Cells["pAmount"].Value = totalPcount;
+            view.Rows[addRowIndex].Cells["fAmount"].Value = totalFcount;
+            view.Rows[addRowIndex].Cells["bAmount"].Value = totalBcount;
+
+            //如果当前是图形选项卡，则更新图形
+            if(tabPane2.SelectedPageIndex == 1)
+            {
+                tabPane2_SelectedPageIndexChanged(null, null);
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(tabControl1.SelectedIndex == 0)
+            {
+                ac_LeftMenu.SelectedElement = ace_all;
+                Item_Click(new AccordionControlElement() { Name = "ace_all" }, null);
+            }
+            else
+            {
+                bc_LeftMenu.SelectedElement = all_ptype;
+                Bc_Element_Click(new AccordionControlElement() { Name = "all_ptype" }, null);
+            }
+        }
+
+        private void tabPane1_SelectedPageIndexChanged(object sender, EventArgs e)
+        {
+            tabPane2.SelectedPageIndex = 0;
+            tabControl1_SelectedIndexChanged(null, null);
+        }
+
+        private void tabPane2_SelectedPageIndexChanged(object sender, EventArgs e)
+        {
+            chart1.Series.Clear();
+            chart2.Series.Clear();
+            chart3.Series.Clear();
+            if(tabPane2.SelectedPageIndex == 1)
+            {
+                int tpye1 = tabControl1.SelectedIndex;
+                //来源单位0
+                if(tpye1 == 0)
+                {
+                    Series amount = new Series("项目/课题数");
+                    amount.IsValueShownAsLabel = true; amount.IsXValueIndexed = true;
+                    amount.ChartType = SeriesChartType.Column;
+                    for(int i = 0; i < view.RowCount - 1; i++)
+                    {
+                        amount.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["pAmount"].Value);
+                    }
+
+                    Series amount2 = new Series("文件数");
+                    amount2.IsValueShownAsLabel = true; amount2.IsXValueIndexed = true;
+                    amount2.ChartType = SeriesChartType.Column;
+                    for(int i = 0; i < view.RowCount - 1; i++)
+                    {
+                        amount2.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["fAmount"].Value);
+                    }
+
+                    Series amount3 = new Series("盒数");
+                    amount3.IsValueShownAsLabel = true; amount3.IsXValueIndexed = true;
+                    amount3.ChartType = SeriesChartType.Column;
+                    for(int i = 0; i < view.RowCount - 1; i++)
+                    {
+                        amount3.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["bAmount"].Value);
+                    }
+
+                    chart1.Series.Add(amount);
+                    chart2.Series.Add(amount2);
+                    chart3.Series.Add(amount3);
+                }
+                //计划类别1
+                else
+                {
+                    Series amount = new Series("项目/课题数");
+                    amount.IsValueShownAsLabel = true;
+                    amount.ChartType = SeriesChartType.Column;
+                    for(int i = 0; i < view.RowCount - 1; i++)
+                    {
+                        amount.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["pAmount"].Value);
+                    }
+
+                    Series amount2 = new Series("文件数");
+                    amount2.IsValueShownAsLabel = true;
+                    amount2.ChartType = SeriesChartType.Column;
+                    for(int i = 0; i < view.RowCount - 1; i++)
+                    {
+                        amount2.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["fAmount"].Value);
+                    }
+
+                    Series amount3 = new Series("盒数");
+                    amount3.IsValueShownAsLabel = true;
+                    amount3.ChartType = SeriesChartType.Column;
+                    for(int i = 0; i < view.RowCount - 1; i++)
+                    {
+                        amount3.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["bAmount"].Value);
+                    }
+
+                    chart1.Series.Add(amount);
+                    chart2.Series.Add(amount2);
+                    chart3.Series.Add(amount3);
+                }
+            }
         }
     }
 }

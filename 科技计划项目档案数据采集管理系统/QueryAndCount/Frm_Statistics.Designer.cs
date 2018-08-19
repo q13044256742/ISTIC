@@ -29,15 +29,23 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Statistics));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.ac_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.ace_all = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.view = new System.Windows.Forms.DataGridView();
@@ -45,9 +53,6 @@
             this.pAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.searchControl = new DevExpress.XtraEditors.SearchControl();
-            this.btn_Query = new DevExpress.XtraEditors.SimpleButton();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
             this.tabNavigationPage1 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.rdo_ZJ = new System.Windows.Forms.RadioButton();
@@ -69,29 +74,34 @@
             this.cbo_UserList = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tabNavigationPage2 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.tabPane2 = new DevExpress.XtraBars.Navigation.TabPane();
+            this.datatable = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.datachart = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.chart3 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.bc_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.all_ptype = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.tabPane2 = new DevExpress.XtraBars.Navigation.TabPane();
-            this.datatable = new DevExpress.XtraBars.Navigation.TabNavigationPage();
-            this.datachart = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.searchControl.Properties)).BeginInit();
             this.tabPane1.SuspendLayout();
             this.tabNavigationPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.countView)).BeginInit();
             this.tabNavigationPage2.SuspendLayout();
+            this.tabPane2.SuspendLayout();
+            this.datatable.SuspendLayout();
+            this.datachart.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bc_LeftMenu)).BeginInit();
-            this.tabPane2.SuspendLayout();
-            this.datatable.SuspendLayout();
             this.SuspendLayout();
             // 
             // ac_LeftMenu
@@ -121,7 +131,7 @@
             this.ac_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
             this.ac_LeftMenu.Name = "ac_LeftMenu";
             this.ac_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
-            this.ac_LeftMenu.Size = new System.Drawing.Size(278, 633);
+            this.ac_LeftMenu.Size = new System.Drawing.Size(278, 718);
             this.ac_LeftMenu.TabIndex = 13;
             // 
             // ace_all
@@ -152,20 +162,12 @@
             this.pAmount,
             this.fAmount,
             this.bAmount});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.view.DefaultCellStyle = dataGridViewCellStyle2;
             this.view.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.view.Location = new System.Drawing.Point(0, 49);
+            this.view.Location = new System.Drawing.Point(0, 0);
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(936, 577);
+            this.view.Size = new System.Drawing.Size(952, 728);
             this.view.TabIndex = 0;
             // 
             // pName
@@ -200,41 +202,6 @@
             this.bAmount.ReadOnly = true;
             this.bAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.searchControl);
-            this.panel1.Controls.Add(this.btn_Query);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(936, 49);
-            this.panel1.TabIndex = 16;
-            // 
-            // searchControl
-            // 
-            this.searchControl.Location = new System.Drawing.Point(11, 10);
-            this.searchControl.Name = "searchControl";
-            this.searchControl.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.searchControl.Properties.Appearance.Options.UseFont = true;
-            this.searchControl.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Repository.ClearButton(),
-            new DevExpress.XtraEditors.Repository.SearchButton()});
-            this.searchControl.Properties.NullValuePrompt = " ";
-            this.searchControl.Properties.NullValuePromptShowForEmptyValue = false;
-            this.searchControl.Size = new System.Drawing.Size(263, 28);
-            this.searchControl.TabIndex = 3;
-            // 
-            // btn_Query
-            // 
-            this.btn_Query.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
-            this.btn_Query.Appearance.Options.UseFont = true;
-            this.btn_Query.Location = new System.Drawing.Point(280, 10);
-            this.btn_Query.Name = "btn_Query";
-            this.btn_Query.Size = new System.Drawing.Size(71, 29);
-            this.btn_Query.TabIndex = 2;
-            this.btn_Query.Text = "查询(&Q)";
-            // 
             // tabPane1
             // 
             this.tabPane1.Controls.Add(this.tabNavigationPage1);
@@ -247,12 +214,13 @@
             this.tabPane1.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
             this.tabNavigationPage1,
             this.tabNavigationPage2});
-            this.tabPane1.RegularSize = new System.Drawing.Size(1264, 721);
+            this.tabPane1.RegularSize = new System.Drawing.Size(1264, 806);
             this.tabPane1.SelectedPage = this.tabNavigationPage1;
             this.tabPane1.SelectedPageIndex = 1;
-            this.tabPane1.Size = new System.Drawing.Size(1264, 721);
+            this.tabPane1.Size = new System.Drawing.Size(1264, 806);
             this.tabPane1.TabIndex = 17;
             this.tabPane1.Text = "tabPane1";
+            this.tabPane1.SelectedPageIndexChanged += new System.EventHandler(this.tabPane1_SelectedPageIndexChanged);
             // 
             // tabNavigationPage1
             // 
@@ -276,7 +244,7 @@
             this.tabNavigationPage1.Name = "tabNavigationPage1";
             this.tabNavigationPage1.PageText = "工作量统计";
             this.tabNavigationPage1.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
-            this.tabNavigationPage1.Size = new System.Drawing.Size(1246, 673);
+            this.tabNavigationPage1.Size = new System.Drawing.Size(1246, 758);
             // 
             // rdo_ZJ
             // 
@@ -310,7 +278,7 @@
             this.btn_Exprot.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exprot.Image")));
             this.btn_Exprot.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Exprot.ImageToTextIndent = 5;
-            this.btn_Exprot.Location = new System.Drawing.Point(15, 625);
+            this.btn_Exprot.Location = new System.Drawing.Point(15, 710);
             this.btn_Exprot.Name = "btn_Exprot";
             this.btn_Exprot.Size = new System.Drawing.Size(86, 34);
             this.btn_Exprot.TabIndex = 21;
@@ -333,22 +301,22 @@
             // 
             this.countView.AllowUserToAddRows = false;
             this.countView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            this.countView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            this.countView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.countView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.countView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.countView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(3);
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.countView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(3);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.countView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.countView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.countView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.date,
@@ -361,7 +329,7 @@
             this.countView.Name = "countView";
             this.countView.ReadOnly = true;
             this.countView.RowTemplate.Height = 23;
-            this.countView.Size = new System.Drawing.Size(1228, 477);
+            this.countView.Size = new System.Drawing.Size(1228, 562);
             this.countView.TabIndex = 20;
             // 
             // date
@@ -373,8 +341,8 @@
             // 
             // pcount
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.pcount.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.pcount.DefaultCellStyle = dataGridViewCellStyle4;
             this.pcount.HeaderText = "项目/课题数";
             this.pcount.Name = "pcount";
             this.pcount.ReadOnly = true;
@@ -382,8 +350,8 @@
             // 
             // tcount
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.tcount.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.tcount.DefaultCellStyle = dataGridViewCellStyle5;
             this.tcount.HeaderText = "课题/子课题数";
             this.tcount.Name = "tcount";
             this.tcount.ReadOnly = true;
@@ -391,8 +359,8 @@
             // 
             // fcount
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.fcount.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.fcount.DefaultCellStyle = dataGridViewCellStyle6;
             this.fcount.HeaderText = "文件数";
             this.fcount.Name = "fcount";
             this.fcount.ReadOnly = true;
@@ -400,8 +368,8 @@
             // 
             // bcount
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.bcount.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.bcount.DefaultCellStyle = dataGridViewCellStyle7;
             this.bcount.HeaderText = "被返工数";
             this.bcount.Name = "bcount";
             this.bcount.ReadOnly = true;
@@ -409,8 +377,8 @@
             // 
             // pgcount
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.pgcount.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.pgcount.DefaultCellStyle = dataGridViewCellStyle8;
             this.pgcount.FillWeight = 40F;
             this.pgcount.HeaderText = "页数";
             this.pgcount.Name = "pgcount";
@@ -497,7 +465,131 @@
             this.tabNavigationPage2.Name = "tabNavigationPage2";
             this.tabNavigationPage2.PageText = "档案统计";
             this.tabNavigationPage2.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
-            this.tabNavigationPage2.Size = new System.Drawing.Size(1246, 673);
+            this.tabNavigationPage2.Size = new System.Drawing.Size(1246, 758);
+            // 
+            // tabPane2
+            // 
+            this.tabPane2.Controls.Add(this.datatable);
+            this.tabPane2.Controls.Add(this.datachart);
+            this.tabPane2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabPane2.Location = new System.Drawing.Point(292, 0);
+            this.tabPane2.Name = "tabPane2";
+            this.tabPane2.PageProperties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
+            this.tabPane2.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
+            this.datatable,
+            this.datachart});
+            this.tabPane2.RegularSize = new System.Drawing.Size(954, 758);
+            this.tabPane2.SelectedPage = this.datachart;
+            this.tabPane2.SelectedPageIndex = 1;
+            this.tabPane2.Size = new System.Drawing.Size(954, 758);
+            this.tabPane2.TabIndex = 14;
+            this.tabPane2.SelectedPageIndexChanged += new System.EventHandler(this.tabPane2_SelectedPageIndexChanged);
+            // 
+            // datatable
+            // 
+            this.datatable.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.datatable.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("datatable.Appearance.Image")));
+            this.datatable.Appearance.Options.UseFont = true;
+            this.datatable.Appearance.Options.UseImage = true;
+            this.datatable.Caption = "datatable";
+            this.datatable.Controls.Add(this.view);
+            this.datatable.Name = "datatable";
+            this.datatable.PageText = "数据统计表";
+            this.datatable.Size = new System.Drawing.Size(952, 728);
+            // 
+            // datachart
+            // 
+            this.datachart.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.datachart.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("datachart.Appearance.Image")));
+            this.datachart.Appearance.Options.UseFont = true;
+            this.datachart.Appearance.Options.UseImage = true;
+            this.datachart.BackgroundPadding = new System.Windows.Forms.Padding(0);
+            this.datachart.Caption = "tabNavigationPage4";
+            this.datachart.Controls.Add(this.chart3);
+            this.datachart.Controls.Add(this.chart2);
+            this.datachart.Controls.Add(this.chart1);
+            this.datachart.Margin = new System.Windows.Forms.Padding(0);
+            this.datachart.Name = "datachart";
+            this.datachart.PageText = "数据统计图";
+            this.datachart.Size = new System.Drawing.Size(952, 728);
+            // 
+            // chart3
+            // 
+            this.chart3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chart3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisY.IsLabelAutoFit = false;
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            chartArea1.AxisY.MajorGrid.Enabled = false;
+            chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea1.Name = "ChartArea1";
+            this.chart3.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart3.Legends.Add(legend1);
+            this.chart3.Location = new System.Drawing.Point(6, 492);
+            this.chart3.Name = "chart3";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart3.Series.Add(series1);
+            this.chart3.Size = new System.Drawing.Size(940, 231);
+            this.chart3.TabIndex = 2;
+            this.chart3.Text = "chart3";
+            // 
+            // chart2
+            // 
+            this.chart2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chart2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea2.AxisX.IsLabelAutoFit = false;
+            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            chartArea2.AxisX.MajorGrid.Enabled = false;
+            chartArea2.AxisY.IsLabelAutoFit = false;
+            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            chartArea2.AxisY.MajorGrid.Enabled = false;
+            chartArea2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea2.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart2.Legends.Add(legend2);
+            this.chart2.Location = new System.Drawing.Point(6, 251);
+            this.chart2.Name = "chart2";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart2.Series.Add(series2);
+            this.chart2.Size = new System.Drawing.Size(940, 231);
+            this.chart2.TabIndex = 1;
+            this.chart2.Text = "chart2";
+            // 
+            // chart1
+            // 
+            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea3.AxisX.IsLabelAutoFit = false;
+            chartArea3.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            chartArea3.AxisX.MajorGrid.Enabled = false;
+            chartArea3.AxisY.IsLabelAutoFit = false;
+            chartArea3.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            chartArea3.AxisY.MajorGrid.Enabled = false;
+            chartArea3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart1.Legends.Add(legend3);
+            this.chart1.Location = new System.Drawing.Point(6, 9);
+            this.chart1.Name = "chart1";
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart1.Series.Add(series3);
+            this.chart1.Size = new System.Drawing.Size(940, 231);
+            this.chart1.TabIndex = 0;
+            this.chart1.Text = "chart1";
             // 
             // tabControl1
             // 
@@ -507,8 +599,9 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(292, 673);
+            this.tabControl1.Size = new System.Drawing.Size(292, 758);
             this.tabControl1.TabIndex = 17;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -516,7 +609,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(284, 639);
+            this.tabPage1.Size = new System.Drawing.Size(284, 724);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "来源单位";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -527,7 +620,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(284, 687);
+            this.tabPage2.Size = new System.Drawing.Size(284, 724);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "计划类别";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -560,7 +653,7 @@
             this.bc_LeftMenu.Name = "bc_LeftMenu";
             this.bc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.bc_LeftMenu.ShowToolTips = false;
-            this.bc_LeftMenu.Size = new System.Drawing.Size(278, 681);
+            this.bc_LeftMenu.Size = new System.Drawing.Size(278, 718);
             this.bc_LeftMenu.TabIndex = 14;
             // 
             // all_ptype
@@ -570,52 +663,11 @@
             this.all_ptype.Text = "全部计划类别";
             this.all_ptype.Click += new System.EventHandler(this.Bc_Element_Click);
             // 
-            // tabPane2
-            // 
-            this.tabPane2.Controls.Add(this.datatable);
-            this.tabPane2.Controls.Add(this.datachart);
-            this.tabPane2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabPane2.Location = new System.Drawing.Point(292, 0);
-            this.tabPane2.Name = "tabPane2";
-            this.tabPane2.PageProperties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
-            this.tabPane2.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
-            this.datatable,
-            this.datachart});
-            this.tabPane2.RegularSize = new System.Drawing.Size(954, 673);
-            this.tabPane2.SelectedPage = this.datachart;
-            this.tabPane2.SelectedPageIndex = 1;
-            this.tabPane2.Size = new System.Drawing.Size(954, 673);
-            this.tabPane2.TabIndex = 14;
-            // 
-            // datatable
-            // 
-            this.datatable.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.datatable.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("tabNavigationPage3.Appearance.Image")));
-            this.datatable.Appearance.Options.UseFont = true;
-            this.datatable.Appearance.Options.UseImage = true;
-            this.datatable.Caption = "datatable";
-            this.datatable.Controls.Add(this.view);
-            this.datatable.Controls.Add(this.panel1);
-            this.datatable.Name = "datatable";
-            this.datatable.PageText = "数据统计表";
-            this.datatable.Size = new System.Drawing.Size(936, 626);
-            // 
-            // datachart
-            // 
-            this.datachart.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.datachart.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("datachart.Appearance.Image")));
-            this.datachart.Appearance.Options.UseFont = true;
-            this.datachart.Appearance.Options.UseImage = true;
-            this.datachart.Caption = "tabNavigationPage4";
-            this.datachart.Name = "datachart";
-            this.datachart.PageText = "数据统计图";
-            this.datachart.Size = new System.Drawing.Size(936, 626);
-            // 
             // Frm_Statistics
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1264, 721);
+            this.ClientSize = new System.Drawing.Size(1264, 806);
             this.Controls.Add(this.tabPane1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -624,19 +676,21 @@
             this.Load += new System.EventHandler(this.Frm_Statistics_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).EndInit();
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.searchControl.Properties)).EndInit();
             this.tabPane1.ResumeLayout(false);
             this.tabNavigationPage1.ResumeLayout(false);
             this.tabNavigationPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.countView)).EndInit();
             this.tabNavigationPage2.ResumeLayout(false);
+            this.tabPane2.ResumeLayout(false);
+            this.datatable.ResumeLayout(false);
+            this.datachart.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bc_LeftMenu)).EndInit();
-            this.tabPane2.ResumeLayout(false);
-            this.datatable.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -646,9 +700,6 @@
         private DevExpress.XtraBars.Navigation.AccordionControl ac_LeftMenu;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_all;
         private System.Windows.Forms.DataGridView view;
-        private System.Windows.Forms.Panel panel1;
-        private DevExpress.XtraEditors.SimpleButton btn_Query;
-        private DevExpress.XtraEditors.SearchControl searchControl;
         private DevExpress.XtraBars.Navigation.TabPane tabPane1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage2;
@@ -683,5 +734,8 @@
         private DevExpress.XtraBars.Navigation.TabPane tabPane2;
         private DevExpress.XtraBars.Navigation.TabNavigationPage datatable;
         private DevExpress.XtraBars.Navigation.TabNavigationPage datachart;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart3;
     }
 }
