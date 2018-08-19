@@ -31,14 +31,14 @@ namespace 科技计划项目档案数据采集管理系统
         private void Frm_QueryBorrowing_Load(object sender, EventArgs e)
         {
             navigationPane1.SelectedPage = navigationPage1;
-            string querySql = "SELECT dd_name FROM data_dictionary WHERE (dd_pId IN (SELECT dd_id " +
-                "FROM data_dictionary WHERE(dd_code = 'dic_key_plan') OR (dd_code = 'dic_key_project'))) " +
-                "AND dd_code<>'ZX' AND dd_code<>'YF'" +
-                "ORDER BY dd_pId, dd_sort";
-            object[] list = SqlHelper.ExecuteSingleColumnQuery(querySql);
-            cbo_PlanTypeList.Items.AddRange(list);
-            cbo_PlanTypeList.ResetText();
-            LoadList(1);
+
+            DataTable orgTable = SqlHelper.ExecuteQuery("SELECT F_ID, F_Title FROM T_Plan ORDER BY F_ID");
+            cbo_PlanTypeList.DataSource = orgTable;
+            cbo_PlanTypeList.DisplayMember = "F_Title";
+            cbo_PlanTypeList.ValueMember = "F_ID";
+            cbo_PlanTypeList.SelectedItem = null;
+
+            LoadDataListByPage(1, null);
             view1.Tag = false;
             GetTotalSize();
             view2.ColumnHeadersDefaultCellStyle = view1.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle()
@@ -65,25 +65,6 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 加载默认页数据
-        /// </summary>
-        /// <param name="page">当前页码</param>
-        private void LoadList(int page)
-        {
-            string querySQL = $"SELECT TOP({pageSize}) * FROM (" +
-               "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_uniter, pi_year, pi_funds, pi_worker_date, pi_worker_id FROM project_info WHERE pi_categor = 2 " +
-               "UNION ALL " +
-               "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_uniter, ti_year, ti_funds, ti_worker_date, ti_worker_id FROM topic_info) TB1 " +
-               "WHERE pi_id NOT IN(" +
-               $"SELECT TOP({pageSize * (page - 1)}) TB2.pi_id FROM (" +
-               "SELECT pi_id, pi_code, pi_worker_date FROM project_info WHERE pi_categor = 2 " +
-               "UNION ALL " +
-               "SELECT ti_id, ti_code, ti_worker_date FROM topic_info) TB2 ORDER BY TB2.pi_worker_date DESC, TB2.pi_code) " +
-               "ORDER BY TB1.pi_worker_date DESC, TB1.pi_code";
-            CreateDataList(page, querySQL);
-        }
-
-        /// <summary>
         /// 填充数据列表
         /// </summary>
         /// <param name="page">当前页码</param>
@@ -94,12 +75,12 @@ namespace 科技计划项目档案数据采集管理系统
             view1.Rows.Clear();
             view1.Columns.AddRange(new DataGridViewColumn[]
             {
-                new DataGridViewTextBoxColumn(){ Name = "id", HeaderText = "序号", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle() },
-                new DataGridViewTextBoxColumn(){ Name = "code", HeaderText = "项目/课题编号", SortMode = DataGridViewColumnSortMode.NotSortable, FillWeight = 80, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle() },
+                new DataGridViewTextBoxColumn(){ Name = "id", HeaderText = "序号", FillWeight = 25, SortMode = DataGridViewColumnSortMode.NotSortable, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle() },
+                new DataGridViewTextBoxColumn(){ Name = "code", HeaderText = "项目/课题编号", SortMode = DataGridViewColumnSortMode.NotSortable, FillWeight = 70, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle() },
                 new DataGridViewTextBoxColumn(){ Name = "name", HeaderText = "项目/课题名称", SortMode = DataGridViewColumnSortMode.NotSortable, FillWeight = 150, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle()},
                 new DataGridViewTextBoxColumn(){ Name = "sdate", HeaderText = "开始时间", SortMode = DataGridViewColumnSortMode.NotSortable, FillWeight = 50, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle() },
-                new DataGridViewTextBoxColumn(){ Name = "user", HeaderText = "负责人", SortMode = DataGridViewColumnSortMode.NotSortable, FillWeight = 40, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle() },
-                new DataGridViewTextBoxColumn(){ Name = "tcount", HeaderText = "子课题数", SortMode = DataGridViewColumnSortMode.NotSortable, FillWeight = 30, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle() },
+                new DataGridViewTextBoxColumn(){ Name = "tcount", HeaderText = "课题/子课题数", SortMode = DataGridViewColumnSortMode.NotSortable, FillWeight = 50, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle() },
+                new DataGridViewTextBoxColumn(){ Name = "bcount", HeaderText = "盒数", SortMode = DataGridViewColumnSortMode.NotSortable, FillWeight = 30, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle() },
                 new DataGridViewLinkColumn(){ Name = "fcount", HeaderText = "文件数", SortMode = DataGridViewColumnSortMode.NotSortable, FillWeight = 30, DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle() },
             });
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
@@ -111,7 +92,7 @@ namespace 科技计划项目档案数据采集管理系统
                 view1.Rows[i].Cells["code"].Value = row["pi_code"];
                 view1.Rows[i].Cells["name"].Value = row["pi_name"];
                 view1.Rows[i].Cells["sdate"].Value = row["pi_start_datetime"];
-                view1.Rows[i].Cells["user"].Value = row["pi_uniter"];
+                view1.Rows[i].Cells["bcount"].Value = row["bcount"];
                 view1.Rows[i].Cells["tcount"].Value = GetTopicCount(row["pi_id"]);
                 view1.Rows[i].Cells["fcount"].Value = GetFileCount(row["pi_id"]);
             }
@@ -159,11 +140,7 @@ namespace 科技计划项目档案数据采集管理系统
                 int page = Convert.ToInt32(txt_page.Text) + 1;
                 if(page <= maxPage)
                 {
-                    bool flag = (bool)view1.Tag;
-                    if(flag)
-                        Btn_Query_Click(page, null);
-                    else
-                        LoadList(page);
+                    LoadDataListByPage(page, null);
                 }
             }
             //上一页
@@ -172,11 +149,7 @@ namespace 科技计划项目档案数据采集管理系统
                 int page = Convert.ToInt32(txt_page.Text) - 1;
                 if(page > 0)
                 {
-                    bool flag = (bool)view1.Tag;
-                    if(flag)
-                        Btn_Query_Click(page, null);
-                    else
-                        LoadList(page);
+                    LoadDataListByPage(page, null);
                 }
             }
             //首页
@@ -185,11 +158,7 @@ namespace 科技计划项目档案数据采集管理系统
                 int page = Convert.ToInt32(txt_page.Text);
                 if(page > 1)
                 {
-                    bool flag = (bool)view1.Tag;
-                    if(flag)
-                        Btn_Query_Click(1, null);
-                    else
-                        LoadList(1);
+                    LoadDataListByPage(1, null);
                 }
             }
             //末页
@@ -198,11 +167,7 @@ namespace 科技计划项目档案数据采集管理系统
                 int page = Convert.ToInt32(txt_page.Text);
                 if(page < maxPage)
                 {
-                    bool flag = (bool)view1.Tag;
-                    if(flag)
-                        Btn_Query_Click(maxPage, null);
-                    else
-                        LoadList(maxPage);
+                    LoadDataListByPage(maxPage, null);
                 }
             }
         }
@@ -217,59 +182,44 @@ namespace 科技计划项目档案数据采集管理系统
                         value = maxPage;
                     else if(value < 1)
                         value = 1;
-                    bool flag = (bool)view1.Tag;
-                    if(flag)
-                        Btn_Query_Click(value, null);
-                    else
-                        LoadList(value);
+                    LoadDataListByPage(value, null);
                 }
             }
         }
 
-        private void Btn_Query_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 加载指定页码的数据
+        /// </summary>
+        /// <param name="pageValue">指定页码</param>
+        private void LoadDataListByPage(object pageValue, EventArgs e)
         {
-            int page = 1;
-            page = int.TryParse(sender.ToString(), out page) ? page : 1;
-            string planType = cbo_PlanTypeList.Text;
+            int page = ToolHelper.GetIntValue(pageValue, 1);
+            object planType = cbo_PlanTypeList.SelectedValue;
             string batchName = txt_BatchName.Text;
             string proCode = txt_ProjectCode.Text;
             string proName = txt_ProjectName.Text;
             string sDate = chk_allDate.Checked ? null : dtp_sDate.Text;
             string eDate = chk_allDate.Checked ? null : dtp_eDate.Text;
-            //如果查询条件全部为空，则默认显示首页查询
-            if(string.IsNullOrEmpty(cbo_PlanTypeList.Text) && string.IsNullOrEmpty(batchName) && string.IsNullOrEmpty(proCode)
-                && string.IsNullOrEmpty(proName) && string.IsNullOrEmpty(sDate) && string.IsNullOrEmpty(eDate))
-            {
-                LoadList(page);
-                view1.Tag = false;
-            }
-            else
-            {
-                LoadDataList(page, planType, batchName, proCode, proName, sDate, eDate);
-                view1.Tag = true;
-            }
+
+            LoadDataList(page, planType, batchName, proCode, proName, sDate, eDate);
         }
 
         /// <summary>
         /// 加载查询数据
         /// </summary>
         /// <param name="page">当前页码</param>
-        private void LoadDataList(int page, string planType, string batchName, string proCode, string proName, string sDate, string eDate)
+        private void LoadDataList(int page, object planType, string batchName, string proCode, string proName, string sDate, string eDate)
         {
             string querySQL = $"SELECT TOP({pageSize}) A.* FROM( " +
-                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_uniter, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_obj_id, pi_source_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_uniter, ti_year, ti_funds, ti_worker_date, ti_worker_id, ti_obj_id, ti_source_id FROM topic_info) A " +
-                "LEFT JOIN project_info pi ON (A.pi_obj_id = pi.pi_id AND pi.pi_categor=1) " +
-                "LEFT JOIN imp_dev_info idi ON A.pi_obj_id = idi.imp_id " +
-                "LEFT JOIN T_Plan ON F_ID=A.pi_source_id " +
+                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id FROM topic_info) A " +
                 "WHERE 1 = 1 ";
             if(!string.IsNullOrEmpty(proCode))
                 querySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
                 querySQL += $"AND A.pi_name LIKE '%{proName}%' ";
-            if(!string.IsNullOrEmpty(planType))
-                querySQL += $"AND (((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
-                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) OR (F_Title LIKE '%{planType}%'))";
+            if(planType != null)
+                querySQL += $"AND A.pi_source_id = '{planType}' ";
             if(!string.IsNullOrEmpty(sDate))
                 querySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
             if(!string.IsNullOrEmpty(eDate))
@@ -278,48 +228,49 @@ namespace 科技计划项目档案数据采集管理系统
             string totalQuerySQL = $"SELECT TOP({pageSize * (page - 1)}) B.pi_id FROM( " +
                 "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
                 "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id FROM topic_info) B " +
-                "LEFT JOIN project_info pi ON (B.pi_obj_id = pi.pi_id AND pi.pi_categor = 1) " +
-                "LEFT JOIN imp_dev_info idi ON (B.pi_obj_id = idi.imp_id) " +
-                "LEFT JOIN T_Plan ON F_ID=B.pi_source_id " +
                 "WHERE 1 = 1 ";
             if(!string.IsNullOrEmpty(proCode))
                 totalQuerySQL += $"AND B.pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
                 totalQuerySQL += $"AND B.pi_name LIKE '%{proName}%' ";
-            if(!string.IsNullOrEmpty(planType))
-                totalQuerySQL += $"AND (((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
-                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) OR (F_Title LIKE '%{planType}%'))";
+            if(planType != null)
+                totalQuerySQL += $"AND B.pi_source_id = '{planType}' ";
             if(!string.IsNullOrEmpty(sDate))
                 totalQuerySQL += $"AND B.pi_start_datetime >= '{sDate}' ";
             if(!string.IsNullOrEmpty(eDate))
                 totalQuerySQL += $"AND B.pi_start_datetime <= '{eDate}' ";
-
-            string countQuerySQL = $"SELECT COUNT(A.pi_id) FROM( " +
-                "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id FROM topic_info) A " +
-                "LEFT JOIN project_info pi ON (A.pi_obj_id = pi.pi_id AND pi.pi_categor = 1) " +
-                "LEFT JOIN imp_dev_info idi ON (A.pi_obj_id = idi.imp_id) " +
-                "LEFT JOIN T_Plan ON F_ID=A.pi_source_id " +
-                "WHERE 1 = 1 ";
-            if(!string.IsNullOrEmpty(proCode))
-                countQuerySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
-            if(!string.IsNullOrEmpty(proName))
-                countQuerySQL += $"AND A.pi_name LIKE '%{proName}%' ";
-            if(!string.IsNullOrEmpty(planType))
-                countQuerySQL += $"AND (((pi.pi_id IS NOT NULL AND pi.pi_name LIKE '%{planType}%') OR " +
-                    $"(idi.imp_id IS NOT NULL AND idi.imp_name LIKE '%{planType}%')) OR (F_Title LIKE '%{planType}%'))";
-            if(!string.IsNullOrEmpty(sDate))
-                countQuerySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
-            if(!string.IsNullOrEmpty(eDate))
-                countQuerySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
-
-            int totalSize = SqlHelper.ExecuteCountQuery(countQuerySQL);
-            maxPage = totalSize % pageSize == 0 ? totalSize / pageSize : totalSize / pageSize + 1;
-            label1.Text = $"共 {totalSize} 条记录，每页共 {pageSize} 条，共 {maxPage} 页";
-
-            querySQL += $"AND A.pi_id NOT IN ({totalQuerySQL})";
+            totalQuerySQL += "ORDER BY pi_code ";
+            querySQL += $"AND A.pi_id NOT IN ({totalQuerySQL}) ORDER BY pi_code ";
             
+            //关联盒数
+            querySQL = $"SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, COUNT(pb_id) bcount FROM({querySQL}) C " +
+                "LEFT JOIN processing_box ON C.pi_id=pb_obj_id " +
+                "GROUP BY pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id " +
+                "ORDER BY pi_code";
             CreateDataList(page, querySQL);
+
+            if(page == 1)
+            {
+                string countQuerySQL = $"SELECT COUNT(A.pi_id) FROM( " +
+                    "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id FROM topic_info) A " +
+                    "WHERE 1 = 1 ";
+                if(!string.IsNullOrEmpty(proCode))
+                    countQuerySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
+                if(!string.IsNullOrEmpty(proName))
+                    countQuerySQL += $"AND A.pi_name LIKE '%{proName}%' ";
+                if(planType != null)
+                    countQuerySQL += $"AND A.pi_source_id = '{planType}' ";
+                if(!string.IsNullOrEmpty(sDate))
+                    countQuerySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
+                if(!string.IsNullOrEmpty(eDate))
+                    countQuerySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
+
+                int totalSize = SqlHelper.ExecuteCountQuery(countQuerySQL);
+                maxPage = totalSize % pageSize == 0 ? totalSize / pageSize : totalSize / pageSize + 1;
+                label1.Text = $"共 {totalSize} 条记录，每页共 {pageSize} 条，共 {maxPage} 页";
+            }
+
         }
 
         private void Btn_Reset_Click(object sender, EventArgs e)
@@ -332,7 +283,7 @@ namespace 科技计划项目档案数据采集管理系统
             dtp_eDate.ResetText();
             chk_allDate.Checked = true;
             GetTotalSize();
-            LoadList(1);
+            LoadDataListByPage(1, null);
         }
 
         private void chk_allDate_CheckedChanged(object sender, EventArgs e)
@@ -376,7 +327,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadFileList(object id, string fname, string fcategor, string pcode, string pname)
         {
             view2.Rows.Clear();
-            string querySQL = "SELECT TOP(1000) bl.bl_id, bl.bl_borrow_state, bl.bl_return_state, pfl.pfl_id, pi.pi_code, pi.pi_name, ti.ti_code, ti.ti_name, si.si_code, si.si_name, pfl.pfl_name, dd.dd_name + ' ' + dd.extend_3 as categor " +
+            string querySQL = "SELECT TOP(1000) bl.bl_id, bl.bl_borrow_state, bl.bl_return_state, pfl.pfl_id, pfl.pfl_code, pfl.pfl_name, dd.dd_name + ' ' + dd.extend_3 as categor " +
               "FROM processing_file_list pfl " +
               "LEFT JOIN project_info pi ON pi.pi_id = pfl.pfl_obj_id " +
               "LEFT JOIN topic_info ti ON ti.ti_id = pfl.pfl_obj_id " +
@@ -399,17 +350,16 @@ namespace 科技计划项目档案数据采集管理系统
             else if(rdo_In.Checked)
                 querySQL += $"AND (bl.bl_borrow_state = 0 OR bl.bl_borrow_state IS NULL) ";
 
-            querySQL += "ORDER BY pfl.pfl_worker_date, pfl.pfl_sort DESC";
+            querySQL += "ORDER BY pfl.pfl_sort DESC, pfl.pfl_code";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySQL);
             foreach(DataRow row in dataTable.Rows)
             {
                 int i = view2.Rows.Add();
                 view2.Rows[i].Tag = row["pfl_id"];
-                view2.Rows[i].Cells["fid"].Value = (i + 1).ToString();
-                view2.Rows[i].Cells["fpcode"].Value = IsNull(row["pi_code"]) ?? IsNull(row["ti_code"]) ?? IsNull(row["si_code"]);
-                view2.Rows[i].Cells["fpname"].Value = IsNull(row["pi_name"]) ?? IsNull(row["ti_name"]) ?? IsNull(row["si_name"]);
+                view2.Rows[i].Cells["fid"].Value = i + 1;
+                view2.Rows[i].Cells["fcode"].Value = row["pfl_code"];
                 view2.Rows[i].Cells["fname"].Value = row["pfl_name"];
-                view2.Rows[i].Cells["fcategor"].Value = row["categor"];
+                //view2.Rows[i].Cells["fbox"].Value = 0;
                 view2.Rows[i].Cells["fbstate"].Tag = row["bl_id"];
                 view2.Rows[i].Cells["fbstate"].Value = GetBorrowState(row["bl_borrow_state"]);
                 view2.Rows[i].Cells["frstate"].Value = GetReturnState(row["bl_return_state"]);

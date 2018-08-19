@@ -49,10 +49,6 @@
             this.ac_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.ace_all = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.view = new System.Windows.Forms.DataGridView();
-            this.pName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
             this.tabNavigationPage1 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.rdo_ZJ = new System.Windows.Forms.RadioButton();
@@ -86,6 +82,10 @@
             this.bc_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.all_ptype = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.pName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             this.tabPane1.SuspendLayout();
@@ -160,47 +160,15 @@
             this.view.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.pName,
             this.pAmount,
-            this.fAmount,
-            this.bAmount});
+            this.bAmount,
+            this.fAmount});
             this.view.Dock = System.Windows.Forms.DockStyle.Fill;
             this.view.Location = new System.Drawing.Point(0, 0);
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(952, 728);
+            this.view.Size = new System.Drawing.Size(936, 712);
             this.view.TabIndex = 0;
-            // 
-            // pName
-            // 
-            this.pName.FillWeight = 40F;
-            this.pName.HeaderText = "计划类别名称";
-            this.pName.Name = "pName";
-            this.pName.ReadOnly = true;
-            this.pName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // pAmount
-            // 
-            this.pAmount.FillWeight = 20F;
-            this.pAmount.HeaderText = "项目/课题数";
-            this.pAmount.Name = "pAmount";
-            this.pAmount.ReadOnly = true;
-            this.pAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // fAmount
-            // 
-            this.fAmount.FillWeight = 20F;
-            this.fAmount.HeaderText = "文件数";
-            this.fAmount.Name = "fAmount";
-            this.fAmount.ReadOnly = true;
-            this.fAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // bAmount
-            // 
-            this.bAmount.FillWeight = 20F;
-            this.bAmount.HeaderText = "盒数";
-            this.bAmount.Name = "bAmount";
-            this.bAmount.ReadOnly = true;
-            this.bAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // tabPane1
             // 
@@ -480,7 +448,7 @@
             this.datachart});
             this.tabPane2.RegularSize = new System.Drawing.Size(954, 758);
             this.tabPane2.SelectedPage = this.datachart;
-            this.tabPane2.SelectedPageIndex = 1;
+            this.tabPane2.SelectedPageIndex = 0;
             this.tabPane2.Size = new System.Drawing.Size(954, 758);
             this.tabPane2.TabIndex = 14;
             this.tabPane2.SelectedPageIndexChanged += new System.EventHandler(this.tabPane2_SelectedPageIndexChanged);
@@ -495,7 +463,7 @@
             this.datatable.Controls.Add(this.view);
             this.datatable.Name = "datatable";
             this.datatable.PageText = "数据统计表";
-            this.datatable.Size = new System.Drawing.Size(952, 728);
+            this.datatable.Size = new System.Drawing.Size(936, 712);
             // 
             // datachart
             // 
@@ -511,7 +479,7 @@
             this.datachart.Margin = new System.Windows.Forms.Padding(0);
             this.datachart.Name = "datachart";
             this.datachart.PageText = "数据统计图";
-            this.datachart.Size = new System.Drawing.Size(952, 728);
+            this.datachart.Size = new System.Drawing.Size(936, 712);
             // 
             // chart3
             // 
@@ -535,7 +503,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart3.Series.Add(series1);
-            this.chart3.Size = new System.Drawing.Size(940, 231);
+            this.chart3.Size = new System.Drawing.Size(924, 231);
             this.chart3.TabIndex = 2;
             this.chart3.Text = "chart3";
             // 
@@ -561,7 +529,7 @@
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(940, 231);
+            this.chart2.Size = new System.Drawing.Size(924, 231);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
             // 
@@ -587,7 +555,7 @@
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(940, 231);
+            this.chart1.Size = new System.Drawing.Size(924, 231);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
@@ -663,6 +631,38 @@
             this.all_ptype.Text = "全部计划类别";
             this.all_ptype.Click += new System.EventHandler(this.Bc_Element_Click);
             // 
+            // pName
+            // 
+            this.pName.FillWeight = 40F;
+            this.pName.HeaderText = "计划类别名称";
+            this.pName.Name = "pName";
+            this.pName.ReadOnly = true;
+            this.pName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // pAmount
+            // 
+            this.pAmount.FillWeight = 20F;
+            this.pAmount.HeaderText = "项目/课题数";
+            this.pAmount.Name = "pAmount";
+            this.pAmount.ReadOnly = true;
+            this.pAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // bAmount
+            // 
+            this.bAmount.FillWeight = 20F;
+            this.bAmount.HeaderText = "盒数";
+            this.bAmount.Name = "bAmount";
+            this.bAmount.ReadOnly = true;
+            this.bAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fAmount
+            // 
+            this.fAmount.FillWeight = 20F;
+            this.fAmount.HeaderText = "文件数";
+            this.fAmount.Name = "fAmount";
+            this.fAmount.ReadOnly = true;
+            this.fAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // Frm_Statistics
             // 
             this.Appearance.Options.UseFont = true;
@@ -725,10 +725,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pAmount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fAmount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn bAmount;
         private DevExpress.XtraBars.Navigation.AccordionControl bc_LeftMenu;
         private DevExpress.XtraBars.Navigation.AccordionControlElement all_ptype;
         private DevExpress.XtraBars.Navigation.TabPane tabPane2;
@@ -737,5 +733,9 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fAmount;
     }
 }

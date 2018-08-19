@@ -139,32 +139,27 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             if("tbar_ZLJG".Equals(itemName))//著录加工
             {
                 Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_CG());
-                Hide();
                 frm.ShowDialog();
             }
             else if("tbar_YJDJ".Equals(itemName))//移交登记
             {
                 Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_ToR());
-                Hide();
                 frm.ShowDialog();
             }
             else if("tbar_DAJS".Equals(itemName))//档案接收
             {
                 Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_DomAccept());
-                Hide();
                 frm.ShowDialog();
             }
             else if("tbar_DAZJ".Equals(itemName))//档案质检
             {
                 Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_QT());
-                Hide();
                 frm.ShowDialog();
             }
             
             else if("tbar_Manage".Equals(itemName))//后台管理
             {
                 Frm_MainFrameManager frm = new Frm_MainFrameManager(this, UserHelper.GetUser());
-                Hide();
                 frm.ShowDialog();
             }
             else if("tbar_Count".Equals(itemName))//统计分析
@@ -175,7 +170,6 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             else if("tbar_Query".Equals(itemName))//查询借阅
             {
                 Frm_QueryBorrowing frm = new Frm_QueryBorrowing(this);
-                Hide();
                 frm.ShowDialog();
             }
             

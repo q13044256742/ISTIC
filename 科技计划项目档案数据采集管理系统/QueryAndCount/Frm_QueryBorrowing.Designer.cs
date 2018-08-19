@@ -52,6 +52,13 @@
             this.txt_BatchName = new DevExpress.XtraEditors.TextEdit();
             this.panel3 = new System.Windows.Forms.Panel();
             this.view1 = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tcount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fcount = new System.Windows.Forms.DataGridViewLinkColumn();
             this.pal1 = new System.Windows.Forms.Panel();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -76,27 +83,19 @@
             this.txt_FileCategor = new DevExpress.XtraEditors.TextEdit();
             this.panel1 = new System.Windows.Forms.Panel();
             this.view2 = new System.Windows.Forms.DataGridView();
-            this.fid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fpcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fpname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fcategor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fbstate = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.frstate = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lbl_TotalFileAmount = new DevExpress.XtraEditors.LabelControl();
             this.labelControl14 = new DevExpress.XtraEditors.LabelControl();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tcount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fcount = new System.Windows.Forms.DataGridViewLinkColumn();
             this.btn_Reset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Query = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_FileReset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_FileQuery = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.fid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fbox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fbstate = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.frstate = new System.Windows.Forms.DataGridViewButtonColumn();
             this.navigationPane1.SuspendLayout();
             this.navigationPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectName.Properties)).BeginInit();
@@ -138,7 +137,7 @@
             this.navigationPage2});
             this.navigationPane1.RegularSize = new System.Drawing.Size(1228, 749);
             this.navigationPane1.SelectedPage = this.navigationPage1;
-            this.navigationPane1.SelectedPageIndex = 0;
+            this.navigationPane1.SelectedPageIndex = 1;
             this.navigationPane1.Size = new System.Drawing.Size(1228, 749);
             this.navigationPane1.TabIndex = 2;
             this.navigationPane1.StateChanged += new DevExpress.XtraBars.Navigation.StateChangedEventHandler(this.navigationPane1_StateChanged);
@@ -317,7 +316,7 @@
             this.panel3.Location = new System.Drawing.Point(0, 205);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(2270, 913);
+            this.panel3.Size = new System.Drawing.Size(2386, 954);
             this.panel3.TabIndex = 1;
             // 
             // view1
@@ -365,9 +364,64 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.view1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.view1.RowTemplate.Height = 23;
-            this.view1.Size = new System.Drawing.Size(2270, 850);
+            this.view1.Size = new System.Drawing.Size(2386, 891);
             this.view1.TabIndex = 1;
             this.view1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View1_CellContentClick);
+            // 
+            // id
+            // 
+            this.id.FillWeight = 40F;
+            this.id.HeaderText = "序号";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // code
+            // 
+            this.code.FillWeight = 80F;
+            this.code.HeaderText = "项目/课题编号";
+            this.code.Name = "code";
+            this.code.ReadOnly = true;
+            this.code.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // name
+            // 
+            this.name.HeaderText = "项目/课题名称";
+            this.name.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // user
+            // 
+            this.user.FillWeight = 60F;
+            this.user.HeaderText = "负责人";
+            this.user.Name = "user";
+            this.user.ReadOnly = true;
+            this.user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // sdate
+            // 
+            this.sdate.HeaderText = "开始时间";
+            this.sdate.Name = "sdate";
+            this.sdate.ReadOnly = true;
+            this.sdate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tcount
+            // 
+            this.tcount.FillWeight = 50F;
+            this.tcount.HeaderText = "子课题数";
+            this.tcount.Name = "tcount";
+            this.tcount.ReadOnly = true;
+            this.tcount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fcount
+            // 
+            this.fcount.FillWeight = 50F;
+            this.fcount.HeaderText = "文件数";
+            this.fcount.Name = "fcount";
+            this.fcount.ReadOnly = true;
+            this.fcount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // pal1
             // 
@@ -376,7 +430,7 @@
             this.pal1.Dock = System.Windows.Forms.DockStyle.Top;
             this.pal1.Location = new System.Drawing.Point(0, 0);
             this.pal1.Name = "pal1";
-            this.pal1.Size = new System.Drawing.Size(2270, 30);
+            this.pal1.Size = new System.Drawing.Size(2386, 30);
             this.pal1.TabIndex = 0;
             // 
             // labelControl2
@@ -400,15 +454,15 @@
             this.panel4.Controls.Add(this.btn_fpage);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 880);
+            this.panel4.Location = new System.Drawing.Point(0, 921);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(2270, 33);
+            this.panel4.Size = new System.Drawing.Size(2386, 33);
             this.panel4.TabIndex = 3;
             // 
             // txt_page
             // 
             this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_page.Location = new System.Drawing.Point(2061, 3);
+            this.txt_page.Location = new System.Drawing.Point(2177, 3);
             this.txt_page.Name = "txt_page";
             this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.txt_page.Properties.Appearance.Options.UseFont = true;
@@ -427,7 +481,7 @@
             this.btn_lpage.Appearance.Options.UseFont = true;
             this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
             this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_lpage.Location = new System.Drawing.Point(2015, 5);
+            this.btn_lpage.Location = new System.Drawing.Point(2131, 5);
             this.btn_lpage.Name = "btn_lpage";
             this.btn_lpage.Size = new System.Drawing.Size(41, 23);
             this.btn_lpage.TabIndex = 6;
@@ -440,7 +494,7 @@
             this.btn_npage.Appearance.Options.UseFont = true;
             this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
             this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_npage.Location = new System.Drawing.Point(2099, 5);
+            this.btn_npage.Location = new System.Drawing.Point(2215, 5);
             this.btn_npage.Name = "btn_npage";
             this.btn_npage.Size = new System.Drawing.Size(41, 23);
             this.btn_npage.TabIndex = 5;
@@ -453,7 +507,7 @@
             this.btn_epage.Appearance.Options.UseFont = true;
             this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
             this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_epage.Location = new System.Drawing.Point(2142, 5);
+            this.btn_epage.Location = new System.Drawing.Point(2258, 5);
             this.btn_epage.Name = "btn_epage";
             this.btn_epage.Size = new System.Drawing.Size(41, 23);
             this.btn_epage.TabIndex = 4;
@@ -466,7 +520,7 @@
             this.btn_fpage.Appearance.Options.UseFont = true;
             this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
             this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_fpage.Location = new System.Drawing.Point(1972, 5);
+            this.btn_fpage.Location = new System.Drawing.Point(2088, 5);
             this.btn_fpage.Name = "btn_fpage";
             this.btn_fpage.Size = new System.Drawing.Size(41, 23);
             this.btn_fpage.TabIndex = 3;
@@ -646,7 +700,7 @@
             this.panel1.Location = new System.Drawing.Point(5, 196);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(2036, 944);
+            this.panel1.Size = new System.Drawing.Size(2152, 985);
             this.panel1.TabIndex = 18;
             // 
             // view2
@@ -667,10 +721,9 @@
             this.view2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.view2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.fid,
-            this.fpcode,
-            this.fpname,
+            this.fcode,
             this.fname,
-            this.fcategor,
+            this.fbox,
             this.fbstate,
             this.frstate});
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -694,66 +747,9 @@
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.view2.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.view2.RowTemplate.Height = 23;
-            this.view2.Size = new System.Drawing.Size(2036, 914);
+            this.view2.Size = new System.Drawing.Size(2152, 955);
             this.view2.TabIndex = 1;
             this.view2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View2_CellContentClick);
-            // 
-            // fid
-            // 
-            this.fid.FillWeight = 30F;
-            this.fid.HeaderText = "序号";
-            this.fid.Name = "fid";
-            this.fid.ReadOnly = true;
-            this.fid.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // fpcode
-            // 
-            this.fpcode.FillWeight = 60F;
-            this.fpcode.HeaderText = "项目/课题编号";
-            this.fpcode.Name = "fpcode";
-            this.fpcode.ReadOnly = true;
-            this.fpcode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // fpname
-            // 
-            this.fpname.FillWeight = 80F;
-            this.fpname.HeaderText = "项目/课题名称";
-            this.fpname.Name = "fpname";
-            this.fpname.ReadOnly = true;
-            this.fpname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // fname
-            // 
-            this.fname.HeaderText = "文件名称";
-            this.fname.Name = "fname";
-            this.fname.ReadOnly = true;
-            this.fname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // fcategor
-            // 
-            this.fcategor.FillWeight = 60F;
-            this.fcategor.HeaderText = "文件类别号";
-            this.fcategor.Name = "fcategor";
-            this.fcategor.ReadOnly = true;
-            this.fcategor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // fbstate
-            // 
-            this.fbstate.FillWeight = 40F;
-            this.fbstate.HeaderText = "借阅状态";
-            this.fbstate.Name = "fbstate";
-            this.fbstate.ReadOnly = true;
-            this.fbstate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.fbstate.Text = "";
-            // 
-            // frstate
-            // 
-            this.frstate.FillWeight = 40F;
-            this.frstate.HeaderText = "归还状态";
-            this.frstate.Name = "frstate";
-            this.frstate.ReadOnly = true;
-            this.frstate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.frstate.Text = "";
             // 
             // panel2
             // 
@@ -763,7 +759,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(2036, 30);
+            this.panel2.Size = new System.Drawing.Size(2152, 30);
             this.panel2.TabIndex = 0;
             // 
             // lbl_TotalFileAmount
@@ -786,61 +782,6 @@
             this.labelControl14.Size = new System.Drawing.Size(85, 21);
             this.labelControl14.TabIndex = 0;
             this.labelControl14.Text = "文件列表";
-            // 
-            // id
-            // 
-            this.id.FillWeight = 40F;
-            this.id.HeaderText = "序号";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // code
-            // 
-            this.code.FillWeight = 80F;
-            this.code.HeaderText = "项目/课题编号";
-            this.code.Name = "code";
-            this.code.ReadOnly = true;
-            this.code.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // name
-            // 
-            this.name.HeaderText = "项目/课题名称";
-            this.name.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // user
-            // 
-            this.user.FillWeight = 60F;
-            this.user.HeaderText = "负责人";
-            this.user.Name = "user";
-            this.user.ReadOnly = true;
-            this.user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // sdate
-            // 
-            this.sdate.HeaderText = "开始时间";
-            this.sdate.Name = "sdate";
-            this.sdate.ReadOnly = true;
-            this.sdate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // tcount
-            // 
-            this.tcount.FillWeight = 50F;
-            this.tcount.HeaderText = "子课题数";
-            this.tcount.Name = "tcount";
-            this.tcount.ReadOnly = true;
-            this.tcount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // fcount
-            // 
-            this.fcount.FillWeight = 50F;
-            this.fcount.HeaderText = "文件数";
-            this.fcount.Name = "fcount";
-            this.fcount.ReadOnly = true;
-            this.fcount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // btn_Reset
             // 
@@ -866,7 +807,7 @@
             this.btn_Query.Size = new System.Drawing.Size(99, 32);
             this.btn_Query.TabIndex = 16;
             this.btn_Query.Text = "立即查询";
-            this.btn_Query.Click += new System.EventHandler(this.Btn_Query_Click);
+            this.btn_Query.Click += new System.EventHandler(this.LoadDataListByPage);
             // 
             // btn_FileReset
             // 
@@ -893,6 +834,55 @@
             this.btn_FileQuery.TabIndex = 31;
             this.btn_FileQuery.Text = "立即查询";
             this.btn_FileQuery.Click += new System.EventHandler(this.Btn_FileQuery_Click);
+            // 
+            // fid
+            // 
+            this.fid.FillWeight = 30F;
+            this.fid.HeaderText = "序号";
+            this.fid.Name = "fid";
+            this.fid.ReadOnly = true;
+            this.fid.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fcode
+            // 
+            this.fcode.FillWeight = 60F;
+            this.fcode.HeaderText = "文件编号";
+            this.fcode.Name = "fcode";
+            this.fcode.ReadOnly = true;
+            this.fcode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fname
+            // 
+            this.fname.HeaderText = "文件名称";
+            this.fname.Name = "fname";
+            this.fname.ReadOnly = true;
+            this.fname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fbox
+            // 
+            this.fbox.FillWeight = 50F;
+            this.fbox.HeaderText = "盒号";
+            this.fbox.Name = "fbox";
+            this.fbox.ReadOnly = true;
+            this.fbox.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fbstate
+            // 
+            this.fbstate.FillWeight = 40F;
+            this.fbstate.HeaderText = "借阅状态";
+            this.fbstate.Name = "fbstate";
+            this.fbstate.ReadOnly = true;
+            this.fbstate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.fbstate.Text = "";
+            // 
+            // frstate
+            // 
+            this.frstate.FillWeight = 40F;
+            this.frstate.HeaderText = "归还状态";
+            this.frstate.Name = "frstate";
+            this.frstate.ReadOnly = true;
+            this.frstate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.frstate.Text = "";
             // 
             // Frm_QueryBorrowing
             // 
@@ -985,13 +975,6 @@
         private System.Windows.Forms.CheckBox chk_allDate;
         private System.Windows.Forms.DateTimePicker dtp_eDate;
         private System.Windows.Forms.DateTimePicker dtp_sDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fpcode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fpname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fcategor;
-        private System.Windows.Forms.DataGridViewButtonColumn fbstate;
-        private System.Windows.Forms.DataGridViewButtonColumn frstate;
         private DevExpress.XtraEditors.LabelControl lbl_TotalFileAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn code;
@@ -1000,5 +983,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn sdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn tcount;
         private System.Windows.Forms.DataGridViewLinkColumn fcount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fbox;
+        private System.Windows.Forms.DataGridViewButtonColumn fbstate;
+        private System.Windows.Forms.DataGridViewButtonColumn frstate;
     }
 }
