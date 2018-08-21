@@ -74,58 +74,6 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 获取指定计划类别下的项目/课题数
-        /// </summary>
-        /// <param name="planTypeCode">计划类别编号</param>
-        /// <param name="unitID">来源单位ID</param>
-        /// <returns></returns>
-        private int GetProjectAmount(object planTypeCode, string unitID)
-        {
-            string querySQL = string.Empty;
-            if(string.IsNullOrEmpty(unitID))
-            {
-                if(ToolHelper.GetValue(planTypeCode).Contains("ZX"))
-                {
-                    querySQL = "SELECT COUNT(idi.imp_id) AS count FROM imp_dev_info idi " +
-                        "LEFT JOIN (SELECT pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                        "SELECT ti_obj_id FROM topic_info WHERE ti_categor = -3) A ON idi.imp_id = A.pi_obj_id " +
-                       $"WHERE idi.imp_code = '{planTypeCode}' " +
-                        "GROUP BY idi.imp_code";
-                }
-                else
-                {
-                    querySQL = "SELECT COUNT(pi.pi_id) AS count FROM project_info pi " +
-                        "LEFT JOIN(SELECT pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                        "SELECT ti_obj_id FROM topic_info WHERE ti_categor = -3) A ON pi.pi_id = A.pi_obj_id " +
-                        $"WHERE pi.pi_categor = 1 AND pi_code='{planTypeCode}' " +
-                        "GROUP BY pi.pi_code";
-                }
-            }
-            else
-            {
-                if(ToolHelper.GetValue(planTypeCode).Contains("ZX"))
-                {
-                    querySQL = " SELECT COUNT(A.pi_obj_id) FROM transfer_registration_pc trp " +
-                        "LEFT JOIN imp_info ii ON trp.trp_id = ii.imp_obj_id " +
-                       $"LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id AND idi.imp_code = '{planTypeCode}' " +
-                        "LEFT JOIN(SELECT pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                        "SELECT ti_obj_id FROM topic_info WHERE ti_categor = -3) A ON A.pi_obj_id = idi.imp_id " +
-                       $"WHERE trp.com_id = '{unitID}' " +
-                       $"GROUP BY com_id";
-                }
-                else
-                {
-                    querySQL = "SELECT COUNT(A.pi_obj_id) FROM transfer_registration_pc trp " +
-                       $"LEFT JOIN project_info pi ON(trp.trp_id = pi.trc_id AND pi.pi_categor = 1 AND pi.pi_code = '{planTypeCode}') " +
-                        "LEFT JOIN (SELECT pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL SELECT ti_obj_id FROM topic_info WHERE ti_categor = -3) A " +
-                       $"ON A.pi_obj_id = pi.pi_id WHERE trp.com_id = '{unitID}' " +
-                        "GROUP BY com_id";
-                }
-            }
-            return SqlHelper.ExecuteCountQuery(querySQL);
-        }
-
-        /// <summary>
         /// 获取指定计划类别下的盒数
         /// </summary>
         /// <param name="planTypeCode">计划类别编号</param>
@@ -134,8 +82,8 @@ namespace 科技计划项目档案数据采集管理系统
             if(type == 0)
             {
                 string querySQL = "SELECT COUNT(pb.pb_id) FROM T_Plan p " +
-                    "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor= 2 " +
-                   $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON A.pi_source_id = p.F_ID {unitCode}" +
+                    "LEFT JOIN (SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor= 2 " +
+                   $"UNION ALL SELECT ti_id, ti_source_id, ti_orga_id FROM topic_info) A ON A.pi_source_id = p.F_ID {unitCode}" +
                     "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
                    $"WHERE p.F_ID = '{planTypeCode}' GROUP BY F_ID";
                 return SqlHelper.ExecuteCountQuery(querySQL);
@@ -143,8 +91,8 @@ namespace 科技计划项目档案数据采集管理系统
             else
             {
                 string querySQL = "SELECT COUNT(pb.pb_id) FROM T_SourceOrg AS s " +
-                   "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor = 2 " +
-                  $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON s.F_ID = A.trc_id {unitCode} " +
+                   "LEFT JOIN (SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
+                  $"UNION ALL SELECT ti_id, ti_source_id, ti_orga_id FROM topic_info) A ON s.F_ID = A.pi_orga_id {unitCode} " +
                    "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
                   $"WHERE F_ID = '{planTypeCode}' GROUP BY F_ID";
                 return SqlHelper.ExecuteCountQuery(querySQL);
@@ -161,8 +109,8 @@ namespace 科技计划项目档案数据采集管理系统
             if(type == 0)
             {
                 string querySQL = "SELECT COUNT(pfl.pfl_id) FROM T_Plan p " +
-                    "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor= 2 " +
-                   $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON A.pi_source_id = p.F_ID {unitCode} " +
+                    "LEFT JOIN (SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor= 2 " +
+                   $"UNION ALL SELECT ti_id, ti_source_id, ti_orga_id FROM topic_info) A ON A.pi_source_id = p.F_ID {unitCode} " +
                     "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
                    $"WHERE p.F_ID = '{planTypeCode}' GROUP BY F_ID";
                 return SqlHelper.ExecuteCountQuery(querySQL);
@@ -170,8 +118,8 @@ namespace 科技计划项目档案数据采集管理系统
             else
             {
                 string querySQL = "SELECT COUNT(pfl.pfl_id) FROM T_SourceOrg AS s " +
-                    "LEFT JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE pi_categor = 2 " +
-                   $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) A ON s.F_ID = A.trc_id {unitCode} " +
+                    "LEFT JOIN (SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
+                   $"UNION ALL SELECT ti_id, ti_source_id, ti_orga_id FROM topic_info) A ON s.F_ID = A.pi_orga_id {unitCode} " +
                     "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
                    $"WHERE F_ID = '{planTypeCode}' GROUP BY F_ID";
                 return SqlHelper.ExecuteCountQuery(querySQL);
@@ -501,11 +449,11 @@ namespace 科技计划项目档案数据采集管理系统
             if("ace_all".Equals(value))
                 value = string.Empty;
             else
-                value = $"AND A.trc_id = '{value}'";
+                value = $"AND A.pi_orga_id = '{value}'";
 
             string querySQL = "SELECT F_ID, F_Title, pCount FROM (SELECT p.F_ID, p.F_Title, COUNT(A.pi_id) AS pCount FROM T_Plan AS p " +
-                "LEFT OUTER JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE(pi_categor = 2) " +
-               $"UNION ALL SELECT ti_id, ti_source_id, trc_id FROM topic_info) AS A ON (A.pi_source_id = p.F_ID {value}) " +
+                "LEFT OUTER JOIN (SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE(pi_categor = 2) " +
+               $"UNION ALL SELECT ti_id, ti_source_id, ti_orga_id FROM topic_info) AS A ON (A.pi_source_id = p.F_ID {value}) " +
                 "GROUP BY p.F_ID, p.F_Title) AS B WHERE (pCount <> 0)";
 
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
@@ -553,8 +501,8 @@ namespace 科技计划项目档案数据采集管理系统
                 value = $"AND A.pi_source_id = '{value}'";
             
             string querySQL = "SELECT * FROM(SELECT s.F_ID, s.F_Title, COUNT(A.pi_id) AS pCount FROM T_SourceOrg AS s " +
-                "LEFT OUTER JOIN (SELECT pi_id, pi_source_id, trc_id FROM project_info WHERE(pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, trc_id " +
-               $"FROM topic_info) AS A ON (s.F_ID = A.trc_id {value}) GROUP BY s.F_ID, s.F_Title) B WHERE pCount <> 0";
+                "LEFT OUTER JOIN (SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE(pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, ti_orga_id " +
+               $"FROM topic_info) AS A ON (s.F_ID = A.pi_orga_id {value}) GROUP BY s.F_ID, s.F_Title) B WHERE pCount <> 0";
 
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             view.Rows.Clear();

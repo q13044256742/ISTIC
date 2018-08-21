@@ -93,3 +93,39 @@ WHERE pb_obj_id IS NULL;
 UPDATE processing_box SET pb_obj_id=
 (SELECT ti_id FROM topic_info WHERE ti_old_id=pb_old_obj_id)
 WHERE pb_obj_id IS NULL;
+
+
+--项目表增加字段 pi_orga_id	varchar(100)
+UPDATE project_info SET pi_orga_id='A'+trc_id WHERE trc_id='10';
+UPDATE project_info SET trc_id=NULL WHERE trc_id='10'
+
+--课题表增加字段 ti_orga_id	varchar(100)
+UPDATE topic_info SET ti_orga_id='A'+trc_id WHERE trc_id='10';
+UPDATE topic_info SET trc_id=NULL WHERE trc_id='10';
+
+--子课题表增加字段 si_orga_id	varchar(100)
+
+--更新机构字典码
+UPDATE T_SourceOrg SET F_ID='A'+F_ID
+
+手动更新计划类别代码（以T_Plan表为准）
+863计划	AA
+支撑计划	BA
+973计划	BA
+伽利略项目	CEG
+科技基础条件平台	DD
+科技基础性工作专项	DE
+国际科技合作与交流专项	DF
+科研院所研究开发专项	EG
+新能源汽车推广应用项目	EV
+富民强县	FM
+星火计划	GA
+科技成果转化计划	GB
+火炬计划	GH
+管理文件	GL
+公益性行业科研专项计划	GY
+创新方法专项	IM
+科技园	KJ
+国家重点研发计划	YF
+重大仪器专项	YQ
+国家重大专项	ZX

@@ -415,7 +415,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if("在库".Equals(view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
                 {
                     object fid = view2.Rows[e.RowIndex].Tag;
-                    object fcode = view2.Rows[e.RowIndex].Cells["fcategor"].Value;
+                    object fcode = view2.Rows[e.RowIndex].Cells["fcode"].Value;
                     object fname = view2.Rows[e.RowIndex].Cells["fname"].Value;
                     Frm_BorrowEdit frm = new Frm_BorrowEdit(ToolHelper.GetValue(fcode), ToolHelper.GetValue(fname));
                     frm.FILE_ID = fid;

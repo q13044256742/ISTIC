@@ -66,6 +66,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             string querySql = $"SELECT trp_name FROM transfer_registration_pc WHERE trp_id='{pid}'";
             string name = Convert.ToString(SqlHelper.ExecuteOnlyOneQuery(querySql));
             lbl_PCName.Text = name;
+            Txt_CDCode_Enter(null, null);
         }
 
         private void Txt_CDCode_Enter(object sender, EventArgs e)

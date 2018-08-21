@@ -61,7 +61,7 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_fileCode.Text = GetValue(row["pfl_code"]);
                 txt_User.Text = GetValue(row["pfl_user"]);
                 txt_fileName.Text = GetValue(row["pfl_name"]);
-                dtp_date.Value = GetDateTime(row["pfl_date"], "yyyy-MM-dd");
+                txt_date.Text = ToolHelper.GetDateValue(row["pfl_date"], "yyyy-MM-dd");
                 num_Pages.Value = Convert.ToInt32(row["pfl_pages"]);
                 num_Count.Value = Convert.ToInt32(row["pfl_count"]);
                 num_Amount.Value = Convert.ToInt32(row["pfl_amount"]);
@@ -70,18 +70,6 @@ namespace 科技计划项目档案数据采集管理系统
                 LoadFileLinkList(GetValue(row["pfl_file_id"]));
                 txt_Remark.Text = GetValue(row["pfl_remark"]);
             }
-        }
-
-        private DateTime GetDateTime(object v1, string v2)
-        {
-            string date = GetValue(v1);
-            if(!string.IsNullOrEmpty(date))
-            {
-                bool flag = DateTime.TryParse(date, out DateTime defaultDate);
-                if(flag)
-                    return defaultDate;
-            }
-            return DateTime.MinValue;
         }
 
         private void LoadFileLinkList(string ids)
@@ -557,7 +545,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 if(!Regex.IsMatch(dateString, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(dateString, out DateTime date))
                 {
-                    errorProvider1.SetError(dtp_date, "提示：请输入格式为 yyyy-MM-dd 的有效日期。");
+                    errorProvider1.SetError(txt_date, "提示：请输入格式为 yyyy-MM-dd 的有效日期。");
                     result = false;
                 }
             }
@@ -722,12 +710,5 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void dtp_date_ValueChanged(object sender, EventArgs e)
-        {
-            DateTime date = dtp_date.Value;
-            if(!new DateTime(1900, 01, 01).Equals(date))
-                txt_date.Text = date.ToString("yyyy-MM-dd");
-            else txt_date.Clear();
-        }
     }
 }

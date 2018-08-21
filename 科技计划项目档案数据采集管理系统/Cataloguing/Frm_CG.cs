@@ -67,13 +67,13 @@ namespace 科技计划项目档案数据采集管理系统
             view.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "trp_id"},
-                new DataGridViewTextBoxColumn(){ Name = "dd_name", HeaderText= "来源单位", FillWeight = 18},
-                new DataGridViewTextBoxColumn(){ Name = "trp_name", HeaderText= "批次名称", FillWeight = 25},
-                new DataGridViewTextBoxColumn(){ Name = "trp_code", HeaderText= "批次编号", FillWeight = 20},
-                new DataGridViewTextBoxColumn(){ Name = "trp_finishtime", HeaderText= "完成时间", FillWeight = 10},
-                new DataGridViewLinkColumn(){ Name = "trp_cd_amount", HeaderText= "光盘数", FillWeight = 7},
-                new DataGridViewButtonColumn(){ Name = "trp_control", HeaderText= "操作", FillWeight = 8, Text = "领取", UseColumnTextForButtonValue = true},
-                new DataGridViewButtonColumn(){ Name = "trp_finish", HeaderText= "结束", FillWeight = 8, Text = "完结批次", UseColumnTextForButtonValue = true},
+                new DataGridViewTextBoxColumn(){ Name = "dd_name", HeaderText= "来源单位", FillWeight = 18, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "trp_name", HeaderText= "批次名称", FillWeight = 25, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "trp_code", HeaderText= "批次编号", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "trp_finishtime", HeaderText= "完成时间", FillWeight = 10, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewLinkColumn(){ Name = "trp_cd_amount", HeaderText= "光盘数", FillWeight = 7, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){ Name = "trp_control", HeaderText= "操作", FillWeight = 8, Text = "领取", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){ Name = "trp_finish", HeaderText= "结束", FillWeight = 8, Text = "完结批次", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable },
             });
             if(querySql == null)
             {
@@ -169,12 +169,12 @@ namespace 科技计划项目档案数据采集管理系统
             view.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "mw_id", Visible = false },
-                new DataGridViewTextBoxColumn(){ Name = "mw_unit", HeaderText = "来源单位", FillWeight = 12 },
-                new DataGridViewTextBoxColumn(){ Name = "mw_pcode", HeaderText = "批次号", FillWeight = 8 },
-                new DataGridViewTextBoxColumn(){ Name = "mw_code", HeaderText = "项目/课题编号", FillWeight = 12 },
+                new DataGridViewTextBoxColumn(){ Name = "mw_unit", HeaderText = "来源单位", FillWeight = 12, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewTextBoxColumn(){ Name = "mw_pcode", HeaderText = "批次号", FillWeight = 8, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewTextBoxColumn(){ Name = "mw_code", HeaderText = "项目/课题编号", FillWeight = 12, SortMode = DataGridViewColumnSortMode.NotSortable  },
                 new DataGridViewTextBoxColumn(){ Name = "mw_name", HeaderText = "项目/课题名称", FillWeight = 35, SortMode = DataGridViewColumnSortMode.NotSortable },
                 new DataGridViewTextBoxColumn(){ Name = "mw_fileAmount", HeaderText = "文件数", FillWeight = 5, SortMode = DataGridViewColumnSortMode.NotSortable },
-                new DataGridViewTextBoxColumn(){ Name = "mw_state", HeaderText = "状态", FillWeight = 8 },
+                new DataGridViewTextBoxColumn(){ Name = "mw_state", HeaderText = "状态", FillWeight = 8, SortMode = DataGridViewColumnSortMode.NotSortable  },
                 new DataGridViewButtonColumn(){ Name = "mw_control", HeaderText = "操作", FillWeight = 6, Text = "查看", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable },
             });
 
@@ -239,11 +239,11 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewStyleHelper.ResetDataGridView(view);
             view.Columns.AddRange(new DataGridViewColumn[] {
                 new DataGridViewTextBoxColumn(){ Name = "bk_id" },
-                new DataGridViewTextBoxColumn(){ Name = "bk_code", HeaderText = "编号", FillWeight = 15 },
-                new DataGridViewTextBoxColumn(){ Name = "bk_name", HeaderText = "名称", FillWeight = 20 },
-                new DataGridViewTextBoxColumn(){ Name = "bk_reason", HeaderText = "返工原因", FillWeight = 15 },
-                new DataGridViewButtonColumn(){ Name = "bk_edit", HeaderText = "操作", FillWeight = 7, Text = "编辑", UseColumnTextForButtonValue = true },
-                new DataGridViewButtonColumn(){ Name = "bk_submit", HeaderText = "提交", FillWeight = 7, Text = "提交质检", UseColumnTextForButtonValue = true},
+                new DataGridViewTextBoxColumn(){ Name = "bk_code", HeaderText = "编号", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewTextBoxColumn(){ Name = "bk_name", HeaderText = "名称", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewTextBoxColumn(){ Name = "bk_reason", HeaderText = "返工原因", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){ Name = "bk_edit", HeaderText = "操作", FillWeight = 7, Text = "编辑", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewButtonColumn(){ Name = "bk_submit", HeaderText = "提交", FillWeight = 7, Text = "提交质检", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable },
             });
 
             string querySql = $"SELECT * FROM work_myreg WHERE wm_status='{(int)QualityStatus.QualityBack}' AND wm_user='{UserHelper.GetUser().UserKey}'";
@@ -425,12 +425,12 @@ namespace 科技计划项目档案数据采集管理系统
             view.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){Name = "id"},
-                new DataGridViewTextBoxColumn(){Name = "code", HeaderText = "编号", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){Name = "name", HeaderText = "名称", FillWeight = 20},
-                new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 20},
-                new DataGridViewTextBoxColumn(){Name = "type", HeaderText = "加工类型", FillWeight = 15},
-                new DataGridViewButtonColumn(){Name = "edit", HeaderText = "操作", FillWeight = 7, Text = "编辑", UseColumnTextForButtonValue = true},
-                new DataGridViewButtonColumn(){Name = "submit", HeaderText = "提交", FillWeight = 7, Text = "提交质检", UseColumnTextForButtonValue = true},
+                new DataGridViewTextBoxColumn(){Name = "code", HeaderText = "编号", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){Name = "name", HeaderText = "名称", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){Name = "type", HeaderText = "加工类型", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){Name = "edit", HeaderText = "操作", FillWeight = 7, Text = "编辑", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){Name = "submit", HeaderText = "提交", FillWeight = 7, Text = "提交质检", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable },
             });
             for(int i = 0; i < resultList.Count; i++)
             {
@@ -1071,7 +1071,7 @@ namespace 科技计划项目档案数据采集管理系统
                     object piId = view.Rows[e.RowIndex].Cells["mw_id"].Value;
                     object trpId = view.Rows[e.RowIndex].Cells["mw_id"].Tag;
                     object trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id='{piId}' UNION ALL SELECT trc_id FROM topic_info WHERE ti_id='{piId}'");
-                    Frm_MyWork frm = GetFromHelper.GetMyWork(WorkType.ProjectWork, piId, trcId, ControlType.Project, true, true);
+                    Frm_MyWork frm = GetFormHelper.GetMyWork(WorkType.ProjectWork, piId, trcId, ControlType.Project, true, true);
                     frm.Show();
                     frm.Activate();
                 }
@@ -1487,10 +1487,10 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewStyleHelper.ResetDataGridView(view);
             view.Columns.AddRange(new DataGridViewColumn[]
             {
-                new DataGridViewTextBoxColumn(){ Name = "si_id"},
-                new DataGridViewTextBoxColumn(){ Name = "si_code", HeaderText = "课题/子课题编号", FillWeight = 12 },
-                new DataGridViewTextBoxColumn(){ Name = "si_name", HeaderText = "课题/子课题名称", FillWeight = 15 },
-                new DataGridViewTextBoxColumn(){ Name = "si_file_amount", HeaderText = "文件数", FillWeight = 5 },
+                new DataGridViewTextBoxColumn(){ Name = "si_id", SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "si_code", HeaderText = "课题/子课题编号", FillWeight = 12 , SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "si_name", HeaderText = "课题/子课题名称", FillWeight = 15 , SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "si_file_amount", HeaderText = "文件数", FillWeight = 5 , SortMode = DataGridViewColumnSortMode.NotSortable },
             });
 
             DataTable table = null;
@@ -1527,13 +1527,13 @@ namespace 科技计划项目档案数据采集管理系统
             view.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "trc_id"},
-                new DataGridViewTextBoxColumn(){ Name = "dd_name", FillWeight = 18 },
-                new DataGridViewTextBoxColumn(){ Name = "trc_code", FillWeight = 20 },
-                new DataGridViewTextBoxColumn(){ Name = "trc_name", FillWeight = 20 },
-                new DataGridViewLinkColumn(){ Name = "trc_total_amount", FillWeight = 10 },
-                new DataGridViewTextBoxColumn(){ Name = "trc_receive_amount", FillWeight = 10 },
-                new DataGridViewTextBoxColumn(){ Name = "trc_file_amount", FillWeight = 7 },
-                new DataGridViewButtonColumn(){ Name = "trc_control", FillWeight = 7, Text = "领取", UseColumnTextForButtonValue = true },
+                new DataGridViewTextBoxColumn(){ Name = "dd_name", FillWeight = 18 , SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "trc_code", FillWeight = 20 , SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "trc_name", FillWeight = 20 , SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewLinkColumn(){ Name = "trc_total_amount", FillWeight = 10 , SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "trc_receive_amount", FillWeight = 10 , SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "trc_file_amount", FillWeight = 7, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewButtonColumn(){ Name = "trc_control", FillWeight = 7, Text = "领取", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable  },
             });
             //增加TreeView
             TreeView tv = new TreeView();
@@ -1622,13 +1622,13 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewStyleHelper.ResetDataGridView(view);
             view.Columns.AddRange(new DataGridViewColumn[] {
                 new DataGridViewTextBoxColumn(){ Name = "pi_id"},
-                new DataGridViewTextBoxColumn(){ Name = "pi_code", HeaderText = "项目/课题编号", FillWeight = 12},
-                new DataGridViewTextBoxColumn(){ Name = "pi_name", HeaderText = "项目/课题名称", FillWeight = 25},
-                new DataGridViewTextBoxColumn(){ Name = "pi_company", HeaderText = "承担单位", FillWeight = 20},
-                new DataGridViewLinkColumn(){ Name = "pi_total_amount", HeaderText = "总数", FillWeight = 9},
-                new DataGridViewTextBoxColumn(){ Name = "pi_receive_amount", HeaderText = "已领取数", FillWeight = 9},
-                new DataGridViewTextBoxColumn(){ Name = "pi_file_amount", HeaderText = "文件数", FillWeight = 9},
-                new DataGridViewButtonColumn() { Name = "pi_control", HeaderText = "操作", FillWeight = 10}
+                new DataGridViewTextBoxColumn(){ Name = "pi_code", HeaderText = "项目/课题编号", FillWeight = 12, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "pi_name", HeaderText = "项目/课题名称", FillWeight = 25, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "pi_company", HeaderText = "承担单位", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewLinkColumn(){ Name = "pi_total_amount", HeaderText = "总数", FillWeight = 9, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "pi_receive_amount", HeaderText = "已领取数", FillWeight = 9, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "pi_file_amount", HeaderText = "文件数", FillWeight = 9, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn() { Name = "pi_control", HeaderText = "操作", FillWeight = 10, SortMode = DataGridViewColumnSortMode.NotSortable }
             });
             TreeView tree = new TreeView();
             tree.Nodes.AddRange(new TreeNode[] {

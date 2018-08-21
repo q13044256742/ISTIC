@@ -60,11 +60,18 @@ namespace 科技计划项目档案数据采集管理系统
         /// <returns>数据源的表</returns>
         public static DataTable ExecuteQuery(string querySql)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter(querySql,GetConnect());
-            DataTable table = new DataTable();
-            adapter.Fill(table);
-            CloseConnect();
-            return table;
+            try
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(querySql, GetConnect());
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+                CloseConnect();
+                return table;
+            }catch(SqlException e)
+            {
+                LogsHelper.AddErrorLogs("SQL", e.Message);
+                return null;
+            }
         }
 
         /// <summary>

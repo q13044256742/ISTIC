@@ -68,8 +68,9 @@ namespace 科技计划项目档案数据采集管理系统
             this.controlType = controlType;
             if(workType == WorkType.ProjectWork)
                 trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id='{objId}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id='{objId}'");
-            else if(workType == WorkType.CDWork_Plan)
+            else if(workType == WorkType.CDWork_Plan || workType == WorkType.PaperWork_Plan)
                 trcId = objId;
+            togle.Tag = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id=(SELECT com_id FROM transfer_registration_pc WHERE trp_id = '{trcId}')");
         }
 
         public Frm_MyWork(WorkType workType, object planId, object objId, ControlType controlType, bool isBacked, bool isReadOnly) : this(workType, planId, objId, controlType, isBacked)
@@ -133,6 +134,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Plan_Intro.Text = GetValue(row["dd_note"]);
                 }
             }
+            Tag = lbl_Plan_Name.Tag;
             plan.Tag = node.Name;
             if(node.ForeColor == DisEnbleColor)
             {
@@ -1060,8 +1062,11 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(tab_Project_Info.Tag == null)
                 {
-                    int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_code='{proCode}';");
-                    count += SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE ti_code='{proCode}';");
+                    int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(pi_id) FROM " +
+                        $"(SELECT pi_id, pi_code, pi_orga_id FROM project_info " +
+                        $"UNION ALL SELECT ti_id, ti_code, ti_orga_id FROM topic_info " +
+                        $"UNION ALL SELECT si_id, si_code, si_orga_id FROM subject_info) A " +
+                        $"WHERE A.pi_code='{proCode}' AND A.pi_orga_id='{togle.Tag}';");
                     if(count > 0)
                     {
                         errorProvider1.SetError(txt_Project_Code, "提示：此项目/课题编号已存在");
@@ -1072,7 +1077,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Project_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{2})?$"))
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{1,2})?$"))
                     {
                         errorProvider1.SetError(txt_Project_Funds, "提示：请输入合法经费");
                         result = false;
@@ -1121,8 +1126,11 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(tab_Topic_Info.Tag == null)
                 {
-                    int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE ti_code='{topCode}';");
-                    count += SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_code='{topCode}';");
+                    int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(pi_id) FROM " +
+                        $"(SELECT pi_id, pi_code, pi_orga_id FROM project_info " +
+                        $"UNION ALL SELECT ti_id, ti_code, ti_orga_id FROM topic_info " +
+                        $"UNION ALL SELECT si_id, si_code, si_orga_id FROM subject_info) A " +
+                        $"WHERE A.pi_code='{topCode}' AND A.pi_orga_id='{togle.Tag}';");
                     if(count > 0)
                     {
                         errorProvider1.SetError(txt_Topic_Code, "提示：此项目/课题编号已存在");
@@ -1133,7 +1141,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Topic_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{2})?$"))
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{1,2})?$"))
                     {
                         errorProvider1.SetError(txt_Topic_Funds, "提示：请输入合法经费");
                         result = false;
@@ -1193,7 +1201,11 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 if(tab_Subject_Info.Tag == null)
                 {
-                    int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(si_id) FROM subject_info WHERE si_code='{subCode}' AND si_obj_id='{pid}';");
+                    int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(pi_id) FROM " +
+                        $"(SELECT pi_id, pi_code, pi_orga_id FROM project_info " +
+                        $"UNION ALL SELECT ti_id, ti_code, ti_orga_id FROM topic_info " +
+                        $"UNION ALL SELECT si_id, si_code, si_orga_id FROM subject_info) A " +
+                        $"WHERE A.pi_code='{subCode}' AND A.pi_orga_id='{togle.Tag}';");
                     if(count > 0)
                     {
                         errorProvider1.SetError(txt_Subject_Code, "提示：子课题编号已存在");
@@ -1204,9 +1216,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string funds = txt_Subject_Funds.Text;
                 if(!string.IsNullOrEmpty(funds))
                 {
-                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{2})?$"))
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{1,2})?$"))
                     {
-                        errorProvider1.SetError(txt_Subject_Funds, "提示：请输入保留两位小数的合法经费");
+                        errorProvider1.SetError(txt_Subject_Funds, "提示：请输入合法经费");
                         result = false;
                     }
                 }
@@ -1554,6 +1566,8 @@ namespace 科技计划项目档案数据采集管理系统
                     $",pi_uniter = '{unituser}'" +
                     $",pi_prouser = '{objuser}'" +
                     $",pi_intro = '{intro}'" +
+                    $",pi_source_id = '{Tag}'" +
+                    $",pi_orga_id = '{togle.Tag}'" +
                     $" WHERE pi_id='{objid}'";
                 SqlHelper.ExecuteNonQuery(updateSql);
             }
@@ -1587,6 +1601,8 @@ namespace 科技计划项目档案数据采集管理系统
                     $",ti_uniter = '{unituser}'" +
                     $",ti_prouser = '{objuser}'" +
                     $",ti_intro = '{intro}'" +
+                    $",ti_source_id = '{Tag}'" +
+                    $",ti_orga_id = '{togle.Tag}'" +
                     $" WHERE ti_id='{objid}'";
                 SqlHelper.ExecuteNonQuery(updateSql);
             }
@@ -1620,6 +1636,8 @@ namespace 科技计划项目档案数据采集管理系统
                     $",[si_uniter] = '{unituser}'" +
                     $",[si_prouser] = '{objuser}'" +
                     $",[si_intro] = '{intro}'" +
+                    $",si_source_id = '{Tag}'" +
+                    $",si_orga_id = '{togle.Tag}'" +
                     $" WHERE si_id='{objid}'";
                 SqlHelper.ExecuteNonQuery(updateSql);
             }
@@ -1652,8 +1670,8 @@ namespace 科技计划项目档案数据采集管理系统
                 object code = lbl_Plan_Name.Tag;
                 string name = lbl_Plan_Name.Text.Replace("'", "''");
                 string intro = txt_Plan_Intro.Text;
-                string insertSql = "INSERT INTO project_info(pi_id, trc_id, pi_code, pi_name, pi_intro, pi_obj_id, pi_categor, pi_submit_status, pi_worker_id) VALUES" +
-                    $"('{primaryKey}', '{OBJECT_ID}', '{code}', '{name}', '{intro}', '{parentId}', '{(int)type}', '{1}', '{UserHelper.GetUser().UserKey}')";
+                string insertSql = "INSERT INTO project_info(pi_id, trc_id, pi_code, pi_name, pi_intro, pi_obj_id, pi_categor, pi_submit_status, pi_worker_id, pi_source_id, pi_orga_id) VALUES" +
+                    $"('{primaryKey}', '{OBJECT_ID}', '{code}', '{name}', '{intro}', '{parentId}', '{(int)type}', '{1}', '{UserHelper.GetUser().UserKey}', '{Tag}', '{togle.Tag}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Project)
@@ -1673,10 +1691,10 @@ namespace 科技计划项目档案数据采集管理系统
                 string intro = txt_Project_Intro.Text.Replace("'", "''");
 
                 string insertSql = "INSERT INTO project_info(pi_id, pi_code, pi_name, pi_field, pb_theme, pi_funds, pi_start_datetime, pi_end_datetime, pi_year, pi_unit, pi_uniter" +
-                    ",pi_province, pi_prouser, pi_intro, pi_work_status, pi_obj_id, pi_categor, pi_submit_status, pi_worker_id, pi_worker_date)" +
+                    ",pi_province, pi_prouser, pi_intro, pi_work_status, pi_obj_id, pi_categor, pi_submit_status, pi_worker_id, pi_worker_date, pi_source_id, pi_orga_id)" +
                     "VALUES" +
                     $"('{primaryKey}', '{code}', '{name}', '{filed}', '{theme}', '{funds}', '{starttime}', '{endtime}', '{year}', '{unit}', '{unituser}'" +
-                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type}, {1}, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}')";
+                    $",'{province}','{objuser}','{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type}, {1}, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}', '{Tag}', '{togle.Tag}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1699,10 +1717,10 @@ namespace 科技计划项目档案数据采集管理系统
                 int categorType = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_categor=2 AND pi_id='{parentId}'");
                 int categor = categorType > 0 ? (int)type : -(int)type;
                 string insertSql = "INSERT INTO topic_info(ti_id, ti_code, ti_name, ti_field, tb_theme, ti_funds, ti_start_datetime, ti_end_datetime, ti_year, ti_unit, ti_uniter" +
-                    ",ti_province, ti_prouser, ti_intro, ti_work_status, ti_obj_id, ti_categor, ti_submit_status, ti_worker_id, ti_worker_date)" +
+                    ",ti_province, ti_prouser, ti_intro, ti_work_status, ti_obj_id, ti_categor, ti_submit_status, ti_worker_id, ti_worker_date, ti_source_id, ti_orga_id)" +
                     "VALUES" +
                     $"('{primaryKey}', '{code}', '{name}',  '{field}', '{theme}', '{funds}', '{starttime}', '{endtime}', '{year}', '{unit}', '{unituser}'" +
-                    $",'{province}','{objuser}','{intro}', 0, '{parentId}', '{categor}', 1, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}')";
+                    $",'{province}','{objuser}','{intro}', 0, '{parentId}', '{categor}', 1, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}', '{Tag}', '{togle.Tag}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
@@ -1724,9 +1742,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string intro = txt_Subject_Intro.Text.Replace("'", "''");
 
                 string insertSql = "INSERT INTO subject_info(si_id, si_code, si_name, si_field, si_theme, si_funds, si_start_datetime, si_end_datetime, si_year, si_unit, si_uniter" +
-                    ", si_province, si_prouser, si_intro, si_obj_id, si_work_status, si_categor, si_submit_status, si_worker_id, si_worker_date)" +
+                    ", si_province, si_prouser, si_intro, si_obj_id, si_work_status, si_categor, si_submit_status, si_worker_id, si_worker_date, si_source_id, si_orga_id)" +
                    $" VALUES ('{primaryKey}', '{code}', '{name}', '{field}', '{theme}', '{funds}', '{starttime}', '{endtime}', '{year}', '{unit}', '{unituser}', '{province}', '{objuser}'" +
-                   $",'{intro}', '{parentId}', 1, '{(int)type}', 1, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}')";
+                   $",'{intro}', '{parentId}', 1, '{(int)type}', 1, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}', '{Tag}', '{togle.Tag}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if(type == ControlType.Imp)
@@ -5639,10 +5657,12 @@ namespace 科技计划项目档案数据采集管理系统
             if(!string.IsNullOrEmpty(value) && GetSaveState(codeText.Name))
             {
                 object pId = codeText.Parent.Parent.Tag;
-                int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE pi_code='{value}'");
-                index += SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE ti_code='{value}'");
-                index += SqlHelper.ExecuteCountQuery($"SELECT COUNT(si_id) FROM subject_info WHERE si_code='{value}'");
-                if(index > 0)
+                int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(pi_id) FROM " +
+                        $"(SELECT pi_id, pi_code, pi_orga_id FROM project_info " +
+                        $"UNION ALL SELECT ti_id, ti_code, ti_orga_id FROM topic_info " +
+                        $"UNION ALL SELECT si_id, si_code, si_orga_id FROM subject_info) A " +
+                        $"WHERE A.pi_code='{value}' AND A.pi_orga_id='{togle.Tag}';");
+                if(count > 0)
                 {
                     errorProvider1.SetError(codeText, "提示：此编号已存在。");
                     codeText.Focus();
@@ -6009,7 +6029,7 @@ namespace 科技计划项目档案数据采集管理系统
                 objid = tab_Special_Info.Tag;
             if(objid != null)
             {
-                Frm_OtherDoc frm = GetFromHelper.GetOtherDoc(objid);
+                Frm_OtherDoc frm = GetFormHelper.GetOtherDoc(objid);
                 frm.Show();
                 frm.Activate();
             }

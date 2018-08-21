@@ -31,8 +31,11 @@ namespace 科技计划项目档案数据采集管理系统
             //默认查看状态为全部
             cbo_Status.SelectedIndex = 0;
 
-            dgv_SWDJ.ColumnHeadersDefaultCellStyle.Font = new Font("微软雅黑", 10.5f, FontStyle.Bold);
-            dgv_GPDJ.ColumnHeadersDefaultCellStyle.Font = new Font("微软雅黑", 10.5f, FontStyle.Bold);
+            dgv_SWDJ.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dgv_GPDJ.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+
+            dgv_SWDJ.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_GPDJ.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         }
 
         /// <summary>
@@ -139,13 +142,13 @@ namespace 科技计划项目档案数据采集管理系统
 
             dgv_SWDJ.Columns.AddRange(new DataGridViewColumn[]
             {
-                new DataGridViewTextBoxColumn(){Name = "trp_id", HeaderText = "主键", FillWeight = 10 },
-                new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 20 },
-                new DataGridViewTextBoxColumn(){Name = "trp_name", HeaderText = "批次名称", FillWeight = 25 },
-                new DataGridViewTextBoxColumn(){Name = "trp_code", HeaderText = "批次编号", FillWeight = 20 },
-                new DataGridViewLinkColumn(){Name = "trp_cd_amount", HeaderText = "光盘数", FillWeight = 8 },
-                new DataGridViewButtonColumn(){Name = "addpc", HeaderText = "添加光盘", FillWeight = 10, Text = "添加", UseColumnTextForButtonValue = true },
-                new DataGridViewButtonColumn(){Name = "submit", HeaderText = "提交", FillWeight = 10 },
+                new DataGridViewTextBoxColumn(){Name = "trp_id", HeaderText = "主键", FillWeight = 10 , SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewTextBoxColumn(){Name = "trp_name", HeaderText = "批次名称", FillWeight = 25, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewTextBoxColumn(){Name = "trp_code", HeaderText = "批次编号", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewLinkColumn(){Name = "trp_cd_amount", HeaderText = "光盘数", FillWeight = 8, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewButtonColumn(){Name = "addpc", HeaderText = "添加光盘", FillWeight = 10, Text = "添加", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewButtonColumn(){Name = "submit", HeaderText = "提交", FillWeight = 10 , SortMode = DataGridViewColumnSortMode.NotSortable },
             });
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
@@ -177,11 +180,11 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridViewStyleHelper.ResetDataGridView(dgv_SWDJ, true);
             dgv_SWDJ.Columns.AddRange(new DataGridViewColumn[]
             {
-                new DataGridViewTextBoxColumn(){ Name = "trc_id", HeaderText = "主键"},
-                new DataGridViewTextBoxColumn(){ Name = "trc_code", HeaderText = "光盘编号", FillWeight = 8},
-                new DataGridViewTextBoxColumn(){ Name = "trc_name", HeaderText = "光盘名称", FillWeight = 10},
-                new DataGridViewTextBoxColumn(){ Name = "trc_remark", HeaderText = "备注", FillWeight = 20},
-                new DataGridViewButtonColumn(){ Name = "trc_read", HeaderText = "操作", FillWeight = 5, Text = "读写", UseColumnTextForButtonValue = true},
+                new DataGridViewTextBoxColumn(){ Name = "trc_id", HeaderText = "主键", SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "trc_code", HeaderText = "光盘编号", FillWeight = 8, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "trc_name", HeaderText = "光盘名称", FillWeight = 10, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "trc_remark", HeaderText = "备注", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){ Name = "trc_read", HeaderText = "操作", FillWeight = 5, Text = "读写", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable },
             });
             string querySql = $"SELECT trc_id, trc_name, trc_code, trc_remark FROM transfer_registraion_cd WHERE trp_id='{trpId}' ORDER BY trc_sort";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
@@ -463,14 +466,14 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_GPDJ.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){Name = "trc_id"},
-                new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 15 },
-                new DataGridViewTextBoxColumn(){Name = "trc_code", HeaderText = "光盘编号", FillWeight = 15 },
-                new DataGridViewTextBoxColumn(){Name = "trc_name", HeaderText = "光盘名称", FillWeight = 15 },
-                new DataGridViewTextBoxColumn(){Name = "trc_project_amount", HeaderText = "项目数", FillWeight = 6 },
-                new DataGridViewTextBoxColumn(){Name = "trc_subject_amount", HeaderText = "课题数", FillWeight = 6 },
-                new DataGridViewTextBoxColumn(){Name = "trc_file_amount", HeaderText = "文件数", FillWeight = 6 },
-                new DataGridViewTextBoxColumn(){Name = "trc_status", HeaderText = "读写状态", FillWeight = 10 },
-                new DataGridViewButtonColumn(){Name = "control", HeaderText = "操作", FillWeight = 7, Text = "读写", UseColumnTextForButtonValue = true },
+                new DataGridViewTextBoxColumn(){Name = "dd_name", HeaderText = "来源单位", FillWeight = 15 , SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){Name = "trc_code", HeaderText = "光盘编号", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewTextBoxColumn(){Name = "trc_name", HeaderText = "光盘名称", FillWeight = 15 , SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){Name = "trc_project_amount", HeaderText = "项目数", FillWeight = 6, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewTextBoxColumn(){Name = "trc_subject_amount", HeaderText = "课题数", FillWeight = 6, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewTextBoxColumn(){Name = "trc_file_amount", HeaderText = "文件数", FillWeight = 6, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewTextBoxColumn(){Name = "trc_status", HeaderText = "读写状态", FillWeight = 10, SortMode = DataGridViewColumnSortMode.NotSortable  },
+                new DataGridViewButtonColumn(){Name = "control", HeaderText = "操作", FillWeight = 7, Text = "读写", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable  },
             });
 
             DataTable table = null;

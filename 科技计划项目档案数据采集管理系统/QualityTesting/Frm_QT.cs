@@ -842,7 +842,7 @@ namespace 科技计划项目档案数据采集管理系统
                     WorkType type = (WorkType)dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Tag;
                     if(type == WorkType.PaperWork_Imp || type == WorkType.CDWork_Imp)
                     {
-                        Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(type, objid, wmid, ControlType.Imp);
+                        Frm_MyWorkQT frm = GetFormHelper.GetMyWorkQT(type, objid, wmid, ControlType.Imp);
                         frm.unitCode = unitCode;
                         frm.BackCallMethod = CheckExistBackLog;
                         frm.Show();
@@ -850,7 +850,7 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else if(type == WorkType.PaperWork_Special || type == WorkType.CDWork_Special)
                     {
-                        Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(type, objid, wmid, ControlType.Special);
+                        Frm_MyWorkQT frm = GetFormHelper.GetMyWorkQT(type, objid, wmid, ControlType.Special);
                         frm.unitCode = unitCode;
                         frm.BackCallMethod = CheckExistBackLog;
                         frm.Show();
@@ -859,7 +859,7 @@ namespace 科技计划项目档案数据采集管理系统
                     else if(type == WorkType.ProjectWork)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(WorkType.ProjectWork, piid, wmid, ControlType.Project);
+                        Frm_MyWorkQT frm = GetFormHelper.GetMyWorkQT(WorkType.ProjectWork, piid, wmid, ControlType.Project);
                         frm.trcId = dgv_MyReg.Rows[e.RowIndex].Cells["mr_pcode"].Tag;
                         frm.unitCode = unitCode;
                         frm.BackCallMethod = CheckExistBackLog;
@@ -869,7 +869,7 @@ namespace 科技计划项目档案数据采集管理系统
                     else if(type == WorkType.PaperWork_Plan || type == WorkType.CDWork_Plan)
                     {
                         object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mr_id"].Value;
-                        Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(WorkType.PaperWork_Plan, piid, objid, ControlType.Plan);
+                        Frm_MyWorkQT frm = GetFormHelper.GetMyWorkQT(WorkType.PaperWork_Plan, piid, objid, ControlType.Plan);
                         frm.unitCode = unitCode;
                         frm.BackCallMethod = CheckExistBackLog;
                         frm.trcId = dgv_MyReg.Rows[e.RowIndex].Cells["mr_code"].Tag;
@@ -890,7 +890,7 @@ namespace 科技计划项目档案数据采集管理系统
                 else if("mrl_edit".Equals(columnName))
                 {
                     object piid = dgv_MyReg.Rows[e.RowIndex].Cells["mrl_id"].Value;
-                    Frm_MyWorkQT frm = GetFromHelper.GetMyWorkQT(WorkType.ProjectWork, piid, wmid, ControlType.Project, true);
+                    Frm_MyWorkQT frm = GetFormHelper.GetMyWorkQT(WorkType.ProjectWork, piid, wmid, ControlType.Project, true);
                     frm.Show();
                     frm.Activate();
                 }

@@ -74,7 +74,6 @@
             this.dgv_GPDJ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_GPDJ.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_GPDJ.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_GPDJ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_GPDJ.Location = new System.Drawing.Point(2, 44);
             this.dgv_GPDJ.Name = "dgv_GPDJ";
             this.dgv_GPDJ.ReadOnly = true;
@@ -186,7 +185,6 @@
             this.dgv_SWDJ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_SWDJ.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_SWDJ.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_SWDJ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_SWDJ.Location = new System.Drawing.Point(2, 44);
             this.dgv_SWDJ.Name = "dgv_SWDJ";
             this.dgv_SWDJ.ReadOnly = true;

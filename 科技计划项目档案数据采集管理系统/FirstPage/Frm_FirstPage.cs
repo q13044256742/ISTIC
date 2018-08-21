@@ -138,23 +138,27 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             string itemName = e.Item.Name;
             if("tbar_ZLJG".Equals(itemName))//著录加工
             {
-                Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_CG());
-                frm.ShowDialog();
+                Frm_MainFrame frm = GetFormHelper.GetMainFrame(this, new Frm_CG());
+                frm.Show();
+                frm.Activate();
             }
             else if("tbar_YJDJ".Equals(itemName))//移交登记
             {
-                Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_ToR());
-                frm.ShowDialog();
+                Frm_MainFrame frm = GetFormHelper.GetMainFrame(this, new Frm_ToR());
+                frm.Show();
+                frm.Activate();
             }
             else if("tbar_DAJS".Equals(itemName))//档案接收
             {
-                Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_DomAccept());
-                frm.ShowDialog();
+                Frm_MainFrame frm = GetFormHelper.GetMainFrame(this, new Frm_DomAccept());
+                frm.Show();
+                frm.Activate();
             }
             else if("tbar_DAZJ".Equals(itemName))//档案质检
             {
-                Frm_MainFrame frm = new Frm_MainFrame(this, new Frm_QT());
-                frm.ShowDialog();
+                Frm_MainFrame frm = GetFormHelper.GetMainFrame(this, new Frm_QT());
+                frm.Show();
+                frm.Activate();
             }
             
             else if("tbar_Manage".Equals(itemName))//后台管理
@@ -164,13 +168,15 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             }
             else if("tbar_Count".Equals(itemName))//统计分析
             {
-                Frm_Statistics frm = new Frm_Statistics();
-                frm.ShowDialog();
+                Frm_Statistics frm = GetFormHelper.GetStatistic();
+                frm.Show();
+                frm.Activate();
             }
             else if("tbar_Query".Equals(itemName))//查询借阅
             {
-                Frm_QueryBorrowing frm = new Frm_QueryBorrowing(this);
-                frm.ShowDialog();
+                Frm_QueryBorrowing frm = GetFormHelper.GetQueryBorrow(this);
+                frm.Show();
+                frm.Activate();
             }
             
         }

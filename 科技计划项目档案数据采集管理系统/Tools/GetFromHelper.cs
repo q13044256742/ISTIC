@@ -1,9 +1,13 @@
-﻿namespace 科技计划项目档案数据采集管理系统
+﻿using System;
+using System.Windows.Forms;
+using 科技计划项目档案数据采集管理系统.FirstPage;
+
+namespace 科技计划项目档案数据采集管理系统
 {
     /// <summary>
     /// 通过单例模式获取窗体
     /// </summary>
-    public class GetFromHelper
+    public class GetFormHelper
     {
         private static Frm_MyWorkQT myWorkQT;
         public static Frm_MyWorkQT GetMyWorkQT(WorkType workType, object objId, object wmid, ControlType controlType, bool isReadOnly)
@@ -44,5 +48,28 @@
             return loginForm;
         }
 
+        private static Frm_MainFrame mainFrame;
+        public static Frm_MainFrame GetMainFrame(Form f1, Form f2)
+        {
+            if(mainFrame == null || mainFrame.IsDisposed)
+                mainFrame = new Frm_MainFrame(f1, f2);
+            return mainFrame;
+        }
+
+        private static Frm_Statistics statistics;
+        public static Frm_Statistics GetStatistic()
+        {
+            if(statistics == null || statistics.IsDisposed)
+                statistics = new Frm_Statistics();
+            return statistics;
+        }
+
+        private static Frm_QueryBorrowing borrowing;
+        public static Frm_QueryBorrowing GetQueryBorrow(Frm_FirstPage form)
+        {
+            if(borrowing == null || borrowing.IsDisposed)
+                borrowing = new Frm_QueryBorrowing(form);
+            return borrowing;
+        }
     }
 }

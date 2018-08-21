@@ -36,7 +36,6 @@
             this.label14 = new System.Windows.Forms.Label();
             this.txt_Unit = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.dtp_date = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
             this.num_Amount = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
@@ -137,16 +136,6 @@
             this.label10.Size = new System.Drawing.Size(84, 25);
             this.label10.TabIndex = 57;
             this.label10.Text = "存放单位";
-            // 
-            // dtp_date
-            // 
-            this.dtp_date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_date.Location = new System.Drawing.Point(325, 161);
-            this.dtp_date.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.dtp_date.Name = "dtp_date";
-            this.dtp_date.Size = new System.Drawing.Size(16, 30);
-            this.dtp_date.TabIndex = 44;
-            this.dtp_date.ValueChanged += new System.EventHandler(this.dtp_date_ValueChanged);
             // 
             // label9
             // 
@@ -411,7 +400,7 @@
             // 
             this.txt_date.Location = new System.Drawing.Point(114, 161);
             this.txt_date.Name = "txt_date";
-            this.txt_date.Size = new System.Drawing.Size(209, 30);
+            this.txt_date.Size = new System.Drawing.Size(227, 30);
             this.txt_date.TabIndex = 78;
             // 
             // num_Count
@@ -513,7 +502,6 @@
             this.Controls.Add(this.label14);
             this.Controls.Add(this.txt_Unit);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.dtp_date);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.num_Amount);
             this.Controls.Add(this.label8);
@@ -560,7 +548,6 @@
         private System.Windows.Forms.Label label14;
         public System.Windows.Forms.TextBox txt_Unit;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.DateTimePicker dtp_date;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown num_Amount;
         private System.Windows.Forms.Label label8;
