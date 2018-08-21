@@ -323,8 +323,7 @@
             // 
             // Frm_QueryDetail
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.Btn_Close;
             this.ClientSize = new System.Drawing.Size(942, 521);
             this.Controls.Add(this.Btn_Close);

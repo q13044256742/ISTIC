@@ -49,6 +49,10 @@
             this.ac_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.ace_all = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.view = new System.Windows.Forms.DataGridView();
+            this.pName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
             this.tabNavigationPage1 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.rdo_ZJ = new System.Windows.Forms.RadioButton();
@@ -82,10 +86,6 @@
             this.bc_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.all_ptype = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.pName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             this.tabPane1.SuspendLayout();
@@ -131,7 +131,7 @@
             this.ac_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
             this.ac_LeftMenu.Name = "ac_LeftMenu";
             this.ac_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
-            this.ac_LeftMenu.Size = new System.Drawing.Size(278, 718);
+            this.ac_LeftMenu.Size = new System.Drawing.Size(278, 661);
             this.ac_LeftMenu.TabIndex = 13;
             // 
             // ace_all
@@ -167,8 +167,40 @@
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(936, 712);
+            this.view.Size = new System.Drawing.Size(952, 671);
             this.view.TabIndex = 0;
+            // 
+            // pName
+            // 
+            this.pName.FillWeight = 40F;
+            this.pName.HeaderText = "计划类别名称";
+            this.pName.Name = "pName";
+            this.pName.ReadOnly = true;
+            this.pName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // pAmount
+            // 
+            this.pAmount.FillWeight = 20F;
+            this.pAmount.HeaderText = "项目/课题数";
+            this.pAmount.Name = "pAmount";
+            this.pAmount.ReadOnly = true;
+            this.pAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // bAmount
+            // 
+            this.bAmount.FillWeight = 20F;
+            this.bAmount.HeaderText = "盒数";
+            this.bAmount.Name = "bAmount";
+            this.bAmount.ReadOnly = true;
+            this.bAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // fAmount
+            // 
+            this.fAmount.FillWeight = 20F;
+            this.fAmount.HeaderText = "文件数";
+            this.fAmount.Name = "fAmount";
+            this.fAmount.ReadOnly = true;
+            this.fAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // tabPane1
             // 
@@ -182,10 +214,10 @@
             this.tabPane1.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
             this.tabNavigationPage1,
             this.tabNavigationPage2});
-            this.tabPane1.RegularSize = new System.Drawing.Size(1264, 806);
+            this.tabPane1.RegularSize = new System.Drawing.Size(1264, 749);
             this.tabPane1.SelectedPage = this.tabNavigationPage1;
             this.tabPane1.SelectedPageIndex = 1;
-            this.tabPane1.Size = new System.Drawing.Size(1264, 806);
+            this.tabPane1.Size = new System.Drawing.Size(1264, 749);
             this.tabPane1.TabIndex = 17;
             this.tabPane1.Text = "tabPane1";
             this.tabPane1.SelectedPageIndexChanged += new System.EventHandler(this.tabPane1_SelectedPageIndexChanged);
@@ -212,7 +244,7 @@
             this.tabNavigationPage1.Name = "tabNavigationPage1";
             this.tabNavigationPage1.PageText = "工作量统计";
             this.tabNavigationPage1.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
-            this.tabNavigationPage1.Size = new System.Drawing.Size(1246, 758);
+            this.tabNavigationPage1.Size = new System.Drawing.Size(1246, 701);
             // 
             // rdo_ZJ
             // 
@@ -246,7 +278,7 @@
             this.btn_Exprot.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exprot.Image")));
             this.btn_Exprot.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Exprot.ImageToTextIndent = 5;
-            this.btn_Exprot.Location = new System.Drawing.Point(15, 710);
+            this.btn_Exprot.Location = new System.Drawing.Point(15, 653);
             this.btn_Exprot.Name = "btn_Exprot";
             this.btn_Exprot.Size = new System.Drawing.Size(86, 34);
             this.btn_Exprot.TabIndex = 21;
@@ -297,7 +329,7 @@
             this.countView.Name = "countView";
             this.countView.ReadOnly = true;
             this.countView.RowTemplate.Height = 23;
-            this.countView.Size = new System.Drawing.Size(1228, 562);
+            this.countView.Size = new System.Drawing.Size(1228, 505);
             this.countView.TabIndex = 20;
             // 
             // date
@@ -433,7 +465,7 @@
             this.tabNavigationPage2.Name = "tabNavigationPage2";
             this.tabNavigationPage2.PageText = "档案统计";
             this.tabNavigationPage2.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
-            this.tabNavigationPage2.Size = new System.Drawing.Size(1246, 758);
+            this.tabNavigationPage2.Size = new System.Drawing.Size(1246, 701);
             // 
             // tabPane2
             // 
@@ -446,10 +478,10 @@
             this.tabPane2.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
             this.datatable,
             this.datachart});
-            this.tabPane2.RegularSize = new System.Drawing.Size(954, 758);
+            this.tabPane2.RegularSize = new System.Drawing.Size(954, 701);
             this.tabPane2.SelectedPage = this.datachart;
-            this.tabPane2.SelectedPageIndex = 0;
-            this.tabPane2.Size = new System.Drawing.Size(954, 758);
+            this.tabPane2.SelectedPageIndex = 1;
+            this.tabPane2.Size = new System.Drawing.Size(954, 701);
             this.tabPane2.TabIndex = 14;
             this.tabPane2.SelectedPageIndexChanged += new System.EventHandler(this.tabPane2_SelectedPageIndexChanged);
             // 
@@ -463,7 +495,7 @@
             this.datatable.Controls.Add(this.view);
             this.datatable.Name = "datatable";
             this.datatable.PageText = "数据统计表";
-            this.datatable.Size = new System.Drawing.Size(936, 712);
+            this.datatable.Size = new System.Drawing.Size(952, 671);
             // 
             // datachart
             // 
@@ -471,6 +503,7 @@
             this.datachart.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("datachart.Appearance.Image")));
             this.datachart.Appearance.Options.UseFont = true;
             this.datachart.Appearance.Options.UseImage = true;
+            this.datachart.AutoScroll = true;
             this.datachart.BackgroundPadding = new System.Windows.Forms.Padding(0);
             this.datachart.Caption = "tabNavigationPage4";
             this.datachart.Controls.Add(this.chart3);
@@ -479,7 +512,7 @@
             this.datachart.Margin = new System.Windows.Forms.Padding(0);
             this.datachart.Name = "datachart";
             this.datachart.PageText = "数据统计图";
-            this.datachart.Size = new System.Drawing.Size(936, 712);
+            this.datachart.Size = new System.Drawing.Size(952, 671);
             // 
             // chart3
             // 
@@ -503,7 +536,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart3.Series.Add(series1);
-            this.chart3.Size = new System.Drawing.Size(924, 231);
+            this.chart3.Size = new System.Drawing.Size(923, 231);
             this.chart3.TabIndex = 2;
             this.chart3.Text = "chart3";
             // 
@@ -529,7 +562,7 @@
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(924, 231);
+            this.chart2.Size = new System.Drawing.Size(923, 231);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
             // 
@@ -555,7 +588,7 @@
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(924, 231);
+            this.chart1.Size = new System.Drawing.Size(923, 231);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
@@ -567,7 +600,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(292, 758);
+            this.tabControl1.Size = new System.Drawing.Size(292, 701);
             this.tabControl1.TabIndex = 17;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -577,7 +610,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(284, 724);
+            this.tabPage1.Size = new System.Drawing.Size(284, 667);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "来源单位";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -588,7 +621,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(284, 724);
+            this.tabPage2.Size = new System.Drawing.Size(284, 715);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "计划类别";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -621,7 +654,7 @@
             this.bc_LeftMenu.Name = "bc_LeftMenu";
             this.bc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.bc_LeftMenu.ShowToolTips = false;
-            this.bc_LeftMenu.Size = new System.Drawing.Size(278, 718);
+            this.bc_LeftMenu.Size = new System.Drawing.Size(278, 709);
             this.bc_LeftMenu.TabIndex = 14;
             // 
             // all_ptype
@@ -631,43 +664,11 @@
             this.all_ptype.Text = "全部计划类别";
             this.all_ptype.Click += new System.EventHandler(this.Bc_Element_Click);
             // 
-            // pName
-            // 
-            this.pName.FillWeight = 40F;
-            this.pName.HeaderText = "计划类别名称";
-            this.pName.Name = "pName";
-            this.pName.ReadOnly = true;
-            this.pName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // pAmount
-            // 
-            this.pAmount.FillWeight = 20F;
-            this.pAmount.HeaderText = "项目/课题数";
-            this.pAmount.Name = "pAmount";
-            this.pAmount.ReadOnly = true;
-            this.pAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // bAmount
-            // 
-            this.bAmount.FillWeight = 20F;
-            this.bAmount.HeaderText = "盒数";
-            this.bAmount.Name = "bAmount";
-            this.bAmount.ReadOnly = true;
-            this.bAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // fAmount
-            // 
-            this.fAmount.FillWeight = 20F;
-            this.fAmount.HeaderText = "文件数";
-            this.fAmount.Name = "fAmount";
-            this.fAmount.ReadOnly = true;
-            this.fAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // Frm_Statistics
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1264, 806);
+            this.ClientSize = new System.Drawing.Size(1264, 749);
             this.Controls.Add(this.tabPane1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

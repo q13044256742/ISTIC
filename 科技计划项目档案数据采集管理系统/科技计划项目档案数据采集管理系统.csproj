@@ -154,6 +154,12 @@
     <Compile Include="FirstPage\Frm_FirstPage.Designer.cs">
       <DependentUpon>Frm_FirstPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="KyoControl\KyoAccordion.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -414,6 +420,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FirstPage\Frm_FirstPage.resx">
       <DependentUpon>Frm_FirstPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_authorization.resx">
       <DependentUpon>Frm_authorization.cs</DependentUpon>

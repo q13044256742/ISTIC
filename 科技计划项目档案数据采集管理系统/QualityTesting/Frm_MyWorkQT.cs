@@ -1261,24 +1261,6 @@ namespace 科技计划项目档案数据采集管理系统
                     if(fileId != null)
                         fileString += $"'{fileId}',";
 
-                    //如果文件已装盒，则删除之
-                    string queryString = $"SELECT pb_id, pb_files_id FROM processing_box WHERE pb_obj_id='{objId}'";
-                    List<object[]> list = SqlHelper.ExecuteColumnsQuery(queryString, 2);
-                    string updateSql = string.Empty;
-                    for(int j = 0; j < list.Count; j++)
-                    {
-                        string fileIds = GetValue(list[j][1]).Trim();
-                        string targetId = GetValue(removeIdList[i]).Trim();
-                        if(!string.IsNullOrEmpty(fileIds) && fileIds.Contains(targetId) && !string.IsNullOrEmpty(targetId))
-                        {
-                            string newFileIds = fileIds.Replace(targetId + ",", string.Empty).Replace(targetId, string.Empty);
-                            updateSql += $"UPDATE processing_box SET pb_files_id='{newFileIds}' WHERE pb_id='{list[j][0]}';";
-                            break;
-                        }
-                    }
-                    if(!string.IsNullOrEmpty(updateSql))
-                        SqlHelper.ExecuteNonQuery(updateSql);
-
                     //删除当前文件
                     SqlHelper.ExecuteNonQuery($"DELETE FROM processing_file_list WHERE pfl_id='{removeIdList[i]}';");
                 }
@@ -2786,56 +2768,49 @@ namespace 科技计划项目档案数据采集管理系统
 
             leftView.Columns.AddRange(new ColumnHeader[]
             {
-                    new ColumnHeader{ Name = $"{key}_file1_id", Text = "主键", Width = 0},
-                    new ColumnHeader{ Name = $"{key}_file1_type", Text = "文件类别", TextAlign = HorizontalAlignment.Center ,Width = 75},
-                    new ColumnHeader{ Name = $"{key}_file1_name", Text = "文件名称", Width = 250},
-                    new ColumnHeader{ Name = $"{key}_file1_date", Text = "形成日期", Width = 100}
+                new ColumnHeader{ Name = $"{key}_file1_id", Text = "主键", Width = 0},
+                new ColumnHeader{ Name = $"{key}_file1_type", Text = "文件编号", TextAlign = HorizontalAlignment.Center ,Width = 85},
+                new ColumnHeader{ Name = $"{key}_file1_name", Text = "文件名称", Width = 250},
+                new ColumnHeader{ Name = $"{key}_file1_date", Text = "形成日期", Width = 100}
             });
             rightView.Columns.AddRange(new ColumnHeader[]
             {
-                    new ColumnHeader{ Name = $"{key}_file2_id", Text = "主键", Width = 0},
-                    new ColumnHeader{ Name = $"{key}_file2_number", Text = "序号", Width = 50},
-                    new ColumnHeader{ Name = $"{key}_file2_type", Text = "文件类别", TextAlign = HorizontalAlignment.Center ,Width = 75},
-                    new ColumnHeader{ Name = $"{key}_file2_name", Text = "文件名称", Width = 250},
-                    new ColumnHeader{ Name = $"{key}_file2_date", Text = "形成日期", Width = 100}
+                new ColumnHeader{ Name = $"{key}_file2_id", Text = "主键", Width = 0},
+                new ColumnHeader{ Name = $"{key}_file2_number", Text = "序号", Width = 50},
+                new ColumnHeader{ Name = $"{key}_file2_type", Text = "文件编号", TextAlign = HorizontalAlignment.Center ,Width = 85},
+                new ColumnHeader{ Name = $"{key}_file2_name", Text = "文件名称", Width = 250},
+                new ColumnHeader{ Name = $"{key}_file2_date", Text = "形成日期", Width = 100}
             });
             //未归档
-            string querySql = $"SELECT pfl_id, dd_name, pfl_name, pfl_date FROM processing_file_list LEFT JOIN data_dictionary " +
-                $"ON pfl_categor=dd_id WHERE pfl_obj_id = '{objId}' AND pfl_status=-1 ORDER BY dd_name, pfl_date";
+            string querySql = $"SELECT pfl_id, pfl_code, pfl_name, pfl_date FROM processing_file_list " +
+                $"WHERE pfl_obj_id = '{objId}' AND (pfl_box_id IS NULL OR pfl_box_id='') AND pfl_count > 0 ORDER BY pfl_code, pfl_date";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < dataTable.Rows.Count; i++)
             {
                 ListViewItem item = leftView.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
                 item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
                 {
-                    new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["dd_name"]) },
+                    new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["pfl_code"]) },
                     new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["pfl_name"]) },
                     new ListViewItem.ListViewSubItem(){ Text = GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd") },
                 });
             }
-            //已归档
-            object id = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id = '{pbId}'");
-            if(id != null)
+            //已归档[已存在盒]
+            if(!string.IsNullOrEmpty(GetValue(pbId)))
             {
-                querySql = $"SELECT pfl_id, dd_name, pfl_name, pfl_date FROM processing_file_list LEFT JOIN data_dictionary ON pfl_categor=dd_id WHERE pfl_id IN(";
-                string[] ids = GetValue(id).Split(',');
-                string sortString = null;
-                for(int i = 0; i < ids.Length; i++)
+                querySql = $"SELECT pfl_id, pfl_code, pfl_name, pfl_date FROM processing_file_list " +
+                    $"WHERE pfl_box_id ='{pbId}' ORDER BY pfl_box_sort";
+                DataTable table = SqlHelper.ExecuteQuery(querySql);
+                int j = 0;
+                foreach(DataRow row in table.Rows)
                 {
-                    querySql += "'" + ids[i] + "'" + (i == ids.Length - 1 ? ")" : ",");
-                    sortString += $"{ids[i]}{(i == ids.Length - 1 ? string.Empty : ",")}";
-                }
-                querySql += $" ORDER BY CHARINDEX(pfl_id,'{sortString}')";
-                DataTable _dataTable = SqlHelper.ExecuteQuery(querySql);
-                for(int i = 0; i < _dataTable.Rows.Count; i++)
-                {
-                    ListViewItem item = rightView.Items.Add(GetValue(_dataTable.Rows[i]["pfl_id"]));
+                    ListViewItem item = rightView.Items.Add(GetValue(row["pfl_id"]));
                     item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
                     {
-                        new ListViewItem.ListViewSubItem(){ Text = GetValue(i + 1).ToString().PadLeft(2,'0') },
-                        new ListViewItem.ListViewSubItem(){ Text = GetValue(_dataTable.Rows[i]["dd_name"]) },
-                        new ListViewItem.ListViewSubItem(){ Text = GetValue(_dataTable.Rows[i]["pfl_name"]) },
-                        new ListViewItem.ListViewSubItem(){ Text = GetDateValue(_dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd") },
+                        new ListViewItem.ListViewSubItem(){ Text = GetValue(++j).PadLeft(2, '0') },
+                        new ListViewItem.ListViewSubItem(){ Text = GetValue(row["pfl_code"]) },
+                        new ListViewItem.ListViewSubItem(){ Text = GetValue(row["pfl_name"]) },
+                        new ListViewItem.ListViewSubItem(){ Text = GetDateValue(row["pfl_date"], "yyyy-MM-dd") },
                     });
                 }
             }

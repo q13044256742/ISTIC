@@ -422,16 +422,19 @@ namespace 科技计划项目档案数据采集管理系统
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id  " +
                        $"WHERE idi.imp_id='{objId}'";
                     DataRow speRow = SqlHelper.ExecuteSingleRowQuery(querySql);
-                    int rowIndex = dgv_MyReg.Rows.Add();
-                    dgv_MyReg.Rows[rowIndex].Tag = row["wm_id"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Tag = type;
-                    dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = speRow["imp_id"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = speRow["imp_name"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mr_pcode"].Value = speRow["trp_code"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = speRow["imp_code"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = speRow["dd_name"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Tag = speRow["dd_code"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(speRow["imp_id"]);
+                    if(speRow != null)
+                    {
+                        int rowIndex = dgv_MyReg.Rows.Add();
+                        dgv_MyReg.Rows[rowIndex].Tag = row["wm_id"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Tag = type;
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_id"].Value = speRow["imp_id"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_name"].Value = speRow["imp_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_pcode"].Value = speRow["trp_code"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_code"].Value = speRow["imp_code"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Value = speRow["dd_name"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_unit"].Tag = speRow["dd_code"];
+                        dgv_MyReg.Rows[rowIndex].Cells["mr_fileamount"].Value = GetFileAmountById(speRow["imp_id"]);
+                    }
                 }
                 else if(type == WorkType.ProjectWork)
                 {
@@ -451,7 +454,7 @@ namespace 科技计划项目档案数据采集管理系统
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
                         $"WHERE wm.wm_obj_id = '{objId}'";
                     DataRow proRow = SqlHelper.ExecuteSingleRowQuery(querySql);
-                    if(row != null)
+                    if(proRow != null)
                     {
                         int rowIndex = dgv_MyReg.Rows.Add();
                         dgv_MyReg.Rows[rowIndex].Tag = row["wm_id"];
