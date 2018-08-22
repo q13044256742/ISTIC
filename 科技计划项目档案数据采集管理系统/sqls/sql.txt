@@ -129,3 +129,19 @@ UPDATE T_SourceOrg SET F_ID='A'+F_ID
 国家重点研发计划	YF
 重大仪器专项	YQ
 国家重大专项	ZX
+
+--附件表
+CREATE TABLE [dbo].[Attachment](
+	[at_id] [varchar](50) NULL,
+	[at_name] [varchar](500) NULL,
+	[at_size] [float] NULL,
+	[at_date] [datetime] NULL,
+	[at_uploader] [varchar](100) NULL,
+	[at_loadticker] [int] NULL,
+	[at_entity] [image] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Attachment] ADD  CONSTRAINT [DF_Attachment_at_loadticker]  DEFAULT ((0)) FOR [at_loadticker]
+GO
+

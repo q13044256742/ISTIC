@@ -24,7 +24,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 获取SqlConnection连接
         /// </summary>
-        private static SqlConnection GetConnect()
+        public static SqlConnection GetConnect()
         {
             if (sqlConnection == null)
                 sqlConnection = new SqlConnection(SQL_CONNECT);
