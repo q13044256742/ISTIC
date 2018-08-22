@@ -218,7 +218,7 @@ namespace 科技计划项目档案数据采集管理系统
                     tab_MenuList.TabPages.Add(tabList[i]);
                     break;
                 }
-            tab_MenuList.SelectedIndex = index;
+            //tab_MenuList.SelectedIndex = index;
         }
         
         /// <summary>
@@ -2529,10 +2529,10 @@ namespace 科技计划项目档案数据采集管理系统
                                 LoadImpPage(e.Node.Parent.Parent.Parent.Parent);
 
                                 ShowTab("special", 1);
-                                LoadPageBasicInfo(e.Node.Parent.Parent, ControlType.Special);
+                                LoadPageBasicInfo(e.Node.Parent.Parent.Parent, ControlType.Special);
 
                                 ShowTab("project", 2);
-                                LoadPageBasicInfo(e.Node.Parent, ControlType.Project);
+                                LoadPageBasicInfo(e.Node.Parent.Parent, ControlType.Project);
 
                                 ShowTab("topic", 3);
                                 LoadPageBasicInfo(e.Node.Parent, ControlType.Topic);
@@ -2783,7 +2783,7 @@ namespace 科技计划项目档案数据采集管理系统
             });
             //未归档
             string querySql = $"SELECT pfl_id, pfl_code, pfl_name, pfl_date FROM processing_file_list " +
-                $"WHERE pfl_obj_id = '{objId}' AND (pfl_box_id IS NULL OR pfl_box_id='') AND pfl_count > 0 ORDER BY pfl_code, pfl_date";
+                $"WHERE pfl_obj_id = '{objId}' AND (pfl_box_id IS NULL OR pfl_box_id='') AND pfl_amount > 0 ORDER BY pfl_code, pfl_date";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < dataTable.Rows.Count; i++)
             {

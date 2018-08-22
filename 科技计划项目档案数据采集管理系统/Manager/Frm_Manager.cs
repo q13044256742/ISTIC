@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.Manager
@@ -152,17 +153,67 @@ namespace 科技计划项目档案数据采集管理系统.Manager
 
         private void LoadTableInfo(object parentId)
         {
+            string code = ToolHelper.GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id='{parentId}'"));
+            if(!string.IsNullOrEmpty(code))
+            {
+                if(code.EndsWith("_JD"))
+                {
+                    dgv_DataList.CellMouseDown += Dgv_DataList_CellMouseDown;
+                    cms_move.DropDownItems.Clear();
+
+                    object[] names = SqlHelper.ExecuteSingleColumnQuery($"SELECT dd_name FROM data_dictionary WHERE dd_pId='{parentId}' " +
+                        $"AND extend_4 IS NULL AND dd_name <> '其他' ORDER BY dd_name");
+                    foreach(object item in names)
+                        cms_move.DropDownItems.Add(ToolHelper.GetValue(item)).Click += MoveItem_Click;
+                }
+                else
+                    dgv_DataList.CellMouseDown -= Dgv_DataList_CellMouseDown;
+            }
+
             dgv_DataList.Rows.Clear();
             DataTable table = SqlHelper.ExecuteQuery($"SELECT dd_id, dd_name, dd_code, dd_note, extend_3, dd_sort FROM  data_dictionary WHERE dd_pId='{parentId}' ORDER BY dd_sort");
             foreach(DataRow row in table.Rows)
             {
                 int index = dgv_DataList.Rows.Add();
+                dgv_DataList.Rows[index].Tag = parentId;
                 dgv_DataList.Rows[index].Cells["id"].Value = row["dd_id"];
                 dgv_DataList.Rows[index].Cells["name"].Value = row["dd_name"];
                 dgv_DataList.Rows[index].Cells["code"].Value = row["dd_code"];
                 dgv_DataList.Rows[index].Cells["note"].Value = row["dd_note"];
                 dgv_DataList.Rows[index].Cells["extend_3"].Value = row["extend_3"];
                 dgv_DataList.Rows[index].Cells["sort"].Value = row["dd_sort"];
+            }
+        }
+
+        private void MoveItem_Click(object sender, EventArgs e)
+        {
+            if(dgv_DataList.SelectedRows.Count <= 0) return;
+            DataGridViewRow row = dgv_DataList.SelectedRows[0];
+            object scode = row.Cells["name"].Value;
+            object dcode = (sender as ToolStripItem).Text;
+            if(!scode.Equals(dcode))
+            {
+                if(XtraMessageBox.Show($"是否确认将{scode}的所有文件合并至{dcode}？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    object pid = row.Tag;
+                    object id = row.Cells["id"].Value;
+                    string updateSQL = $"UPDATE processing_file_list SET pfl_categor=" +
+                        $"(SELECT dd_id FROM data_dictionary WHERE dd_pId='{pid}' AND dd_name='{dcode}') WHERE pfl_categor='{id}';";
+
+                    SqlHelper.ExecuteNonQuery(updateSQL);
+
+                    XtraMessageBox.Show("操作成功");
+                }
+            }
+        }
+
+        private void Dgv_DataList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                dgv_DataList.ClearSelection();
+                dgv_DataList.Rows[e.RowIndex].Selected = true;
+                contextMenuStrip1.Show(MousePosition);
             }
         }
 

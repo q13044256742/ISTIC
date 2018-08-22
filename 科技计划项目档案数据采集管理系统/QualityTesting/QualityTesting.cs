@@ -14,9 +14,9 @@
         /// </summary>
         NonQuality = 1,
         /// <summary>
-        /// 已质检
+        /// 质检中
         /// </summary>
-        QualitySuccess = 2,
+        Qualitting = 2,
         /// <summary>
         /// 质检通过
         /// </summary>

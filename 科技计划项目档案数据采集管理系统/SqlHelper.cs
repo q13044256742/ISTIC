@@ -70,7 +70,7 @@ namespace 科技计划项目档案数据采集管理系统
             }catch(SqlException e)
             {
                 LogsHelper.AddErrorLogs("SQL", e.Message);
-                return null;
+                return new DataTable();
             }
         }
 

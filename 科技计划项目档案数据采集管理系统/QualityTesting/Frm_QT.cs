@@ -94,21 +94,14 @@ namespace 科技计划项目档案数据采集管理系统
             foreach(DataRow row in table.Rows)
             {
                 object objId = row["wm_obj_id"];
-                string querySql = "SELECT TOP(1) dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status FROM project_info pi " +
-                    "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
-                    "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
-                    "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
-                    "LEFT JOIN transfer_registraion_cd trc ON trp.trp_id = trc.trp_id " +
-                    "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                    $"WHERE wm.wm_obj_id = '{objId}' " +
-                    "UNION ALL " +
-                    "SELECT TOP(1) dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status FROM topic_info ti " +
-                    "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
-                    "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
-                    "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
-                    "LEFT JOIN transfer_registraion_cd trc ON trp.trp_id = trc.trp_id " +
-                    "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                    $"WHERE wm.wm_obj_id = '{objId}'";
+                string querySql = "SELECT   TOP (1)  dd_name, dd.dd_code, wm.wm_id, A.pi_id, A.pi_code, A.pi_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status " +
+                    "FROM(SELECT * FROM project_info UNION ALL SELECT * FROM topic_info) A " +
+                    "LEFT OUTER JOIN work_myreg AS wm ON wm.wm_obj_id = A.pi_id " +
+                    "LEFT OUTER JOIN work_registration AS wr ON wr.wr_id = wm.wr_id " +
+                    "LEFT OUTER JOIN transfer_registration_pc AS trp ON wr.trp_id = trp.trp_id " +
+                    "LEFT OUTER JOIN transfer_registraion_cd AS trc ON trp.trp_id = trc.trp_id " +
+                    "LEFT OUTER JOIN data_dictionary AS dd ON dd.dd_id = trp.com_id " +
+                   $"WHERE(wm.wm_obj_id = '{objId}') AND wm_status<>{(int)QualityStatus.Qualitting}";
                 DataRow dataRow = SqlHelper.ExecuteSingleRowQuery(querySql);
                 if(dataRow != null)
                 {
@@ -135,7 +128,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(state != null)
             {
                 QualityStatus status = (QualityStatus)(int)state;
-                if(status == QualityStatus.QualitySuccess)
+                if(status == QualityStatus.Qualitting)
                     return "质检中";
                 else if(status == QualityStatus.QualityFinish)
                     return "质检通过";
@@ -714,7 +707,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp.Rows[e.RowIndex].Cells["imp_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
                         dgv_Imp.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -735,7 +728,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp_Dev.Rows[e.RowIndex].Cells["imp_dev_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
                         dgv_Imp_Dev.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -783,7 +776,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetUser().UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{subRow["si_id"]}';");
                             }
                         }
-                        updateSQL.Append($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}';");
+                        updateSQL.Append($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}';");
 
                         SqlHelper.ExecuteNonQuery(updateSQL.ToString());
 

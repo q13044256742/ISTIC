@@ -178,20 +178,15 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewButtonColumn(){ Name = "mw_control", HeaderText = "操作", FillWeight = 6, Text = "查看", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable },
             });
 
-            string querySql = "SELECT dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, pi.pi_obj_id, trp.trp_code, wm.wm_status " +
-                "FROM project_info pi, work_myreg wm " +
-                "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
-                "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
-                "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                $"WHERE wm.wm_obj_id = pi.pi_id AND wm.wm_type = '{(int)WorkType.ProjectWork}' AND pi.pi_worker_id='{UserHelper.GetUser().UserKey}' " +
-                "UNION ALL " +
-                "SELECT dd.dd_name, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, ti.ti_obj_id, trp.trp_code, wm.wm_status " +
-                "FROM topic_info ti ,work_myreg wm " +
-                "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
-                "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
-                "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                $"WHERE wm.wm_obj_id = ti.ti_id AND wm.wm_type = '{(int)WorkType.ProjectWork}' AND ti.ti_worker_id='{UserHelper.GetUser().UserKey}' " +
-                "ORDER BY dd_name;";
+            string querySql = "SELECT dd.dd_name, wm.wm_id, A.pi_id, A.pi_code, A.pi_name, A.pi_obj_id, trp.trp_code, wm.wm_status " +
+                "FROM(SELECT pi_id, pi_code, pi_name, pi_obj_id, pi_worker_id FROM project_info " +
+                "UNION ALL SELECT ti_id, ti_code, ti_name, ti_obj_id, ti_worker_id FROM topic_info) AS A LEFT OUTER JOIN " +
+                "work_myreg AS wm ON A.pi_id = wm.wm_obj_id LEFT OUTER JOIN " +
+                "work_registration AS wr ON wr.wr_id = wm.wr_id LEFT OUTER JOIN " +
+                "transfer_registration_pc AS trp ON wr.trp_id = trp.trp_id LEFT OUTER JOIN " +
+                "data_dictionary AS dd ON dd.dd_id = trp.com_id " +
+               $"WHERE(wm.wm_type = '{(int)WorkType.ProjectWork}') AND(A.pi_worker_id = '{UserHelper.GetUser().UserKey}') AND wm_status<>{(int)QualityStatus.QualityBack}" +
+                "ORDER BY dd.dd_name";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             foreach(DataRow row in table.Rows)
             {
@@ -216,7 +211,7 @@ namespace 科技计划项目档案数据采集管理系统
                 QualityStatus status = (QualityStatus)(int)state;
                 if(status == QualityStatus.NonQuality)
                     return "待质检";
-                else if(status == QualityStatus.QualitySuccess)
+                else if(status == QualityStatus.Qualitting)
                     return "质检中";
                 else if(status == QualityStatus.QualityFinish)
                     return "质检通过";
@@ -1056,7 +1051,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 if(accepter == null)
                                     SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.NonQuality}', wm_user='{UserHelper.GetUser().UserKey}' WHERE wm_id='{wmid}'");
                                 else
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualitySuccess}', wm_accepter='{accepter}', wm_ticker+=1 WHERE wm_id='{wmid}';");
+                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{accepter}', wm_ticker+=1 WHERE wm_id='{wmid}';");
                                 SetBackWorkNumber();
                                 LoadWorkBackList();
                             }

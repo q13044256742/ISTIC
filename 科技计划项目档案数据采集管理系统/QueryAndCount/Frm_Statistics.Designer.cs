@@ -86,6 +86,7 @@
             this.bc_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.all_ptype = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.chk_AllUser = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             this.tabPane1.SuspendLayout();
@@ -167,7 +168,7 @@
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(952, 671);
+            this.view.Size = new System.Drawing.Size(936, 655);
             this.view.TabIndex = 0;
             // 
             // pName
@@ -216,7 +217,7 @@
             this.tabNavigationPage2});
             this.tabPane1.RegularSize = new System.Drawing.Size(1264, 749);
             this.tabPane1.SelectedPage = this.tabNavigationPage1;
-            this.tabPane1.SelectedPageIndex = 1;
+            this.tabPane1.SelectedPageIndex = 0;
             this.tabPane1.Size = new System.Drawing.Size(1264, 749);
             this.tabPane1.TabIndex = 17;
             this.tabPane1.Text = "tabPane1";
@@ -227,6 +228,7 @@
             this.tabNavigationPage1.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tabNavigationPage1.Appearance.Options.UseFont = true;
             this.tabNavigationPage1.Caption = "tabNavigationPage1";
+            this.tabNavigationPage1.Controls.Add(this.chk_AllUser);
             this.tabNavigationPage1.Controls.Add(this.rdo_ZJ);
             this.tabNavigationPage1.Controls.Add(this.btn_StartCount);
             this.tabNavigationPage1.Controls.Add(this.btn_Exprot);
@@ -480,7 +482,7 @@
             this.datachart});
             this.tabPane2.RegularSize = new System.Drawing.Size(954, 701);
             this.tabPane2.SelectedPage = this.datachart;
-            this.tabPane2.SelectedPageIndex = 1;
+            this.tabPane2.SelectedPageIndex = 0;
             this.tabPane2.Size = new System.Drawing.Size(954, 701);
             this.tabPane2.TabIndex = 14;
             this.tabPane2.SelectedPageIndexChanged += new System.EventHandler(this.tabPane2_SelectedPageIndexChanged);
@@ -495,7 +497,7 @@
             this.datatable.Controls.Add(this.view);
             this.datatable.Name = "datatable";
             this.datatable.PageText = "数据统计表";
-            this.datatable.Size = new System.Drawing.Size(952, 671);
+            this.datatable.Size = new System.Drawing.Size(936, 655);
             // 
             // datachart
             // 
@@ -512,7 +514,7 @@
             this.datachart.Margin = new System.Windows.Forms.Padding(0);
             this.datachart.Name = "datachart";
             this.datachart.PageText = "数据统计图";
-            this.datachart.Size = new System.Drawing.Size(952, 671);
+            this.datachart.Size = new System.Drawing.Size(936, 655);
             // 
             // chart3
             // 
@@ -536,7 +538,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart3.Series.Add(series1);
-            this.chart3.Size = new System.Drawing.Size(906, 231);
+            this.chart3.Size = new System.Drawing.Size(890, 231);
             this.chart3.TabIndex = 2;
             this.chart3.Text = "chart3";
             // 
@@ -562,7 +564,7 @@
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(906, 231);
+            this.chart2.Size = new System.Drawing.Size(890, 231);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
             // 
@@ -588,7 +590,7 @@
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(906, 231);
+            this.chart1.Size = new System.Drawing.Size(890, 231);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
@@ -621,7 +623,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(284, 667);
+            this.tabPage2.Size = new System.Drawing.Size(284, 715);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "计划类别";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -654,7 +656,7 @@
             this.bc_LeftMenu.Name = "bc_LeftMenu";
             this.bc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.bc_LeftMenu.ShowToolTips = false;
-            this.bc_LeftMenu.Size = new System.Drawing.Size(278, 661);
+            this.bc_LeftMenu.Size = new System.Drawing.Size(278, 709);
             this.bc_LeftMenu.TabIndex = 14;
             // 
             // all_ptype
@@ -663,6 +665,16 @@
             this.all_ptype.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.all_ptype.Text = "全部计划类别";
             this.all_ptype.Click += new System.EventHandler(this.Bc_Element_Click);
+            // 
+            // chk_AllUser
+            // 
+            this.chk_AllUser.AutoSize = true;
+            this.chk_AllUser.Location = new System.Drawing.Point(593, 24);
+            this.chk_AllUser.Name = "chk_AllUser";
+            this.chk_AllUser.Size = new System.Drawing.Size(93, 25);
+            this.chk_AllUser.TabIndex = 26;
+            this.chk_AllUser.Text = "全部人员";
+            this.chk_AllUser.UseVisualStyleBackColor = true;
             // 
             // Frm_Statistics
             // 
@@ -738,5 +750,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn pAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn bAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn fAmount;
+        private System.Windows.Forms.CheckBox chk_AllUser;
     }
 }

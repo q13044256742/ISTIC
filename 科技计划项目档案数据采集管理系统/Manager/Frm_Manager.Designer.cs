@@ -28,25 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Manager));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Manager));
             this.dgv_DataList = new System.Windows.Forms.DataGridView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txt_SearchKey = new System.Windows.Forms.TextBox();
-            this.btn_Back = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.button4 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.button3 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Search = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.extend_3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sort = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txt_SearchKey = new System.Windows.Forms.TextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cms_move = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_Back = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.button4 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.button3 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Search = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataList)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgv_DataList
@@ -82,6 +87,50 @@
             this.dgv_DataList.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_DataList_CellMouseDoubleClick);
             this.dgv_DataList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_DataList_ColumnHeaderMouseDoubleClick);
             // 
+            // id
+            // 
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            // 
+            // name
+            // 
+            this.name.FillWeight = 80F;
+            this.name.HeaderText = "名称";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            // 
+            // code
+            // 
+            this.code.FillWeight = 60F;
+            this.code.HeaderText = "编码";
+            this.code.Name = "code";
+            this.code.ReadOnly = true;
+            // 
+            // note
+            // 
+            this.note.FillWeight = 250F;
+            this.note.HeaderText = "描述";
+            this.note.Name = "note";
+            this.note.ReadOnly = true;
+            // 
+            // extend_3
+            // 
+            this.extend_3.FillWeight = 50F;
+            this.extend_3.HeaderText = "扩展";
+            this.extend_3.Name = "extend_3";
+            this.extend_3.ReadOnly = true;
+            // 
+            // sort
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sort.DefaultCellStyle = dataGridViewCellStyle2;
+            this.sort.FillWeight = 50F;
+            this.sort.HeaderText = "排序";
+            this.sort.Name = "sort";
+            this.sort.ReadOnly = true;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btn_Back);
@@ -105,6 +154,21 @@
             this.txt_SearchKey.Name = "txt_SearchKey";
             this.txt_SearchKey.Size = new System.Drawing.Size(244, 26);
             this.txt_SearchKey.TabIndex = 8;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cms_move});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            // 
+            // cms_move
+            // 
+            this.cms_move.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.cms_move.Name = "cms_move";
+            this.cms_move.Size = new System.Drawing.Size(180, 22);
+            this.cms_move.Text = "合并至";
             // 
             // btn_Back
             // 
@@ -164,49 +228,11 @@
             this.btn_Search.Text = "查询";
             this.btn_Search.Click += new System.EventHandler(this.btn_Search_Click);
             // 
-            // id
+            // toolStripMenuItem2
             // 
-            this.id.HeaderText = "id";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            // 
-            // name
-            // 
-            this.name.FillWeight = 80F;
-            this.name.HeaderText = "名称";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            // 
-            // code
-            // 
-            this.code.FillWeight = 60F;
-            this.code.HeaderText = "编码";
-            this.code.Name = "code";
-            this.code.ReadOnly = true;
-            // 
-            // note
-            // 
-            this.note.FillWeight = 250F;
-            this.note.HeaderText = "描述";
-            this.note.Name = "note";
-            this.note.ReadOnly = true;
-            // 
-            // extend_3
-            // 
-            this.extend_3.FillWeight = 50F;
-            this.extend_3.HeaderText = "扩展";
-            this.extend_3.Name = "extend_3";
-            this.extend_3.ReadOnly = true;
-            // 
-            // sort
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sort.DefaultCellStyle = dataGridViewCellStyle2;
-            this.sort.FillWeight = 50F;
-            this.sort.HeaderText = "排序";
-            this.sort.Name = "sort";
-            this.sort.ReadOnly = true;
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "123";
             // 
             // Frm_Manager
             // 
@@ -221,6 +247,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataList)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -240,5 +267,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn note;
         private System.Windows.Forms.DataGridViewTextBoxColumn extend_3;
         private System.Windows.Forms.DataGridViewTextBoxColumn sort;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem cms_move;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }

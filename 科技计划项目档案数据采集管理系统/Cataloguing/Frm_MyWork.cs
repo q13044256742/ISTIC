@@ -68,7 +68,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.controlType = controlType;
             if(workType == WorkType.ProjectWork)
                 trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id='{objId}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id='{objId}'");
-            else if(workType == WorkType.CDWork_Plan || workType == WorkType.PaperWork_Plan)
+            else
                 trcId = objId;
             togle.Tag = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id=(SELECT com_id FROM transfer_registration_pc WHERE trp_id = '{trcId}')");
         }
@@ -231,7 +231,7 @@ namespace 科技计划项目档案数据采集管理系统
                     tab_MenuList.TabPages.Add(tabList[i]);
                     break;
                 }
-            tab_MenuList.SelectedIndex = index;
+            //tab_MenuList.SelectedIndex = index;
         }
 
         /// <summary>
@@ -3369,6 +3369,13 @@ namespace 科技计划项目档案数据采集管理系统
                     cbo_Imp_HasNext.Enabled = false;
                     pal_Imp_BtnGroup.Enabled = false;
                 }
+                DataRow speRow = SqlHelper.ExecuteSingleRowQuery("SELECT imp_dev_info.* FROM imp_info LEFT JOIN imp_dev_info ON imp_info.imp_id=imp_dev_info.imp_obj_id " +
+                    $"WHERE imp_info.imp_id='{impRow["imp_id"]}' AND imp_dev_info.imp_id IS NOT NULL");
+                if(speRow != null)
+                {
+                    Tag = speRow["imp_code"];
+                    cbo_Imp_HasNext.Enabled = false;
+                }
             }
             else
             {
@@ -3398,6 +3405,8 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 pal_Imp_BtnGroup.Enabled = false;
             }
+
+
         }
 
         private int GetAdvincesAmount(object objId)
@@ -3540,16 +3549,16 @@ namespace 科技计划项目档案数据采集管理系统
             });
             //未归档
             string querySql = $"SELECT pfl_id, pfl_code, pfl_name, pfl_date FROM processing_file_list " +
-                $"WHERE pfl_obj_id = '{objId}' AND (pfl_box_id IS NULL OR pfl_box_id='') AND pfl_count > 0 ORDER BY pfl_code, pfl_date";
+                $"WHERE pfl_obj_id = '{objId}' AND (pfl_box_id IS NULL OR pfl_box_id='') AND pfl_amount > 0 ORDER BY pfl_code, pfl_date";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-            for(int i = 0; i < dataTable.Rows.Count; i++)
+            foreach(DataRow row in dataTable.Rows)
             {
-                ListViewItem item = leftView.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
+                ListViewItem item = leftView.Items.Add(GetValue(row["pfl_id"]));
                 item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
                 {
-                    new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["pfl_code"]) },
-                    new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["pfl_name"]) },
-                    new ListViewItem.ListViewSubItem(){ Text = GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd") },
+                    new ListViewItem.ListViewSubItem(){ Text = GetValue(row["pfl_code"]) },
+                    new ListViewItem.ListViewSubItem(){ Text = GetValue(row["pfl_name"]) },
+                    new ListViewItem.ListViewSubItem(){ Text = GetDateValue(row["pfl_date"], "yyyy-MM-dd") },
                 });
             }
             //已归档[已存在盒]
@@ -6043,6 +6052,12 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 Close();
             }
+        }
+
+        private void cbo_Imp_HasNext_EnabledChanged(object sender, EventArgs e)
+        {
+            cbo_Imp_HasNext.Visible = cbo_Imp_HasNext.Enabled;
+            lbl_SpeName.Visible = cbo_Imp_HasNext.Enabled;
         }
     }
 }

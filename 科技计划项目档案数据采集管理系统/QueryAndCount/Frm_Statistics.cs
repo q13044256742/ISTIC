@@ -134,6 +134,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Btn_StartCount_Click(object sender, EventArgs e)
         {
             object userId = cbo_UserList.SelectedValue;
+            bool allUser = chk_AllUser.Checked;
             DateTime startDate = dtp_StartDate.Value;
             DateTime endDate = dtp_EndDate.Value;
             DataTable table = new DataTable();
@@ -150,6 +151,7 @@ namespace 科技计划项目档案数据采集管理系统
             //加工人员工作量统计
             if(rdo_JG.Checked)
             {
+                string userConditon = !allUser ? $" AND pi_worker_id='{userId}'" : string.Empty;
                 string queryCondition = string.Empty;
                 if(!flag)//全部时间
                 {
@@ -159,10 +161,9 @@ namespace 科技计划项目档案数据采集管理系统
                         queryCondition = $"WHERE pi_worker_date >=  CONVERT(DATE, '{startDate}') AND pi_worker_date <=  CONVERT(DATE, '{endDate}')";
                 }
                 string querySQL = "SELECT pi_worker_date, COUNT(pi_id) FROM(" +
-                    $"SELECT pi_id, pi_worker_date FROM project_info WHERE pi_categor = 2 AND pi_worker_id='{userId}' " +
-                    "UNION ALL " +
-                    $"SELECT ti_id, ti_worker_date FROM topic_info WHERE ti_categor = -3 AND ti_worker_id='{userId}') AS TB1 {queryCondition} " +
-                    $"GROUP BY pi_worker_date";
+                    "SELECT pi_id, pi_worker_date FROM project_info WHERE pi_categor = 2 " +
+                    $"UNION ALL SELECT ti_id, ti_worker_date FROM topic_info WHERE ti_categor = -3) AS TB1 {queryCondition} {userConditon}" +
+                    "GROUP BY pi_worker_date";
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                 for(int i = 0; i < list.Count; i++)
                 {
@@ -319,6 +320,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private int GetTopicAmount(object date, object userId, int type)
         {
+            string userConditon = !chk_AllUser.Checked ? $" AND pi_worker_id='{userId}'" : string.Empty;
             if(type == 1)
             {
                 string querySQL = "SELECT COUNT(ti_id) FROM(" +
