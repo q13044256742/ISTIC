@@ -188,8 +188,6 @@ namespace 科技计划项目档案数据采集管理系统
             jnmlString = jnmlString.Replace("id=\"ajbh\">", $"id=\"ajbh\">{objectCode}");
             jnmlString = jnmlString.Replace("id=\"gch\">", $"id=\"gch\">{GCNumber}");
 
-            string files = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'"));
-            string[] fids = files.Split(',');
             DataTable dataTable = new DataTable();
             dataTable.Columns.AddRange(new DataColumn[]
             {
@@ -200,33 +198,24 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataColumn("pfl_date"),
                 new DataColumn("pfl_remark"),
             });
-            for(int i = 0; i < fids.Length; i++)
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT pfl_code, pfl_user, pfl_name, pfl_pages, pfl_date, pfl_remark FROM processing_file_list WHERE pfl_box_id='{boxId}'");
+            foreach(DataRow row in table.Rows)
+                dataTable.ImportRow(row);
+            int fileCount = dataTable.Rows.Count, pageCount = 0;
+            int i = 0;
+            foreach(DataRow dataRow in dataTable.Rows)
             {
-                if(!string.IsNullOrEmpty(fids[i]))
-                {
-                    DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_code, pfl_user, pfl_name, pfl_pages, pfl_date, pfl_remark FROM processing_file_list WHERE pfl_id='{fids[i]}'");
-                    if(row != null)
-                        dataTable.ImportRow(row);
-                }
-            }
-            int fileCount = 0, pageCount = 0;
-            if(dataTable != null)
-            {
-                fileCount = dataTable.Rows.Count;
-                for(int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    string newRr = "<tr>" +
-                        $"<td>{i + 1}</td>" +
-                        $"<td>{dataTable.Rows[i]["pfl_code"]}&nbsp;</td>" +
-                        $"<td>{dataTable.Rows[i]["pfl_user"]}&nbsp;</td>" +
-                        $"<td style='text-align: left;'>{dataTable.Rows[i]["pfl_name"]}&nbsp;</td>" +
-                        $"<td>{GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd")}&nbsp;</td>" +
-                        $"<td>{dataTable.Rows[i]["pfl_pages"]}&nbsp;</td>" +
-                        $"<td>{dataTable.Rows[i]["pfl_remark"]}&nbsp;</td>" +
-                        $"</tr>";
-                    jnmlString = jnmlString.Replace("</tbody>", $"{newRr}</tbody>");
-                    pageCount += GetIntValue(dataTable.Rows[i]["pfl_pages"]);
-                }
+                string newRr = "<tr>" +
+                    $"<td>{++i}</td>" +
+                    $"<td>{dataRow["pfl_code"]}&nbsp;</td>" +
+                    $"<td>{dataRow["pfl_user"]}&nbsp;</td>" +
+                    $"<td style='text-align: left;'>{dataRow["pfl_name"]}&nbsp;</td>" +
+                    $"<td>{ToolHelper.GetDateValue(dataRow["pfl_date"], "yyyy-MM-dd")}&nbsp;</td>" +
+                    $"<td>{dataRow["pfl_pages"]}&nbsp;</td>" +
+                    $"<td>{dataRow["pfl_remark"]}&nbsp;</td>" +
+                    $"</tr>";
+                jnmlString = jnmlString.Replace("</tbody>", $"{newRr}</tbody>");
+                pageCount += ToolHelper.GetIntValue(dataRow["pfl_pages"]);
             }
             jnmlString = jnmlString.Replace("id=\"fileCount\">", $"id=\"fileCount\">{fileCount}");
             jnmlString = jnmlString.Replace("id=\"pageCount\">", $"id=\"pageCount\">{pageCount}");
@@ -235,36 +224,6 @@ namespace 科技计划项目档案数据采集管理系统
             browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(Web_DocumentCompleted);
             browser.DocumentText = jnmlString;
         }
-
-        private object GetDateValue(object date, string format)
-        {
-            if(date != null)
-            {
-                if(DateTime.TryParse(GetValue(date), out DateTime result))
-                {
-                    if(result.Date != new DateTime(1900, 01, 01))
-                        return result.ToString(format);
-                }
-                else
-                    return date;
-            }
-            return null;
-        }
-
-        private int GetIntValue(object value)
-        {
-            if(value == null)
-                return 0;
-            else
-            {
-                if(int.TryParse(GetValue(value), out int result))
-                    return result;
-                else
-                    return 0;
-            }
-        }
-
-        private string GetValue(object value) => value == null ? string.Empty : value.ToString();
 
         /// <summary>
         /// 获取文件数/页数
@@ -276,22 +235,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// </param>
         private int GetFilePageCount(object boxId, int type)
         {
-            object _fileAmount = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'");
-            string[] _files = GetValue(_fileAmount).Split(',');
-            int fileAmount = 0;
-            int filePages = 0;
-            for(int i = 0; i < _files.Length; i++)
+            int fileAmount = 0, filePages = 0;
+            object[] pages = SqlHelper.ExecuteSingleColumnQuery($"SELECT pfl_pages FROM processing_file_list WHERE pfl_box_id='{boxId}'");
+            for(int i = 0; i < pages.Length; i++)
             {
-                if(!string.IsNullOrEmpty(_files[i]))
-                {
-                    fileAmount++;
-                    if(type == 2)
-                    {
-                        object _page = SqlHelper.ExecuteOnlyOneQuery($"SELECT pfl_pages FROM processing_file_list WHERE pfl_id='{_files[i]}'");
-                        if(!string.IsNullOrEmpty(GetValue(_page)))
-                            filePages += Convert.ToInt32(_page);
-                    }
-                }
+                fileAmount++;
+                if(type == 2)
+                    filePages += ToolHelper.GetIntValue(pages[i], 0);
             }
             return type == 1 ? fileAmount : filePages;
         }
@@ -332,7 +282,7 @@ namespace 科技计划项目档案数据采集管理系统
             string newTr = string.Empty;
             if(otherDoc.Rows.Count > 0)
                 foreach(DataRow row in otherDoc.Rows)
-                    newTr = $"<tr><td>{row["od_name"]}</td>" +
+                    newTr += $"<tr><td>{row["od_name"]}</td>" +
                         $"<td>{row["od_code"]}</td>" +
                         $"<td>{row["od_carrier"]}</td>" +
                         $"<td>{row["od_intro"]}</td></tr>";
@@ -343,9 +293,9 @@ namespace 科技计划项目档案数据采集管理系统
 
             bkbString = bkbString.Replace("id=\"dh\">", $"id=\"dh\">{objectCode}");
             bkbString = bkbString.Replace("id=\"ljr\">", $"id=\"dh\">{ljPeople}");
-            bkbString = bkbString.Replace("id=\"ljrq\">", $"id=\"dh\">{GetDateValue(ljDate, "yyyy-MM-dd")}");
+            bkbString = bkbString.Replace("id=\"ljrq\">", $"id=\"dh\">{ToolHelper.GetDateValue(ljDate, "yyyy-MM-dd")}");
             bkbString = bkbString.Replace("id=\"jcr\">", $"id=\"jcr\">{jcPeople}");
-            bkbString = bkbString.Replace("id=\"jcrq\">", $"id=\"jcrq\">{GetDateValue(jcDate, "yyyy-MM-dd")}");
+            bkbString = bkbString.Replace("id=\"jcrq\">", $"id=\"jcrq\">{ToolHelper.GetDateValue(jcDate, "yyyy-MM-dd")}");
 
             WebBrowser browser = new WebBrowser() { ScriptErrorsSuppressed = false };
             browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(Web_DocumentCompleted);
@@ -435,7 +385,7 @@ namespace 科技计划项目档案数据采集管理系统
         private string GetCoverHtmlString(object boxId, string fmString, object bj, object GCNumber)
         {
             fmString = fmString.Replace("20mm", $"{bj}");
-            if(string.IsNullOrEmpty(GetValue(parentObjectName)))
+            if(string.IsNullOrEmpty(ToolHelper.GetValue(parentObjectName)))
                 fmString = fmString.Replace("id=\"ajmc\">", $"id=\"ajmc\">{objectName}");
             else
             {
@@ -455,25 +405,12 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private string GetBzDate(object boxId)
         {
-            object fileIds = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'");
-            if(!string.IsNullOrEmpty(GetValue(fileIds)))
-            {
-                string[] ids = GetValue(fileIds).Split(',');
-                string idsString = string.Empty;
-                foreach(string id in ids)
-                    if(!string.IsNullOrEmpty(id))
-                        idsString += $"'{id}',";
-                if(!string.IsNullOrEmpty(idsString))
-                {
-                    idsString = idsString.Substring(0, idsString.Length - 1);
-                    object minDate = SqlHelper.ExecuteOnlyOneQuery($"SELECT MIN(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01';");
-                    object maxDate = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pfl_date) FROM processing_file_list where pfl_id IN ({idsString}) AND CONVERT(DATE, pfl_date) <> '1900-01-01';");
-                    if(minDate != null && maxDate != null)
-                        return $"{Convert.ToDateTime(minDate).ToString("yyyy-MM-dd")} ~ {Convert.ToDateTime(maxDate).ToString("yyyy-MM-dd")}";
-                }
-            }
-            return null;
+            object minDate = SqlHelper.ExecuteOnlyOneQuery($"SELECT MIN(pfl_date) FROM processing_file_list WHERE pfl_date IS NOT NULL AND pfl_date <>'' AND pfl_box_id='{boxId}'");
+            object maxDate = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pfl_date) FROM processing_file_list WHERE pfl_date IS NOT NULL AND pfl_date <>'' AND pfl_box_id='{boxId}'");
+            if(minDate != null && maxDate != null)
+                return $"{ToolHelper.GetDateValue(minDate, "yyyy-MM-dd")} ~ {ToolHelper.GetDateValue(maxDate, "yyyy-MM-dd")}";
+            else
+                return null;
         }
-
     }
 }

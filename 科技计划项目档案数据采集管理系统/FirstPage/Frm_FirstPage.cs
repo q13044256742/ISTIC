@@ -68,6 +68,9 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
         {
             LoadLastData();
             view.ClearSelection();
+
+            string filePath = Application.ExecutablePath;
+
         }
 
         private void LoadLastData()
@@ -138,25 +141,25 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             string itemName = e.Item.Name;
             if("tbar_ZLJG".Equals(itemName))//著录加工
             {
-                Frm_MainFrame frm = GetFormHelper.GetMainFrame(this, new Frm_CG());
+                Frm_MainFrame frm = GetFormHelper.GetMainFrame(new Frm_CG());
                 frm.Show();
                 frm.Activate();
             }
             else if("tbar_YJDJ".Equals(itemName))//移交登记
             {
-                Frm_MainFrame frm = GetFormHelper.GetMainFrame(this, new Frm_ToR());
+                Frm_MainFrame frm = GetFormHelper.GetMainFrame(new Frm_ToR());
                 frm.Show();
                 frm.Activate();
             }
             else if("tbar_DAJS".Equals(itemName))//档案接收
             {
-                Frm_MainFrame frm = GetFormHelper.GetMainFrame(this, new Frm_DomAccept());
+                Frm_MainFrame frm = GetFormHelper.GetMainFrame(new Frm_DomAccept());
                 frm.Show();
                 frm.Activate();
             }
             else if("tbar_DAZJ".Equals(itemName))//档案质检
             {
-                Frm_MainFrame frm = GetFormHelper.GetMainFrame(this, new Frm_QT());
+                Frm_MainFrame frm = GetFormHelper.GetMainFrame(new Frm_QT());
                 frm.Show();
                 frm.Activate();
             }
@@ -178,7 +181,12 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                 frm.Show();
                 frm.Activate();
             }
-            
+            else if("tbar_Download".Equals(itemName))//下载
+            {
+                Frm_Download frm = GetFormHelper.GetFileDownload();
+                frm.Show();
+                frm.Activate();
+            }
         }
 
         private void btn_QuitUser_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

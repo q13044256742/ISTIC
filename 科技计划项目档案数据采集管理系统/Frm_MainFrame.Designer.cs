@@ -116,7 +116,6 @@
             this.Name = "Frm_MainFrame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "科技计划项目档案数据采集管理系统";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_MainFrame_FormClosing);
             this.Load += new System.EventHandler(this.Frm_MainFrame_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pal_Top.ResumeLayout(false);

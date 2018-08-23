@@ -198,19 +198,6 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             }
         }
 
-        private void Frm_CDRead_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if(!btn_Sure.Enabled)
-            {
-                MessageBox.Show("请等待操作完成。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                e.Cancel = true;
-            }
-            else if(pgb_CD.Value == pgb_CD.Maximum || pgb_DS.Value == pgb_DS.Maximum)
-            {
-                DialogResult = DialogResult.OK;
-            }
-        }
-
         private void Lbl_CdPath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();

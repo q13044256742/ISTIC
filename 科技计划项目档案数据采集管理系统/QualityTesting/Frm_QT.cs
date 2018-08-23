@@ -82,13 +82,13 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_MyReg.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "mrl_id", Visible = false},
-                new DataGridViewTextBoxColumn(){ Name = "mrl_unit", HeaderText = "来源单位", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){ Name = "mrl_pcode", HeaderText = "批次号", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){ Name = "mrl_code", HeaderText = "编号", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){ Name = "mrl_name", HeaderText = "名称", FillWeight = 20},
-                new DataGridViewTextBoxColumn(){ Name = "mrl_fileamount", HeaderText = "文件数", FillWeight = 5},
-                new DataGridViewTextBoxColumn(){ Name = "mrl_state", HeaderText = "状态", FillWeight = 8},
-                new DataGridViewButtonColumn(){ Name = "mrl_edit", HeaderText = "操作", FillWeight = 5, Text = "查看", UseColumnTextForButtonValue = true},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_unit", HeaderText = "来源单位", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_pcode", HeaderText = "批次号", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_code", HeaderText = "编号", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_name", HeaderText = "名称", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_fileamount", HeaderText = "文件数", FillWeight = 5, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "mrl_state", HeaderText = "状态", FillWeight = 8, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewButtonColumn(){ Name = "mrl_edit", HeaderText = "操作", FillWeight = 5, Text = "查看", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable},
             });
             DataTable table = SqlHelper.ExecuteQuery($"SELECT wm_id, wm_obj_id FROM work_myreg WHERE wm_accepter='{UserHelper.GetUser().UserKey}' AND wm_type=3 AND wm_status<>1");
             foreach(DataRow row in table.Rows)
@@ -342,13 +342,13 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_MyReg.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "mr_id"},
-                new DataGridViewTextBoxColumn(){ Name = "mr_unit", HeaderText = "来源单位", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){ Name = "mr_pcode", HeaderText = "批次号", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){ Name = "mr_code", HeaderText = "编号", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){ Name = "mr_name", HeaderText = "名称", FillWeight = 20},
-                new DataGridViewTextBoxColumn(){ Name = "mr_fileamount", HeaderText = "文件数", FillWeight = 5},
-                new DataGridViewButtonColumn(){ Name = "mr_edit", HeaderText = "操作", FillWeight = 8, Text = "编辑", UseColumnTextForButtonValue = true},
-                new DataGridViewButtonColumn(){ Name = "mr_submit", HeaderText = "完成", FillWeight = 8, Text = "提交", UseColumnTextForButtonValue = true}
+                new DataGridViewTextBoxColumn(){ Name = "mr_unit", HeaderText = "来源单位", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "mr_pcode", HeaderText = "批次号", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "mr_code", HeaderText = "编号", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "mr_name", HeaderText = "名称", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "mr_fileamount", HeaderText = "文件数", FillWeight = 5, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewButtonColumn(){ Name = "mr_edit", HeaderText = "操作", FillWeight = 8, Text = "编辑", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewButtonColumn(){ Name = "mr_submit", HeaderText = "完成", FillWeight = 8, Text = "提交", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable}
             });
 
             DataTable table = SqlHelper.ExecuteQuery($"SELECT wm_id, wm_type, wm_obj_id FROM work_myreg WHERE wm_accepter='{UserHelper.GetUser().UserKey}' AND wm_status=2");
@@ -521,14 +521,14 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Imp.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "imp_id"},
-                new DataGridViewTextBoxColumn(){ Name = "imp_unit", HeaderText = "来源单位", FillWeight = 12},
-                new DataGridViewTextBoxColumn(){ Name = "imp_pcode", HeaderText = "批次号", FillWeight = 10 },
-                new DataGridViewTextBoxColumn(){ Name = "imp_code", HeaderText = "计划编号", FillWeight = 10 },
-                new DataGridViewTextBoxColumn(){ Name = "imp_name", HeaderText = "计划名称", FillWeight = 15 },
-                new DataGridViewTextBoxColumn(){ Name = "imp_fileAmount", HeaderText = "文件数", FillWeight = 5 },
-                new DataGridViewTextBoxColumn(){ Name = "imp_qtAmount", HeaderText = "质检次数", FillWeight = 5 },
-                new DataGridViewButtonColumn(){ Name = "imp_control", HeaderText = "操作", FillWeight = 5 },
-                new DataGridViewTextBoxColumn(){ Name = "imp_via", HeaderText = "数据途径", FillWeight = 6 },
+                new DataGridViewTextBoxColumn(){ Name = "imp_unit", HeaderText = "来源单位", FillWeight = 12, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "imp_pcode", HeaderText = "批次号", FillWeight = 10 , SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "imp_code", HeaderText = "计划编号", FillWeight = 10 , SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "imp_name", HeaderText = "计划名称", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "imp_fileAmount", HeaderText = "文件数", FillWeight = 5, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "imp_qtAmount", HeaderText = "质检次数", FillWeight = 5, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){ Name = "imp_control", HeaderText = "操作", FillWeight = 5 , SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "imp_via", HeaderText = "数据途径", FillWeight = 6 , SortMode = DataGridViewColumnSortMode.NotSortable},
             });
             //查询已提交至质检的计划
             /* ---------------------重点计划------------------ */
@@ -584,14 +584,14 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Imp_Dev.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){Name = "imp_dev_id"},
-                new DataGridViewTextBoxColumn(){Name = "imp_dev_unit", HeaderText = "来源单位", FillWeight = 12},
-                new DataGridViewTextBoxColumn(){Name = "imp_dev_pcode", HeaderText = "批次号", FillWeight = 10},
-                new DataGridViewTextBoxColumn(){Name = "imp_dev_code", HeaderText = "专项编号", FillWeight = 10},
-                new DataGridViewTextBoxColumn(){Name = "imp_dev_name", HeaderText = "专项名称", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){Name = "imp_dev_fileAmount", HeaderText = "文件数", FillWeight = 5},
-                new DataGridViewTextBoxColumn(){Name = "imp_dev_qtAmount", HeaderText = "质检次数", FillWeight = 5 },
-                new DataGridViewButtonColumn(){Name = "imp_dev_control", HeaderText = "操作", FillWeight = 5, Text = "质检", UseColumnTextForButtonValue = true},
-                new DataGridViewTextBoxColumn(){Name = "imp_dev_via", HeaderText = "数据途径", FillWeight = 6},
+                new DataGridViewTextBoxColumn(){Name = "imp_dev_unit", HeaderText = "来源单位", FillWeight = 12, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "imp_dev_pcode", HeaderText = "批次号", FillWeight = 10, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "imp_dev_code", HeaderText = "专项编号", FillWeight = 10, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "imp_dev_name", HeaderText = "专项名称", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "imp_dev_fileAmount", HeaderText = "文件数", FillWeight = 5, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "imp_dev_qtAmount", HeaderText = "质检次数", FillWeight = 5, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){Name = "imp_dev_control", HeaderText = "操作", FillWeight = 5, Text = "质检", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "imp_dev_via", HeaderText = "数据途径", FillWeight = 6, SortMode = DataGridViewColumnSortMode.NotSortable},
             });
 
             string querySql = "SELECT wm.wm_id, idi.imp_id, dd_id, dd_name, trp.trp_id, idi.imp_code, idi.imp_name, wm.wm_ticker, trp.trp_code FROM imp_dev_info idi " +
@@ -629,15 +629,15 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Project.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){Name = "pro_id"},
-                new DataGridViewTextBoxColumn(){Name = "pro_unit", HeaderText = "来源单位", FillWeight = 12},
-                new DataGridViewTextBoxColumn(){Name = "pro_pcode", HeaderText = "批次号", FillWeight = 8},
-                new DataGridViewTextBoxColumn(){Name = "pro_code", HeaderText = "项目/课题编号", FillWeight = 10},
-                new DataGridViewTextBoxColumn(){Name = "pro_name", HeaderText = "项目/课题名称", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){Name = "pro_subAmount", HeaderText = "课题/子课题数", FillWeight = 8},
-                new DataGridViewTextBoxColumn(){Name = "pro_fileAmount", HeaderText = "文件数", FillWeight = 5},
-                new DataGridViewTextBoxColumn(){Name = "pro_qtAmount", HeaderText = "质检次数", FillWeight = 5 },
-                new DataGridViewButtonColumn(){Name = "pro_control", HeaderText = "操作", FillWeight = 5, Text = "质检", UseColumnTextForButtonValue = true},
-                new DataGridViewTextBoxColumn(){Name = "pro_via", HeaderText = "数据途径", FillWeight = 6},
+                new DataGridViewTextBoxColumn(){Name = "pro_unit", HeaderText = "来源单位", FillWeight = 12, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "pro_pcode", HeaderText = "批次号", FillWeight = 8, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "pro_code", HeaderText = "项目/课题编号", FillWeight = 10, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "pro_name", HeaderText = "项目/课题名称", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "pro_subAmount", HeaderText = "课题/子课题数", FillWeight = 8, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "pro_fileAmount", HeaderText = "文件数", FillWeight = 5, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "pro_qtAmount", HeaderText = "质检次数", FillWeight = 5 , SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewButtonColumn(){Name = "pro_control", HeaderText = "操作", FillWeight = 5, Text = "质检", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){Name = "pro_via", HeaderText = "数据途径", FillWeight = 6, SortMode = DataGridViewColumnSortMode.NotSortable},
             });
 
             DataTable table = new DataTable();
@@ -799,9 +799,9 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Project.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "subId" },
-                new DataGridViewTextBoxColumn(){ Name = "subUnitName", HeaderText = "来源单位", FillWeight = 15},
-                new DataGridViewTextBoxColumn(){ Name = "subCode", HeaderText = "课题/子课题编号", FillWeight = 20},
-                new DataGridViewTextBoxColumn(){ Name = "subName", HeaderText = "课题/子课题名称", FillWeight = 25},
+                new DataGridViewTextBoxColumn(){ Name = "subUnitName", HeaderText = "来源单位", FillWeight = 15, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "subCode", HeaderText = "课题/子课题编号", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable},
+                new DataGridViewTextBoxColumn(){ Name = "subName", HeaderText = "课题/子课题名称", FillWeight = 25, SortMode = DataGridViewColumnSortMode.NotSortable},
                 //new DataGridViewButtonColumn(){ Name = "subControl", HeaderText = "操作", Text="质检", FillWeight = 5}
             });
             dgv_Project.Columns["subId"].Visible = false;

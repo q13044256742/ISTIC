@@ -156,13 +156,13 @@ namespace 科技计划项目档案数据采集管理系统
                 if(!flag)//全部时间
                 {
                     if(startDate.Date == endDate.Date)
-                        queryCondition = $"WHERE pi_worker_date =  CONVERT(DATE, '{startDate}')";
+                        queryCondition = $"AND pi_worker_date =  CONVERT(DATE, '{startDate}')";
                     else
-                        queryCondition = $"WHERE pi_worker_date >=  CONVERT(DATE, '{startDate}') AND pi_worker_date <=  CONVERT(DATE, '{endDate}')";
+                        queryCondition = $"AND pi_worker_date >=  CONVERT(DATE, '{startDate}') AND pi_worker_date <=  CONVERT(DATE, '{endDate}')";
                 }
                 string querySQL = "SELECT pi_worker_date, COUNT(pi_id) FROM(" +
-                    "SELECT pi_id, pi_worker_date FROM project_info WHERE pi_categor = 2 " +
-                    $"UNION ALL SELECT ti_id, ti_worker_date FROM topic_info WHERE ti_categor = -3) AS TB1 {queryCondition} {userConditon}" +
+                    "SELECT pi_id, pi_worker_date, pi_worker_id FROM project_info WHERE pi_categor = 2 " +
+                    $"UNION ALL SELECT ti_id, ti_worker_date, ti_worker_id FROM topic_info WHERE ti_categor = -3) AS TB1 WHERE 1=1 {queryCondition} {userConditon}" +
                     "GROUP BY pi_worker_date";
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                 for(int i = 0; i < list.Count; i++)

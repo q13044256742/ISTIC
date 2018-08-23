@@ -16,8 +16,8 @@ namespace 科技计划项目档案数据采集管理系统
             BonusSkins.Register();
             SkinManager.EnableFormSkins();
             UserLookAndFeel.Default.SetSkinStyle("DevExpress Style");
-            //Application.Run(GetFormHelper.GetLoginForm());
-            Application.Run(new Frm_Download());
+            Application.Run(GetFormHelper.GetLoginForm());
+            //Application.Run(new Frm_Download());
         }
     }
 }

@@ -550,6 +550,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="currentRow">当前行</param>
         private void SetNameByCategor(System.Windows.Forms.ComboBox comboBox, DataGridViewRow currentRow, string key, object objId)
         {
+            if(comboBox.Items.Count <= 4) return;
             string value = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_note FROM data_dictionary WHERE dd_id='{comboBox.SelectedValue}'"));
             currentRow.Cells[key + "name"].Value = value;
 
@@ -1741,11 +1742,18 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string sqlString = string.Empty;
             object _fileId = row.Cells[key + "id"].Tag;
-            object status = -1;
+            object boxId = null, fileId = null, link = null, remark = null;
             if(_fileId != null)
             {
+                DataRow param = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_box_id, pfl_link, pfl_file_id, pfl_remark FROM processing_file_list WHERE pfl_id='{_fileId}'");
+                if(param != null)
+                {
+                    boxId = param["pfl_box_id"];
+                    link = param["pfl_link"];
+                    fileId = param["pfl_file_id"];
+                    remark = param["pfl_remark"];
+                }
                 sqlString += $"DELETE FROM processing_file_list WHERE pfl_id='{_fileId}';";
-                status = SqlHelper.ExecuteOnlyOneQuery($"SELECT pfl_status FROM processing_file_list WHERE pfl_id='{_fileId}'");
             }
             else
                 _fileId = Guid.NewGuid().ToString();
@@ -1774,9 +1782,6 @@ namespace 科技计划项目档案数据采集管理系统
             object date = now == DateTime.MinValue ? null : now.ToString();
             object unit = row.Cells[key + "unit"].Value;
             object carrier = row.Cells[key + "carrier"].Value;
-            object link = row.Cells[key + "link"].Value;
-            object fileId = row.Cells[key + "link"].Tag;
-            object format = link == null ? string.Empty : Path.GetExtension(GetValue(link)).Replace(".", string.Empty);
 
             bool isOtherType = "其他".Equals(GetValue(row.Cells[key + "categor"].FormattedValue).Trim());
             if(isOtherType)
@@ -1789,8 +1794,8 @@ namespace 科技计划项目档案数据采集管理系统
                     $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');";
             }
             sqlString += "INSERT INTO processing_file_list (" +
-            "pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort) " +
-            $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{format}', '{link}', '{fileId}', '{parentId}', '{status}', '{sort}');";
+            "pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_link, pfl_file_id, pfl_remark, pfl_obj_id, pfl_box_id, pfl_sort) " +
+            $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{fileId}', '{remark}', '{parentId}', '{boxId}', '{sort}');";
             if(fileId != null)
             {
                 int value = link == null ? 0 : 1;
@@ -3204,41 +3209,23 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="_obj">待处理文件IDS</param>
         /// <param name="pbid">案卷盒ID</param>
         /// <param name="pbid">ture:归档;false:不归档</param>
-        private void SetFileState(object[] _obj, object pbid, bool isGD)
+        private void SetFileState(object[] fileIds, object boxId, bool isGD)
         {
-            string filesIds = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{pbid}'"));
             if (isGD)
             {
                 //将文件状态置为已归档
-                StringBuilder updateSql = new StringBuilder($"UPDATE processing_file_list SET pfl_status=1 WHERE pfl_id IN (");
-                for (int i = 0; i < _obj.Length; i++)
-                    updateSql.Append($"'{_obj[i]}'{(i == _obj.Length - 1 ? ")" : ",")}");
-                SqlHelper.ExecuteNonQuery(updateSql.ToString());
-
-                //当前案卷盒中加入已归档文件ID
-                string newfilesIds = filesIds.EndsWith(",") ? filesIds : filesIds + ",";
-                for (int i = 0; i < _obj.Length; i++)
-                    newfilesIds += $"{_obj[i]}{(i == _obj.Length - 1 ? string.Empty : ",")}";
-                updateSql = new StringBuilder($"UPDATE processing_box SET pb_files_id='{newfilesIds}' WHERE pb_id='{pbid}'");
+                StringBuilder updateSql = new StringBuilder($"UPDATE processing_file_list SET pfl_box_id='{boxId}' WHERE pfl_id IN (");
+                for(int i = 0; i < fileIds.Length; i++)
+                    updateSql.Append($"'{fileIds[i]}'{(i == fileIds.Length - 1 ? ");" : ",")}");
                 SqlHelper.ExecuteNonQuery(updateSql.ToString());
             }
             else
             {
                 //将文件状态置为未归档
-                StringBuilder updateSql = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN (");
-                for (int i = 0; i < _obj.Length; i++)
-                    updateSql.Append($"'{_obj[i]}'{(i == _obj.Length - 1 ? ")" : ",")}");
+                StringBuilder updateSql = new StringBuilder($"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_id IN (");
+                for(int i = 0; i < fileIds.Length; i++)
+                    updateSql.Append($"'{fileIds[i]}'{(i == fileIds.Length - 1 ? ");" : ",")}");
                 SqlHelper.ExecuteNonQuery(updateSql.ToString());
-
-                //当前案卷盒中移除已归档文件ID【先查询，接着修改，最后更新】
-                if (!string.IsNullOrEmpty(filesIds))
-                {
-                    string newfilesIds = filesIds;
-                    for (int i = 0; i < _obj.Length; i++)
-                        if (filesIds.Contains(GetValue(_obj[i])))
-                            newfilesIds = newfilesIds.Replace(_obj[i] + ",", string.Empty).Replace(GetValue(_obj[i]), string.Empty);
-                    SqlHelper.ExecuteNonQuery($"UPDATE processing_box SET pb_files_id='{newfilesIds}' WHERE pb_id='{pbid}'");
-                }
             }
         }
     
@@ -3275,18 +3262,9 @@ namespace 科技计划项目档案数据采集管理系统
                                 object value = cbo_Plan_Box.SelectedValue;
                                 if(value != null)
                                 {
-                                    //将当前盒中文件状态致为未归档
-                                    object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
-                                    if(ids != null)
-                                    {
-                                        string[] _ids = ids.ToString().Split(',');
-                                        StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                        for(int i = 0; i < _ids.Length; i++)
-                                            sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                        SqlHelper.ExecuteNonQuery(sb.ToString());
-                                    }
-                                    //删除当前盒信息
-                                    SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
+                                    SqlHelper.ExecuteNonQuery(
+                                        $"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_box_id='{value}';" +
+                                        $"DELETE FROM processing_box WHERE pb_id='{value}'");
                                 }
                             }
                         }
@@ -3322,18 +3300,9 @@ namespace 科技计划项目档案数据采集管理系统
                                 object value = cbo_Project_Box.SelectedValue;
                                 if(value != null)
                                 {
-                                    //将当前盒中文件状态致为未归档
-                                    object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
-                                    if(ids != null)
-                                    {
-                                        string[] _ids = ids.ToString().Split(',');
-                                        StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                        for(int i = 0; i < _ids.Length; i++)
-                                            sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                        SqlHelper.ExecuteNonQuery(sb.ToString());
-                                    }
-                                    //删除当前盒信息
-                                    SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
+                                    SqlHelper.ExecuteNonQuery(
+                                         $"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_box_id='{value}';" +
+                                         $"DELETE FROM processing_box WHERE pb_id='{value}'");
                                 }
                             }
                         }
@@ -3368,18 +3337,9 @@ namespace 科技计划项目档案数据采集管理系统
                                 XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                //将当前盒中文件状态致为未归档
-                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
-                                if(ids != null)
-                                {
-                                    string[] _ids = ids.ToString().Split(',');
-                                    StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                    for(int i = 0; i < _ids.Length; i++)
-                                        sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                    SqlHelper.ExecuteNonQuery(sb.ToString());
-                                }
-                                //删除当前盒信息
-                                SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
+                                SqlHelper.ExecuteNonQuery(
+                                         $"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_box_id='{value}';" +
+                                         $"DELETE FROM processing_box WHERE pb_id='{value}'");
                             }
                         }
                     }
@@ -3412,18 +3372,9 @@ namespace 科技计划项目档案数据采集管理系统
                                 XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                //将当前盒中文件状态致为未归档
-                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
-                                if(ids != null)
-                                {
-                                    string[] _ids = ids.ToString().Split(',');
-                                    StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                    for(int i = 0; i < _ids.Length; i++)
-                                        sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                    SqlHelper.ExecuteNonQuery(sb.ToString());
-                                }
-                                //删除当前盒信息
-                                SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
+                                SqlHelper.ExecuteNonQuery(
+                                         $"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_box_id='{value}';" +
+                                         $"DELETE FROM processing_box WHERE pb_id='{value}'");
                             }
                         }
                     }
@@ -3456,18 +3407,9 @@ namespace 科技计划项目档案数据采集管理系统
                                 XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                //将当前盒中文件状态致为未归档
-                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
-                                if(ids != null)
-                                {
-                                    string[] _ids = ids.ToString().Split(',');
-                                    StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                    for(int i = 0; i < _ids.Length; i++)
-                                        sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                    SqlHelper.ExecuteNonQuery(sb.ToString());
-                                }
-                                //删除当前盒信息
-                                SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
+                                SqlHelper.ExecuteNonQuery(
+                                          $"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_box_id='{value}';" +
+                                          $"DELETE FROM processing_box WHERE pb_id='{value}'");
                             }
                         }
                     }
@@ -3500,18 +3442,9 @@ namespace 科技计划项目档案数据采集管理系统
                                 XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                //将当前盒中文件状态致为未归档
-                                object ids = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{value}'");
-                                if(ids != null)
-                                {
-                                    string[] _ids = ids.ToString().Split(',');
-                                    StringBuilder sb = new StringBuilder($"UPDATE processing_file_list SET pfl_status=-1 WHERE pfl_id IN(");
-                                    for(int i = 0; i < _ids.Length; i++)
-                                        sb.Append($"'{_ids[i]}'{(_ids.Length - 1 != i ? "," : ")")}");
-                                    SqlHelper.ExecuteNonQuery(sb.ToString());
-                                }
-                                //删除当前盒信息
-                                SqlHelper.ExecuteNonQuery($"DELETE FROM processing_box WHERE pb_id='{value}'");
+                                SqlHelper.ExecuteNonQuery(
+                                        $"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_box_id='{value}';" +
+                                        $"DELETE FROM processing_box WHERE pb_id='{value}'");
                             }
                         }
                     }
@@ -4376,9 +4309,12 @@ namespace 科技计划项目档案数据采集管理系统
         {
             StringBuilder builder = new StringBuilder();
             for(int i = 0; i < listView.Items.Count; i++)
-                builder.Append(listView.Items[i].SubItems[0].Text + ",");
-            string ids = builder.Remove(builder.Length - 1, 1).ToString();
-            SqlHelper.ExecuteNonQuery($"UPDATE processing_box SET pb_files_id='{ids}' WHERE pb_id='{pbid}'");
+            {
+                string fileId = listView.Items[i].SubItems[0].Text;
+                builder.Append($"UPDATE processing_file_list SET pfl_box_sort='{i}' WHERE pfl_id='{fileId}';");
+            }
+            if(builder.Length > 0)
+                SqlHelper.ExecuteNonQuery(builder.ToString());
         }
     
         /// <summary>

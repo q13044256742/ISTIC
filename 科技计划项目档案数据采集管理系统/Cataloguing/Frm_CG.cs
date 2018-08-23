@@ -32,6 +32,8 @@ namespace 科技计划项目档案数据采集管理系统
             SetBackWorkNumber();
 
             ace_LeftMenu.SelectElement(ac_Login);
+
+            txt_Search.Focus();
         }
 
         private void SetBackWorkNumber()
@@ -678,10 +680,10 @@ namespace 科技计划项目档案数据采集管理系统
                                 }
                                 else
                                 {
-                                    Frm_ProTypeSelect frm = new Frm_ProTypeSelect(WorkType.CDWork, objId);
+                                    Frm_ProTypeSelect frm = GetFormHelper.GetProTypeSelecter(WorkType.CDWork, objId);
                                     frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
                                     frm.trcId = objId;
-                                    frm.ShowDialog();
+                                    frm.Show();
                                 }
                             }
                             else
@@ -722,9 +724,9 @@ namespace 科技计划项目档案数据采集管理系统
                                 planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}'");
                                 if(planId == null)
                                 {
-                                    Frm_ProTypeSelect frm = new Frm_ProTypeSelect(WorkType.PaperWork, objId);
+                                    Frm_ProTypeSelect frm = GetFormHelper.GetProTypeSelecter(WorkType.PaperWork, objId);
                                     frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
-                                    frm.ShowDialog();
+                                    frm.Show();
                                 }
                                 else
                                 {
@@ -1799,5 +1801,6 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
+
     }
 }

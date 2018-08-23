@@ -1,5 +1,4 @@
 ﻿using DevExpress.XtraEditors;
-using DevExpress.XtraEditors.Controls;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -25,8 +24,13 @@ namespace 科技计划项目档案数据采集管理系统
 
         }
 
-        private void btn_Upload_Click(object sender, EventArgs e)
+        private void Btn_Upload_Click(object sender, EventArgs e)
         {
+            if(UserHelper.GetUserRole() != UserRole.DocManager)
+            {
+                XtraMessageBox.Show("仅档案管理员可以上传文件。", "提示");
+                return;
+            }
             openFileDialog1.Title = "选择待上传的文件";
             openFileDialog1.Multiselect = true;
             if(openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -67,7 +71,7 @@ namespace 科技计划项目档案数据采集管理系统
             return result;
         }
 
-        private void downloadButton_MouseDown(object sender, MouseEventArgs e)
+        private void DownloadButton_MouseDown(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
             {
@@ -98,6 +102,15 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                 }
+            }
+        }
+
+        private void Btn_Delete_Click(object sender, EventArgs e)
+        {
+            if(UserHelper.GetUserRole() != UserRole.DocManager)
+            {
+                XtraMessageBox.Show("仅档案管理员可以删除文件。", "提示");
+                return;
             }
         }
     }

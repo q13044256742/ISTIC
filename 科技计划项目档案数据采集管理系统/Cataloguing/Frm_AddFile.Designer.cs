@@ -67,6 +67,7 @@
             this.btn_Exit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Save_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.txt_fileName = new System.Windows.Forms.TextBox();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.num_Amount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Pages)).BeginInit();
             this.pal_type.SuspendLayout();
@@ -88,7 +89,7 @@
             // 
             // txt_Remark
             // 
-            this.txt_Remark.Location = new System.Drawing.Point(114, 459);
+            this.txt_Remark.Location = new System.Drawing.Point(114, 494);
             this.txt_Remark.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_Remark.Multiline = true;
             this.txt_Remark.Name = "txt_Remark";
@@ -100,7 +101,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label15.Location = new System.Drawing.Point(55, 459);
+            this.label15.Location = new System.Drawing.Point(55, 494);
             this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(48, 25);
@@ -435,7 +436,7 @@
             this.btn_Reset.Image = ((System.Drawing.Image)(resources.GetObject("btn_Reset.Image")));
             this.btn_Reset.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Reset.ImageToTextIndent = 5;
-            this.btn_Reset.Location = new System.Drawing.Point(267, 573);
+            this.btn_Reset.Location = new System.Drawing.Point(267, 608);
             this.btn_Reset.Name = "btn_Reset";
             this.btn_Reset.Size = new System.Drawing.Size(67, 30);
             this.btn_Reset.TabIndex = 64;
@@ -449,7 +450,7 @@
             this.btn_Exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exit.Image")));
             this.btn_Exit.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Exit.ImageToTextIndent = 5;
-            this.btn_Exit.Location = new System.Drawing.Point(418, 573);
+            this.btn_Exit.Location = new System.Drawing.Point(418, 608);
             this.btn_Exit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(67, 30);
@@ -464,7 +465,7 @@
             this.btn_Save_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save_Add.Image")));
             this.btn_Save_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Save_Add.ImageToTextIndent = 0;
-            this.btn_Save_Add.Location = new System.Drawing.Point(338, 573);
+            this.btn_Save_Add.Location = new System.Drawing.Point(338, 608);
             this.btn_Save_Add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Save_Add.Name = "btn_Save_Add";
             this.btn_Save_Add.Size = new System.Drawing.Size(76, 30);
@@ -480,11 +481,25 @@
             this.txt_fileName.Size = new System.Drawing.Size(602, 46);
             this.txt_fileName.TabIndex = 81;
             // 
+            // labelControl1
+            // 
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("宋体", 9.5F);
+            this.labelControl1.Appearance.ForeColor = System.Drawing.Color.DarkRed;
+            this.labelControl1.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("labelControl1.Appearance.Image")));
+            this.labelControl1.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Vertical;
+            this.labelControl1.ImageAlignToText = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.labelControl1.Location = new System.Drawing.Point(90, 453);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(596, 26);
+            this.labelControl1.TabIndex = 82;
+            this.labelControl1.Text = "  请简要说明本文件中所包含的各个子文件名称。若此文件（包含电子和纸质）未移交，需在此标明文件的保存位置（或编号）。";
+            // 
             // Frm_AddFile
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(743, 612);
+            this.ClientSize = new System.Drawing.Size(743, 652);
+            this.Controls.Add(this.labelControl1);
             this.Controls.Add(this.txt_fileName);
             this.Controls.Add(this.num_Count);
             this.Controls.Add(this.label6);
@@ -576,5 +591,6 @@
         private System.Windows.Forms.NumericUpDown num_Count;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txt_fileName;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
     }
 }

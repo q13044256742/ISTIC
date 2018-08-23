@@ -6,11 +6,9 @@ namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_MainFrame : DevExpress.XtraEditors.XtraForm
     {
-        private Form parentForm;
         private Form subForm;
-        public Frm_MainFrame(Form parentForm, Form subForm)
+        public Frm_MainFrame(Form subForm)
         {
-            this.parentForm = parentForm;
             this.subForm = subForm;
             InitializeComponent();
             InitalForm();
@@ -23,12 +21,6 @@ namespace 科技计划项目档案数据采集管理系统
             subForm.MdiParent = this;
             subForm.WindowState = FormWindowState.Maximized;
             subForm.Show();
-        }
-
-        private void Frm_MainFrame_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            parentForm.Show();
-            parentForm.Activate();
         }
 
         private void lst_DataList_DrawItem(object sender, DrawItemEventArgs e)

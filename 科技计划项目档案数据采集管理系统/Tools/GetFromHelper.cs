@@ -49,10 +49,10 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         private static Frm_MainFrame mainFrame;
-        public static Frm_MainFrame GetMainFrame(Form f1, Form f2)
+        public static Frm_MainFrame GetMainFrame( Form f2)
         {
             if(mainFrame == null || mainFrame.IsDisposed)
-                mainFrame = new Frm_MainFrame(f1, f2);
+                mainFrame = new Frm_MainFrame(f2);
             return mainFrame;
         }
 
@@ -70,6 +70,22 @@ namespace 科技计划项目档案数据采集管理系统
             if(borrowing == null || borrowing.IsDisposed)
                 borrowing = new Frm_QueryBorrowing(form);
             return borrowing;
+        }
+
+        private static Frm_Download download;
+        public static Frm_Download GetFileDownload()
+        {
+            if(download == null || download.IsDisposed)
+                download = new Frm_Download();
+            return download;
+        }
+
+        private static Frm_ProTypeSelect proTypeSelect;
+        public static Frm_ProTypeSelect GetProTypeSelecter(WorkType type, object objId)
+        {
+            if(proTypeSelect == null || proTypeSelect.IsDisposed)
+                proTypeSelect = new Frm_ProTypeSelect(type, objId);
+            return proTypeSelect;
         }
     }
 }

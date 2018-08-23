@@ -352,6 +352,7 @@
             this.gpbh.FillWeight = 150F;
             this.gpbh.HeaderText = "光盘编号";
             this.gpbh.Name = "gpbh";
+            this.gpbh.ReadOnly = true;
             this.gpbh.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // bz

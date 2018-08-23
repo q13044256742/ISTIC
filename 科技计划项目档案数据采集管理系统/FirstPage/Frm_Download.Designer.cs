@@ -154,7 +154,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "下载", -1, true, true, true, DevExpress.XtraEditors.ImageLocation.MiddleLeft, ((System.Drawing.Image)(resources.GetObject("downloadButton.Buttons"))), new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true)});
             this.downloadButton.Name = "downloadButton";
             this.downloadButton.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.downloadButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.downloadButton_MouseDown);
+            this.downloadButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DownloadButton_MouseDown);
             // 
             // btn_Upload
             // 
@@ -169,7 +169,7 @@
             this.btn_Upload.Size = new System.Drawing.Size(66, 31);
             this.btn_Upload.TabIndex = 1;
             this.btn_Upload.Text = "上传";
-            this.btn_Upload.Click += new System.EventHandler(this.btn_Upload_Click);
+            this.btn_Upload.Click += new System.EventHandler(this.Btn_Upload_Click);
             // 
             // btn_Delete
             // 
@@ -184,6 +184,7 @@
             this.btn_Delete.Size = new System.Drawing.Size(66, 31);
             this.btn_Delete.TabIndex = 2;
             this.btn_Delete.Text = "删除";
+            this.btn_Delete.Click += new System.EventHandler(this.Btn_Delete_Click);
             // 
             // labelControl1
             // 
