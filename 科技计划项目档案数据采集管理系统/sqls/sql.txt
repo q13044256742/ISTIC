@@ -145,3 +145,4 @@ GO
 ALTER TABLE [dbo].[Attachment] ADD  CONSTRAINT [DF_Attachment_at_loadticker]  DEFAULT ((0)) FOR [at_loadticker]
 GO
 
+--借阅历史表 添加字段 bl_code	varchar(100)

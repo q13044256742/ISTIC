@@ -38,7 +38,7 @@ namespace 科技计划项目档案数据采集管理系统
         public static User GetUser()
         {
             if(user == null)
-                throw new Exception("未检测到登录用户。");
+               throw new Exception("未检测到登录用户。");
             return user;
         }
 

@@ -33,7 +33,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_QueryBorrowing_Load(object sender, EventArgs e)
         {
-            navigationPane1.SelectedPage = navigationPage1;
+            navigationPane1.SelectedPage = ngp_Query;
 
             DataTable planTable = SqlHelper.ExecuteQuery("SELECT F_ID, F_Title FROM T_Plan ORDER BY F_ID");
             DataRow allRow = planTable.NewRow();
@@ -53,8 +53,12 @@ namespace 科技计划项目档案数据采集管理系统
 
             LoadDataListByPage(1, null);
             view2.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            panel3.Bounds = new System.Drawing.Rectangle(0, panel3.Top, navigationPage1.Width, navigationPage1.Height - panel3.Top);
-            panel1.Bounds = new System.Drawing.Rectangle(0, panel1.Top, navigationPage2.Width, navigationPage2.Height - panel1.Top);
+            view_Log.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            view2.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            view_Log.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+
+            panel3.Bounds = new System.Drawing.Rectangle(0, panel3.Top, ngp_Query.Width, ngp_Query.Height - panel3.Top);
+            panel1.Bounds = new System.Drawing.Rectangle(0, panel1.Top, ngp_Borrow.Width, ngp_Borrow.Height - panel1.Top);
             lbl_TotalFileAmount.Anchor = AnchorStyles.Right | AnchorStyles.Top;
         }
 
@@ -399,8 +403,7 @@ namespace 科技计划项目档案数据采集管理系统
                     object fid = view2.Rows[e.RowIndex].Tag;
                     object fcode = view2.Rows[e.RowIndex].Cells["fcode"].Value;
                     object fname = view2.Rows[e.RowIndex].Cells["fname"].Value;
-                    Frm_BorrowEdit frm = new Frm_BorrowEdit(ToolHelper.GetValue(fcode), ToolHelper.GetValue(fname));
-                    frm.FILE_ID = fid;
+                    Frm_BorrowEdit frm = new Frm_BorrowEdit(fid);
                     frm.txt_Real_Return_Date.Enabled = false;
                     if(frm.ShowDialog() == DialogResult.OK)
                     {
@@ -421,7 +424,7 @@ namespace 科技计划项目档案数据采集管理系统
                     DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM borrow_log WHERE bl_id='{id}'");
                     if(row != null)
                     {
-                        Frm_BorrowEdit frm = new Frm_BorrowEdit(ToolHelper.GetValue(fcode), ToolHelper.GetValue(fname));
+                        Frm_BorrowEdit frm = new Frm_BorrowEdit(fid);
                         frm.txt_Unit.Text = ToolHelper.GetValue(row["bl_user_unit"]);
                         frm.txt_Unit.ReadOnly = true;
                         frm.txt_User.Text = ToolHelper.GetValue(row["bl_user"]);
@@ -438,7 +441,6 @@ namespace 科技计划项目档案数据采集管理系统
                         frm.txt_Should_Return_Date.ReadOnly = true;
                         frm.txt_Real_Return_Date.Text = DateTime.Now.ToString();
                         frm.lbl_FIleName.Tag = id;
-                        frm.FILE_ID = fid;
                         frm.btn_Sure.Text = "确认归还";
                         frm.txt_Real_Return_Date.Focus();
                         if(frm.ShowDialog() == DialogResult.OK)
@@ -502,10 +504,10 @@ namespace 科技计划项目档案数据采集管理系统
             if("fcount".Equals(columnName))
             {
                 txt_FileName.Tag = tree.FocusedNode.Tag;
-                txt_Pcode.Text = tree.FocusedNode.GetDisplayText(1);
+                txt_Pcode.Text = tree.FocusedNode.GetDisplayText(2);
 
                 Btn_FileQuery_Click(null, null);
-                navigationPane1.SelectedPage = navigationPage2;
+                navigationPane1.SelectedPage = ngp_Borrow;
             }
             //名称
             else if("name".Equals(columnName))
@@ -518,6 +520,37 @@ namespace 科技计划项目档案数据采集管理系统
                     Frm_QueryDetail detail = new Frm_QueryDetail(data);
                     detail.ShowDialog();
                 }
+            }
+        }
+
+        private void navigationPane1_SelectedPageChanged(object sender, DevExpress.XtraBars.Navigation.SelectedPageChangedEventArgs e)
+        {
+            if(e.Page == ngp_Log)
+            {
+                LoadBorrowLog(1);
+            }
+        }
+
+        /// <summary>
+        /// 借阅历史记录
+        /// </summary>
+        /// <param name="page">页码</param>
+        private void LoadBorrowLog(int page)
+        {
+            view_Log.Rows.Clear();
+            string querySQL = $"SELECT TOP({pageSize}) * FROM borrow_log WHERE bl_id NOT IN " +
+                $"(SELECT TOP({pageSize * (page - 1)}) bl_id FROM borrow_log ORDER BY bl_date) " +
+                 "ORDER BY bl_date";
+            DataTable table = SqlHelper.ExecuteQuery(querySQL);
+            foreach(DataRow row in table.Rows)
+            {
+                int i = view_Log.Rows.Add();
+                view_Log.Rows[i].Cells["id"].Value = i + 1;
+                view_Log.Rows[i].Cells["code"].Value = row["bl_code"];
+                view_Log.Rows[i].Cells["date"].Value = row["bl_date"];
+                view_Log.Rows[i].Cells["unit"].Value = row["bl_user_unit"];
+                view_Log.Rows[i].Cells["user"].Value = row["bl_user"];
+                view_Log.Rows[i].Cells["state"].Value = GetReturnState(row["bl_return_state"]);
             }
         }
     }

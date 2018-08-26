@@ -1,26 +1,51 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_BorrowEdit : DevExpress.XtraEditors.XtraForm
     {
-        /// <summary>
-        /// 文件ID
-        /// </summary>
-        public object FILE_ID;
-        public Frm_BorrowEdit(string fileCode, string fileName)
+        private object FILE_ID;
+        /// <param name="fileId">文件主键</param>
+        public Frm_BorrowEdit(object fileId)
         {
+            FILE_ID = fileId;
             InitializeComponent();
             cbo_FileType.Items.AddRange(new object[] { "原件", "复印件", "电子" });
-            lbl_FileCode.Text = fileCode;
-            lbl_FIleName.Text = fileName;
+            DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT a.pi_code, a.pi_name, pb_gc_id, pb_box_number, pfl_code, pfl_name FROM processing_file_list " +
+                $"LEFT JOIN (SELECT pi_id, pi_code, pi_name FROM project_info UNION ALL SELECT ti_id, ti_code, ti_name FROM topic_info UNION ALL SELECT si_id, si_code, si_name FROM subject_info) a ON pfl_obj_id = a.pi_id " +
+                $"LEFT JOIN processing_box ON pb_obj_id = pfl_obj_id " +
+                $"WHERE pfl_id = '{fileId}'");
+            if(row != null)
+            {
+                lbl_pCode.Text = ToolHelper.GetValue(row["pi_code"]);
+                lbl_pName.Text = ToolHelper.GetValue(row["pi_name"]);
+                lbl_pGC.Text = ToolHelper.GetValue(row["pb_gc_id"]);
+                lbl_pBoxId.Text = ToolHelper.GetValue(row["pb_box_number"]);
+                lbl_FileCode.Text = ToolHelper.GetValue(row["pfl_code"]);
+                lbl_FIleName.Text = ToolHelper.GetValue(row["pfl_name"]);
+            }
+
         }
 
         private void Frm_BorrowEdit_Load(object sender, EventArgs e)
         {
             txt_Borrow_Date.Text = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd");
-            lbl_LogUser.Text = UserHelper.GetUser().RealName;
+            //lbl_LogUser.Text = UserHelper.GetUser().RealName;
+
+            lbl_Code.Text = GetCode();
+        }
+
+        /// <summary>
+        /// 自动生成借阅单编号
+        /// </summary>
+        private string GetCode()
+        {
+            //年度(4位)+年度内流水号（4位）
+            int year = DateTime.Now.Year;
+            int number = SqlHelper.ExecuteCountQuery($"SELECT COUNT(bl_id) FROM borrow_log WHERE bl_code LIKE '{year}%';");
+            return $"{year}{(number + 1).ToString().PadLeft(4, '0')}";
         }
 
         private void Btn_Sure_Click(object sender, EventArgs e)
