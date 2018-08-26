@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using 科技计划项目档案数据采集管理系统.Cataloguing;
 using 科技计划项目档案数据采集管理系统.FirstPage;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -86,6 +87,14 @@ namespace 科技计划项目档案数据采集管理系统
             if(proTypeSelect == null || proTypeSelect.IsDisposed)
                 proTypeSelect = new Frm_ProTypeSelect(type, objId);
             return proTypeSelect;
+        }
+
+        private static Frm_FileList fileList;
+        public static Frm_FileList GetFileList(string[] linkString)
+        {
+            if(fileList == null || fileList.IsDisposed)
+                fileList = new Frm_FileList(linkString);
+            return fileList;
         }
     }
 }

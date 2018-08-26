@@ -21,7 +21,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadDocList()
         {
             view.Rows.Clear();
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM other_doc WHERE od_obj_id='{objId}'");
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM other_doc WHERE od_obj_id='{objId}' ORDER BY od_code");
             foreach(DataRow row in table.Rows)
             {
                 int i = view.Rows.Add();

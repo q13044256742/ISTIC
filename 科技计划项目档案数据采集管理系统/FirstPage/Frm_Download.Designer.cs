@@ -41,7 +41,6 @@
             this.btn_Upload = new DevExpress.XtraEditors.SimpleButton();
             this.btn_Delete = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.progressBar = new DevExpress.XtraEditors.MarqueeProgressBarControl();
             this.btn_Refresh = new DevExpress.XtraEditors.SimpleButton();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -199,6 +198,7 @@
             // 
             // progressBar
             // 
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.progressBar.EditValue = "";
             this.progressBar.Location = new System.Drawing.Point(0, 672);
             this.progressBar.Name = "progressBar";
@@ -262,7 +262,6 @@
         private DevExpress.XtraEditors.SimpleButton btn_Upload;
         private DevExpress.XtraEditors.SimpleButton btn_Delete;
         private DevExpress.XtraEditors.LabelControl labelControl1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private DevExpress.XtraEditors.MarqueeProgressBarControl progressBar;
         private DevExpress.XtraEditors.SimpleButton btn_Refresh;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;

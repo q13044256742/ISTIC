@@ -4977,8 +4977,9 @@ namespace 科技计划项目档案数据采集管理系统
                         if(path.Contains("；"))
                         {
                             string[] linkString = path.Split('；');
-                            Frm_FileList fileList = new Frm_FileList(linkString);
-                            fileList.ShowDialog();
+                            Frm_FileList fileList = GetFormHelper.GetFileList(linkString);
+                            fileList.Show();
+                            fileList.Activate();
                         }
                         else if(File.Exists(path))
                         {
@@ -5615,7 +5616,7 @@ namespace 科技计划项目档案数据采集管理系统
                 ljDate = GetWorker(objId, 2),
                 jcPeople = UserHelper.GetUserNameById(GetWorker(objId, 3)),
                 jcDate = GetWorker(objId, 4),
-                otherDoc = SqlHelper.ExecuteQuery($"SELECT * FROM other_doc WHERE od_obj_id='{objId}'"),
+                otherDoc = SqlHelper.ExecuteQuery($"SELECT * FROM other_doc WHERE od_obj_id='{objId}' ORDER BY od_code"),
             };
             frm.ShowDialog();
         }

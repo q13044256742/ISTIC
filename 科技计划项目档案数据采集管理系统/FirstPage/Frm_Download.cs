@@ -31,30 +31,29 @@ namespace 科技计划项目档案数据采集管理系统
                 XtraMessageBox.Show("仅档案管理员可以上传文件。", "提示");
                 return;
             }
-            openFileDialog1.Title = "选择待上传的文件";
-            openFileDialog1.Multiselect = true;
-            if(openFileDialog1.ShowDialog() == DialogResult.OK)
+            Frm_UploadFile uploadFile = new Frm_UploadFile();
+            if(uploadFile.ShowDialog() == DialogResult.OK)
             {
+                string filePath = uploadFile.txt_filePath.Text;
+                string fileCode = uploadFile.txt_fileCode.Text;
+                string fileVersion = uploadFile.txt_fileVersion.Text;
+
                 progressBar.Visible = true;
                 progressBar.Properties.Stopped = false;
                 progressBar.Text = "正在上传文件...";
                 new Thread(delegate ()
                 {
-                    string[] filePathArray = openFileDialog1.FileNames;
                     string insertSQL = string.Empty;
                     SqlConnection con = SqlHelper.GetConnect();
-                    foreach(string filePath in filePathArray)
-                    {
-                        FileInfo info = new FileInfo(filePath);
-                        string primaryKey = Guid.NewGuid().ToString();
-                        insertSQL += "INSERT INTO Attachment(at_id, at_name, at_size, at_date, at_uploader, at_entity) " +
-                            $"VALUES ('{primaryKey}' ,'{info.Name}' ,'{(float)(info.Length / 1024f)}' ,'{DateTime.Now}' ,'', @fileByte);";
-                        byte[] fileByte = GetByteFromFile(info);
-                        SqlCommand com = new SqlCommand(insertSQL, con);
-                        com.Parameters.Add("@fileByte", SqlDbType.Image, fileByte.Length);
-                        com.Parameters["@fileByte"].Value = fileByte;
-                        com.ExecuteNonQuery();
-                    }
+                    FileInfo info = new FileInfo(filePath);
+                    string primaryKey = Guid.NewGuid().ToString();
+                    insertSQL += "INSERT INTO Attachment(at_id, at_name, at_size, at_date, at_uploader, at_entity, at_version, at_code) " +
+                        $"VALUES ('{primaryKey}' ,'{info.Name}' ,'{(float)(info.Length / 1024f)}' ,'{DateTime.Now}' ,'{UserHelper.GetUser().UserKey}', @fileByte, '{fileVersion}', '{fileCode}');";
+                    byte[] fileByte = GetByteFromFile(info);
+                    SqlCommand com = new SqlCommand(insertSQL, con);
+                    com.Parameters.Add("@fileByte", SqlDbType.Image, fileByte.Length);
+                    com.Parameters["@fileByte"].Value = fileByte;
+                    com.ExecuteNonQuery();
                     SqlHelper.CloseConnect();
                     progressBar.Properties.Stopped = true;
                     progressBar.Text = "文件上传成功。";

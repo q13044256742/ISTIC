@@ -364,7 +364,7 @@ namespace 科技计划项目档案数据采集管理系统
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                         "LEFT JOIN transfer_registraion_cd trc ON pi.trc_id = trc.trc_id " +
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                        $"WHERE wm.wm_obj_id = '{objId}'";
+                        $"WHERE wm.wm_obj_id = '{objId}' AND pi_id IS NOT NULL";
 
                     DataRow planRow = SqlHelper.ExecuteSingleRowQuery(querySql);
                     if(planRow != null)
@@ -431,21 +431,14 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(type == WorkType.ProjectWork)
                 {
-                    string querySql = "SELECT dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id, trp.trp_code, trc.trc_id FROM project_info pi " +
+                    string querySql = "SELECT dd.dd_name, dd_code, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wr.wr_obj_id, trp.trp_code, trc.trc_id " +
+                        "FROM (SELECT * FROM project_info UNION ALL SELECT * FROM topic_info) pi " +
                         "LEFT JOIN work_myreg wm ON wm.wm_obj_id = pi.pi_id " +
                         "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                         "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                         "LEFT JOIN transfer_registraion_cd trc ON trp.trp_id = trc.trp_id " +
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                        $"WHERE wm.wm_obj_id = '{objId}' " +
-                        "UNION ALL " +
-                        "SELECT dd.dd_name, dd_code, wm.wm_id, ti.ti_id, ti.ti_code, ti.ti_name, wr.wr_obj_id, trp.trp_code, trc.trc_id FROM topic_info ti " +
-                        "LEFT JOIN work_myreg wm ON wm.wm_obj_id = ti.ti_id " +
-                        "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
-                        "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
-                        "LEFT JOIN transfer_registraion_cd trc ON trp.trp_id = trc.trp_id " +
-                        "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-                        $"WHERE wm.wm_obj_id = '{objId}'";
+                        $"WHERE wm.wm_obj_id = '{objId}' ";
                     DataRow proRow = SqlHelper.ExecuteSingleRowQuery(querySql);
                     if(proRow != null)
                     {

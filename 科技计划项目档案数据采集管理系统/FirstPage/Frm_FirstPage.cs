@@ -71,6 +71,16 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
 
             string filePath = Application.ExecutablePath;
 
+            //检查版本更新
+            object lastVersion = SqlHelper.ExecuteOnlyOneQuery($"SELECT TOP(1) at_version FROM Attachment WHERE at_code='ISTIC' ORDER BY at_date DESC");
+            if(lastVersion != null && Version.TryParse(ToolHelper.GetValue(lastVersion), out Version result))
+            {
+                Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                if(currentVersion < result)
+                {
+                    XtraMessageBox.Show("当前程序有新版本，请尽快更新。", "更新提醒", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
         }
 
         private void LoadLastData()
