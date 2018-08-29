@@ -42,13 +42,13 @@
             this.btn_Sure = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.view = new System.Windows.Forms.DataGridView();
+            this.btn_Edit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Delete = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.carrier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.intro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_Edit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Delete = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
@@ -200,39 +200,6 @@
             this.view.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.view_RowHeaderMouseDoubleClick);
             this.view.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.View_UserDeletingRow);
             // 
-            // name
-            // 
-            this.name.HeaderText = "名称";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.name.Width = 204;
-            // 
-            // code
-            // 
-            this.code.HeaderText = "馆藏号";
-            this.code.Name = "code";
-            this.code.ReadOnly = true;
-            this.code.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.code.Width = 203;
-            // 
-            // carrier
-            // 
-            this.carrier.FillWeight = 50F;
-            this.carrier.HeaderText = "载体";
-            this.carrier.Name = "carrier";
-            this.carrier.ReadOnly = true;
-            this.carrier.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.carrier.Width = 102;
-            // 
-            // intro
-            // 
-            this.intro.HeaderText = "说明";
-            this.intro.Name = "intro";
-            this.intro.ReadOnly = true;
-            this.intro.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.intro.Width = 204;
-            // 
             // btn_Edit
             // 
             this.btn_Edit.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -275,6 +242,39 @@
             this.btn_Add.Text = "新增";
             this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
             // 
+            // name
+            // 
+            this.name.HeaderText = "名称";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.name.Width = 204;
+            // 
+            // code
+            // 
+            this.code.HeaderText = "编号";
+            this.code.Name = "code";
+            this.code.ReadOnly = true;
+            this.code.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.code.Width = 203;
+            // 
+            // carrier
+            // 
+            this.carrier.FillWeight = 50F;
+            this.carrier.HeaderText = "载体";
+            this.carrier.Name = "carrier";
+            this.carrier.ReadOnly = true;
+            this.carrier.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.carrier.Width = 102;
+            // 
+            // intro
+            // 
+            this.intro.HeaderText = "说明";
+            this.intro.Name = "intro";
+            this.intro.ReadOnly = true;
+            this.intro.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.intro.Width = 204;
+            // 
             // Frm_OtherDoc
             // 
             this.Appearance.Options.UseFont = true;
@@ -316,12 +316,12 @@
         private KyoControl.KyoButton btn_Sure;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView view;
+        private KyoControl.KyoButton btn_Edit;
+        private KyoControl.KyoButton btn_Delete;
+        private KyoControl.KyoButton btn_Add;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn code;
         private System.Windows.Forms.DataGridViewTextBoxColumn carrier;
         private System.Windows.Forms.DataGridViewTextBoxColumn intro;
-        private KyoControl.KyoButton btn_Edit;
-        private KyoControl.KyoButton btn_Delete;
-        private KyoControl.KyoButton btn_Add;
     }
 }

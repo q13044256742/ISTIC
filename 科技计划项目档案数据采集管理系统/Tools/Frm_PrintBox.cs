@@ -126,20 +126,24 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Btn_StartPrint_Click(object sender, EventArgs e)
         {
-            List<object> boxIds = new List<object>();
-            foreach(DataGridViewRow row in view.Rows)
+            Frm_PrintChoose printChoose = new Frm_PrintChoose();
+            if(printChoose.ShowDialog() == DialogResult.OK)
             {
-                if(true.Equals(row.Cells["print"].Value))
+                List<object> boxIds = new List<object>();
+                foreach(DataGridViewRow row in view.Rows)
                 {
-                    boxIds.Add(row.Cells["print"].Tag);
+                    if(true.Equals(row.Cells["print"].Value))
+                    {
+                        boxIds.Add(row.Cells["print"].Tag);
+                    }
                 }
+                if(boxIds.Count > 0)
+                {
+                    PrintDocument(boxIds.ToArray());
+                }
+                else
+                    MessageBox.Show("请先至少选择一盒进行打印。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            if(boxIds.Count > 0)
-            {
-                PrintDocument(boxIds.ToArray());
-            }
-            else
-                MessageBox.Show("请先至少选择一盒进行打印。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void PrintDocument(object[] ids)
@@ -198,7 +202,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataColumn("pfl_date"),
                 new DataColumn("pfl_remark"),
             });
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT pfl_code, pfl_user, pfl_name, pfl_pages, pfl_date, pfl_remark FROM processing_file_list WHERE pfl_box_id='{boxId}'");
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT pfl_code, pfl_user, pfl_name, pfl_pages, pfl_date, pfl_remark FROM processing_file_list WHERE pfl_box_id='{boxId}' ORDER BY pfl_box_sort");
             foreach(DataRow row in table.Rows)
                 dataTable.ImportRow(row);
             int fileCount = dataTable.Rows.Count, pageCount = 0;
@@ -220,9 +224,7 @@ namespace 科技计划项目档案数据采集管理系统
             jnmlString = jnmlString.Replace("id=\"fileCount\">", $"id=\"fileCount\">{fileCount}");
             jnmlString = jnmlString.Replace("id=\"pageCount\">", $"id=\"pageCount\">{pageCount}");
 
-            WebBrowser browser = new WebBrowser() { ScriptErrorsSuppressed = false };
-            browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(Web_DocumentCompleted);
-            browser.DocumentText = jnmlString;
+            new WebBrowser() { DocumentText = jnmlString }.DocumentCompleted += Print_DocumentCompleted;
         }
 
         /// <summary>
@@ -260,10 +262,7 @@ namespace 科技计划项目档案数据采集管理系统
                 fmString = fmString.Replace("font-size:;", $"font-size:{font.Size};");
             }
             fmString = GetCoverHtmlString(boxId, fmString, bj, GCNumber);
-
-            WebBrowser browser = new WebBrowser() { ScriptErrorsSuppressed = false };
-            browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(Web_DocumentCompleted);
-            browser.DocumentText = fmString;
+            new WebBrowser() { DocumentText = fmString }.DocumentCompleted += Print_DocumentCompleted;
         }
 
         /// <summary>
@@ -297,20 +296,33 @@ namespace 科技计划项目档案数据采集管理系统
             bkbString = bkbString.Replace("id=\"jcr\">", $"id=\"jcr\">{jcPeople}");
             bkbString = bkbString.Replace("id=\"jcrq\">", $"id=\"jcrq\">{ToolHelper.GetDateValue(jcDate, "yyyy-MM-dd")}");
 
-            WebBrowser browser = new WebBrowser() { ScriptErrorsSuppressed = false };
-            browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(Web_DocumentCompleted);
-            browser.DocumentText = bkbString;
+
+            new WebBrowser() { DocumentText = bkbString }.DocumentCompleted += Print_DocumentCompleted;
         }
         
         /// <summary>
         /// 打印文档
         /// </summary>
-        private void Web_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void Print_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             WebBrowser browser = sender as WebBrowser;
             if(browser.ReadyState == WebBrowserReadyState.Complete)
             {
                 browser.Print();
+                System.Threading.Thread.Sleep(3000);
+                browser.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// 打印预览
+        /// </summary>
+        private void Preview_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            WebBrowser browser = sender as WebBrowser;
+            if(browser.ReadyState == WebBrowserReadyState.Complete)
+            {
+                browser.ShowPrintPreviewDialog();
                 browser.Dispose();
             }
         }
@@ -349,7 +361,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object GCNumber = view.Rows[e.RowIndex].Cells["id"].Tag;
                 fmString = GetCoverHtmlString(boxId, fmString, bj, GCNumber);
 
-                new WebBrowser() { DocumentText = fmString, ScriptErrorsSuppressed = false }.DocumentCompleted += Preview_DocumentCompleted;
+                new WebBrowser() { DocumentText = fmString, Size = new Size(500, 500) }.DocumentCompleted += Preview_DocumentCompleted;
             }
             else if("print".Equals(columnName))
             {
@@ -362,20 +374,6 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// 打印预览
-        /// </summary>
-        private void Preview_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            int i = DateTime.Now.Second;
-            while(DateTime.Now.Second - i < 3)
-            {
-                System.Threading.Thread.Sleep(500);
-            };
-            (sender as WebBrowser).ShowPrintPreviewDialog();
-            (sender as WebBrowser).Dispose();
         }
 
         /// <summary>

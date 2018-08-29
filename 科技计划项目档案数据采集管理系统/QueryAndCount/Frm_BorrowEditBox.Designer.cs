@@ -1,6 +1,6 @@
 ﻿namespace 科技计划项目档案数据采集管理系统
 {
-    partial class Frm_BorrowEdit
+    partial class Frm_BorrowEditBox
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_BorrowEdit));
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_BorrowEditBox));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lbl_Code = new System.Windows.Forms.Label();
             this.lbl_pBoxId = new System.Windows.Forms.Label();
@@ -43,8 +41,6 @@
             this.lbl_pCode = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.lbl_FIleName = new System.Windows.Forms.Label();
-            this.lbl_FileCode = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txt_Borrow_Term = new DevExpress.XtraEditors.TextEdit();
             this.txt_Phone = new DevExpress.XtraEditors.TextEdit();
@@ -78,31 +74,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(42, 209);
-            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 22);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "文件名称：";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(42, 175);
-            this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 22);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "文件编号：";
-            // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.lbl_Code);
             this.groupBox1.Controls.Add(this.lbl_pBoxId);
@@ -114,16 +88,12 @@
             this.groupBox1.Controls.Add(this.lbl_pCode);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.lbl_FIleName);
-            this.groupBox1.Controls.Add(this.lbl_FileCode);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(8, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(600, 264);
+            this.groupBox1.Size = new System.Drawing.Size(600, 200);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "文件信息";
+            this.groupBox1.Text = "卷盒信息";
             // 
             // lbl_Code
             // 
@@ -140,7 +110,7 @@
             // 
             this.lbl_pBoxId.AutoSize = true;
             this.lbl_pBoxId.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lbl_pBoxId.Location = new System.Drawing.Point(425, 141);
+            this.lbl_pBoxId.Location = new System.Drawing.Point(425, 150);
             this.lbl_pBoxId.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lbl_pBoxId.Name = "lbl_pBoxId";
             this.lbl_pBoxId.Size = new System.Drawing.Size(38, 21);
@@ -151,7 +121,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.label20.Location = new System.Drawing.Point(347, 141);
+            this.label20.Location = new System.Drawing.Point(347, 149);
             this.label20.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(58, 22);
@@ -162,7 +132,7 @@
             // 
             this.lbl_pGC.AutoSize = true;
             this.lbl_pGC.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lbl_pGC.Location = new System.Drawing.Point(148, 142);
+            this.lbl_pGC.Location = new System.Drawing.Point(148, 150);
             this.lbl_pGC.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lbl_pGC.Name = "lbl_pGC";
             this.lbl_pGC.Size = new System.Drawing.Size(38, 21);
@@ -173,7 +143,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.label18.Location = new System.Drawing.Point(58, 141);
+            this.label18.Location = new System.Drawing.Point(58, 149);
             this.label18.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(74, 22);
@@ -184,7 +154,7 @@
             // 
             this.lbl_pName.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.lbl_pName.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lbl_pName.Location = new System.Drawing.Point(148, 99);
+            this.lbl_pName.Location = new System.Drawing.Point(148, 103);
             this.lbl_pName.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lbl_pName.Name = "lbl_pName";
             this.lbl_pName.Size = new System.Drawing.Size(444, 39);
@@ -195,7 +165,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.label16.Location = new System.Drawing.Point(42, 99);
+            this.label16.Location = new System.Drawing.Point(42, 103);
             this.label16.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(90, 22);
@@ -206,7 +176,7 @@
             // 
             this.lbl_pCode.AutoSize = true;
             this.lbl_pCode.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lbl_pCode.Location = new System.Drawing.Point(148, 66);
+            this.lbl_pCode.Location = new System.Drawing.Point(148, 68);
             this.lbl_pCode.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lbl_pCode.Name = "lbl_pCode";
             this.lbl_pCode.Size = new System.Drawing.Size(38, 21);
@@ -217,7 +187,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.label14.Location = new System.Drawing.Point(42, 65);
+            this.label14.Location = new System.Drawing.Point(42, 67);
             this.label14.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(90, 22);
@@ -235,30 +205,9 @@
             this.label4.TabIndex = 21;
             this.label4.Text = "借阅单编号：";
             // 
-            // lbl_FIleName
-            // 
-            this.lbl_FIleName.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.lbl_FIleName.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lbl_FIleName.Location = new System.Drawing.Point(148, 209);
-            this.lbl_FIleName.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.lbl_FIleName.Name = "lbl_FIleName";
-            this.lbl_FIleName.Size = new System.Drawing.Size(432, 41);
-            this.lbl_FIleName.TabIndex = 4;
-            // 
-            // lbl_FileCode
-            // 
-            this.lbl_FileCode.AutoSize = true;
-            this.lbl_FileCode.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lbl_FileCode.Location = new System.Drawing.Point(148, 176);
-            this.lbl_FileCode.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.lbl_FileCode.Name = "lbl_FileCode";
-            this.lbl_FileCode.Size = new System.Drawing.Size(38, 21);
-            this.lbl_FileCode.TabIndex = 3;
-            this.lbl_FileCode.Text = "null";
-            // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.txt_Borrow_Term);
             this.groupBox2.Controls.Add(this.txt_Phone);
@@ -278,7 +227,7 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Location = new System.Drawing.Point(8, 274);
+            this.groupBox2.Location = new System.Drawing.Point(8, 206);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(600, 411);
             this.groupBox2.TabIndex = 5;
@@ -484,7 +433,7 @@
             this.btn_Sure.Appearance.Options.UseFont = true;
             this.btn_Sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_Sure.Image")));
             this.btn_Sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Sure.Location = new System.Drawing.Point(265, 698);
+            this.btn_Sure.Location = new System.Drawing.Point(261, 630);
             this.btn_Sure.Name = "btn_Sure";
             this.btn_Sure.Size = new System.Drawing.Size(87, 32);
             this.btn_Sure.TabIndex = 8;
@@ -495,11 +444,11 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // Frm_BorrowEdit
+            // Frm_BorrowEditBox
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(617, 740);
+            this.ClientSize = new System.Drawing.Size(617, 674);
             this.Controls.Add(this.btn_Sure);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -508,9 +457,9 @@
             this.Margin = new System.Windows.Forms.Padding(5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Frm_BorrowEdit";
+            this.Name = "Frm_BorrowEditBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "文件借阅登记";
+            this.Text = "借阅登记";
             this.Load += new System.EventHandler(this.Frm_BorrowEdit_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -529,12 +478,7 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
-        public System.Windows.Forms.Label lbl_FIleName;
-        private System.Windows.Forms.Label lbl_FileCode;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lbl_LogUser;
         private System.Windows.Forms.Label label13;
@@ -565,6 +509,6 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label lbl_pCode;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label lbl_Code;
+        public System.Windows.Forms.Label lbl_Code;
     }
 }

@@ -184,7 +184,7 @@ namespace 科技计划项目档案数据采集管理系统
                         queryCondition = $"AND ti_worker_date >=  CONVERT(DATE, '{startDate}') AND ti_worker_date <=  CONVERT(DATE, '{endDate}')";
                 }
                 querySQL = "SELECT ti_worker_date, COUNT(ti_id) FROM topic_info " +
-                     $"LEFT JOIN project_info ON ti_obj_id = pi_id WHERE ti_categor = -3 AND ti_worker_id='{userId}' " +
+                     $"LEFT JOIN project_info ON ti_obj_id = pi_id WHERE ti_categor = 3 AND ti_worker_id='{userId}' " +
                      $"AND ti_worker_date <> pi_worker_date {queryCondition} " +
                      "GROUP BY ti_worker_date;";
                 List<object[]> list2 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);

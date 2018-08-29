@@ -4,27 +4,27 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_BorrowEdit : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_BorrowEditBox : DevExpress.XtraEditors.XtraForm
     {
-        private object FILE_ID;
-        /// <param name="fileId">文件主键</param>
-        public Frm_BorrowEdit(object fileId)
+        private object BOX_ID;
+        /// <param name="boxId">盒主键</param>
+        public Frm_BorrowEditBox(object boxId)
         {
-            FILE_ID = fileId;
+            BOX_ID = boxId;
             InitializeComponent();
             cbo_FileType.Items.AddRange(new object[] { "原件", "复印件", "电子" });
-            DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT a.pi_code, a.pi_name, pb_gc_id, pb_box_number, pfl_code, pfl_name FROM processing_file_list " +
-                $"LEFT JOIN (SELECT pi_id, pi_code, pi_name FROM project_info UNION ALL SELECT ti_id, ti_code, ti_name FROM topic_info UNION ALL SELECT si_id, si_code, si_name FROM subject_info) a ON pfl_obj_id = a.pi_id " +
-                $"LEFT JOIN processing_box ON pb_obj_id = pfl_obj_id " +
-                $"WHERE pfl_id = '{fileId}'");
+            DataRow row = SqlHelper.ExecuteSingleRowQuery("SELECT pi_code, pi_name, pb_gc_id, pb_box_number, bl_id FROM processing_box " +
+                 "LEFT JOIN( SELECT pi_id, pi_code, pi_name FROM project_info WHERE pi_categor = 2 " +
+                 "UNION ALL SELECT ti_id, ti_code, ti_name FROM topic_info)A ON A.pi_id = pb_obj_id " +
+                 "LEFT JOIN borrow_log bl ON bl.bl_file_id = pb_id AND bl.bl_borrow_state=1 AND bl.bl_return_state=0 " +
+                $"WHERE pb_id = '{boxId}'");
             if(row != null)
             {
+                lbl_Code.Tag = string.IsNullOrEmpty(ToolHelper.GetValue(row["bl_id"])) ? null : row["bl_id"];
                 lbl_pCode.Text = ToolHelper.GetValue(row["pi_code"]);
                 lbl_pName.Text = ToolHelper.GetValue(row["pi_name"]);
                 lbl_pGC.Text = ToolHelper.GetValue(row["pb_gc_id"]);
                 lbl_pBoxId.Text = ToolHelper.GetValue(row["pb_box_number"]);
-                lbl_FileCode.Text = ToolHelper.GetValue(row["pfl_code"]);
-                lbl_FIleName.Text = ToolHelper.GetValue(row["pfl_name"]);
             }
 
         }
@@ -53,7 +53,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(CheckDatas())
             {
                 object primaryKey = Guid.NewGuid().ToString();
-                if(lbl_FIleName.Tag == null)
+                if(lbl_Code.Tag == null)
                 {
                     string code = lbl_Code.Text;
                     string unit = txt_Unit.Text;
@@ -66,13 +66,13 @@ namespace 科技计划项目档案数据采集管理系统
                     string loguser = lbl_LogUser.Text;
                     string insertSQL = $"INSERT INTO [borrow_log]" +
                         $"([bl_id], bl_code, [bl_file_id], [bl_borrow_state], [bl_return_state], [bl_form], [bl_user], [bl_user_unit], [bl_user_phone], [bl_date], [bl_term], [bl_should_return_term], [bl_log_user]) " +
-                        $"VALUES ('{primaryKey}', '{code}', '{FILE_ID}', '{1}', '{0}', '{ftype}', '{user}', '{unit}', '{phone}', '{bdate}', '{bterm}', '{sbdate}', '{loguser}')";
+                        $"VALUES ('{primaryKey}', '{code}', '{BOX_ID}', '{1}', '{0}', '{ftype}', '{user}', '{unit}', '{phone}', '{bdate}', '{bterm}', '{sbdate}', '{loguser}')";
 
                     SqlHelper.ExecuteNonQuery(insertSQL);
                 }
                 else
                 {
-                    primaryKey = lbl_FIleName.Tag;
+                    primaryKey = lbl_Code.Tag;
                     string rbdate = ToolHelper.GetDateValue(txt_Real_Return_Date.EditValue, "yyyy-MM-dd");
                     string updateSQL = $"UPDATE borrow_log SET bl_real_return_term='{rbdate}', bl_borrow_state=0, bl_return_state=1 WHERE bl_id='{primaryKey}'";
                     SqlHelper.ExecuteNonQuery(updateSQL);
