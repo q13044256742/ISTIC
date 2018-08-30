@@ -1742,10 +1742,10 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string sqlString = string.Empty;
             object _fileId = row.Cells[key + "id"].Tag;
-            object boxId = null, fileId = null, link = null, remark = null, boxSort = null;
+            object boxId = null, fileId = null, link = null, remark = null, boxSort = null, workDate = DateTime.Now;
             if(_fileId != null)
             {
-                DataRow param = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_box_id, pfl_link, pfl_file_id, pfl_remark, pfl_box_sort FROM processing_file_list WHERE pfl_id='{_fileId}'");
+                DataRow param = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_box_id, pfl_link, pfl_file_id, pfl_remark, pfl_box_sort, pfl_worker_date FROM processing_file_list WHERE pfl_id='{_fileId}'");
                 if(param != null)
                 {
                     boxId = param["pfl_box_id"];
@@ -1753,6 +1753,7 @@ namespace 科技计划项目档案数据采集管理系统
                     fileId = param["pfl_file_id"];
                     remark = param["pfl_remark"];
                     boxSort = param["pfl_box_sort"];
+                    workDate = param["pfl_worker_date"];
                 }
                 sqlString += $"DELETE FROM processing_file_list WHERE pfl_id='{_fileId}';";
             }
@@ -1794,9 +1795,8 @@ namespace 科技计划项目档案数据采集管理系统
                 sqlString += "INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
                     $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');";
             }
-            sqlString += "INSERT INTO processing_file_list (" +
-            "pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_link, pfl_file_id, pfl_remark, pfl_obj_id, pfl_box_id, pfl_box_sort, pfl_sort) " +
-            $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{fileId}', '{remark}', '{parentId}', '{boxId}', '{boxSort}', '{sort}');";
+            sqlString += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_link, pfl_file_id, pfl_remark, pfl_obj_id, pfl_box_id, pfl_box_sort, pfl_sort, pfl_worker_id, pfl_worker_date) " +
+                $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{fileId}', '{remark}', '{parentId}', '{boxId}', '{boxSort}', '{sort}', '{UserHelper.GetUser().UserKey}', '{workDate}');";
             if(fileId != null)
             {
                 int value = link == null ? 0 : 1;
@@ -4887,7 +4887,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
 
-            Frm_PrintBox frm = new Frm_PrintBox
+            Frm_PrintBox frm = new Frm_PrintBox(this)
             {
                 boxTable = boxTable,
                 objectCode = docNumber,

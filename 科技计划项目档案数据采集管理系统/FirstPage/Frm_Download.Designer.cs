@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Download));
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
             this.gridControl = new DevExpress.XtraGrid.GridControl();
             this.view = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.id = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -44,10 +44,13 @@
             this.progressBar = new DevExpress.XtraEditors.MarqueeProgressBarControl();
             this.btn_Refresh = new DevExpress.XtraEditors.SimpleButton();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.downloadButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressBar.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             this.SuspendLayout();
             // 
             // gridControl
@@ -55,12 +58,12 @@
             this.gridControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridControl.Location = new System.Drawing.Point(0, 49);
+            this.gridControl.Location = new System.Drawing.Point(266, 49);
             this.gridControl.MainView = this.view;
             this.gridControl.Name = "gridControl";
             this.gridControl.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.downloadButton});
-            this.gridControl.Size = new System.Drawing.Size(1257, 622);
+            this.gridControl.Size = new System.Drawing.Size(991, 622);
             this.gridControl.TabIndex = 0;
             this.gridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.view});
@@ -144,13 +147,13 @@
             // downloadButton
             // 
             this.downloadButton.AutoHeight = false;
-            serializableAppearanceObject1.Font = new System.Drawing.Font("华文中宋", 12F);
-            serializableAppearanceObject1.Options.UseFont = true;
-            serializableAppearanceObject1.Options.UseTextOptions = true;
-            serializableAppearanceObject1.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-            serializableAppearanceObject1.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            serializableAppearanceObject2.Font = new System.Drawing.Font("华文中宋", 12F);
+            serializableAppearanceObject2.Options.UseFont = true;
+            serializableAppearanceObject2.Options.UseTextOptions = true;
+            serializableAppearanceObject2.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            serializableAppearanceObject2.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.downloadButton.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "下载", -1, true, true, true, DevExpress.XtraEditors.ImageLocation.MiddleLeft, ((System.Drawing.Image)(resources.GetObject("downloadButton.Buttons"))), new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "下载", -1, true, true, true, DevExpress.XtraEditors.ImageLocation.MiddleLeft, ((System.Drawing.Image)(resources.GetObject("downloadButton.Buttons"))), new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, null, true)});
             this.downloadButton.Name = "downloadButton";
             this.downloadButton.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.downloadButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DownloadButton_MouseDown);
@@ -190,7 +193,7 @@
             this.labelControl1.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl1.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("labelControl1.Appearance.Image")));
             this.labelControl1.ImageAlignToText = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.labelControl1.Location = new System.Drawing.Point(25, 6);
+            this.labelControl1.Location = new System.Drawing.Point(266, 6);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(157, 36);
             this.labelControl1.TabIndex = 3;
@@ -200,7 +203,7 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.progressBar.EditValue = "";
-            this.progressBar.Location = new System.Drawing.Point(0, 672);
+            this.progressBar.Location = new System.Drawing.Point(266, 672);
             this.progressBar.Name = "progressBar";
             this.progressBar.Properties.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.progressBar.Properties.MarqueeWidth = 10;
@@ -225,11 +228,55 @@
             this.btn_Refresh.Text = "刷新";
             this.btn_Refresh.Click += new System.EventHandler(this.Frm_Download_Load);
             // 
+            // treeList1
+            // 
+            this.treeList1.Appearance.Row.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.treeList1.Appearance.Row.Options.UseFont = true;
+            this.treeList1.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.treeListColumn1});
+            this.treeList1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.treeList1.Location = new System.Drawing.Point(0, 0);
+            this.treeList1.Name = "treeList1";
+            this.treeList1.BeginUnboundLoad();
+            this.treeList1.AppendNode(new object[] {
+            "法规制度"}, -1);
+            this.treeList1.AppendNode(new object[] {
+            "部门规章"}, -1);
+            this.treeList1.AppendNode(new object[] {
+            "标准规范"}, -1);
+            this.treeList1.AppendNode(new object[] {
+            "档案清单"}, -1);
+            this.treeList1.AppendNode(new object[] {
+            "工作文件"}, -1);
+            this.treeList1.AppendNode(new object[] {
+            "其他"}, -1);
+            this.treeList1.EndUnboundLoad();
+            this.treeList1.OptionsBehavior.Editable = false;
+            this.treeList1.OptionsClipboard.AllowCopy = DevExpress.Utils.DefaultBoolean.True;
+            this.treeList1.OptionsClipboard.CopyNodeHierarchy = DevExpress.Utils.DefaultBoolean.True;
+            this.treeList1.OptionsSelection.InvertSelection = true;
+            this.treeList1.OptionsSelection.SelectNodesOnRightClick = true;
+            this.treeList1.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
+            this.treeList1.Size = new System.Drawing.Size(260, 688);
+            this.treeList1.TabIndex = 7;
+            // 
+            // treeListColumn1
+            // 
+            this.treeListColumn1.AppearanceHeader.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.treeListColumn1.AppearanceHeader.Options.UseFont = true;
+            this.treeListColumn1.Caption = "信息公开目录";
+            this.treeListColumn1.FieldName = "信息公开目录";
+            this.treeListColumn1.MinWidth = 34;
+            this.treeListColumn1.Name = "treeListColumn1";
+            this.treeListColumn1.Visible = true;
+            this.treeListColumn1.VisibleIndex = 0;
+            // 
             // Frm_Download
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1257, 688);
+            this.Controls.Add(this.treeList1);
             this.Controls.Add(this.btn_Refresh);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.labelControl1);
@@ -244,6 +291,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.view)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.downloadButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressBar.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -265,5 +313,7 @@
         private DevExpress.XtraEditors.MarqueeProgressBarControl progressBar;
         private DevExpress.XtraEditors.SimpleButton btn_Refresh;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private DevExpress.XtraTreeList.TreeList treeList1;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
     }
 }

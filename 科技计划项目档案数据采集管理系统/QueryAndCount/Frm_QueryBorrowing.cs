@@ -644,7 +644,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(e.Page == ngp_Log)
             {
-                LoadBorrowLog(1);
+                LoadBorrowLog(null);
             }
         }
 
@@ -657,7 +657,7 @@ namespace 科技计划项目档案数据采集管理系统
             view_Log.Rows.Clear();
             if(!string.IsNullOrEmpty(key))
                 key = $"WHERE bl_code LIKE '%{key}%'";
-            string querySQL = $"SELECT TOP(1000) * FROM borrow_log ORDER BY bl_code DESC {key}";
+            string querySQL = $"SELECT TOP(1000) * FROM borrow_log {key} ORDER BY bl_code DESC ";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             foreach(DataRow row in table.Rows)
             {

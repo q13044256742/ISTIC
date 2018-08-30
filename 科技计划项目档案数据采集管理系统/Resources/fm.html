@@ -11,102 +11,55 @@
     <meta name="Originator" content="Microsoft Word 15" />
     <title></title>
     <style type="text/css">
-        /* Style Definitions */
-        p.MsoNormal, li.MsoNormal, div.MsoNormal {
-            text-align: justify;
-            font-size: 10.5pt;
-            font-family: "Calibri", sans-serif;
-            padding-top: 10px;
-        }
+        .div1 span{
+			border: none;
+			border-bottom: 1px solid black;
+			width: 330pt;
+			font-size: 18pt;
+			font-family: "华文中宋";
+		}
+		.div1{
+			margin: 40px;
 
-        .MsoChpDefault {
-            font-family: "Calibri", sans-serif;
-        }
-
-        @page WordSection1 {
-            margin: 72.0pt 90.0pt 72.0pt 90.0pt;
-        }
-
-        .style1 {
-            height: 95mm;
-            width: 156mm;
-        }
-
-        .ipt1 {
-            border: none;
-            border-bottom: 1px solid black;
-            width: 430px;
-            font-size: 22px;
-            margin-left: 10px;
-        }
+		}
+		.div1 label{
+			font-family: "华文中宋";
+			font-size:18pt;
+		}
+		#box{
+			border: 1px solid black;
+			border-right: none;
+			font-family: "华文中宋";
+			font-size:36pt;
+		}
     </style>
 </head>
-<body lang="ZH-CN">
-    <div class="WordSection1" style='width: 156mm;'>
-        <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0"
-               style='width: 156mm; height: 94mm; border-collapse: collapse; border: none;'>
-            <tr>
-                <td style='border: solid black 1.0pt; padding: 0cm 5.4pt 0cm 5.4pt'
-                    class="style1">
-                    <p class="MsoNormal"
-                       style='height: 15mm; width: 156mm; text-indent: 11.0pt;'>
-                        <b>
-                            <span style='font-size: 18.0pt; line-height: 100%; font-family: 华文中宋'>案卷名称</span>
-                        </b>
-                        <span id="ajzt" lang="EN-US" style='font-size: 18.0pt; line-height: 300%; font-family: 华文中宋'>
-                            <span style="border-bottom: black solid 1px; line-height: 100%; width: 115mm; font-family:; font-size:;" id="ajmc"></span>
-                        </span>
-                    </p>
-                    <p class="MsoNormal"
-                       style='height: 15mm; width: 156mm; text-indent: 11.0pt;'>
-                        <b>
-                            <span style='font-size: 18.0pt; line-height: 100%; font-family: 华文中宋'>课题名称</span>
-                        </b>
-                        <span id="ktzt" lang="EN-US" style='font-size: 18.0pt; line-height: 300%; font-family: 华文中宋'>
-                            <span style="border-bottom: black solid 1px; line-height: 100%; width: 115mm; font-family:; font-size:;" id="ktmc"></span>
-                        </span>
-                    </p>
-                    <p class="MsoNormal"
-                       style='text-indent: 11.0pt; height: 15mm; width: 156mm;'>
-                        <b>
-                            <span style='font-size: 18.0pt; line-height: 100%; font-family: 华文中宋'>编制单位</span>
-                        </b>
-                        <span id="bzzt" style='font-size: 18.0pt; line-height: 100%; font-family: 华文中宋;'>
-                            <span style="border-bottom: black solid 1px; line-height: 100%; width: 115mm;" id="bzdw"></span>
-                        </span>
-                    </p>
-                    <p class="MsoNormal"
-                       style='text-indent: 11.0pt; height: 15mm; width: 156mm;'>
-                        <b>
-                            <span style='font-size: 18.0pt; line-height: 100%; font-family: 华文中宋'>编制日期</span>
-                        </b><span style='font-size: 18.0pt; line-height: 100%; font-family: 华文中宋'>
-                            <span style="border-bottom: black solid 1px; line-height: 100%; width: 115mm;" id="bzrq"></span>
-                        </span>
-                    </p>
-                    <p class="MsoNormal"
-                       style='text-indent: 11.0pt; height: 15mm; width: 156mm;'>
-                        <b>
-                            <span style='font-size: 18.0pt; line-height: 100%; font-family: 华文中宋'>保管期限</span>
-                        </b><span style='font-size: 18.0pt; line-height: 100%; font-family: 华文中宋'>
-                            <span style="border-bottom: black solid 1px; line-height: 100%; width: 115mm;" id="bgrq"></span>
-                        </span>
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <br />
-    <div id=divce style='width: 225mm;'>
-        <table id=tablece border="1" cellspacing="0" cellpadding="0"
-               style='border-collapse: collapse; border: none; width: 225mm;'>
-            <tr id=trce style="width: 225mm;">
-                <td id="td"
-                    style='border: solid black 1.0pt; padding: 0cm 5.4pt 0cm 5.4pt; width: 225mm; border-right: none; height: 20mm;'>
-                    <b><span style='font-size: 36.0pt; font-family: 宋体;'>馆藏号：</span></b>
-                    <b><span lang="EN-US" style='font-size: 36.0pt; font-family: "华文中宋";' id="gch"></span></b>
-                </td>
-            </tr>
-        </table>
-    </div>
+<body>
+	<div style="border: 1px solid black; width: 650px; font-size:18pt; padding-bottom: 30px;">
+		<div class="div1">
+			<label>案卷名称<label>
+			<span id="ajmc"></span>
+		</div>
+		<div class="div1">
+			<label>课题名称<label>
+			<span id="ktmc"></span>
+		</div>
+		<div class="div1">
+			<label>编制单位<label>
+			<span id="bzdw"></span>
+		</div>
+		<div class="div1">
+			<label>编制日期<label>
+			<span id="bzrq"></span>
+		</div>
+		<div class="div1">
+			<label>保管期限<label>
+			<span id="bgqx"></span>
+		</div>
+	</div>
+	<div id="box" style="margin-top: 25px; line-height: 20mm;">
+		<b><span style="margin-left: 15px;">馆藏号：</span></b>
+        <b><span id="gch"></span></b>
+	</div>
 </body>
 </html>

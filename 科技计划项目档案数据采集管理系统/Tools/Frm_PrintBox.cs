@@ -22,10 +22,6 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         public string unitName;
         /// <summary>
-        /// 密级
-        /// </summary>
-        public string secret;
-        /// <summary>
         /// 项目编号
         /// </summary>
         public string proCode;
@@ -49,8 +45,13 @@ namespace 科技计划项目档案数据采集管理系统
         public string ljDate;
         public string jcPeople;
         public string jcDate;
-        public Frm_PrintBox()
+        /// <summary>
+        /// 父窗体
+        /// </summary>
+        private Form parentForm;
+        public Frm_PrintBox(Form parentForm)
         {
+            this.parentForm = parentForm;
             InitializeComponent();
             InitialFrom();
         }
@@ -126,24 +127,20 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Btn_StartPrint_Click(object sender, EventArgs e)
         {
-            Frm_PrintChoose printChoose = new Frm_PrintChoose();
-            if(printChoose.ShowDialog() == DialogResult.OK)
+            List<object> boxIds = new List<object>();
+            foreach(DataGridViewRow row in view.Rows)
             {
-                List<object> boxIds = new List<object>();
-                foreach(DataGridViewRow row in view.Rows)
+                if(true.Equals(row.Cells["print"].Value))
                 {
-                    if(true.Equals(row.Cells["print"].Value))
-                    {
-                        boxIds.Add(row.Cells["print"].Tag);
-                    }
+                    boxIds.Add(row.Cells["print"].Tag);
                 }
-                if(boxIds.Count > 0)
-                {
-                    PrintDocument(boxIds.ToArray());
-                }
-                else
-                    MessageBox.Show("请先至少选择一盒进行打印。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            if(boxIds.Count > 0)
+            {
+                PrintDocument(boxIds.ToArray());
+            }
+            else
+                MessageBox.Show("请先至少选择一盒进行打印。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void PrintDocument(object[] ids)
@@ -188,6 +185,16 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void PrintJNML(object boxId, object GCNumber)
         {
+            string jnmlString = GetFileList(boxId, GCNumber);
+
+            new WebBrowser() { DocumentText = jnmlString }.DocumentCompleted += Print_DocumentCompleted;
+        }
+
+        /// <summary>
+        /// 卷内目录
+        /// </summary>
+        private string GetFileList(object boxId, object GCNumber)
+        {
             string jnmlString = Resources.jnml;
             jnmlString = jnmlString.Replace("id=\"ajbh\">", $"id=\"ajbh\">{objectCode}");
             jnmlString = jnmlString.Replace("id=\"gch\">", $"id=\"gch\">{GCNumber}");
@@ -223,8 +230,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             jnmlString = jnmlString.Replace("id=\"fileCount\">", $"id=\"fileCount\">{fileCount}");
             jnmlString = jnmlString.Replace("id=\"pageCount\">", $"id=\"pageCount\">{pageCount}");
-
-            new WebBrowser() { DocumentText = jnmlString }.DocumentCompleted += Print_DocumentCompleted;
+            return jnmlString;
         }
 
         /// <summary>
@@ -258,8 +264,15 @@ namespace 科技计划项目档案数据采集管理系统
             if(fontObject != null)
             {
                 Font font = (Font)fontObject;
-                fmString = fmString.Replace("font-family:;", $"font-family:{font.FontFamily};");
-                fmString = fmString.Replace("font-size:;", $"font-size:{font.Size};");
+                fmString = fmString.Replace("id=\"ajmc\"", $"style=\"font-family:{font.FontFamily.Name}; \" id=\"ajmc\"");
+                fmString = fmString.Replace($"style=\"font-family:{font.FontFamily.Name}; \" id=\"ajmc\"", $"style=\"font-family:{font.FontFamily.Name}; font-size:{font.Size}pt; \" id=\"ajmc\"");
+            }
+            object fontObject2 = view.Rows[rowIndex].Cells["fmbj"].Tag;
+            if(fontObject2 != null)
+            {
+                Font font = (Font)fontObject2;
+                fmString = fmString.Replace("id=\"ktmc\"", $"style=\"font-family:{font.FontFamily.Name}; \" id=\"ktmc\"");
+                fmString = fmString.Replace($"style=\"font-family:{font.FontFamily.Name}; \" id=\"ktmc\"", $"style=\"font-family:{font.FontFamily.Name}; font-size:{font.Size}pt; \" id=\"ktmc\"");
             }
             fmString = GetCoverHtmlString(boxId, fmString, bj, GCNumber);
             new WebBrowser() { DocumentText = fmString }.DocumentCompleted += Print_DocumentCompleted;
@@ -269,6 +282,16 @@ namespace 科技计划项目档案数据采集管理系统
         /// 打印卷内备考表
         /// </summary>
         private void PrintBKB(object boxId, int boxNumber)
+        {
+            string bkbString = GetBackupTable(boxId, boxNumber);
+
+            new WebBrowser() { DocumentText = bkbString }.DocumentCompleted += Print_DocumentCompleted;
+        }
+
+        /// <summary>
+        /// 备考表
+        /// </summary>
+        private string GetBackupTable(object boxId, int boxNumber)
         {
             string bkbString = Resources.bkb;
             string fa = MicrosoftWordHelper.GetZN(GetFilePageCount(boxId, 1));
@@ -295,11 +318,9 @@ namespace 科技计划项目档案数据采集管理系统
             bkbString = bkbString.Replace("id=\"ljrq\">", $"id=\"dh\">{ToolHelper.GetDateValue(ljDate, "yyyy-MM-dd")}");
             bkbString = bkbString.Replace("id=\"jcr\">", $"id=\"jcr\">{jcPeople}");
             bkbString = bkbString.Replace("id=\"jcrq\">", $"id=\"jcrq\">{ToolHelper.GetDateValue(jcDate, "yyyy-MM-dd")}");
-
-
-            new WebBrowser() { DocumentText = bkbString }.DocumentCompleted += Print_DocumentCompleted;
+            return bkbString;
         }
-        
+
         /// <summary>
         /// 打印文档
         /// </summary>
@@ -309,7 +330,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(browser.ReadyState == WebBrowserReadyState.Complete)
             {
                 browser.Print();
-                System.Threading.Thread.Sleep(3000);
+                System.Threading.Thread.Sleep(5000);
                 browser.Dispose();
             }
         }
@@ -320,6 +341,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Preview_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             WebBrowser browser = sender as WebBrowser;
+            browser.Parent = parentForm;
             if(browser.ReadyState == WebBrowserReadyState.Complete)
             {
                 browser.ShowPrintPreviewDialog();
@@ -328,7 +350,7 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 字体设置|预览
+        /// 字体设置
         /// </summary>
         private void View_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -346,23 +368,7 @@ namespace 科技计划项目档案数据采集管理系统
                     view.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = fontDialog.Font;
                 }
             }
-            else if("preview".Equals(columnName))
-            {
-                string fmString = Resources.fm;
-                object fontObject = view.Rows[e.RowIndex].Cells["font"].Tag;
-                if(fontObject != null)
-                {
-                    Font font = (Font)fontObject;
-                    fmString = fmString.Replace("font-family:;", $"font-family:{font.FontFamily};");
-                    fmString = fmString.Replace("font-size:;", $"font-size:{font.Size};");
-                }
-                object bj = view.Rows[e.RowIndex].Cells["fmbj"].Value;
-                object boxId = view.Rows[e.RowIndex].Cells["print"].Tag;
-                object GCNumber = view.Rows[e.RowIndex].Cells["id"].Tag;
-                fmString = GetCoverHtmlString(boxId, fmString, bj, GCNumber);
-
-                new WebBrowser() { DocumentText = fmString, Size = new Size(500, 500) }.DocumentCompleted += Preview_DocumentCompleted;
-            }
+            //选中当前行
             else if("print".Equals(columnName))
             {
                 bool state = (bool)view.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue;
@@ -391,24 +397,104 @@ namespace 科技计划项目档案数据采集管理系统
                 fmString = fmString.Replace("id=\"ktmc\">", $"id=\"ktmc\">{objectName}");
             }
             fmString = fmString.Replace("id=\"bzdw\">", $"id=\"bzdw\">{unitName}");
-            fmString = fmString.Replace("id=\"bzrq\">", $"id=\"bzrq\">{GetBzDate(boxId)}");
-            fmString = fmString.Replace("id=\"bgrq\">", $"id=\"bgrq\">永久");
-            fmString = fmString.Replace("id=\"mj\">", $"id=\"mj\">{secret}");
-            fmString = fmString.Replace("id=\"gch\">", $"id=\"dh\">{GCNumber}");
+            fmString = fmString.Replace("id=\"bzrq\">", $"id=\"bzrq\">{ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd")}");
+            fmString = fmString.Replace("id=\"bgqx\">", $"id=\"bgqx\">永久");
+            fmString = fmString.Replace("id=\"gch\">", $"id=\"gch\">{GCNumber}");
             return fmString;
         }
 
-        /// <summary>
-        /// 获取当前盒的编制日期（当前盒内文件的最早至最晚形成日期）
-        /// </summary>
-        private string GetBzDate(object boxId)
+        private void btn_PrinterSet_Click(object sender, EventArgs e)
         {
-            object minDate = SqlHelper.ExecuteOnlyOneQuery($"SELECT MIN(pfl_date) FROM processing_file_list WHERE pfl_date IS NOT NULL AND pfl_date <>'' AND pfl_box_id='{boxId}'");
-            object maxDate = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pfl_date) FROM processing_file_list WHERE pfl_date IS NOT NULL AND pfl_date <>'' AND pfl_box_id='{boxId}'");
-            if(minDate != null && maxDate != null)
-                return $"{ToolHelper.GetDateValue(minDate, "yyyy-MM-dd")} ~ {ToolHelper.GetDateValue(maxDate, "yyyy-MM-dd")}";
-            else
-                return null;
+            Frm_PrintChoose printChoose = new Frm_PrintChoose();
+            printChoose.ShowDialog();
+        }
+
+        private void view_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right && e.RowIndex != -1 && e.ColumnIndex != -1)
+            {
+                字体设置SToolStripMenuItem.Visible = false;
+                string name = view.Columns[e.ColumnIndex].Name;
+                if("fm".Equals(name) || "bkb".Equals(name) || "jnml".Equals(name))
+                {
+                    view.ClearSelection();
+                    view.CurrentCell = view.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    contextMenuStrip1.Tag = view;
+                    contextMenuStrip1.Show(MousePosition);
+                }
+                if("fm".Equals(name))
+                    字体设置SToolStripMenuItem.Visible = true;
+            }
+        }
+
+        private void 打印预览PToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridViewCell cell = view.CurrentCell;
+            object boxId = cell.OwningRow.Cells["print"].Tag;
+            object GCNumber = cell.OwningRow.Cells["id"].Tag;
+            string HTML_STRING = string.Empty;
+            if("fm".Equals(cell.OwningColumn.Name))
+            {
+                HTML_STRING = Resources.fm;
+                object fontObject = cell.OwningRow.Cells["font"].Tag;
+                if(fontObject != null)
+                {
+                    Font font = (Font)fontObject;
+                    HTML_STRING = HTML_STRING.Replace("id=\"ajmc\"", $"style=\"font-family:{font.FontFamily.Name}; \" id=\"ajmc\"");
+                    HTML_STRING = HTML_STRING.Replace($"style=\"font-family:{font.FontFamily.Name}; \" id=\"ajmc\"", $"style=\"font-family:{font.FontFamily.Name}; font-size:{font.Size}pt; \" id=\"ajmc\"");
+                }
+                object fontObject2 = cell.OwningRow.Cells["fmbj"].Tag;
+                if(fontObject2 != null)
+                {
+                    Font font = (Font)fontObject2;
+                    HTML_STRING = HTML_STRING.Replace("id=\"ktmc\"", $"style=\"font-family:{font.FontFamily.Name}; \" id=\"ktmc\"");
+                    HTML_STRING = HTML_STRING.Replace($"style=\"font-family:{font.FontFamily.Name}; \" id=\"ktmc\"", $"style=\"font-family:{font.FontFamily.Name}; font-size:{font.Size}pt; \" id=\"ktmc\"");
+                }
+                object bj = cell.OwningRow.Cells["fmbj"].Value;
+                HTML_STRING = GetCoverHtmlString(boxId, HTML_STRING, bj, GCNumber);
+            }
+            else if("bkb".Equals(cell.OwningColumn.Name))
+            {
+                object boxNumber = cell.OwningRow.Cells["id"].Value;
+                HTML_STRING = GetBackupTable(boxId, ToolHelper.GetIntValue(boxNumber, 1));
+            }
+            else if("jnml".Equals(cell.OwningColumn.Name))
+            {
+                HTML_STRING = GetFileList(boxId, GCNumber);
+            }
+            new WebBrowser() { DocumentText = HTML_STRING, Size = new Size(500, 500) }.DocumentCompleted += Preview_DocumentCompleted;
+        }
+
+        private void 案卷名称ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridViewCell cell = view.CurrentCell;
+
+            object fontObject = cell.OwningRow.Cells["font"].Tag;
+            if(fontObject != null)
+            {
+                Font font = (Font)fontObject;
+                fontDialog.Font = (Font)font;
+            }
+            if(fontDialog.ShowDialog() == DialogResult.OK)
+            {
+                cell.OwningRow.Cells["font"].Tag = fontDialog.Font;
+            }
+        }
+
+        private void 课题名称ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridViewCell cell = view.CurrentCell;
+
+            object fontObject = cell.OwningRow.Cells["fmbj"].Tag;
+            if(fontObject != null)
+            {
+                Font font = (Font)fontObject;
+                fontDialog.Font = (Font)font;
+            }
+            if(fontDialog.ShowDialog() == DialogResult.OK)
+            {
+                cell.OwningRow.Cells["fmbj"].Tag = fontDialog.Font;
+            }
         }
     }
 }
