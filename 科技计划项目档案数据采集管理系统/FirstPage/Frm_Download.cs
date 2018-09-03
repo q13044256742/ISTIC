@@ -111,6 +111,23 @@ namespace 科技计划项目档案数据采集管理系统
                 XtraMessageBox.Show("仅档案管理员可以删除文件。", "提示");
                 return;
             }
+            int[] rowCount = view.GetSelectedRows();
+            if(rowCount.Length > 0)
+            {
+                if(XtraMessageBox.Show($"确认删除选中的{rowCount.Length}条数据吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                {
+                    string ids = string.Empty;
+                    foreach(int rowIndex in rowCount)
+                        ids += $"'{view.GetRowCellValue(rowIndex, "at_id")}',";
+                    if(!string.IsNullOrEmpty(ids))
+                        ids = ids.Substring(0, ids.Length - 1);
+
+                    string deleteSQL = $"DELETE FROM Attachment WHERE at_id IN({ids});";
+                    SqlHelper.ExecuteNonQuery(deleteSQL);
+                    XtraMessageBox.Show("删除成功！");
+                    Frm_Download_Load(null, null);
+                }
+            }
         }
     }
 }

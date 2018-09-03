@@ -4735,7 +4735,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 重置控件为默认状态
         /// </summary>
         /// <param name="type">对象类型</param>
-        void ResetControls(ControlType type)
+        private void ResetControls(ControlType type)
         {
             if(type == ControlType.Plan)
             {

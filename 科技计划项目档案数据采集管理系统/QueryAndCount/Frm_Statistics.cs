@@ -630,5 +630,31 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
+
+        private void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
+        {
+            Chart chart = sender as Chart;
+            //判断鼠标是否移动到数据标记点，是则显示提示信息
+            if(e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
+            {
+                int i = e.HitTestResult.PointIndex;
+                DataPoint dp = e.HitTestResult.Series.Points[i];
+                //分别显示x轴和y轴的数值                   
+                lbl_TipName.Text = dp.AxisLabel;
+                lbl_TipAmount.Text = "数量：" + dp.YValues[0];
+
+                //鼠标相对于窗体左上角的坐标
+                //显示提示信息
+                tip_Panel.Visible = true;
+                Point point = datachart.PointToClient(MousePosition);
+                tip_Panel.Location = new Point(point.X + 30, point.Y);
+            }
+
+            //鼠标离开数据标记点，则隐藏提示信息
+            else
+            {
+                tip_Panel.Visible = false;
+            }
+        }
     }
 }

@@ -78,6 +78,9 @@
             this.tabPane2 = new DevExpress.XtraBars.Navigation.TabPane();
             this.datatable = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.datachart = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.tip_Panel = new System.Windows.Forms.Panel();
+            this.lbl_TipAmount = new System.Windows.Forms.Label();
+            this.lbl_TipName = new System.Windows.Forms.Label();
             this.chart3 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -96,6 +99,7 @@
             this.tabPane2.SuspendLayout();
             this.datatable.SuspendLayout();
             this.datachart.SuspendLayout();
+            this.tip_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -168,7 +172,7 @@
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(936, 655);
+            this.view.Size = new System.Drawing.Size(952, 671);
             this.view.TabIndex = 0;
             // 
             // pName
@@ -492,7 +496,7 @@
             this.datachart});
             this.tabPane2.RegularSize = new System.Drawing.Size(954, 701);
             this.tabPane2.SelectedPage = this.datachart;
-            this.tabPane2.SelectedPageIndex = 0;
+            this.tabPane2.SelectedPageIndex = 1;
             this.tabPane2.Size = new System.Drawing.Size(954, 701);
             this.tabPane2.TabIndex = 14;
             this.tabPane2.SelectedPageIndexChanged += new System.EventHandler(this.tabPane2_SelectedPageIndexChanged);
@@ -507,7 +511,7 @@
             this.datatable.Controls.Add(this.view);
             this.datatable.Name = "datatable";
             this.datatable.PageText = "数据统计表";
-            this.datatable.Size = new System.Drawing.Size(936, 655);
+            this.datatable.Size = new System.Drawing.Size(952, 671);
             // 
             // datachart
             // 
@@ -518,13 +522,48 @@
             this.datachart.AutoScroll = true;
             this.datachart.BackgroundPadding = new System.Windows.Forms.Padding(0);
             this.datachart.Caption = "tabNavigationPage4";
+            this.datachart.Controls.Add(this.tip_Panel);
             this.datachart.Controls.Add(this.chart3);
             this.datachart.Controls.Add(this.chart2);
             this.datachart.Controls.Add(this.chart1);
             this.datachart.Margin = new System.Windows.Forms.Padding(0);
             this.datachart.Name = "datachart";
             this.datachart.PageText = "数据统计图";
-            this.datachart.Size = new System.Drawing.Size(936, 655);
+            this.datachart.Size = new System.Drawing.Size(952, 671);
+            // 
+            // tip_Panel
+            // 
+            this.tip_Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.tip_Panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tip_Panel.Controls.Add(this.lbl_TipAmount);
+            this.tip_Panel.Controls.Add(this.lbl_TipName);
+            this.tip_Panel.Location = new System.Drawing.Point(364, 91);
+            this.tip_Panel.Name = "tip_Panel";
+            this.tip_Panel.Size = new System.Drawing.Size(193, 71);
+            this.tip_Panel.TabIndex = 3;
+            this.tip_Panel.Visible = false;
+            // 
+            // lbl_TipAmount
+            // 
+            this.lbl_TipAmount.AutoSize = true;
+            this.lbl_TipAmount.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.lbl_TipAmount.Location = new System.Drawing.Point(15, 35);
+            this.lbl_TipAmount.Name = "lbl_TipAmount";
+            this.lbl_TipAmount.Size = new System.Drawing.Size(51, 17);
+            this.lbl_TipAmount.TabIndex = 1;
+            this.lbl_TipAmount.Text = "数量：1";
+            // 
+            // lbl_TipName
+            // 
+            this.lbl_TipName.BackColor = System.Drawing.Color.Silver;
+            this.lbl_TipName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbl_TipName.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.lbl_TipName.Location = new System.Drawing.Point(0, 0);
+            this.lbl_TipName.Name = "lbl_TipName";
+            this.lbl_TipName.Size = new System.Drawing.Size(191, 26);
+            this.lbl_TipName.TabIndex = 0;
+            this.lbl_TipName.Text = "重大专项办公室";
+            this.lbl_TipName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // chart3
             // 
@@ -548,9 +587,10 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart3.Series.Add(series1);
-            this.chart3.Size = new System.Drawing.Size(890, 231);
+            this.chart3.Size = new System.Drawing.Size(855, 231);
             this.chart3.TabIndex = 2;
             this.chart3.Text = "chart3";
+            this.chart3.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
             // 
             // chart2
             // 
@@ -574,9 +614,10 @@
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(890, 231);
+            this.chart2.Size = new System.Drawing.Size(855, 231);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
+            this.chart2.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
             // 
             // chart1
             // 
@@ -600,9 +641,10 @@
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(890, 231);
+            this.chart1.Size = new System.Drawing.Size(855, 231);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
+            this.chart1.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
             // 
             // tabControl1
             // 
@@ -697,6 +739,8 @@
             this.tabPane2.ResumeLayout(false);
             this.datatable.ResumeLayout(false);
             this.datachart.ResumeLayout(false);
+            this.tip_Panel.ResumeLayout(false);
+            this.tip_Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
@@ -751,5 +795,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn bAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn fAmount;
         private System.Windows.Forms.CheckBox chk_AllUser;
+        private System.Windows.Forms.Panel tip_Panel;
+        private System.Windows.Forms.Label lbl_TipAmount;
+        private System.Windows.Forms.Label lbl_TipName;
     }
 }

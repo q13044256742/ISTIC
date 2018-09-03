@@ -66,7 +66,7 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
 
         private void Frm_FirstPage_Load(object sender, EventArgs e)
         {
-            LoadLastData();
+            LoadLastData(null);
             view.ClearSelection();
 
             string filePath = Application.ExecutablePath;
@@ -83,17 +83,19 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             }
         }
 
-        private void LoadLastData()
+        private void LoadLastData(string querySql)
         {
             search.Properties.Items.Clear();
-            string querySQL = "SELECT TOP(100) * FROM (" +
-                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_year, pi_funds, pi_worker_date, pi_worker_id FROM project_info WHERE pi_categor = 2 " +
-                "UNION ALL " +
-                "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_year, ti_funds, ti_worker_date, ti_worker_id FROM topic_info " +
-                "UNION ALL " +
-                "SELECT si_id, si_code, si_name, si_start_datetime, si_year, si_funds, si_worker_date, si_worker_id FROM subject_info) TB1 " +
-                "ORDER BY TB1.pi_worker_date DESC";
-            DataTable table = SqlHelper.ExecuteQuery(querySQL);
+            view.Rows.Clear();
+            if(string.IsNullOrEmpty(querySql))
+                querySql = "SELECT TOP(100) * FROM (" +
+                   "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_year, pi_funds, pi_worker_date, pi_worker_id FROM project_info WHERE pi_categor = 2 " +
+                   "UNION ALL " +
+                   "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_year, ti_funds, ti_worker_date, ti_worker_id FROM topic_info " +
+                   "UNION ALL " +
+                   "SELECT si_id, si_code, si_name, si_start_datetime, si_year, si_funds, si_worker_date, si_worker_id FROM subject_info) TB1 " +
+                   "ORDER BY TB1.pi_worker_date DESC";
+            DataTable table = SqlHelper.ExecuteQuery(querySql);
             int num = 1;
             foreach(DataRow row in table.Rows)
             {
@@ -216,6 +218,24 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
         private void Btn_ExitSystem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             Frm_FirstPage_FormClosing(null, null);
+        }
+
+        private void btn_Query_Click(object sender, EventArgs e)
+        {
+            string key1 = search.Text;
+            string key2 = txt_DateSearch.Text;
+            if(!string.IsNullOrEmpty(key1) || !string.IsNullOrEmpty(key2))
+            {
+                string querySQL = $"SELECT * FROM (SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_year, pi_funds, pi_worker_date, pi_worker_id FROM project_info " +
+                    $"UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_year, ti_funds, ti_worker_date, ti_worker_id FROM topic_info " +
+                    $"UNION ALL SELECT si_id, si_code, si_name, si_start_datetime, si_year, si_funds, si_worker_date, si_worker_id FROM subject_info ) A " +
+                    $"WHERE 1=1 ";
+                if(!string.IsNullOrEmpty(key1))
+                    querySQL += $"AND (A.pi_code LIKE '%{key1}%' OR A.pi_name LIKE '%{key1}%') ";
+                if(!string.IsNullOrEmpty(key2))
+                    querySQL += $"AND A.pi_worker_date='{key2}' ";
+                LoadLastData(querySQL);
+            }
         }
     }
 }
