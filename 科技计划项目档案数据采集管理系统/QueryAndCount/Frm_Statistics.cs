@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading;
@@ -12,6 +13,7 @@ namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_Statistics : DevExpress.XtraEditors.XtraForm
     {
+        Stopwatch stopwatch = new Stopwatch();
         public Frm_Statistics()
         {
             InitializeComponent();
@@ -446,7 +448,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Item_Click(object sender, EventArgs e)
         {
-            view.Columns["pName"].HeaderText = "计划类别名称";
+            DataGridViewStyleHelper.ResetDataGridView(view, true);
             string value = (sender as AccordionControlElement).Name;
             if("ace_all".Equals(value))
                 value = string.Empty;
@@ -457,85 +459,89 @@ namespace 科技计划项目档案数据采集管理系统
                 "LEFT OUTER JOIN (SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE(pi_categor = 2) " +
                $"UNION ALL SELECT ti_id, ti_source_id, ti_orga_id FROM topic_info) AS A ON (A.pi_source_id = p.F_ID {value}) " +
                 "GROUP BY p.F_ID, p.F_Title) AS B WHERE (pCount <> 0)";
-
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
-            view.Rows.Clear();
-            int totalPcount = 0, totalFcount = 0, totalBcount = 0;
-            foreach(DataRow row in table.Rows)
+            new Thread(delegate ()
             {
-                int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
-                int _fcount = ToolHelper.GetIntValue(GetFilesAmount(row["F_ID"], value, 0), 0);
-                int _bcount = ToolHelper.GetIntValue(GetBoxsAmount(row["F_ID"], value, 0), 0);
-                int rowIndex = view.Rows.Add();
-                view.Rows[rowIndex].Tag = row["F_ID"];
-                view.Rows[rowIndex].Cells["pName"].Value = row["F_Title"];
-                view.Rows[rowIndex].Cells["pAmount"].Value = _pcount;
-                view.Rows[rowIndex].Cells["fAmount"].Value = _fcount;
-                view.Rows[rowIndex].Cells["bAmount"].Value = _bcount;
-                totalPcount += _pcount;
-                totalFcount += _fcount;
-                totalBcount += _bcount;
-            }
+                DataTable tableEntity = new DataTable();
+                tableEntity.Columns.AddRange(new DataColumn[]
+                {
+                    new DataColumn("计划类别名称"),
+                    new DataColumn("项目/课题数"),
+                    new DataColumn("盒数"),
+                    new DataColumn("文件数"),
+                });
+                int totalPcount = 0, totalFcount = 0, totalBcount = 0;
+                foreach(DataRow row in table.Rows)
+                {
+                    int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
+                    int _fcount = ToolHelper.GetIntValue(GetFilesAmount(row["F_ID"], value, 0), 0);
+                    int _bcount = ToolHelper.GetIntValue(GetBoxsAmount(row["F_ID"], value, 0), 0);
+                    tableEntity.Rows.Add(row["F_Title"], _pcount, _bcount, _fcount);
 
-            int addRowIndex = view.Rows.Add();
-            view.Rows[addRowIndex].Cells["pName"].Value = "合计";
-            view.Rows[addRowIndex].Cells["pAmount"].Value = totalPcount;
-            view.Rows[addRowIndex].Cells["fAmount"].Value = totalFcount;
-            view.Rows[addRowIndex].Cells["bAmount"].Value = totalBcount;
+                    totalPcount += _pcount;
+                    totalBcount += _bcount;
+                    totalFcount += _fcount;
+                }
+                tableEntity.Rows.Add("合计", totalPcount, totalBcount, totalFcount);
+                view.DataSource = tableEntity;
 
-            //如果当前是图形选项卡，则更新图形
-            if(tabPane2.SelectedPageIndex == 1)
-            {
-                tabPane2_SelectedPageIndexChanged(null, null);
-            }
+                //如果当前是图形选项卡，则更新图形
+                if(tabPane2.SelectedPageIndex == 1)
+                {
+                    tabPane2_SelectedPageIndexChanged(null, null);
+                }
+            }).Start();
         }
-        
+
         /// <summary>
         /// 计划类别点击事件
         /// </summary>
         private void Bc_Element_Click(object sender, EventArgs e)
         {
-            view.Columns["pName"].HeaderText = "来源单位名称";
+            DataGridViewStyleHelper.ResetDataGridView(view, true);
             string value = (sender as AccordionControlElement).Name;
             if("all_ptype".Equals(value))
                 value = string.Empty;
             else
                 value = $"AND A.pi_source_id = '{value}'";
-            
+
             string querySQL = "SELECT * FROM(SELECT s.F_ID, s.F_Title, COUNT(A.pi_id) AS pCount FROM T_SourceOrg AS s " +
                 "LEFT OUTER JOIN (SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE(pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, ti_orga_id " +
                $"FROM topic_info) AS A ON (s.F_ID = A.pi_orga_id {value}) GROUP BY s.F_ID, s.F_Title) B WHERE pCount <> 0";
 
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
-            view.Rows.Clear();
             int totalPcount = 0, totalFcount = 0, totalBcount = 0;
-            foreach(DataRow row in table.Rows)
+            new Thread(delegate ()
             {
-                int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
-                int _fcount = ToolHelper.GetIntValue(GetFilesAmount(row["F_ID"], value, 1), 0);
-                int _bcount = ToolHelper.GetIntValue(GetBoxsAmount(row["F_ID"], value, 1), 0);
-                int rowIndex = view.Rows.Add();
-                view.Rows[rowIndex].Tag = row["F_ID"];
-                view.Rows[rowIndex].Cells["pName"].Value = row["F_Title"];
-                view.Rows[rowIndex].Cells["pAmount"].Value = _pcount;
-                view.Rows[rowIndex].Cells["fAmount"].Value = _fcount;
-                view.Rows[rowIndex].Cells["bAmount"].Value = _bcount;
-                totalPcount += _pcount;
-                totalFcount += _fcount;
-                totalBcount += _bcount;
-            }
+                DataTable tableEntity = new DataTable();
+                tableEntity.Columns.AddRange(new DataColumn[]
+                {
+                    new DataColumn("来源单位名称"),
+                    new DataColumn("项目/课题数"),
+                    new DataColumn("盒数"),
+                    new DataColumn("文件数"),
+                });
+                foreach(DataRow row in table.Rows)
+                {
+                    int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
+                    int _bcount = ToolHelper.GetIntValue(GetBoxsAmount(row["F_ID"], value, 1), 0);
+                    int _fcount = ToolHelper.GetIntValue(GetFilesAmount(row["F_ID"], value, 1), 0);
+                    tableEntity.Rows.Add(row["F_Title"], _pcount, _bcount, _fcount);
 
-            int addRowIndex = view.Rows.Add();
-            view.Rows[addRowIndex].Cells["pName"].Value = "合计";
-            view.Rows[addRowIndex].Cells["pAmount"].Value = totalPcount;
-            view.Rows[addRowIndex].Cells["fAmount"].Value = totalFcount;
-            view.Rows[addRowIndex].Cells["bAmount"].Value = totalBcount;
+                    totalPcount += _pcount;
+                    totalFcount += _fcount;
+                    totalBcount += _bcount;
+                }
 
-            //如果当前是图形选项卡，则更新图形
-            if(tabPane2.SelectedPageIndex == 1)
-            {
-                tabPane2_SelectedPageIndexChanged(null, null);
-            }
+                tableEntity.Rows.Add("合计", totalPcount, totalBcount, totalFcount);
+                view.DataSource = tableEntity;
+
+                //如果当前是图形选项卡，则更新图形
+                if(tabPane2.SelectedPageIndex == 1)
+                {
+                    tabPane2_SelectedPageIndexChanged(null, null);
+                }
+            }).Start();
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -574,7 +580,7 @@ namespace 科技计划项目档案数据采集管理系统
                     amount.ChartType = SeriesChartType.Column;
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["pAmount"].Value);
+                        amount.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[1].Value);
                     }
 
                     Series amount2 = new Series("文件数");
@@ -582,7 +588,7 @@ namespace 科技计划项目档案数据采集管理系统
                     amount2.ChartType = SeriesChartType.Column;
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount2.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["fAmount"].Value);
+                        amount2.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[3].Value);
                     }
 
                     Series amount3 = new Series("盒数");
@@ -590,12 +596,26 @@ namespace 科技计划项目档案数据采集管理系统
                     amount3.ChartType = SeriesChartType.Column;
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount3.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["bAmount"].Value);
+                        amount3.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[2].Value);
                     }
 
                     chart1.Series.Add(amount);
                     chart2.Series.Add(amount2);
-                    chart3.Series.Add(amount3);
+                    chart1.Series.Add(amount3);
+
+                    //年度统计
+                    //string querySQL_Year = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
+                    //    "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) AS myear FROM " +
+                    //    "(SELECT pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 " +
+                    //    "UNION ALL SELECT ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = -3 )a)b " +
+                    //    "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME())";
+                    //object[] years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                    //Series amount4 = new Series("年度统计图");
+                    //amount4.IsValueShownAsLabel = true; amount4.IsXValueIndexed = true;
+                    //amount4.ChartType = SeriesChartType.Line;
+                    //
+                   
+
                 }
                 //计划类别1
                 else
@@ -605,7 +625,7 @@ namespace 科技计划项目档案数据采集管理系统
                     amount.ChartType = SeriesChartType.Column;
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["pAmount"].Value);
+                        amount.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[1].Value);
                     }
 
                     Series amount2 = new Series("文件数");
@@ -613,7 +633,7 @@ namespace 科技计划项目档案数据采集管理系统
                     amount2.ChartType = SeriesChartType.Column;
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount2.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["fAmount"].Value);
+                        amount2.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[3].Value);
                     }
 
                     Series amount3 = new Series("盒数");
@@ -621,7 +641,7 @@ namespace 科技计划项目档案数据采集管理系统
                     amount3.ChartType = SeriesChartType.Column;
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount3.Points.AddXY(view.Rows[i].Cells["pName"].Value, view.Rows[i].Cells["bAmount"].Value);
+                        amount3.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[2].Value);
                     }
 
                     chart1.Series.Add(amount);

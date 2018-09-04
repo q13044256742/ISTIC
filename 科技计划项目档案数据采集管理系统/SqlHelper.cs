@@ -67,7 +67,7 @@ namespace 科技计划项目档案数据采集管理系统
                 adapter.Fill(table);
                 CloseConnect();
                 return table;
-            }catch(SqlException e)
+            }catch(Exception e)
             {
                 LogsHelper.AddErrorLogs("SQL", e.Message);
                 return new DataTable();
