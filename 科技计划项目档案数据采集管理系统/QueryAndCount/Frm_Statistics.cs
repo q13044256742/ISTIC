@@ -73,6 +73,7 @@ namespace 科技计划项目档案数据采集管理系统
             chart2.Series.Clear();
             chart3.Series.Clear();
             ////////////////
+            chart2.Width = chart3.Width = chart1.Width = datachart.Width;
         }
 
         /// <summary>
@@ -465,6 +466,7 @@ namespace 科技计划项目档案数据采集管理系统
                 DataTable tableEntity = new DataTable();
                 tableEntity.Columns.AddRange(new DataColumn[]
                 {
+                    new DataColumn(),
                     new DataColumn("计划类别名称"),
                     new DataColumn("项目/课题数"),
                     new DataColumn("盒数"),
@@ -476,20 +478,15 @@ namespace 科技计划项目档案数据采集管理系统
                     int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
                     int _fcount = ToolHelper.GetIntValue(GetFilesAmount(row["F_ID"], value, 0), 0);
                     int _bcount = ToolHelper.GetIntValue(GetBoxsAmount(row["F_ID"], value, 0), 0);
-                    tableEntity.Rows.Add(row["F_Title"], _pcount, _bcount, _fcount);
+                    tableEntity.Rows.Add(row["F_ID"], row["F_Title"], _pcount, _bcount, _fcount);
 
                     totalPcount += _pcount;
                     totalBcount += _bcount;
                     totalFcount += _fcount;
                 }
-                tableEntity.Rows.Add("合计", totalPcount, totalBcount, totalFcount);
+                tableEntity.Rows.Add(string.Empty, "合计", totalPcount, totalBcount, totalFcount);
                 view.DataSource = tableEntity;
-
-                //如果当前是图形选项卡，则更新图形
-                if(tabPane2.SelectedPageIndex == 1)
-                {
-                    tabPane2_SelectedPageIndexChanged(null, null);
-                }
+                view.Columns[0].Visible = false;
             }).Start();
         }
 
@@ -516,6 +513,7 @@ namespace 科技计划项目档案数据采集管理系统
                 DataTable tableEntity = new DataTable();
                 tableEntity.Columns.AddRange(new DataColumn[]
                 {
+                    new DataColumn(),
                     new DataColumn("来源单位名称"),
                     new DataColumn("项目/课题数"),
                     new DataColumn("盒数"),
@@ -526,21 +524,16 @@ namespace 科技计划项目档案数据采集管理系统
                     int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
                     int _bcount = ToolHelper.GetIntValue(GetBoxsAmount(row["F_ID"], value, 1), 0);
                     int _fcount = ToolHelper.GetIntValue(GetFilesAmount(row["F_ID"], value, 1), 0);
-                    tableEntity.Rows.Add(row["F_Title"], _pcount, _bcount, _fcount);
+                    tableEntity.Rows.Add(row["F_ID"], row["F_Title"], _pcount, _bcount, _fcount);
 
                     totalPcount += _pcount;
                     totalFcount += _fcount;
                     totalBcount += _bcount;
                 }
 
-                tableEntity.Rows.Add("合计", totalPcount, totalBcount, totalFcount);
+                tableEntity.Rows.Add(string.Empty, "合计", totalPcount, totalBcount, totalFcount);
                 view.DataSource = tableEntity;
-
-                //如果当前是图形选项卡，则更新图形
-                if(tabPane2.SelectedPageIndex == 1)
-                {
-                    tabPane2_SelectedPageIndexChanged(null, null);
-                }
+                view.Columns[0].Visible = false;
             }).Start();
         }
 
@@ -575,28 +568,37 @@ namespace 科技计划项目档案数据采集管理系统
                 //来源单位0
                 if(tpye1 == 0)
                 {
-                    Series amount = new Series("项目/课题数");
-                    amount.IsValueShownAsLabel = true; amount.IsXValueIndexed = true;
-                    amount.ChartType = SeriesChartType.Column;
+                    Series amount = new Series("项目/课题数")
+                    {
+                        IsValueShownAsLabel = true,
+                        ShadowOffset = 5,
+                        ChartType = SeriesChartType.Column
+                    };
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[1].Value);
+                        amount.Points.AddXY(view.Rows[i].Cells[1].Value, view.Rows[i].Cells[2].Value);
                     }
 
-                    Series amount2 = new Series("文件数");
-                    amount2.IsValueShownAsLabel = true; amount2.IsXValueIndexed = true;
-                    amount2.ChartType = SeriesChartType.Column;
+                    Series amount2 = new Series("文件数")
+                    {
+                        IsValueShownAsLabel = true,
+                        ShadowOffset = 5,
+                        ChartType = SeriesChartType.Column
+                    };
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount2.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[3].Value);
+                        amount2.Points.AddXY(view.Rows[i].Cells[1].Value, view.Rows[i].Cells[4].Value);
                     }
 
-                    Series amount3 = new Series("盒数");
-                    amount3.IsValueShownAsLabel = true; amount3.IsXValueIndexed = true;
-                    amount3.ChartType = SeriesChartType.Column;
+                    Series amount3 = new Series("盒数")
+                    {
+                        IsValueShownAsLabel = true,
+                        ShadowOffset = 5,
+                        ChartType = SeriesChartType.Column
+                    };
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount3.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[2].Value);
+                        amount3.Points.AddXY(view.Rows[i].Cells[1].Value, view.Rows[i].Cells[3].Value);
                     }
 
                     chart1.Series.Add(amount);
@@ -604,49 +606,126 @@ namespace 科技计划项目档案数据采集管理系统
                     chart1.Series.Add(amount3);
 
                     //年度统计
-                    //string querySQL_Year = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
-                    //    "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) AS myear FROM " +
-                    //    "(SELECT pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 " +
-                    //    "UNION ALL SELECT ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = -3 )a)b " +
-                    //    "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME())";
-                    //object[] years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
-                    //Series amount4 = new Series("年度统计图");
-                    //amount4.IsValueShownAsLabel = true; amount4.IsXValueIndexed = true;
-                    //amount4.ChartType = SeriesChartType.Line;
-                    //
-                   
-
+                    string orgName = ac_LeftMenu.SelectedElement.Name;
+                    string querySQL_Year = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
+                        "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) AS myear, pi_orga_id FROM " +
+                        "(SELECT pi_year, pi_start_datetime, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
+                        "UNION ALL SELECT ti_year, ti_start_datetime, ti_orga_id FROM topic_info WHERE ti_categor = -3 )a)b " +
+                        "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME()) ";
+                    if(!"ace_all".Equals(orgName))
+                        querySQL_Year += $"AND pi_orga_id='{orgName}' ";
+                    object[] years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                    if(!string.IsNullOrEmpty(ToolHelper.GetValue(years[0])) &&
+                        !string.IsNullOrEmpty(ToolHelper.GetValue(years[1])))
+                    {
+                        int minYear = ToolHelper.GetIntValue(years[0]);
+                        int maxYear = ToolHelper.GetIntValue(years[1]);
+                        //逐行添加
+                        for(int j = 0; j < view.RowCount - 1; j++)
+                        {
+                            //来源单位编号
+                            object orgCode = view.Rows[j].Cells[0].Value;
+                            Series series = new Series($"{view.Rows[j].Cells[1].Value}")
+                            {
+                                //IsValueShownAsLabel = true,
+                                ChartType = SeriesChartType.Line
+                            };
+                            string querySQL = "SELECT pi_year, COUNT(pi_id) FROM( " +
+                                "SELECT pi_id, pi_year, pi_source_id FROM project_info WHERE pi_categor = 2 " +
+                                "UNION ALL SELECT ti_id, ti_year, ti_source_id FROM topic_info WHERE ti_categor = -3) A " +
+                                $"WHERE pi_year BETWEEN {minYear} AND {maxYear} AND pi_source_id = '{orgCode}' " +
+                                "GROUP BY pi_year ";
+                            Dictionary<object, int> pair = SqlHelper.GetKeyValuePair(querySQL);
+                            for(int i = minYear; i <= maxYear; i++)
+                            {
+                                int value = 0;
+                                pair.TryGetValue(i, out value);
+                                series.Points.AddXY(i, value);
+                            }
+                            chart3.Series.Add(series);
+                        }
+                    }
                 }
                 //计划类别1
                 else
                 {
-                    Series amount = new Series("项目/课题数");
-                    amount.IsValueShownAsLabel = true;
-                    amount.ChartType = SeriesChartType.Column;
+                    Series amount = new Series("项目/课题数")
+                    {
+                        IsValueShownAsLabel = true,
+                        ShadowOffset = 5,
+                        ChartType = SeriesChartType.Column
+                    };
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[1].Value);
+                        amount.Points.AddXY(view.Rows[i].Cells[1].Value, view.Rows[i].Cells[2].Value);
                     }
 
-                    Series amount2 = new Series("文件数");
-                    amount2.IsValueShownAsLabel = true;
-                    amount2.ChartType = SeriesChartType.Column;
+                    Series amount2 = new Series("文件数")
+                    {
+                        IsValueShownAsLabel = true,
+                        ShadowOffset = 5,
+                        ChartType = SeriesChartType.Column
+                    };
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount2.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[3].Value);
+                        amount2.Points.AddXY(view.Rows[i].Cells[1].Value, view.Rows[i].Cells[4].Value);
                     }
 
-                    Series amount3 = new Series("盒数");
-                    amount3.IsValueShownAsLabel = true;
-                    amount3.ChartType = SeriesChartType.Column;
+                    Series amount3 = new Series("盒数")
+                    {
+                        IsValueShownAsLabel = true,
+                        ShadowOffset = 5,
+                        ChartType = SeriesChartType.Column
+                    };
                     for(int i = 0; i < view.RowCount - 1; i++)
                     {
-                        amount3.Points.AddXY(view.Rows[i].Cells[0].Value, view.Rows[i].Cells[2].Value);
+                        amount3.Points.AddXY(view.Rows[i].Cells[1].Value, view.Rows[i].Cells[3].Value);
                     }
 
                     chart1.Series.Add(amount);
                     chart2.Series.Add(amount2);
-                    chart3.Series.Add(amount3);
+                    chart1.Series.Add(amount3);
+
+                    //年度统计
+                    string orgName = bc_LeftMenu.SelectedElement.Name;
+                    string querySQL_Year = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
+                        "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) AS myear, pi_source_id FROM " +
+                        "(SELECT pi_year, pi_start_datetime, pi_source_id FROM project_info WHERE pi_categor = 2 " +
+                        "UNION ALL SELECT ti_year, ti_start_datetime, ti_source_id FROM topic_info WHERE ti_categor = -3 )a)b " +
+                        "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME()) ";
+                    if(!"all_ptype".Equals(orgName))
+                        querySQL_Year += $"AND pi_source_id='{orgName}' ";
+                    object[] years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                    if(!string.IsNullOrEmpty(ToolHelper.GetValue(years[0])) &&
+                        !string.IsNullOrEmpty(ToolHelper.GetValue(years[1])))
+                    {
+                        int minYear = ToolHelper.GetIntValue(years[0]);
+                        int maxYear = ToolHelper.GetIntValue(years[1]);
+                        //逐行添加
+                        for(int j = 0; j < view.RowCount - 1; j++)
+                        {
+                            object orgCode = view.Rows[j].Cells[0].Value;
+                            Series series = new Series($"{view.Rows[j].Cells[1].Value}")
+                            {
+                                //IsValueShownAsLabel = true,
+                                ChartType = SeriesChartType.Line
+                            };
+                            string querySQL = "SELECT pi_year, COUNT(pi_id) FROM( " +
+                                "SELECT pi_id, pi_year, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
+                                "UNION ALL SELECT ti_id, ti_year, ti_orga_id FROM topic_info WHERE ti_categor = -3) A " +
+                                $"WHERE pi_year BETWEEN {minYear} AND {maxYear} AND pi_orga_id = '{orgCode}' " +
+                                "GROUP BY pi_year ";
+                            Dictionary<object, int> pair = SqlHelper.GetKeyValuePair(querySQL);
+                            for(int i = minYear; i <= maxYear; i++)
+                            {
+                                int value = 0;
+                                pair.TryGetValue(i, out value);
+                                series.Points.AddXY(i, value);
+                            }
+                            chart3.Series.Add(series);
+                        }
+                    }
+
                 }
             }
         }
@@ -654,16 +733,29 @@ namespace 科技计划项目档案数据采集管理系统
         private void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
         {
             Chart chart = sender as Chart;
+            string chartName = chart.Name;
             //判断鼠标是否移动到数据标记点，是则显示提示信息
             if(e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
             {
                 int i = e.HitTestResult.PointIndex;
                 DataPoint dp = e.HitTestResult.Series.Points[i];
-                //分别显示x轴和y轴的数值                   
                 lbl_TipName.Text = dp.AxisLabel;
-                lbl_TipAmount.Text = "数量：" + dp.YValues[0];
-
-                //鼠标相对于窗体左上角的坐标
+                if("chart1".Equals(chartName))
+                {
+                    object proAmount = chart.Series[0].Points[i].YValues[0];
+                    object boxAmount = chart.Series[1].Points[i].YValues[0];
+                    //分别显示x轴和y轴的数值                   
+                    lbl_TipAmount.Text = $"项目/课题数：{proAmount}\r\n盒数：{boxAmount}";
+                }
+                else if("chart2".Equals(chartName))
+                {
+                    lbl_TipAmount.Text = $"文件数：{dp.YValues[0]}";
+                }
+                else if("chart3".Equals(chartName))
+                {
+                    lbl_TipName.Text = $"{dp.XValue} {e.HitTestResult.Series.Name}";
+                    lbl_TipAmount.Text = $"项目/课题数：{dp.YValues[0]}";
+                }
                 //显示提示信息
                 tip_Panel.Visible = true;
                 Point point = datachart.PointToClient(MousePosition);
@@ -675,6 +767,11 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 tip_Panel.Visible = false;
             }
+        }
+
+        private void view_DataSourceChanged(object sender, EventArgs e)
+        {
+            tabPane2_SelectedPageIndexChanged(null, null);
         }
     }
 }

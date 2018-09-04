@@ -16,7 +16,7 @@ namespace 科技计划项目档案数据采集管理系统
         static string IPAddress = OperateIniFile.GetInstance().ReadIniData("SQLServer", "IPAddress", "127.0.0.1");
         static string Username = OperateIniFile.GetInstance().ReadIniData("SQLServer", "Username", "sa");
         static string Password = OperateIniFile.GetInstance().ReadIniData("SQLServer", "Password", "123456");
-        private static string SQL_CONNECT = $"Data Source={IPAddress};Initial Catalog=ISTIC;Persist Security Info=True;User ID={Username};Password={Password}";
+        private static string SQL_CONNECT = $"Data Source={IPAddress};Initial Catalog=ISTIC;Persist Security Info=True;MultipleActiveResultSets=true;User ID={Username};Password={Password}";
 
         private static SqlConnection sqlConnection; 
 
@@ -268,6 +268,20 @@ namespace 科技计划项目档案数据采集管理系统
             sqlDataReader.Close();
             CloseConnect();
             return list.ToArray();
+        }
+
+        public static Dictionary<object, int> GetKeyValuePair(string querySQL)
+        {
+            Dictionary<object, int> result = new Dictionary<object, int>();
+            SqlDataReader sqlDataReader = ExecuteQueryWithReader(querySQL);
+            while(sqlDataReader.Read())
+            {
+                if(sqlDataReader.FieldCount >= 2)
+                    result.Add(sqlDataReader.GetValue(0), sqlDataReader.GetInt32(1));
+            }
+            sqlDataReader.Close();
+            CloseConnect();
+            return result;
         }
     }
 }

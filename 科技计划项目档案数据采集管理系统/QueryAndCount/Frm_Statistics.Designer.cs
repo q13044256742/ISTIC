@@ -166,6 +166,7 @@
             this.view.RowTemplate.Height = 23;
             this.view.Size = new System.Drawing.Size(936, 655);
             this.view.TabIndex = 0;
+            this.view.DataSourceChanged += new System.EventHandler(this.view_DataSourceChanged);
             // 
             // tabPane1
             // 
@@ -499,7 +500,7 @@
             this.tip_Panel.Controls.Add(this.lbl_TipName);
             this.tip_Panel.Location = new System.Drawing.Point(708, 57);
             this.tip_Panel.Name = "tip_Panel";
-            this.tip_Panel.Size = new System.Drawing.Size(193, 71);
+            this.tip_Panel.Size = new System.Drawing.Size(193, 88);
             this.tip_Panel.TabIndex = 3;
             this.tip_Panel.Visible = false;
             // 
@@ -547,7 +548,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart3.Series.Add(series1);
-            this.chart3.Size = new System.Drawing.Size(910, 231);
+            this.chart3.Size = new System.Drawing.Size(879, 231);
             this.chart3.TabIndex = 2;
             this.chart3.Text = "chart3";
             this.chart3.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
@@ -573,8 +574,9 @@
             series2.ChartArea = "ChartArea1";
             series2.Legend = "Legend1";
             series2.Name = "Series1";
+            series2.ShadowOffset = 5;
             this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(910, 231);
+            this.chart2.Size = new System.Drawing.Size(740, 231);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
             this.chart2.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
@@ -601,7 +603,7 @@
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(910, 231);
+            this.chart1.Size = new System.Drawing.Size(797, 231);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             this.chart1.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
@@ -635,7 +637,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(284, 667);
+            this.tabPage2.Size = new System.Drawing.Size(284, 715);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "计划类别";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -668,7 +670,7 @@
             this.bc_LeftMenu.Name = "bc_LeftMenu";
             this.bc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.bc_LeftMenu.ShowToolTips = false;
-            this.bc_LeftMenu.Size = new System.Drawing.Size(278, 661);
+            this.bc_LeftMenu.Size = new System.Drawing.Size(278, 709);
             this.bc_LeftMenu.TabIndex = 14;
             // 
             // all_ptype

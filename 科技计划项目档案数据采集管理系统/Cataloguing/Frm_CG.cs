@@ -684,6 +684,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
                                     frm.trcId = objId;
                                     frm.Show();
+                                    frm.Activate();
                                 }
                             }
                             else
@@ -726,7 +727,9 @@ namespace 科技计划项目档案数据采集管理系统
                                 {
                                     Frm_ProTypeSelect frm = GetFormHelper.GetProTypeSelecter(WorkType.PaperWork, objId);
                                     frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
+                                    frm.trcId = objId;
                                     frm.Show();
+                                    frm.Activate();
                                 }
                                 else
                                 {

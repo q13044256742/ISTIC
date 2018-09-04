@@ -219,50 +219,30 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="page">当前页码</param>
         private void LoadDataList(int page, object planType, string batchName, string proCode, string proName, string sDate, string eDate, object orgType)
         {
-            string querySQL = $"SELECT TOP({pageSize}) A.* FROM( " +
+            string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_orga_id, pi_code) ID, A.* FROM( " +
                 "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
                 "UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
-                ") A " +
-                "WHERE 1 = 1";
+               $") A WHERE 1=1 ";
             if(!string.IsNullOrEmpty(proCode))
-                querySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
+                querySQL += $"AND pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
-                querySQL += $"AND A.pi_name LIKE '%{proName}%' ";
+                querySQL += $"AND pi_name LIKE '%{proName}%' ";
             if(!"all".Equals(planType))
-                querySQL += $"AND A.pi_source_id = '{planType}' ";
+                querySQL += $"AND pi_source_id = '{planType}' ";
             if(!"all".Equals(orgType))
-                querySQL += $"AND A.pi_orga_id = '{orgType}' ";
+                querySQL += $"AND pi_orga_id = '{orgType}' ";
             if(!string.IsNullOrEmpty(sDate))
-                querySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
+                querySQL += $"AND pi_start_datetime >= '{sDate}' ";
             if(!string.IsNullOrEmpty(eDate))
-                querySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
-            string totalQuerySQL = $"SELECT TOP({pageSize * (page - 1)}) B.pi_id FROM( " +
-                "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
-                "UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
-                ") B " +
-                "WHERE 1 = 1 ";
-            if(!string.IsNullOrEmpty(proCode))
-                totalQuerySQL += $"AND B.pi_code LIKE '%{proCode}%' ";
-            if(!string.IsNullOrEmpty(proName))
-                totalQuerySQL += $"AND B.pi_name LIKE '%{proName}%' ";
-            if(!"all".Equals(planType))
-                totalQuerySQL += $"AND B.pi_source_id = '{planType}' ";
-            if(!"all".Equals(orgType))
-                totalQuerySQL += $"AND B.pi_orga_id = '{orgType}' ";
-            if(!string.IsNullOrEmpty(sDate))
-                totalQuerySQL += $"AND B.pi_start_datetime >= '{sDate}' ";
-            if(!string.IsNullOrEmpty(eDate))
-                totalQuerySQL += $"AND B.pi_start_datetime <= '{eDate}' ";
-            //totalQuerySQL += "ORDER BY pi_code ";
-            //querySQL += $"AND A.pi_id NOT IN ({totalQuerySQL}) ORDER BY pi_code ";
-            querySQL += $"AND A.pi_id NOT IN ({totalQuerySQL}) ";
-
+                querySQL += $"AND pi_start_datetime <= '{eDate}' ";
+            //分页
+            querySQL = $"SELECT * FROM ({querySQL}) B WHERE ID BETWEEN {(page - 1) * pageSize + 1} AND {(page - 1) * pageSize + pageSize}";
             //关联盒数
             querySQL = $"SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, dd_name, COUNT(pb_id) bcount FROM({querySQL}) C " +
                 "LEFT JOIN processing_box ON C.pi_id=pb_obj_id " +
                 "LEFT JOIN data_dictionary ON C.pi_orga_id=dd_code " +
-                "GROUP BY C.pi_orga_id, pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, dd_name ";
-                //"ORDER BY pi_code";
+                "GROUP BY ID, C.pi_orga_id, pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, dd_name " +
+                "ORDER BY ID ";
             CreateDataList(page, querySQL);
 
             if(page == 1)
@@ -271,7 +251,6 @@ namespace 科技计划项目档案数据采集管理系统
                     "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
                     "UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
                     ") A " +
-                    //"UNION ALL SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id FROM topic_info) A " +
                     "WHERE 1 = 1 ";
                 if(!string.IsNullOrEmpty(proCode))
                     countQuerySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
