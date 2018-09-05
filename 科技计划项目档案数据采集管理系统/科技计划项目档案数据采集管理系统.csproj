@@ -567,6 +567,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\qbico.ico" />
+    <None Include="Resources\domrec.html" />
     <Content Include="sqls\sql.txt" />
     <None Include="Resources\bkb.html" />
     <None Include="Resources\jnml.html" />
@@ -617,7 +618,9 @@
     <Content Include="Images\png-0222.ico" />
     <Content Include="Images\top.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

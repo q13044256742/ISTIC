@@ -4706,7 +4706,8 @@ namespace 科技计划项目档案数据采集管理系统
                     lbl_Plan_Box_Remove.Enabled = panel.Enabled;
                     foreach(Control item in tp_Plan_Box.Controls)
                         if(item is KyoButton || item is LinkLabel)
-                            item.Enabled = panel.Enabled;
+                            if(!item.Name.Contains("Print"))
+                                item.Enabled = panel.Enabled;
                     if(!panel.Enabled)
                         dgv_Plan_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
                     else
@@ -4720,7 +4721,8 @@ namespace 科技计划项目档案数据采集管理系统
                     btn_Project_OtherDoc.Enabled = panel.Enabled;
                     foreach(Control item in tp_Project_Box.Controls)
                         if(item is KyoButton || item is LinkLabel)
-                            item.Enabled = panel.Enabled;
+                            if(!item.Name.Contains("Print"))
+                                item.Enabled = panel.Enabled;
                     //可以继承别人做的项目
                     cbo_Project_HasNext.Enabled = panel.Enabled;
                     if(!panel.Enabled)
@@ -4736,7 +4738,8 @@ namespace 科技计划项目档案数据采集管理系统
                     btn_Topic_OtherDoc.Enabled = panel.Enabled;
                     foreach(Control item in tp_Topic_Box.Controls)
                         if(item is KyoButton || item is LinkLabel)
-                            item.Enabled = panel.Enabled;
+                            if(!item.Name.Contains("Print"))
+                                item.Enabled = panel.Enabled;
                     cbo_Topic_HasNext.Enabled = panel.Enabled;
                     if(!panel.Enabled)
                         dgv_Topic_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
@@ -4751,7 +4754,8 @@ namespace 科技计划项目档案数据采集管理系统
                     btn_Subject_OtherDoc.Enabled = panel.Enabled;
                     foreach(Control item in tp_Subject_Box.Controls)
                         if(item is KyoButton || item is LinkLabel)
-                            item.Enabled = panel.Enabled;
+                            if(!item.Name.Contains("Print"))
+                                item.Enabled = panel.Enabled;
                     if(!panel.Enabled)
                         dgv_Subject_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
                     else
@@ -4764,7 +4768,8 @@ namespace 科技计划项目档案数据采集管理系统
                     lbl_Imp_Box_Remove.Enabled = panel.Enabled;
                     foreach(Control item in tp_Imp_Box.Controls)
                         if(item is KyoButton || item is LinkLabel)
-                            item.Enabled = panel.Enabled;
+                            if(!item.Name.Contains("Print"))
+                                item.Enabled = panel.Enabled;
                     cbo_Imp_HasNext.Enabled = panel.Enabled;
                     if(!panel.Enabled)
                         dgv_Imp_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
@@ -4779,7 +4784,8 @@ namespace 科技计划项目档案数据采集管理系统
                     btn_Special_OtherDoc.Enabled = panel.Enabled;
                     foreach(Control item in tp_Special_Box.Controls)
                         if(item is KyoButton || item is LinkLabel)
-                            item.Enabled = panel.Enabled;
+                            if(!item.Name.Contains("Print"))
+                                item.Enabled = panel.Enabled;
                     if(!panel.Enabled)
                         dgv_Special_FileList.RowHeaderMouseDoubleClick -= FileList_RowHeaderMouseDoubleClick;
                     else

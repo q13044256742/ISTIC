@@ -650,6 +650,7 @@ namespace 科技计划项目档案数据采集管理系统
                         ResetControls(ControlType.Project);
                         project.Tag = id;
                         EnableControls(ControlType.Project, true);
+                        Tag = txt_Special_Code.Text;
                     }
                     else if(index == 2)//父级 - 课题
                     {
@@ -657,6 +658,7 @@ namespace 科技计划项目档案数据采集管理系统
                         ResetControls(ControlType.Topic);
                         topic.Tag = id;
                         EnableControls(ControlType.Topic, true);
+                        Tag = txt_Special_Code.Text;
                     }
                 }
             }

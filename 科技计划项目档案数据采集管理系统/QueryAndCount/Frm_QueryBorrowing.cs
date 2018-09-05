@@ -1,8 +1,10 @@
-﻿using DevExpress.XtraTreeList;
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraTreeList;
 using DevExpress.XtraTreeList.Columns;
 using DevExpress.XtraTreeList.Nodes;
 using System;
 using System.Data;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.FirstPage;
 
@@ -34,14 +36,22 @@ namespace 科技计划项目档案数据采集管理系统
         private void Frm_QueryBorrowing_Load(object sender, EventArgs e)
         {
             navigationPane1.SelectedPage = ngp_Query;
-
-            DataTable planTable = SqlHelper.ExecuteQuery("SELECT F_ID, F_Title FROM T_Plan ORDER BY F_ID");
+            //全部计划（重大专项）
+            DataTable planTable = SqlHelper.ExecuteQuery("SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId= " +
+                "(SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_key_plan') " +
+                "ORDER BY dd_sort");
+            //全部--
             DataRow allRow = planTable.NewRow();
             allRow[0] = "all"; allRow[1] = "全部计划";
             planTable.Rows.InsertAt(allRow, 0);
+            //10个专项
+            DataTable speTable = SqlHelper.ExecuteQuery($"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_key_project') ORDER BY dd_sort");
+            foreach(DataRow dataRow in speTable.Rows)
+                planTable.ImportRow(dataRow);
+
             cbo_PlanTypeList.DataSource = planTable;
-            cbo_PlanTypeList.DisplayMember = "F_Title";
-            cbo_PlanTypeList.ValueMember = "F_ID";
+            cbo_PlanTypeList.DisplayMember = "dd_name";
+            cbo_PlanTypeList.ValueMember = "dd_code";
 
             DataTable orgTable = SqlHelper.GetCompanyList(); // SqlHelper.ExecuteQuery("SELECT F_ID, F_Title FROM T_SourceOrg ORDER BY F_ID");
             DataRow orgRow = orgTable.NewRow();
@@ -210,24 +220,26 @@ namespace 科技计划项目档案数据采集管理系统
             string sDate = chk_allDate.Checked ? null : dtp_sDate.Text;
             string eDate = chk_allDate.Checked ? null : dtp_eDate.Text;
 
-            LoadDataList(page, planType, batchName, proCode, proName, sDate, eDate, orgType);
+            LoadDataList(page, ToolHelper.GetValue(planType), batchName, proCode, proName, sDate, eDate, orgType);
         }
 
         /// <summary>
         /// 加载查询数据
         /// </summary>
         /// <param name="page">当前页码</param>
-        private void LoadDataList(int page, object planType, string batchName, string proCode, string proName, string sDate, string eDate, object orgType)
+        private void LoadDataList(int page, string planType, string batchName, string proCode, string proName, string sDate, string eDate, object orgType)
         {
-            string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_orga_id, pi_code) ID, A.* FROM( " +
+            string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_orga_id DESC, pi_code) ID, A.* FROM( " +
                 "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
                 "UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
-               $") A WHERE 1=1 ";
+               $") A WHERE pi_orga_id IS NOT NULL ";
             if(!string.IsNullOrEmpty(proCode))
                 querySQL += $"AND pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
                 querySQL += $"AND pi_name LIKE '%{proName}%' ";
-            if(!"all".Equals(planType))
+            if("ZX".Equals(planType))//全部重大专项
+                querySQL += $"AND pi_source_id LIKE 'ZX__' ";
+            else if(!"all".Equals(planType))//普通计划
                 querySQL += $"AND pi_source_id = '{planType}' ";
             if(!"all".Equals(orgType))
                 querySQL += $"AND pi_orga_id = '{orgType}' ";
@@ -250,13 +262,14 @@ namespace 科技计划项目档案数据采集管理系统
                 string countQuerySQL = $"SELECT COUNT(A.pi_id) FROM( " +
                     "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
                     "UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
-                    ") A " +
-                    "WHERE 1 = 1 ";
+                    ") A WHERE pi_orga_id IS NOT NULL ";
                 if(!string.IsNullOrEmpty(proCode))
                     countQuerySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
                 if(!string.IsNullOrEmpty(proName))
                     countQuerySQL += $"AND A.pi_name LIKE '%{proName}%' ";
-                if(!"all".Equals(planType))
+                if("ZX".Equals(planType))//全部重大专项
+                    countQuerySQL += $"AND pi_source_id LIKE 'ZX__' ";
+                else if(!"all".Equals(planType))//普通计划
                     countQuerySQL += $"AND A.pi_source_id = '{planType}' ";
                 if(!"all".Equals(orgType))
                     countQuerySQL += $"AND A.pi_orga_id = '{orgType}' ";
@@ -654,6 +667,57 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string searchCode = log_SearchCode.Text.Trim();
             LoadBorrowLog(searchCode);
+        }
+
+        private void btn_Export_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.Filter= "表单文件(*.csv)|*.CSV";
+            saveFileDialog1.Title = "选择文件导出位置...";
+            if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = saveFileDialog1.FileName;
+
+                object planType = cbo_PlanTypeList.SelectedValue;
+                object orgType = cbo_SourceOrg.SelectedValue;
+                string batchName = txt_BatchName.Text;
+                string proCode = txt_ProjectCode.Text;
+                string proName = txt_ProjectName.Text;
+                string sDate = chk_allDate.Checked ? null : dtp_sDate.Text;
+                string eDate = chk_allDate.Checked ? null : dtp_eDate.Text;
+
+                string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_orga_id DESC, pi_code) ID, A.* FROM( " +
+                    "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
+                    "UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
+                   $") A WHERE pi_orga_id IS NOT NULL ";
+                if(!string.IsNullOrEmpty(proCode))
+                    querySQL += $"AND pi_code LIKE '%{proCode}%' ";
+                if(!string.IsNullOrEmpty(proName))
+                    querySQL += $"AND pi_name LIKE '%{proName}%' ";
+                if("ZX".Equals(planType))//全部重大专项
+                    querySQL += $"AND pi_source_id LIKE 'ZX__' ";
+                else if(!"all".Equals(planType))//普通计划
+                    querySQL += $"AND pi_source_id = '{planType}' ";
+                if(!"all".Equals(orgType))
+                    querySQL += $"AND pi_orga_id = '{orgType}' ";
+                if(!string.IsNullOrEmpty(sDate))
+                    querySQL += $"AND pi_start_datetime >= '{sDate}' ";
+                if(!string.IsNullOrEmpty(eDate))
+                    querySQL += $"AND pi_start_datetime <= '{eDate}' ";
+
+                //关联盒数
+                querySQL = $"SELECT dd_name '来源单位', pi_code '项目/课题编号', pi_name '项目/课题名称', pi_start_datetime '开始时间', pi_funds '经费', COUNT(pb_id) '盒数' FROM({querySQL}) C " +
+                    "LEFT JOIN processing_box ON C.pi_id=pb_obj_id " +
+                    "LEFT JOIN data_dictionary ON C.pi_orga_id=dd_code " +
+                    "GROUP BY ID, C.pi_orga_id, pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, dd_name " +
+                    "ORDER BY ID ";
+                DataTable table = SqlHelper.ExecuteQuery(querySQL);
+
+                bool result = MicrosoftWordHelper.ExportToExcel(table, filePath);
+                if(result && XtraMessageBox.Show("导出完毕，是否立即打开文件?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                {
+                    WinFormOpenHelper.OpenWinForm(0, "open", filePath, null, null, ShowWindowCommands.SW_NORMAL);
+                }
+            }
         }
     }
 }

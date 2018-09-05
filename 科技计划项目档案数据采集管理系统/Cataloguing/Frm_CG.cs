@@ -715,8 +715,12 @@ namespace 科技计划项目档案数据采集管理系统
                             if(planId != null)
                             {
                                 Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Imp, planId, objId, ControlType.Imp, false);
+
                                 object trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM transfer_registraion_cd WHERE trp_id='{objId}'");
-                                frm.trcId = trcId;
+                                if(trcId != null)
+                                    frm.trcId = trcId;
+
+                                frm.Tag = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_code FROM imp_dev_info WHERE imp_obj_id='{planId}'");
                                 frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
                                 frm.Show();
                             }

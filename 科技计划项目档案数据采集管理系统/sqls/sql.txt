@@ -146,3 +146,12 @@ ALTER TABLE [dbo].[Attachment] ADD  CONSTRAINT [DF_Attachment_at_loadticker]  DE
 GO
 
 --借阅历史表 添加字段 bl_code	varchar(100)
+
+--数据去重
+DELETE 
+SELECT * FROM topic_info WHERE ti_code IN(
+SELECT ti_code FROM(
+SELECT ti_code, ti_name, COUNT(ti_id) A FROM topic_info 
+GROUP BY ti_code,ti_name
+)A WHERE A.A>1
+)

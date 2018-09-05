@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -155,6 +156,36 @@ namespace 科技计划项目档案数据采集管理系统
             value = value.Remove(startIndex, removeStr.Length);
             return System.Text.RegularExpressions.Regex.Replace(value, "零+", "零"); ;
         }
+
+        /// <summary>
+        /// 将DataTable导出为CSV格式的表
+        /// </summary>
+        /// <param name="dataTable">源数据表</param>
+        /// <param name="fileName">csv文件路径</param>
+        public static bool ExportToExcel(System.Data.DataTable dataTable, string fileName)
+        {
+            try
+            {
+                var lines = new List<string>();
+                string[] columnNames = dataTable.Columns
+                                                .Cast<DataColumn>()
+                                                .Select(column => column.ColumnName)
+                                                .ToArray();
+                var header = string.Join(",", columnNames);
+                lines.Add(header);
+                var valueLines = dataTable.AsEnumerable()
+                                .Select(row => string.Join(",", row.ItemArray));
+                lines.AddRange(valueLines);
+                File.WriteAllLines(fileName, lines, Encoding.UTF8);
+                return true;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+
     }
     class EntityObject
     {

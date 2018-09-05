@@ -47,7 +47,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         }
         
         /// <summary>
-        ///   使用此强类型资源类，为所有资源查找
+        ///   重写当前线程的 CurrentUICulture 属性
         ///   重写当前线程的 CurrentUICulture 属性。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -173,6 +173,24 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         }
         
         /// <summary>
+        ///   查找类似 &lt;html xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot;
+        ///      xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot;
+        ///      xmlns:w=&quot;urn:schemas-microsoft-com:office:word&quot;
+        ///      xmlns:m=&quot;http://schemas.microsoft.com/office/2004/12/omml&quot;
+        ///      xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=EmulateIE8&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;
+        ///    &lt;meta name=&quot;ProgId&quot; content=&quot;Word.Document&quot; /&gt;
+        ///    &lt;meta name=&quot;Generator&quot; content=&quot; [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string domrec {
+            get {
+                return ResourceManager.GetString("domrec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap excel {
@@ -230,7 +248,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         ///            text-align: center;
         ///            padding: 7px 0px;
         ///        }
-        ///		td {
+        ///		tbody td {
         ///			border: 1px solid black;
         ///			text-align: center;
         ///		}
@@ -243,7 +261,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         ///	&lt;br /&gt;
         ///	&lt;p style=&quot;word-break: break-all; font-family: 黑体; margin:13px 5px;&quot;&gt;
         ///		&lt;b&gt;档号:&lt;/b&gt;&lt;span id=&quot;ajbh&quot;&gt;&lt;/span&gt;
-        ///		&lt;span styl [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///		&lt;spa [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string jnml {
             get {

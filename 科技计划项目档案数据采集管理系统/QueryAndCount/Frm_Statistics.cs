@@ -456,10 +456,21 @@ namespace 科技计划项目档案数据采集管理系统
             else
                 value = $"AND A.pi_orga_id = '{value}'";
 
-            string querySQL = "SELECT F_ID, F_Title, pCount FROM (SELECT p.F_ID, p.F_Title, COUNT(A.pi_id) AS pCount FROM T_Plan AS p " +
-                "LEFT OUTER JOIN (SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE(pi_categor = 2) " +
-               $"UNION ALL SELECT ti_id, ti_source_id, ti_orga_id FROM topic_info) AS A ON (A.pi_source_id = p.F_ID {value}) " +
-                "GROUP BY p.F_ID, p.F_Title) AS B WHERE (pCount <> 0)";
+            string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount FROM( " +
+                "SELECT F_Title, F_ID, pCount " +
+                "FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount " +
+                "FROM T_Plan AS p LEFT OUTER JOIN " +
+                "(SELECT   pi_id, pi_source_id, pi_orga_id FROM project_info " +
+                "WHERE(pi_categor = 2) UNION ALL SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info) AS A ON A.pi_source_id = p.F_ID " +
+                "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN( SELECT   F_ID, bCount FROM(SELECT   p.F_ID, COUNT(pb.pb_id) AS bCount " +
+                "FROM T_Plan AS p LEFT OUTER JOIN (SELECT   pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE(pi_categor = 2) UNION ALL " +
+                "SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID " +
+                "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) b ON p.F_ID = b.F_ID LEFT JOIN( " +
+                "SELECT F_ID, fCount FROM      (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM      T_Plan AS p LEFT OUTER JOIN " +
+                "(SELECT pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE   (pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, ti_orga_id " +
+                "FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID " +
+                "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id " +
+                "GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID ";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             new Thread(delegate ()
             {
@@ -476,8 +487,8 @@ namespace 科技计划项目档案数据采集管理系统
                 foreach(DataRow row in table.Rows)
                 {
                     int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
-                    int _fcount = ToolHelper.GetIntValue(GetFilesAmount(row["F_ID"], value, 0), 0);
-                    int _bcount = ToolHelper.GetIntValue(GetBoxsAmount(row["F_ID"], value, 0), 0);
+                    int _bcount = ToolHelper.GetIntValue(row["bCount"], 0);
+                    int _fcount = ToolHelper.GetIntValue(row["fCount"], 0);
                     tableEntity.Rows.Add(row["F_ID"], row["F_Title"], _pcount, _bcount, _fcount);
 
                     totalPcount += _pcount;
@@ -502,9 +513,18 @@ namespace 科技计划项目档案数据采集管理系统
             else
                 value = $"AND A.pi_source_id = '{value}'";
 
-            string querySQL = "SELECT * FROM(SELECT s.F_ID, s.F_Title, COUNT(A.pi_id) AS pCount FROM T_SourceOrg AS s " +
-                "LEFT OUTER JOIN (SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE(pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, ti_orga_id " +
-               $"FROM topic_info) AS A ON (s.F_ID = A.pi_orga_id {value}) GROUP BY s.F_ID, s.F_Title) B WHERE pCount <> 0";
+            string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount FROM( " +
+                "SELECT F_Title, F_ID, pCount FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount " +
+                "FROM T_SourceOrg AS p LEFT OUTER JOIN (SELECT   pi_id, pi_source_id, pi_orga_id FROM project_info " +
+                "WHERE(pi_categor = 2) UNION ALL SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info) AS A ON A.pi_orga_id = p.F_ID " +
+                "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN(SELECT   F_ID, bCount FROM(SELECT   p.F_ID, COUNT(pb.pb_id) AS bCount " +
+                "FROM T_SourceOrg AS p LEFT OUTER JOIN(SELECT   pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE(pi_categor = 2) UNION ALL " +
+                "SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID " +
+                "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B) b ON p.F_ID = b.F_ID LEFT JOIN( " +
+                "SELECT F_ID, fCount FROM      (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM      T_SourceOrg AS p LEFT OUTER JOIN " +
+                "(SELECT pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE   (pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, ti_orga_id " +
+                "FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id " +
+                "GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID; ";
 
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             int totalPcount = 0, totalFcount = 0, totalBcount = 0;
@@ -522,13 +542,13 @@ namespace 科技计划项目档案数据采集管理系统
                 foreach(DataRow row in table.Rows)
                 {
                     int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
-                    int _bcount = ToolHelper.GetIntValue(GetBoxsAmount(row["F_ID"], value, 1), 0);
-                    int _fcount = ToolHelper.GetIntValue(GetFilesAmount(row["F_ID"], value, 1), 0);
+                    int _bcount = ToolHelper.GetIntValue(row["bCount"], 0);
+                    int _fcount = ToolHelper.GetIntValue(row["fCount"], 0);
                     tableEntity.Rows.Add(row["F_ID"], row["F_Title"], _pcount, _bcount, _fcount);
 
                     totalPcount += _pcount;
-                    totalFcount += _fcount;
                     totalBcount += _bcount;
+                    totalFcount += _fcount;
                 }
 
                 tableEntity.Rows.Add(string.Empty, "合计", totalPcount, totalBcount, totalFcount);
@@ -630,11 +650,11 @@ namespace 科技计划项目档案数据采集管理系统
                                 //IsValueShownAsLabel = true,
                                 ChartType = SeriesChartType.Line
                             };
-                            string querySQL = "SELECT pi_year, COUNT(pi_id) FROM( " +
-                                "SELECT pi_id, pi_year, pi_source_id FROM project_info WHERE pi_categor = 2 " +
-                                "UNION ALL SELECT ti_id, ti_year, ti_source_id FROM topic_info WHERE ti_categor = -3) A " +
-                                $"WHERE pi_year BETWEEN {minYear} AND {maxYear} AND pi_source_id = '{orgCode}' " +
-                                "GROUP BY pi_year ";
+                            string querySQL = "SELECT nian, COUNT(pi_id) num FROM( " +
+                                "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) as nian, pi_source_id, pi_id " +
+                                "FROM(SELECT   pi_id, pi_start_datetime, pi_year, pi_source_id FROM project_info " +
+                                "WHERE(pi_categor = 2) UNION ALL SELECT   ti_id, ti_start_datetime, ti_year, ti_source_id FROM " +
+                               $"topic_info WHERE(ti_categor = -3)) AS A ) A WHERE(A.nian BETWEEN {minYear} AND {maxYear}) AND(pi_source_id = '{orgCode}') GROUP BY nian ";
                             Dictionary<object, int> pair = SqlHelper.GetKeyValuePair(querySQL);
                             for(int i = minYear; i <= maxYear; i++)
                             {
