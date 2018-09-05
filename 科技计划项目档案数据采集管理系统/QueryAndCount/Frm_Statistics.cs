@@ -449,7 +449,6 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Item_Click(object sender, EventArgs e)
         {
-            DataGridViewStyleHelper.ResetDataGridView(view, true);
             string value = (sender as AccordionControlElement).Name;
             if("ace_all".Equals(value))
                 value = string.Empty;
@@ -461,44 +460,45 @@ namespace 科技计划项目档案数据采集管理系统
                 "FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount " +
                 "FROM T_Plan AS p LEFT OUTER JOIN " +
                 "(SELECT   pi_id, pi_source_id, pi_orga_id FROM project_info " +
-                "WHERE(pi_categor = 2) UNION ALL SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info) AS A ON A.pi_source_id = p.F_ID " +
+               $"WHERE(pi_categor = 2) UNION ALL SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info) AS A ON A.pi_source_id = p.F_ID {value} " +
                 "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN( SELECT   F_ID, bCount FROM(SELECT   p.F_ID, COUNT(pb.pb_id) AS bCount " +
                 "FROM T_Plan AS p LEFT OUTER JOIN (SELECT   pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE(pi_categor = 2) UNION ALL " +
-                "SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID " +
+               $"SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID {value} " +
                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) b ON p.F_ID = b.F_ID LEFT JOIN( " +
                 "SELECT F_ID, fCount FROM      (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM      T_Plan AS p LEFT OUTER JOIN " +
                 "(SELECT pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE   (pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, ti_orga_id " +
-                "FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID " +
+               $"FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID {value} " +
                 "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id " +
                 "GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID ";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
-            new Thread(delegate ()
+            DataGridViewStyleHelper.ResetDataGridView(view, true);
+            DataTable tableEntity = new DataTable();
+            tableEntity.Columns.AddRange(new DataColumn[]
             {
-                DataTable tableEntity = new DataTable();
-                tableEntity.Columns.AddRange(new DataColumn[]
-                {
                     new DataColumn(),
                     new DataColumn("计划类别名称"),
                     new DataColumn("项目/课题数"),
                     new DataColumn("盒数"),
                     new DataColumn("文件数"),
-                });
-                int totalPcount = 0, totalFcount = 0, totalBcount = 0;
-                foreach(DataRow row in table.Rows)
-                {
-                    int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
-                    int _bcount = ToolHelper.GetIntValue(row["bCount"], 0);
-                    int _fcount = ToolHelper.GetIntValue(row["fCount"], 0);
-                    tableEntity.Rows.Add(row["F_ID"], row["F_Title"], _pcount, _bcount, _fcount);
+            });
+            int totalPcount = 0, totalFcount = 0, totalBcount = 0;
+            DataRowCollection rowCollection = table.Rows;
+            for(int i = 0; i < rowCollection.Count; i++)
+            {
+                DataRow row = rowCollection[i];
+                int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
+                int _bcount = ToolHelper.GetIntValue(row["bCount"], 0);
+                int _fcount = ToolHelper.GetIntValue(row["fCount"], 0);
+                tableEntity.Rows.Add(row["F_ID"], row["F_Title"], _pcount, _bcount, _fcount);
 
-                    totalPcount += _pcount;
-                    totalBcount += _bcount;
-                    totalFcount += _fcount;
-                }
-                tableEntity.Rows.Add(string.Empty, "合计", totalPcount, totalBcount, totalFcount);
-                view.DataSource = tableEntity;
-                view.Columns[0].Visible = false;
-            }).Start();
+                totalPcount += _pcount;
+                totalBcount += _bcount;
+                totalFcount += _fcount;
+            }
+            tableEntity.Rows.Add(string.Empty, "合计", totalPcount, totalBcount, totalFcount);
+            view.DataSource = tableEntity;
+            view.Columns[0].Visible = false;
+            tabPane2.SelectedPageIndex = 0;
         }
 
         /// <summary>
@@ -506,7 +506,6 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Bc_Element_Click(object sender, EventArgs e)
         {
-            DataGridViewStyleHelper.ResetDataGridView(view, true);
             string value = (sender as AccordionControlElement).Name;
             if("all_ptype".Equals(value))
                 value = string.Empty;
@@ -516,45 +515,47 @@ namespace 科技计划项目档案数据采集管理系统
             string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount FROM( " +
                 "SELECT F_Title, F_ID, pCount FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount " +
                 "FROM T_SourceOrg AS p LEFT OUTER JOIN (SELECT   pi_id, pi_source_id, pi_orga_id FROM project_info " +
-                "WHERE(pi_categor = 2) UNION ALL SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info) AS A ON A.pi_orga_id = p.F_ID " +
+               $"WHERE(pi_categor = 2) UNION ALL SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info) AS A ON A.pi_orga_id = p.F_ID {value} " +
                 "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN(SELECT   F_ID, bCount FROM(SELECT   p.F_ID, COUNT(pb.pb_id) AS bCount " +
                 "FROM T_SourceOrg AS p LEFT OUTER JOIN(SELECT   pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE(pi_categor = 2) UNION ALL " +
-                "SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID " +
+               $"SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID {value} " +
                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B) b ON p.F_ID = b.F_ID LEFT JOIN( " +
                 "SELECT F_ID, fCount FROM      (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM      T_SourceOrg AS p LEFT OUTER JOIN " +
-                "(SELECT pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE   (pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, ti_orga_id " +
-                "FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id " +
+                "(SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE   (pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, ti_orga_id " +
+               $"FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID {value} " +
+                "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id " +
                 "GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID; ";
 
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             int totalPcount = 0, totalFcount = 0, totalBcount = 0;
-            new Thread(delegate ()
+            DataGridViewStyleHelper.ResetDataGridView(view, true);
+            DataTable tableEntity = new DataTable();
+            tableEntity.Columns.AddRange(new DataColumn[]
             {
-                DataTable tableEntity = new DataTable();
-                tableEntity.Columns.AddRange(new DataColumn[]
-                {
                     new DataColumn(),
                     new DataColumn("来源单位名称"),
                     new DataColumn("项目/课题数"),
                     new DataColumn("盒数"),
                     new DataColumn("文件数"),
-                });
-                foreach(DataRow row in table.Rows)
-                {
-                    int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
-                    int _bcount = ToolHelper.GetIntValue(row["bCount"], 0);
-                    int _fcount = ToolHelper.GetIntValue(row["fCount"], 0);
-                    tableEntity.Rows.Add(row["F_ID"], row["F_Title"], _pcount, _bcount, _fcount);
+            });
+            DataRowCollection rowCollection = table.Rows;
+            for(int i = 0; i < rowCollection.Count; i++)
+            {
+                DataRow row = rowCollection[i];
+                int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
+                int _bcount = ToolHelper.GetIntValue(row["bCount"], 0);
+                int _fcount = ToolHelper.GetIntValue(row["fCount"], 0);
+                tableEntity.Rows.Add(row["F_ID"], row["F_Title"], _pcount, _bcount, _fcount);
 
-                    totalPcount += _pcount;
-                    totalBcount += _bcount;
-                    totalFcount += _fcount;
-                }
+                totalPcount += _pcount;
+                totalBcount += _bcount;
+                totalFcount += _fcount;
+            }
 
-                tableEntity.Rows.Add(string.Empty, "合计", totalPcount, totalBcount, totalFcount);
-                view.DataSource = tableEntity;
-                view.Columns[0].Visible = false;
-            }).Start();
+            tableEntity.Rows.Add(string.Empty, "合计", totalPcount, totalBcount, totalFcount);
+            view.DataSource = tableEntity;
+            view.Columns[0].Visible = false;
+            tabPane2.SelectedPageIndex = 0;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -645,21 +646,22 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             //来源单位编号
                             object orgCode = view.Rows[j].Cells[0].Value;
+                            string sorName = "ace_all".Equals(orgName) ? string.Empty : $"AND pi_orga_id='{orgName}'";
                             Series series = new Series($"{view.Rows[j].Cells[1].Value}")
                             {
                                 //IsValueShownAsLabel = true,
+                                IsXValueIndexed = true,
                                 ChartType = SeriesChartType.Line
                             };
                             string querySQL = "SELECT nian, COUNT(pi_id) num FROM( " +
-                                "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) as nian, pi_source_id, pi_id " +
-                                "FROM(SELECT   pi_id, pi_start_datetime, pi_year, pi_source_id FROM project_info " +
-                                "WHERE(pi_categor = 2) UNION ALL SELECT   ti_id, ti_start_datetime, ti_year, ti_source_id FROM " +
-                               $"topic_info WHERE(ti_categor = -3)) AS A ) A WHERE(A.nian BETWEEN {minYear} AND {maxYear}) AND(pi_source_id = '{orgCode}') GROUP BY nian ";
+                                "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) as nian, pi_source_id, pi_orga_id, pi_id FROM(" +
+                                "SELECT pi_id, pi_start_datetime, pi_year, pi_source_id, pi_orga_id FROM project_info WHERE(pi_categor = 2) UNION ALL " +
+                                "SELECT ti_id, ti_start_datetime, ti_year, ti_source_id, ti_orga_id FROM topic_info WHERE(ti_categor = -3)) AS A ) A " +
+                               $"WHERE(A.nian BETWEEN {minYear} AND {maxYear}) AND(pi_source_id = '{orgCode}') {sorName} GROUP BY nian ";
                             Dictionary<object, int> pair = SqlHelper.GetKeyValuePair(querySQL);
                             for(int i = minYear; i <= maxYear; i++)
                             {
-                                int value = 0;
-                                pair.TryGetValue(i, out value);
+                                pair.TryGetValue(i, out int value);
                                 series.Points.AddXY(i, value);
                             }
                             chart3.Series.Add(series);
@@ -725,16 +727,17 @@ namespace 科技计划项目档案数据采集管理系统
                         for(int j = 0; j < view.RowCount - 1; j++)
                         {
                             object orgCode = view.Rows[j].Cells[0].Value;
+                            string sorName = "all_ptype".Equals(orgName) ? string.Empty : $"AND pi_source_id='{orgName}'";
                             Series series = new Series($"{view.Rows[j].Cells[1].Value}")
                             {
                                 //IsValueShownAsLabel = true,
                                 ChartType = SeriesChartType.Line
                             };
-                            string querySQL = "SELECT pi_year, COUNT(pi_id) FROM( " +
-                                "SELECT pi_id, pi_year, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
-                                "UNION ALL SELECT ti_id, ti_year, ti_orga_id FROM topic_info WHERE ti_categor = -3) A " +
-                                $"WHERE pi_year BETWEEN {minYear} AND {maxYear} AND pi_orga_id = '{orgCode}' " +
-                                "GROUP BY pi_year ";
+                            string querySQL = "SELECT nian, COUNT(pi_id) FROM( " +
+                                "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) as nian, pi_source_id, pi_orga_id, pi_id FROM(" +
+                                "SELECT pi_id, pi_year, pi_start_datetime, pi_orga_id, pi_source_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                                "SELECT ti_id, ti_year, ti_start_datetime, ti_orga_id, ti_source_id FROM topic_info WHERE ti_categor = -3) A ) A " +
+                               $"WHERE A.nian BETWEEN {minYear} AND {maxYear} AND pi_orga_id = '{orgCode}' {sorName} GROUP BY nian ";
                             Dictionary<object, int> pair = SqlHelper.GetKeyValuePair(querySQL);
                             for(int i = minYear; i <= maxYear; i++)
                             {
@@ -789,9 +792,5 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void view_DataSourceChanged(object sender, EventArgs e)
-        {
-            tabPane2_SelectedPageIndexChanged(null, null);
-        }
     }
 }

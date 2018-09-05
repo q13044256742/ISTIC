@@ -166,7 +166,6 @@
             this.view.RowTemplate.Height = 23;
             this.view.Size = new System.Drawing.Size(936, 655);
             this.view.TabIndex = 0;
-            this.view.DataSourceChanged += new System.EventHandler(this.view_DataSourceChanged);
             // 
             // tabPane1
             // 
@@ -531,8 +530,11 @@
             this.chart3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chart3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea1.AxisX.Interval = 1D;
+            chartArea1.AxisX.IntervalOffset = 1D;
             chartArea1.AxisX.IsLabelAutoFit = false;
             chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            chartArea1.AxisX.LabelStyle.IsStaggered = true;
             chartArea1.AxisX.MajorGrid.Enabled = false;
             chartArea1.AxisY.IsLabelAutoFit = false;
             chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
@@ -548,7 +550,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart3.Series.Add(series1);
-            this.chart3.Size = new System.Drawing.Size(879, 231);
+            this.chart3.Size = new System.Drawing.Size(760, 231);
             this.chart3.TabIndex = 2;
             this.chart3.Text = "chart3";
             this.chart3.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
@@ -558,8 +560,11 @@
             this.chart2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chart2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea2.AxisX.Interval = 1D;
+            chartArea2.AxisX.IntervalOffset = 1D;
             chartArea2.AxisX.IsLabelAutoFit = false;
             chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            chartArea2.AxisX.LabelStyle.IsStaggered = true;
             chartArea2.AxisX.MajorGrid.Enabled = false;
             chartArea2.AxisY.IsLabelAutoFit = false;
             chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
@@ -576,7 +581,7 @@
             series2.Name = "Series1";
             series2.ShadowOffset = 5;
             this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(740, 231);
+            this.chart2.Size = new System.Drawing.Size(621, 231);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
             this.chart2.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
@@ -586,8 +591,11 @@
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea3.AxisX.Interval = 1D;
+            chartArea3.AxisX.IntervalOffset = 1D;
             chartArea3.AxisX.IsLabelAutoFit = false;
             chartArea3.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            chartArea3.AxisX.LabelStyle.IsStaggered = true;
             chartArea3.AxisX.MajorGrid.Enabled = false;
             chartArea3.AxisY.IsLabelAutoFit = false;
             chartArea3.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
@@ -603,7 +611,7 @@
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(797, 231);
+            this.chart1.Size = new System.Drawing.Size(678, 231);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             this.chart1.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);

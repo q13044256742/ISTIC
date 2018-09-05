@@ -49,6 +49,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             this.pal1 = new System.Windows.Forms.Panel();
+            this.btn_Export = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.panel4 = new System.Windows.Forms.Panel();
             this.txt_page = new DevExpress.XtraEditors.TextEdit();
@@ -99,7 +100,6 @@
             this.log_SearchCode = new DevExpress.XtraEditors.SearchControl();
             this.btn_LogQuery = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.labelControl19 = new DevExpress.XtraEditors.LabelControl();
-            this.btn_Export = new DevExpress.XtraEditors.SimpleButton();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.navigationPane1.SuspendLayout();
             this.ngp_Query.SuspendLayout();
@@ -355,7 +355,7 @@
             this.panel3.Location = new System.Drawing.Point(0, 205);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1074, 500);
+            this.panel3.Size = new System.Drawing.Size(1190, 541);
             this.panel3.TabIndex = 1;
             // 
             // treeList1
@@ -372,7 +372,7 @@
             this.treeList1.OptionsBehavior.Editable = false;
             this.treeList1.OptionsCustomization.AllowBandMoving = false;
             this.treeList1.OptionsCustomization.AllowColumnMoving = false;
-            this.treeList1.Size = new System.Drawing.Size(1074, 437);
+            this.treeList1.Size = new System.Drawing.Size(1190, 478);
             this.treeList1.TabIndex = 4;
             this.treeList1.NodeCellStyle += new DevExpress.XtraTreeList.GetCustomNodeCellStyleEventHandler(this.treeList1_NodeCellStyle);
             this.treeList1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeList1_MouseDoubleClick);
@@ -385,8 +385,21 @@
             this.pal1.Dock = System.Windows.Forms.DockStyle.Top;
             this.pal1.Location = new System.Drawing.Point(0, 0);
             this.pal1.Name = "pal1";
-            this.pal1.Size = new System.Drawing.Size(1074, 30);
+            this.pal1.Size = new System.Drawing.Size(1190, 30);
             this.pal1.TabIndex = 0;
+            // 
+            // btn_Export
+            // 
+            this.btn_Export.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Export.Image = ((System.Drawing.Image)(resources.GetObject("btn_Export.Image")));
+            this.btn_Export.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Export.ImageToTextIndent = 5;
+            this.btn_Export.Location = new System.Drawing.Point(1114, 2);
+            this.btn_Export.Name = "btn_Export";
+            this.btn_Export.Size = new System.Drawing.Size(70, 26);
+            this.btn_Export.TabIndex = 27;
+            this.btn_Export.Text = "导出";
+            this.btn_Export.Click += new System.EventHandler(this.btn_Export_Click);
             // 
             // labelControl2
             // 
@@ -409,16 +422,16 @@
             this.panel4.Controls.Add(this.btn_fpage);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 467);
+            this.panel4.Location = new System.Drawing.Point(0, 508);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1074, 33);
+            this.panel4.Size = new System.Drawing.Size(1190, 33);
             this.panel4.TabIndex = 3;
             // 
             // txt_page
             // 
             this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_page.EditValue = "";
-            this.txt_page.Location = new System.Drawing.Point(861, 3);
+            this.txt_page.Location = new System.Drawing.Point(977, 3);
             this.txt_page.Name = "txt_page";
             this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.txt_page.Properties.Appearance.Options.UseFont = true;
@@ -437,7 +450,7 @@
             this.btn_lpage.Appearance.Options.UseFont = true;
             this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
             this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_lpage.Location = new System.Drawing.Point(819, 5);
+            this.btn_lpage.Location = new System.Drawing.Point(935, 5);
             this.btn_lpage.Name = "btn_lpage";
             this.btn_lpage.Size = new System.Drawing.Size(41, 23);
             this.btn_lpage.TabIndex = 6;
@@ -450,7 +463,7 @@
             this.btn_npage.Appearance.Options.UseFont = true;
             this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
             this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_npage.Location = new System.Drawing.Point(903, 5);
+            this.btn_npage.Location = new System.Drawing.Point(1019, 5);
             this.btn_npage.Name = "btn_npage";
             this.btn_npage.Size = new System.Drawing.Size(41, 23);
             this.btn_npage.TabIndex = 5;
@@ -463,7 +476,7 @@
             this.btn_epage.Appearance.Options.UseFont = true;
             this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
             this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_epage.Location = new System.Drawing.Point(946, 5);
+            this.btn_epage.Location = new System.Drawing.Point(1062, 5);
             this.btn_epage.Name = "btn_epage";
             this.btn_epage.Size = new System.Drawing.Size(41, 23);
             this.btn_epage.TabIndex = 4;
@@ -476,7 +489,7 @@
             this.btn_fpage.Appearance.Options.UseFont = true;
             this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
             this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_fpage.Location = new System.Drawing.Point(776, 5);
+            this.btn_fpage.Location = new System.Drawing.Point(892, 5);
             this.btn_fpage.Name = "btn_fpage";
             this.btn_fpage.Size = new System.Drawing.Size(41, 23);
             this.btn_fpage.TabIndex = 3;
@@ -493,7 +506,7 @@
             // 
             // btn_Reset
             // 
-            this.btn_Reset.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Reset.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.btn_Reset.Appearance.Options.UseFont = true;
             this.btn_Reset.Image = ((System.Drawing.Image)(resources.GetObject("btn_Reset.Image")));
             this.btn_Reset.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
@@ -730,7 +743,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 191);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(2017, 819);
+            this.panel1.Size = new System.Drawing.Size(2133, 860);
             this.panel1.TabIndex = 18;
             // 
             // view2
@@ -746,7 +759,7 @@
             this.view2.Name = "view2";
             this.view2.ReadOnly = true;
             this.view2.RowTemplate.Height = 23;
-            this.view2.Size = new System.Drawing.Size(2017, 789);
+            this.view2.Size = new System.Drawing.Size(2133, 830);
             this.view2.TabIndex = 1;
             this.view2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View2_CellContentClick);
             // 
@@ -758,7 +771,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(2017, 30);
+            this.panel2.Size = new System.Drawing.Size(2133, 30);
             this.panel2.TabIndex = 0;
             // 
             // lbl_TotalFileAmount
@@ -973,19 +986,6 @@
             this.labelControl19.Size = new System.Drawing.Size(96, 21);
             this.labelControl19.TabIndex = 32;
             this.labelControl19.Text = "借阅单编号：";
-            // 
-            // btn_Export
-            // 
-            this.btn_Export.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Export.Image = ((System.Drawing.Image)(resources.GetObject("btn_Export.Image")));
-            this.btn_Export.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Export.ImageToTextIndent = 5;
-            this.btn_Export.Location = new System.Drawing.Point(998, 2);
-            this.btn_Export.Name = "btn_Export";
-            this.btn_Export.Size = new System.Drawing.Size(70, 26);
-            this.btn_Export.TabIndex = 27;
-            this.btn_Export.Text = "导出";
-            this.btn_Export.Click += new System.EventHandler(this.btn_Export_Click);
             // 
             // Frm_QueryBorrowing
             // 
