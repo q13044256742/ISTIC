@@ -96,5 +96,21 @@ namespace 科技计划项目档案数据采集管理系统
                 fileList = new Frm_FileList(linkString);
             return fileList;
         }
+
+        private static Frm_AdviceBW AdviceBW;
+        internal static Frm_AdviceBW GetAdviceBW(object objId, object objName)
+        {
+            if(AdviceBW == null || AdviceBW.IsDisposed)
+                AdviceBW = new Frm_AdviceBW(objId, objName);
+            return AdviceBW;
+        }
+
+        private static Frm_ProDetails details;
+        internal static Frm_ProDetails GetProDetails(object id)
+        {
+            if(details == null || details.IsDisposed)
+                details = new Frm_ProDetails(id);
+            return details;
+        }
     }
 }

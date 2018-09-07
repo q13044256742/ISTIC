@@ -578,13 +578,17 @@ namespace 科技计划项目档案数据采集管理系统
             else if("name".Equals(columnName))
             {
                 object id = tree.FocusedNode.Tag;
-                DataRow data = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM project_info WHERE pi_id='{id}' UNION ALL " +
-                    $"SELECT * FROM topic_info WHERE ti_id='{id}'");
-                if(data != null)
-                {
-                    Frm_QueryDetail detail = new Frm_QueryDetail(data);
-                    detail.ShowDialog();
-                }
+
+                Frm_ProDetails details = GetFormHelper.GetProDetails(id);
+                details.Show();
+                details.Activate();
+                //DataRow data = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM project_info WHERE pi_id='{id}' UNION ALL " +
+                //    $"SELECT * FROM topic_info WHERE ti_id='{id}'");
+                //if(data != null)
+                //{
+                //    Frm_QueryDetail detail = new Frm_QueryDetail(data);
+                //    detail.ShowDialog();
+                //}
             }
         }
 

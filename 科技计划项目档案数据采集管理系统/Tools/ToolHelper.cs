@@ -174,6 +174,32 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return defaultValue;
         }
+
+        public static string GetFloatValue(string text, int length)
+        {
+            if(!string.IsNullOrEmpty(text))
+            {
+                if(float.TryParse(text, out float result))
+                {
+                    string format = $"0.{"0".PadLeft(length, '0')}";
+                    return result.ToString(format);
+                }
+                else
+                    return string.Empty;
+            }
+            return string.Empty;
+        }
+
+        public static string GetFullStringBySplit(string _str, string flag, string param)
+        {
+            string result = string.Empty;
+            string[] strs = _str.Split(',');
+            for(int i = 0; i < strs.Length; i++)
+            {
+                result += $"{param}{strs[i]}{param}{flag}";
+            }
+            return result.Length > 0 ? result.Substring(0, result.Length - 1) : string.Empty;
+        }
     }
 
 }

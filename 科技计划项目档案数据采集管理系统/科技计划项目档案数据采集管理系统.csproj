@@ -160,6 +160,12 @@
     <Compile Include="FirstPage\Frm_FirstPage.Designer.cs">
       <DependentUpon>Frm_FirstPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="FirstPage\Frm_ProDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FirstPage\Frm_ProDetails.Designer.cs">
+      <DependentUpon>Frm_ProDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="FirstPage\Frm_UploadFile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -442,6 +448,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FirstPage\Frm_FirstPage.resx">
       <DependentUpon>Frm_FirstPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FirstPage\Frm_ProDetails.resx">
+      <DependentUpon>Frm_ProDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FirstPage\Frm_UploadFile.resx">
       <DependentUpon>Frm_UploadFile.cs</DependentUpon>

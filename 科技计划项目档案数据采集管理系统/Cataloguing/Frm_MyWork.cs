@@ -776,7 +776,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         string docId = txt_Plan_AJ_Code.Text;
                         string docName = txt_Plan_AJ_Name.Text;
-                        string insertSQL = $"DELETE FROM processing_tag WHERE pt_obj_id='{objId}';" +
+                        string insertSQL =
+                            $"DELETE FROM processing_tag WHERE pt_obj_id='{objId}';" +
                             $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
                         insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Plan_GCID.Text}' WHERE pb_id='{cbo_Plan_Box.SelectedValue}';";
                         SqlHelper.ExecuteNonQuery(insertSQL);
@@ -836,7 +837,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         string docId = txt_Project_AJ_Code.Text;
                         string docName = txt_Project_AJ_Name.Text;
-                        string insertSQL = $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
+                        string insertSQL =
+                           $"DELETE FROM processing_tag WHERE pt_obj_id='{objId}';" +
+                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
                         insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Project_GCID.Text}' WHERE pb_id='{cbo_Project_Box.SelectedValue}';";
                         SqlHelper.ExecuteNonQuery(insertSQL);
                     }
@@ -895,7 +898,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         string docId = txt_Topic_AJ_Code.Text;
                         string docName = txt_Topic_AJ_Name.Text;
-                        string insertSQL = $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
+                        string insertSQL =
+                           $"DELETE FROM processing_tag WHERE pt_obj_id='{objId}';" +
+                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
                         insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Topic_GCID.Text}' WHERE pb_id='{cbo_Topic_Box.SelectedValue}';";
                         SqlHelper.ExecuteNonQuery(insertSQL);
                     }
@@ -953,7 +958,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         string docId = txt_Subject_AJ_Code.Text;
                         string docName = txt_Subject_AJ_Name.Text;
-                        string insertSQL = $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
+                        string insertSQL =
+                           $"DELETE FROM processing_tag WHERE pt_obj_id='{objId}';" +
+                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
                         insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Subject_GCID.Text}' WHERE pb_id='{cbo_Subject_Box.SelectedValue}';";
                         SqlHelper.ExecuteNonQuery(insertSQL);
                     }
@@ -1006,7 +1013,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         string docId = txt_Imp_AJ_Code.Text;
                         string docName = txt_Imp_AJ_Name.Text;
-                        string insertSQL = $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
+                        string insertSQL =
+                           $"DELETE FROM processing_tag WHERE pt_obj_id='{objId}';" +
+                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
                         insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Imp_GCID.Text}' WHERE pb_id='{cbo_Imp_Box.SelectedValue}';";
                         SqlHelper.ExecuteNonQuery(insertSQL);
                     }
@@ -1063,7 +1072,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         string docId = txt_Special_AJ_Code.Text;
                         string docName = txt_Special_AJ_Name.Text;
-                        string insertSQL = $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
+                        string insertSQL =
+                           $"DELETE FROM processing_tag WHERE pt_obj_id='{objId}';" +
+                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
                         insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Special_GCID.Text}' WHERE pb_id='{cbo_Special_Box.SelectedValue}';";
                         SqlHelper.ExecuteNonQuery(insertSQL);
                     }

@@ -100,6 +100,7 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             foreach(DataRow row in table.Rows)
             {
                 int i = view.Rows.Add();
+                view.Rows[i].Tag = row["pi_id"];
                 view.Rows[i].Cells["id"].Value = num++.ToString();
                 view.Rows[i].Cells["code"].Value = row["pi_code"];
                 view.Rows[i].Cells["name"].Value = row["pi_name"];
@@ -235,6 +236,19 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                 if(!string.IsNullOrEmpty(key2))
                     querySQL += $"AND A.pi_worker_date='{key2}' ";
                 LoadLastData(querySQL);
+            }
+        }
+
+        private void view_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if("code".Equals(view.Columns[e.ColumnIndex].Name))
+            {
+                object id = view.Rows[e.RowIndex].Tag;
+                Frm_ProDetails details = new Frm_ProDetails(id);
+                if(details.ShowDialog() == DialogResult.OK)
+                {
+                    LoadLastData(null);
+                }
             }
         }
     }
