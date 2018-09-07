@@ -186,7 +186,7 @@
             this.ace_UserGroup.Appearance.Normal.Options.UseForeColor = true;
             this.ace_UserGroup.Name = "ace_UserGroup";
             this.ace_UserGroup.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.ace_UserGroup.Text = "用户组管理";
+            this.ace_UserGroup.Text = "角色授权";
             this.ace_UserGroup.Click += new System.EventHandler(this.UserGroup_Click);
             // 
             // accordionControlElement2

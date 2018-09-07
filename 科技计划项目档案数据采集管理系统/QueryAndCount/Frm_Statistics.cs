@@ -64,7 +64,12 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_Statistics_Load(object sender, EventArgs e)
         {
-            cbo_UserList.DataSource = SqlHelper.ExecuteQuery($"SELECT ul_id, real_name FROM user_list");
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT ul_id, real_name FROM user_list");
+            DataRow row = table.NewRow();
+            row[0] = "all";row[1] = "全部用户";
+            table.Rows.InsertAt(row, 0);
+
+            cbo_UserList.DataSource = table;
             cbo_UserList.ValueMember = "ul_id";
             cbo_UserList.DisplayMember = "real_name";
 
@@ -137,7 +142,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Btn_StartCount_Click(object sender, EventArgs e)
         {
             object userId = cbo_UserList.SelectedValue;
-            bool allUser = chk_AllUser.Checked;
+            bool allUser = "all".Equals(userId);
             DateTime startDate = dtp_StartDate.Value;
             DateTime endDate = dtp_EndDate.Value;
             DataTable table = new DataTable();
@@ -233,18 +238,18 @@ namespace 科技计划项目档案数据采集管理系统
             //质检人员工作量统计
             else
             {
+                string userConditon = !allUser ? $"AND pi_checker_id='{userId}'" : string.Empty;
                 string queryCondition = string.Empty;
                 if(!flag)//全部时间
                 {
                     if(startDate.Date == endDate.Date)
-                        queryCondition = $"WHERE pi_checker_date =  CONVERT(DATE, '{startDate}')";
+                        queryCondition = $"AND pi_checker_date =  CONVERT(DATE, '{startDate}')";
                     else
-                        queryCondition = $"WHERE pi_checker_date >=  CONVERT(DATE, '{startDate}') AND pi_checker_date <=  CONVERT(DATE, '{endDate}')";
+                        queryCondition = $"AND pi_checker_date >=  CONVERT(DATE, '{startDate}') AND pi_checker_date <=  CONVERT(DATE, '{endDate}')";
                 }
                 string querySQL = "SELECT pi_checker_date, COUNT(pi_id) FROM(" +
-                    $"SELECT pi_id, pi_checker_date FROM project_info WHERE pi_categor = 2 AND pi_checker_id='{userId}' " +
-                    "UNION ALL " +
-                    $"SELECT ti_id, ti_checker_date FROM topic_info WHERE ti_categor = -3 AND ti_checker_id='{userId}') AS TB1 {queryCondition} " +
+                    $"SELECT pi_id, pi_checker_id, pi_checker_date FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    $"SELECT ti_id, ti_checker_id, ti_checker_date FROM topic_info WHERE ti_categor = -3) AS TB1 WHERE 1=1 {queryCondition} {userConditon} " +
                     $"GROUP BY pi_checker_date";
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                 for(int i = 0; i < list.Count; i++)
@@ -323,7 +328,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private int GetTopicAmount(object date, object userId, int type)
         {
-            string userConditon = !chk_AllUser.Checked ? $" AND pi_worker_id='{userId}'" : string.Empty;
+            bool flag = "all".Equals(cbo_UserList.SelectedValue);
+            string userConditon = !flag ? $" AND pi_worker_id='{userId}'" : string.Empty;
             if(type == 1)
             {
                 string querySQL = "SELECT COUNT(ti_id) FROM(" +

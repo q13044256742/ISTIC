@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -15,10 +16,21 @@ namespace 科技计划项目档案数据采集管理系统
         //加载实时数据
         private void LoadUserGroupDataScoure()
         {
-            string sql = $"select ug_id,ug_name as 用户组名称, ug_note as 说明,ug_sort as 排序 from user_group order by ug_sort";
-            userGroup_DataList.DataSource = SqlHelper.ExecuteQuery(sql);
-            userGroup_DataList.Columns["ug_id"].Visible = false;
-            userGroup_SearchKey.Text = null;
+            string key = "dic_key_role";
+            string querySql = $"SELECT * FROM data_dictionary WHERE dd_pId=(SELECT TOP(1) dd_id FROM data_dictionary " +
+                $"WHERE dd_code='{key}') ORDER BY dd_sort";
+            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            view.Rows.Clear();
+            foreach(DataRow row in table.Rows)
+            {
+                int i = view.Rows.Add();
+                view.Rows[i].Tag = row["dd_id"];
+                view.Rows[i].Cells["id"].Value = i + 1;
+                view.Rows[i].Cells["name"].Value = row["dd_name"];
+                view.Rows[i].Cells["code"].Value = row["dd_code"];
+                view.Rows[i].Cells["note"].Value = row["dd_note"];
+                view.Rows[i].Cells["sort"].Value = row["dd_sort"];
+            }
         }
 
         //查询
@@ -40,11 +52,11 @@ namespace 科技计划项目档案数据采集管理系统
         //更新
         private void UG_btnUpdate(object sender, EventArgs e)
         {
-            int amount = userGroup_DataList.SelectedRows.Count;
+            int amount = view.SelectedRows.Count;
             if (amount == 1)
             {
                 //获取你所选行的id
-                string id = userGroup_DataList.SelectedRows[0].Cells["ug_id"].Value.ToString();
+                string id = view.SelectedRows[0].Cells["ug_id"].Value.ToString();
                
                 Manager.Frm_userGroupAdd frm = new Manager.Frm_userGroupAdd(false, id);
                 if (frm.ShowDialog() == DialogResult.OK)
@@ -61,14 +73,14 @@ namespace 科技计划项目档案数据采集管理系统
         //删除
         private void UG_btnDel(object sender, EventArgs e)
         {
-            int amount = userGroup_DataList.SelectedRows.Count;
+            int amount = view.SelectedRows.Count;
             if (amount > 0)
             {
 
                 if (MessageBox.Show("确定要删除选中的数据吗?", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                 {
                     int deleteAmount = 0;
-                    foreach (DataGridViewRow row in userGroup_DataList.SelectedRows)
+                    foreach (DataGridViewRow row in view.SelectedRows)
                     {
                         //删除用户组（user_group）表
                         string id = row.Cells["ug_id"].Value.ToString();
@@ -116,13 +128,14 @@ namespace 科技计划项目档案数据采集管理系统
         //授权
         private void Btn_authorization(object sender, EventArgs e)
         {
-            int amount = userGroup_DataList.SelectedRows.Count;
+            int amount = view.SelectedRows.Count;
             if (amount == 1)
             {
                 //获取你所选行的id
-                string id = userGroup_DataList.SelectedRows[0].Cells["ug_id"].Value.ToString();
+                object RoleId = view.SelectedRows[0].Tag;
+                object RoleName = view.SelectedRows[0].Cells["name"].Value;
 
-                Manager.Frm_authorization frm = new Manager.Frm_authorization(id);
+                Manager.Frm_Authoriz frm = new Manager.Frm_Authoriz(RoleId, RoleName);
                 frm.ShowDialog();
 
                 //加载实时数据

@@ -69,8 +69,6 @@ namespace 科技计划项目档案数据采集管理系统
             InitialLostReasonList(dgv_Topic_FileValid, "topic_fc_");
             InitialLostReasonList(dgv_Subject_FileValid, "subject_fc_");
 
-            cbo_Project_HasNext.SelectedIndex = 0;
-            cbo_Topic_HasNext.SelectedIndex = 0;
         }
 
         private void InitialLostReasonList(DataGridView view, string key)
@@ -91,11 +89,6 @@ namespace 科技计划项目档案数据采集管理系统
             carrierColumn.ValueMember = "dd_id";
         }
 
-        /// <summary>
-        /// 根据阶段初始化文件类别
-        /// </summary>
-        /// <param name="dataGridView">表格</param>
-        /// <param name="key">关键字</param>
         private void InitialCategorList(DataGridView dataGridView, string key)
         {
             for(int i = 0; i < dataGridView.Rows.Count; i++)
@@ -116,10 +109,6 @@ namespace 科技计划项目档案数据采集管理系统
             filetypeColumn.ValueMember = "dd_id";
         }
 
-        /// <summary>
-        /// 初始化阶段下拉字段
-        /// </summary>
-        /// <param name="dataGridViewComboBoxColumn">指定列</param>
         private void InitialStageList(DataGridViewColumn dataGridViewColumn)
         {
             DataGridViewComboBoxColumn comboBoxColumn = dataGridViewColumn as DataGridViewComboBoxColumn;
@@ -134,18 +123,15 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 pal_Project_BtnGroup.Enabled = true;
                 pal_Project_MoveBtnGroup.Enabled = true;
-                lbl_Project_Box_Add.Enabled = true;
-                lbl_Project_Box_Remove.Enabled = true;
+                dgv_Project_FileList.AllowUserToAddRows = true;
 
                 pal_Topic_BtnGroup.Enabled = true;
                 pal_Topic_MoveBtnGroup.Enabled = true;
-                lbl_Topic_Box_Add.Enabled = true;
-                lbl_Topic_Box_Remove.Enabled = true;
+                dgv_Topic_FileList.AllowUserToAddRows = true;
 
                 pal_Subject_BtnGroup.Enabled = true;
                 pal_Subject_MoveBtnGroup.Enabled = true;
-                lbl_Subject_Box_Add.Enabled = true;
-                lbl_Subject_Box_Remove.Enabled = true;
+                dgv_Subject_FileList.AllowUserToAddRows = true;
             }
             else
             {
@@ -211,6 +197,11 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     ShowTab("Subject", 1);
                     LoadPageBasicInfo(treeView.Nodes[0], firstType);
+                }
+
+                if(treeView.Nodes[0].Nodes.Count == 0)
+                {
+                    Controls.Remove(Pal_LeftBar);
                 }
             }
         }
@@ -1026,9 +1017,6 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void FileList_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e) => removeIdList.Add(e.Row.Cells[0].Tag);
 
-        /// <summary>
-        /// 质检意见
-        /// </summary>
         private void Btn_QTReason_Click(object sender, EventArgs e)
         {
             string name = (sender as Control).Name;
@@ -1055,5 +1043,338 @@ namespace 科技计划项目档案数据采集管理系统
                 frm.Activate();
             }
         }
+
+        private void Btn_OtherDoc_Click(object sender, EventArgs e)
+        {
+            string name = (sender as KyoButton).Name;
+            object objid = null;
+            if(name.Contains("Project"))
+                objid = tab_Project_Info.Tag;
+            else if(name.Contains("Topic"))
+                objid = tab_Topic_Info.Tag;
+            else if(name.Contains("Subject"))
+                objid = tab_Subject_Info.Tag;
+            if(objid != null)
+            {
+                Frm_OtherDoc frm = GetFormHelper.GetOtherDoc(objid);
+                if(UserHelper.GetUserRole() != UserRole.DocManager)
+                    frm.ReadOnly = true;
+                frm.Show();
+                frm.Activate();
+            }
+            else
+                XtraMessageBox.Show("请先保存基本信息。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+
+        private void Btn_Print_Click(object sender, EventArgs e)
+        {
+            string controlName = (sender as KyoButton).Name;
+            object objId = null, boxId = null, docNumber = null;
+            string objName = null;
+            DataTable boxTable = null;
+            string proName = null, proCode = null;
+            object parentObjectName = null;
+            if(controlName.Contains("Project"))
+            {
+                objId = tab_Project_Info.Tag;
+                boxId = cbo_Project_Box.SelectedValue;
+                docNumber = txt_Project_AJ_Code.Text;
+                objName = txt_Project_AJ_Name.Text;
+                proName = txt_Project_Name.Text;
+                proCode = txt_Project_Code.Text;
+                boxTable = (DataTable)cbo_Project_Box.DataSource;
+            }
+            else if(controlName.Contains("Topic"))
+            {
+                objId = tab_Topic_Info.Tag;
+                boxId = cbo_Topic_Box.SelectedValue;
+                docNumber = txt_Topic_AJ_Code.Text;
+                objName = txt_Topic_AJ_Name.Text;
+                proName = txt_Topic_Name.Text;
+                proCode = txt_Topic_Code.Text;
+                boxTable = (DataTable)cbo_Topic_Box.DataSource;
+                parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_name FROM project_info WHERE pi_id=(SELECT ti_obj_id FROM topic_info WHERE ti_id='{objId}')");
+            }
+            else if(controlName.Contains("Subject"))
+            {
+                objId = tab_Subject_Info.Tag;
+                boxId = cbo_Subject_Box.SelectedValue;
+                docNumber = txt_Subject_AJ_Code.Text;
+                objName = txt_Subject_AJ_Name.Text;
+                proName = txt_Subject_Name.Text;
+                proCode = txt_Subject_Code.Text;
+                boxTable = (DataTable)cbo_Subject_Box.DataSource;
+                parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_name FROM topic_info WHERE ti_id=(SELECT si_obj_id FROM subject_info WHERE si_id='{objId}')");
+            }
+
+            Frm_PrintBox frm = new Frm_PrintBox(this)
+            {
+                boxTable = boxTable,
+                objectCode = docNumber,
+                objectName = objName,
+                unitName = UserHelper.GetUser().UnitName,
+                proCode = proCode,
+                proName = proName,
+                parentObjectName = parentObjectName,
+                ljPeople = UserHelper.GetUserNameById(GetWorker(objId, 1)),
+                ljDate = GetWorker(objId, 2),
+                jcPeople = UserHelper.GetUserNameById(GetWorker(objId, 3)),
+                jcDate = GetWorker(objId, 4),
+                otherDoc = SqlHelper.ExecuteQuery($"SELECT * FROM other_doc WHERE od_obj_id='{objId}' ORDER BY od_code"),
+            };
+            frm.ShowDialog();
+        }
+
+        private string GetWorker(object objId, int type)
+        {
+            string key = type == 1 ? "worker_id" : type == 2 ? "worker_date" : type == 3 ? "checker_id" : "checker_date";
+            object result = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_{key} FROM project_info WHERE pi_id='{objId}'") ??
+                SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_{key} FROM topic_info WHERE ti_id='{objId}'") ??
+                SqlHelper.ExecuteOnlyOneQuery($"SELECT si_{key} FROM subject_info WHERE si_id='{objId}'");
+            return ToolHelper.GetValue(result);
+        }
+
+        private void Btn_Box_Click(object sender, EventArgs e)
+        {
+            string name = (sender as KyoButton).Name;
+            if(name.Contains("btn_Project_Box"))
+            {
+                object value = cbo_Project_Box.SelectedValue;
+                if(value != null)
+                {
+                    if("btn_Project_Box_Right".Equals(name))
+                    {
+                        if(lsv_JH_XM_File1.SelectedItems.Count > 0)
+                        {
+                            int count = lsv_JH_XM_File1.SelectedItems.Count;
+                            if(count > 0)
+                            {
+                                object[] _obj = new object[count];
+                                for(int i = 0; i < count; i++)
+                                    _obj[i] = lsv_JH_XM_File1.SelectedItems[i].SubItems[0].Text;
+                                SetFileState(_obj, value, true);
+                            }
+                        }
+                    }
+                    else if("btn_Project_Box_RightAll".Equals(name))
+                    {
+                        int count = lsv_JH_XM_File1.Items.Count;
+                        if(count > 0)
+                        {
+                            object[] _obj = new object[count];
+                            for(int i = 0; i < count; i++)
+                                _obj[i] = lsv_JH_XM_File1.Items[i].SubItems[0].Text;
+                            SetFileState(_obj, value, true);
+                        }
+                    }
+                    else if("btn_Project_Box_Left".Equals(name))
+                    {
+                        int count = lsv_JH_XM_File2.SelectedItems.Count;
+                        if(count > 0)
+                        {
+                            object[] _obj = new object[count];
+                            for(int i = 0; i < count; i++)
+                                _obj[i] = lsv_JH_XM_File2.SelectedItems[i].SubItems[0].Text;
+                            SetFileState(_obj, value, false);
+                        }
+                    }
+                    else if("btn_Project_Box_LeftAll".Equals(name))
+                    {
+                        int count = lsv_JH_XM_File2.Items.Count;
+                        if(count > 0)
+                        {
+                            object[] _obj = new object[count];
+                            for(int i = 0; i < count; i++)
+                                _obj[i] = lsv_JH_XM_File2.Items[i].SubItems[0].Text;
+                            SetFileState(_obj, value, false);
+                        }
+                    }
+                    LoadFileBoxTable(value, tab_Project_Info.Tag, ControlType.Project);
+                }
+                else
+                    XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
+            }
+            //计划-课题
+            else if(name.Contains("btn_Topic_Box"))
+            {
+                object value = cbo_Topic_Box.SelectedValue;
+                if(value != null)
+                {
+                    if("btn_Topic_Box_Right".Equals(name))
+                    {
+                        if(lsv_JH_KT_File1.SelectedItems.Count > 0)
+                        {
+                            int count = lsv_JH_KT_File1.SelectedItems.Count;
+                            if(count > 0)
+                            {
+                                object[] _obj = new object[count];
+                                for(int i = 0; i < count; i++)
+                                    _obj[i] = lsv_JH_KT_File1.SelectedItems[i].SubItems[0].Text;
+                                SetFileState(_obj, value, true);
+                            }
+                        }
+                    }
+                    else if("btn_Topic_Box_RightAll".Equals(name))
+                    {
+                        int count = lsv_JH_KT_File1.Items.Count;
+                        if(count > 0)
+                        {
+                            object[] _obj = new object[count];
+                            for(int i = 0; i < count; i++)
+                                _obj[i] = lsv_JH_KT_File1.Items[i].SubItems[0].Text;
+                            SetFileState(_obj, value, true);
+                        }
+                    }
+                    else if("btn_Topic_Box_Left".Equals(name))
+                    {
+                        int count = lsv_JH_KT_File2.SelectedItems.Count;
+                        if(count > 0)
+                        {
+                            object[] _obj = new object[count];
+                            for(int i = 0; i < count; i++)
+                                _obj[i] = lsv_JH_KT_File2.SelectedItems[i].SubItems[0].Text;
+                            SetFileState(_obj, value, false);
+                        }
+                    }
+                    else if("btn_Topic_Box_LeftAll".Equals(name))
+                    {
+                        int count = lsv_JH_KT_File2.Items.Count;
+                        if(count > 0)
+                        {
+                            object[] _obj = new object[count];
+                            for(int i = 0; i < count; i++)
+                                _obj[i] = lsv_JH_KT_File2.Items[i].SubItems[0].Text;
+                            SetFileState(_obj, value, false);
+                        }
+                    }
+                    LoadFileBoxTable(value, tab_Topic_Info.Tag, ControlType.Topic);
+                }
+                else
+                    XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
+            }
+            //计划-项目-课题-子课题
+            else if(name.Contains("btn_Subject_Box"))
+            {
+                object value = cbo_Subject_Box.SelectedValue;
+                if(value != null)
+                {
+                    if("btn_Subject_Box_Right".Equals(name))
+                    {
+                        if(lsv_JH_XM_KT_ZKT_File1.SelectedItems.Count > 0)
+                        {
+                            int count = lsv_JH_XM_KT_ZKT_File1.SelectedItems.Count;
+                            if(count > 0)
+                            {
+                                object[] _obj = new object[count];
+                                for(int i = 0; i < count; i++)
+                                    _obj[i] = lsv_JH_XM_KT_ZKT_File1.SelectedItems[i].SubItems[0].Text;
+                                SetFileState(_obj, value, true);
+                            }
+                        }
+                    }
+                    else if("btn_Subject_Box_RightAll".Equals(name))
+                    {
+                        int count = lsv_JH_XM_KT_ZKT_File1.Items.Count;
+                        if(count > 0)
+                        {
+                            object[] _obj = new object[count];
+                            for(int i = 0; i < count; i++)
+                                _obj[i] = lsv_JH_XM_KT_ZKT_File1.Items[i].SubItems[0].Text;
+                            SetFileState(_obj, value, true);
+                        }
+                    }
+                    else if("btn_Subject_Box_Left".Equals(name))
+                    {
+                        int count = lsv_JH_XM_KT_ZKT_File2.SelectedItems.Count;
+                        if(count > 0)
+                        {
+                            object[] _obj = new object[count];
+                            for(int i = 0; i < count; i++)
+                                _obj[i] = lsv_JH_XM_KT_ZKT_File2.SelectedItems[i].SubItems[0].Text;
+                            SetFileState(_obj, value, false);
+                        }
+                    }
+                    else if("btn_Subject_Box_LeftAll".Equals(name))
+                    {
+                        int count = lsv_JH_XM_KT_ZKT_File2.Items.Count;
+                        if(count > 0)
+                        {
+                            object[] _obj = new object[count];
+                            for(int i = 0; i < count; i++)
+                                _obj[i] = lsv_JH_XM_KT_ZKT_File2.Items[i].SubItems[0].Text;
+                            SetFileState(_obj, value, false);
+                        }
+                    }
+                    LoadFileBoxTable(value, tab_Subject_Info.Tag, ControlType.Subject);
+                }
+                else
+                    XtraMessageBox.Show("请先添加案卷盒。", "保存失败");
+            }
+        }
+
+        private void SetFileState(object[] fileIds, object boxId, bool isGD)
+        {
+            if(isGD)
+            {
+                string updateSQL = string.Empty;
+                for(int i = 0; i < fileIds.Length; i++)
+                {
+                    updateSQL += $"UPDATE processing_file_list SET pfl_box_id='{boxId}', pfl_box_sort='{i}' WHERE pfl_id='{fileIds[i]}';";
+                }
+                SqlHelper.ExecuteNonQuery(updateSQL);
+            }
+            else
+            {
+                //将文件状态置为未归档
+                StringBuilder updateSql = new StringBuilder($"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_id IN (");
+                for(int i = 0; i < fileIds.Length; i++)
+                    updateSql.Append($"'{fileIds[i]}'{(i == fileIds.Length - 1 ? ");" : ",")}");
+                SqlHelper.ExecuteNonQuery(updateSql.ToString());
+            }
+        }
+
+        private void Tab_SelectedIndexChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e)
+        {
+            string name = (sender as Control).Name;
+            if(name.Contains("Project"))
+            {
+                int index = tab_Project_Info.SelectedTabPageIndex;
+                object objid = tab_Project_Info.Tag;
+                if(objid != null)
+                {
+                    if(index == 1)
+                        LoadFileValidList(dgv_Project_FileValid, objid, "project_fc_");
+                    else if(index == 2)
+                        LoadDocList(objid, ControlType.Project);
+                }
+            }
+            else if(name.Contains("Topic"))
+            {
+                int index = tab_Topic_Info.SelectedTabPageIndex;
+                object objid = tab_Topic_Info.Tag;
+                if(objid != null)
+                {
+                    if(index == 1)
+                        LoadFileValidList(dgv_Topic_FileValid, objid, "topic_fc_");
+                    else if(index == 2)
+                        LoadDocList(objid, ControlType.Topic);
+                }
+            }
+            else if(name.Contains("Subject"))
+            {
+                int index = tab_Subject_Info.SelectedTabPageIndex;
+                object objId = tab_Subject_Info.Tag;
+                if(objId != null)
+                {
+                    if(index == 1)
+                        LoadFileValidList(dgv_Subject_FileValid, objId, "subject_fc_");
+                    else if(index == 2)
+                        LoadDocList(objId, ControlType.Subject);
+                }
+            }
+        }
+
+
+
     }
 }

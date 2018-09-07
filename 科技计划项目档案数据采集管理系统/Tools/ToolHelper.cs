@@ -35,6 +35,17 @@ namespace 科技计划项目档案数据采集管理系统
         ///</summary>
         private static ChineseLunisolarCalendar ChineseCalendar = new ChineseLunisolarCalendar();
 
+        /// <summary>
+        /// 根据指定角色获取模块名称
+        /// </summary>
+        public static object[] GetModelByRole()
+        {
+            string querySQL =  "SELECT m_name FROM module " +
+                 "LEFT JOIN data_dictionary ON dd_id = m_code " +
+                $"WHERE dd_id = '{UserHelper.GetUser().Role}'";
+            return SqlHelper.ExecuteSingleColumnQuery(querySQL);
+        }
+
         ///<summary>
         /// 十天干
         ///</summary>
@@ -155,6 +166,21 @@ namespace 科技计划项目档案数据采集管理系统
                     return -1;
             }
             return -1;
+        }
+
+        /// <summary>
+        /// 将指定数组对象按指定的字符分隔
+        /// </summary>
+        /// <param name="values">数组对象</param>
+        /// <param name="v1">分隔符</param>
+        /// <param name="v2">包围符号</param>
+        internal static string GetFullStringBySplit(object[] values, string v1, string v2)
+        {
+            string result = string.Empty;
+            if(values.Length == 0) return result;
+            foreach(object value in values)
+                result += $"{v2}{value}{v2}{v1}";
+            return result.Substring(0, result.Length - 1);
         }
 
         /// <summary>

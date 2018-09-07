@@ -48,7 +48,7 @@
         /// </summary>
         public object[] Group { get => group; set => group = value; }
         /// <summary>
-        /// 所属角色
+        /// 所属角色主键
         /// </summary>
         public string Role { get => role; set => role = value; }
         /// <summary>

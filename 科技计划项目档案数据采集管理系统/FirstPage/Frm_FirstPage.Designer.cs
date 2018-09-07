@@ -47,6 +47,9 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.search = new DevExpress.XtraEditors.SearchControl();
             this.tileBar1 = new DevExpress.XtraBars.Navigation.TileBar();
             this.tileBarGroup2 = new DevExpress.XtraBars.Navigation.TileBarGroup();
@@ -61,9 +64,7 @@
             this.tbar_DAJS = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.tileBarGroup8 = new DevExpress.XtraBars.Navigation.TileBarGroup();
             this.tbar_Query = new DevExpress.XtraBars.Navigation.TileBarItem();
-            this.tileBarGroup1 = new DevExpress.XtraBars.Navigation.TileBarGroup();
             this.tbar_Count = new DevExpress.XtraBars.Navigation.TileBarItem();
-            this.tileBarGroup11 = new DevExpress.XtraBars.Navigation.TileBarGroup();
             this.tbar_Download = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.tileBarGroup9 = new DevExpress.XtraBars.Navigation.TileBarGroup();
             this.tbar_Manage = new DevExpress.XtraBars.Navigation.TileBarItem();
@@ -71,9 +72,7 @@
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.code = new System.Windows.Forms.DataGridViewLinkColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.year = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fund = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.user = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -93,12 +92,29 @@
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.barEditItem1 = new DevExpress.XtraBars.BarEditItem();
             this.txt_DateSearch = new DevExpress.XtraEditors.DateEdit();
+            this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
+            this.tab_Work = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.tab_Check = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.view2 = new System.Windows.Forms.DataGridView();
+            this.cid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ccode = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.cname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cyear = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cuser = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tileBarGroup11 = new DevExpress.XtraBars.Navigation.TileBarGroup();
+            this.tileBarGroup7 = new DevExpress.XtraBars.Navigation.TileBarGroup();
+            this.tileBarGroup1 = new DevExpress.XtraBars.Navigation.TileBarGroup();
             ((System.ComponentModel.ISupportInitialize)(this.search.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_DateSearch.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_DateSearch.Properties)).BeginInit();
+            this.tabPane1.SuspendLayout();
+            this.tab_Work.SuspendLayout();
+            this.tab_Check.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.view2)).BeginInit();
             this.SuspendLayout();
             // 
             // search
@@ -156,9 +172,9 @@
             this.tileBar1.Groups.Add(this.tileBarGroup5);
             this.tileBar1.Groups.Add(this.tileBarGroup6);
             this.tileBar1.Groups.Add(this.tileBarGroup8);
-            this.tileBar1.Groups.Add(this.tileBarGroup1);
-            this.tileBar1.Groups.Add(this.tileBarGroup11);
             this.tileBar1.Groups.Add(this.tileBarGroup9);
+            this.tileBar1.Groups.Add(this.tileBarGroup7);
+            this.tileBar1.Groups.Add(this.tileBarGroup1);
             this.tileBar1.IndentBetweenGroups = 1;
             this.tileBar1.IndentBetweenItems = 5;
             this.tileBar1.ItemPadding = new System.Windows.Forms.Padding(5, 6, 5, 3);
@@ -166,6 +182,7 @@
             this.tileBar1.Location = new System.Drawing.Point(-1, 26);
             this.tileBar1.MaxId = 11;
             this.tileBar1.Name = "tileBar1";
+            this.tileBar1.Position = 140;
             this.tileBar1.ScrollMode = DevExpress.XtraEditors.TileControlScrollMode.ScrollButtons;
             this.tileBar1.SelectedItem = this.tbar_FirstPage;
             this.tileBar1.ShowGroupText = false;
@@ -283,11 +300,6 @@
             this.tbar_Query.Name = "tbar_Query";
             this.tbar_Query.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.Tbar_ItemClick);
             // 
-            // tileBarGroup1
-            // 
-            this.tileBarGroup1.Items.Add(this.tbar_Count);
-            this.tileBarGroup1.Name = "tileBarGroup1";
-            // 
             // tbar_Count
             // 
             this.tbar_Count.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
@@ -300,11 +312,6 @@
             this.tbar_Count.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_Count.Name = "tbar_Count";
             this.tbar_Count.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.Tbar_ItemClick);
-            // 
-            // tileBarGroup11
-            // 
-            this.tileBarGroup11.Items.Add(this.tbar_Download);
-            this.tileBarGroup11.Name = "tileBarGroup11";
             // 
             // tbar_Download
             // 
@@ -321,7 +328,7 @@
             // 
             // tileBarGroup9
             // 
-            this.tileBarGroup9.Items.Add(this.tbar_Manage);
+            this.tileBarGroup9.Items.Add(this.tbar_Count);
             this.tileBarGroup9.Name = "tileBarGroup9";
             // 
             // tbar_Manage
@@ -343,9 +350,6 @@
             this.view.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.view.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.view.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.view.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.view.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.view.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
@@ -363,16 +367,15 @@
             this.id,
             this.code,
             this.name,
-            this.sdate,
             this.year,
-            this.fund,
             this.idate,
             this.user});
-            this.view.Location = new System.Drawing.Point(14, 206);
+            this.view.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.view.Location = new System.Drawing.Point(0, 0);
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(1238, 494);
+            this.view.Size = new System.Drawing.Size(1236, 458);
             this.view.TabIndex = 3;
             this.view.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.view_CellContentDoubleClick);
             // 
@@ -406,38 +409,20 @@
             this.name.ReadOnly = true;
             this.name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // sdate
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sdate.DefaultCellStyle = dataGridViewCellStyle4;
-            this.sdate.FillWeight = 60F;
-            this.sdate.HeaderText = "开始时间";
-            this.sdate.Name = "sdate";
-            this.sdate.ReadOnly = true;
-            this.sdate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // year
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.year.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.year.DefaultCellStyle = dataGridViewCellStyle4;
             this.year.FillWeight = 50F;
             this.year.HeaderText = "立项年度";
             this.year.Name = "year";
             this.year.ReadOnly = true;
             this.year.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // fund
-            // 
-            this.fund.FillWeight = 50F;
-            this.fund.HeaderText = "经费";
-            this.fund.Name = "fund";
-            this.fund.ReadOnly = true;
-            this.fund.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // idate
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.idate.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.idate.DefaultCellStyle = dataGridViewCellStyle5;
             this.idate.FillWeight = 60F;
             this.idate.HeaderText = "录入时间";
             this.idate.Name = "idate";
@@ -446,8 +431,8 @@
             // 
             // user
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.user.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.user.DefaultCellStyle = dataGridViewCellStyle6;
             this.user.FillWeight = 60F;
             this.user.HeaderText = "录入人";
             this.user.Name = "user";
@@ -630,14 +615,163 @@
             this.txt_DateSearch.Size = new System.Drawing.Size(181, 44);
             this.txt_DateSearch.TabIndex = 14;
             // 
+            // tabPane1
+            // 
+            this.tabPane1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabPane1.Controls.Add(this.tab_Work);
+            this.tabPane1.Controls.Add(this.tab_Check);
+            this.tabPane1.Location = new System.Drawing.Point(14, 206);
+            this.tabPane1.Name = "tabPane1";
+            this.tabPane1.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
+            this.tab_Work,
+            this.tab_Check});
+            this.tabPane1.RegularSize = new System.Drawing.Size(1238, 490);
+            this.tabPane1.SelectedPage = this.tab_Check;
+            this.tabPane1.SelectedPageIndex = 0;
+            this.tabPane1.Size = new System.Drawing.Size(1238, 490);
+            this.tabPane1.TabIndex = 19;
+            // 
+            // tab_Work
+            // 
+            this.tab_Work.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.tab_Work.Appearance.Options.UseFont = true;
+            this.tab_Work.BackgroundPadding = new System.Windows.Forms.Padding(0);
+            this.tab_Work.Caption = "著录加工";
+            this.tab_Work.Controls.Add(this.view);
+            this.tab_Work.Image = ((System.Drawing.Image)(resources.GetObject("tab_Work.Image")));
+            this.tab_Work.ItemShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
+            this.tab_Work.Name = "tab_Work";
+            this.tab_Work.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
+            this.tab_Work.Size = new System.Drawing.Size(1236, 458);
+            // 
+            // tab_Check
+            // 
+            this.tab_Check.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tab_Check.Appearance.Options.UseFont = true;
+            this.tab_Check.BackgroundPadding = new System.Windows.Forms.Padding(0);
+            this.tab_Check.Caption = "档案质检";
+            this.tab_Check.Controls.Add(this.view2);
+            this.tab_Check.Image = ((System.Drawing.Image)(resources.GetObject("tab_Check.Image")));
+            this.tab_Check.ItemShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
+            this.tab_Check.Name = "tab_Check";
+            this.tab_Check.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
+            this.tab_Check.Size = new System.Drawing.Size(1236, 458);
+            // 
+            // view2
+            // 
+            this.view2.AllowUserToAddRows = false;
+            this.view2.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.view2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            this.view2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.view2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.view2.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            this.view2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.view2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            this.view2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.view2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.cid,
+            this.ccode,
+            this.cname,
+            this.cyear,
+            this.cdate,
+            this.cuser});
+            this.view2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.view2.Location = new System.Drawing.Point(0, 0);
+            this.view2.Name = "view2";
+            this.view2.ReadOnly = true;
+            this.view2.RowTemplate.Height = 23;
+            this.view2.Size = new System.Drawing.Size(1236, 458);
+            this.view2.TabIndex = 4;
+            this.view2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.view_CellContentDoubleClick);
+            // 
+            // cid
+            // 
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cid.DefaultCellStyle = dataGridViewCellStyle9;
+            this.cid.FillWeight = 35F;
+            this.cid.HeaderText = "序号";
+            this.cid.Name = "cid";
+            this.cid.ReadOnly = true;
+            this.cid.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ccode
+            // 
+            this.ccode.ActiveLinkColor = System.Drawing.Color.Black;
+            this.ccode.FillWeight = 80F;
+            this.ccode.HeaderText = "编号";
+            this.ccode.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.ccode.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.ccode.Name = "ccode";
+            this.ccode.ReadOnly = true;
+            this.ccode.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ccode.VisitedLinkColor = System.Drawing.Color.Black;
+            // 
+            // cname
+            // 
+            this.cname.FillWeight = 250F;
+            this.cname.HeaderText = "名称";
+            this.cname.Name = "cname";
+            this.cname.ReadOnly = true;
+            this.cname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // cyear
+            // 
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cyear.DefaultCellStyle = dataGridViewCellStyle10;
+            this.cyear.FillWeight = 50F;
+            this.cyear.HeaderText = "立项年度";
+            this.cyear.Name = "cyear";
+            this.cyear.ReadOnly = true;
+            this.cyear.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // cdate
+            // 
+            this.cdate.FillWeight = 60F;
+            this.cdate.HeaderText = "质检时间";
+            this.cdate.Name = "cdate";
+            this.cdate.ReadOnly = true;
+            this.cdate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // cuser
+            // 
+            this.cuser.FillWeight = 60F;
+            this.cuser.HeaderText = "质检人";
+            this.cuser.Name = "cuser";
+            this.cuser.ReadOnly = true;
+            this.cuser.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tileBarGroup11
+            // 
+            this.tileBarGroup11.Name = "tileBarGroup11";
+            // 
+            // tileBarGroup7
+            // 
+            this.tileBarGroup7.Items.Add(this.tbar_Download);
+            this.tileBarGroup7.Name = "tileBarGroup7";
+            // 
+            // tileBarGroup1
+            // 
+            this.tileBarGroup1.Items.Add(this.tbar_Manage);
+            this.tileBarGroup1.Name = "tileBarGroup1";
+            // 
             // Frm_FirstPage
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1264, 721);
+            this.Controls.Add(this.tabPane1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.view);
             this.Controls.Add(this.btn_Query);
             this.Controls.Add(this.search);
             this.Controls.Add(this.tileBar1);
@@ -661,6 +795,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_DateSearch.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_DateSearch.Properties)).EndInit();
+            this.tabPane1.ResumeLayout(false);
+            this.tab_Work.ResumeLayout(false);
+            this.tab_Check.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.view2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -689,7 +827,6 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tip_User;
         private System.Windows.Forms.Label label1;
-        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup1;
         private DevExpress.XtraBars.BarManager barManager1;
         private DevExpress.XtraBars.BarSubItem barSubItem1;
         private DevExpress.XtraBars.BarDockControl barDockControlTop;
@@ -702,16 +839,26 @@
         private DevExpress.XtraBars.Bar bar2;
         private DevExpress.XtraBars.BarButtonItem btn_ExitSystem;
         private DevExpress.XtraBars.BarEditItem barEditItem1;
-        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup11;
         private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup9;
         private DevExpress.XtraEditors.DateEdit txt_DateSearch;
+        private DevExpress.XtraBars.Navigation.TabPane tabPane1;
+        private DevExpress.XtraBars.Navigation.TabNavigationPage tab_Work;
+        private DevExpress.XtraBars.Navigation.TabNavigationPage tab_Check;
+        private System.Windows.Forms.DataGridView view2;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewLinkColumn code;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn year;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fund;
         private System.Windows.Forms.DataGridViewTextBoxColumn idate;
         private System.Windows.Forms.DataGridViewTextBoxColumn user;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cid;
+        private System.Windows.Forms.DataGridViewLinkColumn ccode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cyear;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cdate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cuser;
+        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup7;
+        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup1;
+        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup11;
     }
 }

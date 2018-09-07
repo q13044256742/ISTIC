@@ -40,14 +40,14 @@
             this.extend_3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sort = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txt_SearchKey = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cms_move = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_Back = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.button4 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.button3 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Search = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.txt_SearchKey = new System.Windows.Forms.TextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cms_move = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataList)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -147,29 +147,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "快速检索";
             // 
-            // txt_SearchKey
-            // 
-            this.txt_SearchKey.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_SearchKey.Location = new System.Drawing.Point(13, 27);
-            this.txt_SearchKey.Name = "txt_SearchKey";
-            this.txt_SearchKey.Size = new System.Drawing.Size(244, 26);
-            this.txt_SearchKey.TabIndex = 8;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cms_move});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
-            // 
-            // cms_move
-            // 
-            this.cms_move.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2});
-            this.cms_move.Name = "cms_move";
-            this.cms_move.Size = new System.Drawing.Size(180, 22);
-            this.cms_move.Text = "合并至";
-            // 
             // btn_Back
             // 
             this.btn_Back.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -228,10 +205,33 @@
             this.btn_Search.Text = "查询";
             this.btn_Search.Click += new System.EventHandler(this.btn_Search_Click);
             // 
+            // txt_SearchKey
+            // 
+            this.txt_SearchKey.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_SearchKey.Location = new System.Drawing.Point(13, 27);
+            this.txt_SearchKey.Name = "txt_SearchKey";
+            this.txt_SearchKey.Size = new System.Drawing.Size(244, 26);
+            this.txt_SearchKey.TabIndex = 8;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cms_move});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 26);
+            // 
+            // cms_move
+            // 
+            this.cms_move.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.cms_move.Name = "cms_move";
+            this.cms_move.Size = new System.Drawing.Size(112, 22);
+            this.cms_move.Text = "合并至";
+            // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(97, 22);
             this.toolStripMenuItem2.Text = "123";
             // 
             // Frm_Manager
@@ -243,7 +243,6 @@
             this.Name = "Frm_Manager";
             this.Text = "后台管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.Frm_Manager_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataList)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

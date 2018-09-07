@@ -53,6 +53,7 @@
             this.cbo_TypeSelect.Name = "cbo_TypeSelect";
             this.cbo_TypeSelect.Size = new System.Drawing.Size(234, 27);
             this.cbo_TypeSelect.TabIndex = 1;
+            this.cbo_TypeSelect.SelectionChangeCommitted += new System.EventHandler(this.cbo_TypeSelect_SelectionChangeCommitted);
             // 
             // btn_Sure
             // 

@@ -6,16 +6,22 @@ namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_OtherDoc : DevExpress.XtraEditors.XtraForm
     {
+        public bool ReadOnly;
         private object objId;
         public Frm_OtherDoc(object objId)
         {
             InitializeComponent();
             this.objId = objId;
+            ReadOnly = false;
         }
 
         private void Frm_OtherDoc_Load(object sender, EventArgs e)
         {
             LoadDocList();
+            if(ReadOnly == true)
+            {
+                btn_Add.Enabled = btn_Delete.Enabled = btn_Edit.Enabled = btn_Sure.Enabled = !ReadOnly;
+            }
         }
 
         private void LoadDocList()

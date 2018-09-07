@@ -51,7 +51,6 @@
             this.view = new System.Windows.Forms.DataGridView();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
             this.tabNavigationPage1 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
-            this.chk_AllUser = new System.Windows.Forms.CheckBox();
             this.rdo_ZJ = new System.Windows.Forms.RadioButton();
             this.btn_StartCount = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Exprot = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -164,7 +163,7 @@
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(936, 655);
+            this.view.Size = new System.Drawing.Size(952, 671);
             this.view.TabIndex = 0;
             // 
             // tabPane1
@@ -181,7 +180,7 @@
             this.tabNavigationPage2});
             this.tabPane1.RegularSize = new System.Drawing.Size(1264, 749);
             this.tabPane1.SelectedPage = this.tabNavigationPage1;
-            this.tabPane1.SelectedPageIndex = 1;
+            this.tabPane1.SelectedPageIndex = 0;
             this.tabPane1.Size = new System.Drawing.Size(1264, 749);
             this.tabPane1.TabIndex = 17;
             this.tabPane1.Text = "tabPane1";
@@ -192,7 +191,6 @@
             this.tabNavigationPage1.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tabNavigationPage1.Appearance.Options.UseFont = true;
             this.tabNavigationPage1.Caption = "tabNavigationPage1";
-            this.tabNavigationPage1.Controls.Add(this.chk_AllUser);
             this.tabNavigationPage1.Controls.Add(this.rdo_ZJ);
             this.tabNavigationPage1.Controls.Add(this.btn_StartCount);
             this.tabNavigationPage1.Controls.Add(this.btn_Exprot);
@@ -211,16 +209,6 @@
             this.tabNavigationPage1.PageText = "工作量统计";
             this.tabNavigationPage1.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.tabNavigationPage1.Size = new System.Drawing.Size(1246, 701);
-            // 
-            // chk_AllUser
-            // 
-            this.chk_AllUser.AutoSize = true;
-            this.chk_AllUser.Location = new System.Drawing.Point(593, 24);
-            this.chk_AllUser.Name = "chk_AllUser";
-            this.chk_AllUser.Size = new System.Drawing.Size(93, 25);
-            this.chk_AllUser.TabIndex = 26;
-            this.chk_AllUser.Text = "全部人员";
-            this.chk_AllUser.UseVisualStyleBackColor = true;
             // 
             // rdo_ZJ
             // 
@@ -456,7 +444,7 @@
             this.datachart});
             this.tabPane2.RegularSize = new System.Drawing.Size(954, 701);
             this.tabPane2.SelectedPage = this.datachart;
-            this.tabPane2.SelectedPageIndex = 0;
+            this.tabPane2.SelectedPageIndex = 1;
             this.tabPane2.Size = new System.Drawing.Size(954, 701);
             this.tabPane2.TabIndex = 14;
             this.tabPane2.SelectedPageIndexChanged += new System.EventHandler(this.tabPane2_SelectedPageIndexChanged);
@@ -471,7 +459,7 @@
             this.datatable.Controls.Add(this.view);
             this.datatable.Name = "datatable";
             this.datatable.PageText = "数据统计表";
-            this.datatable.Size = new System.Drawing.Size(936, 655);
+            this.datatable.Size = new System.Drawing.Size(952, 671);
             // 
             // datachart
             // 
@@ -489,7 +477,7 @@
             this.datachart.Margin = new System.Windows.Forms.Padding(0);
             this.datachart.Name = "datachart";
             this.datachart.PageText = "数据统计图";
-            this.datachart.Size = new System.Drawing.Size(936, 655);
+            this.datachart.Size = new System.Drawing.Size(952, 671);
             // 
             // tip_Panel
             // 
@@ -536,6 +524,7 @@
             chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
             chartArea1.AxisX.LabelStyle.IsStaggered = true;
             chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea1.AxisY.IsLabelAutoFit = false;
             chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
             chartArea1.AxisY.MajorGrid.Enabled = false;
@@ -550,7 +539,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart3.Series.Add(series1);
-            this.chart3.Size = new System.Drawing.Size(760, 231);
+            this.chart3.Size = new System.Drawing.Size(891, 400);
             this.chart3.TabIndex = 2;
             this.chart3.Text = "chart3";
             this.chart3.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
@@ -581,7 +570,7 @@
             series2.Name = "Series1";
             series2.ShadowOffset = 5;
             this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(621, 231);
+            this.chart2.Size = new System.Drawing.Size(891, 231);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
             this.chart2.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
@@ -611,7 +600,7 @@
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(678, 231);
+            this.chart1.Size = new System.Drawing.Size(891, 231);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             this.chart1.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
@@ -760,7 +749,6 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart3;
-        private System.Windows.Forms.CheckBox chk_AllUser;
         private System.Windows.Forms.Panel tip_Panel;
         private System.Windows.Forms.Label lbl_TipAmount;
         private System.Windows.Forms.Label lbl_TipName;
