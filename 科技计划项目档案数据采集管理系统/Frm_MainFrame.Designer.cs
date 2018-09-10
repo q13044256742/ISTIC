@@ -44,9 +44,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_OtherInfo.AutoSize = true;
             this.lbl_OtherInfo.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_OtherInfo.Location = new System.Drawing.Point(1067, 11);
+            this.lbl_OtherInfo.Location = new System.Drawing.Point(1008, 8);
             this.lbl_OtherInfo.Name = "lbl_OtherInfo";
-            this.lbl_OtherInfo.Size = new System.Drawing.Size(192, 14);
+            this.lbl_OtherInfo.Size = new System.Drawing.Size(254, 21);
             this.lbl_OtherInfo.TabIndex = 2;
             this.lbl_OtherInfo.Text = "当前时间：2017年4月21日 星期三";
             // 
@@ -54,18 +54,18 @@
             // 
             this.txt_RealName.AutoSize = true;
             this.txt_RealName.BackColor = System.Drawing.Color.Transparent;
-            this.txt_RealName.Location = new System.Drawing.Point(75, 11);
+            this.txt_RealName.Location = new System.Drawing.Point(102, 8);
             this.txt_RealName.Name = "txt_RealName";
-            this.txt_RealName.Size = new System.Drawing.Size(0, 14);
+            this.txt_RealName.Size = new System.Drawing.Size(0, 21);
             this.txt_RealName.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(14, 11);
+            this.label1.Location = new System.Drawing.Point(14, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 14);
+            this.label1.Size = new System.Drawing.Size(74, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "欢迎你：";
             // 
@@ -99,6 +99,7 @@
             this.pal_Top_Info.Controls.Add(this.txt_RealName);
             this.pal_Top_Info.Controls.Add(this.lbl_OtherInfo);
             this.pal_Top_Info.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pal_Top_Info.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pal_Top_Info.Location = new System.Drawing.Point(0, 79);
             this.pal_Top_Info.Name = "pal_Top_Info";
             this.pal_Top_Info.Size = new System.Drawing.Size(1271, 36);

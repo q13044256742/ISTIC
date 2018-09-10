@@ -1034,6 +1034,7 @@ namespace 科技计划项目档案数据采集管理系统
                         if(objId == null)
                             objId = tab_Special_Info.Tag = AddBasicInfo(special.Tag, ControlType.Special);
                         else UpdateBasicInfo(objId, ControlType.Special);
+                        Tag = txt_Special_Code.Text;
                         if(CheckFileList(view.Rows, key))
                         {
                             int maxLength = dgv_Special_FileList.Rows.Count - 1;
@@ -4077,7 +4078,7 @@ namespace 科技计划项目档案数据采集管理系统
                             //   amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pt_id) FROM files_tag_info WHERE pt_special_id='{sourceUnitId}'") + 1;
                         }
                         else if(type == 1)
-                            amount = GetGCId(length, ToolHelper.GetValue(unitCode));
+                            amount = GetGCId(length, unitCode + Tag);
                         code += amount.ToString().PadLeft(length, '0');
                     }
                     code += symbol;
@@ -4149,7 +4150,7 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), null, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Plan_Box_Remove".Equals(label.Name))//删除
@@ -4188,7 +4189,7 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string gch = GetAJCode(objId, txt_Project_Code.Text, 1, txt_Project_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Project_Box_Remove".Equals(label.Name))//删除
@@ -4227,7 +4228,7 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string gch = GetAJCode(objId, txt_Subject_Code.Text, 1, txt_Subject_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES ('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES ('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Subject_Box_Remove".Equals(label.Name))//删除
@@ -4263,7 +4264,7 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string gch = GetAJCode(objId, txt_Topic_Code.Text, 1, txt_Topic_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Topic_Box_Remove".Equals(label.Name))//删除
@@ -4299,7 +4300,7 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Imp_Box_Remove".Equals(label.Name))//删除
@@ -4335,7 +4336,7 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Special_Box_Remove".Equals(label.Name))//删除

@@ -49,6 +49,14 @@ namespace 科技计划项目档案数据采集管理系统
             return loginForm;
         }
 
+        private static Frm_FirstPage firstPage;
+        public static Frm_FirstPage GetFirstPage(Form form)
+        {
+            if(firstPage == null || firstPage.IsDisposed)
+                firstPage = new Frm_FirstPage(form);
+            return firstPage;
+        }
+
         private static Frm_MainFrame mainFrame;
         public static Frm_MainFrame GetMainFrame( Form f2)
         {

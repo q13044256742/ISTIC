@@ -8,8 +8,8 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
 {
     public partial class Frm_FirstPage : XtraForm
     {
-        Frm_Login loginFrom;
-        public Frm_FirstPage(Frm_Login loginFrom)
+        Form loginFrom;
+        public Frm_FirstPage(Form loginFrom)
         {
             InitializeComponent();
             InitialForm();
@@ -236,7 +236,7 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
         private void Frm_FirstPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             UserHelper.SetLogin(false);
-            Application.Exit();
+            Environment.Exit(0);
         }
 
         private void Btn_ExitSystem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

@@ -32,8 +32,9 @@ namespace 科技计划项目档案数据采集管理系统
                     UserHelper.SetUser(user);
                     UserHelper.SetLogin(true);
                     Hide();
-                    Frm_FirstPage frm = new Frm_FirstPage(this);
+                    Frm_FirstPage frm = GetFormHelper.GetFirstPage(this);
                     frm.Show();
+                    frm.Activate();
                 }
                 else
                     XtraMessageBox.Show("用户名或密码错误。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);

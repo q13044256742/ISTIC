@@ -65,7 +65,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(workType == WorkType.PaperWork_Imp && DEV_TYPE == -1)
             {
                 object _type = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_type FROM imp_info WHERE imp_id='{objId}'");
-                if(!string.IsNullOrEmpty(GetValue(_type)))
+                if(!string.IsNullOrEmpty(ToolHelper.GetValue(_type)))
                     DEV_TYPE = Convert.ToInt32(_type);
             }
         }
@@ -109,9 +109,9 @@ namespace 科技计划项目档案数据采集管理系统
                 DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_name, pi_intro, pi_code, pi_submit_status FROM project_info WHERE pi_id='{node.Name}'");
                 if(row != null)
                 {
-                    lbl_Plan_Name.Tag = GetValue(row["pi_code"]);
-                    lbl_Plan_Name.Text = GetValue(row["pi_name"]);
-                    lbl_Plan_Intro.Text = GetValue(row["pi_intro"]);
+                    lbl_Plan_Name.Tag = ToolHelper.GetValue(row["pi_code"]);
+                    lbl_Plan_Name.Text = ToolHelper.GetValue(row["pi_name"]);
+                    lbl_Plan_Intro.Text = ToolHelper.GetValue(row["pi_intro"]);
                     tab_Plan_Info.Tag = node.Name;
                     LoadFileList(dgv_Plan_FileList, "plan_fl_", node.Name);
                     EnableControls(ControlType.Plan, Convert.ToInt32(row["pi_submit_status"]) != 1);
@@ -122,9 +122,9 @@ namespace 科技计划项目档案数据采集管理系统
                 DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_name, dd_note, dd_code FROM data_dictionary WHERE dd_id='{node.Name}'");
                 if(row != null)
                 {
-                    lbl_Plan_Name.Tag = GetValue(row["dd_code"]);
-                    lbl_Plan_Name.Text = GetValue(row["dd_name"]);
-                    lbl_Plan_Intro.Text = GetValue(row["dd_note"]);
+                    lbl_Plan_Name.Tag = ToolHelper.GetValue(row["dd_code"]);
+                    lbl_Plan_Name.Text = ToolHelper.GetValue(row["dd_name"]);
+                    lbl_Plan_Intro.Text = ToolHelper.GetValue(row["dd_note"]);
                 }
             }
             plan.Tag = node.Name;
@@ -551,7 +551,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void SetNameByCategor(System.Windows.Forms.ComboBox comboBox, DataGridViewRow currentRow, string key, object objId)
         {
             if(comboBox.Items.Count <= 4) return;
-            string value = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_note FROM data_dictionary WHERE dd_id='{comboBox.SelectedValue}'"));
+            string value = ToolHelper.GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_note FROM data_dictionary WHERE dd_id='{comboBox.SelectedValue}'"));
             currentRow.Cells[key + "name"].Value = value;
 
             int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_categor='{comboBox.SelectedValue}' AND pfl_obj_id='{objId}'");
@@ -565,7 +565,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string tempKey = ((DataRowView)comboBox.Items[0]).Row.ItemArray[1].ToString();
                 if(Regex.IsMatch(tempKey, "^[A-D]"))
                 {
-                    string _key = GetValue(tempKey).Substring(0, 1) + _amount.ToString().PadLeft(2, '0');
+                    string _key = ToolHelper.GetValue(tempKey).Substring(0, 1) + _amount.ToString().PadLeft(2, '0');
                     currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
                 }
             }
@@ -640,14 +640,14 @@ namespace 科技计划项目档案数据采集管理系统
                         ShowTab("project", _index + 1);
                         ResetControls(ControlType.Plan);
                         pal_Project.Tag = dgv_Plan_FileList.Tag;
-                        txt_Project_Code.Text = DateTime.Now.Year + GetValue(planCode);
+                        txt_Project_Code.Text = DateTime.Now.Year + ToolHelper.GetValue(planCode);
                     }
                     else if(index == 2)//父级 - 课题
                     {
                         ShowTab("plan_topic", _index + 1);
                         ResetControls(ControlType.Topic);
                         pal_Topic.Tag = dgv_Plan_FileList.Tag;
-                        txt_Project_Code.Text = DateTime.Now.Year + GetValue(planCode);
+                        txt_Project_Code.Text = DateTime.Now.Year + ToolHelper.GetValue(planCode);
                     }
                 }
             }
@@ -1298,7 +1298,7 @@ namespace 科技计划项目档案数据采集管理系统
             for(int i = 0; i < rows.Count - 1; i++)
             {
                 DataGridViewCell cellName = rows[i].Cells[key + "name"];
-                if(cellName.Value == null || string.IsNullOrEmpty(GetValue(cellName.Value).Trim()))
+                if(cellName.Value == null || string.IsNullOrEmpty(ToolHelper.GetValue(cellName.Value).Trim()))
                 {
                     cellName.ErrorText = "温馨提示：文件名不能为空。";
                     result = false;
@@ -1323,7 +1323,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                 //检测文件编号重复
                 DataGridViewCell cellCode = rows[i].Cells[key + "code"];
-                if(string.IsNullOrEmpty(GetValue(cellCode.Value)))
+                if(string.IsNullOrEmpty(ToolHelper.GetValue(cellCode.Value)))
                 {
                     cellCode.ErrorText = "温馨提示：文件编号不能为空。";
                     result = false;
@@ -1346,14 +1346,14 @@ namespace 科技计划项目档案数据采集管理系统
                 }
 
                 DataGridViewCell pagesCell = rows[i].Cells[key + "pages"];
-                if(pagesCell.Value == null || string.IsNullOrEmpty(GetValue(pagesCell.Value)) || Convert.ToInt32(pagesCell.Value) == 0)
+                if(pagesCell.Value == null || string.IsNullOrEmpty(ToolHelper.GetValue(pagesCell.Value)) || Convert.ToInt32(pagesCell.Value) == 0)
                 {
                     pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
                     result = false;
                 }
                 else
                 {
-                    bool flag = int.TryParse(GetValue(pagesCell.Value), out int page);
+                    bool flag = int.TryParse(ToolHelper.GetValue(pagesCell.Value), out int page);
                     if(!flag)
                     {
                         pagesCell.ErrorText = "温馨提示：页数不能为0。";
@@ -1373,9 +1373,9 @@ namespace 科技计划项目档案数据采集管理系统
 
                 //份数
                 DataGridViewCell countCell = rows[i].Cells[key + "count"];
-                if(!string.IsNullOrEmpty(GetValue(countCell.Value)))
+                if(!string.IsNullOrEmpty(ToolHelper.GetValue(countCell.Value)))
                 {
-                    bool flag = int.TryParse(GetValue(countCell.Value), out int page);
+                    bool flag = int.TryParse(ToolHelper.GetValue(countCell.Value), out int page);
                     if(!flag)
                     {
                         countCell.ErrorText = "温馨提示：请输入有效数字。";
@@ -1387,9 +1387,9 @@ namespace 科技计划项目档案数据采集管理系统
 
                 //份数移交
                 DataGridViewCell amountCell = rows[i].Cells[key + "amount"];
-                if(!string.IsNullOrEmpty(GetValue(amountCell.Value)))
+                if(!string.IsNullOrEmpty(ToolHelper.GetValue(amountCell.Value)))
                 {
-                    bool flag = int.TryParse(GetValue(amountCell.Value), out int page);
+                    bool flag = int.TryParse(ToolHelper.GetValue(amountCell.Value), out int page);
                     if(!flag)
                     {
                         amountCell.ErrorText = "温馨提示：请输入有效数字。";
@@ -1399,11 +1399,11 @@ namespace 科技计划项目档案数据采集管理系统
                         amountCell.ErrorText = null;
                 }
 
-                bool isOtherType = "其他".Equals(GetValue(rows[i].Cells[key + "categor"].FormattedValue).Trim());
+                bool isOtherType = "其他".Equals(ToolHelper.GetValue(rows[i].Cells[key + "categor"].FormattedValue).Trim());
                 DataGridViewCell cellCategor = rows[i].Cells[key + "categorname"];
                 if(isOtherType)
                 {
-                    if(cellCategor.Value == null || string.IsNullOrEmpty(GetValue(cellCategor.Value).Trim()))
+                    if(cellCategor.Value == null || string.IsNullOrEmpty(ToolHelper.GetValue(cellCategor.Value).Trim()))
                     {
                         cellCategor.ErrorText = "温馨提示：类型名称不能为空。";
                         result = false;
@@ -1415,16 +1415,16 @@ namespace 科技计划项目档案数据采集管理系统
                     cellCategor.ErrorText = null;
 
                 DataGridViewCell dateCell = rows[i].Cells[key + "date"];
-                if(!string.IsNullOrEmpty(GetValue(dateCell.Value)))
+                if(!string.IsNullOrEmpty(ToolHelper.GetValue(dateCell.Value)))
                 {
-                    if(!Regex.IsMatch(GetValue(dateCell.Value), "\\d{4}-\\d{2}-\\d{2}"))
+                    if(!Regex.IsMatch(ToolHelper.GetValue(dateCell.Value), "\\d{4}-\\d{2}-\\d{2}"))
                     {
                         dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
                         result = false;
                     }
                     else
                     {
-                        bool flag = DateTime.TryParse(GetValue(dateCell.Value), out DateTime date);
+                        bool flag = DateTime.TryParse(ToolHelper.GetValue(dateCell.Value), out DateTime date);
                         if(!flag)
                         {
                             dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
@@ -1458,7 +1458,7 @@ namespace 科技计划项目档案数据采集管理系统
                     object reason = row.Cells[key + "reason"].Value;
                     object remark = row.Cells[key + "remark"].Value;
                     object categor = row.Cells[key + "categor"].Value;
-                    string _categor = GetValue(categor);
+                    string _categor = ToolHelper.GetValue(categor);
                     if(!string.IsNullOrEmpty(_categor))
                     {
                         string[] _temp = _categor.Split(' ');
@@ -1762,7 +1762,7 @@ namespace 科技计划项目档案数据采集管理系统
             object stage = row.Cells[key + "stage"].Value;
             object categor = row.Cells[key + "categor"].Value;
             object categorName = row.Cells[key + "categorname"].Value;
-            object name = GetValue(row.Cells[key + "name"].Value).Replace("'", "''");
+            object name = ToolHelper.GetValue(row.Cells[key + "name"].Value).Replace("'", "''");
             object user = row.Cells[key + "user"].Value;
             object type = row.Cells[key + "type"].Value;
             object pages = row.Cells[key + "pages"].Value;
@@ -1770,7 +1770,7 @@ namespace 科技计划项目档案数据采集管理系统
             object amount = row.Cells[key + "amount"].Value;
             object code = row.Cells[key + "code"].Value;
             DateTime now = DateTime.MinValue;
-            string _date = GetValue(row.Cells[key + "date"].Value);
+            string _date = ToolHelper.GetValue(row.Cells[key + "date"].Value);
             if(!string.IsNullOrEmpty(_date))
             {
                 if(_date.Length == 4)
@@ -1785,11 +1785,11 @@ namespace 科技计划项目档案数据采集管理系统
             object unit = row.Cells[key + "unit"].Value;
             object carrier = row.Cells[key + "carrier"].Value;
 
-            bool isOtherType = "其他".Equals(GetValue(row.Cells[key + "categor"].FormattedValue).Trim());
+            bool isOtherType = "其他".Equals(ToolHelper.GetValue(row.Cells[key + "categor"].FormattedValue).Trim());
             if(isOtherType)
             {
                 categor = Guid.NewGuid().ToString();
-                string value = GetValue(code).Split('-')[0];
+                string value = ToolHelper.GetValue(code).Split('-')[0];
                 int _sort = ((DataGridViewComboBoxCell)row.Cells[key + "categor"]).Items.Count - 1;
 
                 sqlString += "INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
@@ -1811,7 +1811,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private Color GetForeColorByState(object state)
         {
-            string _str = GetValue(state);
+            string _str = ToolHelper.GetValue(state);
             if(string.IsNullOrEmpty(_str))
                 return DisEnbleColor;
             else
@@ -1895,8 +1895,8 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     treeNode = new TreeNode()
                     {
-                        Name = GetValue(planRow["pi_id"]),
-                        Text = GetValue(planRow["pi_name"]),
+                        Name = ToolHelper.GetValue(planRow["pi_id"]),
+                        Text = ToolHelper.GetValue(planRow["pi_name"]),
                         Tag = ControlType.Plan,
                         ForeColor = GetForeColorByState(planRow["pi_submit_status"]),
                     };
@@ -1908,8 +1908,8 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             TreeNode treeNode2 = new TreeNode()
                             {
-                                Name = GetValue(proRow["pi_id"]),
-                                Text = GetValue(proRow["pi_code"]),
+                                Name = ToolHelper.GetValue(proRow["pi_id"]),
+                                Text = ToolHelper.GetValue(proRow["pi_code"]),
                                 Tag = ControlType.Project,
                                 ForeColor = GetForeColorByState(proRow["pi_submit_status"]),
                             };
@@ -1920,8 +1920,8 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 TreeNode treeNode3 = new TreeNode()
                                 {
-                                    Name = GetValue(topRow["ti_id"]),
-                                    Text = GetValue(topRow["ti_code"]),
+                                    Name = ToolHelper.GetValue(topRow["ti_id"]),
+                                    Text = ToolHelper.GetValue(topRow["ti_code"]),
                                     Tag = ControlType.Topic,
                                     ForeColor = GetForeColorByState(topRow["ti_submit_status"]),
                                 };
@@ -1932,8 +1932,8 @@ namespace 科技计划项目档案数据采集管理系统
                                 {
                                     TreeNode treeNode4 = new TreeNode()
                                     {
-                                        Name = GetValue(subRow["si_id"]),
-                                        Text = GetValue(subRow["si_code"]),
+                                        Name = ToolHelper.GetValue(subRow["si_id"]),
+                                        Text = ToolHelper.GetValue(subRow["si_code"]),
                                         Tag = ControlType.Subject,
                                         ForeColor = GetForeColorByState(subRow["si_submit_status"]),
                                     };
@@ -1957,8 +1957,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         treeNode = new TreeNode()
                         {
-                            Name = GetValue(planRow["pi_id"]),
-                            Text = GetValue(planRow["pi_name"]),
+                            Name = ToolHelper.GetValue(planRow["pi_id"]),
+                            Text = ToolHelper.GetValue(planRow["pi_name"]),
                             Tag = ControlType.Plan,
                             ForeColor = DisEnbleColor
                         };
@@ -1968,10 +1968,10 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             TreeNode treeNode2 = new TreeNode()
                             {
-                                Name = GetValue(row["pi_id"]),
-                                Text = GetValue(row["pi_code"]),
+                                Name = ToolHelper.GetValue(row["pi_id"]),
+                                Text = ToolHelper.GetValue(row["pi_code"]),
                                 Tag = ControlType.Project,
-                                ForeColor = "1".Equals(GetValue(row["pi_submit_status"])) ? DisEnbleColor : Color.Black
+                                ForeColor = "1".Equals(ToolHelper.GetValue(row["pi_submit_status"])) ? DisEnbleColor : Color.Black
                             };
                             treeNode.Nodes.Add(treeNode2);
                             //根据【项目/课题】查询【课题/子课题】集
@@ -1980,10 +1980,10 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 TreeNode treeNode3 = new TreeNode()
                                 {
-                                    Name = GetValue(list2[j][0]),
-                                    Text = GetValue(list2[j][1]),
+                                    Name = ToolHelper.GetValue(list2[j][0]),
+                                    Text = ToolHelper.GetValue(list2[j][1]),
                                     Tag = ControlType.Topic,
-                                    ForeColor = "1".Equals(GetValue(list2[j][2])) ? DisEnbleColor : Color.Black
+                                    ForeColor = "1".Equals(ToolHelper.GetValue(list2[j][2])) ? DisEnbleColor : Color.Black
                                 };
                                 treeNode2.Nodes.Add(treeNode3);
 
@@ -1992,10 +1992,10 @@ namespace 科技计划项目档案数据采集管理系统
                                 {
                                     TreeNode treeNode4 = new TreeNode()
                                     {
-                                        Name = GetValue(list3[k][0]),
-                                        Text = GetValue(list3[k][1]),
+                                        Name = ToolHelper.GetValue(list3[k][0]),
+                                        Text = ToolHelper.GetValue(list3[k][1]),
                                         Tag = ControlType.Subject,
-                                        ForeColor = "1".Equals(GetValue(list3[k][2])) ? DisEnbleColor : Color.Black
+                                        ForeColor = "1".Equals(ToolHelper.GetValue(list3[k][2])) ? DisEnbleColor : Color.Black
                                     };
                                     treeNode3.Nodes.Add(treeNode4);
                                 }
@@ -2009,10 +2009,10 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 TreeNode treeNode3 = new TreeNode()
                                 {
-                                    Name = GetValue(_row["ti_id"]),
-                                    Text = GetValue(_row["ti_code"]),
+                                    Name = ToolHelper.GetValue(_row["ti_id"]),
+                                    Text = ToolHelper.GetValue(_row["ti_code"]),
                                     Tag = ControlType.Topic,
-                                    ForeColor = "1".Equals(GetValue(_row["ti_submit_status"])) ? DisEnbleColor : Color.Black
+                                    ForeColor = "1".Equals(ToolHelper.GetValue(_row["ti_submit_status"])) ? DisEnbleColor : Color.Black
                                 };
                                 treeNode.Nodes.Add(treeNode3);
 
@@ -2021,10 +2021,10 @@ namespace 科技计划项目档案数据采集管理系统
                                 {
                                     TreeNode treeNode4 = new TreeNode()
                                     {
-                                        Name = GetValue(list3[k][0]),
-                                        Text = GetValue(list3[k][1]),
+                                        Name = ToolHelper.GetValue(list3[k][0]),
+                                        Text = ToolHelper.GetValue(list3[k][1]),
                                         Tag = ControlType.Subject,
-                                        ForeColor = "1".Equals(GetValue(list3[k][2])) ? DisEnbleColor : Color.Black
+                                        ForeColor = "1".Equals(ToolHelper.GetValue(list3[k][2])) ? DisEnbleColor : Color.Black
                                     };
                                     treeNode3.Nodes.Add(treeNode4);
                                 }
@@ -2040,15 +2040,15 @@ namespace 科技计划项目档案数据采集管理系统
                             DataRow impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_name FROM imp_info WHERE imp_id='{speRow["imp_obj_id"]}'");
                             treeNode = new TreeNode()
                             {
-                                Name = GetValue(impRow["imp_id"]),
-                                Text = GetValue(impRow["imp_name"]),
+                                Name = ToolHelper.GetValue(impRow["imp_id"]),
+                                Text = ToolHelper.GetValue(impRow["imp_name"]),
                                 Tag = ControlType.Imp,
                                 ForeColor = DisEnbleColor
                             };
                             TreeNode speNode = new TreeNode()
                             {
-                                Name = GetValue(speRow["imp_id"]),
-                                Text = GetValue(speRow["imp_name"]),
+                                Name = ToolHelper.GetValue(speRow["imp_id"]),
+                                Text = ToolHelper.GetValue(speRow["imp_name"]),
                                 Tag = ControlType.Special,
                                 ForeColor = DisEnbleColor
                             };
@@ -2060,8 +2060,8 @@ namespace 科技计划项目档案数据采集管理系统
                             {
                                 TreeNode treeNode2 = new TreeNode()
                                 {
-                                    Name = GetValue(row["pi_id"]),
-                                    Text = GetValue(row["pi_code"]),
+                                    Name = ToolHelper.GetValue(row["pi_id"]),
+                                    Text = ToolHelper.GetValue(row["pi_code"]),
                                     Tag = ControlType.Project,
                                     ForeColor = GetForeColorByState(row["pi_submit_status"])
                                 };
@@ -2072,8 +2072,8 @@ namespace 科技计划项目档案数据采集管理系统
                                 {
                                     TreeNode treeNode3 = new TreeNode()
                                     {
-                                        Name = GetValue(list2[j][0]),
-                                        Text = GetValue(list2[j][1]),
+                                        Name = ToolHelper.GetValue(list2[j][0]),
+                                        Text = ToolHelper.GetValue(list2[j][1]),
                                         Tag = ControlType.Topic,
                                         ForeColor = GetForeColorByState(list2[j][2])
                                     };
@@ -2084,8 +2084,8 @@ namespace 科技计划项目档案数据采集管理系统
                                     {
                                         TreeNode treeNode4 = new TreeNode()
                                         {
-                                            Name = GetValue(list3[k][0]),
-                                            Text = GetValue(list3[k][1]),
+                                            Name = ToolHelper.GetValue(list3[k][0]),
+                                            Text = ToolHelper.GetValue(list3[k][1]),
                                             Tag = ControlType.Subject,
                                             ForeColor = GetForeColorByState(list3[k][2])
                                         };
@@ -2101,8 +2101,8 @@ namespace 科技计划项目档案数据采集管理系统
                                 {
                                     TreeNode treeNode3 = new TreeNode()
                                     {
-                                        Name = GetValue(_row["ti_id"]),
-                                        Text = GetValue(_row["ti_code"]),
+                                        Name = ToolHelper.GetValue(_row["ti_id"]),
+                                        Text = ToolHelper.GetValue(_row["ti_code"]),
                                         Tag = ControlType.Topic,
                                         ForeColor = GetForeColorByState(_row["ti_submit_status"])
                                     };
@@ -2113,8 +2113,8 @@ namespace 科技计划项目档案数据采集管理系统
                                     {
                                         TreeNode treeNode4 = new TreeNode()
                                         {
-                                            Name = GetValue(list3[k][0]),
-                                            Text = GetValue(list3[k][1]),
+                                            Name = ToolHelper.GetValue(list3[k][0]),
+                                            Text = ToolHelper.GetValue(list3[k][1]),
                                             Tag = ControlType.Subject,
                                             ForeColor = GetForeColorByState(list3[k][2])
                                         };
@@ -2134,8 +2134,8 @@ namespace 科技计划项目档案数据采集管理系统
                     _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_id, dd_name,'{UserHelper.GetUser().UserKey}' FROM data_dictionary WHERE dd_id='{planId}'");
                 treeNode = new TreeNode()
                 {
-                    Name = GetValue(_obj[0]),
-                    Text = GetValue(_obj[1]),
+                    Name = ToolHelper.GetValue(_obj[0]),
+                    Text = ToolHelper.GetValue(_obj[1]),
                     Tag = ControlType.Plan
                 };
                 //如果当前任务并非登录人加工，则无法编辑【文字置灰】
@@ -2147,8 +2147,8 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     TreeNode treeNode2 = new TreeNode()
                     {
-                        Name = GetValue(list[i][0]),
-                        Text = GetValue(list[i][1]),
+                        Name = ToolHelper.GetValue(list[i][0]),
+                        Text = ToolHelper.GetValue(list[i][1]),
                         Tag = (ControlType)list[i][2]
                     };
                     //如果当前任务并非登录人加工，则无法编辑【文字置灰】
@@ -2160,8 +2160,8 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         TreeNode treeNode3 = new TreeNode()
                         {
-                            Name = GetValue(list2[j][0]),
-                            Text = GetValue(list2[j][1]),
+                            Name = ToolHelper.GetValue(list2[j][0]),
+                            Text = ToolHelper.GetValue(list2[j][1]),
                             Tag = (ControlType)list2[j][2]
                         };
                         //如果当前任务并非登录人加工，则无法编辑【文字置灰】
@@ -2196,8 +2196,8 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     treeNode = new TreeNode()
                     {
-                        Name = GetValue(planRow["pi_id"]),
-                        Text = GetValue(planRow["pi_name"]),
+                        Name = ToolHelper.GetValue(planRow["pi_id"]),
+                        Text = ToolHelper.GetValue(planRow["pi_name"]),
                         Tag = ControlType.Plan,
                         ForeColor = GetForeColorByState(planRow["pi_submit_status"]),
                     };
@@ -2211,8 +2211,8 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     treeNode = new TreeNode()
                     {
-                        Name = GetValue(impRow["imp_id"]),
-                        Text = GetValue(impRow["imp_name"]),
+                        Name = ToolHelper.GetValue(impRow["imp_id"]),
+                        Text = ToolHelper.GetValue(impRow["imp_name"]),
                         Tag = ControlType.Imp,
                         ForeColor = GetForeColorByState(impRow["imp_submit_status"]),
                     };
@@ -2227,15 +2227,15 @@ namespace 科技计划项目档案数据采集管理系统
                     DataRow impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_name FROM imp_info WHERE imp_id='{speRow["imp_obj_id"]}'");
                     treeNode = new TreeNode()
                     {
-                        Name = GetValue(impRow["imp_id"]),
-                        Text = GetValue(impRow["imp_name"]),
+                        Name = ToolHelper.GetValue(impRow["imp_id"]),
+                        Text = ToolHelper.GetValue(impRow["imp_name"]),
                         Tag = ControlType.Imp,
                         ForeColor = DisEnbleColor
                     };
                     treeNode.Nodes.Add(new TreeNode()
                     {
-                        Name = GetValue(speRow["imp_id"]),
-                        Text = GetValue(speRow["imp_name"]),
+                        Name = ToolHelper.GetValue(speRow["imp_id"]),
+                        Text = ToolHelper.GetValue(speRow["imp_name"]),
                         Tag = ControlType.Special,
                         ForeColor = GetForeColorByState(speRow["imp_submit_status"]),
                     });
@@ -2248,8 +2248,8 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     treeNode = new TreeNode()
                     {
-                        Name = GetValue(impRow["imp_id"]),
-                        Text = GetValue(impRow["imp_name"]),
+                        Name = ToolHelper.GetValue(impRow["imp_id"]),
+                        Text = ToolHelper.GetValue(impRow["imp_name"]),
                         Tag = ControlType.Imp,
                         ForeColor = GetForeColorByState(impRow["imp_submit_status"]),
                     };
@@ -2264,15 +2264,15 @@ namespace 科技计划项目档案数据采集管理系统
                     DataRow impRow = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_name, imp_obj_id FROM imp_info WHERE imp_id='{speRow["imp_obj_id"]}'");
                     treeNode = new TreeNode()
                     {
-                        Name = GetValue(impRow["imp_id"]),
-                        Text = GetValue(impRow["imp_name"]),
+                        Name = ToolHelper.GetValue(impRow["imp_id"]),
+                        Text = ToolHelper.GetValue(impRow["imp_name"]),
                         Tag = ControlType.Imp,
                         ForeColor = DisEnbleColor
                     };
                     treeNode.Nodes.Add(new TreeNode()
                     {
-                        Name = GetValue(speRow["imp_id"]),
-                        Text = GetValue(speRow["imp_name"]),
+                        Name = ToolHelper.GetValue(speRow["imp_id"]),
+                        Text = ToolHelper.GetValue(speRow["imp_name"]),
                         Tag = ControlType.Special
                     });
                 }
@@ -2621,10 +2621,10 @@ namespace 科技计划项目档案数据采集管理系统
             DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT imp_id, imp_name, imp_intro, imp_submit_status FROM imp_info WHERE imp_id='{node.Name}'");
             if(row != null)
             {
-                tab_Imp_Info.Tag = GetValue(row["imp_id"]);
-                LoadFileList(dgv_Imp_FileList, "imp_fl_", GetValue(row["imp_id"]));
-                lbl_Imp_Name.Text = GetValue(row["imp_name"]);
-                txt_Imp_Intro.Text = GetValue(row["imp_intro"]);
+                tab_Imp_Info.Tag = ToolHelper.GetValue(row["imp_id"]);
+                LoadFileList(dgv_Imp_FileList, "imp_fl_", ToolHelper.GetValue(row["imp_id"]));
+                lbl_Imp_Name.Text = ToolHelper.GetValue(row["imp_name"]);
+                txt_Imp_Intro.Text = ToolHelper.GetValue(row["imp_intro"]);
                 EnableControls(ControlType.Imp, Convert.ToInt32(row["imp_submit_status"]) != 1);
             }
 
@@ -2671,7 +2671,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 获取最高密级
         /// </summary>
-        private string GetMaxSecretById(object objid) => GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT TOP(1) dd_name FROM processing_file_list LEFT JOIN data_dictionary ON pfl_scert = dd_id WHERE pfl_obj_id = '{objid}' ORDER BY dd_sort DESC"));
+        private string GetMaxSecretById(object objid) => ToolHelper.GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT TOP(1) dd_name FROM processing_file_list LEFT JOIN data_dictionary ON pfl_scert = dd_id WHERE pfl_obj_id = '{objid}' ORDER BY dd_sort DESC"));
   
         /// <summary>
         /// 加载文件缺失校验列表
@@ -2689,25 +2689,25 @@ namespace 科技计划项目档案数据采集管理系统
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for (int i = 0; i < table.Rows.Count; i++)
             {
-                string typeName = GetValue(table.Rows[i]["name"]).Trim();
+                string typeName = ToolHelper.GetValue(table.Rows[i]["name"]).Trim();
                 if(!"其他".Equals(typeName))
                 {
                     int indexRow = dataGridView.Rows.Add();
                     dataGridView.Rows[indexRow].Cells[key + "id"].Value = i + 1;
-                    dataGridView.Rows[indexRow].Cells[key + "categor"].Value = GetValue(table.Rows[i]["dd_name"]);
-                    dataGridView.Rows[indexRow].Cells[key + "name"].Value = GetValue(table.Rows[i]["dd_note"]);
+                    dataGridView.Rows[indexRow].Cells[key + "categor"].Value = ToolHelper.GetValue(table.Rows[i]["dd_name"]);
+                    dataGridView.Rows[indexRow].Cells[key + "name"].Value = ToolHelper.GetValue(table.Rows[i]["dd_note"]);
 
                     string queryReasonSql = $"SELECT pfo_id, pfo_reason, pfo_remark FROM processing_file_lost WHERE pfo_obj_id='{objid}' AND pfo_categor LIKE '{typeName}%'";
                     object[] _obj = SqlHelper.ExecuteRowsQuery(queryReasonSql);
                     if(_obj != null)
                     {
-                        dataGridView.Rows[indexRow].Cells[key + "id"].Tag = GetValue(_obj[0]);
-                        dataGridView.Rows[indexRow].Cells[key + "reason"].Value = GetValue(_obj[1]);
-                        dataGridView.Rows[indexRow].Cells[key + "remark"].Value = GetValue(_obj[2]);
+                        dataGridView.Rows[indexRow].Cells[key + "id"].Tag = ToolHelper.GetValue(_obj[0]);
+                        dataGridView.Rows[indexRow].Cells[key + "reason"].Value = ToolHelper.GetValue(_obj[1]);
+                        dataGridView.Rows[indexRow].Cells[key + "remark"].Value = ToolHelper.GetValue(_obj[2]);
                     }
                     if(!key.Contains("special") && !key.Contains("plan"))
                     {
-                        string musted = GetValue(table.Rows[i]["extend_2"]);
+                        string musted = ToolHelper.GetValue(table.Rows[i]["extend_2"]);
                         if(!string.IsNullOrEmpty(musted))
                         {
                             dataGridView.Rows[indexRow].Tag = musted;
@@ -2726,7 +2726,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         private void LoadFileBoxTable(object pbId, object objId, ControlType type)
         {
-            string GCID = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'"));
+            string GCID = ToolHelper.GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'"));
             if(type == ControlType.Plan)
             {
                 txt_Plan_Box_GCID.Text = GCID;
@@ -2796,16 +2796,16 @@ namespace 科技计划项目档案数据采集管理系统
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < dataTable.Rows.Count; i++)
             {
-                ListViewItem item = leftView.Items.Add(GetValue(dataTable.Rows[i]["pfl_id"]));
+                ListViewItem item = leftView.Items.Add(ToolHelper.GetValue(dataTable.Rows[i]["pfl_id"]));
                 item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
                 {
-                    new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["pfl_code"]) },
-                    new ListViewItem.ListViewSubItem(){ Text = GetValue(dataTable.Rows[i]["pfl_name"]) },
+                    new ListViewItem.ListViewSubItem(){ Text = ToolHelper.GetValue(dataTable.Rows[i]["pfl_code"]) },
+                    new ListViewItem.ListViewSubItem(){ Text = ToolHelper.GetValue(dataTable.Rows[i]["pfl_name"]) },
                     new ListViewItem.ListViewSubItem(){ Text = GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd") },
                 });
             }
             //已归档[已存在盒]
-            if(!string.IsNullOrEmpty(GetValue(pbId)))
+            if(!string.IsNullOrEmpty(ToolHelper.GetValue(pbId)))
             {
                 querySql = $"SELECT pfl_id, pfl_code, pfl_name, pfl_date FROM processing_file_list " +
                     $"WHERE pfl_box_id ='{pbId}' ORDER BY pfl_box_sort";
@@ -2813,12 +2813,12 @@ namespace 科技计划项目档案数据采集管理系统
                 int j = 0;
                 foreach(DataRow row in table.Rows)
                 {
-                    ListViewItem item = rightView.Items.Add(GetValue(row["pfl_id"]));
+                    ListViewItem item = rightView.Items.Add(ToolHelper.GetValue(row["pfl_id"]));
                     item.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
                     {
-                        new ListViewItem.ListViewSubItem(){ Text = GetValue(++j).PadLeft(2, '0') },
-                        new ListViewItem.ListViewSubItem(){ Text = GetValue(row["pfl_code"]) },
-                        new ListViewItem.ListViewSubItem(){ Text = GetValue(row["pfl_name"]) },
+                        new ListViewItem.ListViewSubItem(){ Text = ToolHelper.GetValue(++j).PadLeft(2, '0') },
+                        new ListViewItem.ListViewSubItem(){ Text = ToolHelper.GetValue(row["pfl_code"]) },
+                        new ListViewItem.ListViewSubItem(){ Text = ToolHelper.GetValue(row["pfl_name"]) },
                         new ListViewItem.ListViewSubItem(){ Text = GetDateValue(row["pfl_date"], "yyyy-MM-dd") },
                     });
                 }
@@ -2832,7 +2832,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="format">转换格式</param>
         private string GetDateValue(object date, string format)
         {
-            string _formatDate = null, value = GetValue(date);
+            string _formatDate = null, value = ToolHelper.GetValue(date);
             if(!string.IsNullOrEmpty(value))
             {
                 if(DateTime.TryParse(value, out DateTime result))
@@ -2844,13 +2844,6 @@ namespace 科技计划项目档案数据采集管理系统
             return _formatDate;
         }
     
-        /// <summary>
-        /// 将object对象转换成string
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        private string GetValue(object obj) => obj == null ? string.Empty : obj.ToString();
-
         /// <summary>
         /// 案卷归档事件
         /// </summary>
@@ -3250,9 +3243,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), null, GetValue(unitCode));
+                        string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), null, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Plan_Box_Remove".Equals(label.Name))//删除
@@ -3289,9 +3282,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = GetAJCode(objId, txt_Project_Code.Text, 1, txt_Project_Year.Text, txt_Special_Code.Text, GetValue(unitCode));
+                        string gch = GetAJCode(objId, txt_Project_Code.Text, 1, txt_Project_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Project_Box_Remove".Equals(label.Name))//删除
@@ -3328,9 +3321,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = GetAJCode(objId, txt_Subject_Code.Text, 1, txt_Subject_Year.Text, txt_Special_Code.Text, GetValue(unitCode));
+                        string gch = GetAJCode(objId, txt_Subject_Code.Text, 1, txt_Subject_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES ('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES ('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Subject_Box_Remove".Equals(label.Name))//删除
@@ -3364,9 +3357,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = GetAJCode(objId, txt_Topic_Code.Text, 1, txt_Topic_Year.Text, txt_Special_Code.Text, GetValue(unitCode));
+                        string gch = GetAJCode(objId, txt_Topic_Code.Text, 1, txt_Topic_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}','{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}','{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Topic_Box_Remove".Equals(label.Name))//删除
@@ -3400,9 +3393,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, GetValue(unitCode));
+                        string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Imp_Box_Remove".Equals(label.Name))//删除
@@ -3436,9 +3429,9 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         //当前已有盒号数量
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
-                        string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, GetValue(unitCode));
+                        string gch = GetAJCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_id, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}')";
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch}', '{objId}', '{unitCode}{Tag}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Special_Box_Remove".Equals(label.Name))//删除
@@ -3474,11 +3467,11 @@ namespace 科技计划项目档案数据采集管理系统
             DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM code_rule WHERE cr_type='{type}';");
             if(row != null)
             {
-                string fix = GetValue(row["cr_fixed"]);
-                string symbol = GetValue(row["cr_split_symbol"]);
+                string fix = ToolHelper.GetValue(row["cr_fixed"]);
+                string symbol = ToolHelper.GetValue(row["cr_split_symbol"]);
                 if(!string.IsNullOrEmpty(fix))
                     code += $"{fix + symbol}";
-                string template = GetValue(row["cr_template"]);
+                string template = ToolHelper.GetValue(row["cr_template"]);
                 string[] strs = GetGroupCode(template, symbol);
                 for(int i = 0; i < strs.Length; i++)
                 {
@@ -3509,7 +3502,7 @@ namespace 科技计划项目档案数据采集管理系统
                             //   amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pt_id) FROM files_tag_info WHERE pt_special_id='{sourceUnitId}'") + 1;
                         }
                         else if(type == 1)
-                            amount = GetGCId(length, GetValue(unitCode));
+                            amount = GetGCId(length, unitCode + Tag);
                         code += amount.ToString().PadLeft(length, '0');
                     }
                     code += symbol;
@@ -3651,12 +3644,6 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private object GetGCAmount(object unitCode)
-        {
-            int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_id) FROM processing_box WHERE pb_unit_id='{unitCode}'"));
-            return (amount + 1).ToString().PadLeft(6, '0');
-        }
-      
         /// <summary>
         /// 案卷盒切换事件
         /// </summary>
@@ -3769,28 +3756,28 @@ namespace 科技计划项目档案数据采集管理系统
                 if(row != null)
                 {
                     tab_Project_Info.Tag = row["pi_id"];
-                    txt_Project_Code.Text = GetValue(row["pi_code"]);
-                    txt_Project_Name.Text = GetValue(row["pi_name"]);
-                    txt_Project_Field.Text = GetValue(row["pi_field"]);
-                    txt_Project_Theme.Text = GetValue(row["pb_theme"]);
-                    txt_Project_Funds.Text = GetValue(row["pi_funds"]);
+                    txt_Project_Code.Text = ToolHelper.GetValue(row["pi_code"]);
+                    txt_Project_Name.Text = ToolHelper.GetValue(row["pi_name"]);
+                    txt_Project_Field.Text = ToolHelper.GetValue(row["pi_field"]);
+                    txt_Project_Theme.Text = ToolHelper.GetValue(row["pb_theme"]);
+                    txt_Project_Funds.Text = ToolHelper.GetValue(row["pi_funds"]);
 
-                    string startTime = GetValue(row["pi_start_datetime"]);
+                    string startTime = ToolHelper.GetValue(row["pi_start_datetime"]);
                     DateTime _startTime = new DateTime();
                     if(DateTime.TryParse(startTime, out _startTime))
                         dtp_Project_StartTime.Value = _startTime;
 
-                    string endTime = GetValue(row["pi_end_datetime"]);
+                    string endTime = ToolHelper.GetValue(row["pi_end_datetime"]);
                     DateTime _endTime = new DateTime();
                     if(DateTime.TryParse(endTime, out _endTime))
                         dtp_Project_EndTime.Value = _endTime;
 
-                    txt_Project_Year.Text = GetValue(row["pi_year"]);
-                    txt_Project_Unit.Text = GetValue(row["pi_unit"]);
-                    txt_Project_Province.Text = GetValue(row["pi_province"]);
-                    txt_Project_UnitUser.Text = GetValue(row["pi_uniter"]);
-                    txt_Project_ProUser.Text = GetValue(row["pi_prouser"]);
-                    txt_Project_Intro.Text = GetValue(row["pi_intro"]);
+                    txt_Project_Year.Text = ToolHelper.GetValue(row["pi_year"]);
+                    txt_Project_Unit.Text = ToolHelper.GetValue(row["pi_unit"]);
+                    txt_Project_Province.Text = ToolHelper.GetValue(row["pi_province"]);
+                    txt_Project_UnitUser.Text = ToolHelper.GetValue(row["pi_uniter"]);
+                    txt_Project_ProUser.Text = ToolHelper.GetValue(row["pi_prouser"]);
+                    txt_Project_Intro.Text = ToolHelper.GetValue(row["pi_intro"]);
                     EnableControls(type, Convert.ToInt32(row["pi_submit_status"]) != 1);
                     project.Tag = row["pi_obj_id"];
                 }
@@ -3806,27 +3793,27 @@ namespace 科技计划项目档案数据采集管理系统
                 if(row != null)
                 {
                     tab_Topic_Info.Tag = row["ti_id"];
-                    txt_Topic_Code.Text = GetValue(row["ti_code"]);
-                    txt_Topic_Name.Text = GetValue(row["ti_name"]);
-                    txt_Topic_Field.Text = GetValue(row["ti_field"]);
-                    txt_Topic_Theme.Text = GetValue(row["tb_theme"]);
-                    txt_Topic_Fund.Text = GetValue(row["ti_funds"]);
+                    txt_Topic_Code.Text = ToolHelper.GetValue(row["ti_code"]);
+                    txt_Topic_Name.Text = ToolHelper.GetValue(row["ti_name"]);
+                    txt_Topic_Field.Text = ToolHelper.GetValue(row["ti_field"]);
+                    txt_Topic_Theme.Text = ToolHelper.GetValue(row["tb_theme"]);
+                    txt_Topic_Fund.Text = ToolHelper.GetValue(row["ti_funds"]);
 
-                    string startTime = GetValue(row["ti_start_datetime"]);
+                    string startTime = ToolHelper.GetValue(row["ti_start_datetime"]);
                     DateTime _startTime = new DateTime();
                     if(DateTime.TryParse(startTime, out _startTime))
                         dtp_Topic_StartTime.Value = _startTime;
-                    string endTime = GetValue(row["ti_end_datetime"]);
+                    string endTime = ToolHelper.GetValue(row["ti_end_datetime"]);
                     DateTime _endTime = new DateTime();
                     if(DateTime.TryParse(endTime, out _endTime))
                         dtp_Topic_EndTime.Value = _endTime;
 
-                    txt_Topic_Year.Text = GetValue(row["ti_year"]);
-                    txt_Topic_Unit.Text = GetValue(row["ti_unit"]);
-                    txt_Topic_Province.Text = GetValue(row["ti_province"]);
-                    txt_Topic_UnitUser.Text = GetValue(row["ti_uniter"]);
-                    txt_Topic_ProUser.Text = GetValue(row["ti_prouser"]);
-                    txt_Topic_Intro.Text = GetValue(row["ti_intro"]);
+                    txt_Topic_Year.Text = ToolHelper.GetValue(row["ti_year"]);
+                    txt_Topic_Unit.Text = ToolHelper.GetValue(row["ti_unit"]);
+                    txt_Topic_Province.Text = ToolHelper.GetValue(row["ti_province"]);
+                    txt_Topic_UnitUser.Text = ToolHelper.GetValue(row["ti_uniter"]);
+                    txt_Topic_ProUser.Text = ToolHelper.GetValue(row["ti_prouser"]);
+                    txt_Topic_Intro.Text = ToolHelper.GetValue(row["ti_intro"]);
                     EnableControls(type, Convert.ToInt32(row["ti_submit_status"]) != 1);
                     topic.Tag = row["ti_obj_id"];
                 }
@@ -3844,28 +3831,28 @@ namespace 科技计划项目档案数据采集管理系统
                     DataRow row = table.Rows[0];
                     tab_Subject_Info.Tag = row["si_id"];
                     pal_Subject.Tag = row["si_obj_id"];
-                    txt_Subject_Code.Text = GetValue(row["si_code"]);
-                    txt_Subject_Name.Text = GetValue(row["si_name"]);
-                    txt_Subject_Field.Text = GetValue(row["si_field"]);
-                    txt_Subject_Theme.Text = GetValue(row["si_theme"]);
-                    txt_Subject_Fund.Text = GetValue(row["si_funds"]);
+                    txt_Subject_Code.Text = ToolHelper.GetValue(row["si_code"]);
+                    txt_Subject_Name.Text = ToolHelper.GetValue(row["si_name"]);
+                    txt_Subject_Field.Text = ToolHelper.GetValue(row["si_field"]);
+                    txt_Subject_Theme.Text = ToolHelper.GetValue(row["si_theme"]);
+                    txt_Subject_Fund.Text = ToolHelper.GetValue(row["si_funds"]);
 
-                    string startTime = GetValue(row["si_start_datetime"]);
+                    string startTime = ToolHelper.GetValue(row["si_start_datetime"]);
                     DateTime _startTime = new DateTime();
                     if(DateTime.TryParse(startTime, out _startTime))
                         dtp_Subject_StartTime.Value = _startTime;
 
-                    string endTime = GetValue(row["si_end_datetime"]);
+                    string endTime = ToolHelper.GetValue(row["si_end_datetime"]);
                     DateTime _endTime = new DateTime();
                     if(DateTime.TryParse(endTime, out _endTime))
                         dtp_Subject_EndTime.Value = _endTime;
 
-                    txt_Subject_Year.Text = GetValue(row["si_year"]);
-                    txt_Subject_Unit.Text = GetValue(row["si_unit"]);
-                    txt_Subject_Province.Text = GetValue(row["si_province"]);
-                    txt_Subject_Unituser.Text = GetValue(row["si_uniter"]);
-                    txt_Subject_ProUser.Text = GetValue(row["si_prouser"]);
-                    txt_Subject_Intro.Text = GetValue(row["si_intro"]);
+                    txt_Subject_Year.Text = ToolHelper.GetValue(row["si_year"]);
+                    txt_Subject_Unit.Text = ToolHelper.GetValue(row["si_unit"]);
+                    txt_Subject_Province.Text = ToolHelper.GetValue(row["si_province"]);
+                    txt_Subject_Unituser.Text = ToolHelper.GetValue(row["si_uniter"]);
+                    txt_Subject_ProUser.Text = ToolHelper.GetValue(row["si_prouser"]);
+                    txt_Subject_Intro.Text = ToolHelper.GetValue(row["si_intro"]);
                     EnableControls(type, Convert.ToInt32(row["si_submit_status"]) != 1);
                     subject.Tag = row["si_obj_id"];
 
@@ -3880,10 +3867,10 @@ namespace 科技计划项目档案数据采集管理系统
                 DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM imp_dev_info WHERE imp_id='{node.Name}'");
                 if(row != null)
                 {
-                    txt_Special_Code.Text = GetValue(row["imp_code"]);
-                    txt_Special_Name.Text = GetValue(row["imp_name"]);
-                    txt_Special_Unit.Text = GetValue(row["imp_unit"]);
-                    tab_Special_Info.Tag = GetValue(row["imp_id"]);
+                    txt_Special_Code.Text = ToolHelper.GetValue(row["imp_code"]);
+                    txt_Special_Name.Text = ToolHelper.GetValue(row["imp_name"]);
+                    txt_Special_Unit.Text = ToolHelper.GetValue(row["imp_unit"]);
+                    tab_Special_Info.Tag = ToolHelper.GetValue(row["imp_id"]);
                     EnableControls(ControlType.Special, Convert.ToInt32(row["imp_submit_status"]) != 1);
                     special.Tag = row["imp_obj_id"];
                 }
@@ -4098,9 +4085,9 @@ namespace 科技计划项目档案数据采集管理系统
                 object[] _obj = SqlHelper.ExecuteRowsQuery($"SELECT dd_code, dd_name, dd_note FROM data_dictionary WHERE dd_id='{value}'");
                 if(_obj.Length > 0)
                 {
-                    txt_Special_Code.Text = GetValue(_obj[0]);
-                    txt_Special_Name.Text = GetValue(_obj[1]);
-                    txt_Special_Intro.Text = GetValue(_obj[2]);
+                    txt_Special_Code.Text = ToolHelper.GetValue(_obj[0]);
+                    txt_Special_Name.Text = ToolHelper.GetValue(_obj[1]);
+                    txt_Special_Intro.Text = ToolHelper.GetValue(_obj[2]);
                 }
                 pal_Special.Tag = id;
 
@@ -4124,7 +4111,7 @@ namespace 科技计划项目档案数据采集管理系统
                 DataGridView dataGridView = sender as DataGridView;
                 if(dataGridView.Columns[e.ColumnIndex].Name.Contains("link"))
                 {
-                    string path = GetValue(dataGridView.CurrentCell.Value);
+                    string path = ToolHelper.GetValue(dataGridView.CurrentCell.Value);
                     if(!string.IsNullOrEmpty(path))
                     {
                         if(path.Contains("；"))
@@ -4862,7 +4849,7 @@ namespace 科技计划项目档案数据采集管理系统
                 objName = txt_Imp_AJ_Name.Text;
                 gcCode = txt_Imp_Box_GCID.Text;
                 proName = lbl_Imp_Name.Text;
-                proCode = GetValue(docNumber);
+                proCode = ToolHelper.GetValue(docNumber);
                 boxTable = (DataTable)cbo_Imp_Box.DataSource;
                 boxNumber = cbo_Imp_Box.SelectedIndex + 1;
             }
@@ -4874,12 +4861,12 @@ namespace 科技计划项目档案数据采集管理系统
                 objName = txt_Plan_AJ_Name.Text;
                 gcCode = txt_Plan_Box_GCID.Text;
                 proName = lbl_Plan_Name.Text;
-                proCode = GetValue(docNumber);
+                proCode = ToolHelper.GetValue(docNumber);
                 boxTable = (DataTable)cbo_Plan_Box.DataSource;
                 boxNumber = cbo_Plan_Box.SelectedIndex + 1;
             }
             object _fileAmount = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'");
-            string[] _files = GetValue(_fileAmount).Split(',');
+            string[] _files = ToolHelper.GetValue(_fileAmount).Split(',');
             int fileAmount = 0;
             int filePages = 0;
             for(int i = 0; i < _files.Length; i++)
@@ -4888,7 +4875,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     fileAmount++;
                     object _page = SqlHelper.ExecuteOnlyOneQuery($"SELECT pfl_pages FROM processing_file_list WHERE pfl_id='{_files[i]}'");
-                    if(!string.IsNullOrEmpty(GetValue(_page)))
+                    if(!string.IsNullOrEmpty(ToolHelper.GetValue(_page)))
                         filePages += Convert.ToInt32(_page);
                 }
             }
@@ -4917,9 +4904,9 @@ namespace 科技计划项目档案数据采集管理系统
         private string GetBzDate(object boxId)
         {
             object fileIds = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_files_id FROM processing_box WHERE pb_id='{boxId}'");
-            if(!string.IsNullOrEmpty(GetValue(fileIds)))
+            if(!string.IsNullOrEmpty(ToolHelper.GetValue(fileIds)))
             {
-                string[] ids = GetValue(fileIds).Split(',');
+                string[] ids = ToolHelper.GetValue(fileIds).Split(',');
                 string idsString = string.Empty;
                 foreach(string id in ids)
                     if(!string.IsNullOrEmpty(id))
@@ -4956,7 +4943,7 @@ namespace 科技计划项目档案数据采集管理系统
             object result = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_{key} FROM project_info WHERE pi_id='{objId}'") ??
                 SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_{key} FROM topic_info WHERE ti_id='{objId}'") ??
                 SqlHelper.ExecuteOnlyOneQuery($"SELECT si_{key} FROM subject_info WHERE si_id='{objId}'");
-            return GetValue(result);
+            return ToolHelper.GetValue(result);
         }
 
         private void Btn_OtherDoc_Click(object sender, EventArgs e)

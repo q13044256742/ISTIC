@@ -5,7 +5,6 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -461,27 +460,41 @@ namespace 科技计划项目档案数据采集管理系统
             else
                 value = $"AND A.pi_orga_id = '{value}'";
 
-            string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount FROM( " +
-                "SELECT F_Title, F_ID, pCount " +
-                "FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount " +
-                "FROM T_Plan AS p LEFT OUTER JOIN " +
-                "(SELECT   pi_id, pi_source_id, pi_orga_id FROM project_info " +
-               $"WHERE(pi_categor = 2) UNION ALL SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info) AS A ON A.pi_source_id = p.F_ID {value} " +
-                "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN( SELECT   F_ID, bCount FROM(SELECT   p.F_ID, COUNT(pb.pb_id) AS bCount " +
-                "FROM T_Plan AS p LEFT OUTER JOIN (SELECT   pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE(pi_categor = 2) UNION ALL " +
-               $"SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID {value} " +
+            SetTableByOrga(value, null, null);
+        }
+
+        /// <summary>
+        /// 加载计划类别表
+        /// </summary>
+        /// <param name="value">来源单位编码</param>
+        /// <param name="minYear">最小年份</param>
+        /// <param name="maxYear">最大年份</param>
+        private void SetTableByOrga(string value, string minYear, string maxYear)
+        {
+            string minYearCondition = string.Empty;
+            string maxYearCondition = string.Empty;
+            if(!string.IsNullOrEmpty(minYear))
+                minYearCondition = $"AND ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) >= {minYear}";
+            if(!string.IsNullOrEmpty(maxYear))
+                maxYearCondition = $"AND ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) <= {maxYear}";
+            string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount FROM( SELECT F_Title, F_ID, pCount " +
+                "FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_Plan AS p LEFT OUTER JOIN (" +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = - 3) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+                "GROUP BY F_Title, p.F_ID) AS B WHERE pCount > 0) p LEFT JOIN( SELECT   F_ID, bCount FROM(SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_Plan AS p LEFT OUTER JOIN (" +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) b ON p.F_ID = b.F_ID LEFT JOIN( " +
-                "SELECT F_ID, fCount FROM      (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM      T_Plan AS p LEFT OUTER JOIN " +
-                "(SELECT pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE   (pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, ti_orga_id " +
-               $"FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID {value} " +
-                "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id " +
-                "GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID ";
+                "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM T_Plan AS p LEFT OUTER JOIN (" +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+                "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID ";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             DataGridViewStyleHelper.ResetDataGridView(view, true);
             DataTable tableEntity = new DataTable();
             tableEntity.Columns.AddRange(new DataColumn[]
             {
-                    new DataColumn(),
+                    new DataColumn("计划类别编号"),
                     new DataColumn("计划类别名称"),
                     new DataColumn("项目/课题数"),
                     new DataColumn("盒数"),
@@ -517,20 +530,30 @@ namespace 科技计划项目档案数据采集管理系统
                 value = string.Empty;
             else
                 value = $"AND A.pi_source_id = '{value}'";
+            SetTableBySource(value, null, null);
+        }
 
+        private void SetTableBySource(string value, string minYear, string maxYear)
+        {
+            string minYearCondition = string.Empty;
+            string maxYearCondition = string.Empty;
+            if(!string.IsNullOrEmpty(minYear))
+                minYearCondition = $"AND ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) >= {minYear}";
+            if(!string.IsNullOrEmpty(maxYear))
+                maxYearCondition = $"AND ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) <= {maxYear}";
             string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount FROM( " +
-                "SELECT F_Title, F_ID, pCount FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount " +
-                "FROM T_SourceOrg AS p LEFT OUTER JOIN (SELECT   pi_id, pi_source_id, pi_orga_id FROM project_info " +
-               $"WHERE(pi_categor = 2) UNION ALL SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info) AS A ON A.pi_orga_id = p.F_ID {value} " +
-                "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN(SELECT   F_ID, bCount FROM(SELECT   p.F_ID, COUNT(pb.pb_id) AS bCount " +
-                "FROM T_SourceOrg AS p LEFT OUTER JOIN(SELECT   pi_id, pi_source_id, pi_orga_id FROM      project_info WHERE(pi_categor = 2) UNION ALL " +
-               $"SELECT   ti_id, ti_source_id, ti_orga_id FROM      topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID {value} " +
+                "SELECT F_Title, F_ID, pCount FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+                "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN(SELECT   F_ID, bCount FROM(" +
+                "SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_SourceOrg AS p LEFT OUTER JOIN(" +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B) b ON p.F_ID = b.F_ID LEFT JOIN( " +
-                "SELECT F_ID, fCount FROM      (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM      T_SourceOrg AS p LEFT OUTER JOIN " +
-                "(SELECT pi_id, pi_source_id, pi_orga_id FROM project_info WHERE   (pi_categor = 2) UNION ALL SELECT ti_id, ti_source_id, ti_orga_id " +
-               $"FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID {value} " +
-                "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id " +
-                "GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID; ";
+                "SELECT F_ID, fCount FROM      (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM      T_SourceOrg AS p LEFT OUTER JOIN (" +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE   (pi_categor = 2) UNION ALL " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+                "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID; ";
 
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             int totalPcount = 0, totalFcount = 0, totalBcount = 0;
@@ -538,7 +561,7 @@ namespace 科技计划项目档案数据采集管理系统
             DataTable tableEntity = new DataTable();
             tableEntity.Columns.AddRange(new DataColumn[]
             {
-                    new DataColumn(),
+                    new DataColumn("来源单位编号"),
                     new DataColumn("来源单位名称"),
                     new DataColumn("项目/课题数"),
                     new DataColumn("盒数"),
@@ -580,8 +603,11 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void tabPane1_SelectedPageIndexChanged(object sender, EventArgs e)
         {
-            tabPane2.SelectedPageIndex = 0;
-            tabControl1_SelectedIndexChanged(null, null);
+            if(tabPane1.SelectedPageIndex == 1)
+            {
+                tabPane2.SelectedPageIndex = 0;
+                tabControl1_SelectedIndexChanged(null, null);
+            }
         }
 
         private void tabPane2_SelectedPageIndexChanged(object sender, EventArgs e)
@@ -634,14 +660,18 @@ namespace 科技计划项目档案数据采集管理系统
 
                     //年度统计
                     string orgName = ac_LeftMenu.SelectedElement.Name;
-                    string querySQL_Year = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
-                        "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) AS myear, pi_orga_id FROM " +
-                        "(SELECT pi_year, pi_start_datetime, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
-                        "UNION ALL SELECT ti_year, ti_start_datetime, ti_orga_id FROM topic_info WHERE ti_categor = -3 )a)b " +
-                        "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME()) ";
-                    if(!"ace_all".Equals(orgName))
-                        querySQL_Year += $"AND pi_orga_id='{orgName}' ";
-                    object[] years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                    object[] years = btn_Year.Text.Split('-');
+                    if(years.Length != 2)
+                    {
+                        string querySQL_Year = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
+                            "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) AS myear, pi_orga_id FROM " +
+                            "(SELECT pi_year, pi_start_datetime, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
+                            "UNION ALL SELECT ti_year, ti_start_datetime, ti_orga_id FROM topic_info WHERE ti_categor = -3 )a)b " +
+                            "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME()) ";
+                        if(!"ace_all".Equals(orgName))
+                            querySQL_Year += $"AND pi_orga_id='{orgName}' ";
+                        years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                    }
                     if(!string.IsNullOrEmpty(ToolHelper.GetValue(years[0])) &&
                         !string.IsNullOrEmpty(ToolHelper.GetValue(years[1])))
                     {
@@ -655,9 +685,9 @@ namespace 科技计划项目档案数据采集管理系统
                             string sorName = "ace_all".Equals(orgName) ? string.Empty : $"AND pi_orga_id='{orgName}'";
                             Series series = new Series($"{view.Rows[j].Cells[1].Value}")
                             {
-                                //IsValueShownAsLabel = true,
+                                BorderWidth = 2,
                                 IsXValueIndexed = true,
-                                ChartType = SeriesChartType.Line
+                                ChartType = SeriesChartType.Spline
                             };
                             string querySQL = "SELECT nian, COUNT(pi_id) num FROM( " +
                                 "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) as nian, pi_source_id, pi_orga_id, pi_id FROM(" +
@@ -716,14 +746,18 @@ namespace 科技计划项目档案数据采集管理系统
 
                     //年度统计
                     string orgName = bc_LeftMenu.SelectedElement.Name;
-                    string querySQL_Year = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
+                    object[] years = btn_Year.Text.Split('-');
+                    if(years.Length != 2)
+                    {
+                        string querySQL_Year = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
                         "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) AS myear, pi_source_id FROM " +
                         "(SELECT pi_year, pi_start_datetime, pi_source_id FROM project_info WHERE pi_categor = 2 " +
                         "UNION ALL SELECT ti_year, ti_start_datetime, ti_source_id FROM topic_info WHERE ti_categor = -3 )a)b " +
                         "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME()) ";
-                    if(!"all_ptype".Equals(orgName))
-                        querySQL_Year += $"AND pi_source_id='{orgName}' ";
-                    object[] years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                        if(!"all_ptype".Equals(orgName))
+                            querySQL_Year += $"AND pi_source_id='{orgName}' ";
+                        years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                    }
                     if(!string.IsNullOrEmpty(ToolHelper.GetValue(years[0])) &&
                         !string.IsNullOrEmpty(ToolHelper.GetValue(years[1])))
                     {
@@ -736,8 +770,9 @@ namespace 科技计划项目档案数据采集管理系统
                             string sorName = "all_ptype".Equals(orgName) ? string.Empty : $"AND pi_source_id='{orgName}'";
                             Series series = new Series($"{view.Rows[j].Cells[1].Value}")
                             {
-                                //IsValueShownAsLabel = true,
-                                ChartType = SeriesChartType.Line
+                                BorderWidth = 2,
+                                IsXValueIndexed = true,
+                                ChartType = SeriesChartType.Spline
                             };
                             string querySQL = "SELECT nian, COUNT(pi_id) FROM( " +
                                 "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) as nian, pi_source_id, pi_orga_id, pi_id FROM(" +
@@ -798,5 +833,72 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
+        private void Btn_Export_Click(object sender, EventArgs e)
+        {
+            object dataSource = view.DataSource;
+            if(dataSource != null)
+            {
+                saveFileDialog.Filter = "Execl 表单(*.CSV)|*.CSV";
+                saveFileDialog.Title = "选择导出文件夹...";
+                if(saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    DataTable table = (DataTable)dataSource;
+                    if(table.Rows.Count > 1)
+                    {
+                        bool flag = MicrosoftWordHelper.ExportToExcel(table, saveFileDialog.FileName);
+                        if(flag)
+                        {
+                            DialogResult dialogResult = DevExpress.XtraEditors.XtraMessageBox.Show("导出成功，是否立即打开文件?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
+                            if(dialogResult == DialogResult.Yes)
+                            {
+                                WinFormOpenHelper.OpenWinForm(0, "open", saveFileDialog.FileName, null, null, ShowWindowCommands.SW_NORMAL);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Btn_Year_Properties_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        {
+            if(e.Button.Kind == DevExpress.XtraEditors.Controls.ButtonPredefines.Clear)
+                btn_Year.ResetText();
+            else if(e.Button.Kind == DevExpress.XtraEditors.Controls.ButtonPredefines.Search)
+            {
+                string[] years = btn_Year.Text.Split('-');
+                if(years.Length == 2)
+                {
+                    btn_Year.ErrorText = null;
+                    string minYear = years[0].Trim(), maxYear = years[1].Trim();
+                    int tpye1 = tabControl1.SelectedIndex;
+                    if(tpye1 == 0)
+                    {
+                        string value = ac_LeftMenu.SelectedElement.Name;
+                        if("ace_all".Equals(value))
+                            value = string.Empty;
+                        else
+                            value = $"AND A.pi_orga_id = '{value}'";
+
+                        SetTableByOrga(value, minYear, maxYear);
+                    }
+                    else if(tpye1 == 1)
+                    {
+                        string value = bc_LeftMenu.SelectedElement.Name;
+                        if("all_ptype".Equals(value))
+                            value = string.Empty;
+                        else
+                            value = $"AND A.pi_source_id = '{value}'";
+
+                        SetTableBySource(value, minYear, maxYear);
+                    }
+                    tabPane2.SelectedPageIndex = 0;
+                }
+                else
+                {
+                    btn_Year.ErrorText = "请输入立项年度范围。";
+                    btn_Year.Focus();
+                }
+            }
+        }
     }
 }

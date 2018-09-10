@@ -18,10 +18,22 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_Download_Load(object sender, EventArgs e)
         {
-            gridControl.DataSource = null;
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT at_id, at_name, at_size, at_date, at_uploader, at_loadticker FROM Attachment");
-            gridControl.DataSource = table;
+            LoadFileListByType(-1);
 
+        }
+
+        private void LoadFileListByType(int type)
+        {
+            gridControl.DataSource = null;
+
+            string querySQL = $"SELECT at_id, at_name, at_size, at_date, at_uploader, at_loadticker FROM Attachment WHERE 1=1 ";
+            if(type != -1)
+            {
+                querySQL += $"AND at_type = {type} ";
+            }
+
+            DataTable table = SqlHelper.ExecuteQuery(querySQL);
+            gridControl.DataSource = table;
         }
 
         private void Btn_Upload_Click(object sender, EventArgs e)
@@ -37,6 +49,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string filePath = uploadFile.txt_filePath.Text;
                 string fileCode = uploadFile.txt_fileCode.Text;
                 string fileVersion = uploadFile.txt_fileVersion.Text;
+                int fileType = uploadFile.cbo_fileType.SelectedIndex;
 
                 progressBar.Visible = true;
                 progressBar.Properties.Stopped = false;
@@ -47,8 +60,8 @@ namespace 科技计划项目档案数据采集管理系统
                     SqlConnection con = SqlHelper.GetConnect();
                     FileInfo info = new FileInfo(filePath);
                     string primaryKey = Guid.NewGuid().ToString();
-                    insertSQL += "INSERT INTO Attachment(at_id, at_name, at_size, at_date, at_uploader, at_entity, at_version, at_code) " +
-                        $"VALUES ('{primaryKey}' ,'{info.Name}' ,'{(float)(info.Length / 1024f)}' ,'{DateTime.Now}' ,'{UserHelper.GetUser().UserKey}', @fileByte, '{fileVersion}', '{fileCode}');";
+                    insertSQL += "INSERT INTO Attachment(at_id, at_name, at_size, at_date, at_uploader, at_entity, at_version, at_type, at_code) " +
+                        $"VALUES ('{primaryKey}' ,'{info.Name}' ,'{(float)(info.Length / 1024f)}' ,'{DateTime.Now}' ,'{UserHelper.GetUser().UserKey}', @fileByte, '{fileVersion}', {fileType}, '{fileCode}');";
                     byte[] fileByte = GetByteFromFile(info);
                     SqlCommand com = new SqlCommand(insertSQL, con);
                     com.Parameters.Add("@fileByte", SqlDbType.Image, fileByte.Length);
@@ -127,6 +140,29 @@ namespace 科技计划项目档案数据采集管理系统
                     XtraMessageBox.Show("删除成功！");
                     Frm_Download_Load(null, null);
                 }
+            }
+        }
+
+        private void treeList_FocusedNodeChanged(object sender, DevExpress.XtraTreeList.FocusedNodeChangedEventArgs e)
+        {
+            int id = e.Node.Id;
+            LoadFileListByType(id);
+
+
+        }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            string key = txt_search.Text;
+            if(!string.IsNullOrEmpty(key))
+            {
+                gridControl.DataSource = null;
+
+                string querySQL = $"SELECT at_id, at_name, at_size, at_date, at_uploader, at_loadticker FROM Attachment WHERE 1=1 " +
+                    $"WHERE at_name LIKE '%{key}%' OR at_code LIKE '%{key}%' ";
+
+                DataTable table = SqlHelper.ExecuteQuery(querySQL);
+                gridControl.DataSource = table;
             }
         }
     }
