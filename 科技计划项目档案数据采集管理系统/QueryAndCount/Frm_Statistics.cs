@@ -198,14 +198,15 @@ namespace 科技计划项目档案数据采集管理系统
                     $"UNION ALL SELECT ti_id, ti_worker_date, ti_worker_id FROM topic_info WHERE ti_categor = -3) AS TB1 WHERE 1=1 {queryCondition} {userConditon}" +
                     "GROUP BY pi_worker_date";
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
+                object userCode = "all".Equals(userId) ? null : userId;
                 for(int i = 0; i < list.Count; i++)
                 {
                     object date = GetDateValue(list[i][0], "yyyy-MM-dd");
                     object pcount = list[i][1];
-                    object tcount = GetTopicAmount(date, userId, 1);
-                    object fcount = GetFileAmount(date, userId, 1);
-                    object bcount = GetBackAmount(date, userId, 1);
-                    object pgcount = GetPageAmount(date, userId, 1);
+                    object tcount = GetTopicAmount(date, userCode, 1);
+                    object fcount = GetFileAmount(date, userCode, 1);
+                    object bcount = GetBackAmount(date, userCode, 1);
+                    object pgcount = GetPageAmount(date, userCode, 1);
                     table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
                 }
 
@@ -277,14 +278,15 @@ namespace 科技计划项目档案数据采集管理系统
                     $"SELECT ti_id, ti_checker_id, ti_checker_date FROM topic_info WHERE ti_categor = -3) AS TB1 WHERE 1=1 {queryCondition} {userConditon} " +
                     $"GROUP BY pi_checker_date";
                 List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
+                object userCode = "all".Equals(userId) ? null : userId;
                 for(int i = 0; i < list.Count; i++)
                 {
                     object date = GetDateValue(list[i][0], "yyyy-MM-dd");
                     object pcount = list[i][1];
-                    object tcount = GetTopicAmount(date, userId, 2);
-                    object fcount = GetFileAmount(date, userId, 2);
-                    object bcount = GetBackAmount(date, userId, 2);
-                    object pgcount = GetPageAmount(date, userId, 2);
+                    object tcount = GetTopicAmount(date, userCode, 2);
+                    object fcount = GetFileAmount(date, userCode, 2);
+                    object bcount = GetBackAmount(date, userCode, 2);
+                    object pgcount = GetPageAmount(date, userCode, 2);
                     table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
                 }
 
@@ -294,12 +296,8 @@ namespace 科技计划项目档案数据采集管理系统
 
         private int GetFilePageByFid(string querySql)
         {
-            int count = 0;
-            string querySQL = $"SELECT pfl_pages FROM processing_file_list WHERE pfl_id IN ({querySql})";
-            object[] tics = SqlHelper.ExecuteSingleColumnQuery(querySQL);
-            foreach(object item in tics)
-                count += (int)item;
-            return count;
+            string querySQL = $"SELECT SUM(pfl_pages) FROM processing_file_list WHERE pfl_id IN ({querySql})";
+            return SqlHelper.ExecuteCountQuery(querySQL);
         }
 
         /// <summary>
@@ -308,12 +306,9 @@ namespace 科技计划项目档案数据采集管理系统
         private int GetPageAmount(object date, object userId, int type)
         {
             string key = type == 1 ? "worker" : "checker";
-            int count = 0;
-            string querySQL = $"SELECT pfl_pages FROM processing_file_list WHERE pfl_{key}_id='{userId}' AND pfl_{key}_date='{date}'";
-            object[] tics = SqlHelper.ExecuteSingleColumnQuery(querySQL);
-            foreach(object item in tics)
-                count += (int)item;
-            return count;
+            string userCondition = userId == null ? string.Empty : $"AND pfl_{ key}_id='{userId}'";
+            string querySQL = $"SELECT SUM(pfl_pages) FROM processing_file_list WHERE pfl_{key}_date='{date}' {userCondition} ";
+            return SqlHelper.ExecuteCountQuery(querySQL);
         }
 
         /// <summary>
@@ -323,16 +318,14 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(type == 1)
             {
-                int count = 0;
-                string querySQL = $"SELECT wm_ticker FROM work_myreg WHERE wm_user='{userId}' AND CONVERT(DATE, wm_accepter_date)='{date}'";
-                object[] tics = SqlHelper.ExecuteSingleColumnQuery(querySQL);
-                foreach(object item in tics)
-                    count += (int)item;
-                return count;
+                string userCondition = userId == null ? string.Empty : $"AND wm_user='{userId}'";
+                string querySQL = $"SELECT SUM(wm_ticker) FROM work_myreg WHERE CONVERT(DATE, wm_accepter_date)='{date}' {userCondition} ";
+                return SqlHelper.ExecuteCountQuery(querySQL);
             }
             else if(type == 2)
             {
-                string querySQL = $"SELECT COUNT(rl_id) FROM remake_log WHERE rl_user_id='{userId}' AND rl_date='{date}'";
+                string userCondition = userId == null ? string.Empty : $"AND rl_user_id='{userId}'";
+                string querySQL = $"SELECT COUNT(rl_id) FROM remake_log WHERE rl_date='{date}' {userCondition} ";
                 return SqlHelper.ExecuteCountQuery(querySQL);
             }
             return -1;
@@ -344,7 +337,8 @@ namespace 科技计划项目档案数据采集管理系统
         private int GetFileAmount(object date, object userId, int type)
         {
             string key = type == 1 ? "worker" : "checker";
-            string querySQL = $"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_{key}_id='{userId}' AND pfl_{key}_date='{date}'";
+            string userCondition = userId == null ? string.Empty : $"AND pfl_{ key}_id='{userId}'";
+            string querySQL = $"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_{key}_date='{date}' {userCondition} ";
             return SqlHelper.ExecuteCountQuery(querySQL);
         }
 
@@ -353,24 +347,23 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private int GetTopicAmount(object date, object userId, int type)
         {
-            bool flag = "all".Equals(cbo_UserList.SelectedValue);
-            string userConditon = !flag ? $" AND pi_worker_id='{userId}'" : string.Empty;
+            bool flag = userId == null;
             if(type == 1)
             {
+                string userConditon = !flag ? $"AND ti_worker_id='{userId}'" : string.Empty;
                 string querySQL = "SELECT COUNT(ti_id) FROM(" +
-                    $"SELECT ti_id, ti_worker_date FROM topic_info WHERE ti_categor = 3 AND ti_worker_id='{userId}' " +
-                    "UNION ALL " +
-                    $"SELECT si_id, si_worker_date FROM subject_info WHERE si_worker_id='{userId}') " +
-                    $"AS TB1 WHERE ti_worker_date = '{date}'";
+                     "SELECT ti_id, ti_worker_date, ti_worker_id FROM topic_info WHERE ti_categor = 3 UNION ALL " +
+                     "SELECT si_id, si_worker_date, si_worker_id FROM subject_info) " +
+                    $"AS TB1 WHERE ti_worker_date = '{date}' {userConditon} ";
                 return SqlHelper.ExecuteCountQuery(querySQL);
             }
             else if(type == 2)
             {
+                string userConditon = !flag ? $"AND ti_checker_id='{userId}'" : string.Empty;
                 string querySQL = "SELECT COUNT(ti_id) FROM(" +
-                    $"SELECT ti_id, ti_checker_date FROM topic_info WHERE ti_categor = 3 AND ti_checker_id='{userId}' " +
-                    "UNION ALL " +
-                    $"SELECT si_id, si_checker_date FROM subject_info WHERE si_checker_id='{userId}') " +
-                    $"AS TB1 WHERE ti_checker_date = '{date}'";
+                     "SELECT ti_id, ti_checker_date, ti_checker_id FROM topic_info WHERE ti_categor = 3 UNION ALL " +
+                     "SELECT si_id, si_checker_date, si_checker_id FROM subject_info) " +
+                    $"AS TB1 WHERE ti_checker_date = '{date}' {userConditon} ";
                 return SqlHelper.ExecuteCountQuery(querySQL);
             }
             return -1;
