@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Cataloguing;
+using 科技计划项目档案数据采集管理系统.DocumentAccept;
 using 科技计划项目档案数据采集管理系统.FirstPage;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -50,9 +51,9 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         private static Frm_FirstPage firstPage;
-        public static Frm_FirstPage GetFirstPage(Form form)
+        public static Frm_FirstPage GetFirstPage(Form form, bool isNew)
         {
-            if(firstPage == null || firstPage.IsDisposed)
+            if(isNew || firstPage == null || firstPage.IsDisposed)
                 firstPage = new Frm_FirstPage(form);
             return firstPage;
         }
@@ -119,6 +120,14 @@ namespace 科技计划项目档案数据采集管理系统
             if(details == null || details.IsDisposed)
                 details = new Frm_ProDetails(id);
             return details;
+        }
+
+        private static Frm_Print print;
+        internal static Frm_Print GetPrintDoc(Frm_DomAccept form, int type, object trpId)
+        {
+            if(print == null || print.IsDisposed)
+                print = new Frm_Print(form, type, trpId);
+            return print;
         }
     }
 }

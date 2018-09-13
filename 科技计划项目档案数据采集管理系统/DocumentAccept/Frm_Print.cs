@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text.RegularExpressions;
@@ -7,7 +8,7 @@ using 科技计划项目档案数据采集管理系统.Properties;
 
 namespace 科技计划项目档案数据采集管理系统.DocumentAccept
 {
-    public partial class Frm_Print : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_Print : XtraForm
     {
         /// <summary>
         /// 打印类型
@@ -67,34 +68,157 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 //缺失文件清单
                 if(chk2.Checked)
                 {
-
+                    CreateLostFileList();
                 }
                 //文件列表清单
                 if(chk3.Checked)
                 {
-
+                    CreateFileList();
                 }
             }
         }
 
         /// <summary>
-        /// 文件列表清单
+        /// 导出缺失文件清单
+        /// </summary>
+        private void CreateLostFileList()
+        {
+            string querySQL = "SELECT A.pi_code '项目/课题编号', A.pi_name '项目/课题名称',B.dd_name '缺失文件类别', B.dd_note '缺失文件名称' " +
+                "FROM transfer_registration_pc trp " +
+                "LEFT JOIN imp_info ii ON ii.imp_obj_id=trp.trp_id " +
+                "LEFT JOIN imp_dev_info idi ON idi.imp_obj_id=ii.imp_id " +
+                "LEFT JOIN " +
+                "(SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                " SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=-3 " +
+                ")A ON A.pi_obj_id=idi.imp_id " +
+                "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
+                "LEFT JOIN (" +
+                "    SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_pId IN " +
+                "   (SELECT dd_id FROM data_dictionary WHERE dd_pId = " +
+                "    (SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_file_jd')) AND extend_2=1 )B ON pfl.pfl_categor NOT IN (B.dd_id) " +
+               $"WHERE trp.trp_id='{trpId}' idi.imp_id IS NOT NULL";
+            DataTable table = SqlHelper.ExecuteQuery(querySQL);
+            if(table.Rows.Count > 0)
+            {
+                saveFileDialog1.Title = "请选择导出位置";
+                if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    string savePath = saveFileDialog1.FileName;
+                    bool flag = MicrosoftWordHelper.ExportToExcel(table, savePath);
+                    {
+                        if(XtraMessageBox.Show("导出缺失文件清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                        {
+                            WinFormOpenHelper.OpenWinForm(0, "open", savePath, null, null, ShowWindowCommands.SW_NORMAL);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                string querySQL2 = "SELECT A.pi_code '项目/课题编号', A.pi_name '项目/课题名称',B.dd_name '缺失文件类别', B.dd_note '缺失文件名称' " +
+                    "FROM transfer_registration_pc trp " +
+                    "LEFT JOIN project_info pi ON pi.pi_categor=1 AND pi.trc_id=trp.trp_id " +
+                    "LEFT JOIN " +
+                    "(SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                    " SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=-3 " +
+                    ")A ON A.pi_obj_id=pi.pi_id " +
+                    "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
+                    "LEFT JOIN (" +
+                    "    SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_pId IN " +
+                    "   (SELECT dd_id FROM data_dictionary WHERE dd_pId = " +
+                    "    (SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_file_jd')) AND extend_2=1 )B ON pfl.pfl_categor NOT IN (B.dd_id) " +
+                   $"WHERE trp.trp_id='{trpId}' pi.pi_id IS NOT NULL";
+                DataTable table2 = SqlHelper.ExecuteQuery(querySQL2);
+                if(table2.Rows.Count > 0)
+                {
+                    saveFileDialog1.Title = "请选择导出位置";
+                    if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        string savePath = saveFileDialog1.FileName;
+                        bool flag = MicrosoftWordHelper.ExportToExcel(table2, savePath);
+                        {
+                            if(XtraMessageBox.Show("导出缺失文件清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                            {
+                                WinFormOpenHelper.OpenWinForm(0, "open", savePath, null, null, ShowWindowCommands.SW_NORMAL);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("当前批次下尚无项目/课题。", "导出缺失文件清单失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 导出文件列表清单
         /// </summary>
         private void CreateFileList()
         {
             List<DataTable> list = new List<DataTable>();
             //普通计划
-            string querySQL = $"SELECT pi_id, pi_code, pi_name, pfl.* FROM project_info  " +
-                $"LEFT JOIN processing_file_list pfl ON pfl_obj_id = pi_id " +
-                $"WHERE pi_categor = 1 and trc_id = '{trpId}'; ";
-            DataTable speTable = SqlHelper.ExecuteQuery(querySQL);
-            if(speTable.Rows.Count > 0)
+            string querySQL = $"SELECT pi.pi_name '计划名称', pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
+                $"A.pi_code '项目编号', A.pi_name '项目名称',	A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', " +
+                $"pb.pb_gc_id '馆藏号', pb.pb_box_number '盒号', B.fcount '文件数量', " +
+                $"pfl.pfl_code '文件编号', pfl.pfl_box_sort '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' " +
+                $"FROM transfer_registration_pc trp LEFT JOIN project_info pi ON pi.trc_id = trp.trp_id AND pi.pi_categor = 1 LEFT JOIN ( " +
+                $"SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor= 2 UNION ALL " +
+                $"SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor= -3)A ON A.pi_obj_id = pi.pi_id " +
+                $"LEFT JOIN processing_tag pt ON pt.pt_obj_id = A.pi_id LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id LEFT JOIN ( " +
+                $"SELECT pfl_box_id, COUNT(pfl_id) fcount FROM processing_file_list GROUP BY pfl_box_id )B ON B.pfl_box_id = pb.pb_id " +
+                $"LEFT JOIN processing_file_list pfl ON pfl.pfl_box_id = pb.pb_id " +
+                $"WHERE trp.trp_id = '{trpId}' AND pi.pi_id IS NOT NULL ";
+            DataTable table = SqlHelper.ExecuteQuery(querySQL);
+            if(table.Rows.Count > 0)
             {
-                list.Add(speTable);
-                string querySQL2 = $"SELECT pi_id, pi_code, pi_name, pfl.* FROM project_info  " +
-                    $"LEFT JOIN processing_file_list pfl ON pfl_obj_id = pi_id " +
-                    $"WHERE pi_categor = 2 and pi_obj_id = '{speTable.Rows[0]["pi_id"]}'; ";
-                
+                saveFileDialog1.Title = "请选择导出位置";
+                if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    string savePath = saveFileDialog1.FileName;
+                    bool flag = MicrosoftWordHelper.ExportToExcel(table, savePath);
+                    {
+                        if(XtraMessageBox.Show("导出文件列表清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                        {
+                            WinFormOpenHelper.OpenWinForm(0, "open", savePath, null, null, ShowWindowCommands.SW_NORMAL);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                querySQL = $"SELECT idi.imp_name '计划名称', pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
+                   $"A.pi_code '项目编号', A.pi_name '项目名称',	A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', " +
+                   $"pb.pb_gc_id '馆藏号', pb.pb_box_number '盒号', B.fcount '文件数量', " +
+                   $"pfl.pfl_code '文件编号', pfl.pfl_box_sort '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' " +
+                   $"FROM transfer_registration_pc trp LEFT JOIN LEFT JOIN imp_info ii ON ii.imp_obj_id=trp.trp_id " +
+                   $"LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id LEFT JOIN ( " +
+                   $"SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor= 2 UNION ALL " +
+                   $"SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor= -3)A ON A.pi_obj_id = idi.imp_id " +
+                   $"LEFT JOIN processing_tag pt ON pt.pt_obj_id = A.pi_id LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id LEFT JOIN ( " +
+                   $"SELECT pfl_box_id, COUNT(pfl_id) fcount FROM processing_file_list GROUP BY pfl_box_id )B ON B.pfl_box_id = pb.pb_id " +
+                   $"LEFT JOIN processing_file_list pfl ON pfl.pfl_box_id = pb.pb_id " +
+                   $"WHERE trp.trp_id = '{trpId}' AND idi.imp_id IS NOT NULL ";
+                DataTable speTable = SqlHelper.ExecuteQuery(querySQL);
+                if(speTable.Rows.Count > 0)
+                {
+                    saveFileDialog1.Title = "请选择导出位置";
+                    if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        string savePath = saveFileDialog1.FileName;
+                        bool flag = MicrosoftWordHelper.ExportToExcel(speTable, savePath);
+                        {
+                            if(XtraMessageBox.Show("导出文件列表清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                            {
+                                WinFormOpenHelper.OpenWinForm(0, "open", savePath, null, null, ShowWindowCommands.SW_NORMAL);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("当前批次下尚无项目/课题。", "导出文件列表清单失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

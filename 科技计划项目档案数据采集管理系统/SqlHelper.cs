@@ -108,9 +108,25 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(!string.IsNullOrEmpty(nonQuerySql))
             {
-                SqlCommand sqlCommand = new SqlCommand(nonQuerySql, GetConnect());
-                sqlCommand.ExecuteNonQuery();
-                CloseConnect();
+                using(SqlCommand sqlCommand = new SqlCommand(nonQuerySql, GetConnect()))
+                {
+                    SqlTransaction sqlTransaction = GetConnect().BeginTransaction();
+                    sqlCommand.Transaction = sqlTransaction;
+                    try
+                    {
+                        sqlCommand.ExecuteNonQuery();
+                        sqlTransaction.Commit();
+                    }
+                    catch(Exception e)
+                    {
+                        sqlTransaction.Rollback();
+                        DevExpress.XtraEditors.XtraMessageBox.Show(e.Message, "数据插入出错");
+                    }
+                    finally
+                    {
+                        CloseConnect();
+                    }
+                }
             }
         }
 

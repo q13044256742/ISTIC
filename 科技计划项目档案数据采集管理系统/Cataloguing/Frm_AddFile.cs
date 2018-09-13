@@ -7,10 +7,13 @@ using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_AddFile : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_AddFile : XtraForm
     {
         private DataGridView view;
         private object key;
+        /// <summary>
+        /// 文件主键
+        /// </summary>
         private object fileId;
       
         /// <summary>
@@ -22,6 +25,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 光盘ID
         /// </summary>
         public object trcId;
+        public Action<DataGridView, object> UpdateDataSource;
 
         public Frm_AddFile(DataGridView view, object key, object fileId, object trcId)
         {
@@ -259,58 +263,30 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 添加信息到指定表格
         /// </summary>
-        private object SaveFileInfo(DataGridViewRow row, bool isAdd)
+        private void SaveFileInfo(bool isAdd)
         {
             bool isOtherType = cbo_categor.SelectedIndex == -1;
 
             object primaryKey = Guid.NewGuid().ToString();
-            row.Cells[key + "id"].Value = row.Index + 1;
-            row.Cells[key + "stage"].Value = cbo_stage.SelectedValue;
-            SetCategorByStage(cbo_stage.SelectedValue, row, key);
-            row.Cells[key + "categor"].Value = cbo_categor.SelectedValue ?? cbo_categor.Tag;
+            object stage = cbo_stage.SelectedValue;
+            object categor = cbo_categor.SelectedValue ?? cbo_categor.Tag;
             object categorName = isOtherType ? cbo_categor.Text.Split('-')[1].Trim() : null;
-            row.Cells[key + "name"].Value = txt_fileName.Text;
-            row.Cells[key + "code"].Value = txt_fileCode.Text;
-            row.Cells[key + "user"].Value = txt_User.Text;
-            row.Cells[key + "type"].Value = GetRadioValue(pal_type);
-            row.Cells[key + "pages"].Value = num_Pages.Value;
-            row.Cells[key + "count"].Value = num_Count.Value;
-            row.Cells[key + "amount"].Value = num_Amount.Value;
-            row.Cells[key + "date"].Value = txt_date.Text;
-            row.Cells[key + "unit"].Value = txt_Unit.Text;
-            row.Cells[key + "carrier"].Value = GetCarrierValue();
+            object code = txt_fileCode.Text;
+            object name = txt_fileName.Text.Replace("'", "''");
+            object user = txt_User.Text;
+            object type = GetRadioValue(pal_type);
+            object pages = num_Pages.Value;
+            object count = num_Count.Value;
+            object amount = num_Amount.Value;
+            object date = txt_date.Text;
+            object unit = txt_Unit.Text;
+            object carrier = GetCarrierValue();
+            object link = GetFullStringBySplit(GetLinkList(2), "；", string.Empty);
+            string _fileId = GetFullStringBySplit(GetLinkList(1), ",", "'");
+            object remark = txt_Remark.Text;
 
-            row.Cells[key + "link"].Value = GetFullStringBySplit(GetLinkList(2), "；", string.Empty);
-            row.Cells[key + "link"].Tag = GetFullStringBySplit(GetLinkList(1), ",", string.Empty);
             if(isAdd)
             {
-                object stage = row.Cells[key + "stage"].Value;
-                object categor = row.Cells[key + "categor"].Value;
-                object code = row.Cells[key + "code"].Value;
-                object name = GetValue(row.Cells[key + "name"].Value).Replace("'", "''");
-                object user = row.Cells[key + "user"].Value;
-                object type = row.Cells[key + "type"].Value;
-                object pages = row.Cells[key + "pages"].Value;
-                object count = row.Cells[key + "count"].Value;
-                object amount = row.Cells[key + "amount"].Value;
-                DateTime date = DateTime.Now;
-                string _date = GetValue(row.Cells[key + "date"].Value);
-                if(!string.IsNullOrEmpty(_date))
-                {
-                    if(_date.Length == 4)
-                        _date = _date + "-" + date.Month + "-" + date.Day;
-                    else if(_date.Length == 6)
-                        _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + date.Day;
-                    else if(_date.Length == 8)
-                        _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + _date.Substring(6, 2);
-                    DateTime.TryParse(_date, out date);
-                }
-                object unit = row.Cells[key + "unit"].Value;
-                object carrier = row.Cells[key + "carrier"].Value;
-                object link = row.Cells[key + "link"].Value;
-                string fileId = GetFullStringBySplit(GetLinkList(1), ",", "'");
-                object remark = txt_Remark.Text;
-
                 if(isOtherType)
                 {
                     categor = Guid.NewGuid().ToString();
@@ -331,44 +307,14 @@ namespace 科技计划项目档案数据采集管理系统
 
                 string insertSql = "INSERT INTO processing_file_list (" +
                 "pfl_id, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort, pfl_remark, pfl_worker_id, pfl_worker_date) " +
-                $"VALUES( '{primaryKey}', '{stage}', '{categor}', '{code}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}', '{parentId}', -1, '{row.Index}', '{remark}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');";
+                $"VALUES( '{primaryKey}', '{stage}', '{categor}', '{code}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}', '{parentId}', -1, '{view.RowCount}', '{remark}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');";
                 //将备份表中的文件标记为已选取
-                if(!string.IsNullOrEmpty(fileId))
-                    insertSql += $"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({fileId});";
+                if(!string.IsNullOrEmpty(_fileId))
+                    insertSql += $"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({_fileId});";
                 SqlHelper.ExecuteNonQuery(insertSql);
-
-                row.Cells[key + "id"].Tag = primaryKey;
             }
             else
             {
-                primaryKey = row.Cells[key + "id"].Tag;
-                object stage = row.Cells[key + "stage"].Value;
-                object categor = row.Cells[key + "categor"].Value;
-                object code = row.Cells[key + "code"].Value;
-                object name = GetValue(row.Cells[key + "name"].Value).Replace("'", "''");
-                object user = row.Cells[key + "user"].Value;
-                object type = row.Cells[key + "type"].Value;
-                object pages = row.Cells[key + "pages"].Value;
-                object count = row.Cells[key + "count"].Value;
-                object amount = row.Cells[key + "amount"].Value;
-                DateTime date = DateTime.Now;
-                string _date = GetValue(row.Cells[key + "date"].Value);
-                if(!string.IsNullOrEmpty(_date))
-                {
-                    if(_date.Length == 4)
-                        _date = _date + "-" + date.Month + "-" + date.Day;
-                    else if(_date.Length == 6)
-                        _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + date.Day;
-                    else if(_date.Length == 8)
-                        _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + _date.Substring(6, 2);
-                    DateTime.TryParse(_date, out date);
-                }
-                object unit = row.Cells[key + "unit"].Value;
-                object carrier = row.Cells[key + "carrier"].Value;
-                object link = row.Cells[key + "link"].Value;
-                string fileId = GetFullStringBySplit(GetLinkList(1), ",", "'");
-                object remark = txt_Remark.Text;
-
                 string oldFileId = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pfl_file_id FROM processing_file_list WHERE pfl_id='{primaryKey}';"));
                 string updateSql = $"UPDATE backup_files_info SET bfi_state=0 WHERE bfi_id IN ({GetFullStringBySplit(oldFileId, ",", "'")});";
                        updateSql += "UPDATE processing_file_list SET " +
@@ -386,16 +332,15 @@ namespace 科技计划项目档案数据采集管理系统
                         $",[pfl_carrier] = '{carrier}'" +
                         $",[pfl_link] = '{link}'" +
                         $",[pfl_remark] = '{remark}'" +
-                        $",[pfl_sort] = '{row.Index}'" +
                         $",[pfl_file_id] = '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}'" +
-                        $" WHERE pfl_id= '{primaryKey}';";
-                if(!string.IsNullOrEmpty(fileId))
-                    updateSql += $"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({fileId});";
+                        $" WHERE pfl_id= '{fileId}';";
+                if(!string.IsNullOrEmpty(_fileId))
+                    updateSql += $"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({_fileId});";
                 SqlHelper.ExecuteNonQuery(updateSql);
 
                 XtraMessageBox.Show("数据已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            return primaryKey;
+            UpdateDataSource(view, parentId);
         }
 
         private object GetCarrierValue()
@@ -445,7 +390,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 if(Text.Contains("新增"))
                 {
-                    SaveFileInfo(view.Rows[view.Rows.Add()], true);
+                    SaveFileInfo(true);
                     ResetControl();
                 }
                 else if(Text.Contains("编辑"))
@@ -461,9 +406,9 @@ namespace 科技计划项目档案数据采集管理系统
         {
             foreach(DataGridViewRow row in view.Rows)
             {
-                if(fileId.Equals(row.Cells[key + "id"].Tag))
+                if(fileId.Equals(row.Cells[key + "num"].Value))
                 {
-                    SaveFileInfo(row, false);
+                    SaveFileInfo(false);
                     break;
                 }
             }

@@ -1,6 +1,5 @@
 ﻿using DevExpress.XtraBars.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.DocumentAccept;
@@ -158,13 +157,15 @@ namespace 科技计划项目档案数据采集管理系统
                     object trpId = dgv_DataShow.Rows[e.RowIndex].Cells["id"].Value;
                     if("齐备".Equals(value))
                     {
-                        Frm_Print frm = new Frm_Print(this, 1, trpId);
+                        Frm_Print frm = GetFormHelper.GetPrintDoc(this, 1, trpId);
                         frm.Show();
+                        frm.Activate();
                     }
                     else
                     {
-                        Frm_Print frm = new Frm_Print(this, -1, trpId);
+                        Frm_Print frm = GetFormHelper.GetPrintDoc(this, 1, trpId);
                         frm.Show();
+                        frm.Activate();
                     }
                 }
             }

@@ -177,7 +177,7 @@ namespace 科技计划项目档案数据采集管理系统
                             Tag = ControlType.Subject
                         };
                         topNode.Nodes.Add(subNode);
-                        
+
                     }
                 }
 
@@ -319,29 +319,12 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadFileList(DataGridView dataGridView, string key, object parentId)
         {
             dataGridView.Rows.Clear();
-            string querySql = $"SELECT * FROM processing_file_list WHERE pfl_obj_id='{parentId}' ORDER BY pfl_sort";
+            string querySql = "SELECT pfl_id, ROW_NUMBER() OVER (ORDER BY pfl_sort) rownum, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_amount, pfl_user, pfl_type, " +
+                $"pfl_pages, pfl_count, TRY_CAST(TRY_CAST(pfl_date as date) AS VARCHAR) pfl_date, pfl_unit, pfl_carrier, pfl_link FROM processing_file_list WHERE pfl_obj_id='{parentId}'";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-            for(int i = 0; i < dataTable.Rows.Count; i++)
-            {
-                int index = dataGridView.Rows.Add();
-                dataGridView.Rows[index].Cells[key + "id"].Value = i + 1;
-                dataGridView.Rows[index].Cells[key + "id"].Tag = dataTable.Rows[i]["pfl_id"];
-                dataGridView.Rows[index].Cells[key + "stage"].Value = dataTable.Rows[i]["pfl_stage"];
-                SetCategorByStage(dataTable.Rows[i]["pfl_stage"], dataGridView.Rows[index], key);
-                dataGridView.Rows[index].Cells[key + "categor"].Value = dataTable.Rows[i]["pfl_categor"];
-                dataGridView.Rows[index].Cells[key + "code"].Value = dataTable.Rows[i]["pfl_code"];
-                dataGridView.Rows[index].Cells[key + "name"].Value = dataTable.Rows[i]["pfl_name"];
-                dataGridView.Rows[index].Cells[key + "user"].Value = dataTable.Rows[i]["pfl_user"];
-                dataGridView.Rows[index].Cells[key + "type"].Value = dataTable.Rows[i]["pfl_type"];
-                dataGridView.Rows[index].Cells[key + "pages"].Value = dataTable.Rows[i]["pfl_pages"];
-                dataGridView.Rows[index].Cells[key + "count"].Value = dataTable.Rows[i]["pfl_count"];
-                dataGridView.Rows[index].Cells[key + "amount"].Value = dataTable.Rows[i]["pfl_amount"];
-                dataGridView.Rows[index].Cells[key + "date"].Value = ToolHelper.GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd");
-                dataGridView.Rows[index].Cells[key + "unit"].Value = dataTable.Rows[i]["pfl_unit"];
-                dataGridView.Rows[index].Cells[key + "carrier"].Value = dataTable.Rows[i]["pfl_carrier"];
-                dataGridView.Rows[index].Cells[key + "link"].Value = dataTable.Rows[i]["pfl_link"];
-                dataGridView.Rows[index].Cells[key + "link"].Tag = dataTable.Rows[i]["pfl_file_id"];
-            }
+
+            dataGridView.DataSource = dataTable;
+
             dataGridView.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dataGridView.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
         }
@@ -492,7 +475,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadFileBoxTable(object pbId, object objId, ControlType type)
         {
             string GCID = ToolHelper.GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'"));
-           if(type == ControlType.Project)
+            if(type == ControlType.Project)
             {
                 txt_Project_GCID.Text = GCID;
                 LoadFileBoxTableInstance(lsv_JH_XM_File1, lsv_JH_XM_File2, "jh_xm", pbId, objId);
@@ -566,7 +549,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        public void SetCategorByStage(object jdId, DataGridViewRow dataGridViewRow, string key)
+        public void SetCategorByStage(object jdId, DataGridViewRow dataGridViewRow, object key)
         {
             //文件类别
             DataGridViewComboBoxCell categorCell = dataGridViewRow.Cells[key + "categor"] as DataGridViewComboBoxCell;
@@ -596,15 +579,17 @@ namespace 科技计划项目档案数据采集管理系统
         {
             Frm_AddFile frm = null;
             object name = (sender as KyoButton).Name;
+            string key = string.Empty;
             if("btn_Project_AddFile".Equals(name))
             {
+                key = "project_fl_";
                 object objId = tab_Project_Info.Tag;
                 if(objId != null)
                 {
                     if(dgv_Project_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", dgv_Project_FileList.CurrentRow.Cells[0].Tag, null);
+                        frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.CurrentRow.Cells[key + "num"].Value, null);
                     else
-                        frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", null, null);
+                        frm = new Frm_AddFile(dgv_Project_FileList, key, null, null);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -614,13 +599,14 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if("btn_Topic_AddFile".Equals(name))
             {
+                key = "topic_fl_";
                 object objId = tab_Topic_Info.Tag;
                 if(objId != null)
                 {
                     if(dgv_Topic_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", dgv_Topic_FileList.CurrentRow.Cells[0].Tag, null);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.CurrentRow.Cells[key + "num"].Value, null);
                     else
-                        frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", null, null);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, key, null, null);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -630,13 +616,14 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if("btn_Subject_AddFile".Equals(name))
             {
+                key = "subject_fl_";
                 object objId = tab_Subject_Info.Tag;
                 if(objId != null)
                 {
                     if(dgv_Subject_FileList.SelectedRows.Count == 1)
-                        frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", dgv_Subject_FileList.CurrentRow.Cells[0].Tag, null);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.CurrentRow.Cells[key + "num"].Value, null);
                     else
-                        frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", null, null);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, key, null, null);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -666,8 +653,7 @@ namespace 科技计划项目档案数据采集管理系统
                     for(int i = 0; i < maxLength; i++)
                     {
                         DataGridViewRow row = dgv_Project_FileList.Rows[i];
-                        object fileId = AddFileInfo(key, row, objId, row.Index);
-                        row.Cells[$"{key}id"].Tag = fileId;
+                        row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                     }
                     RemoveFileList(objId);
                     LoadFileList(view, key, objId);
@@ -706,8 +692,7 @@ namespace 科技计划项目档案数据采集管理系统
                     for(int i = 0; i < maxLength; i++)
                     {
                         DataGridViewRow row = dgv_Topic_FileList.Rows[i];
-                        object fileId = AddFileInfo(key, row, objId, row.Index);
-                        row.Cells[$"{key}id"].Tag = fileId;
+                        row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                     }
                     RemoveFileList(objId);
                     LoadFileList(view, key, objId);
@@ -746,8 +731,7 @@ namespace 科技计划项目档案数据采集管理系统
                     for(int i = 0; i < maxLength; i++)
                     {
                         DataGridViewRow row = dgv_Subject_FileList.Rows[i];
-                        object fileId = AddFileInfo(key, row, objId, row.Index);
-                        row.Cells[$"{key}id"].Tag = fileId;
+                        row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                     }
                     RemoveFileList(objId);
                     LoadFileList(view, key, objId);
@@ -1374,7 +1358,132 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
+        private void FileList_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            DataGridView dataGridView = sender as DataGridView;
+            if("dgv_Project_FileList".Equals(dataGridView.Name))
+            {
+                string columnName = dgv_Project_FileList.CurrentCell.OwningColumn.Name;
+                if("project_fl_stage".Equals(columnName))
+                {
+                    System.Windows.Forms.ComboBox con = (System.Windows.Forms.ComboBox)e.Control;
+                    con.Tag = ControlType.Project;
+                    con.SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
+                }
+                else if("project_fl_categor".Equals(columnName))
+                {
+                    System.Windows.Forms.ComboBox con = (System.Windows.Forms.ComboBox)e.Control;
+                    con.Tag = ControlType.Project;
+                    con.SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
+                }
+            }
+            else if("dgv_Topic_FileList".Equals(dataGridView.Name))
+            {
+                string columnName = dgv_Topic_FileList.CurrentCell.OwningColumn.Name;
+                if("topic_fl_stage".Equals(columnName))
+                {
+                    System.Windows.Forms.ComboBox con = (System.Windows.Forms.ComboBox)e.Control;
+                    con.Tag = ControlType.Topic;
+                    con.SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
+                }
+                else if("topic_fl_categor".Equals(columnName))
+                {
+                    System.Windows.Forms.ComboBox con = (System.Windows.Forms.ComboBox)e.Control;
+                    con.Tag = ControlType.Topic;
+                    con.SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
+                }
+            }
+            else if("dgv_Subject_FileList".Equals(dataGridView.Name))
+            {
+                string columnName = dgv_Subject_FileList.CurrentCell.OwningColumn.Name;
+                if("subject_fl_stage".Equals(columnName))
+                {
+                    System.Windows.Forms.ComboBox con = (System.Windows.Forms.ComboBox)e.Control;
+                    con.Tag = ControlType.Subject;
+                    con.SelectionChangeCommitted += new EventHandler(StageComboBox_SelectionChangeCommitted);
+                }
+                else if("subject_fl_categor".Equals(columnName))
+                {
+                    System.Windows.Forms.ComboBox con = (System.Windows.Forms.ComboBox)e.Control;
+                    con.Tag = ControlType.Subject;
+                    con.SelectionChangeCommitted += new EventHandler(CategorComboBox_SelectionChangeCommitted);
+                }
+            }
+        }
 
+        /// <summary>
+        /// 文件阶段 下拉事件
+        /// </summary>
+        private void StageComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
+            if((ControlType)comboBox.Tag == ControlType.Project)
+                SetCategorByStage(comboBox.SelectedValue, dgv_Project_FileList.CurrentRow, "project_fl_");
+            else if((ControlType)comboBox.Tag == ControlType.Topic)
+                SetCategorByStage(comboBox.SelectedValue, dgv_Topic_FileList.CurrentRow, "topic_fl_");
+            else if((ControlType)comboBox.Tag == ControlType.Subject)
+                SetCategorByStage(comboBox.SelectedValue, dgv_Subject_FileList.CurrentRow, "subject_fl_");
+            comboBox.Leave += new EventHandler(delegate (object obj, EventArgs eve)
+            {
+                System.Windows.Forms.ComboBox _comboBox = obj as System.Windows.Forms.ComboBox;
+                _comboBox.SelectionChangeCommitted -= new EventHandler(StageComboBox_SelectionChangeCommitted);
+            });
+        }
 
+        private void CategorComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
+            comboBox.MaxDropDownItems = 10;
+            if((ControlType)comboBox.Tag == ControlType.Project)
+                SetNameByCategor(comboBox, dgv_Project_FileList.CurrentRow, "project_fl_", tab_Project_Info.Tag);
+            else if((ControlType)comboBox.Tag == ControlType.Topic)
+                SetNameByCategor(comboBox, dgv_Topic_FileList.CurrentRow, "topic_fl_", tab_Topic_Info.Tag);
+            else if((ControlType)comboBox.Tag == ControlType.Subject)
+                SetNameByCategor(comboBox, dgv_Subject_FileList.CurrentRow, "subject_fl_", tab_Subject_Info.Tag);
+            comboBox.Leave += new EventHandler(delegate (object obj, EventArgs eve)
+            {
+                System.Windows.Forms.ComboBox _comboBox = obj as System.Windows.Forms.ComboBox;
+                _comboBox.SelectionChangeCommitted -= new EventHandler(CategorComboBox_SelectionChangeCommitted);
+            });
+        }
+
+        private void SetNameByCategor(System.Windows.Forms.ComboBox comboBox, DataGridViewRow currentRow, string key, object objId)
+        {
+            if(comboBox.Items.Count <= 4) return;
+            string value = ToolHelper.GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_note FROM data_dictionary WHERE dd_id='{comboBox.SelectedValue}'"));
+            currentRow.Cells[key + "name"].Value = value;
+
+            int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_categor='{comboBox.SelectedValue}' AND pfl_obj_id='{objId}'");
+
+            currentRow.Cells[key + "categorname"].Value = null;
+            if(comboBox.SelectedIndex == comboBox.Items.Count - 1)
+            {
+                currentRow.DataGridView.Columns[key + "categorname"].Visible = true;
+                object id = currentRow.Cells[key + "categorname"].Tag;
+                int _amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(dd_id) FROM data_dictionary WHERE dd_pId='{id}'");
+                string tempKey = ((DataRowView)comboBox.Items[0]).Row.ItemArray[1].ToString();
+                if(System.Text.RegularExpressions.Regex.IsMatch(tempKey, "^[A-D]"))
+                {
+                    string _key = ToolHelper.GetValue(tempKey).Substring(0, 1) + _amount.ToString().PadLeft(2, '0');
+                    currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
+                }
+            }
+            else
+            {
+                string _key = comboBox.Text.Split(' ')[0];
+                if(System.Text.RegularExpressions.Regex.IsMatch(_key, "^[A-D]"))
+                    currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
+            }
+        }
+
+        private void FileList_DataSourceChanged(object sender, EventArgs e)
+        {
+            DataGridView view = sender as DataGridView;
+            foreach(DataGridViewRow row in view.Rows)
+            {
+                object id = row.Cells[view.Tag + "stage"].Value;
+                SetCategorByStage(id, row, view.Tag);
+            }
+        }
     }
 }

@@ -4140,6 +4140,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             Frm_AddFile frm = null;
             object name = (sender as KyoButton).Name;
+            string key = string.Empty;
             if("btn_Plan_AddFile".Equals(name))
             {
                 object objId = tab_Plan_Info.Tag;

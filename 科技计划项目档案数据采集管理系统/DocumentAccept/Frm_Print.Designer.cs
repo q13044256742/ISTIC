@@ -33,12 +33,11 @@
             this.chk2 = new DevExpress.XtraEditors.CheckEdit();
             this.chk3 = new DevExpress.XtraEditors.CheckEdit();
             this.lbl1 = new DevExpress.XtraEditors.HyperlinkLabelControl();
-            this.lbl2 = new DevExpress.XtraEditors.HyperlinkLabelControl();
-            this.lbl3 = new DevExpress.XtraEditors.HyperlinkLabelControl();
             this.btn_Export = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Print = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.chk1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chk2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chk3.Properties)).BeginInit();
@@ -84,24 +83,6 @@
             this.lbl1.Text = "[预览]";
             this.lbl1.Click += new System.EventHandler(this.lbl1_Click);
             // 
-            // lbl2
-            // 
-            this.lbl2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbl2.Location = new System.Drawing.Point(314, 86);
-            this.lbl2.Name = "lbl2";
-            this.lbl2.Size = new System.Drawing.Size(34, 14);
-            this.lbl2.TabIndex = 12;
-            this.lbl2.Text = "[预览]";
-            // 
-            // lbl3
-            // 
-            this.lbl3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbl3.Location = new System.Drawing.Point(314, 133);
-            this.lbl3.Name = "lbl3";
-            this.lbl3.Size = new System.Drawing.Size(34, 14);
-            this.lbl3.TabIndex = 13;
-            this.lbl3.Text = "[预览]";
-            // 
             // btn_Export
             // 
             this.btn_Export.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
@@ -145,8 +126,6 @@
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(396, 249);
-            this.Controls.Add(this.lbl3);
-            this.Controls.Add(this.lbl2);
             this.Controls.Add(this.lbl1);
             this.Controls.Add(this.chk3);
             this.Controls.Add(this.chk2);
@@ -176,9 +155,8 @@
         private DevExpress.XtraEditors.CheckEdit chk2;
         private DevExpress.XtraEditors.CheckEdit chk3;
         private DevExpress.XtraEditors.HyperlinkLabelControl lbl1;
-        private DevExpress.XtraEditors.HyperlinkLabelControl lbl2;
-        private DevExpress.XtraEditors.HyperlinkLabelControl lbl3;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

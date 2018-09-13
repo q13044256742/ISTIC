@@ -397,7 +397,7 @@ namespace 科技计划项目档案数据采集管理系统
                 fmString = fmString.Replace("id=\"ktmc\">", $"id=\"ktmc\">{objectName}");
             }
             fmString = fmString.Replace("id=\"bzdw\">", $"id=\"bzdw\">{unitName}");
-            fmString = fmString.Replace("id=\"bzrq\">", $"id=\"bzrq\">{ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd")}");
+            fmString = fmString.Replace("id=\"bzrq\">", $"id=\"bzrq\">{ToolHelper.GetDateValue(ljDate, "yyyy-MM-dd")}");
             fmString = fmString.Replace("id=\"bgqx\">", $"id=\"bgqx\">永久");
             fmString = fmString.Replace("id=\"gch\">", $"id=\"gch\">{GCNumber}");
             return fmString;
