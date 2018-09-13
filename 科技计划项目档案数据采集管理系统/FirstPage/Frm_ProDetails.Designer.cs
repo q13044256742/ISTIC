@@ -459,15 +459,12 @@
             this.project_fl_categor.DataPropertyName = "pfl_categor";
             this.project_fl_categor.HeaderText = "文件类别";
             this.project_fl_categor.Name = "project_fl_categor";
-            this.project_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.project_fl_categor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.project_fl_categor.Width = 180;
             // 
             // project_fl_categorname
             // 
             this.project_fl_categorname.HeaderText = "类别名称";
             this.project_fl_categorname.Name = "project_fl_categorname";
-            this.project_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.project_fl_categorname.Visible = false;
             // 
             // project_fl_code

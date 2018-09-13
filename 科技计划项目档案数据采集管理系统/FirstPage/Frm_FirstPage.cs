@@ -80,23 +80,25 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             }
         }
 
-        private void LoadLastData(string querySql)
+        private void LoadLastData(string querySqlString)
         {
             search.Properties.Items.Clear();
-            if(string.IsNullOrEmpty(querySql))
+            string querySql = string.Empty;
+            if(string.IsNullOrEmpty(querySqlString))
             {
                 querySql = "SELECT TOP(100) * FROM (" +
                      "SELECT pi_id, pi_code, pi_name, pi_year, pi_worker_date, pi_worker_id, pi_checker_date, pi_checker_id FROM project_info WHERE pi_categor = 2 " +
                      "UNION ALL " +
                      "SELECT ti_id, ti_code, ti_name, ti_year, ti_worker_date, ti_worker_id, ti_checker_date, ti_checker_id FROM topic_info " +
                      "UNION ALL " +
-                     "SELECT si_id, si_code, si_name, si_year, si_worker_date, si_worker_id, si_checker_date, si_checker_id FROM subject_info) TB1 ";
+                     "SELECT si_id, si_code, si_name, si_year, si_worker_date, si_worker_id, si_checker_date, si_checker_id FROM subject_info) TB1 " +
+                     "WHERE 1=1 ";
             }
             if(UserHelper.GetUserRole() == UserRole.Worker || 
                 UserHelper.GetUserRole() == UserRole.DocManager || 
                 UserHelper.GetUserRole() == UserRole.W_Q_Manager)
             {
-                string querySql1 = querySql + "WHERE pi_worker_date IS NOT NULL ORDER BY TB1.pi_worker_date DESC";
+                string querySql1 = string.IsNullOrEmpty(querySqlString) ? querySql + "AND pi_worker_date IS NOT NULL ORDER BY pi_worker_date DESC" : querySqlString;
                 DataTable table = SqlHelper.ExecuteQuery(querySql1);
                 view.Rows.Clear();
                 foreach(DataRow row in table.Rows)
@@ -116,7 +118,7 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                 UserHelper.GetUserRole() == UserRole.DocManager || 
                 UserHelper.GetUserRole() == UserRole.W_Q_Manager)
             {
-                string querySql1 = querySql + "WHERE pi_checker_date IS NOT NULL ORDER BY TB1.pi_checker_date DESC";
+                string querySql1 = string.IsNullOrEmpty(querySqlString) ? querySql + "AND pi_checker_date IS NOT NULL ORDER BY TB1.pi_checker_date DESC" : querySqlString;
                 DataTable table = SqlHelper.ExecuteQuery(querySql1);
                 view2.Rows.Clear();
                 foreach(DataRow row in table.Rows)
@@ -250,14 +252,15 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             string key2 = txt_DateSearch.Text;
             if(!string.IsNullOrEmpty(key1) || !string.IsNullOrEmpty(key2))
             {
-                string querySQL = $"SELECT * FROM (SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_year, pi_funds, pi_worker_date, pi_worker_id FROM project_info " +
-                    $"UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_year, ti_funds, ti_worker_date, ti_worker_id FROM topic_info " +
-                    $"UNION ALL SELECT si_id, si_code, si_name, si_start_datetime, si_year, si_funds, si_worker_date, si_worker_id FROM subject_info ) A " +
+                string querySQL = $"SELECT TOP(100) * FROM (SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_checker_date, pi_checker_id FROM project_info " +
+                    $"UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_year, ti_funds, ti_worker_date, ti_worker_id, ti_checker_date, ti_checker_id FROM topic_info " +
+                    $"UNION ALL SELECT si_id, si_code, si_name, si_start_datetime, si_year, si_funds, si_worker_date, si_worker_id, si_checker_date, si_checker_id FROM subject_info ) A " +
                     $"WHERE 1=1 ";
                 if(!string.IsNullOrEmpty(key1))
                     querySQL += $"AND (A.pi_code LIKE '%{key1}%' OR A.pi_name LIKE '%{key1}%') ";
                 if(!string.IsNullOrEmpty(key2))
                     querySQL += $"AND A.pi_worker_date='{key2}' ";
+                querySQL += " ORDER BY pi_code ";
                 LoadLastData(querySQL);
             }
         }

@@ -68,6 +68,12 @@ namespace 科技计划项目档案数据采集管理系统
                 if(!string.IsNullOrEmpty(ToolHelper.GetValue(_type)))
                     DEV_TYPE = Convert.ToInt32(_type);
             }
+            string querySql = "SELECT pi_code FROM project_info WHERE pi_id=(SELECT pi_obj_id FROM(" +
+                "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A " +
+               $"WHERE pi_id = '{objId}')";
+            object value = SqlHelper.ExecuteOnlyOneQuery(querySql);
+            if(value != null) Tag = value;
         }
 
         public Frm_MyWorkQT(WorkType workType, object objId, object wmid, ControlType controlType, bool isReadOnly) : this(workType, objId, wmid, controlType)

@@ -49,11 +49,6 @@ namespace 科技计划项目档案数据采集管理系统
             InitialStageList(dgv_Topic_FileList.Columns["topic_fl_stage"]);
             InitialStageList(dgv_Subject_FileList.Columns["subject_fl_stage"]);
 
-            //文件类别
-            InitialCategorList(dgv_Project_FileList, "project_fl_");
-            InitialCategorList(dgv_Topic_FileList, "topic_fl_");
-            InitialCategorList(dgv_Subject_FileList, "subject_fl_");
-
             //文件类型
             InitialTypeList(dgv_Project_FileList, "project_fl_");
             InitialTypeList(dgv_Topic_FileList, "topic_fl_");
@@ -87,18 +82,6 @@ namespace 科技计划项目档案数据采集管理系统
             carrierColumn.DataSource = DictionaryHelper.GetTableByCode("dic_file_zt");
             carrierColumn.DisplayMember = "dd_name";
             carrierColumn.ValueMember = "dd_id";
-        }
-
-        private void InitialCategorList(DataGridView dataGridView, string key)
-        {
-            for(int i = 0; i < dataGridView.Rows.Count; i++)
-            //if(dataGridView.Rows[i].Cells[key + "id"].Value != null)
-            {
-                DataGridViewComboBoxCell satgeCell = (DataGridViewComboBoxCell)dataGridView.Rows[i].Cells[key + "stage"];
-                object stageId = satgeCell.Value;
-                if(stageId != null)
-                    SetCategorByStage(stageId, dataGridView.Rows[i], key);
-            }
         }
 
         private void InitialTypeList(DataGridView dataGridView, string key)
@@ -231,7 +214,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Topic.Tag = row["pi_obj_id"];
                 }
 
-                LoadFileList(dgv_Project_FileList, "project_fl_", node.Name);
+                LoadFileList(dgv_Project_FileList, node.Name);
                 LoadFileValidList(dgv_Project_FileValid, node.Name, "project_fc_");
                 LoadDocList(node.Name, ControlType.Project);
             }
@@ -257,7 +240,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Topic.Tag = row["ti_obj_id"];
                 }
 
-                LoadFileList(dgv_Topic_FileList, "topic_fl_", node.Name);
+                LoadFileList(dgv_Topic_FileList, node.Name);
                 LoadFileValidList(dgv_Topic_FileValid, node.Name, "topic_fc_");
                 LoadDocList(node.Name, ControlType.Topic);
             }
@@ -286,7 +269,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Subject_Intro.Text = ToolHelper.GetValue(row["si_intro"]);
                     Subject.Tag = row["si_obj_id"];
                 }
-                LoadFileList(dgv_Subject_FileList, "subject_fl_", node.Name);
+                LoadFileList(dgv_Subject_FileList, node.Name);
                 LoadFileValidList(dgv_Subject_FileValid, node.Name, "subject_fc_");
                 LoadDocList(node.Name, ControlType.Subject);
             }
@@ -316,13 +299,11 @@ namespace 科技计划项目档案数据采集管理系统
                 }
         }
 
-        private void LoadFileList(DataGridView dataGridView, string key, object parentId)
+        private void LoadFileList(DataGridView dataGridView, object parentId)
         {
-            dataGridView.Rows.Clear();
             string querySql = "SELECT pfl_id, ROW_NUMBER() OVER (ORDER BY pfl_sort) rownum, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_amount, pfl_user, pfl_type, " +
-                $"pfl_pages, pfl_count, TRY_CAST(TRY_CAST(pfl_date as date) AS VARCHAR) pfl_date, pfl_unit, pfl_carrier, pfl_link FROM processing_file_list WHERE pfl_obj_id='{parentId}'";
+               $"pfl_pages, pfl_count, TRY_CAST(TRY_PARSE(pfl_date as date) AS VARCHAR) pfl_date, pfl_unit, pfl_carrier, pfl_link FROM processing_file_list WHERE pfl_obj_id='{parentId}'";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-
             dataGridView.DataSource = dataTable;
 
             dataGridView.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
@@ -590,6 +571,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.CurrentRow.Cells[key + "num"].Value, null);
                     else
                         frm = new Frm_AddFile(dgv_Project_FileList, key, null, null);
+                    frm.UpdateDataSource = LoadFileList;
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -607,6 +589,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.CurrentRow.Cells[key + "num"].Value, null);
                     else
                         frm = new Frm_AddFile(dgv_Topic_FileList, key, null, null);
+                    frm.UpdateDataSource = LoadFileList;
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -624,6 +607,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.CurrentRow.Cells[key + "num"].Value, null);
                     else
                         frm = new Frm_AddFile(dgv_Subject_FileList, key, null, null);
+                    frm.UpdateDataSource = LoadFileList;
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.Show();
@@ -656,7 +640,7 @@ namespace 科技计划项目档案数据采集管理系统
                         row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                     }
                     RemoveFileList(objId);
-                    LoadFileList(view, key, objId);
+                    LoadFileList(view, objId);
                     XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if(objId != null)
@@ -695,7 +679,7 @@ namespace 科技计划项目档案数据采集管理系统
                         row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                     }
                     RemoveFileList(objId);
-                    LoadFileList(view, key, objId);
+                    LoadFileList(view, objId);
                     XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if(objId != null)
@@ -734,7 +718,7 @@ namespace 科技计划项目档案数据采集管理系统
                         row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                     }
                     RemoveFileList(objId);
-                    LoadFileList(view, key, objId);
+                    LoadFileList(view, objId);
                     XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if(objId != null)
@@ -899,25 +883,8 @@ namespace 科技计划项目档案数据采集管理系统
 
         private object AddFileInfo(string key, DataGridViewRow row, object parentId, int sort)
         {
-            string sqlString = string.Empty;
-            object _fileId = row.Cells[key + "id"].Tag;
-            object boxId = null, fileId = null, link = null, remark = null, boxSort = null, workDate = DateTime.Now;
-            if(_fileId != null)
-            {
-                DataRow param = SqlHelper.ExecuteSingleRowQuery($"SELECT pfl_box_id, pfl_link, pfl_file_id, pfl_remark, pfl_box_sort, pfl_worker_date FROM processing_file_list WHERE pfl_id='{_fileId}'");
-                if(param != null)
-                {
-                    boxId = param["pfl_box_id"];
-                    link = param["pfl_link"];
-                    fileId = param["pfl_file_id"];
-                    remark = param["pfl_remark"];
-                    boxSort = param["pfl_box_sort"];
-                    workDate = param["pfl_worker_date"];
-                }
-                sqlString += $"DELETE FROM processing_file_list WHERE pfl_id='{_fileId}';";
-            }
-            else
-                _fileId = Guid.NewGuid().ToString();
+            string nonQuerySql = string.Empty;
+            string _fileId = ToolHelper.GetValue(row.Cells[key + "num"].Value);
             object stage = row.Cells[key + "stage"].Value;
             object categor = row.Cells[key + "categor"].Value;
             object categorName = row.Cells[key + "categorname"].Value;
@@ -928,23 +895,10 @@ namespace 科技计划项目档案数据采集管理系统
             object count = row.Cells[key + "count"].Value;
             object amount = row.Cells[key + "amount"].Value;
             object code = row.Cells[key + "code"].Value;
-            DateTime now = DateTime.MinValue;
-            string _date = ToolHelper.GetValue(row.Cells[key + "date"].Value);
-            if(!string.IsNullOrEmpty(_date))
-            {
-                if(_date.Length == 4)
-                    _date = _date + "-" + now.Month + "-" + now.Day;
-                else if(_date.Length == 6)
-                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + now.Day;
-                else if(_date.Length == 8)
-                    _date = _date.Substring(0, 4) + "-" + _date.Substring(4, 2) + "-" + _date.Substring(6, 2);
-                DateTime.TryParse(_date, out now);
-            }
-            object date = now == DateTime.MinValue ? null : now.ToString();
+            object date = row.Cells[key + "date"].Value;
             object unit = row.Cells[key + "unit"].Value;
             object carrier = row.Cells[key + "carrier"].Value;
-
-            bool isOtherType = "其他".Equals(ToolHelper.GetValue(row.Cells[key + "categor"].FormattedValue).Trim());
+            bool isOtherType = "其他".Equals(row.Cells[key + "categor"].FormattedValue);
             if(isOtherType)
             {
                 categor = Guid.NewGuid().ToString();
@@ -955,20 +909,25 @@ namespace 科技计划项目档案数据采集管理系统
                 if(dicId != null)
                 {
                     categor = dicId;
-                    sqlString += $"DELETE FROM data_dictionary WHERE dd_name='{value}' AND dd_pId='{stage}';";
+                    nonQuerySql += $"DELETE FROM data_dictionary WHERE dd_name='{value}' AND dd_pId='{stage}';";
                 }
-                sqlString += "INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
+                nonQuerySql += "INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
                     $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');";
             }
-            sqlString += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_link, pfl_file_id, pfl_remark, pfl_obj_id, pfl_box_id, pfl_box_sort, pfl_sort, pfl_worker_id, pfl_worker_date) " +
-                $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{fileId}', '{remark}', '{parentId}', '{boxId}', '{boxSort}', '{sort}', '{UserHelper.GetUser().UserKey}', '{workDate}');";
-            if(!string.IsNullOrEmpty(ToolHelper.GetValue(fileId)))
+            //更新
+            if(!string.IsNullOrEmpty(_fileId))
             {
-                int value = link == null ? 0 : 1;
-                string idsString = ToolHelper.GetFullStringBySplit(ToolHelper.GetValue(fileId), ",", "'");
-                sqlString += $"UPDATE backup_files_info SET bfi_state={value} WHERE bfi_id IN ({idsString});";
+                nonQuerySql += $"UPDATE processing_file_list SET pfl_stage='{stage}', pfl_categor='{categor}', pfl_code='{code}', pfl_name='{name}', pfl_user='{user}', pfl_type='{type}', pfl_pages='{pages}'," +
+                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}' WHERE pfl_id='{_fileId}';";
             }
-            SqlHelper.ExecuteNonQuery(sqlString);
+            //新增
+            else
+            {
+                _fileId = Guid.NewGuid().ToString();
+                nonQuerySql += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_obj_id, pfl_sort, pfl_worker_id, pfl_worker_date) " +
+                    $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{parentId}', '{sort}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');";
+            }
+            SqlHelper.ExecuteNonQuery(nonQuerySql);
             return _fileId;
         }
 

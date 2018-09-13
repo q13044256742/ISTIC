@@ -340,7 +340,8 @@ namespace 科技计划项目档案数据采集管理系统
 
                 XtraMessageBox.Show("数据已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            UpdateDataSource(view, parentId);
+
+            UpdateDataSource?.Invoke(view, parentId);
         }
 
         private object GetCarrierValue()

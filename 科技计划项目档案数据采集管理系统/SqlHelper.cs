@@ -11,11 +11,17 @@ namespace 科技计划项目档案数据采集管理系统
     public class SqlHelper
     {
         /// <summary>
+        /// 数据库类型
+        /// <para>SQLServer_Local：本地</para>
+        /// <para>SQLServer_Server：服务端</para>
+        /// </summary>
+        static readonly string SERVER_TYPE = "SQLServer_Local";
+        static readonly string IPAddress = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "IPAddress", null);
+        static readonly string Username = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Username", null);
+        static readonly string Password = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Password", null);
+        /// <summary>
         /// 数据连接字符串
         /// </summary>
-        static string IPAddress = OperateIniFile.GetInstance().ReadIniData("SQLServer", "IPAddress", "127.0.0.1");
-        static string Username = OperateIniFile.GetInstance().ReadIniData("SQLServer", "Username", "sa");
-        static string Password = OperateIniFile.GetInstance().ReadIniData("SQLServer", "Password", "1234");
         private static string SQL_CONNECT = $"Data Source={IPAddress};Initial Catalog=ISTIC;Persist Security Info=True;MultipleActiveResultSets=true;User ID={Username};Password={Password}";
 
         private static SqlConnection sqlConnection; 
