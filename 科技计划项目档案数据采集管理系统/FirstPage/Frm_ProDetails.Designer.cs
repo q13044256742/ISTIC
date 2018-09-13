@@ -360,8 +360,8 @@
             // 
             // tab_Project_Info
             // 
-            this.tab_Project_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tab_Project_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tab_Project_Info.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.tab_Project_Info.Appearance.Options.UseFont = true;
@@ -780,7 +780,7 @@
             // 
             // lsv_JH_XM_File2
             // 
-            this.lsv_JH_XM_File2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lsv_JH_XM_File2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lsv_JH_XM_File2.Font = new System.Drawing.Font("微软雅黑", 13F);
             this.lsv_JH_XM_File2.FullRowSelect = true;
@@ -794,7 +794,7 @@
             // 
             // lsv_JH_XM_File1
             // 
-            this.lsv_JH_XM_File1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lsv_JH_XM_File1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lsv_JH_XM_File1.Font = new System.Drawing.Font("微软雅黑", 13F);
             this.lsv_JH_XM_File1.FullRowSelect = true;
@@ -1218,8 +1218,8 @@
             // 
             // tab_Topic_Info
             // 
-            this.tab_Topic_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tab_Topic_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tab_Topic_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Topic_Info.Name = "tab_Topic_Info";
@@ -1631,7 +1631,7 @@
             // 
             // lsv_JH_KT_File2
             // 
-            this.lsv_JH_KT_File2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lsv_JH_KT_File2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lsv_JH_KT_File2.Font = new System.Drawing.Font("微软雅黑", 13F);
             this.lsv_JH_KT_File2.FullRowSelect = true;
@@ -1645,7 +1645,7 @@
             // 
             // lsv_JH_KT_File1
             // 
-            this.lsv_JH_KT_File1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lsv_JH_KT_File1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lsv_JH_KT_File1.Font = new System.Drawing.Font("微软雅黑", 13F);
             this.lsv_JH_KT_File1.FullRowSelect = true;
@@ -2070,8 +2070,8 @@
             // 
             // tab_Subject_Info
             // 
-            this.tab_Subject_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tab_Subject_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tab_Subject_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Subject_Info.Name = "tab_Subject_Info";
@@ -2487,7 +2487,7 @@
             // 
             // lsv_JH_XM_KT_ZKT_File2
             // 
-            this.lsv_JH_XM_KT_ZKT_File2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lsv_JH_XM_KT_ZKT_File2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lsv_JH_XM_KT_ZKT_File2.Font = new System.Drawing.Font("微软雅黑", 13F);
             this.lsv_JH_XM_KT_ZKT_File2.FullRowSelect = true;
@@ -2501,7 +2501,7 @@
             // 
             // lsv_JH_XM_KT_ZKT_File1
             // 
-            this.lsv_JH_XM_KT_ZKT_File1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lsv_JH_XM_KT_ZKT_File1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lsv_JH_XM_KT_ZKT_File1.Font = new System.Drawing.Font("微软雅黑", 13F);
             this.lsv_JH_XM_KT_ZKT_File1.FullRowSelect = true;
