@@ -12,7 +12,7 @@ using 科技计划项目档案数据采集管理系统.KyoControl;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_MyWorkQT : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_MyWorkQT : XtraForm
     {
         /// <summary>
         /// 待删除文件ID
@@ -1766,7 +1766,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="row">当前待保存的行</param>
         /// <param name="parentId">父对象ID</param>
         /// <returns>新增信息主键</returns>
-        private object AddFileInfo(string key, DataGridViewRow row, object parentId, int sort)
+        private object AddFileInfo(object key, DataGridViewRow row, object parentId, int sort)
         {
             string nonQuerySql = string.Empty;
             string _fileId = ToolHelper.GetValue(row.Cells[key + "num"].Value);
@@ -4989,6 +4989,160 @@ namespace 科技计划项目档案数据采集管理系统
                 SetCategorByStage(id, row, view.Tag);
             }
         }
-    }
 
+        private void FileList_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            DataGridView view = sender as DataGridView;
+            new System.Threading.Thread(delegate ()
+            {
+                int lastRowIndex = e.Row.Index - 1;
+                if(lastRowIndex > 0)//当前行不能是第一行
+                {
+                    DataGridViewRow row = view.Rows[lastRowIndex - 1];
+                    if(row.Cells[view.Tag + "num"].Value == null)//当前行不能使修改（只能新增）
+                    {
+                        object pId = null;
+                        if(view.Name.Contains("Plan"))
+                        { pId = tab_Plan_Info.Tag; }
+                        else if(view.Name.Contains("Project"))
+                        { pId = tab_Project_Info.Tag; }
+                        else if(view.Name.Contains("Topic"))
+                        { pId = tab_Topic_Info.Tag; }
+                        else if(view.Name.Contains("Subject"))
+                        { pId = tab_Subject_Info.Tag; }
+                        else if(view.Name.Contains("Imp"))
+                        { pId = tab_Imp_Info.Tag; }
+                        else if(view.Name.Contains("Special"))
+                        { pId = tab_Special_Info.Tag; }
+
+                        if(CheckFileName(row, view.Tag))
+                        {
+                            row.Cells[$"{view.Tag}num"].Value = AddFileInfo(view.Tag, row, pId, row.Index);
+                        }
+                    }
+                }
+                System.Threading.Thread.CurrentThread.Abort();
+            }).Start();
+        }
+
+        private bool CheckFileName(DataGridViewRow row, object key)
+        {
+            bool result = true;
+            DataGridViewCell cellName = row.Cells[key + "name"];
+            if(cellName.Value == null || string.IsNullOrEmpty(ToolHelper.GetValue(cellName.Value).Trim()))
+            {
+                cellName.ErrorText = "温馨提示：文件名不能为空。";
+                result = false;
+            }
+            else
+            {
+                cellName.ErrorText = null;
+                for(int j = 0; j < row.Index; j++)
+                {
+                    DataGridViewCell cell2 = row.DataGridView.Rows[j].Cells[key + "name"];
+                    if(cellName.Value.Equals(cell2.Value))
+                    {
+                        cellName.ErrorText = $"温馨提示：与行{j + 1}的文件名重复。";
+                        result = false;
+                    }
+                    else
+                        cellName.ErrorText = null;
+                }
+            }
+
+            //检测文件编号重复
+            DataGridViewCell cellCode = row.Cells[key + "code"];
+            if(cellCode.Value == null || string.IsNullOrEmpty(ToolHelper.GetValue(cellCode.Value).Trim()))
+            {
+                cellCode.ErrorText = "温馨提示：文件编号不能为空。";
+                result = false;
+            }
+            else
+            {
+                cellCode.ErrorText = null;
+                for(int j = 0; j < row.Index; j++)
+                {
+                    DataGridViewCell cell2 = row.DataGridView.Rows[j].Cells[key + "code"];
+                    if(cellCode.Value.Equals(cell2.Value))
+                    {
+                        cellCode.ErrorText = $"温馨提示：与行{j + 1}的文件编号重复。";
+                        result = false;
+                    }
+                    else
+                        cellCode.ErrorText = null;
+                }
+            }
+
+            DataGridViewCell pagesCell = row.Cells[key + "pages"];
+            if(pagesCell.Value == null)
+            {
+                pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
+                result = false;
+            }
+            else
+            {
+                if(!Regex.IsMatch(ToolHelper.GetValue(pagesCell.Value), "^[0-9]{1,4}$"))
+                {
+                    pagesCell.ErrorText = "温馨提示：请输入小于4位数的合法数字。";
+                    result = false;
+                }
+                else
+                    pagesCell.ErrorText = null;
+            }
+
+            bool isOtherType = "其他".Equals(ToolHelper.GetValue(row.Cells[key + "categor"].FormattedValue).Trim());
+            DataGridViewCell cellCategor = row.Cells[key + "categorname"];
+            if(isOtherType)
+            {
+                if(cellCategor.Value == null || string.IsNullOrEmpty(ToolHelper.GetValue(cellCategor.Value).Trim()))
+                {
+                    cellCategor.ErrorText = "温馨提示：类型名称不能为空。";
+                    result = false;
+                }
+                else
+                    cellCategor.ErrorText = null;
+
+                //文件类别是否已存在
+                string codeParam = ToolHelper.GetValue(cellCode.Value);
+                if(string.IsNullOrEmpty(cellCode.ErrorText) && !string.IsNullOrEmpty(codeParam))
+                {
+                    codeParam = codeParam.Split('-')[0];
+                    int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(dd_id) FROM data_dictionary WHERE dd_name = '{codeParam}'");
+                    if(index > 0)
+                    {
+                        cellCode.ErrorText = "提示：文件类别已存在。";
+                        result = false;
+                    }
+                    else
+                        cellCode.ErrorText = null;
+                }
+            }
+            else
+                cellCategor.ErrorText = null;
+
+            DataGridViewCell dateCell = row.Cells[key + "date"];
+            if(!string.IsNullOrEmpty(ToolHelper.GetValue(dateCell.Value)))
+            {
+                if(!Regex.IsMatch(ToolHelper.GetValue(dateCell.Value), "\\d{4}-\\d{2}-\\d{2}"))
+                {
+                    dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
+                    result = false;
+                }
+                else
+                {
+                    bool flag = DateTime.TryParse(ToolHelper.GetValue(dateCell.Value), out DateTime date);
+                    if(!flag)
+                    {
+                        dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
+                        result = false;
+                    }
+                    else
+                        dateCell.ErrorText = null;
+                }
+            }
+
+            return result;
+        }
+
+    }
 }

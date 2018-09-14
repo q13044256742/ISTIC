@@ -278,6 +278,7 @@
             this.label100 = new System.Windows.Forms.Label();
             this.txt_Subject_Code = new System.Windows.Forms.TextBox();
             this.label101 = new System.Windows.Forms.Label();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider();
             this.Pal_LeftBar.SuspendLayout();
             this.tab_MenuList.SuspendLayout();
             this.Project.SuspendLayout();
@@ -431,6 +432,10 @@
             this.dgv_Project_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.FileList_EditingControlShowing);
             this.dgv_Project_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Project_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
+            //
+            //errorProvider
+            //
+            this.errorProvider.ContainerControl = this;
             // 
             // project_fl_num
             // 
@@ -3211,5 +3216,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn subject_fl_unit;
         private System.Windows.Forms.DataGridViewComboBoxColumn subject_fl_carrier;
         private System.Windows.Forms.DataGridViewTextBoxColumn subject_fl_link;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

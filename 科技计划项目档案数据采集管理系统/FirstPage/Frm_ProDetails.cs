@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.KyoControl;
 
@@ -617,6 +618,204 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
+        private bool CheckMustEnter(string name, object pid)
+        {
+            bool result = true;
+            errorProvider.Clear();
+            if(name.Contains("Project"))
+            {
+                string proCode = txt_Project_Code.Text;
+                if(string.IsNullOrEmpty(proCode.Trim()))
+                {
+                    errorProvider.SetError(txt_Project_Code, "提示：项目编号不能为空");
+                    result = false;
+                }
+                else if(tab_Project_Info.Tag == null)
+                {
+                    int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(pi_id) FROM project_info A WHERE EXISTS(" +
+                        "SELECT pi_id FROM project_info B WHERE B.pi_categor = 1 AND B.pi_source_id = A.pi_source_id AND B.pi_orga_id = A.pi_orga_id AND A.pi_obj_id = B.pi_id) " +
+                       $"AND A.pi_categor=2 AND A.pi_code = '{proCode}'");
+                    if(count > 0)
+                    {
+                        errorProvider.SetError(txt_Project_Code, "提示：此项目/课题编号已存在");
+                        result = false;
+                    }
+                }
+
+                string funds = txt_Project_Funds.Text;
+                if(!string.IsNullOrEmpty(funds))
+                {
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{1,2})?$"))
+                    {
+                        errorProvider.SetError(txt_Project_Funds, "提示：请输入合法经费");
+                        result = false;
+                    }
+                }
+                string year = txt_Project_Year.Text;
+                if(string.IsNullOrEmpty(year) || !Regex.IsMatch(year, "^\\d{4}$"))
+                {
+                    errorProvider.SetError(txt_Project_Year, "提示：请输入有效的立项年度");
+                    result = false;
+                }
+
+                string startDate = txt_Project_StartTime.Text;
+                if(!string.IsNullOrEmpty(startDate))
+                {
+
+                    if(!Regex.IsMatch(startDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(startDate, out DateTime time))
+                    {
+                        errorProvider.SetError(dtp_Project_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        result = false;
+                    }
+                }
+                string endDate = txt_Project_EndTime.Text;
+                if(!string.IsNullOrEmpty(endDate))
+                {
+                    if(!Regex.IsMatch(endDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(endDate, out DateTime time))
+                    {
+                        errorProvider.SetError(dtp_Project_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        result = false;
+                    }
+                }
+
+            }
+            else if(name.Contains("Topic"))
+            {
+                string topCode = txt_Topic_Code.Text;
+                if(string.IsNullOrEmpty(topCode.Trim()))
+                {
+                    errorProvider.SetError(txt_Topic_Code, "提示：课题编号不能为空");
+                    result = false;
+                }
+                else if(tab_Topic_Info.Tag == null)
+                {
+                    int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(ti_id) FROM topic_info A WHERE EXISTS(" +
+                        "SELECT pi_id FROM project_info B WHERE B.pi_categor = 1 AND B.pi_source_id = A.ti_source_id AND B.pi_orga_id = A.ti_orga_id AND A.ti_obj_id = B.pi_id) " +
+                       $"AND A.ti_code = '{topCode}'");
+                    if(count > 0)
+                    {
+                        errorProvider.SetError(txt_Topic_Code, "提示：此项目/课题编号已存在");
+                        result = false;
+                    }
+                }
+
+                string funds = txt_Topic_Funds.Text;
+                if(!string.IsNullOrEmpty(funds))
+                {
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{1,2})?$"))
+                    {
+                        errorProvider.SetError(txt_Topic_Funds, "提示：请输入合法经费");
+                        result = false;
+                    }
+                }
+
+                string year = txt_Topic_Year.Text;
+                if(string.IsNullOrEmpty(year) || !Regex.IsMatch(year, "^\\d{4}$"))
+                {
+                    errorProvider.SetError(txt_Topic_Year, "提示：请输入有效的立项年度");
+                    result = false;
+                }
+
+                if(string.IsNullOrEmpty(txt_Topic_Unit.Text))
+                {
+                    errorProvider.SetError(txt_Topic_Unit, "提示：承担单位不能为空");
+                    result = false;
+                }
+                if(string.IsNullOrEmpty(txt_Topic_ProUser.Text))
+                {
+                    errorProvider.SetError(txt_Topic_ProUser, "提示：负责人不能为空");
+                    result = false;
+                }
+
+                string startDate = txt_Topic_StartTime.Text;
+                if(!string.IsNullOrEmpty(startDate))
+                {
+                    if(!Regex.IsMatch(startDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(startDate, out DateTime time))
+                    {
+                        errorProvider.SetError(dtp_Topic_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        result = false;
+                    }
+                }
+                string endDate = txt_Topic_EndTime.Text;
+                if(!string.IsNullOrEmpty(endDate))
+                {
+                    if(!Regex.IsMatch(endDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(endDate, out DateTime time))
+                    {
+                        errorProvider.SetError(dtp_Topic_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        result = false;
+                    }
+                }
+
+            }
+            else if(name.Contains("Subject"))
+            {
+                string subCode = txt_Subject_Code.Text.Trim();
+                if(string.IsNullOrEmpty(subCode.Trim()))
+                {
+                    errorProvider.SetError(txt_Subject_Code, "提示：课题编号不能为空");
+                    result = false;
+                }
+                if(tab_Subject_Info.Tag == null)
+                {
+                    int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(si_id) FROM subject_info A WHERE EXISTS(SELECT si_id FROM subject_info B WHERE A.si_obj_id = B.si_obj_id) " +
+                       $"AND A.si_code = '{subCode}'");
+                    if(count > 0)
+                    {
+                        errorProvider.SetError(txt_Subject_Code, "提示：子课题编号已存在");
+                        result = false;
+                    }
+                }
+
+                string funds = txt_Subject_Funds.Text;
+                if(!string.IsNullOrEmpty(funds))
+                {
+                    if(!Regex.IsMatch(funds, "^[0-9]+(.[0-9]{1,2})?$"))
+                    {
+                        errorProvider.SetError(txt_Subject_Funds, "提示：请输入合法经费");
+                        result = false;
+                    }
+                }
+
+                string year = txt_Subject_Year.Text;
+                if(string.IsNullOrEmpty(year) || !Regex.IsMatch(year, "^\\d{4}$"))
+                {
+                    errorProvider.SetError(txt_Subject_Year, "提示：请输入有效的立项年度");
+                    result = false;
+                }
+                if(string.IsNullOrEmpty(txt_Subject_Unit.Text))
+                {
+                    errorProvider.SetError(txt_Subject_Unit, "提示：承担单位不能为空");
+                    result = false;
+                }
+                if(string.IsNullOrEmpty(txt_Subject_ProUser.Text))
+                {
+                    errorProvider.SetError(txt_Subject_ProUser, "提示：负责人不能为空");
+                    result = false;
+                }
+
+                string startDate = txt_Subject_StartTime.Text;
+                if(!string.IsNullOrEmpty(startDate))
+                {
+                    if(!Regex.IsMatch(startDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(startDate, out DateTime time))
+                    {
+                        errorProvider.SetError(dtp_Subject_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        result = false;
+                    }
+                }
+                string endDate = txt_Subject_EndTime.Text;
+                if(!string.IsNullOrEmpty(endDate))
+                {
+                    if(!Regex.IsMatch(endDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(endDate, out DateTime time))
+                    {
+                        errorProvider.SetError(dtp_Subject_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        result = false;
+                    }
+                }
+
+            }
+            return result;
+        }
+
         private void Btn_Save_Click(object sender, EventArgs e)
         {
             KyoButton button = sender as KyoButton;
@@ -628,7 +827,7 @@ namespace 科技计划项目档案数据采集管理系统
                 view = dgv_Project_FileList;
                 key = "project_fl_";
                 int index = tab_Project_Info.SelectedTabPageIndex;
-                if(index == 0)
+                if(index == 0 && CheckMustEnter(button.Name, objId))
                 {
                     if(objId != null)
                         UpdateBasicInfo(objId, ControlType.Project);
@@ -668,7 +867,7 @@ namespace 科技计划项目档案数据采集管理系统
                 view = dgv_Topic_FileList;
                 key = "topic_fl_";
                 int index = tab_Topic_Info.SelectedTabPageIndex;
-                if(index == 0)
+                if(index == 0 && CheckMustEnter(button.Name, objId))
                 {
                     if(objId != null)//更新
                         UpdateBasicInfo(objId, ControlType.Topic);
@@ -707,7 +906,7 @@ namespace 科技计划项目档案数据采集管理系统
                 view = dgv_Subject_FileList;
                 key = "subject_fl_";
                 int index = tab_Subject_Info.SelectedTabPageIndex;
-                if(index == 0)
+                if(index == 0 && CheckMustEnter(button.Name, objId))
                 {
                     if(objId != null)
                         UpdateBasicInfo(objId, ControlType.Subject);

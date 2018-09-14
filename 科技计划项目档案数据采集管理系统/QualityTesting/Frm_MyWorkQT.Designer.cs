@@ -4820,6 +4820,7 @@
             this.dgv_Plan_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Plan_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Plan_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
+            this.dgv_Plan_FileList.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserAddedRow);
             this.dgv_Plan_FileList.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserDeletedRow);
             // 
             // plan_fl_num
