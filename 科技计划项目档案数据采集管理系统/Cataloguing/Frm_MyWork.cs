@@ -320,24 +320,12 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Imp_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             dgv_Special_FileValid.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
 
-            foreach(DataGridViewColumn column in dgv_Plan_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Plan_FileList.Columns["plan_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
-            foreach(DataGridViewColumn column in dgv_Project_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Project_FileList.Columns["project_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
-            foreach(DataGridViewColumn column in dgv_Topic_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Topic_FileList.Columns["topic_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
-            foreach(DataGridViewColumn column in dgv_Subject_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Subject_FileList.Columns["subject_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
-            foreach(DataGridViewColumn column in dgv_Imp_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Imp_FileList.Columns["imp_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
-            foreach(DataGridViewColumn column in dgv_Special_FileList.Columns)
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgv_Special_FileList.Columns["special_fl_code"].SortMode = DataGridViewColumnSortMode.Automatic;
+            dgv_Plan_FileList.AutoGenerateColumns = false;
+            dgv_Project_FileList.AutoGenerateColumns = false;
+            dgv_Topic_FileList.AutoGenerateColumns = false;
+            dgv_Subject_FileList.AutoGenerateColumns = false;
+            dgv_Imp_FileList.AutoGenerateColumns = false;
+            dgv_Special_FileList.AutoGenerateColumns = false;
         }
 
         /// <summary>
@@ -1883,6 +1871,7 @@ namespace 科技计划项目档案数据采集管理系统
             treeView.Nodes.Clear();
             treeView.SelectedNode = null;
             TreeNode treeNode = null;
+            Cursor = Cursors.WaitCursor;
             //纸本加工 - 普通计划
             if(workType == WorkType.PaperWork_Plan)
             {
@@ -1916,7 +1905,7 @@ namespace 科技计划项目档案数据采集管理系统
                             treeNode.ForeColor = DisEnbleColor;
                         //根据【计划】查询【项目/课题】集
                         DataTable proTable = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_categor, pi_worker_id, pi_submit_status FROM project_info WHERE pi_obj_id='{treeNode.Name}' UNION ALL " +
-                            $"SELECT ti_id, ti_code, ti_categor, ti_worker_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode.Name}'");
+                        $"SELECT ti_id, ti_code, ti_categor, ti_worker_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode.Name}'");
                         foreach(DataRow proRow in proTable.Rows)
                         {
                             TreeNode treeNode2 = new TreeNode()
@@ -1931,7 +1920,7 @@ namespace 科技计划项目档案数据采集管理系统
                             treeNode.Nodes.Add(treeNode2);
 
                             DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_categor, ti_worker_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' UNION ALL " +
-                                $"SELECT si_id, si_code, si_categor, si_worker_id, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode2.Name}'");
+                            $"SELECT si_id, si_code, si_categor, si_worker_id, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode2.Name}'");
                             foreach(DataRow topRow in topTable.Rows)
                             {
                                 TreeNode treeNode3 = new TreeNode()
@@ -2032,11 +2021,11 @@ namespace 科技计划项目档案数据采集管理系统
                     else if(type == ControlType.Project)
                     {
                         DataRow proRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_submit_status FROM project_info WHERE pi_id='{planId}' UNION ALL " +
-                            $"SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_submit_status FROM topic_info WHERE ti_id='{planId}'");
+                        $"SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_submit_status FROM topic_info WHERE ti_id='{planId}'");
                         if(proRow != null)
                         {
                             DataRow planRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_name FROM project_info WHERE pi_id='{proRow["pi_obj_id"]}' UNION ALL" +
-                                $" SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{proRow["pi_obj_id"]}'");
+                            $" SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{proRow["pi_obj_id"]}'");
                             treeNode = new TreeNode()
                             {
                                 Name = ToolHelper.GetValue(planRow["pi_id"]),
@@ -2053,7 +2042,7 @@ namespace 科技计划项目档案数据采集管理系统
                             };
                             treeNode.Nodes.Add(proNode);
                             DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_name, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{proRow["pi_id"]}' AND ti_worker_id='{UserHelper.GetUser().UserKey}' UNION ALL " +
-                                $"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{proRow["pi_id"]}' AND si_worker_id='{UserHelper.GetUser().UserKey}';");
+                            $"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{proRow["pi_id"]}' AND si_worker_id='{UserHelper.GetUser().UserKey}';");
                             foreach(DataRow _row in topTable.Rows)
                             {
                                 TreeNode topNode = new TreeNode()
@@ -2111,7 +2100,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 treeNode2.ForeColor = DisEnbleColor;
                             //根据【专项信息】查询【项目/课题】集
                             DataTable list = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_submit_status, pi_worker_id FROM project_info WHERE pi_obj_id='{treeNode2.Name}' UNION ALL " +
-                                $"SELECT ti_id, ti_code, ti_submit_status, ti_worker_id FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' ORDER BY pi_code");
+                            $"SELECT ti_id, ti_code, ti_submit_status, ti_worker_id FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' ORDER BY pi_code");
                             foreach(DataRow proRow in list.Rows)
                             {
                                 TreeNode treeNode3 = new TreeNode()
@@ -2126,7 +2115,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     treeNode3.ForeColor = DisEnbleColor;
                                 //根据【项目/课题】查询【课题/子课题】集
                                 DataTable list2 = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_submit_status, ti_worker_id FROM topic_info WHERE ti_obj_id='{treeNode3.Name}' UNION ALL " +
-                                    $"SELECT si_id, si_code, si_submit_status, si_worker_id FROM subject_info WHERE si_obj_id='{treeNode3.Name}' ORDER BY ti_code");
+                                $"SELECT si_id, si_code, si_submit_status, si_worker_id FROM subject_info WHERE si_obj_id='{treeNode3.Name}' ORDER BY ti_code");
                                 foreach(DataRow topRow in list2.Rows)
                                 {
                                     TreeNode treeNode4 = new TreeNode()
@@ -2507,7 +2496,7 @@ namespace 科技计划项目档案数据采集管理系统
                         };
                         //根据【计划】查询【项目/课题】集
                         DataTable proTable = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_categor, pi_worker_id, pi_submit_status FROM project_info WHERE pi_obj_id='{treeNode.Name}' UNION ALL " +
-                            $"SELECT ti_id, ti_code, ti_categor, ti_worker_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode.Name}'");
+                        $"SELECT ti_id, ti_code, ti_categor, ti_worker_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode.Name}'");
                         foreach(DataRow proRow in proTable.Rows)
                         {
                             TreeNode treeNode2 = new TreeNode()
@@ -2522,7 +2511,7 @@ namespace 科技计划项目档案数据采集管理系统
                             treeNode.Nodes.Add(treeNode2);
 
                             DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_categor, ti_worker_id, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}' UNION ALL " +
-                                $"SELECT si_id, si_code, si_categor, si_worker_id, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode2.Name}'");
+                            $"SELECT si_id, si_code, si_categor, si_worker_id, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode2.Name}'");
                             foreach(DataRow topRow in topTable.Rows)
                             {
                                 TreeNode treeNode3 = new TreeNode()
@@ -2623,11 +2612,11 @@ namespace 科技计划项目档案数据采集管理系统
                     else if(type == ControlType.Project)
                     {
                         DataRow proRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_submit_status FROM project_info WHERE pi_id='{planId}' UNION ALL " +
-                            $"SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_submit_status FROM topic_info WHERE ti_id='{planId}'");
+                        $"SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_submit_status FROM topic_info WHERE ti_id='{planId}'");
                         if(proRow != null)
                         {
                             DataRow planRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_name FROM project_info WHERE pi_id='{proRow["pi_obj_id"]}' UNION ALL" +
-                                $" SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{proRow["pi_obj_id"]}'");
+                            $" SELECT dd_id, dd_name FROM data_dictionary WHERE dd_id='{proRow["pi_obj_id"]}'");
                             treeNode = new TreeNode()
                             {
                                 Name = ToolHelper.GetValue(planRow["pi_id"]),
@@ -2644,7 +2633,7 @@ namespace 科技计划项目档案数据采集管理系统
                             };
                             treeNode.Nodes.Add(proNode);
                             DataTable topTable = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_name, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{proRow["pi_id"]}' AND ti_worker_id='{UserHelper.GetUser().UserKey}' UNION ALL " +
-                                $"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{proRow["pi_id"]}' AND si_worker_id='{UserHelper.GetUser().UserKey}';");
+                            $"SELECT si_id, si_name, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{proRow["pi_id"]}' AND si_worker_id='{UserHelper.GetUser().UserKey}';");
                             foreach(DataRow _row in topTable.Rows)
                             {
                                 TreeNode topNode = new TreeNode()
@@ -2700,7 +2689,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                             //根据【专项信息】查询【项目/课题】集
                             DataTable list = SqlHelper.ExecuteQuery($"SELECT pi_id, pi_code, pi_submit_status FROM project_info WHERE pi_obj_id='{treeNode2.Name}' UNION ALL " +
-                                $"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}'");
+                            $"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode2.Name}'");
                             foreach(DataRow proRow in list.Rows)
                             {
                                 TreeNode treeNode3 = new TreeNode()
@@ -2714,7 +2703,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                                 //根据【项目/课题】查询【课题/子课题】集
                                 DataTable list2 = SqlHelper.ExecuteQuery($"SELECT ti_id, ti_code, ti_submit_status FROM topic_info WHERE ti_obj_id='{treeNode3.Name}' UNION ALL " +
-                                    $"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}'");
+                                $"SELECT si_id, si_code, si_submit_status FROM subject_info WHERE si_obj_id='{treeNode3.Name}'");
                                 foreach(DataRow topRow in list2.Rows)
                                 {
                                     TreeNode treeNode4 = new TreeNode()
@@ -2755,7 +2744,6 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
             treeView.EndUpdate();
-
             if(treeNode != null)
             {
                 treeView.Nodes.Add(treeNode);
@@ -2782,6 +2770,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                 treeView.ExpandAll();
             }
+            Cursor = Cursors.Default;
         }
 
         /// <summary>
@@ -5530,19 +5519,18 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void FileList_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            DataGridView view = sender as DataGridView;
-            object id = view.Rows[e.RowIndex].Cells[0].Tag;
-            if(view.Name.Contains("Plan"))
+            string name = (sender as DataGridView).Name;
+            if(name.Contains("Plan"))
                 Btn_AddFile_Click(btn_Plan_AddFile, e);
-            else if(view.Name.Contains("Project"))
+            else if(name.Contains("Project"))
                 Btn_AddFile_Click(btn_Project_AddFile, e);
-            else if(view.Name.Contains("Topic"))
+            else if(name.Contains("Topic"))
                 Btn_AddFile_Click(btn_Topic_AddFile, e);
-            else if(view.Name.Contains("Subject"))
+            else if(name.Contains("Subject"))
                 Btn_AddFile_Click(btn_Subject_AddFile, e);
-            else if(view.Name.Contains("Imp"))
+            else if(name.Contains("Imp"))
                 Btn_AddFile_Click(btn_Imp_AddFile, e);
-            else if(view.Name.Contains("Special"))
+            else if(name.Contains("Special"))
                 Btn_AddFile_Click(btn_Special_AddFile, e);
         }
 
@@ -5600,7 +5588,7 @@ namespace 科技计划项目档案数据采集管理系统
                 proName = txt_Topic_Name.Text;
                 proCode = txt_Topic_Code.Text;
                 boxTable = (DataTable)cbo_Topic_Box.DataSource;
-                parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_name FROM project_info WHERE pi_id=(SELECT ti_obj_id FROM topic_info WHERE ti_id='{objId}')");
+                parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_name FROM project_info WHERE pi_id=(SELECT ti_obj_id FROM topic_info WHERE ti_id='{objId}') AND pi_categor=2");
             }
             else if(controlName.Contains("Subject"))
             {
@@ -5746,16 +5734,9 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_Subject_EndTime.Text = picker.Value.ToString("yyyy-MM-dd");
         }
 
-        private void togle_Toggled(object sender, EventArgs e)
+        private void Togle_Toggled(object sender, EventArgs e)
         {
-            if(togle.IsOn)
-            {
-                Pal_LeftBar.Width = 250;
-            }
-            else
-            {
-                Pal_LeftBar.Width = 0;
-            }
+            Pal_LeftBar.Visible = togle.IsOn ? true : false;
         }
 
         /// <summary>
