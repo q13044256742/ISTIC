@@ -102,17 +102,17 @@ namespace 科技计划项目档案数据采集管理系统
 
                 if(tcount > 0)
                 {
-                    string querySQL_Topic = "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id, COUNT(pb_id) bcount FROM (" +
-                         "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id, pb_id " +
+                    string querySQL_Topic = "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, COUNT(pb_id) bcount FROM (" +
+                         "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, pb_id " +
                          "FROM topic_info AS ti LEFT OUTER JOIN processing_box ON processing_box.pb_obj_id = ti.ti_id " +
                         $"WHERE ti_obj_id ='{row["pi_id"]}') A " +
-                         "GROUP BY ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id " +
+                         "GROUP BY ti_id, ti_code, ti_name, ti_start_datetime, ti_funds " +
                          "ORDER BY ti_code";
                     DataTable topTable = SqlHelper.ExecuteQuery(querySQL_Topic);
                     int j = 0;
                     foreach(DataRow topRow in topTable.Rows)
                     {
-                        TreeListNode topNode = node.Nodes.Add(new object[] { i + "-" + ++j, topRow["ti_orga_id"], topRow["ti_code"], topRow["ti_name"], topRow["ti_start_datetime"], GetTopicCount(topRow["ti_id"]), topRow["bcount"], GetFileCount(topRow["ti_id"]) });
+                        TreeListNode topNode = node.Nodes.Add(new object[] { i + "-" + ++j, row["dd_name"], topRow["ti_code"], topRow["ti_name"], topRow["ti_start_datetime"], GetTopicCount(topRow["ti_id"]), topRow["bcount"], GetFileCount(topRow["ti_id"]) });
                     }
                 }
             }
@@ -675,7 +675,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void btn_Export_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.Filter= "表单文件(*.csv)|*.CSV";
+            saveFileDialog1.Filter= "表单文件(*.CSV)|*.CSV";
             saveFileDialog1.Title = "选择文件导出位置...";
             if(saveFileDialog1.ShowDialog() == DialogResult.OK)
             {

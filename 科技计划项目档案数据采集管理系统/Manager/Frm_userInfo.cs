@@ -82,23 +82,6 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        //分组
-        private void Btn_group(object sender, EventArgs e)
-        {                     
-            int amount = u_DataList.SelectedRows.Count;
-            if (amount == 1)
-            {
-                //获取你所选行的id
-                string id = u_DataList.SelectedRows[0].Cells["ul_id"].Value.ToString();
-                Manager.Frm_UserGroupSelect frm = new Manager.Frm_UserGroupSelect(id);
-                frm.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("请先选择一条数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
-        }
-
         private void Frm_userInfo_Load(object sender, EventArgs e)
         {
             LoadUserDataScoure();

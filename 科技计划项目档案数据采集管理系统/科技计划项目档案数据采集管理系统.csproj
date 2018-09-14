@@ -218,29 +218,11 @@
     <Compile Include="Cataloguing\Frm_ProTypeSelect.Designer.cs">
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </Compile>
-    <Compile Include="Manager\Frm_template.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Manager\Frm_template.Designer.cs">
-      <DependentUpon>Frm_template.cs</DependentUpon>
-    </Compile>
     <Compile Include="Manager\Frm_userGroup.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Manager\Frm_userGroup.Designer.cs">
       <DependentUpon>Frm_userGroup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Manager\Frm_userGroupAdd.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Manager\Frm_userGroupAdd.Designer.cs">
-      <DependentUpon>Frm_userGroupAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Manager\Frm_UserGroupSelect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Manager\Frm_UserGroupSelect.Designer.cs">
-      <DependentUpon>Frm_UserGroupSelect.cs</DependentUpon>
     </Compile>
     <Compile Include="Manager\Frm_userInfo.cs">
       <SubType>Form</SubType>
@@ -467,17 +449,8 @@
     <EmbeddedResource Include="Cataloguing\Frm_ProTypeSelect.resx">
       <DependentUpon>Frm_ProTypeSelect.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Manager\Frm_template.resx">
-      <DependentUpon>Frm_template.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_userGroup.resx">
       <DependentUpon>Frm_userGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Manager\Frm_userGroupAdd.resx">
-      <DependentUpon>Frm_userGroupAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Manager\Frm_UserGroupSelect.resx">
-      <DependentUpon>Frm_UserGroupSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager\Frm_userInfo.resx">
       <DependentUpon>Frm_userInfo.cs</DependentUpon>

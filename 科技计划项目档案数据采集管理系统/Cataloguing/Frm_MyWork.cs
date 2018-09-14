@@ -4034,7 +4034,7 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         else if(type == 1)
                             amount = GetBoxWaterNumber(length, unitCode + Tag);
-                        code[1] += amount.ToString().PadLeft(length, '0');
+                        code[1] = amount.ToString().PadLeft(length, '0');
                     }
                     code[0] += symbol;
                 }
@@ -4073,18 +4073,17 @@ namespace 科技计划项目档案数据采集管理系统
         /// 获取馆藏号流水号
         /// （优先获取已删除的）
         /// </summary>
-        private int GetBoxWaterNumber(int length, string specialId)
+        private int GetBoxWaterNumber(int length, string unitCode)
         {
-            string querySql = $"SELECT COUNT(pb_id) FROM processing_box WHERE pb_unit_id='{specialId}'";
-            int max = SqlHelper.ExecuteCountQuery(querySql);
-            for(int i = 1; i <= max; i++)
-            {
-                string _str = i.ToString().PadLeft(length, '0');
-                int temp = SqlHelper.ExecuteCountQuery(querySql + $" AND pb_gc_id LIKE '%{_str}'");
-                if(temp == 0)
-                    return i;
-            }
-            return max + 1;
+            int result = 1;
+            string querySql = $"SELECT MIN(num) FROM(SELECT ROW_NUMBER() OVER(ORDER BY pb_gc_number) num, pb_gc_number " +
+                $"FROM processing_box a where a.pb_unit_id = '{unitCode}') A WHERE num<> pb_gc_number";
+            object value = SqlHelper.ExecuteOnlyOneQuery(querySql);
+            if(value == null)//不存在漏缺馆藏号
+                result = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_id)+1 FROM processing_box WHERE pb_unit_id='{unitCode}'");
+            else
+                result = ToolHelper.GetIntValue(value);
+            return result;
         }
 
         /// <summary>
@@ -5065,6 +5064,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Project_FileList, key, null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else
@@ -5082,6 +5082,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Topic_FileList, key, null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else
@@ -5099,6 +5100,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Subject_FileList, key, null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else
@@ -5116,6 +5118,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Imp_FileList, key, null, trcId);
                     frm.parentId = objId;
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else
@@ -5133,6 +5136,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Special_FileList, key, null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else

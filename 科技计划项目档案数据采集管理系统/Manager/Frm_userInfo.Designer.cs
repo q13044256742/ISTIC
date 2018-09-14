@@ -31,7 +31,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.u_DataList = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.button4 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.button3 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -65,7 +64,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.btn_Add);
@@ -79,20 +77,10 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "快速检索";
             // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(926, 21);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(68, 27);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "分组";
-            this.button1.Click += new System.EventHandler(this.Btn_group);
-            // 
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(849, 21);
+            this.button4.Location = new System.Drawing.Point(925, 21);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(68, 27);
             this.button4.TabIndex = 12;
@@ -102,7 +90,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(772, 21);
+            this.button3.Location = new System.Drawing.Point(848, 21);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(68, 27);
             this.button3.TabIndex = 11;
@@ -112,7 +100,7 @@
             // btn_Add
             // 
             this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Add.Location = new System.Drawing.Point(695, 21);
+            this.btn_Add.Location = new System.Drawing.Point(771, 21);
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(68, 27);
             this.btn_Add.TabIndex = 10;
@@ -156,7 +144,6 @@
         #endregion
         private System.Windows.Forms.DataGridView u_DataList;
         private System.Windows.Forms.GroupBox groupBox1;
-        private KyoControl.KyoButton button1;
         private KyoControl.KyoButton button4;
         private KyoControl.KyoButton button3;
         private KyoControl.KyoButton btn_Add;

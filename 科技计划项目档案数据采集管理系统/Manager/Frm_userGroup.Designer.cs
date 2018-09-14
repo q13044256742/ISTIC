@@ -92,7 +92,6 @@
             this.button3.Size = new System.Drawing.Size(68, 27);
             this.button3.TabIndex = 11;
             this.button3.Text = "修改";
-            this.button3.Click += new System.EventHandler(this.UG_btnUpdate);
             // 
             // btn_Add
             // 
@@ -102,7 +101,6 @@
             this.btn_Add.Size = new System.Drawing.Size(68, 27);
             this.btn_Add.TabIndex = 10;
             this.btn_Add.Text = "新增";
-            this.btn_Add.Click += new System.EventHandler(this.UG_btnAdd);
             // 
             // btn_Search
             // 

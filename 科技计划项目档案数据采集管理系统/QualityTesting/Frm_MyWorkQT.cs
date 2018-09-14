@@ -147,32 +147,14 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="dataGridView">表格控件</param>
         /// <param name="key">列名关键字</param>
         /// <param name="parentId">所属对象ID</param>
-        private void LoadFileList(DataGridView dataGridView, string key, object parentId)
+        private void LoadFileList(DataGridView dataGridView, object parentId)
         {
-            dataGridView.Rows.Clear();
-            string querySql = $"SELECT * FROM processing_file_list WHERE pfl_obj_id='{parentId}' ORDER BY pfl_sort";
+            string querySql = "SELECT pfl_id, ROW_NUMBER() OVER (ORDER BY pfl_sort) rownum, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_amount, pfl_user, pfl_type, " +
+               $"pfl_pages, pfl_count, TRY_CAST(TRY_PARSE(pfl_date as date) AS VARCHAR) pfl_date, pfl_unit, pfl_carrier, pfl_link FROM processing_file_list WHERE pfl_obj_id='{parentId}'";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
-            for(int i = 0; i < dataTable.Rows.Count; i++)
-            {
-                int index = dataGridView.Rows.Add();
-                dataGridView.Rows[index].Cells[key + "id"].Value = i + 1;
-                dataGridView.Rows[index].Cells[key + "id"].Tag = dataTable.Rows[i]["pfl_id"];
-                dataGridView.Rows[index].Cells[key + "stage"].Value = dataTable.Rows[i]["pfl_stage"];
-                SetCategorByStage(dataTable.Rows[i]["pfl_stage"], dataGridView.Rows[index], key);
-                dataGridView.Rows[index].Cells[key + "categor"].Value = dataTable.Rows[i]["pfl_categor"];
-                dataGridView.Rows[index].Cells[key + "code"].Value = dataTable.Rows[i]["pfl_code"];
-                dataGridView.Rows[index].Cells[key + "name"].Value = dataTable.Rows[i]["pfl_name"];
-                dataGridView.Rows[index].Cells[key + "user"].Value = dataTable.Rows[i]["pfl_user"];
-                dataGridView.Rows[index].Cells[key + "type"].Value = dataTable.Rows[i]["pfl_type"];
-                dataGridView.Rows[index].Cells[key + "pages"].Value = dataTable.Rows[i]["pfl_pages"];
-                dataGridView.Rows[index].Cells[key + "count"].Value = dataTable.Rows[i]["pfl_count"];
-                dataGridView.Rows[index].Cells[key + "amount"].Value = dataTable.Rows[i]["pfl_amount"];
-                dataGridView.Rows[index].Cells[key + "date"].Value = GetDateValue(dataTable.Rows[i]["pfl_date"], "yyyy-MM-dd");
-                dataGridView.Rows[index].Cells[key + "unit"].Value = dataTable.Rows[i]["pfl_unit"];
-                dataGridView.Rows[index].Cells[key + "carrier"].Value = dataTable.Rows[i]["pfl_carrier"];
-                dataGridView.Rows[index].Cells[key + "link"].Value = dataTable.Rows[i]["pfl_link"];
-                dataGridView.Rows[index].Cells[key + "link"].Tag = dataTable.Rows[i]["pfl_file_id"];
-            }
+            dataGridView.DataSource = dataTable;
+            dataGridView.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            dataGridView.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
         }
         
         /// <summary>
@@ -412,7 +394,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 根据阶段设置相应的文件类别
         /// </summary>
         /// <param name="jdId">阶段ID</param>
-        public void SetCategorByStage(object jdId, DataGridViewRow dataGridViewRow, string key)
+        public void SetCategorByStage(object jdId, DataGridViewRow dataGridViewRow, object key)
         {
             //文件类别
             DataGridViewComboBoxCell categorCell = dataGridViewRow.Cells[key + "categor"] as DataGridViewComboBoxCell;
@@ -3524,18 +3506,17 @@ namespace 科技计划项目档案数据采集管理系统
         /// 获取馆藏号流水号
         /// （优先获取已删除的）
         /// </summary>
-        private int GetBoxWaterNumber(int length, string specialId)
+        private int GetBoxWaterNumber(int length, string unitCode)
         {
-            string querySql = $"SELECT COUNT(pb_id) FROM processing_box WHERE pb_unit_id='{specialId}'";
-            int max = SqlHelper.ExecuteCountQuery(querySql);
-            for(int i = 1; i <= max; i++)
-            {
-                string _str = i.ToString().PadLeft(length, '0');
-                int temp = SqlHelper.ExecuteCountQuery(querySql + $" AND pb_gc_id LIKE '%{_str}'");
-                if(temp == 0)
-                    return i;
-            }
-            return max + 1;
+            int result = 1;
+            string querySql = $"SELECT MIN(num) FROM(SELECT ROW_NUMBER() OVER(ORDER BY pb_gc_number) num, pb_gc_number " +
+                $"FROM processing_box a where a.pb_unit_id = '{unitCode}') A WHERE num<> pb_gc_number";
+            object value = SqlHelper.ExecuteOnlyOneQuery(querySql);
+            if(value == null)//不存在漏缺馆藏号
+                result = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_id)+1 FROM processing_box WHERE pb_unit_id='{unitCode}'");
+            else
+                result = ToolHelper.GetIntValue(value);
+            return result;
         }
 
         private string[] GetGroupCode(string value, string symbol)
@@ -4158,6 +4139,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Plan_FileList, "plan_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else
@@ -4174,6 +4156,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Project_FileList, "project_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else
@@ -4190,6 +4173,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Topic_FileList, "topic_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else
@@ -4206,6 +4190,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Subject_FileList, "subject_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else
@@ -4222,6 +4207,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Imp_FileList, "imp_fl_", null, trcId);
                     frm.parentId = objId;
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else
@@ -4238,6 +4224,7 @@ namespace 科技计划项目档案数据采集管理系统
                         frm = new Frm_AddFile(dgv_Special_FileList, "special_fl_", null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
+                    frm.UpdateDataSource = LoadFileList;
                     frm.Show();
                 }
                 else
@@ -4984,6 +4971,16 @@ namespace 科技计划项目档案数据采集管理系统
         private void Frm_MyWorkQT_FormClosed(object sender, FormClosedEventArgs e)
         {
             BackCallMethod?.Invoke(workType, objId, wmid, objId);
+        }
+
+        private void FileList_DataSourceChanged(object sender, EventArgs e)
+        {
+            DataGridView view = sender as DataGridView;
+            foreach(DataGridViewRow row in view.Rows)
+            {
+                object id = row.Cells[view.Tag + "stage"].Value;
+                SetCategorByStage(id, row, view.Tag);
+            }
         }
     }
 

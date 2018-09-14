@@ -39,37 +39,6 @@ namespace 科技计划项目档案数据采集管理系统
 
         }
 
-        //添加
-        private void UG_btnAdd(object sender, EventArgs e)
-        {       
-            Manager.Frm_userGroupAdd frm = new Manager.Frm_userGroupAdd(true,null);
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                LoadUserGroupDataScoure();
-            }
-        }
-
-        //更新
-        private void UG_btnUpdate(object sender, EventArgs e)
-        {
-            int amount = view.SelectedRows.Count;
-            if (amount == 1)
-            {
-                //获取你所选行的id
-                string id = view.SelectedRows[0].Cells["ug_id"].Value.ToString();
-               
-                Manager.Frm_userGroupAdd frm = new Manager.Frm_userGroupAdd(false, id);
-                if (frm.ShowDialog() == DialogResult.OK)
-                {
-                    LoadUserGroupDataScoure();
-                }
-            }
-            else
-            {
-                MessageBox.Show("请先选择一条要修改的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
-        }
-
         //删除
         private void UG_btnDel(object sender, EventArgs e)
         {
