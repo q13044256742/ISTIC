@@ -48,6 +48,8 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsm_DeleteRow = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_Refresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tsm_Up = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tsm_Down = new System.Windows.Forms.ToolStripMenuItem();
             this.special = new System.Windows.Forms.TabPage();
             this.tab_Special_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage25 = new DevExpress.XtraTab.XtraTabPage();
@@ -570,9 +572,11 @@
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsm_DeleteRow,
-            this.tsm_Refresh});
+            this.tsm_Refresh,
+            this.Tsm_Up,
+            this.Tsm_Down});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 92);
             // 
             // tsm_DeleteRow
             // 
@@ -587,6 +591,20 @@
             this.tsm_Refresh.Size = new System.Drawing.Size(112, 22);
             this.tsm_Refresh.Text = "刷新";
             this.tsm_Refresh.Click += new System.EventHandler(this.Tsm_Refresh);
+            // 
+            // Tsm_Up
+            // 
+            this.Tsm_Up.Name = "Tsm_Up";
+            this.Tsm_Up.Size = new System.Drawing.Size(112, 22);
+            this.Tsm_Up.Text = "上移";
+            this.Tsm_Up.Click += new System.EventHandler(this.Tsm_Click);
+            // 
+            // Tsm_Down
+            // 
+            this.Tsm_Down.Name = "Tsm_Down";
+            this.Tsm_Down.Size = new System.Drawing.Size(112, 22);
+            this.Tsm_Down.Text = "下移";
+            this.Tsm_Down.Click += new System.EventHandler(this.Tsm_Click);
             // 
             // special
             // 
@@ -669,6 +687,7 @@
             this.dgv_Special_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Special_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Special_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
+            this.dgv_Special_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Special_FileList.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserDeletedRow);
             // 
             // special_fl_num
@@ -1398,6 +1417,7 @@
             this.dgv_Imp_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Imp_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Imp_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
+            this.dgv_Imp_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Imp_FileList.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserDeletedRow);
             // 
             // imp_fl_num
@@ -2070,6 +2090,7 @@
             this.dgv_Subject_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Subject_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Subject_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
+            this.dgv_Subject_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Subject_FileList.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserDeletedRow);
             // 
             // subject_fl_num
@@ -2970,6 +2991,7 @@
             this.dgv_Topic_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Topic_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Topic_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
+            this.dgv_Topic_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Topic_FileList.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserDeletedRow);
             // 
             // topic_fl_num
@@ -3896,6 +3918,7 @@
             this.dgv_Project_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Project_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Project_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
+            this.dgv_Project_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Project_FileList.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserDeletedRow);
             // 
             // project_fl_num
@@ -4820,6 +4843,7 @@
             this.dgv_Plan_FileList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.Dgv_File_DataError);
             this.dgv_Plan_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_File_EditingControlShowing);
             this.dgv_Plan_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
+            this.dgv_Plan_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Plan_FileList.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserAddedRow);
             this.dgv_Plan_FileList.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserDeletedRow);
             // 
@@ -6003,5 +6027,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn project_fl_unit;
         private System.Windows.Forms.DataGridViewComboBoxColumn project_fl_carrier;
         private System.Windows.Forms.DataGridViewTextBoxColumn project_fl_link;
+        private System.Windows.Forms.ToolStripMenuItem Tsm_Up;
+        private System.Windows.Forms.ToolStripMenuItem Tsm_Down;
     }
 }

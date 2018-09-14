@@ -47,6 +47,14 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Project = new System.Windows.Forms.DataGridView();
             this.dgv_MyReg = new System.Windows.Forms.DataGridView();
             this.searchControl = new DevExpress.XtraEditors.SearchControl();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pal_Page = new System.Windows.Forms.Panel();
+            this.txt_page = new DevExpress.XtraEditors.TextEdit();
+            this.btn_lpage = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_npage = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_epage = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_fpage = new DevExpress.XtraEditors.SimpleButton();
+            this.label1 = new System.Windows.Forms.Label();
             this.pal_LeftMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).BeginInit();
@@ -59,6 +67,9 @@ namespace 科技计划项目档案数据采集管理系统
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchControl.Properties)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.pal_Page.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_page.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // pal_LeftMenu
@@ -68,7 +79,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.pal_LeftMenu.Location = new System.Drawing.Point(0, 0);
             this.pal_LeftMenu.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pal_LeftMenu.Name = "pal_LeftMenu";
-            this.pal_LeftMenu.Size = new System.Drawing.Size(239, 475);
+            this.pal_LeftMenu.Size = new System.Drawing.Size(214, 511);
             this.pal_LeftMenu.TabIndex = 0;
             // 
             // ace_LeftMenu
@@ -92,7 +103,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.ace_LeftMenu.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ace_LeftMenu.Name = "ace_LeftMenu";
             this.ace_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
-            this.ace_LeftMenu.Size = new System.Drawing.Size(239, 475);
+            this.ace_LeftMenu.Size = new System.Drawing.Size(214, 511);
             this.ace_LeftMenu.TabIndex = 17;
             // 
             // acg_Worked
@@ -174,12 +185,12 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Imp.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_Imp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_Imp.Location = new System.Drawing.Point(4, 8);
+            this.dgv_Imp.Location = new System.Drawing.Point(0, 0);
             this.dgv_Imp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgv_Imp.Name = "dgv_Imp";
             this.dgv_Imp.ReadOnly = true;
             this.dgv_Imp.RowTemplate.Height = 23;
-            this.dgv_Imp.Size = new System.Drawing.Size(665, 419);
+            this.dgv_Imp.Size = new System.Drawing.Size(721, 433);
             this.dgv_Imp.TabIndex = 2;
             this.dgv_Imp.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Imp_CellClick);
             // 
@@ -188,11 +199,11 @@ namespace 科技计划项目档案数据采集管理系统
             this.tab_Menulist.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F);
             this.tab_Menulist.Appearance.Options.UseFont = true;
             this.tab_Menulist.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tab_Menulist.Location = new System.Drawing.Point(239, 0);
-            this.tab_Menulist.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tab_Menulist.Location = new System.Drawing.Point(0, 0);
+            this.tab_Menulist.Margin = new System.Windows.Forms.Padding(0);
             this.tab_Menulist.Name = "tab_Menulist";
             this.tab_Menulist.SelectedTabPage = this.imp;
-            this.tab_Menulist.Size = new System.Drawing.Size(679, 475);
+            this.tab_Menulist.Size = new System.Drawing.Size(727, 473);
             this.tab_Menulist.TabIndex = 3;
             this.tab_Menulist.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.imp,
@@ -207,10 +218,9 @@ namespace 科技计划项目档案数据采集管理系统
             this.imp.Appearance.PageClient.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.imp.Appearance.PageClient.Options.UseFont = true;
             this.imp.Controls.Add(this.dgv_Imp);
-            this.imp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.imp.Margin = new System.Windows.Forms.Padding(0);
             this.imp.Name = "imp";
-            this.imp.Padding = new System.Windows.Forms.Padding(4, 8, 4, 8);
-            this.imp.Size = new System.Drawing.Size(673, 435);
+            this.imp.Size = new System.Drawing.Size(721, 433);
             this.imp.Text = "计划";
             // 
             // imp_dev
@@ -220,10 +230,9 @@ namespace 科技计划项目档案数据采集管理系统
             this.imp_dev.Appearance.PageClient.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.imp_dev.Appearance.PageClient.Options.UseFont = true;
             this.imp_dev.Controls.Add(this.dgv_Imp_Dev);
-            this.imp_dev.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.imp_dev.Margin = new System.Windows.Forms.Padding(0);
             this.imp_dev.Name = "imp_dev";
-            this.imp_dev.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.imp_dev.Size = new System.Drawing.Size(673, 435);
+            this.imp_dev.Size = new System.Drawing.Size(721, 433);
             this.imp_dev.Text = "专项";
             // 
             // dgv_Imp_Dev
@@ -235,12 +244,12 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Imp_Dev.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_Imp_Dev.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Imp_Dev.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_Imp_Dev.Location = new System.Drawing.Point(4, 5);
+            this.dgv_Imp_Dev.Location = new System.Drawing.Point(0, 0);
             this.dgv_Imp_Dev.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgv_Imp_Dev.Name = "dgv_Imp_Dev";
             this.dgv_Imp_Dev.ReadOnly = true;
             this.dgv_Imp_Dev.RowTemplate.Height = 23;
-            this.dgv_Imp_Dev.Size = new System.Drawing.Size(665, 425);
+            this.dgv_Imp_Dev.Size = new System.Drawing.Size(721, 433);
             this.dgv_Imp_Dev.TabIndex = 0;
             this.dgv_Imp_Dev.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Imp_Dev_CellClick);
             // 
@@ -251,10 +260,9 @@ namespace 科技计划项目档案数据采集管理系统
             this.project.Appearance.PageClient.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.project.Appearance.PageClient.Options.UseFont = true;
             this.project.Controls.Add(this.dgv_Project);
-            this.project.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.project.Margin = new System.Windows.Forms.Padding(0);
             this.project.Name = "project";
-            this.project.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.project.Size = new System.Drawing.Size(673, 435);
+            this.project.Size = new System.Drawing.Size(721, 433);
             this.project.Text = "项目/课题";
             // 
             // dgv_Project
@@ -266,12 +274,12 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Project.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_Project.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Project.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_Project.Location = new System.Drawing.Point(4, 5);
+            this.dgv_Project.Location = new System.Drawing.Point(0, 0);
             this.dgv_Project.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgv_Project.Name = "dgv_Project";
             this.dgv_Project.ReadOnly = true;
             this.dgv_Project.RowTemplate.Height = 23;
-            this.dgv_Project.Size = new System.Drawing.Size(665, 425);
+            this.dgv_Project.Size = new System.Drawing.Size(721, 433);
             this.dgv_Project.TabIndex = 0;
             this.dgv_Project.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Project_CellClick);
             // 
@@ -282,12 +290,12 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_MyReg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_MyReg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_MyReg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_MyReg.Location = new System.Drawing.Point(239, 0);
+            this.dgv_MyReg.Location = new System.Drawing.Point(0, 0);
             this.dgv_MyReg.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgv_MyReg.Name = "dgv_MyReg";
             this.dgv_MyReg.ReadOnly = true;
             this.dgv_MyReg.RowTemplate.Height = 23;
-            this.dgv_MyReg.Size = new System.Drawing.Size(679, 475);
+            this.dgv_MyReg.Size = new System.Drawing.Size(727, 473);
             this.dgv_MyReg.TabIndex = 2;
             this.dgv_MyReg.Visible = false;
             this.dgv_MyReg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_MyReg_CellClick);
@@ -295,7 +303,7 @@ namespace 科技计划项目档案数据采集管理系统
             // searchControl
             // 
             this.searchControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.searchControl.Location = new System.Drawing.Point(683, 1);
+            this.searchControl.Location = new System.Drawing.Point(706, 1);
             this.searchControl.Name = "searchControl";
             this.searchControl.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchControl.Properties.Appearance.Options.UseFont = true;
@@ -308,13 +316,115 @@ namespace 科技计划项目档案数据采集管理系统
             this.searchControl.TabIndex = 3;
             this.searchControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchControl_KeyDown);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.tab_Menulist);
+            this.panel1.Controls.Add(this.dgv_MyReg);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(214, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(727, 473);
+            this.panel1.TabIndex = 4;
+            // 
+            // pal_Page
+            // 
+            this.pal_Page.Controls.Add(this.txt_page);
+            this.pal_Page.Controls.Add(this.btn_lpage);
+            this.pal_Page.Controls.Add(this.btn_npage);
+            this.pal_Page.Controls.Add(this.btn_epage);
+            this.pal_Page.Controls.Add(this.btn_fpage);
+            this.pal_Page.Controls.Add(this.label1);
+            this.pal_Page.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pal_Page.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.pal_Page.Location = new System.Drawing.Point(214, 473);
+            this.pal_Page.Name = "pal_Page";
+            this.pal_Page.Size = new System.Drawing.Size(727, 38);
+            this.pal_Page.TabIndex = 4;
+            this.pal_Page.Visible = false;
+            // 
+            // txt_page
+            // 
+            this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_page.EditValue = "";
+            this.txt_page.Location = new System.Drawing.Point(594, 6);
+            this.txt_page.Name = "txt_page";
+            this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.txt_page.Properties.Appearance.Options.UseFont = true;
+            this.txt_page.Properties.Appearance.Options.UseTextOptions = true;
+            this.txt_page.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txt_page.Properties.Mask.EditMask = "d";
+            this.txt_page.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txt_page.Size = new System.Drawing.Size(41, 26);
+            this.txt_page.TabIndex = 7;
+            // 
+            // btn_lpage
+            // 
+            this.btn_lpage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_lpage.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_lpage.Appearance.Options.UseFont = true;
+            this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
+            this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_lpage.Location = new System.Drawing.Point(552, 8);
+            this.btn_lpage.Name = "btn_lpage";
+            this.btn_lpage.Size = new System.Drawing.Size(41, 23);
+            this.btn_lpage.TabIndex = 6;
+            this.btn_lpage.Click += new System.EventHandler(this.Page_Click);
+            // 
+            // btn_npage
+            // 
+            this.btn_npage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_npage.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_npage.Appearance.Options.UseFont = true;
+            this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
+            this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_npage.Location = new System.Drawing.Point(636, 8);
+            this.btn_npage.Name = "btn_npage";
+            this.btn_npage.Size = new System.Drawing.Size(41, 23);
+            this.btn_npage.TabIndex = 5;
+            this.btn_npage.Click += new System.EventHandler(this.Page_Click);
+            // 
+            // btn_epage
+            // 
+            this.btn_epage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_epage.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_epage.Appearance.Options.UseFont = true;
+            this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
+            this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_epage.Location = new System.Drawing.Point(679, 8);
+            this.btn_epage.Name = "btn_epage";
+            this.btn_epage.Size = new System.Drawing.Size(41, 23);
+            this.btn_epage.TabIndex = 4;
+            this.btn_epage.Click += new System.EventHandler(this.Page_Click);
+            // 
+            // btn_fpage
+            // 
+            this.btn_fpage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_fpage.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_fpage.Appearance.Options.UseFont = true;
+            this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
+            this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_fpage.Location = new System.Drawing.Point(509, 8);
+            this.btn_fpage.Name = "btn_fpage";
+            this.btn_fpage.Size = new System.Drawing.Size(41, 23);
+            this.btn_fpage.TabIndex = 3;
+            this.btn_fpage.Click += new System.EventHandler(this.Page_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(255, 20);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "总计 0 条记录，每页共 0 条，共 0 页";
+            // 
             // Frm_QT
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(918, 475);
+            this.ClientSize = new System.Drawing.Size(941, 511);
             this.Controls.Add(this.searchControl);
-            this.Controls.Add(this.tab_Menulist);
-            this.Controls.Add(this.dgv_MyReg);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pal_Page);
             this.Controls.Add(this.pal_LeftMenu);
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -336,6 +446,10 @@ namespace 科技计划项目档案数据采集管理系统
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Project)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_MyReg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchControl.Properties)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.pal_Page.ResumeLayout(false);
+            this.pal_Page.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_page.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -356,5 +470,13 @@ namespace 科技计划项目档案数据采集管理系统
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_MyLog;
         private DevExpress.XtraEditors.SearchControl searchControl;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_MyQT;
+        private Panel panel1;
+        private Panel pal_Page;
+        private DevExpress.XtraEditors.TextEdit txt_page;
+        private DevExpress.XtraEditors.SimpleButton btn_lpage;
+        private DevExpress.XtraEditors.SimpleButton btn_npage;
+        private DevExpress.XtraEditors.SimpleButton btn_epage;
+        private DevExpress.XtraEditors.SimpleButton btn_fpage;
+        private Label label1;
     }
 }

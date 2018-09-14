@@ -126,7 +126,7 @@ namespace 科技计划项目档案数据采集管理系统
                     catch(Exception e)
                     {
                         sqlTransaction.Rollback();
-                        DevExpress.XtraEditors.XtraMessageBox.Show(e.Message, "数据插入出错");
+                        DevExpress.XtraEditors.XtraMessageBox.Show(e.Message, "数据出错");
                     }
                     finally
                     {

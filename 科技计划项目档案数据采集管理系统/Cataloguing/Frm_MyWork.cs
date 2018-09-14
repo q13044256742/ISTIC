@@ -6072,5 +6072,45 @@ namespace 科技计划项目档案数据采集管理系统
                 SetCategorByStage(id, row, view.Tag);
             }
         }
+
+        private void Tsm_Click(object sender, EventArgs e)
+        {
+            DataGridView view = (DataGridView)(sender as ToolStripItem).GetCurrentParent().Tag;
+            string name = (sender as ToolStripMenuItem).Name;
+            int index = view.CurrentRow.Index;
+            object currentRowId = view.Rows[index].Cells[view.Tag + $"num"].Value;
+            if(currentRowId != null)
+            {
+                if(name.Contains("Up"))
+                {
+                    if(index != 0)
+                    {
+                        object lastRowId = view.Rows[index - 1].Cells[view.Tag + $"num"].Value;
+                        ChangeFileSort(currentRowId, index - 1, lastRowId, index);
+                    }
+                    LoadFileList(view, view.Parent.Parent.Tag);
+                }
+                else if(name.Contains("Down"))
+                {
+                    if(index != view.RowCount - 1)
+                    {
+                        object nextRowId = view.Rows[index + 1].Cells[view.Tag + $"num"].Value;
+                        ChangeFileSort(currentRowId, index + 1, nextRowId, index);
+                    }
+                    LoadFileList(view, view.Parent.Parent.Tag);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 交换文件顺序
+        /// </summary>
+        private void ChangeFileSort(object currentRowId, int i, object lastRowId, int j)
+        {
+            string updateSQL =
+                $"UPDATE processing_file_list SET pfl_sort='{i}' WHERE pfl_id='{currentRowId}';" +
+                $"UPDATE processing_file_list SET pfl_sort='{j}' WHERE pfl_id='{lastRowId}';";
+            SqlHelper.ExecuteNonQuery(updateSQL);
+        }
     }
 }
