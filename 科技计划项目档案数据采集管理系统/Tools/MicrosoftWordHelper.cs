@@ -161,8 +161,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// 将DataTable导出为CSV格式的表
         /// </summary>
         /// <param name="dataTable">源数据表</param>
-        /// <param name="fileName">csv文件路径</param>
-        public static bool ExportToExcel(System.Data.DataTable dataTable, string fileName)
+        /// <param name="fileName">csv文件存储路径</param>
+        public static bool GetCsvFromDataTable(System.Data.DataTable dataTable, string fileName)
         {
             try
             {
@@ -176,7 +176,7 @@ namespace 科技计划项目档案数据采集管理系统
                 var valueLines = dataTable.AsEnumerable()
                                 .Select(row => string.Join(",", row.ItemArray));
                 lines.AddRange(valueLines);
-                File.WriteAllLines(fileName, lines, Encoding.UTF8);
+                File.WriteAllLines(fileName, lines, Encoding.Default);
                 return true;
             }
             catch(Exception e)
@@ -186,6 +186,52 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
+        /// <summary>
+        /// 将CSV文件转换成DataTable
+        /// </summary>
+        /// <param name="fileName">csv文件路径</param>
+        public static System.Data.DataTable GetDataTableFromCsv(string fileName)
+        {
+            System.Data.DataTable dt = new System.Data.DataTable();
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(fs, Encoding.Default);
+            //记录每次读取的一行记录
+            string strLine = "";
+            //记录每行记录中的各字段内容
+            string[] aryLine;
+            //标示列数
+            int columnCount = 0;
+            //标示是否是读取的第一行
+            bool IsFirst = true;
+            //逐行读取CSV中的数据
+            while((strLine = sr.ReadLine()) != null)
+            {
+                aryLine = strLine.Split(',');
+                if(IsFirst == true)
+                {
+                    IsFirst = false;
+                    columnCount = aryLine.Length;
+                    //创建列
+                    for(int i = 0; i < columnCount; i++)
+                    {
+                        DataColumn dc = new DataColumn(aryLine[i]);
+                        dt.Columns.Add(dc);
+                    }
+                }
+                else
+                {
+                    DataRow dr = dt.NewRow();
+                    for(int j = 0; j < columnCount; j++)
+                    {
+                        dr[j] = aryLine[j];
+                    }
+                    dt.Rows.Add(dr);
+                }
+            }
+            sr.Close();
+            fs.Close();
+            return dt;
+        }
     }
     class EntityObject
     {

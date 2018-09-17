@@ -104,7 +104,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     string savePath = saveFileDialog1.FileName;
-                    bool flag = MicrosoftWordHelper.ExportToExcel(table, savePath);
+                    bool flag = MicrosoftWordHelper.GetCsvFromDataTable(table, savePath);
                     {
                         if(XtraMessageBox.Show("导出缺失文件清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                         {
@@ -135,7 +135,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                     if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         string savePath = saveFileDialog1.FileName;
-                        bool flag = MicrosoftWordHelper.ExportToExcel(table2, savePath);
+                        bool flag = MicrosoftWordHelper.GetCsvFromDataTable(table2, savePath);
                         {
                             if(XtraMessageBox.Show("导出缺失文件清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                             {
@@ -176,7 +176,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     string savePath = saveFileDialog1.FileName;
-                    bool flag = MicrosoftWordHelper.ExportToExcel(table, savePath);
+                    bool flag = MicrosoftWordHelper.GetCsvFromDataTable(table, savePath);
                     {
                         if(XtraMessageBox.Show("导出文件列表清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                         {
@@ -206,7 +206,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                     if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         string savePath = saveFileDialog1.FileName;
-                        bool flag = MicrosoftWordHelper.ExportToExcel(speTable, savePath);
+                        bool flag = MicrosoftWordHelper.GetCsvFromDataTable(speTable, savePath);
                         {
                             if(XtraMessageBox.Show("导出文件列表清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                             {

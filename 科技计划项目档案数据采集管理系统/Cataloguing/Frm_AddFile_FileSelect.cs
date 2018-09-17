@@ -124,7 +124,7 @@ namespace 科技计划项目档案数据采集管理系统
             List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT bfi_id, bfi_name, bfi_path, bfi_state, bfi_type FROM backup_files_info WHERE bfi_pid='{parentId}' ORDER BY bfi_type, bfi_name", 5);
             for(int i = 0; i < list.Count; i++)
             {
-                int state = Convert.ToInt32(list[i][3]);
+                int state = ToolHelper.GetIntValue(list[i][3], 0);
                 if(state != 1 || isShowAll)
                 {
                     int imageIndex = GetFileIconIndex(state, GetValue(list[i][1]), list[i][4]);

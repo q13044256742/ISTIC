@@ -1118,7 +1118,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(!string.IsNullOrEmpty(_fileId))
             {
                 nonQuerySql += $"UPDATE processing_file_list SET pfl_stage='{stage}', pfl_categor='{categor}', pfl_code='{code}', pfl_name='{name}', pfl_user='{user}', pfl_type='{type}', pfl_pages='{pages}'," +
-                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}' WHERE pfl_id='{_fileId}';";
+                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}', pfl_sort='{sort}' WHERE pfl_id='{_fileId}';";
             }
             //新增
             else
@@ -1158,7 +1158,11 @@ namespace 科技计划项目档案数据采集管理系统
             removeIdList.Clear();
         }
 
-        private void FileList_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e) => removeIdList.Add(e.Row.Cells[0].Tag);
+        private void FileList_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            DataGridView view = (sender as DataGridView);
+            removeIdList.Add(e.Row.Cells[view.Tag + "num"].Value);
+        }
 
         private void Btn_QTReason_Click(object sender, EventArgs e)
         {
@@ -1236,7 +1240,7 @@ namespace 科技计划项目档案数据采集管理系统
                 proName = txt_Topic_Name.Text;
                 proCode = txt_Topic_Code.Text;
                 boxTable = (DataTable)cbo_Topic_Box.DataSource;
-                parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_name FROM project_info WHERE pi_id=(SELECT ti_obj_id FROM topic_info WHERE ti_id='{objId}')");
+                parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_name FROM project_info WHERE pi_id=(SELECT ti_obj_id FROM topic_info WHERE ti_id='{objId}') AND pi_categor=2");
             }
             else if(controlName.Contains("Subject"))
             {

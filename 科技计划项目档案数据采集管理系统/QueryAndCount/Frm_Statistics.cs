@@ -864,7 +864,7 @@ namespace 科技计划项目档案数据采集管理系统
                     DataTable table = (DataTable)dataSource;
                     if(table.Rows.Count > 1)
                     {
-                        bool flag = MicrosoftWordHelper.ExportToExcel(table, saveFileDialog.FileName);
+                        bool flag = MicrosoftWordHelper.GetCsvFromDataTable(table, saveFileDialog.FileName);
                         if(flag)
                         {
                             DialogResult dialogResult = DevExpress.XtraEditors.XtraMessageBox.Show("导出成功，是否立即打开文件?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);

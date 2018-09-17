@@ -55,6 +55,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.btn_epage = new DevExpress.XtraEditors.SimpleButton();
             this.btn_fpage = new DevExpress.XtraEditors.SimpleButton();
             this.label1 = new System.Windows.Forms.Label();
+            this.btn_Search = new DevExpress.XtraEditors.SimpleButton();
             this.pal_LeftMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).BeginInit();
@@ -303,16 +304,15 @@ namespace 科技计划项目档案数据采集管理系统
             // searchControl
             // 
             this.searchControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.searchControl.Location = new System.Drawing.Point(706, 1);
+            this.searchControl.Location = new System.Drawing.Point(671, 2);
             this.searchControl.Name = "searchControl";
             this.searchControl.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchControl.Properties.Appearance.Options.UseFont = true;
             this.searchControl.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
-            this.searchControl.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Repository.ClearButton(),
-            new DevExpress.XtraEditors.Repository.SearchButton()});
             this.searchControl.Properties.NullValuePrompt = "输入关键字模糊查询";
-            this.searchControl.Size = new System.Drawing.Size(231, 30);
+            this.searchControl.Properties.ShowClearButton = false;
+            this.searchControl.Properties.ShowSearchButton = false;
+            this.searchControl.Size = new System.Drawing.Size(197, 30);
             this.searchControl.TabIndex = 3;
             this.searchControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchControl_KeyDown);
             // 
@@ -346,7 +346,7 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_page.EditValue = "";
-            this.txt_page.Location = new System.Drawing.Point(594, 6);
+            this.txt_page.Location = new System.Drawing.Point(594, 7);
             this.txt_page.Name = "txt_page";
             this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.txt_page.Properties.Appearance.Options.UseFont = true;
@@ -418,11 +418,27 @@ namespace 科技计划项目档案数据采集管理系统
             this.label1.TabIndex = 2;
             this.label1.Text = "总计 0 条记录，每页共 0 条，共 0 页";
             // 
+            // btn_Search
+            // 
+            this.btn_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Search.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.btn_Search.Appearance.Options.UseFont = true;
+            this.btn_Search.Image = ((System.Drawing.Image)(resources.GetObject("btn_Search.Image")));
+            this.btn_Search.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Search.Location = new System.Drawing.Point(871, 3);
+            this.btn_Search.Name = "btn_Search";
+            this.btn_Search.Size = new System.Drawing.Size(66, 29);
+            this.btn_Search.TabIndex = 3;
+            this.btn_Search.Text = "查询";
+            this.btn_Search.Visible = false;
+            this.btn_Search.Click += new System.EventHandler(this.btn_Search_Click);
+            // 
             // Frm_QT
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(941, 511);
             this.Controls.Add(this.searchControl);
+            this.Controls.Add(this.btn_Search);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pal_Page);
             this.Controls.Add(this.pal_LeftMenu);
@@ -478,5 +494,6 @@ namespace 科技计划项目档案数据采集管理系统
         private DevExpress.XtraEditors.SimpleButton btn_epage;
         private DevExpress.XtraEditors.SimpleButton btn_fpage;
         private Label label1;
+        private DevExpress.XtraEditors.SimpleButton btn_Search;
     }
 }

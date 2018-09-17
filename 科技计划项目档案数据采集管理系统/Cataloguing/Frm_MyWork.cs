@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -1831,7 +1832,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(!string.IsNullOrEmpty(_fileId))
             {
                 nonQuerySql += $"UPDATE processing_file_list SET pfl_stage='{stage}', pfl_categor='{categor}', pfl_code='{code}', pfl_name='{name}', pfl_user='{user}', pfl_type='{type}', pfl_pages='{pages}'," +
-                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}' WHERE pfl_id='{_fileId}';";
+                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}', pfl_sort='{sort}' WHERE pfl_id='{_fileId}';";
             }
             //新增
             else
@@ -1867,11 +1868,11 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="planId">计划ID</param>
         private void LoadTreeList(object planId, ControlType type)
         {
+            SearchText.Properties.Items.Clear();
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
             treeView.SelectedNode = null;
             TreeNode treeNode = null;
-            Cursor = Cursors.WaitCursor;
             //纸本加工 - 普通计划
             if(workType == WorkType.PaperWork_Plan)
             {
@@ -2744,14 +2745,14 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
             treeView.EndUpdate();
+
             if(treeNode != null)
             {
                 treeView.Nodes.Add(treeNode);
-                SearchText.Properties.Items.Clear();
-                List<object> list = new List<object>();
+                List<string> list = new List<string>();
                 InitialSearchDropDownList(treeNode, list);
-                object[] listArray = list.Distinct().Where(s => !string.IsNullOrEmpty(ToolHelper.GetValue(s))).ToArray();
-                SearchText.Properties.Items.AddRange(listArray);
+                SearchText.Properties.Items.AddRange(list.Distinct().ToArray());
+
                 if(treeView.Nodes.Count > 0 && tab_MenuList.TabPages.Count == 0)
                 {
                     TreeNode node = treeView.Nodes[0];
@@ -2770,26 +2771,17 @@ namespace 科技计划项目档案数据采集管理系统
 
                 treeView.ExpandAll();
             }
-            Cursor = Cursors.Default;
         }
 
         /// <summary>
         /// 根据ID存入编号和名称记录
         /// </summary>
-        private void InitialSearchDropDownList(TreeNode treeNode, List<object> list)
+        private void InitialSearchDropDownList(TreeNode treeNode, List<string> list)
         {
             foreach(TreeNode item in treeNode.Nodes)
             {
-                ControlType type = (ControlType)item.Tag;
-                object[] keys = null;
-                if(type == ControlType.Project)
-                    keys = SqlHelper.ExecuteRowsQuery($"SELECT pi_code, pi_name FROM project_info WHERE pi_id='{item.Name}';");
-                else if(type == ControlType.Topic)
-                    keys = SqlHelper.ExecuteRowsQuery($"SELECT ti_code, ti_name FROM topic_info WHERE ti_id='{item.Name}';");
-                else if(type == ControlType.Subject)
-                    keys = SqlHelper.ExecuteRowsQuery($"SELECT si_code, si_name FROM subject_info WHERE si_id='{item.Name}';");
-                if(keys != null)
-                    list.AddRange(keys);
+                if(item.Text != null)
+                    list.Add(item.Text);
                 InitialSearchDropDownList(item, list);
             }
         }
@@ -2816,6 +2808,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            if(treeView.SelectedNode != null)
+                treeView.SelectedNode.BackColor = Color.Transparent;
             if(e.Button == MouseButtons.Left)
             {
                 ControlType type = (ControlType)e.Node.Tag;
@@ -5515,8 +5509,6 @@ namespace 科技计划项目档案数据采集管理系统
             LoadBoxList(objid, type);
         }
 
-        private void FileList_UserDeletedRow(object sender, DataGridViewRowEventArgs e) => removeIdList.Add(e.Row.Cells[0].Tag);
-
         private void FileList_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string name = (sender as DataGridView).Name;
@@ -6001,7 +5993,7 @@ namespace 科技计划项目档案数据采集管理系统
                             treeView.SelectedNode.BackColor = Color.Transparent;
                         node.Parent.Expand();
                         treeView.SelectedNode = node;
-                        treeView.SelectedNode.BackColor = Color.AliceBlue;
+                        treeView.SelectedNode.BackColor = Color.DarkGray;
                     }
                 }
             }
@@ -6111,6 +6103,12 @@ namespace 科技计划项目档案数据采集管理系统
                 $"UPDATE processing_file_list SET pfl_sort='{i}' WHERE pfl_id='{currentRowId}';" +
                 $"UPDATE processing_file_list SET pfl_sort='{j}' WHERE pfl_id='{lastRowId}';";
             SqlHelper.ExecuteNonQuery(updateSQL);
+        }
+
+        private void FileList_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            DataGridView view = (sender as DataGridView);
+            removeIdList.Add(e.Row.Cells[view.Tag + "num"].Value);
         }
     }
 }

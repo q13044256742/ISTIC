@@ -1803,7 +1803,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(!string.IsNullOrEmpty(_fileId))
             {
                 nonQuerySql += $"UPDATE processing_file_list SET pfl_stage='{stage}', pfl_categor='{categor}', pfl_code='{code}', pfl_name='{name}', pfl_user='{user}', pfl_type='{type}', pfl_pages='{pages}'," +
-                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}' WHERE pfl_id='{_fileId}';";
+                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}', pfl_sort='{sort}' WHERE pfl_id='{_fileId}';";
             }
             //新增
             else
@@ -2318,6 +2318,8 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            if(treeView.SelectedNode != null)
+                treeView.SelectedNode.BackColor = Color.Transparent;
             if(e.Button == MouseButtons.Left)
             {
                 ControlType type = (ControlType)e.Node.Tag;
@@ -4655,8 +4657,6 @@ namespace 科技计划项目档案数据采集管理系统
             LoadBoxList(objid, type);
         }
 
-        private void FileList_UserDeletedRow(object sender, DataGridViewRowEventArgs e) => removeIdList.Add(e.Row.Cells[0].Tag);
-
         private void FileList_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string name = (sender as DataGridView).Name;
@@ -5182,6 +5182,12 @@ namespace 科技计划项目档案数据采集管理系统
                 $"UPDATE processing_file_list SET pfl_sort='{i}' WHERE pfl_id='{currentRowId}';" +
                 $"UPDATE processing_file_list SET pfl_sort='{j}' WHERE pfl_id='{lastRowId}';";
             SqlHelper.ExecuteNonQuery(updateSQL);
+        }
+
+        private void FileList_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            DataGridView view = sender as DataGridView;
+            removeIdList.Add(e.Row.Cells[view.Tag + "num"].Value);
         }
     }
 }

@@ -9,6 +9,17 @@ namespace 科技计划项目档案数据采集管理系统
     public class ToolHelper
     {
         /// <summary>
+        /// 将对象转换成字符串形式，null作空字符串处理
+        /// </summary>
+        public static string GetValue(object value)
+        {
+            if(value == null)
+                return string.Empty;
+            else
+                return value.ToString();
+        }
+
+        /// <summary>
         /// 获取指定时间对象的指定格式化字符对象
         /// </summary>
         /// <param name="dateObject">时间对象</param>
@@ -24,11 +35,6 @@ namespace 科技计划项目档案数据采集管理系统
                 return string.Empty;
             }
         }
-
-        /// <summary>
-        /// 将Object对象转换成其String，null视为空字符串
-        /// </summary>
-        public static string GetValue(object value) => value == null ? string.Empty : value.ToString();
 
         ///<summary>
         /// 实例化一个 ChineseLunisolarCalendar

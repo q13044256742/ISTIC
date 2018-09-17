@@ -64,6 +64,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     searchControl.Visible = true;
                     pal_Page.Visible = true;
+                    btn_Search.Visible = true;
                 }
             }
             else if("ace_MyLog".Equals(name))
@@ -73,9 +74,10 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_MyReg.DefaultCellStyle = dgv_Project.DefaultCellStyle;
                 dgv_MyReg.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
                 LoadMyRegList();
-                searchControl.Visible = false;
                 pal_Page.Visible = false;
+                searchControl.Visible = false;
                 searchControl.ResetText();
+                btn_Search.Visible = false;
             }
             else if("ace_MyQT".Equals(name))
             {
@@ -87,6 +89,7 @@ namespace 科技计划项目档案数据采集管理系统
                 searchControl.Visible = false;
                 pal_Page.Visible = false;
                 searchControl.ResetText();
+                btn_Search.Visible = false;
             }
         }
 
@@ -507,6 +510,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             int index = tab_Menulist.SelectedTabPageIndex;
             searchControl.Visible = false;
+            btn_Search.Visible = false;
             if(index == 0)//计划
             {
                 LoadImpList();
@@ -519,9 +523,10 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(index == 2)
             {
-                LoadProjectList(0);
+                LoadProjectList(0, null);
                 searchControl.Visible = true;
                 pal_Page.Visible = true;
+                btn_Search.Visible = true;
             }
         }
         
@@ -638,7 +643,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         /// <param name="page">页码索引（从0开始计算）</param>
         /// <param name="pageSize">每页页数</param>
-        private void LoadProjectList(int page)
+        private void LoadProjectList(int page, string key)
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_Project, true);
             dgv_Project.Columns.AddRange(new DataGridViewColumn[]
@@ -666,12 +671,15 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataColumn("wm_ticker"),
                 new DataColumn("trp_code")
             });
+            string queryCondition = string.Empty;
+            if(!string.IsNullOrEmpty(key))
+                queryCondition = $"AND (pi.pi_code LIKE '%{key}%' OR pi.pi_name LIKE '%{key}%')";
             string querySql = "SELECT * FROM(SELECT ROW_NUMBER() OVER(ORDER BY dd.dd_name) num, dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, wm.wm_ticker, trp.trp_code " +
                 "FROM (SELECT * FROM project_info UNION ALL SELECT * FROM topic_info) pi, work_myreg wm " +
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON wr.trp_id = trp.trp_id " +
                 "LEFT JOIN data_dictionary dd ON dd.dd_id = trp.com_id " +
-               $"WHERE wm.wm_obj_id = pi.pi_id AND wm.wm_type = '{(int)WorkType.ProjectWork}' AND wm.wm_status = 1 " +
+               $"WHERE wm.wm_obj_id = pi.pi_id AND wm.wm_type = '{(int)WorkType.ProjectWork}' AND wm.wm_status = 1 {queryCondition} " +
                $") A WHERE A.num BETWEEN {page * PAGE_SIZE + 1} AND {(page + 1) * PAGE_SIZE}";
             DataTable _table = SqlHelper.ExecuteQuery(querySql);
             foreach(DataRow row in _table.Rows)
@@ -705,7 +713,7 @@ namespace 科技计划项目档案数据采集管理系统
                      "INNER JOIN work_myreg AS wm LEFT OUTER JOIN work_registration AS wr ON wr.wr_id = wm.wr_id " +
                      "LEFT OUTER JOIN transfer_registration_pc AS trp ON wr.trp_id = trp.trp_id " +
                      "LEFT OUTER JOIN data_dictionary AS dd ON dd.dd_id = trp.com_id ON pi.pi_id = wm.wm_obj_id " +
-                     "WHERE(wm.wm_type = '3') AND(wm.wm_status = 1)");
+                    $"WHERE(wm.wm_type = '3') AND(wm.wm_status = 1) {queryCondition} ");
                 MAX_PAGE = maxCount % PAGE_SIZE == 0 ? maxCount / PAGE_SIZE : maxCount / PAGE_SIZE + 1;
                 label1.Text = $"总计 {maxCount} 条记录，每页共 {PAGE_SIZE} 条，共 {MAX_PAGE} 页";
             }
@@ -997,7 +1005,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         if(row.Index > index)
                         {
-                            string code = GetValue(row.Cells["pro_code"].Value);
+                            string code = ToolHelper.GetValue(row.Cells["pro_code"].Value);
                             string name = GetValue(row.Cells["pro_name"].Value);
                             if(code.Contains(key) || name.Contains(key))
                             {
@@ -1015,25 +1023,32 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Page_Click(object sender, EventArgs e)
         {
+            string key = searchControl.Text.Trim();
             string name = (sender as SimpleButton).Name;
             if(name.Contains("fpage"))
             {
-                LoadProjectList(0);
+                LoadProjectList(0, null);
             }
             else if(name.Contains("lpage"))
             {
                 if(CURRENT_PAGE > 0)
-                    LoadProjectList(CURRENT_PAGE - 1);
+                    LoadProjectList(CURRENT_PAGE - 1, key);
             }
             else if(name.Contains("npage"))
             {
                 if(CURRENT_PAGE < MAX_PAGE - 1)
-                    LoadProjectList(CURRENT_PAGE + 1);
+                    LoadProjectList(CURRENT_PAGE + 1, key);
             }
             else if(name.Contains("epage"))
             {
-                LoadProjectList(MAX_PAGE - 1);
+                LoadProjectList(MAX_PAGE - 1, key);
             }
+        }
+
+        private void btn_Search_Click(object sender, EventArgs e)
+        {
+            string key = searchControl.Text;
+            LoadProjectList(0, key);
         }
     }
 }

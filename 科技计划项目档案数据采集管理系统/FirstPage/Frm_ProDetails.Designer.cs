@@ -95,8 +95,6 @@
             this.txt_Project_StartTime = new System.Windows.Forms.TextBox();
             this.txt_Project_Province = new System.Windows.Forms.TextBox();
             this.txt_Project_Unit = new System.Windows.Forms.TextBox();
-            this.dtp_Project_EndTime = new System.Windows.Forms.DateTimePicker();
-            this.dtp_Project_StartTime = new System.Windows.Forms.DateTimePicker();
             this.txt_Project_ProUser = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txt_Project_UnitUser = new System.Windows.Forms.TextBox();
@@ -432,6 +430,7 @@
             this.dgv_Project_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.FileList_EditingControlShowing);
             this.dgv_Project_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Project_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
+            this.dgv_Project_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             //
             //errorProvider
             //
@@ -910,8 +909,6 @@
             this.pal_Project.Controls.Add(this.txt_Project_StartTime);
             this.pal_Project.Controls.Add(this.txt_Project_Province);
             this.pal_Project.Controls.Add(this.txt_Project_Unit);
-            this.pal_Project.Controls.Add(this.dtp_Project_EndTime);
-            this.pal_Project.Controls.Add(this.dtp_Project_StartTime);
             this.pal_Project.Controls.Add(this.txt_Project_ProUser);
             this.pal_Project.Controls.Add(this.label19);
             this.pal_Project.Controls.Add(this.txt_Project_UnitUser);
@@ -991,26 +988,6 @@
             this.txt_Project_Unit.Name = "txt_Project_Unit";
             this.txt_Project_Unit.Size = new System.Drawing.Size(224, 34);
             this.txt_Project_Unit.TabIndex = 10;
-            // 
-            // dtp_Project_EndTime
-            // 
-            this.dtp_Project_EndTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Project_EndTime.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.dtp_Project_EndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Project_EndTime.Location = new System.Drawing.Point(685, 74);
-            this.dtp_Project_EndTime.Name = "dtp_Project_EndTime";
-            this.dtp_Project_EndTime.Size = new System.Drawing.Size(16, 34);
-            this.dtp_Project_EndTime.TabIndex = 8;
-            // 
-            // dtp_Project_StartTime
-            // 
-            this.dtp_Project_StartTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Project_StartTime.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.dtp_Project_StartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Project_StartTime.Location = new System.Drawing.Point(328, 74);
-            this.dtp_Project_StartTime.Name = "dtp_Project_StartTime";
-            this.dtp_Project_StartTime.Size = new System.Drawing.Size(16, 34);
-            this.dtp_Project_StartTime.TabIndex = 6;
             // 
             // txt_Project_ProUser
             // 
@@ -1292,6 +1269,7 @@
             this.dgv_Topic_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.FileList_EditingControlShowing);
             this.dgv_Topic_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Topic_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
+            this.dgv_Topic_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             // 
             // topic_fl_num
             // 
@@ -2144,6 +2122,7 @@
             this.dgv_Subject_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.FileList_EditingControlShowing);
             this.dgv_Subject_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Subject_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
+            this.dgv_Subject_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             // 
             // subject_fl_num
             // 
@@ -3015,8 +2994,6 @@
         private System.Windows.Forms.TextBox txt_Project_StartTime;
         private System.Windows.Forms.TextBox txt_Project_Province;
         private System.Windows.Forms.TextBox txt_Project_Unit;
-        private System.Windows.Forms.DateTimePicker dtp_Project_EndTime;
-        private System.Windows.Forms.DateTimePicker dtp_Project_StartTime;
         private System.Windows.Forms.TextBox txt_Project_ProUser;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txt_Project_UnitUser;

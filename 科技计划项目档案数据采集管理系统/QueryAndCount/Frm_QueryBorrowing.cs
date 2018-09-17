@@ -716,7 +716,7 @@ namespace 科技计划项目档案数据采集管理系统
                     "ORDER BY ID ";
                 DataTable table = SqlHelper.ExecuteQuery(querySQL);
 
-                bool result = MicrosoftWordHelper.ExportToExcel(table, filePath);
+                bool result = MicrosoftWordHelper.GetCsvFromDataTable(table, filePath);
                 if(result && XtraMessageBox.Show("导出完毕，是否立即打开文件?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                 {
                     WinFormOpenHelper.OpenWinForm(0, "open", filePath, null, null, ShowWindowCommands.SW_NORMAL);
