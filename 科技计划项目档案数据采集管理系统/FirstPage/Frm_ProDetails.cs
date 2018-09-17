@@ -664,7 +664,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                     if(!Regex.IsMatch(startDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(startDate, out DateTime time))
                     {
-                        errorProvider.SetError(dtp_Project_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        errorProvider.SetError(txt_Project_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
                     }
                 }
@@ -673,7 +673,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(!Regex.IsMatch(endDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(endDate, out DateTime time))
                     {
-                        errorProvider.SetError(dtp_Project_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        errorProvider.SetError(txt_Project_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
                     }
                 }
@@ -733,7 +733,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(!Regex.IsMatch(startDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(startDate, out DateTime time))
                     {
-                        errorProvider.SetError(dtp_Topic_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        errorProvider.SetError(txt_Topic_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
                     }
                 }
@@ -742,7 +742,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(!Regex.IsMatch(endDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(endDate, out DateTime time))
                     {
-                        errorProvider.SetError(dtp_Topic_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        errorProvider.SetError(txt_Topic_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
                     }
                 }
@@ -799,7 +799,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(!Regex.IsMatch(startDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(startDate, out DateTime time))
                     {
-                        errorProvider.SetError(dtp_Subject_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        errorProvider.SetError(txt_Subject_StartTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
                     }
                 }
@@ -808,7 +808,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(!Regex.IsMatch(endDate, "^\\d{4}-\\d{2}-\\d{2}$") || !DateTime.TryParse(endDate, out DateTime time))
                     {
-                        errorProvider.SetError(dtp_Subject_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
+                        errorProvider.SetError(txt_Subject_EndTime, "提示：请输入yyyy-MM-dd格式的有效日期");
                         result = false;
                     }
                 }

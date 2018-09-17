@@ -5189,5 +5189,13 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridView view = sender as DataGridView;
             removeIdList.Add(e.Row.Cells[view.Tag + "num"].Value);
         }
+
+        private void Tsm_Insert(object sender, EventArgs e)
+        {
+            DataGridView view = (DataGridView)(sender as ToolStripItem).GetCurrentParent().Tag;
+            int rowIndex = view.CurrentRow.Index;
+            DataTable table = (DataTable)view.DataSource;
+            table.Rows.InsertAt(table.NewRow(), rowIndex);
+        }
     }
 }

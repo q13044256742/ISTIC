@@ -491,6 +491,7 @@
             this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
             this.tab_MenuList = new System.Windows.Forms.TabControl();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.tsm_Insert = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.special.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab_Special_Info)).BeginInit();
@@ -571,38 +572,41 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsm_Insert,
             this.tsm_DeleteRow,
             this.tsm_Refresh,
             this.Tsm_Up,
             this.Tsm_Down});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 136);
             // 
             // tsm_DeleteRow
             // 
+            this.tsm_DeleteRow.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._2;
             this.tsm_DeleteRow.Name = "tsm_DeleteRow";
-            this.tsm_DeleteRow.Size = new System.Drawing.Size(112, 22);
+            this.tsm_DeleteRow.Size = new System.Drawing.Size(180, 22);
             this.tsm_DeleteRow.Text = "删除行";
             this.tsm_DeleteRow.Click += new System.EventHandler(this.Tsm_DeleteRow);
             // 
             // tsm_Refresh
             // 
+            this.tsm_Refresh.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._3;
             this.tsm_Refresh.Name = "tsm_Refresh";
-            this.tsm_Refresh.Size = new System.Drawing.Size(112, 22);
+            this.tsm_Refresh.Size = new System.Drawing.Size(180, 22);
             this.tsm_Refresh.Text = "刷新";
             this.tsm_Refresh.Click += new System.EventHandler(this.Tsm_Refresh);
             // 
             // Tsm_Up
             // 
             this.Tsm_Up.Name = "Tsm_Up";
-            this.Tsm_Up.Size = new System.Drawing.Size(112, 22);
+            this.Tsm_Up.Size = new System.Drawing.Size(180, 22);
             this.Tsm_Up.Text = "上移";
             this.Tsm_Up.Click += new System.EventHandler(this.Tsm_Click);
             // 
             // Tsm_Down
             // 
             this.Tsm_Down.Name = "Tsm_Down";
-            this.Tsm_Down.Size = new System.Drawing.Size(112, 22);
+            this.Tsm_Down.Size = new System.Drawing.Size(180, 22);
             this.Tsm_Down.Text = "下移";
             this.Tsm_Down.Click += new System.EventHandler(this.Tsm_Click);
             // 
@@ -5477,6 +5481,14 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // tsm_Insert
+            // 
+            this.tsm_Insert.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._1;
+            this.tsm_Insert.Name = "tsm_Insert";
+            this.tsm_Insert.Size = new System.Drawing.Size(180, 22);
+            this.tsm_Insert.Text = "插入行";
+            this.tsm_Insert.Click += new System.EventHandler(this.Tsm_Insert);
+            // 
             // Frm_MyWorkQT
             // 
             this.Appearance.Options.UseFont = true;
@@ -6029,5 +6041,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn project_fl_link;
         private System.Windows.Forms.ToolStripMenuItem Tsm_Up;
         private System.Windows.Forms.ToolStripMenuItem Tsm_Down;
+        private System.Windows.Forms.ToolStripMenuItem tsm_Insert;
     }
 }

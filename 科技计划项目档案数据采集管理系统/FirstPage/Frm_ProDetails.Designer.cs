@@ -173,8 +173,6 @@
             this.txt_Topic_StartTime = new System.Windows.Forms.TextBox();
             this.txt_Topic_Province = new System.Windows.Forms.TextBox();
             this.txt_Topic_Unit = new System.Windows.Forms.TextBox();
-            this.dtp_Topic_EndTime = new System.Windows.Forms.DateTimePicker();
-            this.dtp_Topic_StartTime = new System.Windows.Forms.DateTimePicker();
             this.txt_Topic_ProUser = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txt_Topic_UnitUser = new System.Windows.Forms.TextBox();
@@ -253,8 +251,6 @@
             this.txt_Subject_StartTime = new System.Windows.Forms.TextBox();
             this.txt_Subject_Province = new System.Windows.Forms.TextBox();
             this.txt_Subject_Unit = new System.Windows.Forms.TextBox();
-            this.dtp_Subject_EndTime = new System.Windows.Forms.DateTimePicker();
-            this.dtp_Subject_StartTime = new System.Windows.Forms.DateTimePicker();
             this.txt_Subject_ProUser = new System.Windows.Forms.TextBox();
             this.label88 = new System.Windows.Forms.Label();
             this.txt_Subject_Unituser = new System.Windows.Forms.TextBox();
@@ -962,7 +958,7 @@
             this.txt_Project_EndTime.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_EndTime.Location = new System.Drawing.Point(477, 74);
             this.txt_Project_EndTime.Name = "txt_Project_EndTime";
-            this.txt_Project_EndTime.Size = new System.Drawing.Size(206, 34);
+            this.txt_Project_EndTime.Size = new System.Drawing.Size(224, 34);
             this.txt_Project_EndTime.TabIndex = 7;
             // 
             // txt_Project_StartTime
@@ -970,7 +966,7 @@
             this.txt_Project_StartTime.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_StartTime.Location = new System.Drawing.Point(120, 74);
             this.txt_Project_StartTime.Name = "txt_Project_StartTime";
-            this.txt_Project_StartTime.Size = new System.Drawing.Size(206, 34);
+            this.txt_Project_StartTime.Size = new System.Drawing.Size(224, 34);
             this.txt_Project_StartTime.TabIndex = 5;
             // 
             // txt_Project_Province
@@ -1740,8 +1736,6 @@
             this.pal_Topic.Controls.Add(this.txt_Topic_StartTime);
             this.pal_Topic.Controls.Add(this.txt_Topic_Province);
             this.pal_Topic.Controls.Add(this.txt_Topic_Unit);
-            this.pal_Topic.Controls.Add(this.dtp_Topic_EndTime);
-            this.pal_Topic.Controls.Add(this.dtp_Topic_StartTime);
             this.pal_Topic.Controls.Add(this.txt_Topic_ProUser);
             this.pal_Topic.Controls.Add(this.label2);
             this.pal_Topic.Controls.Add(this.txt_Topic_UnitUser);
@@ -1795,7 +1789,7 @@
             this.txt_Topic_EndTime.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_EndTime.Location = new System.Drawing.Point(475, 72);
             this.txt_Topic_EndTime.Name = "txt_Topic_EndTime";
-            this.txt_Topic_EndTime.Size = new System.Drawing.Size(206, 34);
+            this.txt_Topic_EndTime.Size = new System.Drawing.Size(224, 34);
             this.txt_Topic_EndTime.TabIndex = 66;
             // 
             // txt_Topic_StartTime
@@ -1803,7 +1797,7 @@
             this.txt_Topic_StartTime.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_StartTime.Location = new System.Drawing.Point(120, 72);
             this.txt_Topic_StartTime.Name = "txt_Topic_StartTime";
-            this.txt_Topic_StartTime.Size = new System.Drawing.Size(206, 34);
+            this.txt_Topic_StartTime.Size = new System.Drawing.Size(224, 34);
             this.txt_Topic_StartTime.TabIndex = 65;
             // 
             // txt_Topic_Province
@@ -1821,26 +1815,6 @@
             this.txt_Topic_Unit.Name = "txt_Topic_Unit";
             this.txt_Topic_Unit.Size = new System.Drawing.Size(224, 34);
             this.txt_Topic_Unit.TabIndex = 8;
-            // 
-            // dtp_Topic_EndTime
-            // 
-            this.dtp_Topic_EndTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Topic_EndTime.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.dtp_Topic_EndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Topic_EndTime.Location = new System.Drawing.Point(683, 72);
-            this.dtp_Topic_EndTime.Name = "dtp_Topic_EndTime";
-            this.dtp_Topic_EndTime.Size = new System.Drawing.Size(16, 34);
-            this.dtp_Topic_EndTime.TabIndex = 6;
-            // 
-            // dtp_Topic_StartTime
-            // 
-            this.dtp_Topic_StartTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Topic_StartTime.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.dtp_Topic_StartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Topic_StartTime.Location = new System.Drawing.Point(328, 72);
-            this.dtp_Topic_StartTime.Name = "dtp_Topic_StartTime";
-            this.dtp_Topic_StartTime.Size = new System.Drawing.Size(16, 34);
-            this.dtp_Topic_StartTime.TabIndex = 5;
             // 
             // txt_Topic_ProUser
             // 
@@ -2598,8 +2572,6 @@
             this.pal_Subject.Controls.Add(this.txt_Subject_StartTime);
             this.pal_Subject.Controls.Add(this.txt_Subject_Province);
             this.pal_Subject.Controls.Add(this.txt_Subject_Unit);
-            this.pal_Subject.Controls.Add(this.dtp_Subject_EndTime);
-            this.pal_Subject.Controls.Add(this.dtp_Subject_StartTime);
             this.pal_Subject.Controls.Add(this.txt_Subject_ProUser);
             this.pal_Subject.Controls.Add(this.label88);
             this.pal_Subject.Controls.Add(this.txt_Subject_Unituser);
@@ -2653,7 +2625,7 @@
             this.txt_Subject_EndTime.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_EndTime.Location = new System.Drawing.Point(475, 71);
             this.txt_Subject_EndTime.Name = "txt_Subject_EndTime";
-            this.txt_Subject_EndTime.Size = new System.Drawing.Size(206, 34);
+            this.txt_Subject_EndTime.Size = new System.Drawing.Size(224, 34);
             this.txt_Subject_EndTime.TabIndex = 68;
             // 
             // txt_Subject_StartTime
@@ -2661,7 +2633,7 @@
             this.txt_Subject_StartTime.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_StartTime.Location = new System.Drawing.Point(120, 71);
             this.txt_Subject_StartTime.Name = "txt_Subject_StartTime";
-            this.txt_Subject_StartTime.Size = new System.Drawing.Size(206, 34);
+            this.txt_Subject_StartTime.Size = new System.Drawing.Size(224, 34);
             this.txt_Subject_StartTime.TabIndex = 67;
             // 
             // txt_Subject_Province
@@ -2679,24 +2651,6 @@
             this.txt_Subject_Unit.Name = "txt_Subject_Unit";
             this.txt_Subject_Unit.Size = new System.Drawing.Size(224, 34);
             this.txt_Subject_Unit.TabIndex = 8;
-            // 
-            // dtp_Subject_EndTime
-            // 
-            this.dtp_Subject_EndTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Subject_EndTime.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.dtp_Subject_EndTime.Location = new System.Drawing.Point(683, 71);
-            this.dtp_Subject_EndTime.Name = "dtp_Subject_EndTime";
-            this.dtp_Subject_EndTime.Size = new System.Drawing.Size(16, 34);
-            this.dtp_Subject_EndTime.TabIndex = 6;
-            // 
-            // dtp_Subject_StartTime
-            // 
-            this.dtp_Subject_StartTime.CalendarFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dtp_Subject_StartTime.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.dtp_Subject_StartTime.Location = new System.Drawing.Point(328, 71);
-            this.dtp_Subject_StartTime.Name = "dtp_Subject_StartTime";
-            this.dtp_Subject_StartTime.Size = new System.Drawing.Size(16, 34);
-            this.dtp_Subject_StartTime.TabIndex = 5;
             // 
             // txt_Subject_ProUser
             // 
@@ -3054,8 +3008,6 @@
         private System.Windows.Forms.TextBox txt_Topic_StartTime;
         private System.Windows.Forms.TextBox txt_Topic_Province;
         private System.Windows.Forms.TextBox txt_Topic_Unit;
-        private System.Windows.Forms.DateTimePicker dtp_Topic_EndTime;
-        private System.Windows.Forms.DateTimePicker dtp_Topic_StartTime;
         private System.Windows.Forms.TextBox txt_Topic_ProUser;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txt_Topic_UnitUser;
@@ -3116,8 +3068,6 @@
         private System.Windows.Forms.TextBox txt_Subject_StartTime;
         private System.Windows.Forms.TextBox txt_Subject_Province;
         private System.Windows.Forms.TextBox txt_Subject_Unit;
-        private System.Windows.Forms.DateTimePicker dtp_Subject_EndTime;
-        private System.Windows.Forms.DateTimePicker dtp_Subject_StartTime;
         private System.Windows.Forms.TextBox txt_Subject_ProUser;
         private System.Windows.Forms.Label label88;
         private System.Windows.Forms.TextBox txt_Subject_Unituser;
