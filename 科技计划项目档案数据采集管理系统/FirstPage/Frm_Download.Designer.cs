@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Download));
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
             this.gridControl = new DevExpress.XtraGrid.GridControl();
             this.view = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.id = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -44,13 +44,14 @@
             this.btn_Refresh = new DevExpress.XtraEditors.SimpleButton();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.txt_search = new DevExpress.XtraEditors.SearchControl();
             this.panel3 = new System.Windows.Forms.Panel();
             this.treeList = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.type = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.downloadButton)).BeginInit();
@@ -85,6 +86,7 @@
             this.view.Appearance.Row.Options.UseFont = true;
             this.view.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.id,
+            this.type,
             this.name,
             this.size,
             this.date,
@@ -110,9 +112,10 @@
             this.name.FieldName = "at_name";
             this.name.Name = "name";
             this.name.OptionsColumn.AllowEdit = false;
+            this.name.OptionsColumn.ReadOnly = true;
             this.name.Visible = true;
-            this.name.VisibleIndex = 0;
-            this.name.Width = 650;
+            this.name.VisibleIndex = 1;
+            this.name.Width = 543;
             // 
             // size
             // 
@@ -122,9 +125,10 @@
             this.size.FieldName = "at_size";
             this.size.Name = "size";
             this.size.OptionsColumn.AllowEdit = false;
+            this.size.OptionsColumn.ReadOnly = true;
             this.size.Visible = true;
-            this.size.VisibleIndex = 1;
-            this.size.Width = 124;
+            this.size.VisibleIndex = 2;
+            this.size.Width = 103;
             // 
             // date
             // 
@@ -134,9 +138,10 @@
             this.date.FieldName = "at_date";
             this.date.Name = "date";
             this.date.OptionsColumn.AllowEdit = false;
+            this.date.OptionsColumn.ReadOnly = true;
             this.date.Visible = true;
-            this.date.VisibleIndex = 2;
-            this.date.Width = 170;
+            this.date.VisibleIndex = 3;
+            this.date.Width = 142;
             // 
             // download
             // 
@@ -150,19 +155,19 @@
             this.download.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
             this.download.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
             this.download.Visible = true;
-            this.download.VisibleIndex = 3;
-            this.download.Width = 177;
+            this.download.VisibleIndex = 4;
+            this.download.Width = 147;
             // 
             // downloadButton
             // 
             this.downloadButton.AutoHeight = false;
-            serializableAppearanceObject5.Font = new System.Drawing.Font("华文中宋", 12F);
-            serializableAppearanceObject5.Options.UseFont = true;
-            serializableAppearanceObject5.Options.UseTextOptions = true;
-            serializableAppearanceObject5.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-            serializableAppearanceObject5.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            serializableAppearanceObject6.Font = new System.Drawing.Font("华文中宋", 12F);
+            serializableAppearanceObject6.Options.UseFont = true;
+            serializableAppearanceObject6.Options.UseTextOptions = true;
+            serializableAppearanceObject6.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            serializableAppearanceObject6.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.downloadButton.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "下载", -1, true, true, true, DevExpress.XtraEditors.ImageLocation.MiddleLeft, ((System.Drawing.Image)(resources.GetObject("downloadButton.Buttons"))), new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "下载", -1, true, true, true, DevExpress.XtraEditors.ImageLocation.MiddleLeft, ((System.Drawing.Image)(resources.GetObject("downloadButton.Buttons"))), new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject6, "", null, null, true)});
             this.downloadButton.Name = "downloadButton";
             this.downloadButton.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.downloadButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DownloadButton_MouseDown);
@@ -241,6 +246,19 @@
             this.panel1.Size = new System.Drawing.Size(1023, 688);
             this.panel1.TabIndex = 7;
             // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.simpleButton1.Appearance.Options.UseFont = true;
+            this.simpleButton1.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.Image")));
+            this.simpleButton1.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.simpleButton1.Location = new System.Drawing.Point(348, 10);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(73, 27);
+            this.simpleButton1.TabIndex = 9;
+            this.simpleButton1.Text = "查询";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
             // labelControl1
             // 
             this.labelControl1.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -297,7 +315,7 @@
             this.treeList.AppendNode(new object[] {
             "标准规范"}, -1);
             this.treeList.AppendNode(new object[] {
-            "档案清单"}, -1);
+            "项目/课题清单"}, -1);
             this.treeList.AppendNode(new object[] {
             "工作文件"}, -1);
             this.treeList.AppendNode(new object[] {
@@ -327,18 +345,16 @@
             this.repositoryItemHyperLinkEdit1.AutoHeight = false;
             this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
             // 
-            // simpleButton1
+            // type
             // 
-            this.simpleButton1.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.simpleButton1.Appearance.Options.UseFont = true;
-            this.simpleButton1.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.Image")));
-            this.simpleButton1.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.simpleButton1.Location = new System.Drawing.Point(348, 10);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(73, 27);
-            this.simpleButton1.TabIndex = 9;
-            this.simpleButton1.Text = "查询";
-            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            this.type.Caption = "类别";
+            this.type.FieldName = "_at_type";
+            this.type.Name = "type";
+            this.type.OptionsColumn.AllowEdit = false;
+            this.type.OptionsColumn.ReadOnly = true;
+            this.type.Visible = true;
+            this.type.VisibleIndex = 0;
+            this.type.Width = 170;
             // 
             // Frm_Download
             // 
@@ -388,5 +404,6 @@
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraEditors.SearchControl txt_search;
         private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraGrid.Columns.GridColumn type;
     }
 }

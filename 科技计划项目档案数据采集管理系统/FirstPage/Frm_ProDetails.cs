@@ -839,6 +839,8 @@ namespace 科技计划项目档案数据采集管理系统
                         DataGridViewRow row = dgv_Project_FileList.Rows[i];
                         row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                     }
+                    //自动更新缺失文件表
+                    UpdateLostFileList(objId);
                     RemoveFileList(objId);
                     LoadFileList(view, objId);
                     XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -878,6 +880,8 @@ namespace 科技计划项目档案数据采集管理系统
                         DataGridViewRow row = dgv_Topic_FileList.Rows[i];
                         row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                     }
+                    //自动更新缺失文件表
+                    UpdateLostFileList(objId);
                     RemoveFileList(objId);
                     LoadFileList(view, objId);
                     XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -917,6 +921,8 @@ namespace 科技计划项目档案数据采集管理系统
                         DataGridViewRow row = dgv_Subject_FileList.Rows[i];
                         row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                     }
+                    //自动更新缺失文件表
+                    UpdateLostFileList(objId);
                     RemoveFileList(objId);
                     LoadFileList(view, objId);
                     XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -940,6 +946,44 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 更新指定对象下的文件缺失列表
+        /// </summary>
+        /// <param name="objId">项目/课题ID</param>
+        private void UpdateLostFileList(object objId)
+        {
+            string querySql = "SELECT dd_name, extend_2 FROM data_dictionary dd WHERE dd_pId in(" +
+               "SELECT dd_id FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary  WHERE dd_code = 'dic_file_jd')) " +
+                "AND dd.dd_name NOT IN(SELECT dd.dd_name FROM processing_file_list fi " +
+               $"LEFT JOIN data_dictionary dd ON fi.pfl_categor = dd.dd_id where fi.pfl_obj_id='{objId}')";
+            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            StringBuilder sqlString = new StringBuilder($"DELETE FROM processing_file_lost WHERE pfo_obj_id='{objId}';");
+            for(int i = 0; i < table.Rows.Count; i++)
+            {
+                object categor = table.Rows[i]["dd_name"];
+                if(!"其他".Equals(categor))
+                {
+                    int ismust = ToolHelper.GetIntValue(table.Rows[i]["extend_2"], 0);
+                    sqlString.Append("INSERT INTO processing_file_lost (pfo_id, pfo_categor, pfo_obj_id, pfo_ismust) " +
+                        $"VALUES('{Guid.NewGuid().ToString()}', '{categor}', '{objId}', '{ismust}');");
+                }
+            }
+            SqlHelper.ExecuteNonQuery(sqlString.ToString());
+        }
+
+        private DataTable GetUpdateTable(DataTable dataSource)
+        {
+            foreach(DataRow row in dataSource.Rows)
+            {
+                //row[""]
+                if(row.RowState== DataRowState.Added)
+                {
+                    row["pfl_id"] = Guid.NewGuid().ToString();
+                }
+            }
+            return dataSource;
         }
 
         private void UpdateBasicInfo(object objid, ControlType controlType)
@@ -1646,6 +1690,32 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 object id = row.Cells[view.Tag + "stage"].Value;
                 SetCategorByStage(id, row, view.Tag);
+            }
+        }
+
+        private void Cbo_Project_Box_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
+            if(comboBox.Name.Contains("Project"))
+            {
+                object pbId = comboBox.SelectedValue;
+                LoadFileBoxTable(pbId, tab_Project_Info.Tag, ControlType.Project);
+                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
+                txt_Project_GCID.Text = ToolHelper.GetValue(gcid, string.Empty);
+            }
+            else if(comboBox.Name.Contains("Topic"))
+            {
+                object pbId = comboBox.SelectedValue;
+                LoadFileBoxTable(pbId, tab_Topic_Info.Tag, ControlType.Topic);
+                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
+                txt_Topic_GCID.Text = ToolHelper.GetValue(gcid, string.Empty);
+            }
+            else if(comboBox.Name.Contains("Subject"))
+            {
+                object pbId = comboBox.SelectedValue;
+                LoadFileBoxTable(pbId, tab_Subject_Info.Tag, ControlType.Subject);
+                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
+                txt_Subject_GCID.Text = ToolHelper.GetValue(gcid, string.Empty);
             }
         }
     }

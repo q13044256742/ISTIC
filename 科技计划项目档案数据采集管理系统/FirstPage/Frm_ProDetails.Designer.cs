@@ -833,6 +833,7 @@
             this.cbo_Project_Box.Name = "cbo_Project_Box";
             this.cbo_Project_Box.Size = new System.Drawing.Size(90, 28);
             this.cbo_Project_Box.TabIndex = 1;
+            this.cbo_Project_Box.SelectedIndexChanged += Cbo_Project_Box_SelectedIndexChanged;
             // 
             // label63
             // 
@@ -1663,6 +1664,7 @@
             this.cbo_Topic_Box.Name = "cbo_Topic_Box";
             this.cbo_Topic_Box.Size = new System.Drawing.Size(88, 28);
             this.cbo_Topic_Box.TabIndex = 1;
+            this.cbo_Topic_Box.SelectedIndexChanged+= Cbo_Project_Box_SelectedIndexChanged;
             // 
             // label71
             // 
@@ -2498,6 +2500,7 @@
             this.cbo_Subject_Box.Name = "cbo_Subject_Box";
             this.cbo_Subject_Box.Size = new System.Drawing.Size(84, 28);
             this.cbo_Subject_Box.TabIndex = 1;
+            this.cbo_Subject_Box.SelectedIndexChanged += Cbo_Project_Box_SelectedIndexChanged;
             // 
             // label87
             // 

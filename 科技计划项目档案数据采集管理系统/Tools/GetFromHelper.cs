@@ -78,7 +78,12 @@ namespace 科技计划项目档案数据采集管理系统
         public static Frm_QueryBorrowing GetQueryBorrow(Frm_FirstPage form)
         {
             if(borrowing == null || borrowing.IsDisposed)
-                borrowing = new Frm_QueryBorrowing(form);
+            {
+                if(form == null)
+                    borrowing = new Frm_QueryBorrowing();
+                else
+                    borrowing = new Frm_QueryBorrowing(form);
+            }
             return borrowing;
         }
 

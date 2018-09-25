@@ -26,14 +26,22 @@ namespace 科技计划项目档案数据采集管理系统
         {
             gridControl.DataSource = null;
 
-            string querySQL = $"SELECT at_id, at_name, at_size, at_date, at_uploader, at_loadticker FROM Attachment WHERE 1=1 ";
+            string querySQL = $"SELECT CASE at_type " +
+                "WHEN 0 THEN '法规制度' " +
+                "WHEN 1 THEN '部门规章' " +
+                "WHEN 2 THEN '标准规范' " +
+                "WHEN 3 THEN '项目/课题清单' " +
+                "WHEN 4 THEN '工作文件' " +
+                "ELSE '其他' END  " +
+                "_at_type, at_id, at_name, at_size, at_date, at_uploader, at_loadticker FROM Attachment WHERE 1=1 ";
             if(type != -1)
             {
                 querySQL += $"AND at_type = {type} ";
             }
-
+            querySQL += "ORDER BY at_type";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             gridControl.DataSource = table;
+            //项目/课题清单不能下载
         }
 
         private void Btn_Upload_Click(object sender, EventArgs e)
@@ -47,6 +55,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(uploadFile.ShowDialog() == DialogResult.OK)
             {
                 string filePath = uploadFile.txt_filePath.Text;
+                string fileName = uploadFile.txt_fileName.Text;
                 string fileCode = uploadFile.txt_fileCode.Text;
                 string fileVersion = uploadFile.txt_fileVersion.Text;
                 int fileType = uploadFile.cbo_fileType.SelectedIndex;
@@ -61,7 +70,7 @@ namespace 科技计划项目档案数据采集管理系统
                     FileInfo info = new FileInfo(filePath);
                     string primaryKey = Guid.NewGuid().ToString();
                     insertSQL += "INSERT INTO Attachment(at_id, at_name, at_size, at_date, at_uploader, at_entity, at_version, at_type, at_code) " +
-                        $"VALUES ('{primaryKey}' ,'{info.Name}' ,'{(float)(info.Length / 1024f)}' ,'{DateTime.Now}' ,'{UserHelper.GetUser().UserKey}', @fileByte, '{fileVersion}', {fileType}, '{fileCode}');";
+                        $"VALUES ('{primaryKey}' ,'{fileName}' ,'{(float)(info.Length / 1024f)}' ,'{DateTime.Now}' ,'{UserHelper.GetUser().UserKey}', @fileByte, '{fileVersion}', {fileType}, '{fileCode}');";
                     byte[] fileByte = GetByteFromFile(info);
                     SqlCommand com = new SqlCommand(insertSQL, con);
                     com.Parameters.Add("@fileByte", SqlDbType.Image, fileByte.Length);
@@ -90,12 +99,18 @@ namespace 科技计划项目档案数据采集管理系统
                 object viewRow = view.GetFocusedRow();
                 if(viewRow != null)
                 {
+                    object type = ((DataRowView)viewRow).Row.ItemArray[0];
+                    if("项目/课题清单".Equals(type))
+                    {
+                        XtraMessageBox.Show("此类别文件不可下载", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        return;
+                    }
                     folderBrowserDialog1.Description = "选择文件保存路径";
                     if(folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                     {
                         string savePath = folderBrowserDialog1.SelectedPath;
-                        object id = ((DataRowView)viewRow).Row.ItemArray[0];
-                        object name = ((DataRowView)viewRow).Row.ItemArray[1];
+                        object id = ((DataRowView)viewRow).Row.ItemArray[1];
+                        object name = ((DataRowView)viewRow).Row.ItemArray[2];
                         SqlConnection con = SqlHelper.GetConnect();
                         string querySQL = $"SELECT at_entity FROM Attachment WHERE at_id='{id}'";
                         SqlDataAdapter dataAdapter = new SqlDataAdapter(querySQL, con);

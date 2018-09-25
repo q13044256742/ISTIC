@@ -33,7 +33,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
             else
             {
                 chk1.Text = "档案催报单";
-                chk2.Text = "缺失文件清单";
+                chk2.Text = "缺失必备文件清单";
                 chk3.Text = "文件列表清单";
             }
         }
@@ -43,7 +43,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
 
         }
 
-        private void btn_Print_Click(object sender, System.EventArgs e)
+        private void Btn_Print_Click(object sender, System.EventArgs e)
         {
             if(TYPE == 1)
             {
@@ -96,11 +96,12 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 "    SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_pId IN " +
                 "   (SELECT dd_id FROM data_dictionary WHERE dd_pId = " +
                 "    (SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_file_jd')) AND extend_2=1 )B ON pfl.pfl_categor NOT IN (B.dd_id) " +
-               $"WHERE trp.trp_id='{trpId}' idi.imp_id IS NOT NULL";
+               $"WHERE trp.trp_id='{trpId}' AND idi.imp_id IS NOT NULL ORDER BY A.pi_code, dd_name";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             if(table.Rows.Count > 0)
             {
                 saveFileDialog1.Title = "请选择导出位置";
+                saveFileDialog1.Filter = "CSV文件|*.csv";
                 if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     string savePath = saveFileDialog1.FileName;
@@ -127,11 +128,12 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                     "    SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_pId IN " +
                     "   (SELECT dd_id FROM data_dictionary WHERE dd_pId = " +
                     "    (SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_file_jd')) AND extend_2=1 )B ON pfl.pfl_categor NOT IN (B.dd_id) " +
-                   $"WHERE trp.trp_id='{trpId}' pi.pi_id IS NOT NULL";
+                   $"WHERE trp.trp_id='{trpId}' AND pi.pi_id IS NOT NULL ORDER BY A.pi_code, dd_name";
                 DataTable table2 = SqlHelper.ExecuteQuery(querySQL2);
                 if(table2.Rows.Count > 0)
                 {
                     saveFileDialog1.Title = "请选择导出位置";
+                    saveFileDialog1.Filter = "CSV文件|*.csv";
                     if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         string savePath = saveFileDialog1.FileName;
@@ -173,6 +175,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
             if(table.Rows.Count > 0)
             {
                 saveFileDialog1.Title = "请选择导出位置";
+                saveFileDialog1.Filter = "CSV文件|*.csv";
                 if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     string savePath = saveFileDialog1.FileName;
@@ -203,6 +206,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 if(speTable.Rows.Count > 0)
                 {
                     saveFileDialog1.Title = "请选择导出位置";
+                    saveFileDialog1.Filter = "CSV文件|*.csv";
                     if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         string savePath = saveFileDialog1.FileName;

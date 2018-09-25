@@ -64,9 +64,11 @@
             this.tbar_DAJS = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.tileBarGroup8 = new DevExpress.XtraBars.Navigation.TileBarGroup();
             this.tbar_Query = new DevExpress.XtraBars.Navigation.TileBarItem();
-            this.tbar_Count = new DevExpress.XtraBars.Navigation.TileBarItem();
-            this.tbar_Download = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.tileBarGroup9 = new DevExpress.XtraBars.Navigation.TileBarGroup();
+            this.tbar_Count = new DevExpress.XtraBars.Navigation.TileBarItem();
+            this.tileBarGroup7 = new DevExpress.XtraBars.Navigation.TileBarGroup();
+            this.tbar_Download = new DevExpress.XtraBars.Navigation.TileBarItem();
+            this.tileBarGroup1 = new DevExpress.XtraBars.Navigation.TileBarGroup();
             this.tbar_Manage = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.view = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -103,8 +105,6 @@
             this.cdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cuser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tileBarGroup11 = new DevExpress.XtraBars.Navigation.TileBarGroup();
-            this.tileBarGroup7 = new DevExpress.XtraBars.Navigation.TileBarGroup();
-            this.tileBarGroup1 = new DevExpress.XtraBars.Navigation.TileBarGroup();
             ((System.ComponentModel.ISupportInitialize)(this.search.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -182,7 +182,6 @@
             this.tileBar1.Location = new System.Drawing.Point(-1, 26);
             this.tileBar1.MaxId = 11;
             this.tileBar1.Name = "tileBar1";
-            this.tileBar1.Position = 140;
             this.tileBar1.ScrollMode = DevExpress.XtraEditors.TileControlScrollMode.ScrollButtons;
             this.tileBar1.SelectedItem = this.tbar_FirstPage;
             this.tileBar1.ShowGroupText = false;
@@ -274,7 +273,7 @@
             this.tbar_DAJS.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
             tileItemElement5.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement5.Image")));
             tileItemElement5.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement5.Text = "档案接收";
+            tileItemElement5.Text = "档案验收";
             tileItemElement5.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
             this.tbar_DAJS.Elements.Add(tileItemElement5);
             this.tbar_DAJS.Id = 8;
@@ -300,6 +299,11 @@
             this.tbar_Query.Name = "tbar_Query";
             this.tbar_Query.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.Tbar_ItemClick);
             // 
+            // tileBarGroup9
+            // 
+            this.tileBarGroup9.Items.Add(this.tbar_Count);
+            this.tileBarGroup9.Name = "tileBarGroup9";
+            // 
             // tbar_Count
             // 
             this.tbar_Count.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
@@ -312,6 +316,11 @@
             this.tbar_Count.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tbar_Count.Name = "tbar_Count";
             this.tbar_Count.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.Tbar_ItemClick);
+            // 
+            // tileBarGroup7
+            // 
+            this.tileBarGroup7.Items.Add(this.tbar_Download);
+            this.tileBarGroup7.Name = "tileBarGroup7";
             // 
             // tbar_Download
             // 
@@ -326,10 +335,10 @@
             this.tbar_Download.Name = "tbar_Download";
             this.tbar_Download.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.Tbar_ItemClick);
             // 
-            // tileBarGroup9
+            // tileBarGroup1
             // 
-            this.tileBarGroup9.Items.Add(this.tbar_Count);
-            this.tileBarGroup9.Name = "tileBarGroup9";
+            this.tileBarGroup1.Items.Add(this.tbar_Manage);
+            this.tileBarGroup1.Name = "tileBarGroup1";
             // 
             // tbar_Manage
             // 
@@ -753,16 +762,6 @@
             // tileBarGroup11
             // 
             this.tileBarGroup11.Name = "tileBarGroup11";
-            // 
-            // tileBarGroup7
-            // 
-            this.tileBarGroup7.Items.Add(this.tbar_Download);
-            this.tileBarGroup7.Name = "tileBarGroup7";
-            // 
-            // tileBarGroup1
-            // 
-            this.tileBarGroup1.Items.Add(this.tbar_Manage);
-            this.tileBarGroup1.Name = "tileBarGroup1";
             // 
             // Frm_FirstPage
             // 

@@ -8,14 +8,17 @@ namespace 科技计划项目档案数据采集管理系统
     {
         private object FILE_ID;
         /// <param name="fileId">文件主键</param>
-        public Frm_BorrowEdit(object fileId)
+        public Frm_BorrowEdit(object fileId, object borrowId, bool isLog)
         {
+            string queryCon = string.Empty;
+            if(isLog)
+                queryCon = $"AND bl.bl_id='{borrowId}'";
             FILE_ID = fileId;
             InitializeComponent();
             cbo_FileType.Items.AddRange(new object[] { "原件", "复印件", "电子" });
-            DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT a.pi_code, a.pi_name, pb_gc_id, pb_box_number, pfl_code, pfl_name FROM processing_file_list " +
+            DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM processing_file_list " +
                 $"LEFT JOIN (SELECT pi_id, pi_code, pi_name FROM project_info UNION ALL SELECT ti_id, ti_code, ti_name FROM topic_info UNION ALL SELECT si_id, si_code, si_name FROM subject_info) a ON pfl_obj_id = a.pi_id " +
-                $"LEFT JOIN processing_box ON pb_obj_id = pfl_obj_id " +
+                $"LEFT JOIN processing_box ON pb_obj_id = pfl_obj_id LEFT JOIN borrow_log bl ON bl.bl_file_id = pfl_id {queryCon} " +
                 $"WHERE pfl_id = '{fileId}'");
             if(row != null)
             {
@@ -25,16 +28,41 @@ namespace 科技计划项目档案数据采集管理系统
                 lbl_pBoxId.Text = ToolHelper.GetValue(row["pb_box_number"]);
                 lbl_FileCode.Text = ToolHelper.GetValue(row["pfl_code"]);
                 lbl_FIleName.Text = ToolHelper.GetValue(row["pfl_name"]);
-            }
+                if(isLog)
+                {
+                    txt_Unit.Text = ToolHelper.GetValue(row["bl_user_unit"]);
+                    txt_User.Text = ToolHelper.GetValue(row["bl_user"]);
+                    txt_Phone.Text = ToolHelper.GetValue(row["bl_user_phone"]);
+                    txt_Borrow_Date.Text = ToolHelper.GetDateValue(row["bl_date"], "yyyy-MM-dd HH:mm:dd");
+                    txt_Borrow_Term.Text = ToolHelper.GetValue(row["bl_term"]);
+                    cbo_FileType.SelectedIndex = ToolHelper.GetIntValue(row["bl_form"], -1);
+                    txt_Should_Return_Date.Text = ToolHelper.GetValue(row["bl_should_return_term"]);
+                    txt_Real_Return_Date.Text = ToolHelper.GetValue(row["bl_real_return_term"]);
+                    lbl_Code.Text = ToolHelper.GetValue(row["bl_code"]);
+                    lbl_LogUser.Text = ToolHelper.GetValue(row["bl_log_user"]);
 
+                    string value = ToolHelper.GetValue(row["bl_id"]);
+                    if(!string.IsNullOrEmpty(value))
+                    {
+                        lbl_FIleName.Tag = value;
+                        int bstate = ToolHelper.GetIntValue(row["bl_return_state"], 0);
+                        if(bstate != 0)
+                            btn_Sure.Enabled = false;
+                        else
+                            btn_Sure.Text = "确认归还";
+                    }
+                }
+            }
         }
 
         private void Frm_BorrowEdit_Load(object sender, EventArgs e)
         {
-            txt_Borrow_Date.Text = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd HH:mm:dd");
-            lbl_LogUser.Text = UserHelper.GetUser().RealName;
-
-            lbl_Code.Text = GetCode();
+            if(string.IsNullOrEmpty(txt_Real_Return_Date.Text))
+                txt_Real_Return_Date.Text = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd HH:mm:dd");
+            if(string.IsNullOrEmpty(lbl_Code.Text))
+                lbl_Code.Text = GetCode();
+            if(string.IsNullOrEmpty(lbl_LogUser.Text))
+                lbl_LogUser.Text = UserHelper.GetUser().RealName;
         }
 
         /// <summary>

@@ -163,7 +163,7 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else
                     {
-                        Frm_Print frm = GetFormHelper.GetPrintDoc(this, 1, trpId);
+                        Frm_Print frm = GetFormHelper.GetPrintDoc(this, 2, trpId);
                         frm.Show();
                         frm.Activate();
                     }

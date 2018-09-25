@@ -261,7 +261,7 @@ namespace 科技计划项目档案数据采集管理系统
             return table.Rows.Count > 0 ? table.Rows[0] : null;
         }
         /// <summary>
-        /// 获取统计数
+        /// 获取统计数(若结果为null或非数字，则默认返回0)
         /// </summary>
         public static int ExecuteCountQuery(string querySql)
         {
@@ -304,6 +304,35 @@ namespace 科技计划项目档案数据采集管理系统
             sqlDataReader.Close();
             CloseConnect();
             return result;
+        }
+
+        /// <summary>
+        /// 批量插入/更新数据
+        /// </summary>
+        /// <param name="table">数据源</param>
+        public static void ExecuteUpdateQuery(DataTable table)
+        {
+            SqlConnection con = GetConnect();
+            SqlCommand com = new SqlCommand($"SELECT TOP(0) FROM {table.TableName}", con);
+            SqlDataAdapter adapter = new SqlDataAdapter(com);
+            try
+            {
+                adapter.UpdateBatchSize = 5000;
+                adapter.SelectCommand.Transaction = con.BeginTransaction();
+                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+                adapter.Update(table.GetChanges());
+                adapter.SelectCommand.Transaction.Commit();
+                table.AcceptChanges();
+            }
+            catch(Exception e)
+            {
+                LogsHelper.AddErrorLogs("批量插入失败", e.Message);
+                adapter.SelectCommand.Transaction.Rollback();
+            }
+            finally
+            {
+                CloseConnect();
+            }
         }
     }
 }

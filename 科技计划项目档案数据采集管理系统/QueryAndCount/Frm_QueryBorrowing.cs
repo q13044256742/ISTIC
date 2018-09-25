@@ -10,7 +10,7 @@ using 科技计划项目档案数据采集管理系统.FirstPage;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_QueryBorrowing : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_QueryBorrowing : XtraForm
     {
         /// <summary>
         /// 每页默认显示条数
@@ -25,17 +25,16 @@ namespace 科技计划项目档案数据采集管理系统
         public Frm_QueryBorrowing()
         {
             InitializeComponent();
-        }
 
-        public Frm_QueryBorrowing(Frm_FirstPage frm_FirstPage)
-        {
-            InitializeComponent();
-            this.frm_FirstPage = frm_FirstPage;
-        }
+            view2.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            view_Log.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+            view2.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
+            view_Log.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
 
-        private void Frm_QueryBorrowing_Load(object sender, EventArgs e)
-        {
-            navigationPane1.SelectedPage = ngp_Query;
+            panel3.Bounds = new System.Drawing.Rectangle(0, panel3.Top, ngp_Query.Width, ngp_Query.Height - panel3.Top);
+            panel1.Bounds = new System.Drawing.Rectangle(0, panel1.Top, ngp_Borrow.Width, ngp_Borrow.Height - panel1.Top);
+            lbl_TotalFileAmount.Anchor = AnchorStyles.Right | AnchorStyles.Top;
+
             //全部计划（重大专项）
             DataTable planTable = SqlHelper.ExecuteQuery("SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId= " +
                 "(SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_key_plan') " +
@@ -60,16 +59,18 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_SourceOrg.DataSource = orgTable;
             cbo_SourceOrg.DisplayMember = "dd_name";
             cbo_SourceOrg.ValueMember = "dd_code";
+        }
 
+        public Frm_QueryBorrowing(Frm_FirstPage frm_FirstPage) : this()
+        {
+            this.frm_FirstPage = frm_FirstPage;
+        }
+
+        private void Frm_QueryBorrowing_Load(object sender, EventArgs e)
+        {
+            navigationPane1.SelectedPage = ngp_Query;
+            ngp_Query.Select();
             LoadDataListByPage(1, null);
-            view2.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            view_Log.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
-            view2.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-            view_Log.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-
-            panel3.Bounds = new System.Drawing.Rectangle(0, panel3.Top, ngp_Query.Width, ngp_Query.Height - panel3.Top);
-            panel1.Bounds = new System.Drawing.Rectangle(0, panel1.Top, ngp_Borrow.Width, ngp_Borrow.Height - panel1.Top);
-            lbl_TotalFileAmount.Anchor = AnchorStyles.Right | AnchorStyles.Top;
         }
 
         /// <summary>
@@ -113,6 +114,7 @@ namespace 科技计划项目档案数据采集管理系统
                     foreach(DataRow topRow in topTable.Rows)
                     {
                         TreeListNode topNode = node.Nodes.Add(new object[] { i + "-" + ++j, row["dd_name"], topRow["ti_code"], topRow["ti_name"], topRow["ti_start_datetime"], GetTopicCount(topRow["ti_id"]), topRow["bcount"], GetFileCount(topRow["ti_id"]) });
+                        topNode.Tag = topRow["ti_id"];
                     }
                 }
             }
@@ -209,7 +211,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 加载指定页码的数据
         /// </summary>
         /// <param name="pageValue">指定页码</param>
-        private void LoadDataListByPage(object pageValue, EventArgs e)
+        public void LoadDataListByPage(object pageValue, EventArgs e)
         {
             int page = ToolHelper.GetIntValue(pageValue, 1);
             object planType = cbo_PlanTypeList.SelectedValue;
@@ -310,7 +312,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadFileList(object id, string fname, string fcategor, string pcode, string pname)
         {
             view2.Rows.Clear();
-            string querySQL = "SELECT TOP(1000) bl.bl_id, bl.bl_borrow_state, bl.bl_return_state, pfl.pfl_id, pfl.pfl_code, pfl.pfl_name, pb.pb_box_number " +
+            string querySQL = "SELECT TOP(1000) A.pi_code, pb.pb_gc_id, bl.bl_id, bl.bl_borrow_state, pfl.pfl_id, pfl.pfl_code, pfl.pfl_name, pb.pb_box_number " +
               "FROM processing_file_list pfl " +
               "LEFT JOIN (SELECT pi_id, pi_code, pi_name, pi_obj_id FROM project_info " +
               "UNION ALL SELECT ti_id, ti_code, ti_name, ti_obj_id FROM topic_info " +
@@ -332,7 +334,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(rdo_Out.Checked)
                 querySQL += $"AND bl.bl_borrow_state = 1 ";
             else if(rdo_In.Checked)
-                querySQL += $"AND (bl.bl_borrow_state = 0 OR bl.bl_borrow_state IS NULL) ";
+                querySQL += $"AND (bl.bl_borrow_state <> 1) ";
 
             querySQL += "ORDER BY pfl.pfl_sort DESC, pfl.pfl_code";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySQL);
@@ -340,23 +342,25 @@ namespace 科技计划项目档案数据采集管理系统
             view2.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "fid", HeaderText = "序号", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable },
-                new DataGridViewTextBoxColumn(){ Name = "fcode", HeaderText = "文件编号", FillWeight = 50, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "fpcode", HeaderText = "项目/课题编号", FillWeight = 50, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "fcode", HeaderText = "文件编号", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
                 new DataGridViewTextBoxColumn(){ Name = "fname", HeaderText = "文件名称", FillWeight = 120, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "fgc", HeaderText = "馆藏号", FillWeight = 40, SortMode = DataGridViewColumnSortMode.NotSortable },
                 new DataGridViewTextBoxColumn(){ Name = "fbox", HeaderText = "盒号", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable },
-                new DataGridViewButtonColumn(){ Name = "fbstate", HeaderText = "借阅状态", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
-                new DataGridViewButtonColumn(){ Name = "frstate", HeaderText = "借阅状态", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){ Name = "fbstate", HeaderText = "借阅状态", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable }
             });
             foreach(DataRow row in dataTable.Rows)
             {
                 int i = view2.Rows.Add();
                 view2.Rows[i].Tag = row["pfl_id"];
+                view2.Rows[i].Cells["fpcode"].Value = row["pi_code"];
                 view2.Rows[i].Cells["fid"].Value = i + 1;
                 view2.Rows[i].Cells["fcode"].Value = row["pfl_code"];
                 view2.Rows[i].Cells["fname"].Value = row["pfl_name"];
+                view2.Rows[i].Cells["fgc"].Value = row["pb_gc_id"];
                 view2.Rows[i].Cells["fbox"].Value = row["pb_box_number"];
                 view2.Rows[i].Cells["fbstate"].Tag = row["bl_id"];
                 view2.Rows[i].Cells["fbstate"].Value = GetBorrowState(row["bl_borrow_state"]);
-                view2.Rows[i].Cells["frstate"].Value = GetReturnState(row["bl_return_state"]);
             }
             view2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             view2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -406,43 +410,21 @@ namespace 科技计划项目档案数据采集管理系统
                 object fid = view2.Rows[e.RowIndex].Tag;    
                 if("在库".Equals(view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
                 {
-                    Frm_BorrowEdit frm = new Frm_BorrowEdit(fid);
+                    Frm_BorrowEdit frm = new Frm_BorrowEdit(fid, null, false);
                     frm.txt_Real_Return_Date.Enabled = false;
                     if(frm.ShowDialog() == DialogResult.OK)
                     {
                         view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = frm.Tag;
                         view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "借出";
-                        view2.Rows[e.RowIndex].Cells["frstate"].Value = "未归还";
                     }
                 }
-            }
-            //借阅状态(box)
-            else if("borrow_state".Equals(columnName))
-            {
-                object boxId = view2.Rows[e.RowIndex].Tag;
-                if("在库".Equals(view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
-                {
-                    Frm_BorrowEditBox frm = new Frm_BorrowEditBox(boxId);
-                    frm.txt_Real_Return_Date.Enabled = false;
-                    if(frm.ShowDialog() == DialogResult.OK)
-                    {
-                        view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = frm.Tag;
-                        view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "借出";
-                        view2.Rows[e.RowIndex].Cells["return_state"].Value = "未归还";
-                    }
-                }
-            }
-            //归还状态
-            else if("frstate".Equals(columnName))
-            {
-                object fid = view2.Rows[e.RowIndex].Tag;
-                if("未归还".Equals(view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                else if("借出".Equals(view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
                 {
                     object id = view2.Rows[e.RowIndex].Cells["fbstate"].Tag;
                     DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM borrow_log WHERE bl_id='{id}'");
                     if(row != null)
                     {
-                        Frm_BorrowEdit frm = new Frm_BorrowEdit(fid);
+                        Frm_BorrowEdit frm = new Frm_BorrowEdit(fid, null, false);
                         frm.txt_Unit.Text = ToolHelper.GetValue(row["bl_user_unit"]);
                         frm.txt_Unit.ReadOnly = true;
                         frm.txt_User.Text = ToolHelper.GetValue(row["bl_user"]);
@@ -464,23 +446,32 @@ namespace 科技计划项目档案数据采集管理系统
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
                             view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = frm.Tag;
-                            view2.Rows[e.RowIndex].Cells["fbstate"].Value = "在库";
-                            view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "归还";
+                            view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "在库";
                         }
                     }
                 }
             }
-            //归还状态（box）
-            else if("return_state".Equals(columnName))
+            //借阅状态(box)
+            else if("borrow_state".Equals(columnName))
             {
                 object boxId = view2.Rows[e.RowIndex].Tag;
-                if("未归还".Equals(view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                if("在库".Equals(view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                {
+                    Frm_BorrowEditBox frm = new Frm_BorrowEditBox(boxId, null, false);
+                    frm.txt_Real_Return_Date.Enabled = false;
+                    if(frm.ShowDialog() == DialogResult.OK)
+                    {
+                        view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = frm.Tag;
+                        view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "借出";
+                    }
+                }
+                else if("借出".Equals(view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
                 {
                     object id = view2.Rows[e.RowIndex].Cells["return_state"].Tag;
                     DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM borrow_log WHERE bl_id='{id}'");
                     if(row != null)
                     {
-                        Frm_BorrowEditBox frm = new Frm_BorrowEditBox(boxId);
+                        Frm_BorrowEditBox frm = new Frm_BorrowEditBox(boxId, null, false);
                         frm.txt_Unit.Text = ToolHelper.GetValue(row["bl_user_unit"]);
                         frm.txt_Unit.ReadOnly = true;
                         frm.txt_User.Text = ToolHelper.GetValue(row["bl_user"]);
@@ -502,8 +493,7 @@ namespace 科技计划项目档案数据采集管理系统
                         if(frm.ShowDialog() == DialogResult.OK)
                         {
                             view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = frm.Tag;
-                            view2.Rows[e.RowIndex].Cells["return_state"].Value = "在库";
-                            view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "归还";
+                            view2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "在库";
                         }
                     }
                 }
@@ -658,12 +648,15 @@ namespace 科技计划项目档案数据采集管理系统
             foreach(DataRow row in table.Rows)
             {
                 int i = view_Log.Rows.Add();
+                view_Log.Rows[i].Tag = row["bl_file_id"];
                 view_Log.Rows[i].Cells["id"].Value = i + 1;
                 view_Log.Rows[i].Cells["code"].Value = row["bl_code"];
+                view_Log.Rows[i].Cells["code"].Tag = row["bl_id"];
                 view_Log.Rows[i].Cells["date"].Value = ToolHelper.GetDateValue(row["bl_date"], "yyyy-MM-dd HH:mm");
                 view_Log.Rows[i].Cells["unit"].Value = row["bl_user_unit"];
                 view_Log.Rows[i].Cells["user"].Value = row["bl_user"];
                 view_Log.Rows[i].Cells["state"].Value = GetReturnState(row["bl_return_state"]);
+                view_Log.Rows[i].Cells["bdate"].Value = ToolHelper.GetDateValue(row["bl_real_return_term"], "yyyy-MM-dd HH:mm");
             }
         }
 
@@ -720,6 +713,36 @@ namespace 科技计划项目档案数据采集管理系统
                 if(result && XtraMessageBox.Show("导出完毕，是否立即打开文件?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                 {
                     WinFormOpenHelper.OpenWinForm(0, "open", filePath, null, null, ShowWindowCommands.SW_NORMAL);
+                }
+            }
+        }
+
+        private void view_Log_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex != -1)
+            {
+                string value = view_Log.Columns[e.ColumnIndex].Name;
+                if("code".Equals(value))
+                {
+                    object fileId = view_Log.Rows[e.RowIndex].Tag;
+                    object borrowId = view_Log.Rows[e.RowIndex].Cells["code"].Tag;
+                    int type = SqlHelper.ExecuteCountQuery($"select COUNT(pb_id) from processing_box where pb_id='{fileId}'");
+                    if(type == 0)
+                    {
+                        Frm_BorrowEdit borrowEdit = new Frm_BorrowEdit(fileId, borrowId, true);
+                        if(borrowEdit.ShowDialog()== DialogResult.OK)
+                        {
+                            btn_LogQuery_Click(null, null);
+                        }
+                    }
+                    else
+                    {
+                        Frm_BorrowEditBox borrowEditBox = new Frm_BorrowEditBox(fileId, borrowId, true);
+                        if(borrowEditBox.ShowDialog()== DialogResult.OK)
+                        {
+                            btn_LogQuery_Click(null, null);
+                        }
+                    }
                 }
             }
         }

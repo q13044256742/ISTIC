@@ -102,7 +102,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.lbl_Code);
             this.groupBox1.Controls.Add(this.lbl_pBoxId);
@@ -132,9 +132,8 @@
             this.lbl_Code.Location = new System.Drawing.Point(148, 32);
             this.lbl_Code.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lbl_Code.Name = "lbl_Code";
-            this.lbl_Code.Size = new System.Drawing.Size(38, 21);
+            this.lbl_Code.Size = new System.Drawing.Size(0, 21);
             this.lbl_Code.TabIndex = 30;
-            this.lbl_Code.Text = "null";
             // 
             // lbl_pBoxId
             // 
@@ -143,9 +142,8 @@
             this.lbl_pBoxId.Location = new System.Drawing.Point(425, 141);
             this.lbl_pBoxId.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lbl_pBoxId.Name = "lbl_pBoxId";
-            this.lbl_pBoxId.Size = new System.Drawing.Size(38, 21);
+            this.lbl_pBoxId.Size = new System.Drawing.Size(0, 21);
             this.lbl_pBoxId.TabIndex = 29;
-            this.lbl_pBoxId.Text = "null";
             // 
             // label20
             // 
@@ -165,9 +163,8 @@
             this.lbl_pGC.Location = new System.Drawing.Point(148, 142);
             this.lbl_pGC.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lbl_pGC.Name = "lbl_pGC";
-            this.lbl_pGC.Size = new System.Drawing.Size(38, 21);
+            this.lbl_pGC.Size = new System.Drawing.Size(0, 21);
             this.lbl_pGC.TabIndex = 27;
-            this.lbl_pGC.Text = "null";
             // 
             // label18
             // 
@@ -189,7 +186,6 @@
             this.lbl_pName.Name = "lbl_pName";
             this.lbl_pName.Size = new System.Drawing.Size(444, 39);
             this.lbl_pName.TabIndex = 25;
-            this.lbl_pName.Text = "null";
             // 
             // label16
             // 
@@ -209,9 +205,8 @@
             this.lbl_pCode.Location = new System.Drawing.Point(148, 66);
             this.lbl_pCode.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lbl_pCode.Name = "lbl_pCode";
-            this.lbl_pCode.Size = new System.Drawing.Size(38, 21);
+            this.lbl_pCode.Size = new System.Drawing.Size(0, 21);
             this.lbl_pCode.TabIndex = 23;
-            this.lbl_pCode.Text = "null";
             // 
             // label14
             // 
@@ -252,13 +247,12 @@
             this.lbl_FileCode.Location = new System.Drawing.Point(148, 176);
             this.lbl_FileCode.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lbl_FileCode.Name = "lbl_FileCode";
-            this.lbl_FileCode.Size = new System.Drawing.Size(38, 21);
+            this.lbl_FileCode.Size = new System.Drawing.Size(0, 21);
             this.lbl_FileCode.TabIndex = 3;
-            this.lbl_FileCode.Text = "null";
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.txt_Borrow_Term);
             this.groupBox2.Controls.Add(this.txt_Phone);
@@ -385,9 +379,8 @@
             this.lbl_LogUser.Location = new System.Drawing.Point(148, 369);
             this.lbl_LogUser.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lbl_LogUser.Name = "lbl_LogUser";
-            this.lbl_LogUser.Size = new System.Drawing.Size(38, 21);
+            this.lbl_LogUser.Size = new System.Drawing.Size(0, 21);
             this.lbl_LogUser.TabIndex = 18;
-            this.lbl_LogUser.Text = "null";
             // 
             // label13
             // 
@@ -509,6 +502,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_BorrowEdit";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "文件借阅登记";
             this.Load += new System.EventHandler(this.Frm_BorrowEdit_Load);

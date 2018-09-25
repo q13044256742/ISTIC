@@ -20,6 +20,17 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
+        /// 将对象转换成字符串形式，null则返回指定默认字符串
+        /// </summary>
+        public static string GetValue(object value, string defaultValue)
+        {
+            if(value == null)
+                return defaultValue;
+            else
+                return value.ToString();
+        }
+
+        /// <summary>
         /// 获取指定时间对象的指定格式化字符对象
         /// </summary>
         /// <param name="dateObject">时间对象</param>
