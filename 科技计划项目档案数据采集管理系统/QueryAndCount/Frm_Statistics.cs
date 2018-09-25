@@ -116,13 +116,9 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string name = (sender as AccordionControlElement).Name;
             if("all_ltype".Equals(name))
-            {
                 name = string.Empty;
-            }
             else
-            {
                 name = $"AND M.dd_id='{name}'";
-            }
             LoadDataListByProvince(name, null, null);
         }
 
@@ -137,19 +133,19 @@ namespace 科技计划项目档案数据采集管理系统
             string querySQL = "SELECT M.dd_id, M.dd_name, M.pCount, N.bCount, X.fCount, Y.lCount FROM(" +
                 "SELECT dd_id, dd_name, COUNT(B.pi_id) pCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
                 "SELECT pi_id, pi_province FROM project_info WHERE pi_categor=2 UNION ALL " +
-                "SELECT ti_id, ti_province FROM topic_info WHERE ti_categor=-3) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "SELECT ti_id, ti_province FROM topic_info) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
                 "WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') GROUP BY dd_id, dd_name) M LEFT JOIN( " +
                 "SELECT dd_id, dd_name, COUNT(pb.pb_id) bCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
                 "SELECT pi_id, pi_province FROM project_info WHERE pi_categor=2 UNION ALL " +
-                "SELECT ti_id, ti_province FROM topic_info WHERE ti_categor=-3) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "SELECT ti_id, ti_province FROM topic_info) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
                 "LEFT JOIN processing_box pb ON B.pi_id = pb.pb_obj_id WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') " +
                 "GROUP BY dd_id, dd_name ) N ON M.dd_id=N.dd_id LEFT JOIN( " +
                 "SELECT dd_id, dd_name, COUNT(pfl.pfl_id) fCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
                 "SELECT pi_id, pi_province FROM project_info WHERE pi_categor=2 UNION ALL " +
-                "SELECT ti_id, ti_province FROM topic_info WHERE ti_categor=-3) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "SELECT ti_id, ti_province FROM topic_info) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
                 "LEFT JOIN processing_file_list pfl ON B.pi_id = pfl.pfl_obj_id WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') " +
-                "GROUP BY dd_id, dd_name) X ON N.dd_id=X.dd_id LEFT JOIN( SELECT dd_id, dd_name, COUNT(pfo.pfo_id) lCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
-                "SELECT pi_id, pi_province FROM project_info WHERE pi_categor=2 UNION ALL SELECT ti_id, ti_province FROM topic_info WHERE ti_categor=-3) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "GROUP BY dd_id, dd_name) X ON N.dd_id=X.dd_id LEFT JOIN( SELECT dd_id, dd_name, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END lCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
+                "SELECT pi_id, pi_province FROM project_info WHERE pi_categor=2 UNION ALL SELECT ti_id, ti_province FROM topic_info) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
                 "LEFT JOIN processing_file_lost pfo ON B.pi_id = pfo.pfo_obj_id WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') GROUP BY dd_id, dd_name) Y ON X.dd_id=Y.dd_id " +
                $"WHERE M.pCount>0 {provinceId} ";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
@@ -789,10 +785,12 @@ namespace 科技计划项目档案数据采集管理系统
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
                $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID " +
-                "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM(SELECT p.F_ID, COUNT(pfo.pfo_id) AS fbCount FROM T_Plan AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
-                "LEFT OUTER JOIN processing_file_lost AS pfo ON pfo.pfo_obj_id = A.pi_id AND pfo.pfo_ismust = 1 GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
+                "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM(SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_Plan AS p LEFT OUTER JOIN (" +
+                "SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
+                "SELECT   pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT   ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
+               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+                "GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             DataGridViewStyleHelper.ResetDataGridView(view, true);
             DataTable tableEntity = new DataTable();
@@ -863,10 +861,12 @@ namespace 科技计划项目档案数据采集管理系统
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE   (pi_categor = 2) UNION ALL " +
                $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID " +
-                "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM (SELECT p.F_ID, COUNT(pfo.pfo_id) AS fbCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
-                "LEFT OUTER JOIN processing_file_lost AS pfo ON pfo.pfo_obj_id = A.pi_id AND pfo.pfo_ismust = 1 GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
+                "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM (SELECT p.F_ID, COUNT(C.pi_id) AS fbCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
+                "SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
+                "SELECT   pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT   ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
+               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) C ON C.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+                "GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             int totalPcount = 0, totalFcount = 0, totalBcount = 0, totalFBcount = 0;
             DataGridViewStyleHelper.ResetDataGridView(view, true);
@@ -878,7 +878,7 @@ namespace 科技计划项目档案数据采集管理系统
                     new DataColumn("项目/课题数", typeof(int)),
                     new DataColumn("盒数", typeof(int)),
                     new DataColumn("文件数", typeof(int)),
-                    new DataColumn("必备文件缺失数", typeof(int)),
+                    new DataColumn("必备文件缺失项目数", typeof(int)),
             });
             DataRowCollection rowCollection = table.Rows;
             for(int i = 0; i < rowCollection.Count; i++)

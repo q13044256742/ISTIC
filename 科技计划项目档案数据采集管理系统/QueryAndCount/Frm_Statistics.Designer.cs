@@ -958,7 +958,7 @@
             this.tabPage3.Controls.Add(this.cc_LeftMenu);
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(284, 715);
+            this.tabPage3.Size = new System.Drawing.Size(284, 667);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "地域";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -991,7 +991,7 @@
             this.cc_LeftMenu.Name = "cc_LeftMenu";
             this.cc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.cc_LeftMenu.ShowToolTips = false;
-            this.cc_LeftMenu.Size = new System.Drawing.Size(284, 715);
+            this.cc_LeftMenu.Size = new System.Drawing.Size(284, 667);
             this.cc_LeftMenu.TabIndex = 15;
             // 
             // all_ltype
@@ -999,6 +999,7 @@
             this.all_ltype.Name = "all_ltype";
             this.all_ltype.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.all_ltype.Text = "全部地区";
+            this.all_ltype.Click += new System.EventHandler(this.Element_Click);
             // 
             // Frm_Statistics
             // 
