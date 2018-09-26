@@ -46,6 +46,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             this.treeView = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsm_Insert = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_DeleteRow = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_Refresh = new System.Windows.Forms.ToolStripMenuItem();
             this.Tsm_Up = new System.Windows.Forms.ToolStripMenuItem();
@@ -235,7 +236,7 @@
             this.txt_Subject_StartTime = new System.Windows.Forms.TextBox();
             this.dtp_Subject_EndTime = new System.Windows.Forms.DateTimePicker();
             this.dtp_Subject_StartTime = new System.Windows.Forms.DateTimePicker();
-            this.txt_Subject_Province = new System.Windows.Forms.TextBox();
+            this.cbo_Subject_Province = new System.Windows.Forms.ComboBox();
             this.txt_Subject_Unit = new System.Windows.Forms.TextBox();
             this.txt_Subject_ProUser = new System.Windows.Forms.TextBox();
             this.label88 = new System.Windows.Forms.Label();
@@ -318,7 +319,7 @@
             this.txt_Topic_StartTime = new System.Windows.Forms.TextBox();
             this.dtp_Topic_EndTime = new System.Windows.Forms.DateTimePicker();
             this.dtp_Topic_StartTime = new System.Windows.Forms.DateTimePicker();
-            this.txt_Topic_Province = new System.Windows.Forms.TextBox();
+            this.cbo_Topic_Province = new System.Windows.Forms.ComboBox();
             this.txt_Topic_Unit = new System.Windows.Forms.TextBox();
             this.txt_Topic_ProUser = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -403,7 +404,7 @@
             this.txt_Project_StartTime = new System.Windows.Forms.TextBox();
             this.dtp_Project_EndTime = new System.Windows.Forms.DateTimePicker();
             this.dtp_Project_StartTime = new System.Windows.Forms.DateTimePicker();
-            this.txt_Project_Province = new System.Windows.Forms.TextBox();
+            this.cbo_Project_Province = new System.Windows.Forms.ComboBox();
             this.txt_Project_Unit = new System.Windows.Forms.TextBox();
             this.txt_Project_ProUser = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -491,7 +492,6 @@
             this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
             this.tab_MenuList = new System.Windows.Forms.TabControl();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.tsm_Insert = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.special.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab_Special_Info)).BeginInit();
@@ -578,13 +578,21 @@
             this.Tsm_Up,
             this.Tsm_Down});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 114);
+            // 
+            // tsm_Insert
+            // 
+            this.tsm_Insert.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._1;
+            this.tsm_Insert.Name = "tsm_Insert";
+            this.tsm_Insert.Size = new System.Drawing.Size(112, 22);
+            this.tsm_Insert.Text = "插入行";
+            this.tsm_Insert.Click += new System.EventHandler(this.Tsm_Insert);
             // 
             // tsm_DeleteRow
             // 
             this.tsm_DeleteRow.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._2;
             this.tsm_DeleteRow.Name = "tsm_DeleteRow";
-            this.tsm_DeleteRow.Size = new System.Drawing.Size(180, 22);
+            this.tsm_DeleteRow.Size = new System.Drawing.Size(112, 22);
             this.tsm_DeleteRow.Text = "删除行";
             this.tsm_DeleteRow.Click += new System.EventHandler(this.Tsm_DeleteRow);
             // 
@@ -592,21 +600,21 @@
             // 
             this.tsm_Refresh.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._3;
             this.tsm_Refresh.Name = "tsm_Refresh";
-            this.tsm_Refresh.Size = new System.Drawing.Size(180, 22);
+            this.tsm_Refresh.Size = new System.Drawing.Size(112, 22);
             this.tsm_Refresh.Text = "刷新";
             this.tsm_Refresh.Click += new System.EventHandler(this.Tsm_Refresh);
             // 
             // Tsm_Up
             // 
             this.Tsm_Up.Name = "Tsm_Up";
-            this.Tsm_Up.Size = new System.Drawing.Size(180, 22);
+            this.Tsm_Up.Size = new System.Drawing.Size(112, 22);
             this.Tsm_Up.Text = "上移";
             this.Tsm_Up.Click += new System.EventHandler(this.Tsm_Click);
             // 
             // Tsm_Down
             // 
             this.Tsm_Down.Name = "Tsm_Down";
-            this.Tsm_Down.Size = new System.Drawing.Size(180, 22);
+            this.Tsm_Down.Size = new System.Drawing.Size(112, 22);
             this.Tsm_Down.Text = "下移";
             this.Tsm_Down.Click += new System.EventHandler(this.Tsm_Click);
             // 
@@ -2616,7 +2624,7 @@
             this.pal_Subject.Controls.Add(this.txt_Subject_StartTime);
             this.pal_Subject.Controls.Add(this.dtp_Subject_EndTime);
             this.pal_Subject.Controls.Add(this.dtp_Subject_StartTime);
-            this.pal_Subject.Controls.Add(this.txt_Subject_Province);
+            this.pal_Subject.Controls.Add(this.cbo_Subject_Province);
             this.pal_Subject.Controls.Add(this.txt_Subject_Unit);
             this.pal_Subject.Controls.Add(this.txt_Subject_ProUser);
             this.pal_Subject.Controls.Add(this.label88);
@@ -2701,13 +2709,15 @@
             this.dtp_Subject_StartTime.TabIndex = 73;
             this.dtp_Subject_StartTime.ValueChanged += new System.EventHandler(this.StartTime_ValueChanged);
             // 
-            // txt_Subject_Province
+            // cbo_Subject_Province
             // 
-            this.txt_Subject_Province.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.txt_Subject_Province.Location = new System.Drawing.Point(475, 107);
-            this.txt_Subject_Province.Name = "txt_Subject_Province";
-            this.txt_Subject_Province.Size = new System.Drawing.Size(224, 34);
-            this.txt_Subject_Province.TabIndex = 72;
+            this.cbo_Subject_Province.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbo_Subject_Province.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbo_Subject_Province.Font = new System.Drawing.Font("华文中宋", 15F);
+            this.cbo_Subject_Province.Location = new System.Drawing.Point(475, 109);
+            this.cbo_Subject_Province.Name = "cbo_Subject_Province";
+            this.cbo_Subject_Province.Size = new System.Drawing.Size(224, 31);
+            this.cbo_Subject_Province.TabIndex = 72;
             // 
             // txt_Subject_Unit
             // 
@@ -2738,7 +2748,7 @@
             // txt_Subject_Unituser
             // 
             this.txt_Subject_Unituser.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.txt_Subject_Unituser.Location = new System.Drawing.Point(475, 142);
+            this.txt_Subject_Unituser.Location = new System.Drawing.Point(834, 107);
             this.txt_Subject_Unituser.Name = "txt_Subject_Unituser";
             this.txt_Subject_Unituser.Size = new System.Drawing.Size(224, 34);
             this.txt_Subject_Unituser.TabIndex = 63;
@@ -2777,7 +2787,7 @@
             // 
             this.label91.AutoSize = true;
             this.label91.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label91.Location = new System.Drawing.Point(339, 149);
+            this.label91.Location = new System.Drawing.Point(705, 114);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(125, 20);
             this.label91.TabIndex = 58;
@@ -3515,7 +3525,7 @@
             this.pal_Topic.Controls.Add(this.txt_Topic_StartTime);
             this.pal_Topic.Controls.Add(this.dtp_Topic_EndTime);
             this.pal_Topic.Controls.Add(this.dtp_Topic_StartTime);
-            this.pal_Topic.Controls.Add(this.txt_Topic_Province);
+            this.pal_Topic.Controls.Add(this.cbo_Topic_Province);
             this.pal_Topic.Controls.Add(this.txt_Topic_Unit);
             this.pal_Topic.Controls.Add(this.txt_Topic_ProUser);
             this.pal_Topic.Controls.Add(this.label2);
@@ -3604,13 +3614,15 @@
             this.dtp_Topic_StartTime.TabIndex = 74;
             this.dtp_Topic_StartTime.ValueChanged += new System.EventHandler(this.StartTime_ValueChanged);
             // 
-            // txt_Topic_Province
+            // cbo_Topic_Province
             // 
-            this.txt_Topic_Province.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.txt_Topic_Province.Location = new System.Drawing.Point(476, 107);
-            this.txt_Topic_Province.Name = "txt_Topic_Province";
-            this.txt_Topic_Province.Size = new System.Drawing.Size(224, 34);
-            this.txt_Topic_Province.TabIndex = 73;
+            this.cbo_Topic_Province.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbo_Topic_Province.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbo_Topic_Province.Font = new System.Drawing.Font("华文中宋", 15F);
+            this.cbo_Topic_Province.Location = new System.Drawing.Point(476, 107);
+            this.cbo_Topic_Province.Name = "cbo_Topic_Province";
+            this.cbo_Topic_Province.Size = new System.Drawing.Size(224, 31);
+            this.cbo_Topic_Province.TabIndex = 73;
             // 
             // txt_Topic_Unit
             // 
@@ -4441,7 +4453,7 @@
             this.pal_Project.Controls.Add(this.txt_Project_StartTime);
             this.pal_Project.Controls.Add(this.dtp_Project_EndTime);
             this.pal_Project.Controls.Add(this.dtp_Project_StartTime);
-            this.pal_Project.Controls.Add(this.txt_Project_Province);
+            this.pal_Project.Controls.Add(this.cbo_Project_Province);
             this.pal_Project.Controls.Add(this.txt_Project_Unit);
             this.pal_Project.Controls.Add(this.txt_Project_ProUser);
             this.pal_Project.Controls.Add(this.label19);
@@ -4530,13 +4542,15 @@
             this.dtp_Project_StartTime.TabIndex = 74;
             this.dtp_Project_StartTime.ValueChanged += new System.EventHandler(this.StartTime_ValueChanged);
             // 
-            // txt_Project_Province
+            // cbo_Project_Province
             // 
-            this.txt_Project_Province.Font = new System.Drawing.Font("华文中宋", 15F);
-            this.txt_Project_Province.Location = new System.Drawing.Point(473, 108);
-            this.txt_Project_Province.Name = "txt_Project_Province";
-            this.txt_Project_Province.Size = new System.Drawing.Size(224, 34);
-            this.txt_Project_Province.TabIndex = 72;
+            this.cbo_Project_Province.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbo_Project_Province.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbo_Project_Province.Font = new System.Drawing.Font("华文中宋", 15F);
+            this.cbo_Project_Province.Location = new System.Drawing.Point(473, 110);
+            this.cbo_Project_Province.Name = "cbo_Project_Province";
+            this.cbo_Project_Province.Size = new System.Drawing.Size(224, 31);
+            this.cbo_Project_Province.TabIndex = 72;
             // 
             // txt_Project_Unit
             // 
@@ -5481,14 +5495,6 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // tsm_Insert
-            // 
-            this.tsm_Insert.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._1;
-            this.tsm_Insert.Name = "tsm_Insert";
-            this.tsm_Insert.Size = new System.Drawing.Size(180, 22);
-            this.tsm_Insert.Text = "插入行";
-            this.tsm_Insert.Click += new System.EventHandler(this.Tsm_Insert);
-            // 
             // Frm_MyWorkQT
             // 
             this.Appearance.Options.UseFont = true;
@@ -5699,7 +5705,7 @@
         private KyoControl.KyoButton btn_Subject_Submit;
         private KyoControl.KyoButton btn_Subject_Save;
         private System.Windows.Forms.Panel pal_Subject;
-        private System.Windows.Forms.TextBox txt_Subject_Province;
+        private System.Windows.Forms.ComboBox cbo_Subject_Province;
         private System.Windows.Forms.TextBox txt_Subject_Unit;
         private System.Windows.Forms.TextBox txt_Subject_ProUser;
         private System.Windows.Forms.Label label88;
@@ -5751,7 +5757,7 @@
         private KyoControl.KyoButton btn_Topic_Submit;
         private KyoControl.KyoButton btn_Topic_Save;
         private System.Windows.Forms.Panel pal_Topic;
-        private System.Windows.Forms.TextBox txt_Topic_Province;
+        private System.Windows.Forms.ComboBox cbo_Topic_Province;
         private System.Windows.Forms.TextBox txt_Topic_Unit;
         private System.Windows.Forms.TextBox txt_Topic_ProUser;
         private System.Windows.Forms.Label label2;
@@ -5805,7 +5811,7 @@
         private KyoControl.KyoButton btn_Project_Submit;
         private KyoControl.KyoButton btn_Project_Save;
         private System.Windows.Forms.Panel pal_Project;
-        private System.Windows.Forms.TextBox txt_Project_Province;
+        private System.Windows.Forms.ComboBox cbo_Project_Province;
         private System.Windows.Forms.TextBox txt_Project_Unit;
         private System.Windows.Forms.TextBox txt_Project_ProUser;
         private System.Windows.Forms.Label label19;

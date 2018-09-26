@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DevExpress.XtraEditors.LabelControl labelControl2;
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -36,7 +37,6 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Statistics));
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -78,7 +78,10 @@
             this.cbo_UserList = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tabNavigationPage2 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
-            this.btn_Year = new DevExpress.XtraEditors.ButtonEdit();
+            this.txt_QuerySyear = new DevExpress.XtraEditors.TextEdit();
+            this.txt_QueryEyear = new DevExpress.XtraEditors.TextEdit();
+            this.btn_Query = new DevExpress.XtraEditors.SimpleButton();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.btn_Export = new DevExpress.XtraEditors.SimpleButton();
             this.tabPane2 = new DevExpress.XtraBars.Navigation.TabPane();
             this.datatable = new DevExpress.XtraBars.Navigation.TabNavigationPage();
@@ -103,6 +106,7 @@
             this.cc_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.all_ltype = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            labelControl2 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             this.tabPane1.SuspendLayout();
@@ -116,7 +120,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart4)).BeginInit();
             this.panel2.SuspendLayout();
             this.tabNavigationPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btn_Year.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_QuerySyear.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_QueryEyear.Properties)).BeginInit();
             this.tabPane2.SuspendLayout();
             this.datatable.SuspendLayout();
             this.datachart.SuspendLayout();
@@ -132,6 +137,16 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cc_LeftMenu)).BeginInit();
             this.SuspendLayout();
+            // 
+            // labelControl2
+            // 
+            labelControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            labelControl2.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelControl2.Location = new System.Drawing.Point(1046, 4);
+            labelControl2.Name = "labelControl2";
+            labelControl2.Size = new System.Drawing.Size(12, 21);
+            labelControl2.TabIndex = 3;
+            labelControl2.Text = "~";
             // 
             // ac_LeftMenu
             // 
@@ -212,7 +227,7 @@
             this.tabNavigationPage2});
             this.tabPane1.RegularSize = new System.Drawing.Size(1264, 749);
             this.tabPane1.SelectedPage = this.tabNavigationPage1;
-            this.tabPane1.SelectedPageIndex = 1;
+            this.tabPane1.SelectedPageIndex = 0;
             this.tabPane1.Size = new System.Drawing.Size(1264, 749);
             this.tabPane1.TabIndex = 17;
             this.tabPane1.Text = "tabPane1";
@@ -259,7 +274,7 @@
             this.tabNavigationPage4});
             this.tabPane3.RegularSize = new System.Drawing.Size(1239, 474);
             this.tabPane3.SelectedPage = this.tabNavigationPage3;
-            this.tabPane3.SelectedPageIndex = 1;
+            this.tabPane3.SelectedPageIndex = 0;
             this.tabPane3.Size = new System.Drawing.Size(1239, 474);
             this.tabPane3.TabIndex = 30;
             this.tabPane3.Text = "tabPane3";
@@ -327,7 +342,7 @@
             this.panel3.Controls.Add(this.rdo3);
             this.panel3.Controls.Add(this.rdo2);
             this.panel3.Controls.Add(this.rdo1);
-            this.panel3.Location = new System.Drawing.Point(743, 3);
+            this.panel3.Location = new System.Drawing.Point(726, 3);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(149, 166);
             this.panel3.TabIndex = 2;
@@ -405,7 +420,7 @@
             series1.ChartArea = "ChartArea1";
             series1.Name = "Series1";
             this.chart5.Series.Add(series1);
-            this.chart5.Size = new System.Drawing.Size(592, 280);
+            this.chart5.Size = new System.Drawing.Size(575, 280);
             this.chart5.TabIndex = 1;
             this.chart5.Text = "chart5";
             // 
@@ -434,7 +449,7 @@
             series2.ChartArea = "ChartArea1";
             series2.Name = "Series1";
             this.chart4.Series.Add(series2);
-            this.chart4.Size = new System.Drawing.Size(728, 280);
+            this.chart4.Size = new System.Drawing.Size(711, 280);
             this.chart4.TabIndex = 0;
             this.chart4.Text = "chart4";
             // 
@@ -602,7 +617,11 @@
             this.tabNavigationPage2.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tabNavigationPage2.Appearance.Options.UseFont = true;
             this.tabNavigationPage2.Caption = "tabNavigationPage2";
-            this.tabNavigationPage2.Controls.Add(this.btn_Year);
+            this.tabNavigationPage2.Controls.Add(this.txt_QuerySyear);
+            this.tabNavigationPage2.Controls.Add(this.txt_QueryEyear);
+            this.tabNavigationPage2.Controls.Add(this.btn_Query);
+            this.tabNavigationPage2.Controls.Add(labelControl2);
+            this.tabNavigationPage2.Controls.Add(this.labelControl1);
             this.tabNavigationPage2.Controls.Add(this.btn_Export);
             this.tabNavigationPage2.Controls.Add(this.tabPane2);
             this.tabNavigationPage2.Controls.Add(this.tabControl1);
@@ -613,25 +632,56 @@
             this.tabNavigationPage2.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.tabNavigationPage2.Size = new System.Drawing.Size(1246, 701);
             // 
-            // btn_Year
+            // txt_QuerySyear
             // 
-            this.btn_Year.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Year.Location = new System.Drawing.Point(974, 0);
-            this.btn_Year.Name = "btn_Year";
-            this.btn_Year.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.btn_Year.Properties.Appearance.Options.UseFont = true;
-            this.btn_Year.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
-            this.btn_Year.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Clear),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Search, "", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Enter)), serializableAppearanceObject1, "", null, null, true)});
-            this.btn_Year.Properties.Mask.BeepOnError = true;
-            this.btn_Year.Properties.Mask.EditMask = "\\d{4} - \\d{4}";
-            this.btn_Year.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.btn_Year.Properties.NullValuePrompt = "按立项年度查询";
-            this.btn_Year.Properties.NullValuePromptShowForEmptyValue = true;
-            this.btn_Year.Properties.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.Btn_Year_Properties_ButtonClick);
-            this.btn_Year.Size = new System.Drawing.Size(186, 28);
-            this.btn_Year.TabIndex = 1;
+            this.txt_QuerySyear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_QuerySyear.Location = new System.Drawing.Point(985, 1);
+            this.txt_QuerySyear.Name = "txt_QuerySyear";
+            this.txt_QuerySyear.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.txt_QuerySyear.Properties.Appearance.Options.UseFont = true;
+            this.txt_QuerySyear.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.UltraFlat;
+            this.txt_QuerySyear.Properties.Mask.BeepOnError = true;
+            this.txt_QuerySyear.Properties.Mask.EditMask = "\\d{4}";
+            this.txt_QuerySyear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txt_QuerySyear.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txt_QuerySyear.Size = new System.Drawing.Size(57, 26);
+            this.txt_QuerySyear.TabIndex = 1;
+            // 
+            // txt_QueryEyear
+            // 
+            this.txt_QueryEyear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_QueryEyear.Location = new System.Drawing.Point(1063, 1);
+            this.txt_QueryEyear.Name = "txt_QueryEyear";
+            this.txt_QueryEyear.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.txt_QueryEyear.Properties.Appearance.Options.UseFont = true;
+            this.txt_QueryEyear.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.UltraFlat;
+            this.txt_QueryEyear.Properties.Mask.BeepOnError = true;
+            this.txt_QueryEyear.Properties.Mask.EditMask = "\\d{4}";
+            this.txt_QueryEyear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txt_QueryEyear.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txt_QueryEyear.Size = new System.Drawing.Size(57, 26);
+            this.txt_QueryEyear.TabIndex = 2;
+            // 
+            // btn_Query
+            // 
+            this.btn_Query.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Query.Image = ((System.Drawing.Image)(resources.GetObject("btn_Query.Image")));
+            this.btn_Query.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btn_Query.Location = new System.Drawing.Point(1126, 0);
+            this.btn_Query.Name = "btn_Query";
+            this.btn_Query.Size = new System.Drawing.Size(30, 28);
+            this.btn_Query.TabIndex = 3;
+            this.btn_Query.Click += new System.EventHandler(this.Btn_Year_Properties_ButtonClick);
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("华文中宋", 12.5F);
+            this.labelControl1.Location = new System.Drawing.Point(876, 4);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(102, 20);
+            this.labelControl1.TabIndex = 2;
+            this.labelControl1.Text = "按年度统计：";
             // 
             // btn_Export
             // 
@@ -958,7 +1008,7 @@
             this.tabPage3.Controls.Add(this.cc_LeftMenu);
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(284, 667);
+            this.tabPage3.Size = new System.Drawing.Size(284, 715);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "地域";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -991,7 +1041,7 @@
             this.cc_LeftMenu.Name = "cc_LeftMenu";
             this.cc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.cc_LeftMenu.ShowToolTips = false;
-            this.cc_LeftMenu.Size = new System.Drawing.Size(284, 667);
+            this.cc_LeftMenu.Size = new System.Drawing.Size(284, 715);
             this.cc_LeftMenu.TabIndex = 15;
             // 
             // all_ltype
@@ -1028,7 +1078,9 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.tabNavigationPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.btn_Year.Properties)).EndInit();
+            this.tabNavigationPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_QuerySyear.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_QueryEyear.Properties)).EndInit();
             this.tabPane2.ResumeLayout(false);
             this.datatable.ResumeLayout(false);
             this.datachart.ResumeLayout(false);
@@ -1085,7 +1137,6 @@
         private System.Windows.Forms.Label lbl_TipAmount;
         private System.Windows.Forms.Label lbl_TipName;
         private DevExpress.XtraEditors.SimpleButton btn_Export;
-        private DevExpress.XtraEditors.ButtonEdit btn_Year;
         private System.Windows.Forms.RadioButton rdo_ProCount;
         private System.Windows.Forms.RadioButton rdo_BoxCount;
         private System.Windows.Forms.RadioButton rdo_FileCount;
@@ -1109,5 +1160,9 @@
         private System.Windows.Forms.TabPage tabPage3;
         private DevExpress.XtraBars.Navigation.AccordionControl cc_LeftMenu;
         private DevExpress.XtraBars.Navigation.AccordionControlElement all_ltype;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+        private DevExpress.XtraEditors.SimpleButton btn_Query;
+        private DevExpress.XtraEditors.TextEdit txt_QueryEyear;
+        private DevExpress.XtraEditors.TextEdit txt_QuerySyear;
     }
 }

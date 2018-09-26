@@ -65,6 +65,23 @@ namespace 科技计划项目档案数据采集管理系统
             InitialLostReasonList(dgv_Topic_FileValid, "topic_fc_");
             InitialLostReasonList(dgv_Subject_FileValid, "subject_fc_");
 
+            //加载省市
+            InitialProvinceList(cbo_Project_Province);
+            InitialProvinceList(cbo_Topic_Province);
+            InitialProvinceList(cbo_Subject_Province);
+
+            dgv_Project_FileList.AutoGenerateColumns = false;
+            dgv_Topic_FileList.AutoGenerateColumns = false;
+            dgv_Subject_FileList.AutoGenerateColumns = false;
+
+        }
+
+        private void InitialProvinceList(System.Windows.Forms.ComboBox comboBox)
+        {
+            DataTable table = SqlHelper.GetProvinceList();
+            comboBox.DataSource = table;
+            comboBox.DisplayMember = "dd_name";
+            comboBox.ValueMember = "dd_id";
         }
 
         private void InitialLostReasonList(DataGridView view, string key)
@@ -208,7 +225,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                     txt_Project_Year.Text = ToolHelper.GetValue(row["pi_year"]);
                     txt_Project_Unit.Text = ToolHelper.GetValue(row["pi_unit"]);
-                    txt_Project_Province.Text = ToolHelper.GetValue(row["pi_province"]);
+                    cbo_Project_Province.Text = ToolHelper.GetValue(row["pi_province"]);
                     txt_Project_UnitUser.Text = ToolHelper.GetValue(row["pi_uniter"]);
                     txt_Project_ProUser.Text = ToolHelper.GetValue(row["pi_prouser"]);
                     txt_Project_Intro.Text = ToolHelper.GetValue(row["pi_intro"]);
@@ -234,7 +251,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Topic_EndTime.Text = ToolHelper.GetValue(row["ti_end_datetime"]);
                     txt_Topic_Year.Text = ToolHelper.GetValue(row["ti_year"]);
                     txt_Topic_Unit.Text = ToolHelper.GetValue(row["ti_unit"]);
-                    txt_Topic_Province.Text = ToolHelper.GetValue(row["ti_province"]);
+                    cbo_Topic_Province.Text = ToolHelper.GetValue(row["ti_province"]);
                     txt_Topic_UnitUser.Text = ToolHelper.GetValue(row["ti_uniter"]);
                     txt_Topic_ProUser.Text = ToolHelper.GetValue(row["ti_prouser"]);
                     txt_Topic_Intro.Text = ToolHelper.GetValue(row["ti_intro"]);
@@ -264,7 +281,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                     txt_Subject_Year.Text = ToolHelper.GetValue(row["si_year"]);
                     txt_Subject_Unit.Text = ToolHelper.GetValue(row["si_unit"]);
-                    txt_Subject_Province.Text = ToolHelper.GetValue(row["si_province"]);
+                    cbo_Subject_Province.Text = ToolHelper.GetValue(row["si_province"]);
                     txt_Subject_Unituser.Text = ToolHelper.GetValue(row["si_uniter"]);
                     txt_Subject_ProUser.Text = ToolHelper.GetValue(row["si_prouser"]);
                     txt_Subject_Intro.Text = ToolHelper.GetValue(row["si_intro"]);
@@ -1000,7 +1017,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string endtime = txt_Project_EndTime.Text;
                 string year = txt_Project_Year.Text;
                 object unit = txt_Project_Unit.Text;
-                object province = txt_Project_Province.Text;
+                object province = cbo_Project_Province.SelectedValue;
                 string unituser = txt_Project_UnitUser.Text;
                 string objuser = txt_Project_ProUser.Text;
                 string intro = txt_Project_Intro.Text;
@@ -1034,7 +1051,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string endtime = txt_Topic_EndTime.Text;
                 string year = txt_Topic_Year.Text;
                 object unit = txt_Topic_Unit.Text;
-                object province = txt_Topic_Province.Text;
+                object province = cbo_Topic_Province.SelectedValue;
                 string unituser = txt_Topic_UnitUser.Text;
                 string objuser = txt_Topic_ProUser.Text;
                 string intro = txt_Topic_Intro.Text;
@@ -1070,7 +1087,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object unit = txt_Subject_Unit.Text;
                 string unituser = txt_Subject_Unituser.Text;
                 string objuser = txt_Subject_ProUser.Text;
-                object province = txt_Subject_Province.Text;
+                object province = cbo_Subject_Province.SelectedValue;
                 string intro = txt_Subject_Intro.Text;
 
                 string updateSql = "UPDATE subject_info SET " +

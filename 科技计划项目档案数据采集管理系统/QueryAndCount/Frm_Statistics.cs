@@ -994,8 +994,8 @@ namespace 科技计划项目档案数据采集管理系统
                 if(typeIndex == 2)
                 {
                     string orgName = ac_LeftMenu.SelectedElement.Name;
-                    object[] years = btn_Year.Text.Split('-');
-                    if(years.Length != 2)
+                    string _minYear = txt_QuerySyear.Text, _maxYear = txt_QueryEyear.Text;
+                    if(string.IsNullOrEmpty(_minYear) && string.IsNullOrEmpty(_maxYear))
                     {
                         string querySQL_Year = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
                             "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) AS myear, pi_orga_id FROM " +
@@ -1004,13 +1004,14 @@ namespace 科技计划项目档案数据采集管理系统
                             "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME()) ";
                         if(!"ace_all".Equals(orgName))
                             querySQL_Year += $"AND pi_orga_id='{orgName}' ";
-                        years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                        object[] years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                        _minYear = ToolHelper.GetValue(years[0]);
+                        _maxYear = ToolHelper.GetValue(years[1]);
                     }
-                    if(!string.IsNullOrEmpty(ToolHelper.GetValue(years[0])) &&
-                        !string.IsNullOrEmpty(ToolHelper.GetValue(years[1])))
+                    if(!string.IsNullOrEmpty(_minYear) && !string.IsNullOrEmpty(_maxYear))
                     {
-                        int minYear = ToolHelper.GetIntValue(years[0]);
-                        int maxYear = ToolHelper.GetIntValue(years[1]);
+                        int minYear = ToolHelper.GetIntValue(_minYear);
+                        int maxYear = ToolHelper.GetIntValue(_maxYear);
                         //逐行添加
                         for(int j = 0; j < view.RowCount - 1; j++)
                         {
@@ -1047,8 +1048,8 @@ namespace 科技计划项目档案数据采集管理系统
                 if(typeIndex == 2)
                 {
                     string orgName = bc_LeftMenu.SelectedElement.Name;
-                    object[] years = btn_Year.Text.Split('-');
-                    if(years.Length != 2)
+                    string _minYear = txt_QuerySyear.Text, _maxYear = txt_QueryEyear.Text;
+                    if(string.IsNullOrEmpty(_minYear) && string.IsNullOrEmpty(_maxYear))
                     {
                         string querySQL_Year = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
                         "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) AS myear, pi_source_id FROM " +
@@ -1057,13 +1058,14 @@ namespace 科技计划项目档案数据采集管理系统
                         "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME()) ";
                         if(!"all_ptype".Equals(orgName))
                             querySQL_Year += $"AND pi_source_id='{orgName}' ";
-                        years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                        object[] years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
+                        _minYear = ToolHelper.GetValue(years[0]);
+                        _maxYear = ToolHelper.GetValue(years[1]);
                     }
-                    if(!string.IsNullOrEmpty(ToolHelper.GetValue(years[0])) &&
-                        !string.IsNullOrEmpty(ToolHelper.GetValue(years[1])))
+                    if(!string.IsNullOrEmpty(_minYear) && !string.IsNullOrEmpty(_maxYear))
                     {
-                        int minYear = ToolHelper.GetIntValue(years[0]);
-                        int maxYear = ToolHelper.GetIntValue(years[1]);
+                        int minYear = ToolHelper.GetIntValue(_minYear);
+                        int maxYear = ToolHelper.GetIntValue(_maxYear);
                         //逐行添加
                         for(int j = 0; j < view.RowCount - 1; j++)
                         {
@@ -1159,46 +1161,36 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void Btn_Year_Properties_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        private void Btn_Year_Properties_ButtonClick(object sender, EventArgs e)
         {
-            if(e.Button.Kind == DevExpress.XtraEditors.Controls.ButtonPredefines.Clear)
-                btn_Year.ResetText();
-            else if(e.Button.Kind == DevExpress.XtraEditors.Controls.ButtonPredefines.Search)
+            txt_QuerySyear.ErrorText = null;
+            txt_QueryEyear.ErrorText = null;
+            string minYear = txt_QuerySyear.Text, maxYear = txt_QueryEyear.Text;
+            if(string.IsNullOrEmpty(minYear) && string.IsNullOrEmpty(maxYear))
+                return;
+            int tpye1 = tabControl1.SelectedIndex;
+            if(tpye1 == 0)
             {
-                string[] years = btn_Year.Text.Split('-');
-                if(years.Length == 2)
-                {
-                    btn_Year.ErrorText = null;
-                    string minYear = years[0].Trim(), maxYear = years[1].Trim();
-                    int tpye1 = tabControl1.SelectedIndex;
-                    if(tpye1 == 0)
-                    {
-                        string value = ac_LeftMenu.SelectedElement.Name;
-                        if("ace_all".Equals(value))
-                            value = string.Empty;
-                        else
-                            value = $"AND A.pi_orga_id = '{value}'";
-
-                        SetTableByOrga(value, minYear, maxYear);
-                    }
-                    else if(tpye1 == 1)
-                    {
-                        string value = bc_LeftMenu.SelectedElement.Name;
-                        if("all_ptype".Equals(value))
-                            value = string.Empty;
-                        else
-                            value = $"AND A.pi_source_id = '{value}'";
-
-                        SetTableBySource(value, minYear, maxYear);
-                    }
-                    tabPane2.SelectedPageIndex = 0;
-                }
+                string value = ac_LeftMenu.SelectedElement.Name;
+                if("ace_all".Equals(value))
+                    value = string.Empty;
                 else
-                {
-                    btn_Year.ErrorText = "请输入立项年度范围。";
-                    btn_Year.Focus();
-                }
+                    value = $"AND A.pi_orga_id = '{value}'";
+
+                SetTableByOrga(value, minYear, maxYear);
             }
+            else if(tpye1 == 1)
+            {
+                string value = bc_LeftMenu.SelectedElement.Name;
+                if("all_ptype".Equals(value))
+                    value = string.Empty;
+                else
+                    value = $"AND A.pi_source_id = '{value}'";
+
+                SetTableBySource(value, minYear, maxYear);
+            }
+            tabPane2.SelectedPageIndex = 0;
+
         }
 
         private void ProCount_MouseClick(object sender, MouseEventArgs e)

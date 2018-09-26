@@ -334,5 +334,18 @@ namespace 科技计划项目档案数据采集管理系统
                 CloseConnect();
             }
         }
+
+        /// <summary>
+        /// 获取地区（省市）表
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable GetProvinceList()
+        {
+            string key = "dic_xzqy_province";
+            string querySQL = "SELECT * FROM data_dictionary WHERE dd_pId=" +
+               $"(SELECT dd_id FROM data_dictionary WHERE dd_code = '{key}') " +
+                "ORDER BY dd_sort";
+            return ExecuteQuery(querySQL);
+        }
     }
 }
