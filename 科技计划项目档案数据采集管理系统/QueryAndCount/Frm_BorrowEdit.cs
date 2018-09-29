@@ -88,7 +88,7 @@ namespace 科技计划项目档案数据采集管理系统
                     string user = txt_User.Text;
                     string phone = txt_Phone.Text;
                     int ftype = cbo_FileType.SelectedIndex;
-                    string bdate = ToolHelper.GetDateValue(txt_Borrow_Date.EditValue, "yyyy-MM-dd HH:mm:dd");
+                    string bdate = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd HH:mm:dd");
                     string bterm = txt_Borrow_Term.Text;
                     string sbdate = ToolHelper.GetDateValue(txt_Should_Return_Date.EditValue, "yyyy-MM-dd");
                     string loguser = lbl_LogUser.Text;
@@ -101,7 +101,7 @@ namespace 科技计划项目档案数据采集管理系统
                 else
                 {
                     primaryKey = lbl_FIleName.Tag;
-                    string rbdate = ToolHelper.GetDateValue(txt_Real_Return_Date.EditValue, "yyyy-MM-dd");
+                    string rbdate = ToolHelper.GetDateValue(txt_Real_Return_Date.EditValue, "yyyy-MM-dd HH:mm:dd");
                     string updateSQL = $"UPDATE borrow_log SET bl_real_return_term='{rbdate}', bl_borrow_state=0, bl_return_state=1 WHERE bl_id='{primaryKey}'";
                     SqlHelper.ExecuteNonQuery(updateSQL);
                 }

@@ -83,7 +83,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
         /// </summary>
         private void CreateLostFileList()
         {
-            string querySQL = "SELECT A.pi_code '项目/课题编号', A.pi_name '项目/课题名称',B.dd_name '缺失文件类别', B.dd_note '缺失文件名称' " +
+            string querySQL = "SELECT A.pi_code '项目/课题编号', A.pi_name '项目/课题名称', A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', B.dd_name '缺失文件类别', B.dd_note '缺失文件名称' " +
                 "FROM transfer_registration_pc trp " +
                 "LEFT JOIN imp_info ii ON ii.imp_obj_id=trp.trp_id " +
                 "LEFT JOIN imp_dev_info idi ON idi.imp_obj_id=ii.imp_id " +
@@ -116,7 +116,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
             }
             else
             {
-                string querySQL2 = "SELECT A.pi_code '项目/课题编号', A.pi_name '项目/课题名称',B.dd_name '缺失文件类别', B.dd_note '缺失文件名称' " +
+                string querySQL2 = "SELECT A.pi_code '项目/课题编号', A.pi_name '项目/课题名称', A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', B.dd_name '缺失文件类别', B.dd_note '缺失文件名称' " +
                     "FROM transfer_registration_pc trp " +
                     "LEFT JOIN project_info pi ON pi.pi_categor=1 AND pi.trc_id=trp.trp_id " +
                     "LEFT JOIN " +
@@ -194,7 +194,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                    $"A.pi_code '项目编号', A.pi_name '项目名称',	A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', " +
                    $"pb.pb_gc_id '馆藏号', pb.pb_box_number '盒号', B.fcount '文件数量', " +
                    $"pfl.pfl_code '文件编号', pfl.pfl_box_sort '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' " +
-                   $"FROM transfer_registration_pc trp LEFT JOIN LEFT JOIN imp_info ii ON ii.imp_obj_id=trp.trp_id " +
+                   $"FROM transfer_registration_pc trp LEFT JOIN imp_info ii ON ii.imp_obj_id=trp.trp_id " +
                    $"LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id LEFT JOIN ( " +
                    $"SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor= 2 UNION ALL " +
                    $"SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor= -3)A ON A.pi_obj_id = idi.imp_id " +
@@ -246,13 +246,57 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
         private string GetDomRecHTML()
         {
             string domRec = Resources.domrec;
-            string querySQL = "SELECT dd_name, trp_log_data FROM transfer_registration_pc " +
-               $"LEFT JOIN data_dictionary ON dd_id = com_id WHERE trp_id = '{trpId}'";
+            string querySQL = "SELECT dd_name, trp_log_data, trp_code, COUNT(trc.trc_id) cCount FROM transfer_registration_pc trp " +
+                "LEFT JOIN data_dictionary ON dd_id = trp.com_id " +
+                "LEFT JOIN transfer_registraion_cd trc ON trc.trp_id=trp.trp_id " +
+               $"WHERE trp.trp_id = '{trpId}' " +
+                "GROUP BY dd_name, trp_log_data, trp_code ";
+            int totalBoxCount = SqlHelper.ExecuteCountQuery("SELECT COUNT(pb.pb_id) FROM transfer_registration_pc trp " +
+                "LEFT JOIN imp_info ii ON ii.imp_obj_id = trp_id " +
+                "LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id " +
+                "LEFT JOIN( " +
+                "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_obj_id FROM topic_info)A ON A.pi_obj_id = idi.imp_id " +
+                "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
+               $"WHERE trp.trp_id = '{trpId}' AND pb.pb_id IS NOT NULL");
+            if(totalBoxCount == 0)
+            {
+                totalBoxCount = SqlHelper.ExecuteCountQuery("SELECT COUNT(pb.pb_id) FROM transfer_registration_pc trp " +
+                    "LEFT JOIN project_info p ON(p.trc_id = trp.trp_id AND p.pi_categor = 1) " +
+                    "LEFT JOIN (" +
+                    "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "SELECT ti_id, ti_obj_id FROM topic_info )A ON A.pi_obj_id = p.pi_id " +
+                    "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
+                   $"WHERE trp.trp_id = '{trpId}' AND pb.pb_id IS NOT NULL");
+            }
+            int totalEFileCount = SqlHelper.ExecuteCountQuery("SELECT COUNT(pb.pfl_id) FROM transfer_registration_pc trp " +
+                "LEFT JOIN imp_info ii ON ii.imp_obj_id = trp_id " +
+                "LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id " +
+                "LEFT JOIN( " +
+                "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_obj_id FROM topic_info)A ON A.pi_obj_id = idi.imp_id " +
+                "LEFT JOIN processing_file_list pb ON (pb.pfl_obj_id = A.pi_id AND DATALENGTH(pfl_link)>0) " +
+               $"WHERE trp.trp_id = '{trpId}' AND pb.pfl_id IS NOT NULL");
+            if(totalEFileCount == 0)
+            {
+                totalEFileCount = SqlHelper.ExecuteCountQuery("SELECT COUNT(pb.pfl_id) FROM transfer_registration_pc trp " +
+                    "LEFT JOIN project_info p ON(p.trc_id = trp.trp_id AND p.pi_categor = 1) " +
+                    "LEFT JOIN (" +
+                    "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "SELECT ti_id, ti_obj_id FROM topic_info )A ON A.pi_obj_id = p.pi_id " +
+                    "LEFT JOIN processing_file_list pb ON (pb.pfl_obj_id = A.pi_id AND DATALENGTH(pfl_link)>0) " +
+                   $"WHERE trp.trp_id = '{trpId}' AND pb.pfl_id IS NOT NULL");
+            }
             DataRow row = SqlHelper.ExecuteSingleRowQuery(querySQL);
             if(row != null)
             {
+                SetTagValueById(ref domRec, "trpid", $"{ToolHelper.GetValue(row["trp_code"])}");
                 SetTagValueById(ref domRec, "orgName", $"&emsp;&emsp;{row["dd_name"]}：");
                 SetTagValueById(ref domRec, "param1", $"{ToolHelper.GetDateValue(row["trp_log_data"], "yyyy年MM月")}");
+                SetTagValueById(ref domRec, "cdcount", $"{row["cCount"]}");
+
+                SetTagValueById(ref domRec, "boxcount", $"{totalBoxCount}");
+                SetTagValueById(ref domRec, "ecount", $"{totalEFileCount}");
             }
 
             return domRec;

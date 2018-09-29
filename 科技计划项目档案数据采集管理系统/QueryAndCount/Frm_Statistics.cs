@@ -32,7 +32,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LoadCompanySource()
         {
-            string querySql = "SELECT * FROM T_SourceOrg ORDER BY F_ID";
+            string querySql = "SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_key_company_source') ORDER BY dd_sort";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             ac_LeftMenu.BeginUpdate();
             for(int i = 0; i < table.Rows.Count; i++)
@@ -40,29 +40,28 @@ namespace 科技计划项目档案数据采集管理系统
                 AccordionControlElement element = new AccordionControlElement()
                 {
                     Style = ElementStyle.Item,
-                    Name = ToolHelper.GetValue(table.Rows[i]["F_ID"]),
-                    Text = ToolHelper.GetValue(table.Rows[i]["F_Title"]),
+                    Name = ToolHelper.GetValue(table.Rows[i]["dd_code"]),
+                    Text = ToolHelper.GetValue(table.Rows[i]["dd_name"]),
                 };
                 element.Click += Item_Click;
                 ac_LeftMenu.Elements.Add(element);
             }
             ac_LeftMenu.EndUpdate();
 
-            querySql = "SELECT * FROM T_Plan WHERE CHARINDEX('ZX',F_ID,0)=0 ORDER BY F_ID";
+            querySql = "SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_key_plan') ORDER BY dd_sort";
             table = SqlHelper.ExecuteQuery(querySql);
-            table.Rows.Add("国家科技重大专项", "ZX");
             bc_LeftMenu.BeginUpdate();
             for(int i = 0; i < table.Rows.Count; i++)
             {
                 DataRow row = table.Rows[i];
                 AccordionControlElement element = new AccordionControlElement()
                 {
-                    Name = ToolHelper.GetValue(row["F_ID"]),
-                    Text = ToolHelper.GetValue(row["F_Title"]),
+                    Name = ToolHelper.GetValue(row["dd_code"]),
+                    Text = ToolHelper.GetValue(row["dd_name"]),
                 };
                 bc_LeftMenu.Elements.Add(element);
                 //国家科技重大专项 -- 特殊处理
-                if("ZX".Equals(row["F_ID"]))
+                if("ZX".Equals(row["dd_code"]))
                 {
                     element.Style = ElementStyle.Group;
                     string speQuerySql = "SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId= " +
@@ -301,12 +300,15 @@ namespace 科技计划项目档案数据采集管理系统
                     for(int i = 0; i < list.Count; i++)
                     {
                         object date = GetDateValue(list[i][0], "yyyy-MM-dd");
-                        object pcount = list[i][1];
-                        object tcount = GetTopicAmount(date, userCode, 1);
-                        object fcount = GetFileAmount(date, userCode, 1);
-                        object bcount = GetBackAmount(date, userCode, 1);
-                        object pgcount = GetPageAmount(date, userCode, 1);
-                        table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
+                        if(date != null)
+                        {
+                            object pcount = list[i][1];
+                            object tcount = GetTopicAmount(date, userCode, 1);
+                            object fcount = GetFileAmount(date, userCode, 1);
+                            object bcount = GetBackAmount(date, userCode, 1);
+                            object pgcount = GetPageAmount(date, userCode, 1);
+                            table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
+                        }
                     }
 
                     if(!flag)
@@ -776,8 +778,9 @@ namespace 科技计划项目档案数据采集管理系统
             string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount, fb.fbCount FROM( SELECT F_Title, F_ID, pCount " +
                 "FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_Plan AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
-                "GROUP BY F_Title, p.F_ID) AS B WHERE pCount > 0) p LEFT JOIN( SELECT   F_ID, bCount FROM(SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_Plan AS p LEFT OUTER JOIN (" +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+                "GROUP BY F_Title, p.F_ID) AS B WHERE pCount > 0) p " +
+                "LEFT JOIN( SELECT F_ID, bCount FROM(SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_Plan AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
                $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) b ON p.F_ID = b.F_ID LEFT JOIN( " +
@@ -792,6 +795,7 @@ namespace 科技计划项目档案数据采集管理系统
                $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
+            table = HandleZX(table);
             DataGridViewStyleHelper.ResetDataGridView(view, true);
             DataTable tableEntity = new DataTable();
             tableEntity.Columns.AddRange(new DataColumn[]
@@ -826,6 +830,36 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
+        /// 汇总各专项为重大专项
+        /// </summary>
+        private DataTable HandleZX(DataTable table)
+        {
+            List<DataRow> rowList = new List<DataRow>();
+            int pCount = 0, bCount = 0, fCount = 0, fbCount = 0;
+            for(int i = 0; i < table.Rows.Count; i++)
+            {
+                DataRow row = table.Rows[i];
+                object fid = row["F_ID"];
+                if(ToolHelper.GetValue(fid).StartsWith("ZX"))
+                {
+                    pCount += ToolHelper.GetIntValue(row["pCount"], 0);
+                    bCount += ToolHelper.GetIntValue(row["bCount"], 0);
+                    fCount += ToolHelper.GetIntValue(row["fCount"], 0);
+                    fbCount += ToolHelper.GetIntValue(row["fbCount"], 0);
+                    rowList.Add(row);
+                }
+            }
+            if(pCount > 0)
+            {
+                foreach(DataRow item in rowList)
+                    table.Rows.Remove(item);
+                object[] zxList = new object[] { "ZX", "国家重大专项", pCount, bCount, fCount, fbCount };
+                table.Rows.Add(zxList);
+            }
+            return table;
+        }
+
+        /// <summary>
         /// 计划类别点击事件
         /// </summary>
         private void Bc_Element_Click(object sender, EventArgs e)
@@ -851,21 +885,21 @@ namespace 科技计划项目档案数据采集管理系统
             string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount, fbCount FROM( " +
                 "SELECT F_Title, F_ID, pCount FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN(SELECT   F_ID, bCount FROM(" +
                 "SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_SourceOrg AS p LEFT OUTER JOIN(" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
                $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B) b ON p.F_ID = b.F_ID LEFT JOIN( " +
-                "SELECT F_ID, fCount FROM      (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM      T_SourceOrg AS p LEFT OUTER JOIN (" +
+                "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM      T_SourceOrg AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE   (pi_categor = 2) UNION ALL " +
                $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID " +
-                "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM (SELECT p.F_ID, COUNT(C.pi_id) AS fbCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
+                "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM (SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
                 "SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
-                "SELECT   pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT   ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
-               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) C ON C.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
+               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             int totalPcount = 0, totalFcount = 0, totalBcount = 0, totalFBcount = 0;

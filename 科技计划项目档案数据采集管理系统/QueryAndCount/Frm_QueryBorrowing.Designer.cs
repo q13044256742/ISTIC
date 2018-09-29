@@ -81,6 +81,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.view2 = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btn_Refresh = new DevExpress.XtraEditors.SimpleButton();
             this.lbl_TotalFileAmount = new DevExpress.XtraEditors.LabelControl();
             this.labelControl14 = new DevExpress.XtraEditors.LabelControl();
             this.btn_FileReset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -320,11 +321,11 @@
             // labelControl4
             // 
             this.labelControl4.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelControl4.Location = new System.Drawing.Point(505, 19);
+            this.labelControl4.Location = new System.Drawing.Point(521, 19);
             this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(80, 21);
+            this.labelControl4.Size = new System.Drawing.Size(64, 21);
             this.labelControl4.TabIndex = 5;
-            this.labelControl4.Text = "批次名称：";
+            this.labelControl4.Text = "批次号：";
             // 
             // labelControl3
             // 
@@ -356,7 +357,7 @@
             this.panel3.Location = new System.Drawing.Point(0, 205);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(2804, 1287);
+            this.panel3.Size = new System.Drawing.Size(732, 1653);
             this.panel3.TabIndex = 1;
             // 
             // treeList1
@@ -373,9 +374,10 @@
             this.treeList1.OptionsBehavior.Editable = false;
             this.treeList1.OptionsCustomization.AllowBandMoving = false;
             this.treeList1.OptionsCustomization.AllowColumnMoving = false;
-            this.treeList1.Size = new System.Drawing.Size(2804, 1224);
+            this.treeList1.Size = new System.Drawing.Size(732, 1590);
             this.treeList1.TabIndex = 4;
             this.treeList1.NodeCellStyle += new DevExpress.XtraTreeList.GetCustomNodeCellStyleEventHandler(this.treeList1_NodeCellStyle);
+            this.treeList1.EndSorting += new System.EventHandler(this.treeList1_EndSorting);
             this.treeList1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeList1_MouseDoubleClick);
             // 
             // pal1
@@ -386,7 +388,7 @@
             this.pal1.Dock = System.Windows.Forms.DockStyle.Top;
             this.pal1.Location = new System.Drawing.Point(0, 0);
             this.pal1.Name = "pal1";
-            this.pal1.Size = new System.Drawing.Size(2804, 30);
+            this.pal1.Size = new System.Drawing.Size(732, 30);
             this.pal1.TabIndex = 0;
             // 
             // btn_Export
@@ -395,7 +397,7 @@
             this.btn_Export.Image = ((System.Drawing.Image)(resources.GetObject("btn_Export.Image")));
             this.btn_Export.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Export.ImageToTextIndent = 5;
-            this.btn_Export.Location = new System.Drawing.Point(2728, 2);
+            this.btn_Export.Location = new System.Drawing.Point(656, 2);
             this.btn_Export.Name = "btn_Export";
             this.btn_Export.Size = new System.Drawing.Size(70, 26);
             this.btn_Export.TabIndex = 27;
@@ -423,16 +425,16 @@
             this.panel4.Controls.Add(this.btn_fpage);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 1254);
+            this.panel4.Location = new System.Drawing.Point(0, 1620);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(2804, 33);
+            this.panel4.Size = new System.Drawing.Size(732, 33);
             this.panel4.TabIndex = 3;
             // 
             // txt_page
             // 
             this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_page.EditValue = "";
-            this.txt_page.Location = new System.Drawing.Point(2591, 3);
+            this.txt_page.Location = new System.Drawing.Point(519, 3);
             this.txt_page.Name = "txt_page";
             this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.txt_page.Properties.Appearance.Options.UseFont = true;
@@ -451,7 +453,7 @@
             this.btn_lpage.Appearance.Options.UseFont = true;
             this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
             this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_lpage.Location = new System.Drawing.Point(2549, 5);
+            this.btn_lpage.Location = new System.Drawing.Point(477, 5);
             this.btn_lpage.Name = "btn_lpage";
             this.btn_lpage.Size = new System.Drawing.Size(41, 23);
             this.btn_lpage.TabIndex = 6;
@@ -464,7 +466,7 @@
             this.btn_npage.Appearance.Options.UseFont = true;
             this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
             this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_npage.Location = new System.Drawing.Point(2633, 5);
+            this.btn_npage.Location = new System.Drawing.Point(561, 5);
             this.btn_npage.Name = "btn_npage";
             this.btn_npage.Size = new System.Drawing.Size(41, 23);
             this.btn_npage.TabIndex = 5;
@@ -477,7 +479,7 @@
             this.btn_epage.Appearance.Options.UseFont = true;
             this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
             this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_epage.Location = new System.Drawing.Point(2676, 5);
+            this.btn_epage.Location = new System.Drawing.Point(604, 5);
             this.btn_epage.Name = "btn_epage";
             this.btn_epage.Size = new System.Drawing.Size(41, 23);
             this.btn_epage.TabIndex = 4;
@@ -490,7 +492,7 @@
             this.btn_fpage.Appearance.Options.UseFont = true;
             this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
             this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_fpage.Location = new System.Drawing.Point(2506, 5);
+            this.btn_fpage.Location = new System.Drawing.Point(434, 5);
             this.btn_fpage.Name = "btn_fpage";
             this.btn_fpage.Size = new System.Drawing.Size(41, 23);
             this.btn_fpage.TabIndex = 3;
@@ -744,7 +746,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 191);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(4057, 1738);
+            this.panel1.Size = new System.Drawing.Size(5101, 2104);
             this.panel1.TabIndex = 18;
             // 
             // view2
@@ -760,20 +762,32 @@
             this.view2.Name = "view2";
             this.view2.ReadOnly = true;
             this.view2.RowTemplate.Height = 23;
-            this.view2.Size = new System.Drawing.Size(4057, 1708);
+            this.view2.Size = new System.Drawing.Size(5101, 2074);
             this.view2.TabIndex = 1;
             this.view2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View2_CellContentClick);
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel2.Controls.Add(this.btn_Refresh);
             this.panel2.Controls.Add(this.lbl_TotalFileAmount);
             this.panel2.Controls.Add(this.labelControl14);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(4057, 30);
+            this.panel2.Size = new System.Drawing.Size(5101, 30);
             this.panel2.TabIndex = 0;
+            // 
+            // btn_Refresh
+            // 
+            this.btn_Refresh.Image = ((System.Drawing.Image)(resources.GetObject("btn_Refresh.Image")));
+            this.btn_Refresh.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Refresh.Location = new System.Drawing.Point(870, 4);
+            this.btn_Refresh.Name = "btn_Refresh";
+            this.btn_Refresh.Size = new System.Drawing.Size(85, 24);
+            this.btn_Refresh.TabIndex = 2;
+            this.btn_Refresh.Text = "刷新状态";
+            this.btn_Refresh.Click += new System.EventHandler(this.btn_Refresh_Click);
             // 
             // lbl_TotalFileAmount
             // 
@@ -963,15 +977,16 @@
             // 
             // log_SearchCode
             // 
-            this.log_SearchCode.Location = new System.Drawing.Point(131, 25);
+            this.log_SearchCode.Location = new System.Drawing.Point(131, 24);
             this.log_SearchCode.Name = "log_SearchCode";
             this.log_SearchCode.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.log_SearchCode.Properties.Appearance.Options.UseFont = true;
+            this.log_SearchCode.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
             this.log_SearchCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Repository.ClearButton(),
             new DevExpress.XtraEditors.Repository.SearchButton()});
             this.log_SearchCode.Properties.NullValuePrompt = "输入借阅单编号快速查询";
-            this.log_SearchCode.Size = new System.Drawing.Size(308, 28);
+            this.log_SearchCode.Size = new System.Drawing.Size(203, 30);
             this.log_SearchCode.TabIndex = 39;
             // 
             // btn_LogQuery
@@ -981,7 +996,7 @@
             this.btn_LogQuery.Image = ((System.Drawing.Image)(resources.GetObject("btn_LogQuery.Image")));
             this.btn_LogQuery.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_LogQuery.ImageToTextIndent = 0;
-            this.btn_LogQuery.Location = new System.Drawing.Point(467, 23);
+            this.btn_LogQuery.Location = new System.Drawing.Point(340, 23);
             this.btn_LogQuery.Name = "btn_LogQuery";
             this.btn_LogQuery.Size = new System.Drawing.Size(83, 32);
             this.btn_LogQuery.TabIndex = 37;
@@ -1125,5 +1140,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn bdate;
         public System.Windows.Forms.ComboBox cbo_PlanTypeList;
         public System.Windows.Forms.ComboBox cbo_SourceOrg;
+        private DevExpress.XtraEditors.SimpleButton btn_Refresh;
     }
 }

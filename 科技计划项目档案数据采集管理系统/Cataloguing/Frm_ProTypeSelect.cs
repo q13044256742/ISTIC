@@ -85,12 +85,21 @@ namespace 科技计划项目档案数据采集管理系统
                 DialogResult dialogResult = DevExpress.XtraEditors.XtraMessageBox.Show("所选计划在当前来源单位已录入，是否补录数据？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if(dialogResult == DialogResult.Yes)
                 {
-                    SqlHelper.ExecuteNonQuery($"UPDATE project_info SET trc_id='{trcId}' WHERE pi_id='{id}'");
+                    InheritImpInfo(trcId, id);
                     ResetProjectState(id);
                     DevExpress.XtraEditors.XtraMessageBox.Show("操作成功，再次点击即可。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     Close();
                 }
             }
+        }
+
+        /// <summary>
+        /// 将已有计划绑定新批次
+        /// </summary>
+        private void InheritImpInfo(object trpId, object planId)
+        {
+            string updateSQL = $"UPDATE project_info SET trc_id='{trpId}' WHERE pi_id='{planId}';";
+            SqlHelper.ExecuteNonQuery(updateSQL);
         }
 
         /// <summary>
@@ -113,13 +122,13 @@ namespace 科技计划项目档案数据采集管理系统
             string topQuerySql = "SELECT A.ti_id FROM( " +
                 "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = 3 UNION ALL " +
                 "SELECT si_id, si_obj_id FROM subject_info )A " +
-               $"WHERE A.ti_obj_id IN('{pids}')";
+               $"WHERE A.ti_obj_id IN({pids})";
             object[] topIds = SqlHelper.ExecuteSingleColumnQuery(topQuerySql);
             string tids = ToolHelper.GetFullStringBySplit(topIds, ",", "'");
             updateSQL +=
                $"UPDATE subject_info SET si_submit_status=1 WHERE si_id IN ({tids});" +
                $"UPDATE topic_info SET ti_submit_status=1 WHERE ti_id IN ({tids});" +
-               $"UPDATE subject_info SET si_submit_status=1 WHERE si_obj_id IN {tids};";
+               $"UPDATE subject_info SET si_submit_status=1 WHERE si_obj_id IN ({tids});";
             SqlHelper.ExecuteNonQuery(updateSQL);
         }
     }

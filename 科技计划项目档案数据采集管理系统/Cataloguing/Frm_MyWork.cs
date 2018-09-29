@@ -212,6 +212,7 @@ namespace 科技计划项目档案数据采集管理系统
                     tab_MenuList.TabPages.Add(tabList[i]);
                     break;
                 }
+            tab_MenuList.Update();
             //tab_MenuList.SelectedIndex = index;
         }
 
@@ -620,15 +621,15 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else
                 {
-                    int _index = tab_MenuList.SelectedIndex;
+                    int _index = tab_MenuList.SelectedIndex + 1;
                     int index = comboBox.SelectedIndex;
                     project.Tag = null;
                     topic.Tag = null;
                     if(index == 0)//无
-                        ShowTab(null, _index + 1);
+                        ShowTab(null, _index);
                     else if(index == 1)//父级 - 项目
                     {
-                        ShowTab("project", _index + 1);
+                        ShowTab("project", _index);
                         ResetControls(ControlType.Project);
                         project.Tag = id;
                         EnableControls(ControlType.Project, true);
@@ -636,12 +637,13 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else if(index == 2)//父级 - 课题
                     {
-                        ShowTab("topic", _index + 1);
+                        ShowTab("topic", _index);
                         ResetControls(ControlType.Topic);
                         topic.Tag = id;
                         EnableControls(ControlType.Topic, true);
                         Tag = txt_Special_Code.Text;
                     }
+                    tab_MenuList.SelectedIndex = _index;
                 }
             }
             else if(comboBox.Name.Contains("Plan"))
@@ -682,11 +684,11 @@ namespace 科技计划项目档案数据采集管理系统
         private void Cbo_JH_KT_HasNext_SelectionChangeCommitted(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
-            int _index = tab_MenuList.SelectedIndex;
             int index = comboBox.SelectedIndex;
+            int _index = tab_MenuList.SelectedIndex + 1;
             if(index == 0)//无
             {
-                ShowTab(null, _index + 1);
+                ShowTab(null, _index);
             }
             else if(index == 1)//子级 - 子课题
             {
@@ -699,10 +701,11 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else
                 {
-                    ShowTab("subject", _index + 1);
+                    ShowTab("subject", _index);
                     ResetControls(ControlType.Subject);
                     subject.Tag = id;
                 }
+                tab_MenuList.SelectedIndex = _index;
             }
         }
 
@@ -725,7 +728,9 @@ namespace 科技计划项目档案数据采集管理系统
                     if(objId == null)
                         objId = tab_Plan_Info.Tag = AddBasicInfo(plan.Tag, ControlType.Plan);
                     else
+                    {
                         UpdateBasicInfo(objId, ControlType.Plan);
+                    }
                     if(CheckFileList(view.Rows, key))
                     {
                         int maxLength = view.Rows.Count - 1;
@@ -740,7 +745,6 @@ namespace 科技计划项目档案数据采集管理系统
                         RemoveFileList(objId);
                         LoadFileList(view, objId);
                         XtraMessageBox.Show("文件信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                        if(!isBacked) GoToTreeList();
                     }
                     else
                         XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -777,22 +781,27 @@ namespace 科技计划项目档案数据采集管理系统
                 int index = tab_Project_Info.SelectedTabPageIndex;
                 if(index == 0)
                 {
+                    bool isAdd = false;
                     if(CheckMustEnter(button.Name, objId))
                     {
                         if(objId == null)
+                        {
                             objId = tab_Project_Info.Tag = AddBasicInfo(project.Tag, ControlType.Project);
+                            isAdd = true;
+                        }
                         else
                             UpdateBasicInfo(objId, ControlType.Project);
 
-                        if(CheckFileList(dgv_Project_FileList.Rows, key))
-                        {
-                            int maxLength = dgv_Project_FileList.Rows.Count - 1;
+                        if(CheckFileList(view.Rows, key))
+                        {                            
+                            int selectedRow = GetSelectedRowIndex(view);
+                            int maxLength = view.Rows.Count - 1;
                             for(int i = 0; i < maxLength; i++)
                             {
-                                object fileName = dgv_Project_FileList.Rows[i].Cells[$"{key}name"].Value;
+                                object fileName = view.Rows[i].Cells[$"{key}name"].Value;
                                 if(fileName != null)
                                 {
-                                    DataGridViewRow row = dgv_Project_FileList.Rows[i];
+                                    DataGridViewRow row = view.Rows[i];
                                     row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                                 }
                             }
@@ -801,11 +810,14 @@ namespace 科技计划项目档案数据采集管理系统
                             //移除文件列表
                             RemoveFileList(objId);
                             LoadFileList(view, objId);
+                            view.ClearSelection();
+                            view.Rows[selectedRow].Selected = true;
+                            view.FirstDisplayedScrollingRowIndex = selectedRow;
                             XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                            if(!isBacked) GoToTreeList();
                         }
                         else
                             XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        if(!isBacked && isAdd) GoToTreeList();
                     }
                 }
                 else if(objId != null)
@@ -840,22 +852,26 @@ namespace 科技计划项目档案数据采集管理系统
                 int index = tab_Topic_Info.SelectedTabPageIndex;
                 if(index == 0)
                 {
+                    bool isAdd = false;
                     if(CheckMustEnter(button.Name, objId))
                     {
                         if(objId != null)//更新
                             UpdateBasicInfo(objId, ControlType.Topic);
                         else//新增
+                        {
                             objId = tab_Topic_Info.Tag = AddBasicInfo(topic.Tag, ControlType.Topic);
-
+                            isAdd = true;
+                        }
                         if(CheckFileList(view.Rows, key))
                         {
-                            int maxLength = dgv_Topic_FileList.Rows.Count - 1;
+                            int selectedRow = GetSelectedRowIndex(view);
+                            int maxLength = view.Rows.Count - 1;
                             for(int i = 0; i < maxLength; i++)
                             {
-                                object fileName = dgv_Topic_FileList.Rows[i].Cells[$"{key}name"].Value;
+                                object fileName = view.Rows[i].Cells[$"{key}name"].Value;
                                 if(fileName != null)
                                 {
-                                    DataGridViewRow row = dgv_Topic_FileList.Rows[i];
+                                    DataGridViewRow row = view.Rows[i];
                                     row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                                 }
                             }
@@ -864,11 +880,14 @@ namespace 科技计划项目档案数据采集管理系统
                             //移除文件列表
                             RemoveFileList(objId);
                             LoadFileList(view, objId);
+                            view.ClearSelection();
+                            view.Rows[selectedRow].Selected = true;
+                            view.FirstDisplayedScrollingRowIndex = selectedRow;
                             XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                            if(!isBacked) GoToTreeList();
                         }
                         else
                             XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        if(!isBacked && isAdd) GoToTreeList();
                     }
                 }
                 else if(objId != null)
@@ -903,21 +922,26 @@ namespace 科技计划项目档案数据采集管理系统
                 int index = tab_Subject_Info.SelectedTabPageIndex;
                 if(index == 0)
                 {
+                    bool isAdd = false;
                     if(CheckMustEnter(button.Name, objId))
                     {
                         if(objId != null)
                             UpdateBasicInfo(objId, ControlType.Subject);
                         else
+                        {
                             objId = tab_Subject_Info.Tag = AddBasicInfo(subject.Tag, ControlType.Subject);
+                            isAdd = true;
+                        }
                         if(CheckFileList(view.Rows, key))
                         {
-                            int maxLength = dgv_Subject_FileList.Rows.Count - 1;
+                            int selectedRow = GetSelectedRowIndex(view);
+                            int maxLength = view.Rows.Count - 1;
                             for(int i = 0; i < maxLength; i++)
                             {
-                                object fileName = dgv_Subject_FileList.Rows[i].Cells[$"{key}name"].Value;
+                                object fileName = view.Rows[i].Cells[$"{key}name"].Value;
                                 if(fileName != null)
                                 {
-                                    DataGridViewRow row = dgv_Subject_FileList.Rows[i];
+                                    DataGridViewRow row = view.Rows[i];
                                     row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
                                 }
                             }
@@ -926,11 +950,14 @@ namespace 科技计划项目档案数据采集管理系统
                             //移除文件列表
                             RemoveFileList(objId);
                             LoadFileList(view, objId);
+                            view.ClearSelection();
+                            view.Rows[selectedRow].Selected = true;
+                            view.FirstDisplayedScrollingRowIndex = selectedRow;
                             XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                            if(!isBacked) GoToTreeList();
                         }
                         else
                             XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        if(!isBacked && isAdd) GoToTreeList();
                     }
                 }
                 else if(objId != null)
@@ -985,7 +1012,6 @@ namespace 科技计划项目档案数据采集管理系统
                         RemoveFileList(objId);
                         LoadFileList(view, objId);
                         XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                        if(!isBacked) GoToTreeList();
                     }
                     else
                         XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -1046,7 +1072,6 @@ namespace 科技计划项目档案数据采集管理系统
                             RemoveFileList(objId);
                             LoadFileList(view, objId);
                             XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                            if(!isBacked) GoToTreeList();
                         }
                         else
                             XtraMessageBox.Show("文件信息存在错误数据，请先更正。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -1077,6 +1102,8 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
+
+        private int GetSelectedRowIndex(DataGridView view) => view.CurrentRow == null ? 0 : view.CurrentRow.Index;
 
         /// <summary>
         /// 更新指定对象下的文件缺失列表
@@ -3592,7 +3619,7 @@ namespace 科技计划项目档案数据采集管理系统
             });
             //未归档
             string querySql = $"SELECT pfl_id, pfl_code, pfl_name, pfl_date FROM processing_file_list " +
-                $"WHERE pfl_obj_id = '{objId}' AND (pfl_box_id IS NULL OR pfl_box_id='') AND pfl_amount > 0 ORDER BY pfl_code, pfl_date";
+                $"WHERE pfl_obj_id = '{objId}' AND (pfl_box_id IS NULL OR pfl_box_id='') AND pfl_amount > 0 ORDER BY pfl_sort, pfl_code";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql);
             foreach(DataRow row in dataTable.Rows)
             {
@@ -4674,8 +4701,6 @@ namespace 科技计划项目档案数据采集管理系统
                         cbo_Special_HasNext.Enabled = flag;
                     }
                 }
-                if(workType == WorkType.PaperWork_Special)
-                    special.Text = "研发信息";
                 cbo_Special_HasNext.SelectedIndex = 0;
 
                 pal_Special_BtnGroup.Enabled = !(node.ForeColor == DisEnbleColor);
@@ -4936,7 +4961,8 @@ namespace 科技计划项目档案数据采集管理系统
             object id = tab_Imp_Info.Tag;
             if(id != null)
             {
-                ShowTab("special", tab_MenuList.SelectedIndex + 1);
+                int index = tab_MenuList.SelectedIndex + 1;
+                ShowTab("special", index);
                 ResetControls(ControlType.Special);
 
                 object value = cbo_Imp_HasNext.SelectedValue;
@@ -4944,8 +4970,8 @@ namespace 科技计划项目档案数据采集管理系统
                 if(row != null)
                 {
                     object sorCode = row["dd_code"];
-                    object orgCode = togle.Tag;//Z07
-                    string querySQL = "SELECT idi.* FROM transfer_registration_pc " +
+                    object orgCode = togle.Tag;
+                    string querySQL = "SELECT ii.imp_id ipi, idi.* FROM transfer_registration_pc " +
                         "LEFT JOIN imp_info ii ON ii.imp_obj_id = trp_id " +
                         "LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id " +
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = com_id " +
@@ -4956,16 +4982,18 @@ namespace 科技计划项目档案数据采集管理系统
                         DialogResult dialogResult = XtraMessageBox.Show("所选专项在当前来源单位已录入，是否补录数据？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if(dialogResult == DialogResult.Yes)
                         {
-                            string updateSQL = $"UPDATE imp_dev_info SET imp_obj_id='{id}' WHERE imp_id='{speRow["imp_id"]}';";
+                            InheritImpInfo(speRow["ipi"], id);
                             ResetProjectState(speRow["imp_id"]);
 
-                            SqlHelper.ExecuteNonQuery(updateSQL);
                             tab_Special_Info.Tag = speRow["imp_id"];
                             txt_Special_Code.Text = ToolHelper.GetValue(speRow["imp_code"]);
                             txt_Special_Name.Text = ToolHelper.GetValue(speRow["imp_name"]);
                             txt_Special_Intro.Text = ToolHelper.GetValue(speRow["imp_intro"]);
 
                             LoadTreeList(PLAN_ID, controlType);
+
+                            ShowTab("imp", 0);
+                            LoadPlanPage(treeView.Nodes[0]);
                         }
                         else
                         {
@@ -4986,6 +5014,8 @@ namespace 科技计划项目档案数据采集管理系统
 
                 if(workType == WorkType.PaperWork_Special)
                     special.Text = "研发信息";
+
+                tab_MenuList.SelectedIndex = index;
             }
             else
             {
@@ -4996,32 +5026,52 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
+        /// 新重大专项继承旧数据(保留旧数据，转移并删除新数据)
+        /// </summary>
+        private void InheritImpInfo(object oldImpId, object newImpId)
+        {
+            string updateSQL = 
+                $"UPDATE processing_file_list SET pfl_obj_id='{oldImpId}' WHERE pfl_obj_id='{newImpId}';" +
+                $"UPDATE processing_box SET pb_obj_id='{oldImpId}' WHERE pb_obj_id='{newImpId}';";
+            updateSQL += $"UPDATE imp_info SET imp_obj_id=(SELECT imp_obj_id FROM imp_info WHERE imp_id='{newImpId}') WHERE imp_id='{oldImpId}';";
+            updateSQL += $"DELETE FROM imp_info WHERE imp_id='{newImpId}';";
+            SqlHelper.ExecuteNonQuery(updateSQL);
+        }
+
+        /// <summary>
         /// 重置指定专项下所有项目课题状态为 未提交
         /// </summary>
         /// <param name="id">专项ID</param>
         private void ResetProjectState(object id)
         {
-            string updateSQL = string.Empty;
-            string proQuerySql = "SELECT A.pi_id FROM imp_info p LEFT JOIN ( " +
+            string updateSQL = $"UPDATE imp_dev_info SET imp_submit_status=1 WHERE imp_id='{id}';";
+            string proQuerySql = "SELECT A.pi_id FROM imp_dev_info p LEFT JOIN ( " +
                 "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
                 "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=-3)A ON A.pi_obj_id=p.imp_id " +
                $"WHERE p.imp_id='{id}' AND A.pi_id IS NOT NULL";
             object[] proIds = SqlHelper.ExecuteSingleColumnQuery(proQuerySql);
             string pids = ToolHelper.GetFullStringBySplit(proIds, ",", "'");
-            updateSQL +=
-                $"UPDATE project_info SET pi_submit_status=1 WHERE pi_id IN ({pids});" +
-                $"UPDATE topic_info SET ti_submit_status=1 WHERE ti_id IN ({pids});";
-
-            string topQuerySql = "SELECT A.ti_id FROM( " +
-                "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = 3 UNION ALL " +
-                "SELECT si_id, si_obj_id FROM subject_info )A " +
-               $"WHERE A.ti_obj_id IN('{pids}')";
-            object[] topIds = SqlHelper.ExecuteSingleColumnQuery(topQuerySql);
-            string tids = ToolHelper.GetFullStringBySplit(topIds, ",", "'");
-            updateSQL +=
-               $"UPDATE subject_info SET si_submit_status=1 WHERE si_id IN ({tids});" +
-               $"UPDATE topic_info SET ti_submit_status=1 WHERE ti_id IN ({tids});" +
-               $"UPDATE subject_info SET si_submit_status=1 WHERE si_obj_id IN {tids};";
+            if(!string.IsNullOrEmpty(pids))
+            {
+                //【项目/课题】
+                updateSQL +=
+                    $"UPDATE project_info SET pi_submit_status=1 WHERE pi_id IN ({pids});" +
+                    $"UPDATE topic_info SET ti_submit_status=1 WHERE ti_id IN ({pids});";
+                //【课题/子课题】
+                string topQuerySql = "SELECT A.ti_id FROM( " +
+                    "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = 3 UNION ALL " +
+                    "SELECT si_id, si_obj_id FROM subject_info )A " +
+                   $"WHERE A.ti_obj_id IN({pids})";
+                object[] topIds = SqlHelper.ExecuteSingleColumnQuery(topQuerySql);
+                string tids = ToolHelper.GetFullStringBySplit(topIds, ",", "'");
+                if(!string.IsNullOrEmpty(pids))
+                {
+                    updateSQL +=
+                       $"UPDATE topic_info SET ti_submit_status=1 WHERE ti_id IN ({tids});" +
+                       $"UPDATE subject_info SET si_submit_status=1 WHERE si_id IN ({tids});" +
+                       $"UPDATE subject_info SET si_submit_status=1 WHERE si_obj_id IN ({tids});";
+                }
+            }
             SqlHelper.ExecuteNonQuery(updateSQL);
         }
 
@@ -5071,7 +5121,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object objId = tab_Plan_Info.Tag;
                 if(objId != null)
                 {
-                    if(dgv_Plan_FileList.SelectedRows.Count == 1)
+                    if(dgv_Plan_FileList.SelectedRows.Count == 1 && dgv_Plan_FileList.RowCount != 1)
                         frm = new Frm_AddFile(dgv_Plan_FileList, key, dgv_Plan_FileList.CurrentRow.Cells[key + "num"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Plan_FileList, key, null, trcId);
@@ -5089,7 +5139,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object objId = tab_Project_Info.Tag;
                 if(objId != null)
                 {
-                    if(dgv_Project_FileList.SelectedRows.Count == 1)
+                    if(dgv_Project_FileList.SelectedRows.Count == 1 && dgv_Project_FileList.RowCount != 1)
                         frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.CurrentRow.Cells[key + "num"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Project_FileList, key, null, trcId);
@@ -5107,7 +5157,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object objId = tab_Topic_Info.Tag;
                 if(objId != null)
                 {
-                    if(dgv_Topic_FileList.SelectedRows.Count == 1)
+                    if(dgv_Topic_FileList.SelectedRows.Count == 1 && dgv_Topic_FileList.RowCount != 1)
                         frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.CurrentRow.Cells[key + "num"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Topic_FileList, key, null, trcId);
@@ -5125,7 +5175,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object objId = tab_Subject_Info.Tag;
                 if(objId != null)
                 {
-                    if(dgv_Subject_FileList.SelectedRows.Count == 1)
+                    if(dgv_Subject_FileList.SelectedRows.Count == 1 && dgv_Subject_FileList.RowCount != 1)
                         frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.CurrentRow.Cells[key+"num"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Subject_FileList, key, null, trcId);
@@ -5143,7 +5193,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object objId = tab_Imp_Info.Tag;
                 if(objId != null)
                 {
-                    if(dgv_Imp_FileList.SelectedRows.Count == 1)
+                    if(dgv_Imp_FileList.SelectedRows.Count == 1 && dgv_Imp_FileList.RowCount != 1)
                         frm = new Frm_AddFile(dgv_Imp_FileList, key, dgv_Imp_FileList.CurrentRow.Cells[key + "num"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Imp_FileList, key, null, trcId);
@@ -5161,7 +5211,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object objId = tab_Special_Info.Tag;
                 if(objId != null)
                 {
-                    if(dgv_Special_FileList.SelectedRows.Count == 1)
+                    if(dgv_Special_FileList.SelectedRows.Count == 1 && dgv_Special_FileList.RowCount != 1)
                         frm = new Frm_AddFile(dgv_Special_FileList, key, dgv_Special_FileList.CurrentRow.Cells[key + "num"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Special_FileList, key, null, trcId);
@@ -5585,19 +5635,20 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else
             {
-                int _index = tab_MenuList.SelectedIndex;
+                int _index = tab_MenuList.SelectedIndex + 1;
                 int index = comboBox.SelectedIndex;
                 if(index == 0)//无
                 {
-                    ShowTab(null, _index + 1);
+                    ShowTab(null, _index);
                     topic.Tag = null;
                 }
                 else if(index == 1)
                 {
-                    ShowTab("topic", _index + 1);
+                    ShowTab("topic", _index);
                     ResetControls(ControlType.Topic);
                     topic.Tag = id;
                 }
+                tab_MenuList.SelectedIndex = _index;
             }
         }
 
@@ -5711,7 +5762,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Code_Leave(object sender, EventArgs e)
         {
-            TextBox codeText = sender as TextBox;
+            TextEdit codeText = sender as TextEdit;
             string value = codeText.Text.Trim();
             if(!string.IsNullOrEmpty(value) && GetSaveState(codeText.Name))
             {
@@ -5904,6 +5955,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void FileList_UserAddedRow(object sender, DataGridViewRowEventArgs e)
         {
             DataGridView view = sender as DataGridView;
+            view.Rows[e.Row.Index - 1].Cells[view.Tag + "amount"].Value = 1;
             new Thread(delegate ()
             {
                 int lastRowIndex = e.Row.Index - 1;

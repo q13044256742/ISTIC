@@ -33,7 +33,6 @@
             this.chk2 = new DevExpress.XtraEditors.CheckEdit();
             this.chk3 = new DevExpress.XtraEditors.CheckEdit();
             this.lbl1 = new DevExpress.XtraEditors.HyperlinkLabelControl();
-            this.btn_Export = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Print = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
@@ -83,19 +82,6 @@
             this.lbl1.Text = "[预览]";
             this.lbl1.Click += new System.EventHandler(this.lbl1_Click);
             // 
-            // btn_Export
-            // 
-            this.btn_Export.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.btn_Export.Appearance.Options.UseFont = true;
-            this.btn_Export.Image = ((System.Drawing.Image)(resources.GetObject("btn_Export.Image")));
-            this.btn_Export.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Export.ImageToTextIndent = 5;
-            this.btn_Export.Location = new System.Drawing.Point(201, 193);
-            this.btn_Export.Name = "btn_Export";
-            this.btn_Export.Size = new System.Drawing.Size(67, 30);
-            this.btn_Export.TabIndex = 5;
-            this.btn_Export.Text = "导出";
-            // 
             // btn_Print
             // 
             this.btn_Print.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
@@ -103,11 +89,11 @@
             this.btn_Print.Image = ((System.Drawing.Image)(resources.GetObject("btn_Print.Image")));
             this.btn_Print.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Print.ImageToTextIndent = 5;
-            this.btn_Print.Location = new System.Drawing.Point(129, 193);
+            this.btn_Print.Location = new System.Drawing.Point(147, 193);
             this.btn_Print.Name = "btn_Print";
-            this.btn_Print.Size = new System.Drawing.Size(67, 30);
+            this.btn_Print.Size = new System.Drawing.Size(102, 30);
             this.btn_Print.TabIndex = 4;
-            this.btn_Print.Text = "打印";
+            this.btn_Print.Text = "打印/导出";
             this.btn_Print.Click += new System.EventHandler(this.Btn_Print_Click);
             // 
             // printPreviewDialog1
@@ -130,7 +116,6 @@
             this.Controls.Add(this.chk3);
             this.Controls.Add(this.chk2);
             this.Controls.Add(this.chk1);
-            this.Controls.Add(this.btn_Export);
             this.Controls.Add(this.btn_Print);
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -150,7 +135,6 @@
 
         #endregion
         private KyoControl.KyoButton btn_Print;
-        private KyoControl.KyoButton btn_Export;
         private DevExpress.XtraEditors.CheckEdit chk1;
         private DevExpress.XtraEditors.CheckEdit chk2;
         private DevExpress.XtraEditors.CheckEdit chk3;

@@ -82,7 +82,7 @@
             this.lbl_OpenFile.Location = new System.Drawing.Point(689, 302);
             this.lbl_OpenFile.Name = "lbl_OpenFile";
             this.lbl_OpenFile.Size = new System.Drawing.Size(42, 21);
-            this.lbl_OpenFile.TabIndex = 63;
+            this.lbl_OpenFile.TabIndex = 14;
             this.lbl_OpenFile.TabStop = true;
             this.lbl_OpenFile.Text = "添加";
             this.lbl_OpenFile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OpenFile_LinkClicked);
@@ -95,7 +95,7 @@
             this.txt_Remark.Name = "txt_Remark";
             this.txt_Remark.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txt_Remark.Size = new System.Drawing.Size(572, 99);
-            this.txt_Remark.TabIndex = 53;
+            this.txt_Remark.TabIndex = 15;
             // 
             // label15
             // 
@@ -125,7 +125,7 @@
             this.txt_Unit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_Unit.Name = "txt_Unit";
             this.txt_Unit.Size = new System.Drawing.Size(407, 30);
-            this.txt_Unit.TabIndex = 45;
+            this.txt_Unit.TabIndex = 12;
             // 
             // label10
             // 
@@ -160,7 +160,14 @@
             0});
             this.num_Amount.Name = "num_Amount";
             this.num_Amount.Size = new System.Drawing.Size(227, 30);
-            this.num_Amount.TabIndex = 43;
+            this.num_Amount.TabIndex = 11;
+            this.num_Amount.Tag = "1";
+            this.num_Amount.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_Amount.Enter += new System.EventHandler(this.num_Pages_Enter);
             // 
             // label8
             // 
@@ -184,7 +191,8 @@
             0});
             this.num_Pages.Name = "num_Pages";
             this.num_Pages.Size = new System.Drawing.Size(227, 30);
-            this.num_Pages.TabIndex = 41;
+            this.num_Pages.TabIndex = 6;
+            this.num_Pages.Enter += new System.EventHandler(this.num_Pages_Enter);
             // 
             // label7
             // 
@@ -203,7 +211,7 @@
             this.txt_User.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_User.Name = "txt_User";
             this.txt_User.Size = new System.Drawing.Size(227, 30);
-            this.txt_User.TabIndex = 36;
+            this.txt_User.TabIndex = 3;
             // 
             // label5
             // 
@@ -246,7 +254,7 @@
             this.cbo_categor.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbo_categor.Name = "cbo_categor";
             this.cbo_categor.Size = new System.Drawing.Size(227, 28);
-            this.cbo_categor.TabIndex = 33;
+            this.cbo_categor.TabIndex = 1;
             this.cbo_categor.SelectionChangeCommitted += new System.EventHandler(this.Cbo_categor_SelectedIndexChanged);
             // 
             // label2
@@ -268,7 +276,7 @@
             this.cbo_stage.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbo_stage.Name = "cbo_stage";
             this.cbo_stage.Size = new System.Drawing.Size(227, 28);
-            this.cbo_stage.TabIndex = 32;
+            this.cbo_stage.TabIndex = 0;
             this.cbo_stage.SelectedIndexChanged += new System.EventHandler(this.Cbo_stage_SelectionChangeCommitted);
             // 
             // label1
@@ -289,7 +297,7 @@
             this.txt_fileCode.Name = "txt_fileCode";
             this.txt_fileCode.ReadOnly = true;
             this.txt_fileCode.Size = new System.Drawing.Size(227, 30);
-            this.txt_fileCode.TabIndex = 66;
+            this.txt_fileCode.TabIndex = 2;
             // 
             // label16
             // 
@@ -320,7 +328,7 @@
             this.rdo_type_2.Location = new System.Drawing.Point(67, 3);
             this.rdo_type_2.Name = "rdo_type_2";
             this.rdo_type_2.Size = new System.Drawing.Size(62, 22);
-            this.rdo_type_2.TabIndex = 3;
+            this.rdo_type_2.TabIndex = 8;
             this.rdo_type_2.TabStop = true;
             this.rdo_type_2.Tag = "1731a1cf-781d-438b-bbde-ac48d4d07914";
             this.rdo_type_2.Text = "财务";
@@ -333,7 +341,7 @@
             this.rdo_type_3.Location = new System.Drawing.Point(133, 3);
             this.rdo_type_3.Name = "rdo_type_3";
             this.rdo_type_3.Size = new System.Drawing.Size(62, 22);
-            this.rdo_type_3.TabIndex = 2;
+            this.rdo_type_3.TabIndex = 9;
             this.rdo_type_3.TabStop = true;
             this.rdo_type_3.Tag = "d61492d9-d981-459a-8481-a555becd6178";
             this.rdo_type_3.Text = "管理";
@@ -346,7 +354,7 @@
             this.rdo_type_4.Location = new System.Drawing.Point(200, 3);
             this.rdo_type_4.Name = "rdo_type_4";
             this.rdo_type_4.Size = new System.Drawing.Size(62, 22);
-            this.rdo_type_4.TabIndex = 1;
+            this.rdo_type_4.TabIndex = 10;
             this.rdo_type_4.TabStop = true;
             this.rdo_type_4.Tag = "430e0b65-0476-431f-9254-a57d83ee2095";
             this.rdo_type_4.Text = "文书";
@@ -359,7 +367,7 @@
             this.rdo_type_1.Location = new System.Drawing.Point(2, 3);
             this.rdo_type_1.Name = "rdo_type_1";
             this.rdo_type_1.Size = new System.Drawing.Size(62, 22);
-            this.rdo_type_1.TabIndex = 0;
+            this.rdo_type_1.TabIndex = 7;
             this.rdo_type_1.TabStop = true;
             this.rdo_type_1.Tag = "8c132762-1150-437b-8048-25a703ec1583";
             this.rdo_type_1.Text = "技术";
@@ -402,7 +410,7 @@
             this.txt_date.Location = new System.Drawing.Point(114, 161);
             this.txt_date.Name = "txt_date";
             this.txt_date.Size = new System.Drawing.Size(227, 30);
-            this.txt_date.TabIndex = 78;
+            this.txt_date.TabIndex = 5;
             // 
             // num_Count
             // 
@@ -416,7 +424,8 @@
             0});
             this.num_Count.Name = "num_Count";
             this.num_Count.Size = new System.Drawing.Size(115, 30);
-            this.num_Count.TabIndex = 79;
+            this.num_Count.TabIndex = 13;
+            this.num_Count.Enter += new System.EventHandler(this.num_Pages_Enter);
             // 
             // label6
             // 
@@ -439,7 +448,7 @@
             this.btn_Reset.Location = new System.Drawing.Point(267, 608);
             this.btn_Reset.Name = "btn_Reset";
             this.btn_Reset.Size = new System.Drawing.Size(67, 30);
-            this.btn_Reset.TabIndex = 64;
+            this.btn_Reset.TabIndex = 16;
             this.btn_Reset.Text = "重置";
             this.btn_Reset.Click += new System.EventHandler(this.Button1_Click);
             // 
@@ -454,7 +463,7 @@
             this.btn_Exit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(67, 30);
-            this.btn_Exit.TabIndex = 56;
+            this.btn_Exit.TabIndex = 18;
             this.btn_Exit.Text = "退出";
             this.btn_Exit.Click += new System.EventHandler(this.Btn_Exit_Click);
             // 
@@ -469,7 +478,7 @@
             this.btn_Save_Add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Save_Add.Name = "btn_Save_Add";
             this.btn_Save_Add.Size = new System.Drawing.Size(76, 30);
-            this.btn_Save_Add.TabIndex = 54;
+            this.btn_Save_Add.TabIndex = 17;
             this.btn_Save_Add.Text = "保存(&S)";
             this.btn_Save_Add.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
@@ -479,7 +488,7 @@
             this.txt_fileName.Multiline = true;
             this.txt_fileName.Name = "txt_fileName";
             this.txt_fileName.Size = new System.Drawing.Size(602, 46);
-            this.txt_fileName.TabIndex = 81;
+            this.txt_fileName.TabIndex = 4;
             // 
             // labelControl1
             // 

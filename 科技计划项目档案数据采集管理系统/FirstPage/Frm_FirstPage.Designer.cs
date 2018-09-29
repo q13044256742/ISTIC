@@ -492,7 +492,7 @@
             this.btn_Query.Size = new System.Drawing.Size(85, 39);
             this.btn_Query.TabIndex = 2;
             this.btn_Query.Text = "查询";
-            this.btn_Query.Click += new System.EventHandler(this.btn_Query_Click);
+            this.btn_Query.Click += new System.EventHandler(this.Btn_Query_Click);
             // 
             // barManager1
             // 

@@ -1,12 +1,9 @@
 ﻿using DevExpress.XtraBars.Navigation;
 using DevExpress.XtraEditors;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.Properties;
 using 科技计划项目档案数据采集管理系统.TransferOfRegistration;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -81,11 +78,10 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 if (tc_ToR.SelectedTabPageIndex == 0)
                 {
-                    StringBuilder querySql = new StringBuilder("SELECT ");
-                    querySql.Append("pc.trp_id, dd_name, trp_name, trp_code, trp_submit_status, trp_cd_amount");
-                    querySql.Append(" FROM transfer_registration_pc pc,data_dictionary dd");
-                    querySql.Append(" WHERE com_id='" + element.Name + "'");
-                    querySql.Append(" AND pc.com_id = dd.dd_id AND trp_submit_status=1");
+                    StringBuilder querySql = new StringBuilder("SELECT pc.trp_id, dd_name, trp_name, trp_code, trp_submit_status, trp_cd_amount FROM transfer_registration_pc pc " +
+                        "LEFT JOIN data_dictionary dd ON pc.com_id = dd.dd_id WHERE com_id='" + element.Name + "' ");
+                    if(!chk_AllP.Checked)
+                        querySql.Append("AND pc.com_id = dd.dd_id AND trp_submit_status=1");
                     LoadPCDataScoure(querySql.ToString());
                     dgv_SWDJ.Tag = SqlHelper.ExecuteOnlyOneQuery("SELECT dd_code FROM data_dictionary WHERE dd_id ='" + element.Name + "'");
                 }
@@ -132,9 +128,11 @@ namespace 科技计划项目档案数据采集管理系统
             //加载实物登记数据【默认加载状态为1（未提交）的数据】
             if (string.IsNullOrEmpty(_querySql))
             {
-                StringBuilder querySql = new StringBuilder("SELECT pc.trp_id, dd_name, trp_name, trp_code,trp_submit_status,trp_cd_amount");
-                querySql.Append(" FROM transfer_registration_pc pc LEFT JOIN data_dictionary dd ON pc.com_id = dd.dd_id");
-                querySql.Append($" WHERE trp_submit_status={(int)SubmitStatus.NonSubmit}");
+                StringBuilder querySql = new StringBuilder("SELECT pc.trp_id, dd_name, trp_name, trp_code,trp_submit_status,trp_cd_amount " +
+                    "FROM transfer_registration_pc pc LEFT JOIN data_dictionary dd ON pc.com_id = dd.dd_id WHERE 1=1 ");
+                if(!chk_AllP.Checked)
+                    querySql.Append($"AND trp_submit_status={(int)SubmitStatus.NonSubmit} ");
+                querySql.Append("ORDER BY trp_submit_status, trp_code;");
                 dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
             }
             else
@@ -168,7 +166,6 @@ namespace 科技计划项目档案数据采集管理系统
             btn_Back.Enabled = false;
             btn_Add.Enabled = true;
 
-            dgv_SWDJ.Tag = "PC";
         }
      
         /// <summary>
@@ -204,8 +201,6 @@ namespace 科技计划项目档案数据采集管理系统
 
             btn_Back.Enabled = true;
             btn_Add.Enabled = false;
-
-            dgv_SWDJ.Tag = "CD";
         }
       
         /// <summary>
@@ -249,16 +244,6 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                         else
                             LoadPCDataScoure(null);
-                    }
-                }
-                //批次名称-点击事件
-                else if ("trp_name".Equals(name))
-                {
-                    object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
-                    Frm_AddPC frm = new Frm_AddPC(false, currentRowId.ToString());
-                    if (frm.ShowDialog() == DialogResult.OK)
-                    {
-                        LoadPCDataScoure(null);
                     }
                 }
                 //提交 - 点击事件
@@ -373,39 +358,36 @@ namespace 科技计划项目档案数据采集管理系统
             int amount = dgv_SWDJ.SelectedRows.Count;
             if (amount > 0)
             {
-                if (XtraMessageBox.Show("此操作可能会导致已加工的数据被删除，是否继续？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                string tipString = "此操作会删除批次下所有已录入数据，是否确认继续？";
+                if(XtraMessageBox.Show(tipString, "删除确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
                 {
-                    int deleteAmount = 0;
-                    if ("PC".Equals(dgv_SWDJ.Tag))
+                    int type = tc_ToR.SelectedTabPageIndex;
+                    if(type == 0)
                     {
-                        StringBuilder sb = new StringBuilder();
-                        foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
+                        foreach(DataGridViewRow row in dgv_SWDJ.SelectedRows)
                         {
                             object pid = row.Cells["trp_id"].Value;
-                            sb.Append($"DELETE FROM work_registration WHERE wr_type=1 AND wr_obj_id='{pid}';");
-                            sb.Append($"DELETE FROM transfer_registration_pc WHERE trp_id = '{pid}';");
-                            deleteAmount++;
+                            DeleteBatchById(pid);
                         }
-                        SqlHelper.ExecuteNonQuery(sb.ToString());
                         LoadPCDataScoure(null);
                     }
-                    else if ("CD".Equals(dgv_SWDJ.Tag))
-                    {
-                        StringBuilder sb = new StringBuilder();
-                        object pid = null, pname = null;
-                        foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
-                        {
-                            object cid = row.Cells["trc_id"].Value;
-                            pid = row.Tag; pname = row.Cells["trc_read"].Tag;
-                            sb.Append($"DELETE FROM work_registration WHERE wr_type=2 AND wr_obj_id='{cid}';");
-                            sb.Append($"DELETE FROM transfer_registraion_cd WHERE trc_id = '{cid}';");
-                            deleteAmount++;
-                        }
-                        sb.Append($"UPDATE transfer_registration_pc SET trp_cd_amount=(SELECT COUNT(trc_id) FROM transfer_registraion_cd WHERE trp_id = '{pid}') WHERE trp_id = '{pid}';");
-                        SqlHelper.ExecuteNonQuery(sb.ToString());
-                        LoadCDDataScoure(pid, pname);
-                    }
-                    XtraMessageBox.Show(deleteAmount + "条数据已被删除!", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //else if(type == 1)
+                    //{
+                    //    StringBuilder sb = new StringBuilder();
+                    //    object pid = null, pname = null;
+                    //    foreach(DataGridViewRow row in dgv_SWDJ.SelectedRows)
+                    //    {
+                    //        object cid = row.Cells["trc_id"].Value;
+                    //        pid = row.Tag;
+                    //        pname = row.Cells["trc_read"].Tag;
+                    //        sb.Append($"DELETE FROM work_registration WHERE wr_type=2 AND wr_obj_id='{cid}';");
+                    //        sb.Append($"DELETE FROM transfer_registraion_cd WHERE trc_id = '{cid}';");
+                    //    }
+                    //    sb.Append($"UPDATE transfer_registration_pc SET trp_cd_amount=(SELECT COUNT(trc_id) FROM transfer_registraion_cd WHERE trp_id = '{pid}') WHERE trp_id = '{pid}';");
+                    //    SqlHelper.ExecuteNonQuery(sb.ToString());
+                    //    LoadCDDataScoure(pid, pname);
+                    //}
+                    XtraMessageBox.Show("删除成功。", "提示");
                 }
             }
             else
@@ -413,7 +395,96 @@ namespace 科技计划项目档案数据采集管理系统
                 XtraMessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
-    
+
+        /// <summary>
+        /// 删除指定批次下所有数据
+        /// </summary>
+        /// <param name="pid">批次ID</param>
+        private void DeleteBatchById(object pid)
+        {
+            string deleteSQL = $"DELETE FROM transfer_registration_pc WHERE trp_id='{pid}';";
+            object[] wrIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT wr_id FROM work_registration WHERE trp_id='{pid}'");
+            //删除【加工登记】记录
+            deleteSQL += $"DELETE FROM work_registration WHERE trp_id='{pid}';";
+            for(int i = 0; i < wrIds.Length; i++)
+                //删除【档案质检】记录
+                deleteSQL += $"DELETE FROM work_myreg WHERE wr_id='{wrIds[i]}';";
+
+            object impId = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_id FROM imp_info WHERE imp_obj_id='{pid}'");
+            if(impId != null)//专项
+            {
+                object speId = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_id FROM imp_dev_info WHERE imp_obj_id='{impId}'");
+                //删除【专项】记录
+                deleteSQL += $"DELETE FROM processing_file_list WHERE pfl_obj_id='{impId}';";
+                deleteSQL += $"DELETE FROM processing_file_list WHERE pfl_obj_id='{speId}';";
+                deleteSQL += $"DELETE FROM imp_dev_info WHERE imp_id='{speId}';";
+                deleteSQL += $"DELETE FROM imp_info WHERE imp_id='{impId}';";
+
+                object[] projectIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT pi_id FROM (" +
+                     "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                    $"SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=-3) A WHERE A.pi_obj_id='{speId}'");
+                //删除【项目/课题】记录
+                deleteSQL += $"DELETE FROM project_info WHERE pi_categor=2 AND pi_obj_id='{speId}';" +
+                             $"DELETE FROM topic_info WHERE ti_categor=-3 AND ti_obj_id='{speId}';";
+                for(int i = 0; i < projectIds.Length; i++)
+                {
+                    deleteSQL += $"DELETE FROM processing_file_list WHERE pfl_obj_id='{projectIds[i]}';";
+                    object[] topicIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT ti_id FROM (" +
+                         "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+                        $"SELECT si_id, si_obj_id FROM subject_info) A WHERE A.ti_obj_id='{projectIds[i]}'");
+                    //删除【课题/子课题】记录
+                    deleteSQL += $"DELETE FROM topic_info WHERE ti_categor=3 AND ti_obj_id='{projectIds[i]}';" +
+                                 $"DELETE FROM subject_info WHERE si_obj_id='{projectIds[i]}';";
+                    for(int j = 0; j < topicIds.Length; j++)
+                    {
+                        deleteSQL += $"DELETE FROM processing_file_list WHERE pfl_obj_id='{topicIds[j]}';";
+                        object[] subjectIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT si_id FROM subject_info WHERE si_obj_id='{topicIds[j]}'");
+                        deleteSQL += $"DELETE FROM subject_info WHERE si_obj_id='{topicIds[j]}';";
+                        for(int k = 0; k < subjectIds.Length; k++)
+                        {
+                            deleteSQL += $"DELETE FROM processing_file_list WHERE pfl_obj_id='{subjectIds[k]}';";
+                        }
+                    }
+                }
+
+            }
+            else//计划
+            {
+                object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_categor=1 AND trc_id='{pid}'");
+                if(planId != null)
+                {
+                    //删除【计划】记录
+                    deleteSQL += $"DELETE FROM processing_file_list WHERE pfl_obj_id='{planId}';";
+                    deleteSQL += $"DELETE FROM project_info WHERE pi_id='{planId}';";
+                    object[] projectIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT pi_id FROM (" +
+                         "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                        $"SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=-3) A WHERE A.pi_obj_id='{planId}'");
+                    deleteSQL += $"DELETE FROM project_info WHERE pi_categor=2 AND pi_obj_id='{planId}';" +
+                                 $"DELETE FROM topic_info WHERE ti_categor=-3 AND ti_obj_id='{planId}';";
+                    for(int i = 0; i < projectIds.Length; i++)
+                    {
+                        deleteSQL += $"DELETE FROM processing_file_list WHERE pfl_obj_id='{projectIds[i]}';";
+                        object[] topicIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT ti_id FROM (" +
+                             "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+                            $"SELECT si_id, si_obj_id FROM subject_info) A WHERE A.ti_obj_id='{projectIds[i]}'");
+                        deleteSQL += $"DELETE FROM topic_info WHERE ti_categor=3 AND ti_obj_id='{projectIds[i]}';" +
+                                     $"DELETE FROM subject_info WHERE si_obj_id='{projectIds[i]}';";
+                        for(int j = 0; j < topicIds.Length; j++)
+                        {
+                            deleteSQL += $"DELETE FROM processing_file_list WHERE pfl_obj_id='{topicIds[j]}';";
+                            object[] subjectIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT si_id FROM subject_info WHERE si_obj_id='{topicIds[j]}'");
+                            deleteSQL += $"DELETE FROM subject_info WHERE si_obj_id='{topicIds[j]}';";
+                            for(int k = 0; k < subjectIds.Length; k++)
+                            {
+                                deleteSQL += $"DELETE FROM processing_file_list WHERE pfl_obj_id='{subjectIds[k]}';";
+                            }
+                        }
+                    }
+                }
+            }
+            SqlHelper.ExecuteNonQuery(deleteSQL);
+        }
+
         /// <summary>
         /// 搜索
         /// </summary>
@@ -671,6 +742,29 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(e.KeyCode == Keys.Enter)
                 Btn_Search_Click(sender, e);
+        }
+
+        private void chk_AllP_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadPCDataScoure(null);
+        }
+
+        private void dgv_SWDJ_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex!=-1 && e.ColumnIndex != -1)
+            {
+                string name = dgv_SWDJ.Columns[e.ColumnIndex].Name;
+                //批次名称-点击事件
+                if("trp_name".Equals(name))
+                {
+                    object currentRowId = dgv_SWDJ.Rows[e.RowIndex].Cells["trp_id"].Value;
+                    Frm_AddPC frm = new Frm_AddPC(false, currentRowId.ToString());
+                    if(frm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadPCDataScoure(null);
+                    }
+                }
+            }
         }
     }
 }

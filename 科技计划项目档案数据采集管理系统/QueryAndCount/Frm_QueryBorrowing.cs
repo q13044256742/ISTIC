@@ -34,6 +34,7 @@ namespace 科技计划项目档案数据采集管理系统
             panel3.Bounds = new System.Drawing.Rectangle(0, panel3.Top, ngp_Query.Width, ngp_Query.Height - panel3.Top);
             panel1.Bounds = new System.Drawing.Rectangle(0, panel1.Top, ngp_Borrow.Width, ngp_Borrow.Height - panel1.Top);
             lbl_TotalFileAmount.Anchor = AnchorStyles.Right | AnchorStyles.Top;
+            btn_Refresh.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
             //全部计划（重大专项）
             DataTable planTable = SqlHelper.ExecuteQuery("SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId= " +
@@ -103,17 +104,19 @@ namespace 科技计划项目档案数据采集管理系统
 
                 if(tcount > 0)
                 {
-                    string querySQL_Topic = "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, COUNT(pb_id) bcount FROM (" +
-                         "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, pb_id " +
-                         "FROM topic_info AS ti LEFT OUTER JOIN processing_box ON processing_box.pb_obj_id = ti.ti_id " +
-                        $"WHERE ti_obj_id ='{row["pi_id"]}') A " +
-                         "GROUP BY ti_id, ti_code, ti_name, ti_start_datetime, ti_funds " +
-                         "ORDER BY ti_code";
+                    string querySQL_Topic = "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ISNULL(subCount,0) subCount, ISNULL(boxCount,0) boxCount, ISNULL(fileCount,0) fileCount FROM (" +
+                        "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_obj_id, COUNT(pb_id) boxCount FROM (" +
+                        "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_obj_id, pb_id FROM topic_info " +
+                        "LEFT OUTER JOIN processing_box pb ON pb.pb_obj_id = ti_id WHERE ti_categor=3 ) AS A " +
+                        "GROUP BY ti_id, ti_code, ti_name, ti_start_datetime, ti_obj_id) M LEFT JOIN ( " +
+                        "SELECT si_obj_id, COUNT(si_id) subCount FROM subject_info GROUP BY si_obj_id) N ON M.ti_id = N.si_obj_id " +
+                        "LEFT JOIN (SELECT pfl_obj_id, COUNT(pfl_id) fileCount FROM processing_file_list GROUP BY pfl_obj_id) X ON M.ti_id = X.pfl_obj_id " +
+                       $"WHERE ti_obj_id='{row["pi_id"]}' ORDER BY ti_code";
                     DataTable topTable = SqlHelper.ExecuteQuery(querySQL_Topic);
                     int j = 0;
                     foreach(DataRow topRow in topTable.Rows)
                     {
-                        TreeListNode topNode = node.Nodes.Add(new object[] { i + "-" + ++j, row["dd_name"], topRow["ti_code"], topRow["ti_name"], topRow["ti_start_datetime"], GetTopicCount(topRow["ti_id"]), topRow["bcount"], GetFileCount(topRow["ti_id"]) });
+                        TreeListNode topNode = node.Nodes.Add(new object[] { i + "-" + ++j, row["dd_name"], topRow["ti_code"], topRow["ti_name"], topRow["ti_start_datetime"], topRow["subCount"], topRow["boxCount"], topRow["fileCount"] });
                         topNode.Tag = topRow["ti_id"];
                     }
                 }
@@ -216,25 +219,25 @@ namespace 科技计划项目档案数据采集管理系统
             int page = ToolHelper.GetIntValue(pageValue, 1);
             object planType = cbo_PlanTypeList.SelectedValue;
             object orgType = cbo_SourceOrg.SelectedValue;
-            string batchName = txt_BatchName.Text;
+            string batchCode = txt_BatchName.Text;
             string proCode = txt_ProjectCode.Text;
             string proName = txt_ProjectName.Text;
             string sDate = chk_allDate.Checked ? null : dtp_sDate.Text;
             string eDate = chk_allDate.Checked ? null : dtp_eDate.Text;
 
-            LoadDataList(page, ToolHelper.GetValue(planType), batchName, proCode, proName, sDate, eDate, orgType);
+            LoadDataList(page, ToolHelper.GetValue(planType), batchCode, proCode, proName, sDate, eDate, orgType);
         }
 
         /// <summary>
         /// 加载查询数据
         /// </summary>
         /// <param name="page">当前页码</param>
-        private void LoadDataList(int page, string planType, string batchName, string proCode, string proName, string sDate, string eDate, object orgType)
+        private void LoadDataList(int page, string planType, string batchCode, string proCode, string proName, string sDate, string eDate, object orgType)
         {
             string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_orga_id DESC, pi_code) ID, A.* FROM( " +
-                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
-                "UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
-               $") A WHERE pi_orga_id IS NOT NULL ";
+                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
+               $") A WHERE LEN(A.pi_orga_id)>0 AND LEN(A.pi_source_id)>0 ";
             if(!string.IsNullOrEmpty(proCode))
                 querySQL += $"AND pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
@@ -262,27 +265,53 @@ namespace 科技计划项目档案数据采集管理系统
             if(page == 1)
             {
                 string countQuerySQL = $"SELECT COUNT(A.pi_id) FROM( " +
-                    "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
-                    "UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
-                    ") A WHERE pi_orga_id IS NOT NULL ";
+                    "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
+                    ") A WHERE LEN(A.pi_orga_id)>0 AND LEN(A.pi_source_id)>0 ";
+                string countQuerySQL2 = $"SELECT COUNT(T.ti_id) FROM( " +
+                    "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
+                    ") A LEFT JOIN topic_info T ON (T.ti_categor=3 AND A.pi_id = T.ti_obj_id) " +
+                    "WHERE LEN(A.pi_orga_id)>0 AND LEN(A.pi_source_id)>0 AND T.ti_id IS NOT NULL ";
                 if(!string.IsNullOrEmpty(proCode))
+                {
                     countQuerySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
+                    countQuerySQL2 += $"AND A.pi_code LIKE '%{proCode}%' ";
+                }
                 if(!string.IsNullOrEmpty(proName))
+                {
                     countQuerySQL += $"AND A.pi_name LIKE '%{proName}%' ";
+                    countQuerySQL2 += $"AND A.pi_name LIKE '%{proName}%' ";
+                }
                 if("ZX".Equals(planType))//全部重大专项
+                {
                     countQuerySQL += $"AND pi_source_id LIKE 'ZX__' ";
+                    countQuerySQL2 += $"AND pi_source_id LIKE 'ZX__' ";
+                }
                 else if(!"all".Equals(planType))//普通计划
+                {
                     countQuerySQL += $"AND A.pi_source_id = '{planType}' ";
+                    countQuerySQL2 += $"AND A.pi_source_id = '{planType}' ";
+                }
                 if(!"all".Equals(orgType))
+                {
                     countQuerySQL += $"AND A.pi_orga_id = '{orgType}' ";
+                    countQuerySQL2 += $"AND A.pi_orga_id = '{orgType}' ";
+                }
                 if(!string.IsNullOrEmpty(sDate))
+                {
                     countQuerySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
+                    countQuerySQL2 += $"AND A.pi_start_datetime >= '{sDate}' ";
+                }
                 if(!string.IsNullOrEmpty(eDate))
+                {
                     countQuerySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
-
-                int totalSize = SqlHelper.ExecuteCountQuery(countQuerySQL);
-                maxPage = totalSize % pageSize == 0 ? totalSize / pageSize : totalSize / pageSize + 1;
-                label1.Text = $"共 {totalSize} 条记录，每页共 {pageSize} 条，共 {maxPage} 页";
+                    countQuerySQL2 += $"AND A.pi_start_datetime <= '{eDate}' ";
+                }
+                int totalProjectSize = SqlHelper.ExecuteCountQuery(countQuerySQL);
+                int totalTopicSize = SqlHelper.ExecuteCountQuery(countQuerySQL2);
+                maxPage = totalProjectSize % pageSize == 0 ? totalProjectSize / pageSize : totalProjectSize / pageSize + 1;
+                label1.Text = $"合计{totalProjectSize + totalTopicSize}条记录, 其中{totalProjectSize}个项目/课题, {totalTopicSize}个课题/子课题  每页共 {pageSize} 条，共 {maxPage} 页";
             }
 
         }
@@ -336,17 +365,17 @@ namespace 科技计划项目档案数据采集管理系统
             else if(rdo_In.Checked)
                 querySQL += $"AND (bl.bl_borrow_state <> 1) ";
 
-            querySQL += "ORDER BY pfl.pfl_sort DESC, pfl.pfl_code";
+            querySQL += "ORDER BY A.pi_code, pb.pb_box_number, TRY_CAST(pfl_code AS int), pfl_code";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySQL);
             DataGridViewStyleHelper.ResetDataGridView(view2, true);
             view2.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn(){ Name = "fid", HeaderText = "序号", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable },
-                new DataGridViewTextBoxColumn(){ Name = "fpcode", HeaderText = "项目/课题编号", FillWeight = 50, SortMode = DataGridViewColumnSortMode.NotSortable },
-                new DataGridViewTextBoxColumn(){ Name = "fcode", HeaderText = "文件编号", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "fpcode", HeaderText = "项目/课题编号", FillWeight = 50 },
+                new DataGridViewTextBoxColumn(){ Name = "fcode", HeaderText = "文件编号", FillWeight = 30 },
                 new DataGridViewTextBoxColumn(){ Name = "fname", HeaderText = "文件名称", FillWeight = 120, SortMode = DataGridViewColumnSortMode.NotSortable },
                 new DataGridViewTextBoxColumn(){ Name = "fgc", HeaderText = "馆藏号", FillWeight = 40, SortMode = DataGridViewColumnSortMode.NotSortable },
-                new DataGridViewTextBoxColumn(){ Name = "fbox", HeaderText = "盒号", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "fbox", HeaderText = "盒号", FillWeight = 20, ValueType= typeof(int) },
                 new DataGridViewButtonColumn(){ Name = "fbstate", HeaderText = "借阅状态", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable }
             });
             foreach(DataRow row in dataTable.Rows)
@@ -597,7 +626,6 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){ Name = "box", HeaderText = "盒号", FillWeight = 50, SortMode = DataGridViewColumnSortMode.NotSortable },
                 new DataGridViewTextBoxColumn(){ Name = "files", HeaderText = "文件数", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
                 new DataGridViewButtonColumn(){ Name = "borrow_state", HeaderText = "借阅状态", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
-                new DataGridViewButtonColumn(){ Name = "return_state", HeaderText = "归还状态", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
             });
             string querySQL = $"SELECT A.pi_code, pb_id, pb_gc_id, pb_box_number, COUNT(pfl_id) num, bl_borrow_state, bl_return_state, bl_id FROM( " +
                  "SELECT pi_id, pi_code FROM project_info " +
@@ -619,8 +647,6 @@ namespace 科技计划项目档案数据采集管理系统
                 view2.Rows[i].Cells["box"].Value = row["pb_box_number"];
                 view2.Rows[i].Cells["files"].Value = row["num"];
                 view2.Rows[i].Cells["borrow_state"].Value = GetBorrowState(row["bl_borrow_state"]);
-                view2.Rows[i].Cells["return_state"].Tag = row["bl_id"];
-                view2.Rows[i].Cells["return_state"].Value = GetReturnState(row["bl_return_state"]);
             }
             view2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             view2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -668,8 +694,8 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void btn_Export_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.Filter= "表单文件(*.CSV)|*.CSV";
-            saveFileDialog1.Title = "选择文件导出位置...";
+            saveFileDialog1.Filter= "表单文件(*.CSV)|*.csv";
+            saveFileDialog1.Title = "选择文件导出位置";
             if(saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string filePath = saveFileDialog1.FileName;
@@ -683,9 +709,8 @@ namespace 科技计划项目档案数据采集管理系统
                 string eDate = chk_allDate.Checked ? null : dtp_eDate.Text;
 
                 string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_orga_id DESC, pi_code) ID, A.* FROM( " +
-                    "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 " +
-                    "UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
-                   $") A WHERE pi_orga_id IS NOT NULL ";
+                    "SELECT * FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "SELECT * FROM topic_info) A WHERE pi_orga_id IS NOT NULL ";
                 if(!string.IsNullOrEmpty(proCode))
                     querySQL += $"AND pi_code LIKE '%{proCode}%' ";
                 if(!string.IsNullOrEmpty(proName))
@@ -702,11 +727,12 @@ namespace 科技计划项目档案数据采集管理系统
                     querySQL += $"AND pi_start_datetime <= '{eDate}' ";
 
                 //关联盒数
-                querySQL = $"SELECT dd_name '来源单位', pi_code '项目/课题编号', pi_name '项目/课题名称', pi_start_datetime '开始时间', pi_funds '经费', COUNT(pb_id) '盒数' FROM({querySQL}) C " +
-                    "LEFT JOIN processing_box ON C.pi_id=pb_obj_id " +
-                    "LEFT JOIN data_dictionary ON C.pi_orga_id=dd_code " +
-                    "GROUP BY ID, C.pi_orga_id, pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, dd_name " +
-                    "ORDER BY ID ";
+                querySQL = "SELECT dd_name '来源单位', pi_code '编号', pi_name '名称', pi_unit '承担单位', pi_prouser '负责人', " +
+                    $"CONVERT(varchar(100), pi_start_datetime, 23) '开始时间', CONVERT(varchar(100), pi_end_datetime, 23) '结束时间', pi_funds '经费', pb_gc_id '馆藏号', pb_box_number '盒号', D.fCount '文件数', pi_checker_date '完成时间' FROM({querySQL}) C " +
+                     "LEFT JOIN processing_box ON C.pi_id = pb_obj_id " +
+                     "LEFT JOIN data_dictionary ON C.pi_orga_id = dd_code " +
+                     "LEFT JOIN( SELECT pfl_box_id, COUNT(pfl_id) fCount FROM processing_file_list GROUP BY pfl_box_id) D ON pb_id = D.pfl_box_id " +
+                     "ORDER BY dd_sort, pi_code; ";
                 DataTable table = SqlHelper.ExecuteQuery(querySQL);
 
                 bool result = MicrosoftWordHelper.GetCsvFromDataTable(table, filePath);
@@ -744,6 +770,33 @@ namespace 科技计划项目档案数据采集管理系统
                         }
                     }
                 }
+            }
+        }
+
+        private void btn_Refresh_Click(object sender, EventArgs e)
+        {
+            int rowCount = view2.RowCount;
+            for(int i = 0; i < rowCount; i++)
+            {
+                DataGridViewCell cell = view2.Rows[i].Cells["fbstate"];
+                if(cell.Tag != null)
+                {
+                    object bstate = SqlHelper.ExecuteOnlyOneQuery($"SELECT bl_borrow_state FROM borrow_log WHERE bl_id='{cell.Tag}'");
+                    cell.Value = GetBorrowState(bstate);
+                }
+            }
+        }
+
+        private void treeList1_EndSorting(object sender, EventArgs e)
+        {
+            for(int i = 0; i < treeList1.Nodes.Count; i++)
+            {
+                TreeListNode node = treeList1.Nodes[i];
+                node.SetValue(0, i + 1);
+            }
+            if(treeList1.Nodes.Count > 0)
+            {
+                treeList1.SetFocusedNode(treeList1.Nodes[0]);
             }
         }
     }

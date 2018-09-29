@@ -32,6 +32,7 @@
             this.dgv_GPDJ = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chk_AllP = new DevExpress.XtraEditors.CheckEdit();
             this.txt_Search = new DevExpress.XtraEditors.SearchControl();
             this.btn_Back = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Delete = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -54,6 +55,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chk_AllP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Search.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SWDJ)).BeginInit();
             this.tabPage2.SuspendLayout();
@@ -78,7 +80,7 @@
             this.dgv_GPDJ.Name = "dgv_GPDJ";
             this.dgv_GPDJ.ReadOnly = true;
             this.dgv_GPDJ.RowTemplate.Height = 23;
-            this.dgv_GPDJ.Size = new System.Drawing.Size(729, 408);
+            this.dgv_GPDJ.Size = new System.Drawing.Size(786, 450);
             this.dgv_GPDJ.TabIndex = 1;
             this.dgv_GPDJ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_GPDJ_CellClick);
             // 
@@ -92,13 +94,15 @@
             this.tabPage1.Controls.Add(this.dgv_SWDJ);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(736, 456);
+            this.tabPage1.Size = new System.Drawing.Size(793, 498);
             this.tabPage1.Text = "实物登记";
             // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox2.Controls.Add(this.chk_AllP);
             this.groupBox2.Controls.Add(this.txt_Search);
             this.groupBox2.Controls.Add(this.btn_Back);
             this.groupBox2.Controls.Add(this.btn_Delete);
@@ -106,14 +110,24 @@
             this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.groupBox2.Location = new System.Drawing.Point(2, -6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(727, 49);
+            this.groupBox2.Size = new System.Drawing.Size(784, 49);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
+            // 
+            // chk_AllP
+            // 
+            this.chk_AllP.EditValue = true;
+            this.chk_AllP.Location = new System.Drawing.Point(6, 19);
+            this.chk_AllP.Name = "chk_AllP";
+            this.chk_AllP.Properties.Caption = "全部批次";
+            this.chk_AllP.Size = new System.Drawing.Size(75, 19);
+            this.chk_AllP.TabIndex = 6;
+            this.chk_AllP.CheckedChanged += new System.EventHandler(this.chk_AllP_CheckedChanged);
             // 
             // txt_Search
             // 
             this.txt_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_Search.Location = new System.Drawing.Point(267, 14);
+            this.txt_Search.Location = new System.Drawing.Point(324, 14);
             this.txt_Search.Name = "txt_Search";
             this.txt_Search.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.txt_Search.Properties.Appearance.Options.UseFont = true;
@@ -138,7 +152,7 @@
             this.btn_Back.Image = ((System.Drawing.Image)(resources.GetObject("btn_Back.Image")));
             this.btn_Back.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Back.ImageToTextIndent = 5;
-            this.btn_Back.Location = new System.Drawing.Point(658, 13);
+            this.btn_Back.Location = new System.Drawing.Point(715, 13);
             this.btn_Back.Name = "btn_Back";
             this.btn_Back.Size = new System.Drawing.Size(66, 30);
             this.btn_Back.TabIndex = 3;
@@ -153,7 +167,7 @@
             this.btn_Delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_Delete.Image")));
             this.btn_Delete.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Delete.ImageToTextIndent = 5;
-            this.btn_Delete.Location = new System.Drawing.Point(582, 13);
+            this.btn_Delete.Location = new System.Drawing.Point(639, 13);
             this.btn_Delete.Name = "btn_Delete";
             this.btn_Delete.Size = new System.Drawing.Size(68, 30);
             this.btn_Delete.TabIndex = 2;
@@ -168,7 +182,7 @@
             this.btn_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Add.Image")));
             this.btn_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Add.ImageToTextIndent = 5;
-            this.btn_Add.Location = new System.Drawing.Point(507, 13);
+            this.btn_Add.Location = new System.Drawing.Point(564, 13);
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(67, 30);
             this.btn_Add.TabIndex = 0;
@@ -189,9 +203,10 @@
             this.dgv_SWDJ.Name = "dgv_SWDJ";
             this.dgv_SWDJ.ReadOnly = true;
             this.dgv_SWDJ.RowTemplate.Height = 23;
-            this.dgv_SWDJ.Size = new System.Drawing.Size(727, 407);
+            this.dgv_SWDJ.Size = new System.Drawing.Size(784, 449);
             this.dgv_SWDJ.TabIndex = 0;
             this.dgv_SWDJ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_SWDJ_CellClick);
+            this.dgv_SWDJ.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_SWDJ_CellContentDoubleClick);
             // 
             // tabPage2
             // 
@@ -203,7 +218,7 @@
             this.tabPage2.Controls.Add(this.dgv_GPDJ);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(736, 456);
+            this.tabPage2.Size = new System.Drawing.Size(793, 498);
             this.tabPage2.Text = "光盘登记";
             // 
             // groupBox3
@@ -217,14 +232,14 @@
             this.groupBox3.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.groupBox3.Location = new System.Drawing.Point(2, -6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(728, 49);
+            this.groupBox3.Size = new System.Drawing.Size(785, 49);
             this.groupBox3.TabIndex = 13;
             this.groupBox3.TabStop = false;
             // 
             // txt_CDSearch
             // 
             this.txt_CDSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_CDSearch.Location = new System.Drawing.Point(416, 14);
+            this.txt_CDSearch.Location = new System.Drawing.Point(473, 14);
             this.txt_CDSearch.Name = "txt_CDSearch";
             this.txt_CDSearch.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.txt_CDSearch.Properties.Appearance.Options.UseFont = true;
@@ -249,7 +264,7 @@
             this.btn_CD_Delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_CD_Delete.Image")));
             this.btn_CD_Delete.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_CD_Delete.ImageToTextIndent = 5;
-            this.btn_CD_Delete.Location = new System.Drawing.Point(654, 13);
+            this.btn_CD_Delete.Location = new System.Drawing.Point(711, 13);
             this.btn_CD_Delete.Name = "btn_CD_Delete";
             this.btn_CD_Delete.Size = new System.Drawing.Size(67, 30);
             this.btn_CD_Delete.TabIndex = 7;
@@ -291,7 +306,7 @@
             this.tc_ToR.Location = new System.Drawing.Point(259, 0);
             this.tc_ToR.Name = "tc_ToR";
             this.tc_ToR.SelectedTabPage = this.tabPage1;
-            this.tc_ToR.Size = new System.Drawing.Size(742, 491);
+            this.tc_ToR.Size = new System.Drawing.Size(799, 533);
             this.tc_ToR.TabIndex = 8;
             this.tc_ToR.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage1,
@@ -350,7 +365,7 @@
             this.ac_LeftMenu.Name = "ac_LeftMenu";
             this.ac_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.ac_LeftMenu.ShowToolTips = false;
-            this.ac_LeftMenu.Size = new System.Drawing.Size(259, 491);
+            this.ac_LeftMenu.Size = new System.Drawing.Size(259, 533);
             this.ac_LeftMenu.TabIndex = 11;
             // 
             // acg_Register
@@ -373,7 +388,7 @@
             // Frm_ToR
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1001, 491);
+            this.ClientSize = new System.Drawing.Size(1058, 533);
             this.Controls.Add(this.tc_ToR);
             this.Controls.Add(this.ac_LeftMenu);
             this.DoubleBuffered = true;
@@ -385,6 +400,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GPDJ)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chk_AllP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Search.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SWDJ)).EndInit();
             this.tabPage2.ResumeLayout(false);
@@ -422,5 +438,6 @@
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_all;
         private DevExpress.XtraEditors.SearchControl txt_Search;
         private DevExpress.XtraEditors.SearchControl txt_CDSearch;
+        private DevExpress.XtraEditors.CheckEdit chk_AllP;
     }
 }

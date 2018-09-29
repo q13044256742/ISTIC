@@ -225,7 +225,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                     txt_Project_Year.Text = ToolHelper.GetValue(row["pi_year"]);
                     txt_Project_Unit.Text = ToolHelper.GetValue(row["pi_unit"]);
-                    cbo_Project_Province.Text = ToolHelper.GetValue(row["pi_province"]);
+                    cbo_Project_Province.SelectedValue = ToolHelper.GetValue(row["pi_province"]);
                     txt_Project_UnitUser.Text = ToolHelper.GetValue(row["pi_uniter"]);
                     txt_Project_ProUser.Text = ToolHelper.GetValue(row["pi_prouser"]);
                     txt_Project_Intro.Text = ToolHelper.GetValue(row["pi_intro"]);
@@ -251,7 +251,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Topic_EndTime.Text = ToolHelper.GetValue(row["ti_end_datetime"]);
                     txt_Topic_Year.Text = ToolHelper.GetValue(row["ti_year"]);
                     txt_Topic_Unit.Text = ToolHelper.GetValue(row["ti_unit"]);
-                    cbo_Topic_Province.Text = ToolHelper.GetValue(row["ti_province"]);
+                    cbo_Topic_Province.SelectedValue = ToolHelper.GetValue(row["ti_province"]);
                     txt_Topic_UnitUser.Text = ToolHelper.GetValue(row["ti_uniter"]);
                     txt_Topic_ProUser.Text = ToolHelper.GetValue(row["ti_prouser"]);
                     txt_Topic_Intro.Text = ToolHelper.GetValue(row["ti_intro"]);
@@ -281,7 +281,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                     txt_Subject_Year.Text = ToolHelper.GetValue(row["si_year"]);
                     txt_Subject_Unit.Text = ToolHelper.GetValue(row["si_unit"]);
-                    cbo_Subject_Province.Text = ToolHelper.GetValue(row["si_province"]);
+                    cbo_Subject_Province.SelectedValue = ToolHelper.GetValue(row["si_province"]);
                     txt_Subject_Unituser.Text = ToolHelper.GetValue(row["si_uniter"]);
                     txt_Subject_ProUser.Text = ToolHelper.GetValue(row["si_prouser"]);
                     txt_Subject_Intro.Text = ToolHelper.GetValue(row["si_intro"]);
@@ -531,7 +531,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(!string.IsNullOrEmpty(ToolHelper.GetValue(pbId)))
             {
                 querySql = $"SELECT pfl_id, pfl_code, pfl_name, pfl_date FROM processing_file_list " +
-                    $"WHERE pfl_box_id ='{pbId}' ORDER BY pfl_box_sort";
+                    $"WHERE pfl_box_id ='{pbId}' ORDER BY pfl_box_sort, pfl_code";
                 DataTable table = SqlHelper.ExecuteQuery(querySql);
                 int j = 0;
                 foreach(DataRow row in table.Rows)
@@ -585,7 +585,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object objId = tab_Project_Info.Tag;
                 if(objId != null)
                 {
-                    if(dgv_Project_FileList.SelectedRows.Count == 1)
+                    if(dgv_Project_FileList.SelectedRows.Count == 1 && dgv_Project_FileList.RowCount != 1)
                         frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.CurrentRow.Cells[key + "num"].Value, null);
                     else
                         frm = new Frm_AddFile(dgv_Project_FileList, key, null, null);
@@ -603,7 +603,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object objId = tab_Topic_Info.Tag;
                 if(objId != null)
                 {
-                    if(dgv_Topic_FileList.SelectedRows.Count == 1)
+                    if(dgv_Topic_FileList.SelectedRows.Count == 1 && dgv_Topic_FileList.RowCount != 1)
                         frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.CurrentRow.Cells[key + "num"].Value, null);
                     else
                         frm = new Frm_AddFile(dgv_Topic_FileList, key, null, null);
@@ -621,7 +621,7 @@ namespace 科技计划项目档案数据采集管理系统
                 object objId = tab_Subject_Info.Tag;
                 if(objId != null)
                 {
-                    if(dgv_Subject_FileList.SelectedRows.Count == 1)
+                    if(dgv_Subject_FileList.SelectedRows.Count == 1 && dgv_Subject_FileList.RowCount != 1)
                         frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.CurrentRow.Cells[key + "num"].Value, null);
                     else
                         frm = new Frm_AddFile(dgv_Subject_FileList, key, null, null);
@@ -1695,9 +1695,14 @@ namespace 科技计划项目档案数据采集管理系统
             else
             {
                 string _key = comboBox.Text.Split(' ')[0];
-                if(System.Text.RegularExpressions.Regex.IsMatch(_key, "^[A-D]"))
+                if(Regex.IsMatch(_key, "^[A-D]"))
                     currentRow.Cells[key + "code"].Value = _key + "-" + (amount + 1).ToString().PadLeft(2, '0');
             }
+        }
+
+        private void FileList_Sort(object sender, EventArgs e)
+        {
+            FileList_DataSourceChanged(sender, e);
         }
 
         private void FileList_DataSourceChanged(object sender, EventArgs e)

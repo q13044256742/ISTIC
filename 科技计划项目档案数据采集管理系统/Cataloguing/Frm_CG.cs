@@ -80,7 +80,7 @@ namespace 科技计划项目档案数据采集管理系统
             if(querySql == null)
             {
                 querySql = new StringBuilder("SELECT pc.trp_id, dd_name, trp_name, trp_code, trp_cd_amount FROM transfer_registration_pc pc " +
-                    "LEFT JOIN data_dictionary dd ON pc.com_id = dd.dd_id WHERE pc.trp_work_status=1 AND pc.trp_submit_status=2");//已提交但待领取
+                    "LEFT JOIN data_dictionary dd ON pc.com_id = dd.dd_id WHERE pc.trp_work_status=1 AND pc.trp_submit_status=2 ORDER BY trp_code");//已提交但待领取
                 if(csid != null) querySql.Append($" AND dd.dd_id='{csid}'");
             }
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql.ToString());

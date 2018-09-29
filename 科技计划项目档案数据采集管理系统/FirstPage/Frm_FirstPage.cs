@@ -225,6 +225,12 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                 frm.Show();
                 frm.Activate();
             }
+            else if("tbar_FirstPage".Equals(itemName))
+            {
+                search.ResetText();
+                txt_DateSearch.ResetText();
+                LoadLastData(null);
+            }
         }
 
         private void btn_QuitUser_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -238,7 +244,6 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
         private void Frm_FirstPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             UserHelper.SetLogin(false);
-            Environment.Exit(0);
         }
 
         private void Btn_ExitSystem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -246,8 +251,9 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             Frm_FirstPage_FormClosing(null, null);
         }
 
-        private void btn_Query_Click(object sender, EventArgs e)
+        private void Btn_Query_Click(object sender, EventArgs e)
         {
+            int type = tabPane1.SelectedPageIndex;
             string key1 = search.Text;
             string key2 = txt_DateSearch.Text;
             if(!string.IsNullOrEmpty(key1) || !string.IsNullOrEmpty(key2))
@@ -259,7 +265,19 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                 if(!string.IsNullOrEmpty(key1))
                     querySQL += $"AND (A.pi_code LIKE '%{key1}%' OR A.pi_name LIKE '%{key1}%') ";
                 if(!string.IsNullOrEmpty(key2))
-                    querySQL += $"AND A.pi_worker_date='{key2}' ";
+                {
+                    if(type == 0)
+                        querySQL += $"AND A.pi_worker_date='{key2}' ";
+                    else if(type == 1)
+                        querySQL += $"AND A.pi_checker_date='{key2}' ";
+                }
+                else
+                {
+                    if(type == 0)
+                        querySQL += $"AND LEN(A.pi_worker_date)>0 ";
+                    else if(type == 1)
+                        querySQL += $"AND LEN(A.pi_checker_date)>0 ";
+                }
                 querySQL += " ORDER BY pi_code ";
                 LoadLastData(querySQL);
             }
@@ -267,10 +285,13 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
 
         private void view_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if("code".Equals(view.Columns[e.ColumnIndex].Name) ||
-                "ccode".Equals(view.Columns[e.ColumnIndex].Name))
+            DataGridView dataGridView = sender as DataGridView;
+            if(e.RowIndex == -1 || e.ColumnIndex == -1)
+                return;
+            if("code".Equals(dataGridView.Columns[e.ColumnIndex].Name) ||
+                "ccode".Equals(dataGridView.Columns[e.ColumnIndex].Name))
             {
-                object id = view.Rows[e.RowIndex].Tag;
+                object id = dataGridView.Rows[e.RowIndex].Tag;
                 Frm_ProDetails details = new Frm_ProDetails(id);
                 if(details.ShowDialog() == DialogResult.OK)
                 {

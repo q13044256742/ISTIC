@@ -19,10 +19,11 @@ namespace 科技计划项目档案数据采集管理系统
         static readonly string IPAddress = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "IPAddress", null);
         static readonly string Username = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Username", null);
         static readonly string Password = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Password", null);
+        static readonly string CatalogName = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "CatalogName", null);
         /// <summary>
         /// 数据连接字符串
         /// </summary>
-        private static string SQL_CONNECT = $"Data Source={IPAddress};Initial Catalog=ISTIC;Persist Security Info=True;MultipleActiveResultSets=true;User ID={Username};Password={Password}";
+        private static string SQL_CONNECT = $"Data Source={IPAddress};Initial Catalog={CatalogName};Persist Security Info=True;MultipleActiveResultSets=true;User ID={Username};Password={Password}";
 
         private static SqlConnection sqlConnection; 
 

@@ -526,7 +526,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(item is NumericUpDown)
                 {
-                    (item as NumericUpDown).Value = 0;
+                    (item as NumericUpDown).Value = ToolHelper.GetIntValue(item.Tag, 0);
                 }
                 else if(item is System.Windows.Forms.ComboBox)
                 {
@@ -656,5 +656,11 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
+        private void num_Pages_Enter(object sender, EventArgs e)
+        {
+            NumericUpDown numeric = sender as NumericUpDown;
+            int length = numeric.Value.ToString().Length;
+            numeric.Select(0, length);
+        }
     }
 }
