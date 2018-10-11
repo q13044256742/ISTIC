@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Properties;
 
@@ -32,7 +35,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
             }
             else
             {
-                chk1.Text = "档案催报单";
+                chk1.Text = "档案接收确认函";
                 chk2.Text = "缺失必备文件清单";
                 chk3.Text = "文件列表清单";
             }
@@ -50,7 +53,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 //档案接收确认函
                 if(chk1.Checked)
                 {
-                    new WebBrowser() { DocumentText = GetDomRecHTML() }.DocumentCompleted += Frm_Print_DocumentCompleted;
+                    ExportDocRec();
                 }
                 //文件列表清单
                 if(chk2.Checked)
@@ -63,7 +66,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 //档案接收确认函
                 if(chk1.Checked)
                 {
-                    new WebBrowser() { DocumentText = GetDomRecHTML() }.DocumentCompleted += Frm_Print_DocumentCompleted;
+                    ExportDocRec();
                 }
                 //缺失文件清单
                 if(chk2.Checked)
@@ -74,6 +77,30 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 if(chk3.Checked)
                 {
                     CreateFileList();
+                }
+            }
+        }
+
+        private void ExportDocRec()
+        {
+            saveFileDialog1.Title = "请选择导出档案接收确认函Word文件位置...";
+            saveFileDialog1.Filter = "Word文件|*.doc";
+            if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string savePath = saveFileDialog1.FileName;
+                StreamWriter sw;
+                try
+                {
+                    sw = new StreamWriter(savePath, false, Encoding.Default);
+                    sw.WriteLine(GetDomRecHTML());
+                    sw.Flush();
+                    sw.Close();
+                    if(XtraMessageBox.Show("导出缺失文件清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                        WinFormOpenHelper.OpenWinForm(0, "open", savePath, null, null, ShowWindowCommands.SW_NORMAL);
+                }
+                catch(Exception ex)
+                {
+                    LogsHelper.AddErrorLogs("导出错误", ex.Message);
                 }
             }
         }
@@ -290,6 +317,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
             DataRow row = SqlHelper.ExecuteSingleRowQuery(querySQL);
             if(row != null)
             {
+                SetTagValueById(ref domRec, "title", $"{chk1.Text}");
                 SetTagValueById(ref domRec, "trpid", $"{ToolHelper.GetValue(row["trp_code"])}");
                 SetTagValueById(ref domRec, "orgName", $"&emsp;&emsp;{row["dd_name"]}：");
                 SetTagValueById(ref domRec, "param1", $"{ToolHelper.GetDateValue(row["trp_log_data"], "yyyy年MM月")}");
@@ -323,6 +351,11 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
         {
             (sender as WebBrowser).ShowPrintPreviewDialog();
             (sender as WebBrowser).Dispose();
+        }
+
+        private void lbl2_Click(object sender, EventArgs e)
+        {
+            new WebBrowser() { DocumentText = GetDomRecHTML() }.DocumentCompleted += Frm_Print_DocumentCompleted;
         }
     }
 }

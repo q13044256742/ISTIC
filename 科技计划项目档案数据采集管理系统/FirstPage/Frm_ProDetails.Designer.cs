@@ -415,6 +415,7 @@
             this.project_fl_unit,
             this.project_fl_carrier,
             this.project_fl_link});
+            //this.dgv_Project_FileList.AutoGenerateColumns = false;
             this.dgv_Project_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Project_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Project_FileList.Name = "dgv_Project_FileList";

@@ -12,7 +12,6 @@ namespace 科技计划项目档案数据采集管理系统
 {
     public partial class Frm_Statistics : DevExpress.XtraEditors.XtraForm
     {
-        Stopwatch stopwatch = new Stopwatch();
         public Frm_Statistics()
         {
             InitializeComponent();
@@ -292,8 +291,9 @@ namespace 科技计划项目档案数据采集管理系统
                             queryCondition = $"AND pi_worker_date >=  CONVERT(DATE, '{startDate}') AND pi_worker_date <=  CONVERT(DATE, '{endDate}')";
                     }
                     string querySQL = "SELECT pi_worker_date, COUNT(pi_id) FROM(" +
-                        "SELECT pi_id, pi_worker_date, pi_worker_id FROM project_info WHERE pi_categor = 2 " +
-                        $"UNION ALL SELECT ti_id, ti_worker_date, ti_worker_id FROM topic_info WHERE ti_categor = -3) AS TB1 WHERE pi_worker_id IS NOT NULL {queryCondition} {userConditon}" +
+                        "SELECT pi_id, pi_worker_date, pi_worker_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                        "SELECT ti_id, ti_worker_date, ti_worker_id FROM topic_info WHERE ti_categor = -3) AS TB1 " +
+                       $"WHERE pi_worker_id IS NOT NULL {queryCondition} {userConditon}" +
                         "GROUP BY pi_worker_date";
                     List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                     object userCode = "all".Equals(userId) ? null : userId;
@@ -310,53 +310,60 @@ namespace 科技计划项目档案数据采集管理系统
                             table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
                         }
                     }
+                    //如果当天无项目，则统计是否有课题
+                    if(list.Count == 0)
+                    {
+                        if(!flag)
+                        {
+                            if(startDate.Date == endDate.Date)
+                                queryCondition = $"AND ti_worker_date =  CONVERT(DATE, '{startDate}')";
+                            else
+                                queryCondition = $"AND ti_worker_date >=  CONVERT(DATE, '{startDate}') AND ti_worker_date <=  CONVERT(DATE, '{endDate}')";
+                        }
+                        querySQL = "SELECT ti_worker_date, COUNT(ti_id) FROM topic_info " +
+                             $"LEFT JOIN project_info ON ti_obj_id = pi_id WHERE ti_categor = 3 AND ti_worker_id='{userId}' " +
+                             $"AND ti_worker_date <> pi_worker_date {queryCondition} " +
+                             "GROUP BY ti_worker_date;";
+                        List<object[]> list2 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
+                        for(int i = 0; i < list2.Count; i++)
+                        {
+                            object date = GetDateValue(list2[i][0], "yyyy-MM-dd");
+                            object pcount = 0;
+                            object tcount = list2[i][1];
+                            object fcount = GetFileAmount(date, userId, 1);
+                            object bcount = GetBackAmount(date, userId, 1);
+                            object pgcount = GetPageAmount(date, userId, 1);
+                            table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
+                        }
 
-                    if(!flag)
-                    {
-                        if(startDate.Date == endDate.Date)
-                            queryCondition = $"AND ti_worker_date =  CONVERT(DATE, '{startDate}')";
-                        else
-                            queryCondition = $"AND ti_worker_date >=  CONVERT(DATE, '{startDate}') AND ti_worker_date <=  CONVERT(DATE, '{endDate}')";
-                    }
-                    querySQL = "SELECT ti_worker_date, COUNT(ti_id) FROM topic_info " +
-                         $"LEFT JOIN project_info ON ti_obj_id = pi_id WHERE ti_categor = 3 AND ti_worker_id='{userId}' " +
-                         $"AND ti_worker_date <> pi_worker_date {queryCondition} " +
-                         "GROUP BY ti_worker_date;";
-                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
-                    for(int i = 0; i < list2.Count; i++)
-                    {
-                        object date = GetDateValue(list2[i][0], "yyyy-MM-dd");
-                        object pcount = 0;
-                        object tcount = list2[i][1];
-                        object fcount = GetFileAmount(date, userId, 1);
-                        object bcount = GetBackAmount(date, userId, 1);
-                        object pgcount = GetPageAmount(date, userId, 1);
-                        table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
-                    }
-
-                    if(!flag)
-                    {
-                        if(startDate.Date == endDate.Date)
-                            queryCondition = $"AND pfl_worker_date =  CONVERT(DATE, '{startDate}')";
-                        else
-                            queryCondition = $"AND pfl_worker_date >=  CONVERT(DATE, '{startDate}') AND pfl_worker_date <=  CONVERT(DATE, '{endDate}')";
-                    }
-                    //单独统计文件加工工作量
-                    querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list " +
-                        $"WHERE pfl_worker_id = '{userId}' {queryCondition} AND pfl_worker_id NOT IN( " +
-                        $"SELECT pi_worker_id FROM project_info WHERE pi_worker_id = '{userId}' AND pi_worker_date = pfl_worker_date UNION ALL " +
-                        $"SELECT ti_worker_id FROM topic_info WHERE ti_worker_id = '{userId}' AND ti_worker_date = pfl_worker_date) " +
-                        $"GROUP BY pfl_worker_date; ";
-                    List<object[]> list3 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
-                    for(int i = 0; i < list3.Count; i++)
-                    {
-                        object date = GetDateValue(list3[i][0], "yyyy-MM-dd");
-                        object pcount = 0;
-                        object tcount = 0;
-                        object fcount = Convert.ToInt32(list3[i][1]);
-                        object bcount = 0;
-                        object pgcount = GetFilePageByFid(userId);
-                        table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
+                        //如果没有课题/子课题，则单独统计文件数
+                        if(list2.Count == 0)
+                        {
+                            if(!flag)
+                            {
+                                if(startDate.Date == endDate.Date)
+                                    queryCondition = $"AND pfl_worker_date =  CONVERT(DATE, '{startDate}')";
+                                else
+                                    queryCondition = $"AND pfl_worker_date >=  CONVERT(DATE, '{startDate}') AND pfl_worker_date <=  CONVERT(DATE, '{endDate}')";
+                            }
+                            //单独统计文件加工工作量
+                            querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list " +
+                                $"WHERE pfl_worker_id = '{userId}' {queryCondition} AND pfl_worker_id NOT IN( " +
+                                $"SELECT pi_worker_id FROM project_info WHERE pi_worker_id = '{userId}' AND pi_worker_date = pfl_worker_date UNION ALL " +
+                                $"SELECT ti_worker_id FROM topic_info WHERE ti_worker_id = '{userId}' AND ti_worker_date = pfl_worker_date) " +
+                                $"GROUP BY pfl_worker_date; ";
+                            List<object[]> list3 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
+                            for(int i = 0; i < list3.Count; i++)
+                            {
+                                object date = GetDateValue(list3[i][0], "yyyy-MM-dd");
+                                object pcount = 0;
+                                object tcount = 0;
+                                object fcount = Convert.ToInt32(list3[i][1]);
+                                object bcount = 0;
+                                object pgcount = GetFilePageByFid(userId);
+                                table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
+                            }
+                        }
                     }
                     countView.DataSource = table;
                 }
@@ -778,21 +785,25 @@ namespace 科技计划项目档案数据采集管理系统
             string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount, fb.fbCount FROM( SELECT F_Title, F_ID, pCount " +
                 "FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_Plan AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
+               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY F_Title, p.F_ID) AS B WHERE pCount > 0) p " +
                 "LEFT JOIN( SELECT F_ID, bCount FROM(SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_Plan AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
+               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) b ON p.F_ID = b.F_ID LEFT JOIN( " +
                 "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM T_Plan AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
+               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID " +
                 "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM(SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_Plan AS p LEFT OUTER JOIN (" +
                 "SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
                 "SELECT   pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
                 "SELECT   ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
-               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) AS A ON A.pi_source_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) AS A ON A.pi_source_id = p.F_ID " +
+               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             table = HandleZX(table);
@@ -885,21 +896,25 @@ namespace 科技计划项目档案数据采集管理系统
             string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount, fbCount FROM( " +
                 "SELECT F_Title, F_ID, pCount FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info WHERE ti_categor = -3) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID " +
+               $"AND A.pi_source_id IS NOT NULL AND A.pi_source_id<>'' {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN(SELECT   F_ID, bCount FROM(" +
                 "SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_SourceOrg AS p LEFT OUTER JOIN(" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID " +
+               $"AND A.pi_source_id IS NOT NULL AND A.pi_source_id<>'' {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B) b ON p.F_ID = b.F_ID LEFT JOIN( " +
-                "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM      T_SourceOrg AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE   (pi_categor = 2) UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+                "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID " +
+               $"AND A.pi_source_id IS NOT NULL AND A.pi_source_id<>'' {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID " +
                 "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM (SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
                 "SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
                 "SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
-               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) A ON A.pi_orga_id = p.F_ID {value} {minYearCondition} {maxYearCondition} " +
+               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) A ON A.pi_orga_id = p.F_ID " +
+               $"AND A.pi_source_id IS NOT NULL AND A.pi_source_id<>'' {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             int totalPcount = 0, totalFcount = 0, totalBcount = 0, totalFBcount = 0;

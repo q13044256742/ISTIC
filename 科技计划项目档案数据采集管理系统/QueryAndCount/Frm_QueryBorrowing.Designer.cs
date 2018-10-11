@@ -45,7 +45,7 @@
             this.txt_ProjectCode = new DevExpress.XtraEditors.TextEdit();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
-            this.txt_BatchName = new DevExpress.XtraEditors.TextEdit();
+            this.txt_BatchCode = new DevExpress.XtraEditors.TextEdit();
             this.panel3 = new System.Windows.Forms.Panel();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             this.pal1 = new System.Windows.Forms.Panel();
@@ -107,7 +107,7 @@
             this.ngp_Query.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txt_BatchName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_BatchCode.Properties)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             this.pal1.SuspendLayout();
@@ -181,7 +181,7 @@
             this.ngp_Query.Controls.Add(this.txt_ProjectCode);
             this.ngp_Query.Controls.Add(this.labelControl4);
             this.ngp_Query.Controls.Add(this.labelControl3);
-            this.ngp_Query.Controls.Add(this.txt_BatchName);
+            this.ngp_Query.Controls.Add(this.txt_BatchCode);
             this.ngp_Query.Controls.Add(this.panel3);
             this.ngp_Query.Controls.Add(this.btn_Reset);
             this.ngp_Query.Controls.Add(this.btn_Query);
@@ -296,7 +296,8 @@
             this.txt_ProjectName.Name = "txt_ProjectName";
             this.txt_ProjectName.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_ProjectName.Properties.Appearance.Options.UseFont = true;
-            this.txt_ProjectName.Size = new System.Drawing.Size(292, 28);
+            this.txt_ProjectName.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_ProjectName.Size = new System.Drawing.Size(292, 30);
             this.txt_ProjectName.TabIndex = 8;
             // 
             // labelControl5
@@ -315,7 +316,8 @@
             this.txt_ProjectCode.Name = "txt_ProjectCode";
             this.txt_ProjectCode.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_ProjectCode.Properties.Appearance.Options.UseFont = true;
-            this.txt_ProjectCode.Size = new System.Drawing.Size(292, 28);
+            this.txt_ProjectCode.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_ProjectCode.Size = new System.Drawing.Size(292, 30);
             this.txt_ProjectCode.TabIndex = 6;
             // 
             // labelControl4
@@ -336,15 +338,16 @@
             this.labelControl3.TabIndex = 3;
             this.labelControl3.Text = "计划类别：";
             // 
-            // txt_BatchName
+            // txt_BatchCode
             // 
-            this.txt_BatchName.EditValue = "";
-            this.txt_BatchName.Location = new System.Drawing.Point(595, 15);
-            this.txt_BatchName.Name = "txt_BatchName";
-            this.txt_BatchName.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_BatchName.Properties.Appearance.Options.UseFont = true;
-            this.txt_BatchName.Size = new System.Drawing.Size(290, 28);
-            this.txt_BatchName.TabIndex = 2;
+            this.txt_BatchCode.EditValue = "";
+            this.txt_BatchCode.Location = new System.Drawing.Point(595, 15);
+            this.txt_BatchCode.Name = "txt_BatchCode";
+            this.txt_BatchCode.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_BatchCode.Properties.Appearance.Options.UseFont = true;
+            this.txt_BatchCode.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_BatchCode.Size = new System.Drawing.Size(290, 30);
+            this.txt_BatchCode.TabIndex = 2;
             // 
             // panel3
             // 
@@ -357,7 +360,7 @@
             this.panel3.Location = new System.Drawing.Point(0, 205);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(732, 1653);
+            this.panel3.Size = new System.Drawing.Size(964, 1735);
             this.panel3.TabIndex = 1;
             // 
             // treeList1
@@ -374,7 +377,7 @@
             this.treeList1.OptionsBehavior.Editable = false;
             this.treeList1.OptionsCustomization.AllowBandMoving = false;
             this.treeList1.OptionsCustomization.AllowColumnMoving = false;
-            this.treeList1.Size = new System.Drawing.Size(732, 1590);
+            this.treeList1.Size = new System.Drawing.Size(964, 1672);
             this.treeList1.TabIndex = 4;
             this.treeList1.NodeCellStyle += new DevExpress.XtraTreeList.GetCustomNodeCellStyleEventHandler(this.treeList1_NodeCellStyle);
             this.treeList1.EndSorting += new System.EventHandler(this.treeList1_EndSorting);
@@ -388,7 +391,7 @@
             this.pal1.Dock = System.Windows.Forms.DockStyle.Top;
             this.pal1.Location = new System.Drawing.Point(0, 0);
             this.pal1.Name = "pal1";
-            this.pal1.Size = new System.Drawing.Size(732, 30);
+            this.pal1.Size = new System.Drawing.Size(964, 30);
             this.pal1.TabIndex = 0;
             // 
             // btn_Export
@@ -397,7 +400,7 @@
             this.btn_Export.Image = ((System.Drawing.Image)(resources.GetObject("btn_Export.Image")));
             this.btn_Export.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Export.ImageToTextIndent = 5;
-            this.btn_Export.Location = new System.Drawing.Point(656, 2);
+            this.btn_Export.Location = new System.Drawing.Point(888, 2);
             this.btn_Export.Name = "btn_Export";
             this.btn_Export.Size = new System.Drawing.Size(70, 26);
             this.btn_Export.TabIndex = 27;
@@ -425,16 +428,16 @@
             this.panel4.Controls.Add(this.btn_fpage);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 1620);
+            this.panel4.Location = new System.Drawing.Point(0, 1702);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(732, 33);
+            this.panel4.Size = new System.Drawing.Size(964, 33);
             this.panel4.TabIndex = 3;
             // 
             // txt_page
             // 
             this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_page.EditValue = "";
-            this.txt_page.Location = new System.Drawing.Point(519, 3);
+            this.txt_page.Location = new System.Drawing.Point(751, 3);
             this.txt_page.Name = "txt_page";
             this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.txt_page.Properties.Appearance.Options.UseFont = true;
@@ -453,7 +456,7 @@
             this.btn_lpage.Appearance.Options.UseFont = true;
             this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
             this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_lpage.Location = new System.Drawing.Point(477, 5);
+            this.btn_lpage.Location = new System.Drawing.Point(709, 5);
             this.btn_lpage.Name = "btn_lpage";
             this.btn_lpage.Size = new System.Drawing.Size(41, 23);
             this.btn_lpage.TabIndex = 6;
@@ -466,7 +469,7 @@
             this.btn_npage.Appearance.Options.UseFont = true;
             this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
             this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_npage.Location = new System.Drawing.Point(561, 5);
+            this.btn_npage.Location = new System.Drawing.Point(793, 5);
             this.btn_npage.Name = "btn_npage";
             this.btn_npage.Size = new System.Drawing.Size(41, 23);
             this.btn_npage.TabIndex = 5;
@@ -479,7 +482,7 @@
             this.btn_epage.Appearance.Options.UseFont = true;
             this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
             this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_epage.Location = new System.Drawing.Point(604, 5);
+            this.btn_epage.Location = new System.Drawing.Point(836, 5);
             this.btn_epage.Name = "btn_epage";
             this.btn_epage.Size = new System.Drawing.Size(41, 23);
             this.btn_epage.TabIndex = 4;
@@ -492,7 +495,7 @@
             this.btn_fpage.Appearance.Options.UseFont = true;
             this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
             this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_fpage.Location = new System.Drawing.Point(434, 5);
+            this.btn_fpage.Location = new System.Drawing.Point(666, 5);
             this.btn_fpage.Name = "btn_fpage";
             this.btn_fpage.Size = new System.Drawing.Size(41, 23);
             this.btn_fpage.TabIndex = 3;
@@ -667,7 +670,8 @@
             this.txt_FileName.Name = "txt_FileName";
             this.txt_FileName.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_FileName.Properties.Appearance.Options.UseFont = true;
-            this.txt_FileName.Size = new System.Drawing.Size(292, 28);
+            this.txt_FileName.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_FileName.Size = new System.Drawing.Size(292, 30);
             this.txt_FileName.TabIndex = 33;
             // 
             // labelControl10
@@ -686,7 +690,8 @@
             this.txt_Pname.Name = "txt_Pname";
             this.txt_Pname.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_Pname.Properties.Appearance.Options.UseFont = true;
-            this.txt_Pname.Size = new System.Drawing.Size(292, 28);
+            this.txt_Pname.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_Pname.Size = new System.Drawing.Size(292, 30);
             this.txt_Pname.TabIndex = 25;
             // 
             // labelControl11
@@ -705,7 +710,8 @@
             this.txt_Pcode.Name = "txt_Pcode";
             this.txt_Pcode.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_Pcode.Properties.Appearance.Options.UseFont = true;
-            this.txt_Pcode.Size = new System.Drawing.Size(292, 28);
+            this.txt_Pcode.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_Pcode.Size = new System.Drawing.Size(292, 30);
             this.txt_Pcode.TabIndex = 23;
             // 
             // labelControl12
@@ -733,7 +739,8 @@
             this.txt_FileCategor.Name = "txt_FileCategor";
             this.txt_FileCategor.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_FileCategor.Properties.Appearance.Options.UseFont = true;
-            this.txt_FileCategor.Size = new System.Drawing.Size(292, 28);
+            this.txt_FileCategor.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_FileCategor.Size = new System.Drawing.Size(292, 30);
             this.txt_FileCategor.TabIndex = 19;
             // 
             // panel1
@@ -746,7 +753,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 191);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(5101, 2104);
+            this.panel1.Size = new System.Drawing.Size(5333, 2186);
             this.panel1.TabIndex = 18;
             // 
             // view2
@@ -762,7 +769,7 @@
             this.view2.Name = "view2";
             this.view2.ReadOnly = true;
             this.view2.RowTemplate.Height = 23;
-            this.view2.Size = new System.Drawing.Size(5101, 2074);
+            this.view2.Size = new System.Drawing.Size(5333, 2156);
             this.view2.TabIndex = 1;
             this.view2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View2_CellContentClick);
             // 
@@ -775,7 +782,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(5101, 30);
+            this.panel2.Size = new System.Drawing.Size(5333, 30);
             this.panel2.TabIndex = 0;
             // 
             // btn_Refresh
@@ -1031,7 +1038,7 @@
             this.ngp_Query.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txt_BatchName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_BatchCode.Properties)).EndInit();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             this.pal1.ResumeLayout(false);
@@ -1074,7 +1081,7 @@
         private System.Windows.Forms.Panel pal1;
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.LabelControl labelControl3;
-        private DevExpress.XtraEditors.TextEdit txt_BatchName;
+        private DevExpress.XtraEditors.TextEdit txt_BatchCode;
         private DevExpress.XtraEditors.LabelControl labelControl5;
         private DevExpress.XtraEditors.TextEdit txt_ProjectCode;
         private DevExpress.XtraEditors.LabelControl labelControl4;

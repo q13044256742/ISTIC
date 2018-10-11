@@ -207,7 +207,7 @@
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(952, 671);
+            this.view.Size = new System.Drawing.Size(936, 655);
             this.view.TabIndex = 0;
             this.view.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View_CellClick);
             this.view.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.view_ColumnHeaderMouseClick);
@@ -710,7 +710,7 @@
             this.datachart});
             this.tabPane2.RegularSize = new System.Drawing.Size(954, 701);
             this.tabPane2.SelectedPage = this.datachart;
-            this.tabPane2.SelectedPageIndex = 1;
+            this.tabPane2.SelectedPageIndex = 0;
             this.tabPane2.Size = new System.Drawing.Size(954, 701);
             this.tabPane2.TabIndex = 14;
             this.tabPane2.SelectedPageIndexChanged += new System.EventHandler(this.tabPane2_SelectedPageIndexChanged);
@@ -725,7 +725,7 @@
             this.datatable.Controls.Add(this.view);
             this.datatable.Name = "datatable";
             this.datatable.PageText = "数据统计表";
-            this.datatable.Size = new System.Drawing.Size(952, 671);
+            this.datatable.Size = new System.Drawing.Size(936, 655);
             // 
             // datachart
             // 
@@ -744,7 +744,7 @@
             this.datachart.Margin = new System.Windows.Forms.Padding(0);
             this.datachart.Name = "datachart";
             this.datachart.PageText = "数据统计图";
-            this.datachart.Size = new System.Drawing.Size(952, 671);
+            this.datachart.Size = new System.Drawing.Size(936, 655);
             // 
             // panel1
             // 
@@ -753,7 +753,7 @@
             this.panel1.Controls.Add(this.rdo_ProCount);
             this.panel1.Controls.Add(this.rdo_FileCount);
             this.panel1.Controls.Add(this.rdo_BoxCount);
-            this.panel1.Location = new System.Drawing.Point(104, 0);
+            this.panel1.Location = new System.Drawing.Point(96, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(454, 30);
             this.panel1.TabIndex = 7;
@@ -868,7 +868,7 @@
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chart3.Series.Add(series3);
-            this.chart3.Size = new System.Drawing.Size(565, 400);
+            this.chart3.Size = new System.Drawing.Size(549, 400);
             this.chart3.TabIndex = 2;
             this.chart3.Text = "chart3";
             this.chart3.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
@@ -896,7 +896,7 @@
             series4.Name = "Series1";
             series4.ShadowOffset = 5;
             this.chart2.Series.Add(series4);
-            this.chart2.Size = new System.Drawing.Size(565, 274);
+            this.chart2.Size = new System.Drawing.Size(549, 274);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
             this.chart2.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
@@ -927,7 +927,7 @@
             series5.Legend = "Legend1";
             series5.Name = "Series1";
             this.chart1.Series.Add(series5);
-            this.chart1.Size = new System.Drawing.Size(620, 236);
+            this.chart1.Size = new System.Drawing.Size(604, 236);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             this.chart1.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);

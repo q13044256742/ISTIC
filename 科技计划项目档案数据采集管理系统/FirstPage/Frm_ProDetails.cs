@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.KyoControl;
 
@@ -15,6 +16,7 @@ namespace 科技计划项目档案数据采集管理系统
         public Frm_ProDetails(object objectID)
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             this.objectID = objectID;
             InitialForm();
 
@@ -154,11 +156,13 @@ namespace 科技计划项目档案数据采集管理系统
                     Text = ToolHelper.GetValue(proRow["pi_code"]),
                     Tag = type == 2 ? ControlType.Project : type == 3 || type == -3 ? ControlType.Topic : ControlType.Subject
                 };
-                string topQuerySQL = $"SELECT * FROM (SELECT * FROM topic_info UNION ALL SELECT * FROM subject_info) A WHERE A.ti_obj_id='{proRow["pi_id"]}'";
+                string topQuerySQL = $"SELECT * FROM (" +
+                    $"SELECT ti_id, ti_code, ti_obj_id, ti_categor FROM topic_info UNION ALL " +
+                    $"SELECT si_id, si_code, si_obj_id, si_categor FROM subject_info) A WHERE A.ti_obj_id='{proRow["pi_id"]}'";
                 DataTable topTable = SqlHelper.ExecuteQuery(topQuerySQL);
                 foreach(DataRow topRow in topTable.Rows)
                 {
-                    int type2 = ToolHelper.GetIntValue(proRow["ti_categor"], 3);
+                    int type2 = ToolHelper.GetIntValue(topRow["ti_categor"], 3);
                     TreeNode topNode = new TreeNode()
                     {
                         Name = ToolHelper.GetValue(topRow["ti_id"]),
@@ -232,7 +236,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Topic.Tag = row["pi_obj_id"];
                 }
 
-                LoadFileList(dgv_Project_FileList, node.Name);
+                LoadFileList(dgv_Project_FileList, node.Name, -1);
                 LoadFileValidList(dgv_Project_FileValid, node.Name, "project_fc_");
                 LoadDocList(node.Name, ControlType.Project);
             }
@@ -258,7 +262,7 @@ namespace 科技计划项目档案数据采集管理系统
                     Topic.Tag = row["ti_obj_id"];
                 }
 
-                LoadFileList(dgv_Topic_FileList, node.Name);
+                LoadFileList(dgv_Topic_FileList, node.Name, -1);
                 LoadFileValidList(dgv_Topic_FileValid, node.Name, "topic_fc_");
                 LoadDocList(node.Name, ControlType.Topic);
             }
@@ -287,7 +291,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Subject_Intro.Text = ToolHelper.GetValue(row["si_intro"]);
                     Subject.Tag = row["si_obj_id"];
                 }
-                LoadFileList(dgv_Subject_FileList, node.Name);
+                LoadFileList(dgv_Subject_FileList, node.Name, -1);
                 LoadFileValidList(dgv_Subject_FileValid, node.Name, "subject_fc_");
                 LoadDocList(node.Name, ControlType.Subject);
             }
@@ -317,7 +321,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
         }
 
-        private void LoadFileList(DataGridView dataGridView, object parentId)
+        private void LoadFileList(DataGridView dataGridView, object parentId, int selectedRowIndex)
         {
             string querySql = "SELECT pfl_id, ROW_NUMBER() OVER (ORDER BY pfl_sort) rownum, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_amount, pfl_user, pfl_type, " +
                $"pfl_pages, pfl_count, TRY_CAST(TRY_PARSE(pfl_date as date) AS VARCHAR) pfl_date, pfl_unit, pfl_carrier, pfl_link FROM processing_file_list WHERE pfl_obj_id='{parentId}'";
@@ -326,6 +330,13 @@ namespace 科技计划项目档案数据采集管理系统
 
             dataGridView.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
             dataGridView.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
+
+            if(selectedRowIndex != -1)
+            {
+                dataGridView.ClearSelection();
+                dataGridView.Rows[selectedRowIndex].Selected = true;
+                dataGridView.FirstDisplayedScrollingRowIndex = selectedRowIndex;
+            }
         }
 
         private void LoadFileValidList(DataGridView dataGridView, object objid, string key)
@@ -859,7 +870,7 @@ namespace 科技计划项目档案数据采集管理系统
                     //自动更新缺失文件表
                     UpdateLostFileList(objId);
                     RemoveFileList(objId);
-                    LoadFileList(view, objId);
+                    LoadFileList(view, objId, -1);
                     XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if(objId != null)
@@ -900,7 +911,7 @@ namespace 科技计划项目档案数据采集管理系统
                     //自动更新缺失文件表
                     UpdateLostFileList(objId);
                     RemoveFileList(objId);
-                    LoadFileList(view, objId);
+                    LoadFileList(view, objId, -1);
                     XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if(objId != null)
@@ -941,7 +952,7 @@ namespace 科技计划项目档案数据采集管理系统
                     //自动更新缺失文件表
                     UpdateLostFileList(objId);
                     RemoveFileList(objId);
-                    LoadFileList(view, objId);
+                    LoadFileList(view, objId, -1);
                     XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if(objId != null)
@@ -1705,13 +1716,33 @@ namespace 科技计划项目档案数据采集管理系统
             FileList_DataSourceChanged(sender, e);
         }
 
+        Dictionary<object, DataTable> keyValuePairs = new Dictionary<object, DataTable>();
         private void FileList_DataSourceChanged(object sender, EventArgs e)
         {
             DataGridView view = sender as DataGridView;
+            object key = view.Tag;
             foreach(DataGridViewRow row in view.Rows)
             {
+                DataTable table = null;
                 object id = row.Cells[view.Tag + "stage"].Value;
-                SetCategorByStage(id, row, view.Tag);
+                if(id != null && !keyValuePairs.TryGetValue(id, out table))
+                {
+                    string querySql = $"SELECT dd_id, dd_name+' '+extend_3 as dd_name FROM data_dictionary WHERE dd_pId='{id}' ORDER BY dd_name";
+                    table = SqlHelper.ExecuteQuery(querySql);
+                    keyValuePairs.Add(id, table);
+                }
+                if(table != null)
+                {
+                    new Thread(delegate ()
+                    {
+                        DataGridViewComboBoxCell categorCell = row.Cells[key + "categor"] as DataGridViewComboBoxCell;
+                        categorCell.DataSource = table;
+                        categorCell.DisplayMember = "dd_name";
+                        categorCell.ValueMember = "dd_id";
+                        if(categorCell.Items.Count > 0)
+                            categorCell.Style.NullValue = categorCell.Items[0];
+                    }).Start();
+                }
             }
         }
 

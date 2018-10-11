@@ -89,7 +89,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new TreeListColumn(){ Name = "orgCode", Caption = "来源单位", Width = 100, Visible = true },
                 new TreeListColumn(){ Name = "code", Caption = "项目/课题编号", Width = 100, Visible = true },
                 new TreeListColumn(){ Name = "name", Caption = "项目/课题名称",  Width = 280, Visible = true },
-                new TreeListColumn(){ Name = "sdate", Caption = "开始时间", Width = 60, Visible = true },
+                new TreeListColumn(){ Name = "batchCode", Caption = "批次号", Width = 60, Visible = true },
                 new TreeListColumn(){ Name = "tcount", Caption = "课题/子课题数", Width = 20, Visible = true },
                 new TreeListColumn(){ Name = "bcount", Caption = "盒数",  Width = 10 , Visible = true},
                 new TreeListColumn(){ Name = "fcount", Caption = "文件数", Width = 10, Visible = true },
@@ -99,16 +99,18 @@ namespace 科技计划项目档案数据采集管理系统
             foreach(DataRow row in table.Rows)
             {
                 int tcount = ToolHelper.GetIntValue(GetTopicCount(row["pi_id"]));
-                TreeListNode node = treeList1.Nodes.Add(new object[] { ++i, row["dd_name"], row["pi_code"], row["pi_name"], row["pi_start_datetime"], tcount, row["bcount"], GetFileCount(row["pi_id"]) });
+                object batchCode = GetBatchCode(row["pi_id"]);
+                TreeListNode node = treeList1.Nodes.Add(new object[] { ++i, row["dd_name"], row["pi_code"], row["pi_name"], batchCode, tcount, row["bcount"], GetFileCount(row["pi_id"]) });
                 node.Tag = row["pi_id"];
 
                 if(tcount > 0)
                 {
-                    string querySQL_Topic = "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ISNULL(subCount,0) subCount, ISNULL(boxCount,0) boxCount, ISNULL(fileCount,0) fileCount FROM (" +
-                        "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_obj_id, COUNT(pb_id) boxCount FROM (" +
-                        "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_obj_id, pb_id FROM topic_info " +
-                        "LEFT OUTER JOIN processing_box pb ON pb.pb_obj_id = ti_id WHERE ti_categor=3 ) AS A " +
-                        "GROUP BY ti_id, ti_code, ti_name, ti_start_datetime, ti_obj_id) M LEFT JOIN ( " +
+                    string querySQL_Topic = "SELECT ti_id, ti_code, ti_name, ISNULL(subCount,0) subCount, ISNULL(boxCount,0) boxCount, ISNULL(fileCount,0) fileCount FROM (" +
+                        "SELECT ti_id, ti_code, ti_name, ti_obj_id, COUNT(pb_id) boxCount FROM (" +
+                        "SELECT * FROM ( SELECT ti_id, ti_code, ti_name, ti_obj_id, ti_categor FROM topic_info UNION ALL " +
+                        "SELECT si_id, si_code, si_name, si_obj_id, si_categor FROM subject_info) A " +
+                        "LEFT OUTER JOIN processing_box pb ON pb.pb_obj_id = ti_id) AS A " +
+                        "GROUP BY ti_id, ti_code, ti_name, ti_obj_id) M LEFT JOIN ( " +
                         "SELECT si_obj_id, COUNT(si_id) subCount FROM subject_info GROUP BY si_obj_id) N ON M.ti_id = N.si_obj_id " +
                         "LEFT JOIN (SELECT pfl_obj_id, COUNT(pfl_id) fileCount FROM processing_file_list GROUP BY pfl_obj_id) X ON M.ti_id = X.pfl_obj_id " +
                        $"WHERE ti_obj_id='{row["pi_id"]}' ORDER BY ti_code";
@@ -116,12 +118,39 @@ namespace 科技计划项目档案数据采集管理系统
                     int j = 0;
                     foreach(DataRow topRow in topTable.Rows)
                     {
-                        TreeListNode topNode = node.Nodes.Add(new object[] { i + "-" + ++j, row["dd_name"], topRow["ti_code"], topRow["ti_name"], topRow["ti_start_datetime"], topRow["subCount"], topRow["boxCount"], topRow["fileCount"] });
+                        TreeListNode topNode = node.Nodes.Add(new object[] { i + "-" + ++j, row["dd_name"], topRow["ti_code"], topRow["ti_name"], batchCode, topRow["subCount"], topRow["boxCount"], topRow["fileCount"] });
                         topNode.Tag = topRow["ti_id"];
                     }
                 }
             }
             txt_page.Text = ToolHelper.GetValue(page);
+        }
+
+        /// <summary>
+        /// 根据指定对象获取批次号
+        /// </summary>
+        private object GetBatchCode(object objId)
+        {
+            object result = null;
+            string querySql = "SELECT trp.trp_code FROM (" +
+                "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=-3) p1 " +
+                "LEFT JOIN project_info p2 ON p2.pi_categor = 1 AND p1.pi_obj_id = p2.pi_id " +
+                "LEFT JOIN transfer_registration_pc trp ON p2.trc_id = trp.trp_id " +
+               $"WHERE p1.pi_id='{objId}'";
+            result = SqlHelper.ExecuteOnlyOneQuery(querySql);
+            if(result == null)
+            {
+                 querySql = "SELECT trp.trp_code FROM (" +
+                    "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                    "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=-3) p1 " +
+                    "LEFT JOIN imp_dev_info idi ON idi.imp_id = p1.pi_obj_id " +
+                    "LEFT JOIN imp_info ii ON idi.imp_obj_id = ii.imp_id " +
+                    "LEFT JOIN transfer_registration_pc trp ON ii.imp_obj_id = trp.trp_id " +
+                   $"WHERE p1.pi_id='{objId}'";
+                result = SqlHelper.ExecuteOnlyOneQuery(querySql);
+            }
+            return result;
         }
 
         /// <summary>
@@ -219,24 +248,27 @@ namespace 科技计划项目档案数据采集管理系统
             int page = ToolHelper.GetIntValue(pageValue, 1);
             object planType = cbo_PlanTypeList.SelectedValue;
             object orgType = cbo_SourceOrg.SelectedValue;
-            string batchCode = txt_BatchName.Text;
             string proCode = txt_ProjectCode.Text;
             string proName = txt_ProjectName.Text;
             string sDate = chk_allDate.Checked ? null : dtp_sDate.Text;
             string eDate = chk_allDate.Checked ? null : dtp_eDate.Text;
 
-            LoadDataList(page, ToolHelper.GetValue(planType), batchCode, proCode, proName, sDate, eDate, orgType);
+            string batchCode = txt_BatchCode.Text;
+            if(string.IsNullOrEmpty(batchCode))
+                LoadDataList(page, ToolHelper.GetValue(planType), proCode, proName, sDate, eDate, orgType);
+            else
+                LoadDataListByBatchCode(page, ToolHelper.GetValue(planType), batchCode, proCode, proName, sDate, eDate, orgType);
         }
 
         /// <summary>
         /// 加载查询数据
         /// </summary>
         /// <param name="page">当前页码</param>
-        private void LoadDataList(int page, string planType, string batchCode, string proCode, string proName, string sDate, string eDate, object orgType)
+        private void LoadDataList(int page, string planType, string proCode, string proName, string sDate, string eDate, object orgType)
         {
             string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_orga_id DESC, pi_code) ID, A.* FROM( " +
-                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_funds, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
+                "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
                $") A WHERE LEN(A.pi_orga_id)>0 AND LEN(A.pi_source_id)>0 ";
             if(!string.IsNullOrEmpty(proCode))
                 querySQL += $"AND pi_code LIKE '%{proCode}%' ";
@@ -255,58 +287,158 @@ namespace 科技计划项目档案数据采集管理系统
             //分页
             querySQL = $"SELECT * FROM ({querySQL}) B WHERE ID BETWEEN {(page - 1) * pageSize + 1} AND {(page - 1) * pageSize + pageSize}";
             //关联盒数
-            querySQL = $"SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, dd_name, COUNT(pb_id) bcount FROM({querySQL}) C " +
+            querySQL = $"SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, dd_name, COUNT(pb_id) bcount FROM({querySQL}) C " +
                 "LEFT JOIN processing_box ON C.pi_id=pb_obj_id " +
                 "LEFT JOIN data_dictionary ON C.pi_orga_id=dd_code " +
-                "GROUP BY ID, C.pi_orga_id, pi_id, pi_code, pi_name, pi_start_datetime, pi_funds, pi_source_id, dd_name " +
+                "GROUP BY ID, C.pi_orga_id, pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, dd_name " +
                 "ORDER BY ID ";
             CreateDataList(page, querySQL);
 
             if(page == 1)
             {
-                string countQuerySQL = $"SELECT COUNT(A.pi_id) FROM( " +
+                string countQuerySQL = "SELECT COUNT(A.pi_id) FROM( " +
                     "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
                     "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
-                    ") A WHERE LEN(A.pi_orga_id)>0 AND LEN(A.pi_source_id)>0 ";
-                string countQuerySQL2 = $"SELECT COUNT(T.ti_id) FROM( " +
-                    "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                    "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
-                    ") A LEFT JOIN topic_info T ON (T.ti_categor=3 AND A.pi_id = T.ti_obj_id) " +
-                    "WHERE LEN(A.pi_orga_id)>0 AND LEN(A.pi_source_id)>0 AND T.ti_id IS NOT NULL ";
+                    ") A WHERE LEN(A.pi_source_id)>0 AND LEN(A.pi_orga_id)>0 ";
+                string countQuerySQL2 = "SELECT COUNT(ti_id) FROM topic_info WHERE ti_categor=3 AND LEN(ti_source_id)>0 AND LEN(ti_orga_id)>0 ";
                 if(!string.IsNullOrEmpty(proCode))
                 {
                     countQuerySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
-                    countQuerySQL2 += $"AND A.pi_code LIKE '%{proCode}%' ";
+                    countQuerySQL2 += $"AND ti_code LIKE '%{proCode}%' ";
                 }
                 if(!string.IsNullOrEmpty(proName))
                 {
                     countQuerySQL += $"AND A.pi_name LIKE '%{proName}%' ";
-                    countQuerySQL2 += $"AND A.pi_name LIKE '%{proName}%' ";
+                    countQuerySQL2 += $"AND ti_name LIKE '%{proName}%' ";
                 }
                 if("ZX".Equals(planType))//全部重大专项
                 {
                     countQuerySQL += $"AND pi_source_id LIKE 'ZX__' ";
-                    countQuerySQL2 += $"AND pi_source_id LIKE 'ZX__' ";
+                    countQuerySQL2 += $"AND ti_source_id LIKE 'ZX__' ";
                 }
                 else if(!"all".Equals(planType))//普通计划
                 {
                     countQuerySQL += $"AND A.pi_source_id = '{planType}' ";
-                    countQuerySQL2 += $"AND A.pi_source_id = '{planType}' ";
+                    countQuerySQL2 += $"AND ti_source_id = '{planType}' ";
                 }
                 if(!"all".Equals(orgType))
                 {
                     countQuerySQL += $"AND A.pi_orga_id = '{orgType}' ";
-                    countQuerySQL2 += $"AND A.pi_orga_id = '{orgType}' ";
+                    countQuerySQL2 += $"AND ti_orga_id = '{orgType}' ";
                 }
                 if(!string.IsNullOrEmpty(sDate))
                 {
                     countQuerySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
-                    countQuerySQL2 += $"AND A.pi_start_datetime >= '{sDate}' ";
+                    countQuerySQL2 += $"AND ti_start_datetime >= '{sDate}' ";
                 }
                 if(!string.IsNullOrEmpty(eDate))
                 {
                     countQuerySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
-                    countQuerySQL2 += $"AND A.pi_start_datetime <= '{eDate}' ";
+                    countQuerySQL2 += $"AND ti_start_datetime <= '{eDate}' ";
+                }
+                int totalProjectSize = SqlHelper.ExecuteCountQuery(countQuerySQL);
+                int totalTopicSize = SqlHelper.ExecuteCountQuery(countQuerySQL2);
+                maxPage = totalProjectSize % pageSize == 0 ? totalProjectSize / pageSize : totalProjectSize / pageSize + 1;
+                label1.Text = $"合计{totalProjectSize + totalTopicSize}条记录, 其中{totalProjectSize}个项目/课题, {totalTopicSize}个课题/子课题  每页共 {pageSize} 条，共 {maxPage} 页";
+            }
+
+        }
+
+        private void LoadDataListByBatchCode(int page, string planType, string batchCode, string proCode, string proName, string sDate, string eDate, object orgType)
+        {
+            string querySQL = "SELECT ROW_NUMBER() OVER(ORDER BY A.pi_orga_id DESC, A.pi_code) ID, * FROM( " +
+                 "SELECT trp_code, A.* FROM transfer_registration_pc trp " +
+                 "LEFT JOIN project_info p1 ON p1.trc_id=trp.trp_id " +
+                 "LEFT JOIN ( " +
+                 "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, pi_orga_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                 "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_source_id, ti_orga_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A ON p1.pi_id=A.pi_obj_id " +
+                 "UNION ALL " +
+                 "SELECT trp_code, A.* FROM transfer_registration_pc trp " +
+                 "LEFT JOIN imp_info ii ON ii.imp_obj_id = trp.trp_id " +
+                 "LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id " +
+                 "LEFT JOIN ( " +
+                 "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, pi_orga_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                 "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_source_id, ti_orga_id, ti_obj_id FROM topic_info WHERE ti_categor = -3 ) A ON idi.imp_id =A.pi_obj_id " +
+                $") A WHERE trp_code LIKE '%{batchCode}%' AND LEN(A.pi_orga_id)>0 AND LEN(A.pi_source_id)>0 ";
+            if(!string.IsNullOrEmpty(proCode))
+                querySQL += $"AND pi_code LIKE '%{proCode}%' ";
+            if(!string.IsNullOrEmpty(proName))
+                querySQL += $"AND pi_name LIKE '%{proName}%' ";
+            if("ZX".Equals(planType))//全部重大专项
+                querySQL += $"AND pi_source_id LIKE 'ZX__' ";
+            else if(!"all".Equals(planType))//普通计划
+                querySQL += $"AND pi_source_id = '{planType}' ";
+            if(!"all".Equals(orgType))
+                querySQL += $"AND pi_orga_id = '{orgType}' ";
+            if(!string.IsNullOrEmpty(sDate))
+                querySQL += $"AND pi_start_datetime >= '{sDate}' ";
+            if(!string.IsNullOrEmpty(eDate))
+                querySQL += $"AND pi_start_datetime <= '{eDate}' ";
+            string querySqlByPage = querySQL;
+            //分页
+            querySQL = $"SELECT * FROM ({querySQL}) B WHERE ID BETWEEN {(page - 1) * pageSize + 1} AND {(page - 1) * pageSize + pageSize}";
+            //关联盒数
+            querySQL = $"SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, dd_name, COUNT(pb_id) bcount FROM({querySQL}) C " +
+                "LEFT JOIN processing_box ON C.pi_id=pb_obj_id " +
+                "LEFT JOIN data_dictionary ON C.pi_orga_id=dd_code " +
+                "GROUP BY ID, C.pi_orga_id, pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, dd_name " +
+                "ORDER BY ID ";
+            CreateDataList(page, querySQL);
+
+            if(page == 1)
+            {
+                string countQuerySQL = "SELECT COUNT(pi_id) FROM( " +
+                    "SELECT trp_code, A.* FROM transfer_registration_pc trp " +
+                    "LEFT JOIN project_info p1 ON p1.trc_id=trp.trp_id " +
+                    "LEFT JOIN ( " +
+                    "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, pi_orga_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_source_id, ti_orga_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A ON p1.pi_id=A.pi_obj_id " +
+                    "UNION ALL " +
+                    "SELECT trp_code, A.* FROM transfer_registration_pc trp " +
+                    "LEFT JOIN imp_info ii ON ii.imp_obj_id = trp.trp_id " +
+                    "LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id " +
+                    "LEFT JOIN ( " +
+                    "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, pi_orga_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_source_id, ti_orga_id, ti_obj_id FROM topic_info WHERE ti_categor = -3 ) A ON idi.imp_id =A.pi_obj_id) A " +
+                   $"WHERE trp_code LIKE '%{batchCode}%' AND LEN(A.pi_orga_id)>0 AND LEN(A.pi_source_id)>0 ";
+                string countQuerySQL2 = $"SELECT COUNT(ti_id) FROM ({querySqlByPage}) A LEFT JOIN (" +
+                     "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_obj_id, ti_source_id, ti_orga_id FROM topic_info UNION ALL " +
+                     "SELECT si_id, si_code, si_name, si_start_datetime, si_obj_id, si_source_id, si_orga_id FROM subject_info) B ON A.pi_id = B.ti_obj_id " +
+                     "WHERE B.ti_id IS NOT NULL AND LEN(B.ti_source_id)>0 AND LEN(B.ti_orga_id)>0 ";
+                if(!string.IsNullOrEmpty(proCode))
+                {
+                    countQuerySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
+                    countQuerySQL2 += $"AND ti_code LIKE '%{proCode}%' ";
+                }
+                if(!string.IsNullOrEmpty(proName))
+                {
+                    countQuerySQL += $"AND A.pi_name LIKE '%{proName}%' ";
+                    countQuerySQL2 += $"AND ti_name LIKE '%{proName}%' ";
+                }
+                if("ZX".Equals(planType))//全部重大专项
+                {
+                    countQuerySQL += $"AND pi_source_id LIKE 'ZX__' ";
+                    countQuerySQL2 += $"AND ti_source_id LIKE 'ZX__' ";
+                }
+                else if(!"all".Equals(planType))//普通计划
+                {
+                    countQuerySQL += $"AND A.pi_source_id = '{planType}' ";
+                    countQuerySQL2 += $"AND ti_source_id = '{planType}' ";
+                }
+                if(!"all".Equals(orgType))
+                {
+                    countQuerySQL += $"AND A.pi_orga_id = '{orgType}' ";
+                    countQuerySQL2 += $"AND ti_orga_id = '{orgType}' ";
+                }
+                if(!string.IsNullOrEmpty(sDate))
+                {
+                    countQuerySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
+                    countQuerySQL2 += $"AND ti_start_datetime >= '{sDate}' ";
+                }
+                if(!string.IsNullOrEmpty(eDate))
+                {
+                    countQuerySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
+                    countQuerySQL2 += $"AND ti_start_datetime <= '{eDate}' ";
                 }
                 int totalProjectSize = SqlHelper.ExecuteCountQuery(countQuerySQL);
                 int totalTopicSize = SqlHelper.ExecuteCountQuery(countQuerySQL2);
@@ -320,7 +452,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             cbo_PlanTypeList.SelectedIndex = 0;
             cbo_SourceOrg.SelectedIndex = 0;
-            txt_BatchName.ResetText();
+            txt_BatchCode.ResetText();
             txt_ProjectCode.ResetText();
             txt_ProjectName.ResetText();
             dtp_sDate.ResetText();
@@ -702,7 +834,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                 object planType = cbo_PlanTypeList.SelectedValue;
                 object orgType = cbo_SourceOrg.SelectedValue;
-                string batchName = txt_BatchName.Text;
+                string batchName = txt_BatchCode.Text;
                 string proCode = txt_ProjectCode.Text;
                 string proName = txt_ProjectName.Text;
                 string sDate = chk_allDate.Checked ? null : dtp_sDate.Text;
@@ -727,13 +859,31 @@ namespace 科技计划项目档案数据采集管理系统
                     querySQL += $"AND pi_start_datetime <= '{eDate}' ";
 
                 //关联盒数
-                querySQL = "SELECT dd_name '来源单位', pi_code '编号', pi_name '名称', pi_unit '承担单位', pi_prouser '负责人', " +
-                    $"CONVERT(varchar(100), pi_start_datetime, 23) '开始时间', CONVERT(varchar(100), pi_end_datetime, 23) '结束时间', pi_funds '经费', pb_gc_id '馆藏号', pb_box_number '盒号', D.fCount '文件数', pi_checker_date '完成时间' FROM({querySQL}) C " +
+                string querySqlString = "SELECT dd_name '来源单位', pi_code '编号', pi_name '名称', pi_unit '承担单位', pi_prouser '负责人', " +
+                    $"pi_start_datetime '开始时间', pi_end_datetime '结束时间', pi_funds '经费', pb_gc_id '馆藏号', pb_box_number '盒号', D.fCount '文件数', pi_checker_date '完成时间' FROM({querySQL}) C " +
                      "LEFT JOIN processing_box ON C.pi_id = pb_obj_id " +
                      "LEFT JOIN data_dictionary ON C.pi_orga_id = dd_code " +
                      "LEFT JOIN( SELECT pfl_box_id, COUNT(pfl_id) fCount FROM processing_file_list GROUP BY pfl_box_id) D ON pb_id = D.pfl_box_id " +
                      "ORDER BY dd_sort, pi_code; ";
-                DataTable table = SqlHelper.ExecuteQuery(querySQL);
+                DataTable table = SqlHelper.ExecuteQuery(querySqlString);
+
+                string querySql_Subject = $"SELECT B.* FROM ({querySQL}) A LEFT JOIN ( " +
+                     "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_funds, ti_obj_id, ti_checker_date, ti_orga_id FROM topic_info UNION ALL " +
+                     "SELECT si_id, si_code, si_name, si_unit, si_prouser, si_start_datetime, si_end_datetime, si_funds, si_obj_id, si_checker_date, si_orga_id FROM subject_info) B ON A.pi_id = B.ti_obj_id " +
+                     "WHERE B.ti_id IS NOT NULL";
+                //关联盒数
+                string querySqlString_Subject = "SELECT dd_name, ti_code, ti_name, ti_unit, ti_prouser, " +
+                    $"ti_start_datetime, ti_end_datetime, ti_funds, pb_gc_id, pb_box_number, D.fCount, ti_checker_date FROM({querySql_Subject}) C " +
+                     "LEFT JOIN processing_box ON C.ti_id = pb_obj_id " +
+                     "LEFT JOIN data_dictionary ON C.ti_orga_id = dd_code " +
+                     "LEFT JOIN( SELECT pfl_box_id, COUNT(pfl_id) fCount FROM processing_file_list GROUP BY pfl_box_id) D ON pb_id = D.pfl_box_id " +
+                     "ORDER BY dd_sort, ti_code; ";
+                DataTable table_Subject = SqlHelper.ExecuteQuery(querySqlString_Subject);
+                foreach(DataRow dataRow in table_Subject.Rows)
+                {
+                    table.Rows.Add(dataRow["dd_name"], dataRow["ti_code"], dataRow["ti_name"], dataRow["ti_unit"], dataRow["ti_prouser"], dataRow["ti_start_datetime"],
+                        dataRow["ti_end_datetime"], dataRow["ti_funds"], dataRow["pb_gc_id"], dataRow["pb_box_number"], dataRow["fCount"], dataRow["ti_checker_date"]);
+                }
 
                 bool result = MicrosoftWordHelper.GetCsvFromDataTable(table, filePath);
                 if(result && XtraMessageBox.Show("导出完毕，是否立即打开文件?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)

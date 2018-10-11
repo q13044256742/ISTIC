@@ -37,6 +37,7 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.lbl2 = new DevExpress.XtraEditors.HyperlinkLabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.chk1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chk2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chk3.Properties)).BeginInit();
@@ -44,7 +45,7 @@
             // 
             // chk1
             // 
-            this.chk1.Location = new System.Drawing.Point(59, 34);
+            this.chk1.Location = new System.Drawing.Point(41, 34);
             this.chk1.Name = "chk1";
             this.chk1.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chk1.Properties.Appearance.Options.UseFont = true;
@@ -54,7 +55,7 @@
             // 
             // chk2
             // 
-            this.chk2.Location = new System.Drawing.Point(59, 81);
+            this.chk2.Location = new System.Drawing.Point(41, 81);
             this.chk2.Name = "chk2";
             this.chk2.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chk2.Properties.Appearance.Options.UseFont = true;
@@ -64,7 +65,7 @@
             // 
             // chk3
             // 
-            this.chk3.Location = new System.Drawing.Point(59, 128);
+            this.chk3.Location = new System.Drawing.Point(41, 128);
             this.chk3.Name = "chk3";
             this.chk3.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chk3.Properties.Appearance.Options.UseFont = true;
@@ -75,7 +76,7 @@
             // lbl1
             // 
             this.lbl1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbl1.Location = new System.Drawing.Point(314, 39);
+            this.lbl1.Location = new System.Drawing.Point(281, 39);
             this.lbl1.Name = "lbl1";
             this.lbl1.Size = new System.Drawing.Size(34, 14);
             this.lbl1.TabIndex = 11;
@@ -88,12 +89,11 @@
             this.btn_Print.Appearance.Options.UseFont = true;
             this.btn_Print.Image = ((System.Drawing.Image)(resources.GetObject("btn_Print.Image")));
             this.btn_Print.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Print.ImageToTextIndent = 5;
-            this.btn_Print.Location = new System.Drawing.Point(147, 193);
+            this.btn_Print.Location = new System.Drawing.Point(165, 193);
             this.btn_Print.Name = "btn_Print";
-            this.btn_Print.Size = new System.Drawing.Size(102, 30);
+            this.btn_Print.Size = new System.Drawing.Size(66, 30);
             this.btn_Print.TabIndex = 4;
-            this.btn_Print.Text = "打印/导出";
+            this.btn_Print.Text = "导出";
             this.btn_Print.Click += new System.EventHandler(this.Btn_Print_Click);
             // 
             // printPreviewDialog1
@@ -107,11 +107,22 @@
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
             // 
+            // lbl2
+            // 
+            this.lbl2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl2.Location = new System.Drawing.Point(321, 39);
+            this.lbl2.Name = "lbl2";
+            this.lbl2.Size = new System.Drawing.Size(34, 14);
+            this.lbl2.TabIndex = 12;
+            this.lbl2.Text = "[打印]";
+            this.lbl2.Click += new System.EventHandler(this.lbl2_Click);
+            // 
             // Frm_Print
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(396, 249);
+            this.Controls.Add(this.lbl2);
             this.Controls.Add(this.lbl1);
             this.Controls.Add(this.chk3);
             this.Controls.Add(this.chk2);
@@ -142,5 +153,6 @@
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private DevExpress.XtraEditors.HyperlinkLabelControl lbl2;
     }
 }

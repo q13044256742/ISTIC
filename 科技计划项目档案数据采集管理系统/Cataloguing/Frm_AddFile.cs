@@ -25,7 +25,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 光盘ID
         /// </summary>
         public object trcId;
-        public Action<DataGridView, object> UpdateDataSource;
+        public Action<DataGridView, object, int> UpdateDataSource;
 
         public Frm_AddFile(DataGridView view, object key, object fileId, object trcId)
         {
@@ -341,7 +341,7 @@ namespace 科技计划项目档案数据采集管理系统
                 XtraMessageBox.Show("数据已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
 
-            UpdateDataSource?.Invoke(view, parentId);
+            UpdateDataSource?.Invoke(view, parentId, -1);
         }
 
         private object GetCarrierValue()
