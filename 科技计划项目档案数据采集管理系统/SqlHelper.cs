@@ -15,7 +15,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <para>SQLServer_Local：本地</para>
         /// <para>SQLServer_Server：服务端</para>
         /// </summary>
-        static readonly string SERVER_TYPE = "SQLServer_Local";
+        static readonly string SERVER_TYPE = "SQLServer_Server";
         static readonly string IPAddress = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "IPAddress", null);
         static readonly string Username = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Username", null);
         static readonly string Password = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Password", null);

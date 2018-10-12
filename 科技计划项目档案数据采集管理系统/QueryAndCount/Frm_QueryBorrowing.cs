@@ -106,10 +106,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(tcount > 0)
                 {
                     string querySQL_Topic = "SELECT ti_id, ti_code, ti_name, ISNULL(subCount,0) subCount, ISNULL(boxCount,0) boxCount, ISNULL(fileCount,0) fileCount FROM (" +
-                        "SELECT ti_id, ti_code, ti_name, ti_obj_id, COUNT(pb_id) boxCount FROM (" +
-                        "SELECT * FROM ( SELECT ti_id, ti_code, ti_name, ti_obj_id, ti_categor FROM topic_info UNION ALL " +
-                        "SELECT si_id, si_code, si_name, si_obj_id, si_categor FROM subject_info) A " +
-                        "LEFT OUTER JOIN processing_box pb ON pb.pb_obj_id = ti_id) AS A " +
+                        "SELECT ti_id, ti_code, ti_name, ti_obj_id, COUNT(pb_id) boxCount FROM ( SELECT * FROM ( " +
+                        "SELECT ti_id, ti_code, ti_name, ti_obj_id, ti_categor FROM topic_info UNION ALL " +
+                        "SELECT si_id, si_code, si_name, si_obj_id, si_categor FROM subject_info) A LEFT OUTER JOIN processing_box pb ON pb.pb_obj_id = ti_id) AS A " +
                         "GROUP BY ti_id, ti_code, ti_name, ti_obj_id) M LEFT JOIN ( " +
                         "SELECT si_obj_id, COUNT(si_id) subCount FROM subject_info GROUP BY si_obj_id) N ON M.ti_id = N.si_obj_id " +
                         "LEFT JOIN (SELECT pfl_obj_id, COUNT(pfl_id) fileCount FROM processing_file_list GROUP BY pfl_obj_id) X ON M.ti_id = X.pfl_obj_id " +
@@ -760,14 +759,16 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewButtonColumn(){ Name = "borrow_state", HeaderText = "借阅状态", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
             });
             string querySQL = $"SELECT A.pi_code, pb_id, pb_gc_id, pb_box_number, COUNT(pfl_id) num, bl_borrow_state, bl_return_state, bl_id FROM( " +
-                 "SELECT pi_id, pi_code FROM project_info " +
-                 "UNION ALL SELECT ti_id, ti_code FROM topic_info " +
-                 "UNION ALL SELECT si_id, si_code FROM subject_info) A " +
+                 "SELECT pi_id, pi_code FROM project_info UNION ALL " +
+                 "SELECT ti_id, ti_code FROM topic_info UNION ALL " +
+                 "SELECT si_id, si_code FROM subject_info) A " +
                  "LEFT JOIN processing_box ON pb_obj_id = A.pi_id " +
                  "LEFT JOIN processing_file_list ON pfl_box_id = pb_id " +
-                 "LEFT JOIN (SELECT * FROM (SELECT rowid = ROW_NUMBER() OVER (PARTITION BY bl_file_id ORDER BY bl_date DESC), * FROM borrow_log) A WHERE rowid = 1) bl ON bl.bl_file_id=pb_id " +
+                 "LEFT JOIN (SELECT * FROM (" +
+                 "SELECT rowid = ROW_NUMBER() OVER (PARTITION BY bl_file_id ORDER BY bl_date DESC), * FROM borrow_log) A WHERE rowid = 1) bl ON bl.bl_file_id=pb_id " +
                 $"WHERE A.pi_id = '{id}' AND pb_id IS NOT NULL " +
-                 "GROUP BY A.pi_code, pb_id, pb_gc_id, pb_box_number, bl_borrow_state, bl_return_state, bl_id ";
+                 "GROUP BY A.pi_code, pb_id, pb_gc_id, pb_box_number, bl_borrow_state, bl_return_state, bl_id " +
+                 "ORDER BY pb_box_number";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             foreach(DataRow row in table.Rows)
             {
@@ -929,7 +930,7 @@ namespace 科技计划项目档案数据采集管理系统
             for(int i = 0; i < rowCount; i++)
             {
                 DataGridViewCell cell = view2.Rows[i].Cells["fbstate"];
-                if(cell.Tag != null)
+                if(cell != null && cell.Tag != null)
                 {
                     object bstate = SqlHelper.ExecuteOnlyOneQuery($"SELECT bl_borrow_state FROM borrow_log WHERE bl_id='{cell.Tag}'");
                     cell.Value = GetBorrowState(bstate);
