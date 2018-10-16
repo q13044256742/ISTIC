@@ -63,11 +63,13 @@
             this.txt_date = new System.Windows.Forms.TextBox();
             this.num_Count = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
+            this.txt_fileName = new System.Windows.Forms.TextBox();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.btn_Next = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.btn_Last = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Reset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Exit = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Save_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.txt_fileName = new System.Windows.Forms.TextBox();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.num_Amount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Pages)).BeginInit();
             this.pal_type.SuspendLayout();
@@ -438,50 +440,6 @@
             this.label6.TabIndex = 80;
             this.label6.Text = "份数";
             // 
-            // btn_Reset
-            // 
-            this.btn_Reset.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Reset.Appearance.Options.UseFont = true;
-            this.btn_Reset.Image = ((System.Drawing.Image)(resources.GetObject("btn_Reset.Image")));
-            this.btn_Reset.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Reset.ImageToTextIndent = 5;
-            this.btn_Reset.Location = new System.Drawing.Point(267, 608);
-            this.btn_Reset.Name = "btn_Reset";
-            this.btn_Reset.Size = new System.Drawing.Size(67, 30);
-            this.btn_Reset.TabIndex = 16;
-            this.btn_Reset.Text = "重置";
-            this.btn_Reset.Click += new System.EventHandler(this.Button1_Click);
-            // 
-            // btn_Exit
-            // 
-            this.btn_Exit.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Exit.Appearance.Options.UseFont = true;
-            this.btn_Exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exit.Image")));
-            this.btn_Exit.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Exit.ImageToTextIndent = 5;
-            this.btn_Exit.Location = new System.Drawing.Point(418, 608);
-            this.btn_Exit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btn_Exit.Name = "btn_Exit";
-            this.btn_Exit.Size = new System.Drawing.Size(67, 30);
-            this.btn_Exit.TabIndex = 18;
-            this.btn_Exit.Text = "退出";
-            this.btn_Exit.Click += new System.EventHandler(this.Btn_Exit_Click);
-            // 
-            // btn_Save_Add
-            // 
-            this.btn_Save_Add.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Save_Add.Appearance.Options.UseFont = true;
-            this.btn_Save_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save_Add.Image")));
-            this.btn_Save_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Save_Add.ImageToTextIndent = 0;
-            this.btn_Save_Add.Location = new System.Drawing.Point(338, 608);
-            this.btn_Save_Add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btn_Save_Add.Name = "btn_Save_Add";
-            this.btn_Save_Add.Size = new System.Drawing.Size(76, 30);
-            this.btn_Save_Add.TabIndex = 17;
-            this.btn_Save_Add.Text = "保存(&S)";
-            this.btn_Save_Add.Click += new System.EventHandler(this.Btn_Save_Click);
-            // 
             // txt_fileName
             // 
             this.txt_fileName.Location = new System.Drawing.Point(114, 103);
@@ -503,11 +461,83 @@
             this.labelControl1.TabIndex = 82;
             this.labelControl1.Text = "  请简要说明本文件中所包含的各个子文件名称。若此文件（包含电子和纸质）未移交，需在此标明文件的保存位置（或编号）。";
             // 
+            // btn_Next
+            // 
+            this.btn_Next.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Next.Appearance.Options.UseFont = true;
+            this.btn_Next.Image = ((System.Drawing.Image)(resources.GetObject("btn_Next.Image")));
+            this.btn_Next.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Next.Location = new System.Drawing.Point(484, 608);
+            this.btn_Next.Name = "btn_Next";
+            this.btn_Next.Size = new System.Drawing.Size(67, 30);
+            this.btn_Next.TabIndex = 84;
+            this.btn_Next.Text = "下一条";
+            this.btn_Next.Click += new System.EventHandler(this.Btn_Next_Click);
+            // 
+            // btn_Last
+            // 
+            this.btn_Last.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Last.Appearance.Options.UseFont = true;
+            this.btn_Last.Image = ((System.Drawing.Image)(resources.GetObject("btn_Last.Image")));
+            this.btn_Last.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Last.Location = new System.Drawing.Point(191, 608);
+            this.btn_Last.Name = "btn_Last";
+            this.btn_Last.Size = new System.Drawing.Size(67, 30);
+            this.btn_Last.TabIndex = 83;
+            this.btn_Last.Text = "上一条";
+            this.btn_Last.Click += new System.EventHandler(this.Btn_Last_Click);
+            // 
+            // btn_Reset
+            // 
+            this.btn_Reset.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Reset.Appearance.Options.UseFont = true;
+            this.btn_Reset.Image = ((System.Drawing.Image)(resources.GetObject("btn_Reset.Image")));
+            this.btn_Reset.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Reset.ImageToTextIndent = 5;
+            this.btn_Reset.Location = new System.Drawing.Point(262, 608);
+            this.btn_Reset.Name = "btn_Reset";
+            this.btn_Reset.Size = new System.Drawing.Size(67, 30);
+            this.btn_Reset.TabIndex = 16;
+            this.btn_Reset.Text = "重置";
+            this.btn_Reset.Click += new System.EventHandler(this.Button1_Click);
+            // 
+            // btn_Exit
+            // 
+            this.btn_Exit.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Exit.Appearance.Options.UseFont = true;
+            this.btn_Exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exit.Image")));
+            this.btn_Exit.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Exit.ImageToTextIndent = 5;
+            this.btn_Exit.Location = new System.Drawing.Point(413, 608);
+            this.btn_Exit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_Exit.Name = "btn_Exit";
+            this.btn_Exit.Size = new System.Drawing.Size(67, 30);
+            this.btn_Exit.TabIndex = 18;
+            this.btn_Exit.Text = "退出";
+            this.btn_Exit.Click += new System.EventHandler(this.Btn_Exit_Click);
+            // 
+            // btn_Save_Add
+            // 
+            this.btn_Save_Add.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Save_Add.Appearance.Options.UseFont = true;
+            this.btn_Save_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save_Add.Image")));
+            this.btn_Save_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Save_Add.ImageToTextIndent = 0;
+            this.btn_Save_Add.Location = new System.Drawing.Point(333, 608);
+            this.btn_Save_Add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_Save_Add.Name = "btn_Save_Add";
+            this.btn_Save_Add.Size = new System.Drawing.Size(76, 30);
+            this.btn_Save_Add.TabIndex = 17;
+            this.btn_Save_Add.Text = "保存(&S)";
+            this.btn_Save_Add.Click += new System.EventHandler(this.Btn_Save_Click);
+            // 
             // Frm_AddFile
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(743, 652);
+            this.Controls.Add(this.btn_Next);
+            this.Controls.Add(this.btn_Last);
             this.Controls.Add(this.labelControl1);
             this.Controls.Add(this.txt_fileName);
             this.Controls.Add(this.num_Count);
@@ -601,5 +631,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txt_fileName;
         private DevExpress.XtraEditors.LabelControl labelControl1;
+        private KyoControl.KyoButton btn_Next;
+        private KyoControl.KyoButton btn_Last;
     }
 }

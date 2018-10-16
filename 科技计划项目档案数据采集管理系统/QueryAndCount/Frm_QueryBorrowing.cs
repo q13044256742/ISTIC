@@ -268,7 +268,7 @@ namespace 科技计划项目档案数据采集管理系统
             string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_orga_id DESC, pi_code) ID, A.* FROM( " +
                 "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
                 "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
-               $") A WHERE LEN(A.pi_orga_id)>0 AND LEN(A.pi_source_id)>0 ";
+               $") A WHERE 1=1 ";
             if(!string.IsNullOrEmpty(proCode))
                 querySQL += $"AND pi_code LIKE '%{proCode}%' ";
             if(!string.IsNullOrEmpty(proName))
@@ -277,8 +277,12 @@ namespace 科技计划项目档案数据采集管理系统
                 querySQL += $"AND pi_source_id LIKE 'ZX__' ";
             else if(!"all".Equals(planType))//普通计划
                 querySQL += $"AND pi_source_id = '{planType}' ";
+            else
+                querySQL += "AND LEN(A.pi_source_id)>0 ";
             if(!"all".Equals(orgType))
                 querySQL += $"AND pi_orga_id = '{orgType}' ";
+            else
+                querySQL += "AND LEN(A.pi_orga_id)>0 ";
             if(!string.IsNullOrEmpty(sDate))
                 querySQL += $"AND pi_start_datetime >= '{sDate}' ";
             if(!string.IsNullOrEmpty(eDate))
@@ -841,9 +845,9 @@ namespace 科技计划项目档案数据采集管理系统
                 string sDate = chk_allDate.Checked ? null : dtp_sDate.Text;
                 string eDate = chk_allDate.Checked ? null : dtp_eDate.Text;
 
-                string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_orga_id DESC, pi_code) ID, A.* FROM( " +
-                    "SELECT * FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                    "SELECT * FROM topic_info) A WHERE pi_orga_id IS NOT NULL ";
+                string querySQL = $"SELECT A.* FROM( " +
+                    "SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_funds, pi_checker_date, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_funds, ti_checker_date, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3) A WHERE 1=1 ";
                 if(!string.IsNullOrEmpty(proCode))
                     querySQL += $"AND pi_code LIKE '%{proCode}%' ";
                 if(!string.IsNullOrEmpty(proName))
@@ -852,39 +856,29 @@ namespace 科技计划项目档案数据采集管理系统
                     querySQL += $"AND pi_source_id LIKE 'ZX__' ";
                 else if(!"all".Equals(planType))//普通计划
                     querySQL += $"AND pi_source_id = '{planType}' ";
+                else
+                    querySQL += "AND LEN(pi_source_id)>0 ";
                 if(!"all".Equals(orgType))
                     querySQL += $"AND pi_orga_id = '{orgType}' ";
+                else
+                    querySQL += "AND LEN(pi_orga_id)>0 ";
                 if(!string.IsNullOrEmpty(sDate))
                     querySQL += $"AND pi_start_datetime >= '{sDate}' ";
                 if(!string.IsNullOrEmpty(eDate))
                     querySQL += $"AND pi_start_datetime <= '{eDate}' ";
 
                 //关联盒数
-                string querySqlString = "SELECT dd_name '来源单位', pi_code '编号', pi_name '名称', pi_unit '承担单位', pi_prouser '负责人', " +
-                    $"pi_start_datetime '开始时间', pi_end_datetime '结束时间', pi_funds '经费', pb_gc_id '馆藏号', pb_box_number '盒号', D.fCount '文件数', pi_checker_date '完成时间' FROM({querySQL}) C " +
-                     "LEFT JOIN processing_box ON C.pi_id = pb_obj_id " +
+                string querySqlString = "SELECT dd_name '来源单位', pi_code '编号', pi_name '名称', pi_unit '项目承担单位', pi_prouser '项目负责人', " +
+                     "pi_start_datetime '项目开始时间', pi_end_datetime '项目结束时间', pi_funds '项目经费', pb_gc_id '馆藏号', pb_box_number '盒号', D.fCount '文件数', pi_checker_date '完成时间', " +
+                     "ti_code '课题编号', ti_name '课题名称', ti_unit '课题承担单位', ti_start_datetime '课题开始时间', ti_end_datetime '课题结束时间', ti_funds '课题经费' " +
+                    $"FROM({querySQL}) C LEFT JOIN processing_box ON C.pi_id = pb_obj_id " +
                      "LEFT JOIN data_dictionary ON C.pi_orga_id = dd_code " +
                      "LEFT JOIN( SELECT pfl_box_id, COUNT(pfl_id) fCount FROM processing_file_list GROUP BY pfl_box_id) D ON pb_id = D.pfl_box_id " +
+                     "LEFT JOIN( " +
+                     "SELECT ti_id, ti_code, ti_name, ti_unit, ti_obj_id, ti_start_datetime, ti_end_datetime, ti_funds FROM topic_info WHERE ti_categor=3 UNION ALL " +
+                     "SELECT si_id, si_code, si_name, si_unit, si_obj_id, si_start_datetime, si_end_datetime, si_funds FROM subject_info) B ON B.ti_obj_id = C.pi_id " +
                      "ORDER BY dd_sort, pi_code; ";
                 DataTable table = SqlHelper.ExecuteQuery(querySqlString);
-
-                string querySql_Subject = $"SELECT B.* FROM ({querySQL}) A LEFT JOIN ( " +
-                     "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_funds, ti_obj_id, ti_checker_date, ti_orga_id FROM topic_info UNION ALL " +
-                     "SELECT si_id, si_code, si_name, si_unit, si_prouser, si_start_datetime, si_end_datetime, si_funds, si_obj_id, si_checker_date, si_orga_id FROM subject_info) B ON A.pi_id = B.ti_obj_id " +
-                     "WHERE B.ti_id IS NOT NULL";
-                //关联盒数
-                string querySqlString_Subject = "SELECT dd_name, ti_code, ti_name, ti_unit, ti_prouser, " +
-                    $"ti_start_datetime, ti_end_datetime, ti_funds, pb_gc_id, pb_box_number, D.fCount, ti_checker_date FROM({querySql_Subject}) C " +
-                     "LEFT JOIN processing_box ON C.ti_id = pb_obj_id " +
-                     "LEFT JOIN data_dictionary ON C.ti_orga_id = dd_code " +
-                     "LEFT JOIN( SELECT pfl_box_id, COUNT(pfl_id) fCount FROM processing_file_list GROUP BY pfl_box_id) D ON pb_id = D.pfl_box_id " +
-                     "ORDER BY dd_sort, ti_code; ";
-                DataTable table_Subject = SqlHelper.ExecuteQuery(querySqlString_Subject);
-                foreach(DataRow dataRow in table_Subject.Rows)
-                {
-                    table.Rows.Add(dataRow["dd_name"], dataRow["ti_code"], dataRow["ti_name"], dataRow["ti_unit"], dataRow["ti_prouser"], dataRow["ti_start_datetime"],
-                        dataRow["ti_end_datetime"], dataRow["ti_funds"], dataRow["pb_gc_id"], dataRow["pb_box_number"], dataRow["fCount"], dataRow["ti_checker_date"]);
-                }
 
                 bool result = MicrosoftWordHelper.GetCsvFromDataTable(table, filePath);
                 if(result && XtraMessageBox.Show("导出完毕，是否立即打开文件?", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)

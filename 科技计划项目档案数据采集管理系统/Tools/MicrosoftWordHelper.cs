@@ -28,8 +28,8 @@ namespace 科技计划项目档案数据采集管理系统
                 for(int i = 0; i < list.Count; i++)
                 {
                     string code = SqlHelper.GetValueByKey(list[i]["pfl_categor"]);
-                    string name = GetValue(list[i]["pfl_filename"]);
-                    string user = GetValue(list[i]["pfl_user"]);
+                    string name = ToolHelper.GetValue(list[i]["pfl_filename"]);
+                    string user = ToolHelper.GetValue(list[i]["pfl_user"]);
                     string carrier = SqlHelper.GetValueByKey(list[i]["pfl_carrier"]);
                     int pages = Convert.ToInt32(list[i]["pfl_page_amount"]);
                     int number = Convert.ToInt32(list[i]["pfl_amount"]);
@@ -120,8 +120,6 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private static string GetValue(object v) => v == null ? string.Empty : v.ToString();
-
         public static string GetZN(int param)
         {
             string[] number = { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" };
@@ -169,12 +167,12 @@ namespace 科技计划项目档案数据采集管理系统
                 var lines = new List<string>();
                 string[] columnNames = dataTable.Columns
                                                 .Cast<DataColumn>()
-                                                .Select(column => column.ColumnName)
+                                                .Select(column => column.ColumnName.Replace(",", "，"))
                                                 .ToArray();
                 var header = string.Join(",", columnNames);
                 lines.Add(header);
                 var valueLines = dataTable.AsEnumerable()
-                                .Select(row => string.Join(",", row.ItemArray));
+                                .Select(row => string.Join(",", row.ItemArray.Select(value => GetTrueValue(value))));
                 lines.AddRange(valueLines);
                 File.WriteAllLines(fileName, lines, Encoding.Default);
                 return true;
@@ -184,6 +182,13 @@ namespace 科技计划项目档案数据采集管理系统
                 MessageBox.Show(e.Message);
                 return false;
             }
+        }
+
+        private static string GetTrueValue(object value)
+        {
+            return ToolHelper.GetValue(value)
+                .Replace(",", "，")
+                .Replace("\n", "");
         }
 
         /// <summary>

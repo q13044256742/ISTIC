@@ -227,7 +227,7 @@
             this.tabNavigationPage2});
             this.tabPane1.RegularSize = new System.Drawing.Size(1264, 749);
             this.tabPane1.SelectedPage = this.tabNavigationPage1;
-            this.tabPane1.SelectedPageIndex = 1;
+            this.tabPane1.SelectedPageIndex = 0;
             this.tabPane1.Size = new System.Drawing.Size(1264, 749);
             this.tabPane1.TabIndex = 17;
             this.tabPane1.Text = "tabPane1";
@@ -961,7 +961,7 @@
             this.tabPage2.Controls.Add(this.bc_LeftMenu);
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(284, 715);
+            this.tabPage2.Size = new System.Drawing.Size(284, 667);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "计划类别";
             // 
@@ -993,7 +993,7 @@
             this.bc_LeftMenu.Name = "bc_LeftMenu";
             this.bc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.bc_LeftMenu.ShowToolTips = false;
-            this.bc_LeftMenu.Size = new System.Drawing.Size(284, 715);
+            this.bc_LeftMenu.Size = new System.Drawing.Size(284, 667);
             this.bc_LeftMenu.TabIndex = 14;
             // 
             // all_ptype
@@ -1008,7 +1008,7 @@
             this.tabPage3.Controls.Add(this.cc_LeftMenu);
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(284, 715);
+            this.tabPage3.Size = new System.Drawing.Size(284, 667);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "地域";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1041,7 +1041,7 @@
             this.cc_LeftMenu.Name = "cc_LeftMenu";
             this.cc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.cc_LeftMenu.ShowToolTips = false;
-            this.cc_LeftMenu.Size = new System.Drawing.Size(284, 715);
+            this.cc_LeftMenu.Size = new System.Drawing.Size(284, 667);
             this.cc_LeftMenu.TabIndex = 15;
             // 
             // all_ltype

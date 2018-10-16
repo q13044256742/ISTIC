@@ -244,6 +244,7 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
         private void Frm_FirstPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             UserHelper.SetLogin(false);
+            Environment.Exit(0);
         }
 
         private void Btn_ExitSystem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

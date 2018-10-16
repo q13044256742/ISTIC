@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_userInfoAdd));
             this.btn_Cancel = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.note = new System.Windows.Forms.TextBox();
+            this.note = new DevExpress.XtraEditors.MemoEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -39,33 +40,46 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.belong_bm = new System.Windows.Forms.TextBox();
-            this.login_name = new System.Windows.Forms.TextBox();
-            this.password = new System.Windows.Forms.TextBox();
-            this.real_password = new System.Windows.Forms.TextBox();
-            this.belong_unit = new System.Windows.Forms.TextBox();
-            this.mail = new System.Windows.Forms.TextBox();
+            this.belong_bm = new DevExpress.XtraEditors.TextEdit();
+            this.login_name = new DevExpress.XtraEditors.TextEdit();
+            this.password = new DevExpress.XtraEditors.TextEdit();
+            this.real_password = new DevExpress.XtraEditors.TextEdit();
+            this.belong_unit = new DevExpress.XtraEditors.TextEdit();
+            this.mail = new DevExpress.XtraEditors.TextEdit();
             this.label11 = new System.Windows.Forms.Label();
-            this.real_name = new System.Windows.Forms.TextBox();
+            this.real_name = new DevExpress.XtraEditors.TextEdit();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.ip_input = new System.Windows.Forms.TextBox();
+            this.ip_input = new DevExpress.XtraEditors.TextEdit();
             this.label12 = new System.Windows.Forms.Label();
-            this.phone = new System.Windows.Forms.TextBox();
+            this.phone = new DevExpress.XtraEditors.TextEdit();
             this.label14 = new System.Windows.Forms.Label();
-            this.mobile = new System.Windows.Forms.TextBox();
+            this.mobile = new DevExpress.XtraEditors.TextEdit();
             this.label6 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.role_select = new System.Windows.Forms.ComboBox();
+            ((System.ComponentModel.ISupportInitialize)(this.note.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.belong_bm.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.login_name.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.password.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.real_password.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.belong_unit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mail.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.real_name.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ip_input.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.phone.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobile.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_Cancel
             // 
-            this.btn_Cancel.Location = new System.Drawing.Point(687, 406);
+            this.btn_Cancel.Image = ((System.Drawing.Image)(resources.GetObject("btn_Cancel.Image")));
+            this.btn_Cancel.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Cancel.Location = new System.Drawing.Point(687, 414);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(76, 29);
             this.btn_Cancel.TabIndex = 35;
@@ -74,20 +88,23 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(605, 406);
+            this.btn_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save.Image")));
+            this.btn_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Save.Location = new System.Drawing.Point(605, 414);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(76, 29);
             this.btn_Save.TabIndex = 34;
-            this.btn_Save.Text = "保存(&S)";
+            this.btn_Save.Text = "保存";
             this.btn_Save.Click += new System.EventHandler(this.U_btnSave);
             // 
             // note
             // 
-            this.note.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.note.Location = new System.Drawing.Point(105, 325);
-            this.note.Multiline = true;
             this.note.Name = "note";
-            this.note.Size = new System.Drawing.Size(659, 60);
+            this.note.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.note.Properties.Appearance.Options.UseFont = true;
+            this.note.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.note.Size = new System.Drawing.Size(659, 75);
             this.note.TabIndex = 33;
             // 
             // label1
@@ -104,7 +121,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(436, 28);
+            this.label2.Location = new System.Drawing.Point(48, 72);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 19);
             this.label2.TabIndex = 37;
@@ -114,7 +131,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(19, 71);
+            this.label3.Location = new System.Drawing.Point(407, 72);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 19);
             this.label3.TabIndex = 38;
@@ -172,65 +189,71 @@
             // 
             // belong_bm
             // 
-            this.belong_bm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.belong_bm.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.belong_bm.Location = new System.Drawing.Point(494, 113);
             this.belong_bm.Name = "belong_bm";
-            this.belong_bm.Size = new System.Drawing.Size(271, 26);
+            this.belong_bm.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.belong_bm.Properties.Appearance.Options.UseFont = true;
+            this.belong_bm.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.belong_bm.Size = new System.Drawing.Size(271, 30);
             this.belong_bm.TabIndex = 51;
             // 
             // login_name
             // 
-            this.login_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.login_name.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.login_name.Location = new System.Drawing.Point(105, 25);
+            this.login_name.Location = new System.Drawing.Point(105, 22);
             this.login_name.Name = "login_name";
-            this.login_name.Size = new System.Drawing.Size(271, 26);
+            this.login_name.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.login_name.Properties.Appearance.Options.UseFont = true;
+            this.login_name.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.login_name.Size = new System.Drawing.Size(271, 30);
             this.login_name.TabIndex = 60;
             // 
             // password
             // 
-            this.password.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.password.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.password.Location = new System.Drawing.Point(493, 24);
+            this.password.Location = new System.Drawing.Point(106, 66);
             this.password.Name = "password";
-            this.password.PasswordChar = '*';
-            this.password.Size = new System.Drawing.Size(271, 26);
+            this.password.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.password.Properties.Appearance.Options.UseFont = true;
+            this.password.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.password.Properties.PasswordChar = '*';
+            this.password.Size = new System.Drawing.Size(271, 30);
             this.password.TabIndex = 61;
             // 
             // real_password
             // 
-            this.real_password.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.real_password.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.real_password.Location = new System.Drawing.Point(106, 68);
+            this.real_password.Location = new System.Drawing.Point(494, 66);
             this.real_password.Name = "real_password";
-            this.real_password.PasswordChar = '*';
-            this.real_password.Size = new System.Drawing.Size(271, 26);
+            this.real_password.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.real_password.Properties.Appearance.Options.UseFont = true;
+            this.real_password.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.real_password.Properties.PasswordChar = '*';
+            this.real_password.Size = new System.Drawing.Size(271, 30);
             this.real_password.TabIndex = 62;
             // 
             // belong_unit
             // 
-            this.belong_unit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.belong_unit.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.belong_unit.Location = new System.Drawing.Point(106, 112);
             this.belong_unit.Name = "belong_unit";
-            this.belong_unit.Size = new System.Drawing.Size(271, 26);
+            this.belong_unit.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.belong_unit.Properties.Appearance.Options.UseFont = true;
+            this.belong_unit.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.belong_unit.Size = new System.Drawing.Size(271, 30);
             this.belong_unit.TabIndex = 63;
             // 
             // mail
             // 
-            this.mail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mail.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.mail.Location = new System.Drawing.Point(106, 206);
             this.mail.Name = "mail";
-            this.mail.Size = new System.Drawing.Size(271, 26);
+            this.mail.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.mail.Properties.Appearance.Options.UseFont = true;
+            this.mail.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.mail.Size = new System.Drawing.Size(271, 30);
             this.mail.TabIndex = 65;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
-            this.label11.Location = new System.Drawing.Point(407, 71);
+            this.label11.Location = new System.Drawing.Point(407, 28);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(84, 19);
             this.label11.TabIndex = 66;
@@ -238,11 +261,12 @@
             // 
             // real_name
             // 
-            this.real_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.real_name.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.real_name.Location = new System.Drawing.Point(494, 68);
+            this.real_name.Location = new System.Drawing.Point(494, 22);
             this.real_name.Name = "real_name";
-            this.real_name.Size = new System.Drawing.Size(271, 26);
+            this.real_name.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.real_name.Properties.Appearance.Options.UseFont = true;
+            this.real_name.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.real_name.Size = new System.Drawing.Size(271, 30);
             this.real_name.TabIndex = 67;
             // 
             // label21
@@ -250,7 +274,7 @@
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.label21.ForeColor = System.Drawing.Color.Red;
-            this.label21.Location = new System.Drawing.Point(379, 29);
+            this.label21.Location = new System.Drawing.Point(379, 28);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(16, 19);
             this.label21.TabIndex = 110;
@@ -261,7 +285,7 @@
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.label22.ForeColor = System.Drawing.Color.Red;
-            this.label22.Location = new System.Drawing.Point(767, 28);
+            this.label22.Location = new System.Drawing.Point(380, 72);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(16, 19);
             this.label22.TabIndex = 111;
@@ -272,7 +296,7 @@
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.label23.ForeColor = System.Drawing.Color.Red;
-            this.label23.Location = new System.Drawing.Point(380, 72);
+            this.label23.Location = new System.Drawing.Point(768, 72);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(16, 19);
             this.label23.TabIndex = 112;
@@ -283,7 +307,7 @@
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.label25.ForeColor = System.Drawing.Color.Red;
-            this.label25.Location = new System.Drawing.Point(768, 72);
+            this.label25.Location = new System.Drawing.Point(768, 28);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(16, 19);
             this.label25.TabIndex = 114;
@@ -313,11 +337,12 @@
             // 
             // ip_input
             // 
-            this.ip_input.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ip_input.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ip_input.Location = new System.Drawing.Point(106, 262);
             this.ip_input.Name = "ip_input";
-            this.ip_input.Size = new System.Drawing.Size(658, 26);
+            this.ip_input.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.ip_input.Properties.Appearance.Options.UseFont = true;
+            this.ip_input.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.ip_input.Size = new System.Drawing.Size(658, 30);
             this.ip_input.TabIndex = 118;
             // 
             // label12
@@ -332,12 +357,12 @@
             // 
             // phone
             // 
-            this.phone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.phone.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.phone.Location = new System.Drawing.Point(494, 210);
-            this.phone.MaxLength = 11;
             this.phone.Name = "phone";
-            this.phone.Size = new System.Drawing.Size(271, 26);
+            this.phone.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.phone.Properties.Appearance.Options.UseFont = true;
+            this.phone.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.phone.Size = new System.Drawing.Size(271, 30);
             this.phone.TabIndex = 126;
             // 
             // label14
@@ -352,12 +377,12 @@
             // 
             // mobile
             // 
-            this.mobile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mobile.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.mobile.Location = new System.Drawing.Point(494, 162);
-            this.mobile.MaxLength = 11;
             this.mobile.Name = "mobile";
-            this.mobile.Size = new System.Drawing.Size(271, 26);
+            this.mobile.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.mobile.Properties.Appearance.Options.UseFont = true;
+            this.mobile.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.mobile.Size = new System.Drawing.Size(271, 30);
             this.mobile.TabIndex = 128;
             // 
             // label6
@@ -384,12 +409,11 @@
             // role_select
             // 
             this.role_select.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.role_select.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.role_select.FormattingEnabled = true;
-            this.role_select.Location = new System.Drawing.Point(106, 161);
+            this.role_select.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.role_select.Location = new System.Drawing.Point(106, 159);
             this.role_select.Name = "role_select";
-            this.role_select.Size = new System.Drawing.Size(270, 25);
-            this.role_select.TabIndex = 130;
+            this.role_select.Size = new System.Drawing.Size(271, 29);
+            this.role_select.TabIndex = 132;
             // 
             // Frm_userInfoAdd
             // 
@@ -432,6 +456,17 @@
             this.Name = "Frm_userInfoAdd";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "用户信息";
+            ((System.ComponentModel.ISupportInitialize)(this.note.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.belong_bm.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.login_name.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.password.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.real_password.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.belong_unit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mail.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.real_name.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ip_input.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.phone.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mobile.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -440,7 +475,7 @@
         #endregion
         private KyoControl.KyoButton btn_Cancel;
         private KyoControl.KyoButton btn_Save;
-        private System.Windows.Forms.TextBox note;
+        private DevExpress.XtraEditors.MemoEdit note;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -449,25 +484,25 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox belong_bm;
-        private System.Windows.Forms.TextBox login_name;
-        private System.Windows.Forms.TextBox password;
-        private System.Windows.Forms.TextBox real_password;
-        private System.Windows.Forms.TextBox belong_unit;
-        private System.Windows.Forms.TextBox mail;
+        private DevExpress.XtraEditors.TextEdit belong_bm;
+        private DevExpress.XtraEditors.TextEdit login_name;
+        private DevExpress.XtraEditors.TextEdit password;
+        private DevExpress.XtraEditors.TextEdit real_password;
+        private DevExpress.XtraEditors.TextEdit belong_unit;
+        private DevExpress.XtraEditors.TextEdit mail;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox real_name;
+        private DevExpress.XtraEditors.TextEdit real_name;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox ip_input;
+        private DevExpress.XtraEditors.TextEdit ip_input;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox phone;
+        private DevExpress.XtraEditors.TextEdit phone;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox mobile;
+        private DevExpress.XtraEditors.TextEdit mobile;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ComboBox role_select;

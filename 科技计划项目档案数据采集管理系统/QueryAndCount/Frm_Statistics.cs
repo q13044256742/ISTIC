@@ -275,7 +275,7 @@ namespace 科技计划项目档案数据采集管理系统
                     new DataColumn("项目/课题数", typeof(int)),
                     new DataColumn("课题/子课题数", typeof(int)),
                     new DataColumn("文件数", typeof(int)),
-                    new DataColumn("返工数", typeof(int)),
+                    new DataColumn((rdo_JG.Checked?"被":string.Empty) + "返工数", typeof(int)),
                     new DataColumn("页数", typeof(int)),
                 });
                 //加工人员工作量统计
@@ -667,22 +667,6 @@ namespace 科技计划项目档案数据采集管理系统
             return -1;
         }
 
-        //private void LoadViewList(DataTable table)
-        //{
-        //    countView.Rows.Clear();
-        //    table = table.DefaultView.ToTable();
-        //    foreach(DataRow row in table.Rows)
-        //    {
-        //        int i = countView.Rows.Add();
-        //        countView.Rows[i].Cells["date"].Value = GetDateValue(row["date"], "yyyy-MM-dd");
-        //        countView.Rows[i].Cells["pcount"].Value = row["pcount"];
-        //        countView.Rows[i].Cells["tcount"].Value = row["tcount"];
-        //        countView.Rows[i].Cells["fcount"].Value = row["fcount"];
-        //        countView.Rows[i].Cells["bcount"].Value = row["bcount"];
-        //        countView.Rows[i].Cells["pgcount"].Value = row["pgcount"];
-        //    }
-        //}
-
         private object GetDateValue(object value, string format)
         {
             if(value == null)
@@ -1042,7 +1026,7 @@ namespace 科技计划项目档案数据采集管理系统
                 //年度统计
                 if(typeIndex == 2)
                 {
-                    string orgName = ac_LeftMenu.SelectedElement.Name;
+                    string orgName = ac_LeftMenu.SelectedElement == null ? "ace_all" : ac_LeftMenu.SelectedElement.Name;
                     string _minYear = txt_QuerySyear.Text, _maxYear = txt_QueryEyear.Text;
                     if(string.IsNullOrEmpty(_minYear) && string.IsNullOrEmpty(_maxYear))
                     {
@@ -1096,7 +1080,7 @@ namespace 科技计划项目档案数据采集管理系统
                 //年度统计
                 if(typeIndex == 2)
                 {
-                    string orgName = bc_LeftMenu.SelectedElement.Name;
+                    string orgName = bc_LeftMenu.SelectedElement == null ? "all_ptype" : bc_LeftMenu.SelectedElement.Name;
                     string _minYear = txt_QuerySyear.Text, _maxYear = txt_QueryEyear.Text;
                     if(string.IsNullOrEmpty(_minYear) && string.IsNullOrEmpty(_maxYear))
                     {

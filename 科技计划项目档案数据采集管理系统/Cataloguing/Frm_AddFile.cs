@@ -39,6 +39,11 @@ namespace 科技计划项目档案数据采集管理系统
                 Text = "编辑文件";
                 this.fileId = fileId;
             }
+            else
+            {
+                btn_Last.Visible = false;
+                btn_Next.Visible = false;
+            }
         }
 
         private void Frm_AddFile_Load(object sender, EventArgs e)
@@ -395,7 +400,17 @@ namespace 科技计划项目档案数据采集管理系统
                     ResetControl();
                 }
                 else if(Text.Contains("编辑"))
+                {
+                    object currentRow = view.CurrentRow;
                     UpdateFileInfo();
+                    if(currentRow != null)
+                    {
+                        DataGridViewRow row = (DataGridViewRow)currentRow;
+                        view.ClearSelection();
+                        row.Selected = true;
+                        view.CurrentCell = row.Cells[1];
+                    }
+                }
             }
             else
             {
@@ -661,6 +676,42 @@ namespace 科技计划项目档案数据采集管理系统
             NumericUpDown numeric = sender as NumericUpDown;
             int length = numeric.Value.ToString().Length;
             numeric.Select(0, length);
+        }
+
+        private void Btn_Last_Click(object sender, EventArgs e)
+        {
+            object currentRow = view.CurrentRow;
+            if(currentRow != null)
+            {
+                int currentRowIndex = ((DataGridViewRow)currentRow).Index;
+                if(currentRowIndex > 0)
+                {
+                    fileId = view.Rows[currentRowIndex - 1].Cells[0].Value;
+                    Frm_AddFile_Load(null, null);
+                    view.ClearSelection();
+                    view.Rows[currentRowIndex - 1].Selected = true;
+                    view.CurrentCell = view.Rows[currentRowIndex - 1].Cells[1];
+                }
+            }
+        }
+
+        private void Btn_Next_Click(object sender, EventArgs e)
+        {
+            object currentRow = view.CurrentRow;
+            if(currentRow != null)
+            {
+                int currentRowIndex = ((DataGridViewRow)currentRow).Index;
+                bool flag = view.AllowUserToAddRows;
+                int maxRowIndex = flag ? view.RowCount - 1 : view.RowCount;
+                if(currentRowIndex < maxRowIndex - 1)
+                {
+                    fileId = view.Rows[currentRowIndex + 1].Cells[0].Value;
+                    Frm_AddFile_Load(null, null);
+                    view.ClearSelection();
+                    view.Rows[currentRowIndex + 1].Selected = true;
+                    view.CurrentCell = view.Rows[currentRowIndex + 1].Cells[1];
+                }
+            }
         }
     }
 }

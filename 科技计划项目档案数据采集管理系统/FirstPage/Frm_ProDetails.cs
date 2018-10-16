@@ -1047,7 +1047,6 @@ namespace 科技计划项目档案数据采集管理系统
                     $",pi_uniter = '{unituser}'" +
                     $",pi_prouser = '{objuser}'" +
                     $",pi_intro = '{intro}'" +
-                    $",pi_source_id = '{Tag}'" +
                     $" WHERE pi_id='{objid}'";
                 SqlHelper.ExecuteNonQuery(updateSql);
             }
@@ -1081,7 +1080,6 @@ namespace 科技计划项目档案数据采集管理系统
                     $",ti_uniter = '{unituser}'" +
                     $",ti_prouser = '{objuser}'" +
                     $",ti_intro = '{intro}'" +
-                    $",ti_source_id = '{Tag}'" +
                     $" WHERE ti_id='{objid}'";
                 SqlHelper.ExecuteNonQuery(updateSql);
             }
@@ -1115,7 +1113,6 @@ namespace 科技计划项目档案数据采集管理系统
                     $",[si_uniter] = '{unituser}'" +
                     $",[si_prouser] = '{objuser}'" +
                     $",[si_intro] = '{intro}'" +
-                    $",si_source_id = '{Tag}'" +
                     $" WHERE si_id='{objid}'";
                 SqlHelper.ExecuteNonQuery(updateSql);
             }

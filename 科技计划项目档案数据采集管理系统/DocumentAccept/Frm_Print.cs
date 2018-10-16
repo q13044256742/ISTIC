@@ -95,7 +95,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                     sw.WriteLine(GetDomRecHTML());
                     sw.Flush();
                     sw.Close();
-                    if(XtraMessageBox.Show("导出缺失文件清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                    if(XtraMessageBox.Show("导出档案接收确认函成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                         WinFormOpenHelper.OpenWinForm(0, "open", savePath, null, null, ShowWindowCommands.SW_NORMAL);
                 }
                 catch(Exception ex)

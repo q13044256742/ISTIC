@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_userGroup));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.button4 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.button3 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Search = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.userGroup_SearchKey = new System.Windows.Forms.TextBox();
+            this.userGroup_SearchKey = new DevExpress.XtraEditors.TextEdit();
             this.view = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,6 +46,7 @@
             this.extend_3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sort = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.userGroup_SearchKey.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,6 +59,7 @@
             this.groupBox1.Controls.Add(this.btn_Search);
             this.groupBox1.Controls.Add(this.userGroup_SearchKey);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1001, 55);
@@ -67,7 +70,9 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(927, 20);
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.button1.Location = new System.Drawing.Point(915, 22);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(68, 27);
             this.button1.TabIndex = 13;
@@ -77,7 +82,9 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(851, 20);
+            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
+            this.button4.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.button4.Location = new System.Drawing.Point(843, 22);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(68, 27);
             this.button4.TabIndex = 12;
@@ -87,7 +94,9 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(775, 20);
+            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
+            this.button3.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.button3.Location = new System.Drawing.Point(771, 22);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(68, 27);
             this.button3.TabIndex = 11;
@@ -96,7 +105,9 @@
             // btn_Add
             // 
             this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Add.Location = new System.Drawing.Point(699, 20);
+            this.btn_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Add.Image")));
+            this.btn_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Add.Location = new System.Drawing.Point(699, 22);
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(68, 27);
             this.btn_Add.TabIndex = 10;
@@ -105,7 +116,9 @@
             // btn_Search
             // 
             this.btn_Search.AutoSize = true;
-            this.btn_Search.Location = new System.Drawing.Point(342, 21);
+            this.btn_Search.Image = ((System.Drawing.Image)(resources.GetObject("btn_Search.Image")));
+            this.btn_Search.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Search.Location = new System.Drawing.Point(247, 22);
             this.btn_Search.Name = "btn_Search";
             this.btn_Search.Size = new System.Drawing.Size(68, 27);
             this.btn_Search.TabIndex = 9;
@@ -114,10 +127,12 @@
             // 
             // userGroup_SearchKey
             // 
-            this.userGroup_SearchKey.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.userGroup_SearchKey.Location = new System.Drawing.Point(6, 21);
             this.userGroup_SearchKey.Name = "userGroup_SearchKey";
-            this.userGroup_SearchKey.Size = new System.Drawing.Size(330, 26);
+            this.userGroup_SearchKey.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.userGroup_SearchKey.Properties.Appearance.Options.UseFont = true;
+            this.userGroup_SearchKey.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.userGroup_SearchKey.Size = new System.Drawing.Size(235, 28);
             this.userGroup_SearchKey.TabIndex = 8;
             // 
             // view
@@ -127,14 +142,14 @@
             this.view.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.view.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.view.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.view.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 9F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.view.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.view.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.view.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
@@ -188,8 +203,8 @@
             // 
             // sort
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sort.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sort.DefaultCellStyle = dataGridViewCellStyle4;
             this.sort.FillWeight = 50F;
             this.sort.HeaderText = "排序";
             this.sort.Name = "sort";
@@ -208,6 +223,7 @@
             this.Load += new System.EventHandler(this.Frm_userGroup_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.userGroup_SearchKey.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).EndInit();
             this.ResumeLayout(false);
 
@@ -219,7 +235,7 @@
         private KyoControl.KyoButton button3;
         private KyoControl.KyoButton btn_Add;
         private KyoControl.KyoButton btn_Search;
-        private System.Windows.Forms.TextBox userGroup_SearchKey;
+        private DevExpress.XtraEditors.TextEdit userGroup_SearchKey;
         private KyoControl.KyoButton button1;
         private System.Windows.Forms.DataGridView view;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;

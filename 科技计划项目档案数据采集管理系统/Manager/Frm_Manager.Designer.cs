@@ -45,12 +45,13 @@
             this.button3 = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Add = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Search = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
-            this.txt_SearchKey = new System.Windows.Forms.TextBox();
+            this.txt_SearchKey = new DevExpress.XtraEditors.TextEdit();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cms_move = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataList)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SearchKey.Properties)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,6 +141,7 @@
             this.groupBox1.Controls.Add(this.btn_Search);
             this.groupBox1.Controls.Add(this.txt_SearchKey);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(923, 64);
@@ -153,7 +155,7 @@
             this.btn_Back.Enabled = false;
             this.btn_Back.Image = ((System.Drawing.Image)(resources.GetObject("btn_Back.Image")));
             this.btn_Back.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Back.Location = new System.Drawing.Point(844, 26);
+            this.btn_Back.Location = new System.Drawing.Point(844, 27);
             this.btn_Back.Name = "btn_Back";
             this.btn_Back.Size = new System.Drawing.Size(66, 28);
             this.btn_Back.TabIndex = 13;
@@ -165,7 +167,7 @@
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
             this.button4.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.button4.Location = new System.Drawing.Point(773, 26);
+            this.button4.Location = new System.Drawing.Point(773, 27);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(66, 28);
             this.button4.TabIndex = 12;
@@ -177,7 +179,7 @@
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
             this.button3.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.button3.Location = new System.Drawing.Point(702, 26);
+            this.button3.Location = new System.Drawing.Point(702, 27);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(66, 28);
             this.button3.TabIndex = 11;
@@ -189,7 +191,7 @@
             this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Add.Image")));
             this.btn_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Add.Location = new System.Drawing.Point(631, 26);
+            this.btn_Add.Location = new System.Drawing.Point(631, 27);
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(66, 28);
             this.btn_Add.TabIndex = 10;
@@ -198,7 +200,9 @@
             // 
             // btn_Search
             // 
-            this.btn_Search.Location = new System.Drawing.Point(263, 26);
+            this.btn_Search.Image = ((System.Drawing.Image)(resources.GetObject("btn_Search.Image")));
+            this.btn_Search.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Search.Location = new System.Drawing.Point(263, 27);
             this.btn_Search.Name = "btn_Search";
             this.btn_Search.Size = new System.Drawing.Size(66, 28);
             this.btn_Search.TabIndex = 9;
@@ -207,10 +211,12 @@
             // 
             // txt_SearchKey
             // 
-            this.txt_SearchKey.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_SearchKey.Location = new System.Drawing.Point(13, 27);
             this.txt_SearchKey.Name = "txt_SearchKey";
-            this.txt_SearchKey.Size = new System.Drawing.Size(244, 26);
+            this.txt_SearchKey.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_SearchKey.Properties.Appearance.Options.UseFont = true;
+            this.txt_SearchKey.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_SearchKey.Size = new System.Drawing.Size(244, 28);
             this.txt_SearchKey.TabIndex = 8;
             // 
             // contextMenuStrip1
@@ -245,7 +251,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataList)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SearchKey.Properties)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -254,7 +260,7 @@
         #endregion
         private System.Windows.Forms.GroupBox groupBox1;
         private KyoControl.KyoButton btn_Search;
-        private System.Windows.Forms.TextBox txt_SearchKey;
+        private DevExpress.XtraEditors.TextEdit txt_SearchKey;
         private System.Windows.Forms.DataGridView dgv_DataList;
         private KyoControl.KyoButton button4;
         private KyoControl.KyoButton button3;

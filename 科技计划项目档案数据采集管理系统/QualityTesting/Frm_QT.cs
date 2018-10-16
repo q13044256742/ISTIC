@@ -282,7 +282,9 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewButtonColumn(){ Name = "mr_submit", HeaderText = "完成", FillWeight = 8, Text = "提交", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable}
             });
 
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT wm_id, wm_type, wm_obj_id, wm_ticker FROM work_myreg WHERE wm_accepter='{UserHelper.GetUser().UserKey}' AND wm_status=2");
+            DataTable table = SqlHelper.ExecuteQuery("SELECT wm_id, wm_type, wm_obj_id, wm_ticker FROM work_myreg " +
+                $"WHERE wm_accepter='{UserHelper.GetUser().UserKey}' AND wm_status=2 " +
+                 "ORDER BY wm_accepter_date DESC");
             foreach(DataRow row in table.Rows)
             {
                 WorkType type = (WorkType)ToolHelper.GetIntValue(row["wm_type"]);
@@ -394,56 +396,8 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-            dgv_MyReg.Sort(new RowComparer(SortOrder.Ascending, "mr_pcode", "mr_code"));
             DataGridViewStyleHelper.SetAlignWithCenter(dgv_MyReg, new string[] { "mr_fileamount", "pro_qtAmount" });
             dgv_MyReg.Columns["mr_id"].Visible = false;
-        }
-
-        /// <summary>
-        /// 自定义排序
-        /// </summary>
-        private class RowComparer : System.Collections.IComparer
-        {
-            /// <summary>
-            /// 正倒序排序
-            /// </summary>
-            private static int sortOrderModifier = 1;
-            /// <summary>
-            /// 多列排序字符串
-            /// </summary>
-            private readonly string[] paramString;
-            public RowComparer(SortOrder sortOrder, params string[] paramString)
-            {
-                if(sortOrder == SortOrder.Descending)
-                {
-                    sortOrderModifier = -1;
-                }
-                else if(sortOrder == SortOrder.Ascending)
-                {
-                    sortOrderModifier = 1;
-                }
-                this.paramString = paramString;
-            }
-            public int Compare(object x, object y)
-            {
-                DataGridViewRow DataGridViewRow1 = (DataGridViewRow)x;
-                DataGridViewRow DataGridViewRow2 = (DataGridViewRow)y;
-                int i = 0;
-                // Try to sort based on the Last Name column.
-                int CompareResult = string.Compare(
-                    DataGridViewRow1.Cells[paramString[i]].Value.ToString(),
-                    DataGridViewRow2.Cells[paramString[i]].Value.ToString());
-
-                // If the Last Names are equal, sort based on the First Name.
-                if(CompareResult == 0)
-                {
-                    CompareResult = string.Compare(
-                        DataGridViewRow1.Cells[paramString[i + 1]].Value.ToString(),
-                        DataGridViewRow2.Cells[paramString[i + 1]].Value.ToString());
-                }
-                return CompareResult * sortOrderModifier;
-            }
-
         }
 
         /// <summary>
@@ -763,7 +717,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetUser().UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{subRow["si_id"]}';");
                             }
                         }
-                        updateSQL.Append($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}';");
+                        updateSQL.Append($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_accepter_date='{DateTime.Now}', wm_ticker+=1 WHERE wm_id='{wmid}';");
 
                         SqlHelper.ExecuteNonQuery(updateSQL.ToString());
 
@@ -906,7 +860,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                     {
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                         LoadMyRegList();
                         XtraMessageBox.Show("操作成功。");
                     }
@@ -917,7 +871,7 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                 {
-                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
+                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
                     LoadMyRegList();
                     XtraMessageBox.Show("操作成功。");
                 }
