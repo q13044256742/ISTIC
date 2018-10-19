@@ -158,7 +158,8 @@ namespace 科技计划项目档案数据采集管理系统
                 };
                 string topQuerySQL = $"SELECT * FROM (" +
                     $"SELECT ti_id, ti_code, ti_obj_id, ti_categor FROM topic_info UNION ALL " +
-                    $"SELECT si_id, si_code, si_obj_id, si_categor FROM subject_info) A WHERE A.ti_obj_id='{proRow["pi_id"]}'";
+                    $"SELECT si_id, si_code, si_obj_id, si_categor FROM subject_info) A WHERE A.ti_obj_id='{proRow["pi_id"]}' " +
+                    $"ORDER BY A.ti_code ";
                 DataTable topTable = SqlHelper.ExecuteQuery(topQuerySQL);
                 foreach(DataRow topRow in topTable.Rows)
                 {
@@ -171,7 +172,7 @@ namespace 科技计划项目档案数据采集管理系统
                     };
                     treeNode.Nodes.Add(topNode);
 
-                    string subQuerySQL = $"SELECT * FROM subject_info A WHERE A.si_obj_id='{topRow["ti_id"]}'";
+                    string subQuerySQL = $"SELECT * FROM subject_info A WHERE A.si_obj_id='{topRow["ti_id"]}' ORDER BY si_code";
                     DataTable subTable = SqlHelper.ExecuteQuery(subQuerySQL);
                     foreach(DataRow subRow in subTable.Rows)
                     {
@@ -187,6 +188,8 @@ namespace 科技计划项目档案数据采集管理系统
                 }
 
                 treeView.Nodes.Add(treeNode);
+                treeView.ExpandAll();
+
                 ControlType firstType = (ControlType)treeNode.Tag;
                 if(firstType == ControlType.Project)
                 {
@@ -1767,6 +1770,65 @@ namespace 科技计划项目档案数据采集管理系统
                 object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
                 txt_Subject_GCID.Text = ToolHelper.GetValue(gcid, string.Empty);
             }
+        }
+
+        private void treeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            tab_MenuList.Update();
+            ControlType type = (ControlType)e.Node.Tag;
+            if(type == ControlType.Project)
+            {
+                ShowTab("Project", 0);
+                LoadPageBasicInfo(e.Node, type);
+            }
+            else if(type == ControlType.Topic)
+            {
+                int index = e.Node.Level;
+                if(index == 0)
+                {
+                    ShowTab("Topic", 0);
+                    LoadPageBasicInfo(e.Node, type);
+                }
+                else if(index == 1)
+                {
+                    ShowTab("Project", 0);
+                    LoadPageBasicInfo(e.Node.Parent, type);
+
+                    ShowTab("Topic", 1);
+                    LoadPageBasicInfo(e.Node, type);
+                }
+
+            }
+            else if(type == ControlType.Subject)
+            {
+                int level = e.Node.Level;
+                if(level == 0)
+                {
+                    ShowTab("Subject", 0);
+                    LoadPageBasicInfo(e.Node, type);
+                }
+                else if(level == 1)
+                {
+                    ShowTab("Topic", 0);
+                    LoadPageBasicInfo(e.Node.Parent, type);
+
+                    ShowTab("Subject", 1);
+                    LoadPageBasicInfo(e.Node, type);
+                }
+                else if(level == 2)
+                {
+                    ShowTab("Project", 0);
+                    LoadPageBasicInfo(e.Node.Parent.Parent, type);
+
+                    ShowTab("Topic", 1);
+                    LoadPageBasicInfo(e.Node.Parent, type);
+
+                    ShowTab("Subject", 2);
+                    LoadPageBasicInfo(e.Node, type);
+                }
+            }
+            if(tab_MenuList.TabCount > 0)
+                tab_MenuList.SelectedIndex = tab_MenuList.TabCount - 1;
         }
     }
 }

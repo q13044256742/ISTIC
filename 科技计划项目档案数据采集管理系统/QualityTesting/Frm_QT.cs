@@ -283,7 +283,7 @@ namespace 科技计划项目档案数据采集管理系统
             });
 
             DataTable table = SqlHelper.ExecuteQuery("SELECT wm_id, wm_type, wm_obj_id, wm_ticker FROM work_myreg " +
-                $"WHERE wm_accepter='{UserHelper.GetUser().UserKey}' AND wm_status=2 " +
+                $"WHERE wm_accepter='{UserHelper.GetUser().UserKey}' AND wm_status={(int)QualityStatus.Qualitting } " +
                  "ORDER BY wm_accepter_date DESC");
             foreach(DataRow row in table.Rows)
             {
@@ -828,7 +828,7 @@ namespace 科技计划项目档案数据采集管理系统
                         result = XtraMessageBox.Show("确定要完成对当前数据的质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK;
                     if(result)
                     {
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.QualityFinish}' WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityFinish} WHERE wm_id='{wmid}'");
                         LoadMyRegList();
                     }
                 }

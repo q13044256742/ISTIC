@@ -304,45 +304,58 @@ namespace 科技计划项目档案数据采集管理系统
                     "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3" +
                     ") A WHERE LEN(A.pi_source_id)>0 AND LEN(A.pi_orga_id)>0 ";
                 string countQuerySQL2 = "SELECT COUNT(ti_id) FROM topic_info WHERE ti_categor=3 AND LEN(ti_source_id)>0 AND LEN(ti_orga_id)>0 ";
+                string countQuerySQL3 = "SELECT COUNT(pb.pb_id) FROM( " +
+                    "SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id, ti_orga_id FROM topic_info" +
+                    ") A INNER JOIN processing_box pb ON A.pi_id = pb.pb_obj_id " +
+                    "WHERE LEN(A.pi_source_id)>0 AND LEN(A.pi_orga_id)>0 ";
                 if(!string.IsNullOrEmpty(proCode))
                 {
                     countQuerySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
                     countQuerySQL2 += $"AND ti_code LIKE '%{proCode}%' ";
+                    countQuerySQL3 += $"AND A.pi_code LIKE '%{proCode}%' ";
                 }
                 if(!string.IsNullOrEmpty(proName))
                 {
                     countQuerySQL += $"AND A.pi_name LIKE '%{proName}%' ";
                     countQuerySQL2 += $"AND ti_name LIKE '%{proName}%' ";
+                    countQuerySQL3 += $"AND A.pi_name LIKE '%{proName}%' ";
                 }
                 if("ZX".Equals(planType))//全部重大专项
                 {
                     countQuerySQL += $"AND pi_source_id LIKE 'ZX__' ";
                     countQuerySQL2 += $"AND ti_source_id LIKE 'ZX__' ";
+                    countQuerySQL3 += $"AND A.pi_source_id LIKE 'ZX__' ";
                 }
                 else if(!"all".Equals(planType))//普通计划
                 {
                     countQuerySQL += $"AND A.pi_source_id = '{planType}' ";
                     countQuerySQL2 += $"AND ti_source_id = '{planType}' ";
+                    countQuerySQL3 += $"AND A.pi_source_id = '{planType}' ";
                 }
                 if(!"all".Equals(orgType))
                 {
                     countQuerySQL += $"AND A.pi_orga_id = '{orgType}' ";
                     countQuerySQL2 += $"AND ti_orga_id = '{orgType}' ";
+                    countQuerySQL3 += $"AND A.pi_orga_id = '{orgType}' ";
                 }
                 if(!string.IsNullOrEmpty(sDate))
                 {
                     countQuerySQL += $"AND A.pi_start_datetime >= '{sDate}' ";
                     countQuerySQL2 += $"AND ti_start_datetime >= '{sDate}' ";
+                    countQuerySQL3 += $"AND A.pi_start_datetime >= '{sDate}' ";
                 }
                 if(!string.IsNullOrEmpty(eDate))
                 {
                     countQuerySQL += $"AND A.pi_start_datetime <= '{eDate}' ";
                     countQuerySQL2 += $"AND ti_start_datetime <= '{eDate}' ";
+                    countQuerySQL3 += $"AND A.pi_start_datetime <= '{eDate}' ";
                 }
                 int totalProjectSize = SqlHelper.ExecuteCountQuery(countQuerySQL);
                 int totalTopicSize = SqlHelper.ExecuteCountQuery(countQuerySQL2);
+                int totalBoxSize = SqlHelper.ExecuteCountQuery(countQuerySQL3);
                 maxPage = totalProjectSize % pageSize == 0 ? totalProjectSize / pageSize : totalProjectSize / pageSize + 1;
-                label1.Text = $"合计{totalProjectSize + totalTopicSize}条记录, 其中{totalProjectSize}个项目/课题, {totalTopicSize}个课题/子课题  每页共 {pageSize} 条，共 {maxPage} 页";
+                label1.Text = $"合计{totalProjectSize + totalTopicSize}条记录, 其中{totalProjectSize}个项目/课题, {totalTopicSize}个课题/子课题, {totalBoxSize}盒。  每页共 {pageSize} 条，共 {maxPage} 页";
             }
 
         }
@@ -473,7 +486,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 加载指定项目/课题下的文件列表
         /// </summary>
         /// <param name="id"></param>
-        private void LoadFileList(object id, string fname, string fcategor, string pcode, string pname)
+        private void LoadFileList(object fid, string fname, string fcode, string pcode, string pname, string gc)
         {
             view2.Rows.Clear();
             string querySQL = "SELECT TOP(1000) A.pi_code, pb.pb_gc_id, bl.bl_id, bl.bl_borrow_state, pfl.pfl_id, pfl.pfl_code, pfl.pfl_name, pb.pb_box_number " +
@@ -482,15 +495,14 @@ namespace 科技计划项目档案数据采集管理系统
               "UNION ALL SELECT ti_id, ti_code, ti_name, ti_obj_id FROM topic_info " +
               "UNION ALL SELECT si_id, si_code, si_name, si_obj_id FROM subject_info ) A ON A.pi_id = pfl.pfl_obj_id " +
               "LEFT JOIN processing_box pb ON pb.pb_id=pfl.pfl_box_id " +
-              "LEFT JOIN data_dictionary dd ON dd.dd_id = pfl.pfl_categor " +
               "LEFT JOIN borrow_log bl ON (bl.bl_file_id = pfl.pfl_id AND bl.bl_borrow_state=1) " +
               "WHERE 1=1 ";
-            if(id != null)
-                querySQL += $"AND pfl.pfl_obj_id='{id}' ";
+            if(!string.IsNullOrEmpty(ToolHelper.GetValue(fid)))
+                querySQL += $"AND pfl.pfl_obj_id='{fid}' ";
             if(!string.IsNullOrEmpty(fname))
                 querySQL += $"AND pfl.pfl_name LIKE '%{fname}%' ";
-            if(!string.IsNullOrEmpty(fcategor))
-                querySQL += $"AND dd.dd_name LIKE '%{fcategor}%' ";
+            if(!string.IsNullOrEmpty(fcode))
+                querySQL += $"AND pfl.pfl_code LIKE '%{fcode}%' ";
             if(!string.IsNullOrEmpty(pcode))
                 querySQL += $"AND A.pi_code LIKE '%{pcode}%' ";
             if(!string.IsNullOrEmpty(pname))
@@ -499,7 +511,8 @@ namespace 科技计划项目档案数据采集管理系统
                 querySQL += $"AND bl.bl_borrow_state = 1 ";
             else if(rdo_In.Checked)
                 querySQL += $"AND (bl.bl_borrow_state <> 1) ";
-
+            if(!string.IsNullOrEmpty(gc))
+                querySQL += $"AND pb.pb_gc_id LIKE '%{gc}%' ";
             querySQL += "ORDER BY A.pi_code, pb.pb_box_number, TRY_CAST(pfl_code AS int), pfl_code";
             DataTable dataTable = SqlHelper.ExecuteQuery(querySQL);
             DataGridViewStyleHelper.ResetDataGridView(view2, true);
@@ -523,8 +536,8 @@ namespace 科技计划项目档案数据采集管理系统
                 view2.Rows[i].Cells["fname"].Value = row["pfl_name"];
                 view2.Rows[i].Cells["fgc"].Value = row["pb_gc_id"];
                 view2.Rows[i].Cells["fbox"].Value = row["pb_box_number"];
-                view2.Rows[i].Cells["fbstate"].Tag = row["bl_id"];
                 view2.Rows[i].Cells["fbstate"].Value = GetBorrowState(row["bl_borrow_state"]);
+                view2.Rows[i].Cells["fbstate"].Tag = row["bl_id"];
             }
             view2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             view2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -666,18 +679,86 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Btn_FileQuery_Click(object sender, EventArgs e)
         {
+            bool isFileQuery = rdo_type_file.Checked;
             object fid = txt_FileName.Tag;
             string fname = txt_FileName.Text;
-            string fcategor = txt_FileCategor.Text;
+            string fcode = txt_FileCategor.Text;
             string pcode = txt_Pcode.Text;
             string pname = txt_Pname.Text;
-            if(fid != null || !string.IsNullOrEmpty(fname) || !string.IsNullOrEmpty(fcategor) || !string.IsNullOrEmpty(pcode) || !string.IsNullOrEmpty(pname)
-                || rdo_Out.Checked)
+            string gc = txt_GCID.Text;
+            if(fid != null || !string.IsNullOrEmpty(fname) || !string.IsNullOrEmpty(fcode) || !string.IsNullOrEmpty(pcode) || !string.IsNullOrEmpty(pname)
+                || rdo_Out.Checked || !string.IsNullOrEmpty(gc))
             {
-                LoadFileList(fid, fname, fcategor, pcode, pname);
+                if(isFileQuery)
+                {
+                    LoadFileList(fid, fname, fcode, pcode, pname, gc);
+                }
+                else//盒
+                {
+                    LoadBoxList(fid, fname, fcode, pcode, pname, gc);
+                }
             }
             else
+            {
                 Btn_FileReset_Click(null, null);
+            }
+        }
+
+        private void LoadBoxList(object fid, string fname, string fcode, string pcode, string pname, string gc)
+        {
+            DataGridViewStyleHelper.ResetDataGridView(view2, true);
+            view2.Columns.AddRange(new DataGridViewColumn[]
+            {
+                new DataGridViewTextBoxColumn(){ Name = "id", HeaderText = "序号", FillWeight = 20, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "code", HeaderText = "项目/课题编号", FillWeight = 80, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "gc", HeaderText = "馆藏号", FillWeight = 50, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "box", HeaderText = "盒号", FillWeight = 50, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewTextBoxColumn(){ Name = "files", HeaderText = "文件数", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){ Name = "fbstate", HeaderText = "借阅状态", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
+            });
+            string querySQL = $"SELECT A.pi_code, pb_id, pb_gc_id, pb_box_number, COUNT(pfl_id) num, bl_borrow_state, bl_return_state, bl_id FROM " +
+                 "processing_box pb LEFT JOIN(" +
+                 "SELECT pi_id, pi_code, pi_name FROM project_info UNION ALL " +
+                 "SELECT ti_id, ti_code, ti_name FROM topic_info UNION ALL " +
+                 "SELECT si_id, si_code, si_name FROM subject_info) A ON pb.pb_obj_id = A.pi_id " +
+                 "LEFT JOIN processing_file_list pfl ON pfl_box_id = pb_id " +
+                 "LEFT JOIN (SELECT * FROM (SELECT rowid = ROW_NUMBER() OVER (PARTITION BY bl_file_id ORDER BY bl_date DESC), * FROM borrow_log) A WHERE rowid = 1) bl ON bl.bl_file_id=pb.pb_id " +
+                 "WHERE 1=1 ";
+            if(!string.IsNullOrEmpty(ToolHelper.GetValue(fid)))
+                querySQL += $"AND pfl.pfl_obj_id='{fid}' ";
+            if(!string.IsNullOrEmpty(fname))
+                querySQL += $"AND pfl.pfl_name LIKE '%{fname}%' ";
+            if(!string.IsNullOrEmpty(fcode))
+                querySQL += $"AND pfl.pfl_code LIKE '%{fcode}%' ";
+            if(!string.IsNullOrEmpty(pcode))
+                querySQL += $"AND A.pi_code LIKE '%{pcode}%' ";
+            if(!string.IsNullOrEmpty(pname))
+                querySQL += $"AND A.pi_name LIKE '%{pname}%' ";
+            if(rdo_Out.Checked)
+                querySQL += $"AND bl.bl_borrow_state = 1 ";
+            else if(rdo_In.Checked)
+                querySQL += $"AND (bl.bl_borrow_state <> 1) ";
+            if(!string.IsNullOrEmpty(gc))
+                querySQL += $"AND pb.pb_gc_id LIKE '%{gc}%' ";
+            querySQL += "GROUP BY A.pi_code, pb_id, pb_gc_id, pb_box_number, bl_borrow_state, bl_return_state, bl_id " +
+                "ORDER BY A.pi_code, pb.pb_box_number ";
+            DataTable dataTable = SqlHelper.ExecuteQuery(querySQL);
+
+            foreach(DataRow row in dataTable.Rows)
+            {
+                int i = view2.Rows.Add();
+                view2.Rows[i].Cells["id"].Value = i + 1;
+                view2.Rows[i].Tag = row["pb_id"];
+                view2.Rows[i].Cells["code"].Value = row["pi_code"];
+                view2.Rows[i].Cells["gc"].Value = row["pb_gc_id"];
+                view2.Rows[i].Cells["box"].Value = row["pb_box_number"];
+                view2.Rows[i].Cells["files"].Value = row["num"];
+                view2.Rows[i].Cells["fbstate"].Value = GetBorrowState(row["bl_borrow_state"]);
+                view2.Rows[i].Cells["fbstate"].Tag = row["bl_id"];
+            }
+            view2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            view2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            lbl_TotalFileAmount.Text = $"共计盒数：{view2.RowCount}";
         }
 
         private void Btn_FileReset_Click(object sender, EventArgs e)
@@ -760,7 +841,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){ Name = "gc", HeaderText = "馆藏号", FillWeight = 50, SortMode = DataGridViewColumnSortMode.NotSortable },
                 new DataGridViewTextBoxColumn(){ Name = "box", HeaderText = "盒号", FillWeight = 50, SortMode = DataGridViewColumnSortMode.NotSortable },
                 new DataGridViewTextBoxColumn(){ Name = "files", HeaderText = "文件数", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
-                new DataGridViewButtonColumn(){ Name = "borrow_state", HeaderText = "借阅状态", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
+                new DataGridViewButtonColumn(){ Name = "fbstate", HeaderText = "借阅状态", FillWeight = 30, SortMode = DataGridViewColumnSortMode.NotSortable },
             });
             string querySQL = $"SELECT A.pi_code, pb_id, pb_gc_id, pb_box_number, COUNT(pfl_id) num, bl_borrow_state, bl_return_state, bl_id FROM( " +
                  "SELECT pi_id, pi_code FROM project_info UNION ALL " +
@@ -783,7 +864,8 @@ namespace 科技计划项目档案数据采集管理系统
                 view2.Rows[i].Cells["gc"].Value = row["pb_gc_id"];
                 view2.Rows[i].Cells["box"].Value = row["pb_box_number"];
                 view2.Rows[i].Cells["files"].Value = row["num"];
-                view2.Rows[i].Cells["borrow_state"].Value = GetBorrowState(row["bl_borrow_state"]);
+                view2.Rows[i].Cells["fbstate"].Value = GetBorrowState(row["bl_borrow_state"]);
+                view2.Rows[i].Cells["fbstate"].Tag = row["bl_id"];
             }
             view2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             view2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;

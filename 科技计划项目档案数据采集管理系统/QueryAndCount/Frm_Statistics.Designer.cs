@@ -227,7 +227,7 @@
             this.tabNavigationPage2});
             this.tabPane1.RegularSize = new System.Drawing.Size(1264, 749);
             this.tabPane1.SelectedPage = this.tabNavigationPage1;
-            this.tabPane1.SelectedPageIndex = 0;
+            this.tabPane1.SelectedPageIndex = 1;
             this.tabPane1.Size = new System.Drawing.Size(1264, 749);
             this.tabPane1.TabIndex = 17;
             this.tabPane1.Text = "tabPane1";
@@ -274,7 +274,7 @@
             this.tabNavigationPage4});
             this.tabPane3.RegularSize = new System.Drawing.Size(1239, 474);
             this.tabPane3.SelectedPage = this.tabNavigationPage3;
-            this.tabPane3.SelectedPageIndex = 0;
+            this.tabPane3.SelectedPageIndex = 1;
             this.tabPane3.Size = new System.Drawing.Size(1239, 474);
             this.tabPane3.TabIndex = 30;
             this.tabPane3.Text = "tabPane3";
@@ -342,7 +342,7 @@
             this.panel3.Controls.Add(this.rdo3);
             this.panel3.Controls.Add(this.rdo2);
             this.panel3.Controls.Add(this.rdo1);
-            this.panel3.Location = new System.Drawing.Point(726, 3);
+            this.panel3.Location = new System.Drawing.Point(573, 3);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(149, 166);
             this.panel3.TabIndex = 2;
@@ -420,7 +420,7 @@
             series1.ChartArea = "ChartArea1";
             series1.Name = "Series1";
             this.chart5.Series.Add(series1);
-            this.chart5.Size = new System.Drawing.Size(575, 280);
+            this.chart5.Size = new System.Drawing.Size(422, 280);
             this.chart5.TabIndex = 1;
             this.chart5.Text = "chart5";
             // 
@@ -434,6 +434,8 @@
             chartArea2.AxisX.IsLabelAutoFit = false;
             chartArea2.AxisX.LabelStyle.Angle = 60;
             chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+            chartArea2.AxisX.ScaleView.MinSize = 10D;
+            chartArea2.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
             chartArea2.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
             chartArea2.AxisY.IsStartedFromZero = false;
             chartArea2.AxisY.LabelStyle.IntervalOffset = 0D;
@@ -449,7 +451,7 @@
             series2.ChartArea = "ChartArea1";
             series2.Name = "Series1";
             this.chart4.Series.Add(series2);
-            this.chart4.Size = new System.Drawing.Size(711, 280);
+            this.chart4.Size = new System.Drawing.Size(558, 280);
             this.chart4.TabIndex = 0;
             this.chart4.Text = "chart4";
             // 

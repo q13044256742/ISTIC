@@ -40,6 +40,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Real_Return_Date.Text = ToolHelper.GetValue(row["bl_real_return_term"]);
                     lbl_Code.Text = ToolHelper.GetValue(row["bl_code"]);
                     lbl_LogUser.Text = ToolHelper.GetValue(row["bl_log_user"]);
+                    txt_Remark.Text = ToolHelper.GetValue(row["bl_remark"]);
 
                     string value = ToolHelper.GetValue(row["bl_id"]);
                     if(!string.IsNullOrEmpty(value))
@@ -58,7 +59,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Frm_BorrowEdit_Load(object sender, EventArgs e)
         {
             if(string.IsNullOrEmpty(txt_Real_Return_Date.Text))
-                txt_Real_Return_Date.Text = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd HH:mm:dd");
+                txt_Real_Return_Date.Text = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd HH:mm");
             if(string.IsNullOrEmpty(lbl_Code.Text))
                 lbl_Code.Text = GetCode();
             if(string.IsNullOrEmpty(lbl_LogUser.Text))
@@ -88,13 +89,13 @@ namespace 科技计划项目档案数据采集管理系统
                     string user = txt_User.Text;
                     string phone = txt_Phone.Text;
                     int ftype = cbo_FileType.SelectedIndex;
-                    string bdate = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd HH:mm:dd");
+                    string bdate = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd HH:mm");
                     string bterm = txt_Borrow_Term.Text;
                     string sbdate = ToolHelper.GetDateValue(txt_Should_Return_Date.EditValue, "yyyy-MM-dd");
                     string loguser = lbl_LogUser.Text;
-                    string insertSQL = $"INSERT INTO [borrow_log]" +
-                        $"([bl_id], bl_code, [bl_file_id], [bl_borrow_state], [bl_return_state], [bl_form], [bl_user], [bl_user_unit], [bl_user_phone], [bl_date], [bl_term], [bl_should_return_term], [bl_log_user]) " +
-                        $"VALUES ('{primaryKey}', '{code}', '{FILE_ID}', '{1}', '{0}', '{ftype}', '{user}', '{unit}', '{phone}', '{bdate}', '{bterm}', '{sbdate}', '{loguser}')";
+                    string remark = txt_Remark.Text;
+                    string insertSQL = "INSERT INTO borrow_log(bl_id, bl_code, bl_file_id, bl_borrow_state, bl_return_state, bl_form, bl_user, bl_user_unit, bl_user_phone, bl_date, bl_term, bl_should_return_term, bl_log_user, bl_remark) " +
+                        $"VALUES ('{primaryKey}', '{code}', '{FILE_ID}', '{1}', '{0}', '{ftype}', '{user}', '{unit}', '{phone}', '{bdate}', '{bterm}', '{sbdate}', '{loguser}', '{remark}')";
 
                     SqlHelper.ExecuteNonQuery(insertSQL);
                 }

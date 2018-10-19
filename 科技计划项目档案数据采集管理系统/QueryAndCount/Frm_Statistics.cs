@@ -5,6 +5,8 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -24,6 +26,7 @@ namespace 科技计划项目档案数据采集管理系统
             };
             view.DefaultCellStyle = DataGridViewStyleHelper.GetCellStyle();
             LoadCompanySource();
+
         }
 
         /// <summary>
@@ -192,10 +195,12 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_UserList.DisplayMember = "real_name";
             tabPane2.SelectedPageIndex = 0;
             tabPane1.SelectedPage = tabNavigationPage1;
-            panel3.Location = new Point(1066, 3);
+            int _pwidth = tabNavigationPage4.Width;
+            panel3.Location = new Point(_pwidth - panel3.Width, 3);
             chart1.Width = chart2.Width = chart3.Width = datachart.Width;
             tabPane3.SelectedPageIndex = 0;
-            chart4.Width = chart5.Width = 1051;
+            chart4.Width = chart5.Width = _pwidth - panel3.Width;
+            chart4.Left = chart5.Left = 0;
             panel1.Left = (datachart.Width - panel1.Width) / 2;
         }
 
@@ -275,6 +280,8 @@ namespace 科技计划项目档案数据采集管理系统
                     new DataColumn("项目/课题数", typeof(int)),
                     new DataColumn("课题/子课题数", typeof(int)),
                     new DataColumn("文件数", typeof(int)),
+                    new DataColumn("电子文件数", typeof(int)),
+                    new DataColumn("盒数", typeof(int)),
                     new DataColumn((rdo_JG.Checked?"被":string.Empty) + "返工数", typeof(int)),
                     new DataColumn("页数", typeof(int)),
                 });
@@ -305,67 +312,65 @@ namespace 科技计划项目档案数据采集管理系统
                             object pcount = list[i][1];
                             object tcount = GetTopicAmount(date, userCode, 1);
                             object fcount = GetFileAmount(date, userCode, 1);
+                            object efcount = GetEFileAmount(date, userCode, 1);
+                            object boxcount = GetBoxAmount(date, userCode, 1);
                             object bcount = GetBackAmount(date, userCode, 1);
                             object pgcount = GetPageAmount(date, userCode, 1);
-                            table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
+                            table.Rows.Add(date, pcount, tcount, fcount, efcount, boxcount, bcount, pgcount);
                         }
                     }
-                    //如果当天无项目，则统计是否有课题
-                    if(list.Count == 0)
+                    if(!flag)
                     {
-                        if(!flag)
-                        {
-                            if(startDate.Date == endDate.Date)
-                                queryCondition = $"AND ti_worker_date =  CONVERT(DATE, '{startDate}')";
-                            else
-                                queryCondition = $"AND ti_worker_date >=  CONVERT(DATE, '{startDate}') AND ti_worker_date <=  CONVERT(DATE, '{endDate}')";
-                        }
-                        querySQL = "SELECT ti_worker_date, COUNT(ti_id) FROM topic_info " +
-                             $"LEFT JOIN project_info ON ti_obj_id = pi_id WHERE ti_categor = 3 AND ti_worker_id='{userId}' " +
-                             $"AND ti_worker_date <> pi_worker_date {queryCondition} " +
-                             "GROUP BY ti_worker_date;";
-                        List<object[]> list2 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
-                        for(int i = 0; i < list2.Count; i++)
-                        {
-                            object date = GetDateValue(list2[i][0], "yyyy-MM-dd");
-                            object pcount = 0;
-                            object tcount = list2[i][1];
-                            object fcount = GetFileAmount(date, userId, 1);
-                            object bcount = GetBackAmount(date, userId, 1);
-                            object pgcount = GetPageAmount(date, userId, 1);
-                            table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
-                        }
-
-                        //如果没有课题/子课题，则单独统计文件数
-                        if(list2.Count == 0)
-                        {
-                            if(!flag)
-                            {
-                                if(startDate.Date == endDate.Date)
-                                    queryCondition = $"AND pfl_worker_date =  CONVERT(DATE, '{startDate}')";
-                                else
-                                    queryCondition = $"AND pfl_worker_date >=  CONVERT(DATE, '{startDate}') AND pfl_worker_date <=  CONVERT(DATE, '{endDate}')";
-                            }
-                            //单独统计文件加工工作量
-                            querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list " +
-                                $"WHERE pfl_worker_id = '{userId}' {queryCondition} AND pfl_worker_id NOT IN( " +
-                                $"SELECT pi_worker_id FROM project_info WHERE pi_worker_id = '{userId}' AND pi_worker_date = pfl_worker_date UNION ALL " +
-                                $"SELECT ti_worker_id FROM topic_info WHERE ti_worker_id = '{userId}' AND ti_worker_date = pfl_worker_date) " +
-                                $"GROUP BY pfl_worker_date; ";
-                            List<object[]> list3 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
-                            for(int i = 0; i < list3.Count; i++)
-                            {
-                                object date = GetDateValue(list3[i][0], "yyyy-MM-dd");
-                                object pcount = 0;
-                                object tcount = 0;
-                                object fcount = Convert.ToInt32(list3[i][1]);
-                                object bcount = 0;
-                                object pgcount = GetFilePageByFid(userId);
-                                table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
-                            }
-                        }
+                        if(startDate.Date == endDate.Date)
+                            queryCondition = $"AND ti_worker_date =  CONVERT(DATE, '{startDate}')";
+                        else
+                            queryCondition = $"AND ti_worker_date >=  CONVERT(DATE, '{startDate}') AND ti_worker_date <=  CONVERT(DATE, '{endDate}')";
                     }
-                    countView.DataSource = table;
+                    querySQL = "SELECT ti_worker_date, COUNT(ti_id) FROM topic_info " +
+                         $"LEFT JOIN project_info ON ti_obj_id = pi_id WHERE ti_categor = 3 AND ti_worker_id='{userId}' " +
+                         $"AND ti_worker_date <> pi_worker_date {queryCondition} " +
+                         "GROUP BY ti_worker_date;";
+                    List<object[]> list2 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
+                    for(int i = 0; i < list2.Count; i++)
+                    {
+                        object date = GetDateValue(list2[i][0], "yyyy-MM-dd");
+                        object pcount = 0;
+                        object tcount = list2[i][1];
+                        object fcount = GetFileAmount(date, userId, 1);
+                        object efcount = GetEFileAmount(date, userCode, 1);
+                        object boxcount = GetBoxAmount(date, userCode, 1);
+                        object bcount = GetBackAmount(date, userId, 1);
+                        object pgcount = GetPageAmount(date, userId, 1);
+                        table.Rows.Add(date, pcount, tcount, fcount, efcount, boxcount, bcount, pgcount);
+                    }
+
+                    if(!flag)
+                    {
+                        if(startDate.Date == endDate.Date)
+                            queryCondition = $"AND pfl_worker_date =  CONVERT(DATE, '{startDate}')";
+                        else
+                            queryCondition = $"AND pfl_worker_date >=  CONVERT(DATE, '{startDate}') AND pfl_worker_date <=  CONVERT(DATE, '{endDate}')";
+                    }
+                    //单独统计文件加工工作量
+                    querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list " +
+                        $"WHERE pfl_worker_id = '{userId}' {queryCondition} AND pfl_worker_id NOT IN( " +
+                        $"SELECT pi_worker_id FROM project_info WHERE pi_worker_id = '{userId}' AND pi_worker_date = pfl_worker_date UNION ALL " +
+                        $"SELECT ti_worker_id FROM topic_info WHERE ti_worker_id = '{userId}' AND ti_worker_date = pfl_worker_date) " +
+                        $"GROUP BY pfl_worker_date; ";
+                    List<object[]> list3 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
+                    for(int i = 0; i < list3.Count; i++)
+                    {
+                        object date = GetDateValue(list3[i][0], "yyyy-MM-dd");
+                        object pcount = 0;
+                        object tcount = 0;
+                        object fcount = Convert.ToInt32(list3[i][1]);
+                        object efcount = GetEFileAmount(date, userCode, 1);
+                        object boxcount = GetBoxAmount(date, userCode, 1);
+                        object bcount = GetBackAmount(date, userId, 1);
+                        object pgcount = GetFilePageByFid(userId);
+                        table.Rows.Add(date, pcount, tcount, fcount, efcount, boxcount, bcount, pgcount);
+                    }
+                    countView.DataSource = DistinctSomeColumn(table, "日期");
                 }
                 //质检人员工作量统计
                 else
@@ -391,12 +396,14 @@ namespace 科技计划项目档案数据采集管理系统
                         object pcount = list[i][1];
                         object tcount = GetTopicAmount(date, userCode, 2);
                         object fcount = GetFileAmount(date, userCode, 2);
+                        object efcount = GetEFileAmount(date, userCode, 2);
+                        object boxcount = GetBoxAmount(date, userCode, 2);
                         object bcount = GetBackAmount(date, userCode, 2);
                         object pgcount = GetPageAmount(date, userCode, 2);
-                        table.Rows.Add(date, pcount, tcount, fcount, bcount, pgcount);
+                        table.Rows.Add(date, pcount, tcount, fcount, efcount, boxcount, bcount, pgcount);
                     }
 
-                    countView.DataSource = table;
+                    countView.DataSource = DistinctSomeColumn(table, "日期"); ;
                 }
             }
             //按人员统计
@@ -404,11 +411,13 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 table.Columns.AddRange(new DataColumn[]
                 {
-                    new DataColumn("用户名"),
+                    new DataColumn("姓名"),
                     new DataColumn("项目/课题数", typeof(int)),
                     new DataColumn("课题/子课题数", typeof(int)),
                     new DataColumn("文件数", typeof(int)),
-                    new DataColumn("返工数", typeof(int)),
+                    new DataColumn("电子文件数", typeof(int)),
+                    new DataColumn("盒数", typeof(int)),
+                    new DataColumn((rdo_JG.Checked?"被":string.Empty) + "返工数", typeof(int)),
                     new DataColumn("页数", typeof(int)),
                 });
                 //加工人员工作量统计
@@ -437,11 +446,13 @@ namespace 科技计划项目档案数据采集管理系统
                         object pcount = list[i][1];
                         object tcount = GetTopicAmount(null, list[i][0], 3);
                         object fcount = GetFileAmount(null, list[i][0], 3);
+                        object efcount = GetEFileAmount(null, list[i][0], 3);
+                        object boxcount = GetBoxAmount(null, list[i][0], 3);
                         object bcount = GetBackAmount(null, list[i][0], 3);
                         object pgcount = GetPageAmount(null, list[i][0], 3);
-                        table.Rows.Add(user, pcount, tcount, fcount, bcount, pgcount);
+                        table.Rows.Add(user, pcount, tcount, fcount, efcount, boxcount, bcount, pgcount);
                     }
-                    countView.DataSource = table;
+                    countView.DataSource = DistinctSomeColumn(table, "姓名"); ;
                 }
                 //质检人员工作量统计
                 else
@@ -468,13 +479,128 @@ namespace 科技计划项目档案数据采集管理系统
                         object pcount = list[i][1];
                         object tcount = GetTopicAmount(null, list[i][0], 4);
                         object fcount = GetFileAmount(null, list[i][0], 4);
+                        object efcount = GetEFileAmount(null, list[i][0], 4);
+                        object boxcount = GetBoxAmount(null, list[i][0], 4);
                         object bcount = GetBackAmount(null, list[i][0], 4);
                         object pgcount = GetPageAmount(null, list[i][0], 4);
-                        table.Rows.Add(user, pcount, tcount, fcount, bcount, pgcount);
+                        table.Rows.Add(user, pcount, tcount, fcount, efcount, boxcount, bcount, pgcount);
                     }
 
-                    countView.DataSource = table;
+                    countView.DataSource = DistinctSomeColumn(table, "姓名"); ;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 获取指定用户在指定日期【加工/质检】的盒数
+        /// </summary>
+        private object GetBoxAmount(object date, object userId, int type)
+        {
+            if(type == 1 || type == 2)
+            {
+                string userCondition = userId == null ? string.Empty : $"AND pb_create_id='{userId}'";
+                return SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_id) FROM processing_box WHERE pb_create_type={type} AND pb_create_date='{date}' {userCondition} ");
+            }
+            else
+            {
+                string dateCondition = string.Empty;
+                string startDate = dtp_StartDate.Value.ToString("yyyy-MM-dd");
+                string endDate = dtp_EndDate.Value.ToString("yyyy-MM-dd");
+                int key = type == 3 ? 1 : 2;
+                if(!chk_AllDate.Checked)//全部时间
+                {
+                    if(startDate.Equals(endDate))
+                        dateCondition = $"AND pb_create_date = '{startDate}'";
+                    else
+                        dateCondition = $"AND pb_create_date >= '{startDate}' AND pb_create_date <= '{endDate}'";
+                }
+                if(type == 3 || type == 4)
+                {
+                    return SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_id) FROM processing_box WHERE pb_create_type={key} AND pb_create_id='{userId}' {dateCondition} ");
+                }
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// 获取挂接的电子文件数
+        /// </summary>
+        private int GetEFileAmount(object date, object userId, int type)
+        {
+            if(type == 1 || type == 2)
+            {
+                string key = type == 1 ? "worker" : "checker";
+                string userCondition = userId == null ? string.Empty : $"AND pfl_{ key}_id='{userId}'";
+                object[] linkArray = SqlHelper.ExecuteSingleColumnQuery($"SELECT pfl_link FROM processing_file_list WHERE LEN(TRY_CAST(pfl_link AS VARCHAR))>0 AND pfl_{key}_date='{date}' {userCondition} ");
+                int count = 0;
+                count = linkArray.Sum(x => x.ToString().Count(y => y == '；') + 1);
+                //for(int i = 0; i < linkArray.Length; i++)
+                //{
+                //    string value = ToolHelper.GetValue(linkArray[i]);
+                //    count += value.Split('；').Length;
+                //}
+                return count;
+            }
+            else
+            {
+                string dateCondition = string.Empty;
+                string startDate = dtp_StartDate.Value.ToString("yyyy-MM-dd");
+                string endDate = dtp_EndDate.Value.ToString("yyyy-MM-dd");
+                string key = type == 3 ? "worker" : "checker";
+                if(!chk_AllDate.Checked)//全部时间
+                {
+                    if(startDate.Equals(endDate))
+                        dateCondition = $"AND pfl_{key}_date = '{startDate}'";
+                    else
+                        dateCondition = $"AND pfl_{key}_date >= '{startDate}' AND pfl_{key}_date <= '{endDate}'";
+                }
+                if(type == 3 || type == 4)
+                {
+                    object[] linkArray = SqlHelper.ExecuteSingleColumnQuery($"SELECT pfl_link FROM processing_file_list WHERE LEN(TRY_CAST(pfl_link AS VARCHAR))>0 AND pfl_{key}_id='{userId}' {dateCondition} ");
+                    int count = 0;
+                    count = linkArray.Sum(x => x.ToString().Count(y => y == '；') + 1);
+                    //for(int i = 0; i < linkArray.Length; i++)
+                    //{
+                    //    string value = ToolHelper.GetValue(linkArray[i]);
+                    //    count += value.Split('；').Length;
+                    //}
+                    return count;
+                }
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// 按照fieldName从sourceTable中选择出不重复的行，   
+        /// 并且返回sourceTable中所有的列。   
+        /// </summary>
+        /// <param name="sourceTable">数据源</param>
+        /// <param name="fieldName">查重字段</param>
+        public static DataTable DistinctSomeColumn(DataTable sourceTable, string fieldName)
+        {
+            if(sourceTable.Rows.Count == 0 || fieldName == null || fieldName.Length == 0) return sourceTable;
+            DataTable dataTable = sourceTable.AsEnumerable().Distinct(new ColumnEquals(new string[] { fieldName })).CopyToDataTable();
+            DataView dataView = dataTable.AsDataView();
+            dataView.Sort = $"{fieldName} ASC";
+            return dataView.ToTable();
+        }
+
+        public class ColumnEquals : IEqualityComparer<DataRow>
+        {
+            public ColumnEquals(string[] sArr)
+            {
+                _sArr = sArr;
+            }
+
+            private string[] _sArr;
+            public bool Equals(DataRow x, DataRow y)
+            {
+                return !_sArr.Any(p => !x[p].Equals(y[p]));
+            }
+
+            public int GetHashCode(DataRow obj)
+            {
+                return obj.ToString().GetHashCode();
             }
         }
 
@@ -760,64 +886,87 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="maxYear">最大年份</param>
         private void SetTableByOrga(string value, string minYear, string maxYear)
         {
+            DataGridViewStyleHelper.ResetDataGridView(view, true);
             string minYearCondition = string.Empty;
             string maxYearCondition = string.Empty;
             if(!string.IsNullOrEmpty(minYear))
                 minYearCondition = $"AND ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) >= {minYear}";
             if(!string.IsNullOrEmpty(maxYear))
                 maxYearCondition = $"AND ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) <= {maxYear}";
-            string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount, fb.fbCount FROM( SELECT F_Title, F_ID, pCount " +
-                "FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_Plan AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
-                "GROUP BY F_Title, p.F_ID) AS B WHERE pCount > 0) p " +
-                "LEFT JOIN( SELECT F_ID, bCount FROM(SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_Plan AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
-                "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) b ON p.F_ID = b.F_ID LEFT JOIN( " +
-                "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM T_Plan AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
-                "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID " +
-                "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM(SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_Plan AS p LEFT OUTER JOIN (" +
-                "SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
-                "SELECT   pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT   ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
-               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
-                "GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
-            DataTable table = SqlHelper.ExecuteQuery(querySQL);
-            table = HandleZX(table);
-            DataGridViewStyleHelper.ResetDataGridView(view, true);
             DataTable tableEntity = new DataTable();
             tableEntity.Columns.AddRange(new DataColumn[]
             {
-                new DataColumn("计划类别编号"),
-                new DataColumn("计划类别名称"),
-                new DataColumn("项目/课题数", typeof(int)),
-                new DataColumn("盒数", typeof(int)),
-                new DataColumn("文件数", typeof(int)),
-                new DataColumn("必备文件缺失项目数", typeof(int))
+                new DataColumn("F_ID"),
+                new DataColumn("F_Title"),
+                new DataColumn("pCount", typeof(int)),
+                new DataColumn("bCount", typeof(int)),
+                new DataColumn("fCount", typeof(int)),
+                new DataColumn("fbCount", typeof(int))
             });
-            int totalPcount = 0, totalFcount = 0, totalBcount = 0, totalFBcount = 0;
-            DataRowCollection rowCollection = table.Rows;
-            for(int i = 0; i < rowCollection.Count; i++)
+            view.Columns.AddRange(new DataGridViewColumn[]
             {
-                DataRow row = rowCollection[i];
-                int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
-                int _bcount = ToolHelper.GetIntValue(row["bCount"], 0);
-                int _fcount = ToolHelper.GetIntValue(row["fCount"], 0);
-                int _fbcount = ToolHelper.GetIntValue(row["fbCount"], 0);
-                tableEntity.Rows.Add(row["F_ID"], row["F_Title"], _pcount, _bcount, _fcount, _fbcount);
+                new DataGridViewTextBoxColumn() { DataPropertyName = "F_ID" },
+                new DataGridViewTextBoxColumn() { DataPropertyName = "F_Title", HeaderText = "计划类别名称" },
+                new DataGridViewTextBoxColumn() { DataPropertyName = "pCount", HeaderText = "项目/课题数" },
+                new DataGridViewTextBoxColumn() { DataPropertyName = "bCount", HeaderText = "盒数" },
+                new DataGridViewTextBoxColumn() { DataPropertyName = "fCount", HeaderText = "文件数" },
+                new DataGridViewTextBoxColumn() { DataPropertyName = "fbCount", HeaderText = "缺失必备文件项目数" },
+            });
 
-                totalPcount += _pcount;
-                totalBcount += _bcount;
-                totalFcount += _fcount;
-                totalFBcount += _fbcount;
+            string querySql_pCount = "SELECT F_ID, F_Title, pCount " +
+                "FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_Plan AS p LEFT OUTER JOIN (" +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
+               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+                "GROUP BY F_Title, p.F_ID) AS B ORDER BY F_ID ";
+            DataTable pCountTable = SqlHelper.ExecuteQuery(querySql_pCount);
+            foreach(DataRow row in pCountTable.Rows)
+            {
+                tableEntity.Rows.Add(row["F_ID"], row["F_Title"], row["pCount"]);
             }
+
+            string querySql_bCount = "SELECT F_ID, bCount FROM(SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_Plan AS p LEFT OUTER JOIN (" +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
+               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+                "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B ORDER BY F_ID";
+            DataTable bCountTable = SqlHelper.ExecuteQuery(querySql_bCount);
+            for(int i = 0; i < bCountTable.Rows.Count; i++)
+            {
+                tableEntity.Rows[i]["bCount"] = bCountTable.Rows[i]["bCount"];
+            }
+
+            string querySql_fCount = "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM T_Plan AS p LEFT OUTER JOIN (" +
+                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
+               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+                "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ORDER BY F_ID";
+            DataTable fCountTable = SqlHelper.ExecuteQuery(querySql_fCount);
+            for(int i = 0; i < fCountTable.Rows.Count; i++)
+            {
+                tableEntity.Rows[i]["fCount"] = fCountTable.Rows[i]["fCount"];
+            }
+
+            string querySql_fbCount = "SELECT F_ID, fbCount FROM(SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_Plan AS p LEFT OUTER JOIN (" +
+                "SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
+                "SELECT   pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "SELECT   ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A " +
+                "LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
+               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) AS A ON A.pi_source_id = p.F_ID " +
+               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+                "GROUP BY p.F_ID) AS B ORDER BY F_ID";
+            DataTable fbCountTable = SqlHelper.ExecuteQuery(querySql_fbCount);
+            for(int i = 0; i < fbCountTable.Rows.Count; i++)
+            {
+                tableEntity.Rows[i]["fbCount"] = fbCountTable.Rows[i]["fbCount"];
+            }
+
+            tableEntity = HandleZX(tableEntity);
+            object totalPcount = 0, totalFcount = 0, totalBcount = 0, totalFBcount = 0;
+            totalPcount = tableEntity.Compute("SUM(pCount)", null);
+            totalFcount = tableEntity.Compute("SUM(fCount)", null);
+            totalBcount = tableEntity.Compute("SUM(bCount)", null);
+            totalFBcount = tableEntity.Compute("SUM(fbCount)", null);
             tableEntity.Rows.Add(string.Empty, "合计", totalPcount, totalBcount, totalFcount, totalFBcount);
             view.DataSource = tableEntity;
             view.Columns[0].Visible = false;
@@ -829,28 +978,31 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private DataTable HandleZX(DataTable table)
         {
-            List<DataRow> rowList = new List<DataRow>();
+            table.AcceptChanges();
             int pCount = 0, bCount = 0, fCount = 0, fbCount = 0;
             for(int i = 0; i < table.Rows.Count; i++)
             {
                 DataRow row = table.Rows[i];
-                object fid = row["F_ID"];
-                if(ToolHelper.GetValue(fid).StartsWith("ZX"))
+                int _pCount = ToolHelper.GetIntValue(row["pCount"], 0);
+                if(_pCount == 0)
                 {
-                    pCount += ToolHelper.GetIntValue(row["pCount"], 0);
-                    bCount += ToolHelper.GetIntValue(row["bCount"], 0);
-                    fCount += ToolHelper.GetIntValue(row["fCount"], 0);
-                    fbCount += ToolHelper.GetIntValue(row["fbCount"], 0);
-                    rowList.Add(row);
+                    table.Rows[i].Delete();
+                }
+                else
+                {
+                    if(ToolHelper.GetValue(row[0]).StartsWith("ZX"))
+                    {
+                        pCount += _pCount;
+                        bCount += ToolHelper.GetIntValue(row["bCount"], 0);
+                        fCount += ToolHelper.GetIntValue(row["fCount"], 0);
+                        fbCount += ToolHelper.GetIntValue(row["fbCount"], 0);
+                        table.Rows[i].Delete();
+                    }
                 }
             }
             if(pCount > 0)
-            {
-                foreach(DataRow item in rowList)
-                    table.Rows.Remove(item);
-                object[] zxList = new object[] { "ZX", "国家重大专项", pCount, bCount, fCount, fbCount };
-                table.Rows.Add(zxList);
-            }
+                table.Rows.Add(new object[] { "ZX", "国家重大专项", pCount, bCount, fCount, fbCount });
+            table.AcceptChanges();
             return table;
         }
 
@@ -1240,7 +1392,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(tabPane3.SelectedPageIndex == 0) return;
             chart4.Series.Clear(); chart5.Series.Clear();
-            int a = rdo1.Checked ? 1 : rdo2.Checked ? 2 : rdo3.Checked ? 3 : rdo4.Checked ? 4 : 5;
+            int a = rdo1.Checked ? 1 : rdo2.Checked ? 2 : rdo3.Checked ? 3 : rdo4.Checked ? 6 : 7;
             double maxNum = 0;
 
             Series amount = new Series()
@@ -1258,7 +1410,6 @@ namespace 科技计划项目档案数据采集管理系统
             };
             if(rdo_sort_date.Checked)//按日期
             {
-                chart4.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
                 amount1.ChartType = SeriesChartType.Spline;
             }
             else//按人员
@@ -1269,24 +1420,49 @@ namespace 科技计划项目档案数据采集管理系统
                 amount1.ChartType = SeriesChartType.Pie;
                 amount1.Label = "#VALX:#PERCENT{P2}";
             }
+            int rowCount = 0;
             for(int i = 0; i < countView.RowCount; i++)
             {
                 int value = ToolHelper.GetIntValue(countView.Rows[i].Cells[a].Value, 0);
                 if(value > 0)
                 {
+                    rowCount++;
                     maxNum = value > maxNum ? value : maxNum;
                     amount.Points.AddXY(countView.Rows[i].Cells[0].Value, value);
                     amount1.Points.AddXY(countView.Rows[i].Cells[0].Value, value);
                 }
             }
 
+            chart4.ChartAreas[0] = GetInitialChartArea(rowCount);
+            chart5.ChartAreas[0] = GetInitialChartArea(rowCount);
+
             chart4.Series.Add(amount);
             chart5.Series.Add(amount1);
-            if(maxNum >= 0)
-            {
-                chart4.ChartAreas[0].AxisY.Maximum = maxNum;
-                chart5.ChartAreas[0].AxisY.Maximum = maxNum;
-            }
+
+        }
+
+        private ChartArea GetInitialChartArea(int MaxAxisXSize)
+        {
+            ChartArea chartArea = new ChartArea();
+            chartArea.AxisX.Interval = 1D;
+            chartArea.AxisX.IsLabelAutoFit = false;
+            chartArea.AxisX.LabelStyle.Angle = -45;
+            chartArea.AxisX.MajorGrid.LineColor = Color.LightGray;
+            chartArea.AxisY.IsStartedFromZero = false;
+            chartArea.AxisY.LabelStyle.IntervalOffset = 0D;
+            chartArea.AxisY.LabelStyle.IntervalOffsetType = DateTimeIntervalType.Auto;
+            chartArea.AxisY.LabelStyle.IntervalType = DateTimeIntervalType.Auto;
+            chartArea.AxisY.MajorGrid.LineColor = Color.LightGray;
+            chartArea.AxisY.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;
+            chartArea.BackColor = Color.FromArgb(235, 236, 239);
+
+            chartArea.AxisX.ScrollBar.IsPositionedInside = true;
+            chartArea.AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;
+            chartArea.AxisX.ScrollBar.Size = 15;
+            chartArea.AxisX.ScaleView.Size = MaxAxisXSize < 20 ? MaxAxisXSize : 20;
+            chartArea.AxisX.Minimum = 0;
+            chartArea.AxisX.Maximum = MaxAxisXSize + 1;
+            return chartArea;
         }
 
         private void CheckedChanged(object sender, EventArgs e)

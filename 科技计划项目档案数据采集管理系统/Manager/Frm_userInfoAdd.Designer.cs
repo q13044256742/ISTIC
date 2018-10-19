@@ -417,8 +417,7 @@
             // 
             // Frm_userInfoAdd
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(808, 455);
             this.Controls.Add(this.role_select);
             this.Controls.Add(this.label15);
@@ -453,6 +452,9 @@
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.note);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Frm_userInfoAdd";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "用户信息";

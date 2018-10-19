@@ -401,11 +401,14 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(Text.Contains("编辑"))
                 {
-                    object currentRow = view.CurrentRow;
+                    object CurrentRow = view.CurrentRow;
+                    int CurrentRowIndex = -1;
+                    if(CurrentRow != null)
+                        CurrentRowIndex = ((DataGridViewRow)CurrentRow).Index;
                     UpdateFileInfo();
-                    if(currentRow != null)
+                    if(CurrentRowIndex != -1)
                     {
-                        DataGridViewRow row = (DataGridViewRow)currentRow;
+                        DataGridViewRow row = view.Rows[CurrentRowIndex];
                         view.ClearSelection();
                         row.Selected = true;
                         view.CurrentCell = row.Cells[1];

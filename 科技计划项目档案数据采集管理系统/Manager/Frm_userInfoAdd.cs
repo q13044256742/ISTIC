@@ -1,11 +1,12 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Data;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.Manager
 {
-    public partial class Frm_userInfoAdd : Form
+    public partial class Frm_userInfoAdd : XtraForm
     {
         private bool isAdd;
         private string id;

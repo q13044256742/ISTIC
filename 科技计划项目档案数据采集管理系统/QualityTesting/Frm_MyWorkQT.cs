@@ -3324,8 +3324,8 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string[] gch = GetBoxCode(objId, null, 1, DateTime.Now.Year.ToString(), null, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
-                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{unitCode}{_code}')";
+                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Plan_Box_Remove".Equals(label.Name))//删除
@@ -3364,8 +3364,8 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string[] gch = GetBoxCode(objId, txt_Project_Code.Text, 1, txt_Project_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
-                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{unitCode}{_code}')";
+                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Project_Box_Remove".Equals(label.Name))//删除
@@ -3404,8 +3404,8 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string[] gch = GetBoxCode(objId, txt_Subject_Code.Text, 1, txt_Subject_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
-                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{unitCode}{_code}')";
+                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Subject_Box_Remove".Equals(label.Name))//删除
@@ -3441,8 +3441,8 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string[] gch = GetBoxCode(objId, txt_Topic_Code.Text, 1, txt_Topic_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
-                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{unitCode}{_code}')";
+                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Topic_Box_Remove".Equals(label.Name))//删除
@@ -3478,8 +3478,8 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string[] gch = GetBoxCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
-                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{unitCode}{_code}')";
+                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Imp_Box_Remove".Equals(label.Name))//删除
@@ -3515,8 +3515,8 @@ namespace 科技计划项目档案数据采集管理系统
                         int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
                         string[] gch = GetBoxCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
-                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{unitCode}{_code}')";
+                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
                     }
                     else if("lbl_Special_Box_Remove".Equals(label.Name))//删除
