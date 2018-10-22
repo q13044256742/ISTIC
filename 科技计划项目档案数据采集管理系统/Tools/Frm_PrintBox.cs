@@ -10,14 +10,6 @@ namespace 科技计划项目档案数据采集管理系统
     public partial class Frm_PrintBox : DevExpress.XtraEditors.XtraForm
     {
         /// <summary>
-        /// 案卷名称
-        /// </summary>
-        public string objectName;
-        /// <summary>
-        /// 案卷编号
-        /// </summary>
-        public object objectCode;
-        /// <summary>
         /// 编制单位
         /// </summary>
         public string unitName;
@@ -29,10 +21,6 @@ namespace 科技计划项目档案数据采集管理系统
         /// 项目名称
         /// </summary>
         public string proName;
-        /// <summary>
-        /// 盒列表
-        /// </summary>
-        public DataTable boxTable;
         /// <summary>
         /// 所属对象父级名称
         /// </summary>
@@ -49,8 +37,14 @@ namespace 科技计划项目档案数据采集管理系统
         /// 父窗体
         /// </summary>
         private Form parentForm;
-        public Frm_PrintBox(Form parentForm)
+        /// <summary>
+        /// 对象ID
+        /// </summary>
+        private object objectId;
+
+        public Frm_PrintBox(object objectId, Form parentForm)
         {
+            this.objectId = objectId;
             this.parentForm = parentForm;
             InitializeComponent();
             InitialFrom();
@@ -64,13 +58,15 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_PrintBox_Load(object sender, EventArgs e)
         {
-            for(int i = 0; i < boxTable.Rows.Count; i++)
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM processing_box WHERE pb_obj_id='{objectId}' ORDER BY pb_box_number");
+            foreach(DataRow row in table.Rows)
             {
                 int index = view.Rows.Add();
-                view.Rows[index].Cells["print"].Tag = boxTable.Rows[i]["pb_id"];
-                view.Rows[index].Cells["amount"].Value = GetFilePageCount(boxTable.Rows[i]["pb_id"], 1);
-                view.Rows[index].Cells["id"].Value = boxTable.Rows[i]["pb_box_number"];
-                view.Rows[index].Cells["id"].Tag = boxTable.Rows[i]["pb_gc_id"];
+                view.Rows[index].Tag = row["pt_id"];
+                view.Rows[index].Cells["print"].Tag = row["pb_id"];
+                view.Rows[index].Cells["amount"].Value = GetFilePageCount(row["pb_id"], 1);
+                view.Rows[index].Cells["id"].Value = row["pb_box_number"];
+                view.Rows[index].Cells["id"].Tag = row["pb_gc_id"];
                 view.Rows[index].Cells["fmbj"].Value = "20mm";
             }
         }
@@ -151,24 +147,25 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(id.Equals(row.Cells["print"].Tag))
                     {
+                        object ptId = row.Tag;
                         bool printBkb = GetBooleanValue(row.Cells["bkb"].Value);
                         if(printBkb)
                         {
                             int boxNumber = (int)row.Cells["id"].Value;
-                            PrintBKB(id, boxNumber);
+                            PrintBKB(id, ptId, boxNumber);
                         }
                         bool printFm = GetBooleanValue(row.Cells["fm"].Value);
                         if(printFm)
                         {
                             object bj = row.Cells["fmbj"].Value;
                             object GCNumber = row.Cells["id"].Tag;
-                            PrintFM(id, bj, GCNumber, row.Index);
+                            PrintFM(ptId, bj, GCNumber, row.Index);
                         }
                         bool printJnml = GetBooleanValue(row.Cells["jnml"].Value);
                         if(printJnml)
                         {
                             object GCNumber = row.Cells["id"].Tag;
-                            PrintJNML(id, GCNumber);
+                            PrintJNML(id, ptId, GCNumber);
                         }
                     }
                 }
@@ -183,9 +180,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 打印卷内文件目录
         /// </summary>
-        private void PrintJNML(object boxId, object GCNumber)
+        private void PrintJNML(object boxId, object ptId, object GCNumber)
         {
-            string jnmlString = GetFileList(boxId, GCNumber);
+            object docCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_code FROM processing_tag WHERE pt_id='{ptId}'");
+            string jnmlString = GetFileList(boxId, docCode, GCNumber);
 
             new WebBrowser() { DocumentText = jnmlString }.DocumentCompleted += Print_DocumentCompleted;
         }
@@ -193,10 +191,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 卷内目录
         /// </summary>
-        private string GetFileList(object boxId, object GCNumber)
+        private string GetFileList(object boxId, object docCode, object GCNumber)
         {
             string jnmlString = Resources.jnml;
-            jnmlString = jnmlString.Replace("id=\"ajbh\">", $"id=\"ajbh\">{objectCode}");
+            jnmlString = jnmlString.Replace("id=\"ajbh\">", $"id=\"ajbh\">{docCode}");
             jnmlString = jnmlString.Replace("id=\"gch\">", $"id=\"gch\">{GCNumber}");
 
             DataTable dataTable = new DataTable();
@@ -257,7 +255,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 打印封面
         /// </summary>
-        private void PrintFM(object boxId, object bj, object GCNumber, int rowIndex)
+        private void PrintFM(object ptId, object bj, object GCNumber, int rowIndex)
         {
             string fmString = Resources.fm;
             object fontObject = view.Rows[rowIndex].Cells["font"].Tag;
@@ -274,16 +272,18 @@ namespace 科技计划项目档案数据采集管理系统
                 fmString = fmString.Replace("id=\"ktmc\"", $"style=\"font-family:{font.FontFamily.Name}; \" id=\"ktmc\"");
                 fmString = fmString.Replace($"style=\"font-family:{font.FontFamily.Name}; \" id=\"ktmc\"", $"style=\"font-family:{font.FontFamily.Name}; font-size:{font.Size}pt; \" id=\"ktmc\"");
             }
-            fmString = GetCoverHtmlString(boxId, fmString, bj, GCNumber);
+            object docName = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_name FROM processing_tag WHERE pt_id='{ptId}'");
+            fmString = GetCoverHtmlString(docName, fmString, bj, GCNumber);
             new WebBrowser() { DocumentText = fmString }.DocumentCompleted += Print_DocumentCompleted;
         }
 
         /// <summary>
         /// 打印卷内备考表
         /// </summary>
-        private void PrintBKB(object boxId, int boxNumber)
+        private void PrintBKB(object boxId, object ptId, int boxNumber)
         {
-            string bkbString = GetBackupTable(boxId, boxNumber);
+            object docCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_code FROM processing_tag WHERE pt_id='{ptId}'");
+            string bkbString = GetBackupTable(boxId, docCode, boxNumber);
 
             new WebBrowser() { DocumentText = bkbString }.DocumentCompleted += Print_DocumentCompleted;
         }
@@ -291,7 +291,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 备考表
         /// </summary>
-        private string GetBackupTable(object boxId, int boxNumber)
+        private string GetBackupTable(object boxId, object docCode, int boxNumber)
         {
             string bkbString = Resources.bkb;
             string fa = MicrosoftWordHelper.GetZN(GetFilePageCount(boxId, 1));
@@ -313,7 +313,7 @@ namespace 科技计划项目档案数据采集管理系统
                     "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
             bkbString = bkbString.Replace("</tbody>", $"{newTr}</tbody>");
 
-            bkbString = bkbString.Replace("id=\"dh\">", $"id=\"dh\">{objectCode}");
+            bkbString = bkbString.Replace("id=\"dh\">", $"id=\"dh\">{docCode}");
             bkbString = bkbString.Replace("id=\"ljr\">", $"id=\"dh\">{ljPeople}");
             bkbString = bkbString.Replace("id=\"ljrq\">", $"id=\"dh\">{ToolHelper.GetDateValue(ljDate, "yyyy-MM-dd")}");
             bkbString = bkbString.Replace("id=\"jcr\">", $"id=\"jcr\">{jcPeople}");
@@ -386,15 +386,15 @@ namespace 科技计划项目档案数据采集管理系统
         /// 获取完整的封面HTML模板页
         /// </summary>
         /// <param name="bj">边距mm数</param>
-        private string GetCoverHtmlString(object boxId, string fmString, object bj, object GCNumber)
+        private string GetCoverHtmlString(object docName, string fmString, object bj, object GCNumber)
         {
             fmString = fmString.Replace("20mm", $"{bj}");
             if(string.IsNullOrEmpty(ToolHelper.GetValue(parentObjectName)))
-                fmString = fmString.Replace("id=\"ajmc\">", $"id=\"ajmc\">{objectName}");
+                fmString = fmString.Replace("id=\"ajmc\">", $"id=\"ajmc\">{docName}");
             else
             {
                 fmString = fmString.Replace("id=\"ajmc\">", $"id=\"ajmc\">{parentObjectName}");
-                fmString = fmString.Replace("id=\"ktmc\">", $"id=\"ktmc\">{objectName}");
+                fmString = fmString.Replace("id=\"ktmc\">", $"id=\"ktmc\">{docName}");
             }
             fmString = fmString.Replace("id=\"bzdw\">", $"id=\"bzdw\">{unitName}");
             fmString = fmString.Replace("id=\"bzrq\">", $"id=\"bzrq\">{ToolHelper.GetDateValue(ljDate, "yyyy-MM-dd")}");
@@ -430,6 +430,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void 打印预览PToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridViewCell cell = view.CurrentCell;
+            object ptId = cell.OwningRow.Tag;
             object boxId = cell.OwningRow.Cells["print"].Tag;
             object GCNumber = cell.OwningRow.Cells["id"].Tag;
             string HTML_STRING = string.Empty;
@@ -451,16 +452,19 @@ namespace 科技计划项目档案数据采集管理系统
                     HTML_STRING = HTML_STRING.Replace($"style=\"font-family:{font.FontFamily.Name}; \" id=\"ktmc\"", $"style=\"font-family:{font.FontFamily.Name}; font-size:{font.Size}pt; \" id=\"ktmc\"");
                 }
                 object bj = cell.OwningRow.Cells["fmbj"].Value;
-                HTML_STRING = GetCoverHtmlString(boxId, HTML_STRING, bj, GCNumber);
+                object docName = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_name FROM processing_tag WHERE pt_id='{ptId}'");
+                HTML_STRING = GetCoverHtmlString(docName, HTML_STRING, bj, GCNumber);
             }
             else if("bkb".Equals(cell.OwningColumn.Name))
             {
+                object docCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_code FROM processing_tag WHERE pt_id='{ptId}'");
                 object boxNumber = cell.OwningRow.Cells["id"].Value;
-                HTML_STRING = GetBackupTable(boxId, ToolHelper.GetIntValue(boxNumber, 1));
+                HTML_STRING = GetBackupTable(boxId, docCode, ToolHelper.GetIntValue(boxNumber, 1));
             }
             else if("jnml".Equals(cell.OwningColumn.Name))
             {
-                HTML_STRING = GetFileList(boxId, GCNumber);
+                object docCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT pt_code FROM processing_tag WHERE pt_id='{ptId}'");
+                HTML_STRING = GetFileList(boxId, docCode, GCNumber);
             }
             new WebBrowser() { DocumentText = HTML_STRING, Size = new Size(500, 500) }.DocumentCompleted += Preview_DocumentCompleted;
         }

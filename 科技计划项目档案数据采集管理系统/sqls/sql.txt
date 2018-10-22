@@ -160,8 +160,24 @@ GROUP BY ti_code,ti_name
 ALTER TABLE dbo.processing_box ADD
 	pb_create_id varchar(100) NULL,
 	pb_create_date date NULL,
-	pb_create_type int NULL
+	pb_create_type int NULL,
+	pt_id varchar(100) NULL
 GO
 --借阅登记表新增备注字段
 ALTER TABLE dbo.borrow_log ADD
 	bl_remark varchar(2000) NULL
+
+--历史盒数据处理
+UPDATE processing_box SET pb_gc_fix=SUBSTRING(pb_gc_id,1,3)
+WHERE pb_gc_fix IS NULL
+AND SUBSTRING(pb_gc_id,1,1)='A'
+
+UPDATE processing_box SET pb_gc_number=SUBSTRING(pb_gc_id, 4, LEN(pb_gc_id)-3)
+WHERE pb_gc_number IS NULL
+AND SUBSTRING(pb_gc_id,1,1)='A' and CHARINDEX('-',pb_gc_id,0)=0
+
+UPDATE processing_box SET pb_gc_number=SUBSTRING(pb_gc_id, 4, charindex('-',pb_gc_id,0)-4)
+WHERE pb_gc_number IS NULL
+AND SUBSTRING(pb_gc_id,1,1)='A' and CHARINDEX('-',pb_gc_id,0)<>0
+
+UPDATE processing_box SET pb_unit_id=pb_gc_fix WHERE pb_unit_id IS NULL

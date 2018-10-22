@@ -243,6 +243,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return result.Length > 0 ? result.Substring(0, result.Length - 1) : string.Empty;
         }
+
     }
 
 }

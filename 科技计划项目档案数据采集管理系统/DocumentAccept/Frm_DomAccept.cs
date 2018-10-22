@@ -182,5 +182,19 @@ namespace 科技计划项目档案数据采集管理系统
                     LoadDataGridView(name);
             }
         }
+
+        private void btn_ExportEFile_Click(object sender, EventArgs e)
+        {
+            int count = dgv_DataShow.SelectedRows.Count;
+            if(count == 1)
+            {
+                object trpId = dgv_DataShow.SelectedRows[0].Cells["id"].Value;
+                Frm_ExportEFile exportEFile = GetFormHelper.GetExportEFile(trpId);
+                exportEFile.Show();
+                exportEFile.Activate();
+            }
+            else
+                DevExpress.XtraEditors.XtraMessageBox.Show("请选择一个批次进行导出。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
     }
 }

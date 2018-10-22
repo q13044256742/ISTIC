@@ -143,6 +143,12 @@
     <Compile Include="DocumentAccept\Frm_DomRec.Designer.cs">
       <DependentUpon>Frm_DomRec.cs</DependentUpon>
     </Compile>
+    <Compile Include="DocumentAccept\Frm_ExportEFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentAccept\Frm_ExportEFile.Designer.cs">
+      <DependentUpon>Frm_ExportEFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="DocumentAccept\Frm_Print.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -416,6 +422,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DocumentAccept\Frm_DomRec.resx">
       <DependentUpon>Frm_DomRec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentAccept\Frm_ExportEFile.resx">
+      <DependentUpon>Frm_ExportEFile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DocumentAccept\Frm_Print.resx">
       <DependentUpon>Frm_Print.cs</DependentUpon>

@@ -28,16 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_DomAccept));
             this.dgv_DataShow = new System.Windows.Forms.DataGridView();
             this.pal_LeftMenu = new System.Windows.Forms.Panel();
             this.ac_LeftMenu = new 科技计划项目档案数据采集管理系统.KyoControl.KyoAccordion();
             this.acg_Register = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.ace_all = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_ExportEFile = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataShow)).BeginInit();
             this.pal_LeftMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgv_DataShow
@@ -47,22 +50,22 @@
             this.dgv_DataShow.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_DataShow.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv_DataShow.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_DataShow.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_DataShow.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_DataShow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_DataShow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_DataShow.Location = new System.Drawing.Point(273, 0);
+            this.dgv_DataShow.Location = new System.Drawing.Point(273, 44);
             this.dgv_DataShow.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgv_DataShow.Name = "dgv_DataShow";
             this.dgv_DataShow.ReadOnly = true;
             this.dgv_DataShow.RowTemplate.Height = 23;
-            this.dgv_DataShow.Size = new System.Drawing.Size(640, 484);
+            this.dgv_DataShow.Size = new System.Drawing.Size(640, 440);
             this.dgv_DataShow.TabIndex = 0;
             this.dgv_DataShow.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_DataShow_CellContentClick);
             // 
@@ -121,12 +124,35 @@
             this.ace_all.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.ace_all.Text = "全部来源单位";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btn_ExportEFile);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(273, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(640, 44);
+            this.panel1.TabIndex = 14;
+            // 
+            // btn_ExportEFile
+            // 
+            this.btn_ExportEFile.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_ExportEFile.Appearance.Options.UseFont = true;
+            this.btn_ExportEFile.Image = ((System.Drawing.Image)(resources.GetObject("btn_ExportEFile.Image")));
+            this.btn_ExportEFile.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_ExportEFile.Location = new System.Drawing.Point(9, 8);
+            this.btn_ExportEFile.Name = "btn_ExportEFile";
+            this.btn_ExportEFile.Size = new System.Drawing.Size(81, 29);
+            this.btn_ExportEFile.TabIndex = 0;
+            this.btn_ExportEFile.Text = "导出";
+            this.btn_ExportEFile.Click += new System.EventHandler(this.btn_ExportEFile_Click);
+            // 
             // Frm_DomAccept
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(913, 484);
             this.Controls.Add(this.dgv_DataShow);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pal_LeftMenu);
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -137,6 +163,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataShow)).EndInit();
             this.pal_LeftMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -148,5 +175,7 @@
         private KyoControl.KyoAccordion ac_LeftMenu;
         private DevExpress.XtraBars.Navigation.AccordionControlElement acg_Register;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ace_all;
+        private System.Windows.Forms.Panel panel1;
+        private DevExpress.XtraEditors.SimpleButton btn_ExportEFile;
     }
 }

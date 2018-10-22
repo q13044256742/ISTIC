@@ -134,5 +134,13 @@ namespace 科技计划项目档案数据采集管理系统
                 print = new Frm_Print(form, type, trpId);
             return print;
         }
+
+        private static Frm_ExportEFile exportEFile;
+        internal static Frm_ExportEFile GetExportEFile(object trpId)
+        {
+            if(exportEFile == null || exportEFile.IsDisposed)
+                exportEFile = new Frm_ExportEFile(trpId);
+            return exportEFile;
+        }
     }
 }

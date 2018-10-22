@@ -13,6 +13,10 @@ namespace 科技计划项目档案数据采集管理系统
     public partial class Frm_ProDetails : XtraForm
     {
         private object objectID;
+        /// <summary>
+        /// 对象所属来源单位编号
+        /// </summary>
+        private object UnitCode;
         public Frm_ProDetails(object objectID)
         {
             InitializeComponent();
@@ -229,7 +233,6 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Project_Funds.Text = ToolHelper.GetValue(row["pi_funds"]);
                     txt_Project_StartTime.Text = ToolHelper.GetValue(row["pi_start_datetime"]);
                     txt_Project_EndTime.Text = ToolHelper.GetValue(row["pi_end_datetime"]);
-
                     txt_Project_Year.Text = ToolHelper.GetValue(row["pi_year"]);
                     txt_Project_Unit.Text = ToolHelper.GetValue(row["pi_unit"]);
                     cbo_Project_Province.SelectedValue = ToolHelper.GetValue(row["pi_province"]);
@@ -237,11 +240,10 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Project_ProUser.Text = ToolHelper.GetValue(row["pi_prouser"]);
                     txt_Project_Intro.Text = ToolHelper.GetValue(row["pi_intro"]);
                     Topic.Tag = row["pi_obj_id"];
+                    UnitCode = row["pi_orga_id"];
                 }
-
+                tab_Project_Info.SelectedTabPageIndex = 0;
                 LoadFileList(dgv_Project_FileList, node.Name, -1);
-                LoadFileValidList(dgv_Project_FileValid, node.Name, "project_fc_");
-                LoadDocList(node.Name, ControlType.Project);
             }
             else if(type == ControlType.Topic)
             {
@@ -263,11 +265,10 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Topic_ProUser.Text = ToolHelper.GetValue(row["ti_prouser"]);
                     txt_Topic_Intro.Text = ToolHelper.GetValue(row["ti_intro"]);
                     Topic.Tag = row["ti_obj_id"];
+                    UnitCode = row["ti_orga_id"];
                 }
-
+                tab_Topic_Info.SelectedTabPageIndex = 0;
                 LoadFileList(dgv_Topic_FileList, node.Name, -1);
-                LoadFileValidList(dgv_Topic_FileValid, node.Name, "topic_fc_");
-                LoadDocList(node.Name, ControlType.Topic);
             }
             else if(type == ControlType.Subject)
             {
@@ -293,10 +294,10 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Subject_ProUser.Text = ToolHelper.GetValue(row["si_prouser"]);
                     txt_Subject_Intro.Text = ToolHelper.GetValue(row["si_intro"]);
                     Subject.Tag = row["si_obj_id"];
+                    UnitCode = row["si_orga_id"];
                 }
+                tab_Subject_Info.SelectedTabPageIndex = 0;
                 LoadFileList(dgv_Subject_FileList, node.Name, -1);
-                LoadFileValidList(dgv_Subject_FileValid, node.Name, "subject_fc_");
-                LoadDocList(node.Name, ControlType.Subject);
             }
         }
 
@@ -386,29 +387,12 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void LoadDocList(object objid, ControlType type)
         {
-            object[] values = SqlHelper.ExecuteRowsQuery($"SELECT pt_code, pt_name FROM processing_tag WHERE pt_obj_id='{objid}'");
-            bool flag = values == null;
-            if(type == ControlType.Project)
-            {
-                txt_Project_AJ_Code.Text = flag ? txt_Project_Code.Text : ToolHelper.GetValue(values[0]);
-                txt_Project_AJ_Name.Text = flag ? txt_Project_Name.Text : ToolHelper.GetValue(values[1]);
-            }
-            else if(type == ControlType.Topic)
-            {
-                txt_Topic_AJ_Code.Text = flag ? txt_Topic_Code.Text : ToolHelper.GetValue(values[0]);
-                txt_Topic_AJ_Name.Text = flag ? txt_Topic_Name.Text : ToolHelper.GetValue(values[1]);
-            }
-            else if(type == ControlType.Subject)
-            {
-                txt_Subject_AJ_Code.Text = flag ? txt_Subject_Code.Text : ToolHelper.GetValue(values[0]);
-                txt_Subject_AJ_Name.Text = flag ? txt_Subject_Name.Text : ToolHelper.GetValue(values[1]);
-            }
             LoadBoxList(objid, type);
         }
 
         private void LoadBoxList(object objId, ControlType type)
         {
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM processing_box WHERE pb_obj_id='{objId}' ORDER BY pb_box_number ASC");
+            DataTable table = SqlHelper.ExecuteQuery($"SELECT pb_id, pb_box_number FROM processing_box WHERE pb_obj_id='{objId}' ORDER BY pb_box_number ASC");
             if(type == ControlType.Project)
             {
                 cbo_Project_Box.DataSource = table;
@@ -457,31 +441,40 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, tab_Project_Info.Tag, ControlType.Project);
-                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
-                if(gcid != null)
-                    txt_Project_GCID.Text = ToolHelper.GetValue(gcid);
-                else
-                    txt_Project_GCID.Text = null;
+                DataRow dataRow = SqlHelper.ExecuteSingleRowQuery("SELECT b.pt_code, b.pt_name, a.pb_gc_id FROM processing_box a " +
+                    $"LEFT JOIN processing_tag b ON a.pt_id = b.pt_id WHERE a.pb_id='{pbId}'");
+                if(dataRow != null)
+                {
+                    txt_Project_AJ_Code.Text = ToolHelper.GetValue(dataRow["pt_code"]);
+                    txt_Project_AJ_Name.Text = ToolHelper.GetValue(dataRow["pt_name"]);
+                    txt_Project_GCID.Text = ToolHelper.GetValue(dataRow["pb_gc_id"]);
+                }
             }
             else if(comboBox.Name.Contains("Topic"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, tab_Topic_Info.Tag, ControlType.Topic);
-                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
-                if(gcid != null)
-                    txt_Topic_GCID.Text = ToolHelper.GetValue(gcid);
-                else
-                    txt_Topic_GCID.Text = null;
+                DataRow dataRow = SqlHelper.ExecuteSingleRowQuery("SELECT b.pt_code, b.pt_name, a.pb_gc_id FROM processing_box a " +
+                    $"LEFT JOIN processing_tag b ON a.pt_id = b.pt_id WHERE a.pb_id='{pbId}'");
+                if(dataRow != null)
+                {
+                    txt_Topic_AJ_Code.Text = ToolHelper.GetValue(dataRow["pt_code"]);
+                    txt_Topic_AJ_Name.Text = ToolHelper.GetValue(dataRow["pt_name"]);
+                    txt_Topic_GCID.Text = ToolHelper.GetValue(dataRow["pb_gc_id"]);
+                }
             }
             else if(comboBox.Name.Contains("Subject"))
             {
                 object pbId = comboBox.SelectedValue;
                 LoadFileBoxTable(pbId, tab_Subject_Info.Tag, ControlType.Subject);
-                object gcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_gc_id FROM processing_box WHERE pb_id='{pbId}'");
-                if(gcid != null)
-                    txt_Subject_GCID.Text = ToolHelper.GetValue(gcid);
-                else
-                    txt_Subject_GCID.Text = null;
+                DataRow dataRow = SqlHelper.ExecuteSingleRowQuery("SELECT b.pt_code, b.pt_name, a.pb_gc_id FROM processing_box a " +
+                    $"LEFT JOIN processing_tag b ON a.pt_id = b.pt_id WHERE a.pb_id='{pbId}'");
+                if(dataRow != null)
+                {
+                    txt_Subject_AJ_Code.Text = ToolHelper.GetValue(dataRow["pt_code"]);
+                    txt_Subject_AJ_Name.Text = ToolHelper.GetValue(dataRow["pt_name"]);
+                    txt_Subject_GCID.Text = ToolHelper.GetValue(dataRow["pb_gc_id"]);
+                }
             }
         }
 
@@ -887,11 +880,13 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         string docId = txt_Project_AJ_Code.Text;
                         string docName = txt_Project_AJ_Name.Text;
+                        string primaryKey = Guid.NewGuid().ToString();
                         string insertSQL =
-                            $"DELETE FROM processing_tag WHERE pt_obj_id='{objId}';" +
-                            $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
-                        insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Project_GCID.Text}' WHERE pb_id='{cbo_Project_Box.SelectedValue}';";
+                           $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{cbo_Project_Box.SelectedValue}');" +
+                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}','{docId}','{docName}','{objId}');";
+                        insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Project_GCID.Text}', pt_id='{primaryKey}' WHERE pb_id='{cbo_Project_Box.SelectedValue}';";
                         SqlHelper.ExecuteNonQuery(insertSQL);
+                        XtraMessageBox.Show("案卷保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                 }
             }
@@ -928,11 +923,13 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         string docId = txt_Topic_AJ_Code.Text;
                         string docName = txt_Topic_AJ_Name.Text;
+                        string primaryKey = Guid.NewGuid().ToString();
                         string insertSQL =
-                           $"DELETE FROM processing_tag WHERE pt_obj_id='{objId}';" +
-                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
-                        insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Topic_GCID.Text}' WHERE pb_id='{cbo_Topic_Box.SelectedValue}';";
+                           $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{cbo_Topic_Box.SelectedValue}');" +
+                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}','{docId}','{docName}','{objId}');";
+                        insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Topic_GCID.Text}', pt_id='{primaryKey}' WHERE pb_id='{cbo_Topic_Box.SelectedValue}';";
                         SqlHelper.ExecuteNonQuery(insertSQL);
+                        XtraMessageBox.Show("案卷保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                 }
             }
@@ -969,11 +966,13 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         string docId = txt_Subject_AJ_Code.Text;
                         string docName = txt_Subject_AJ_Name.Text;
+                        string primaryKey = Guid.NewGuid().ToString();
                         string insertSQL =
-                            $"DELETE FROM processing_tag WHERE pt_obj_id='{objId}';" +
-                            $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{Guid.NewGuid().ToString()}','{docId}','{docName}','{objId}');";
-                        insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Subject_GCID.Text}' WHERE pb_id='{cbo_Subject_Box.SelectedValue}';";
+                           $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{cbo_Subject_Box.SelectedValue}');" +
+                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}','{docId}','{docName}','{objId}');";
+                        insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Subject_GCID.Text}', pt_id='{primaryKey}' WHERE pb_id='{cbo_Subject_Box.SelectedValue}';";
                         SqlHelper.ExecuteNonQuery(insertSQL);
+                        XtraMessageBox.Show("案卷保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                 }
             }
@@ -1288,49 +1287,32 @@ namespace 科技计划项目档案数据采集管理系统
         private void Btn_Print_Click(object sender, EventArgs e)
         {
             string controlName = (sender as KyoButton).Name;
-            object objId = null, boxId = null, docNumber = null;
-            string objName = null;
-            DataTable boxTable = null;
+            object objId = null;
             string proName = null, proCode = null;
             object parentObjectName = null;
             if(controlName.Contains("Project"))
             {
                 objId = tab_Project_Info.Tag;
-                boxId = cbo_Project_Box.SelectedValue;
-                docNumber = txt_Project_AJ_Code.Text;
-                objName = txt_Project_AJ_Name.Text;
                 proName = txt_Project_Name.Text;
                 proCode = txt_Project_Code.Text;
-                boxTable = (DataTable)cbo_Project_Box.DataSource;
             }
             else if(controlName.Contains("Topic"))
             {
                 objId = tab_Topic_Info.Tag;
-                boxId = cbo_Topic_Box.SelectedValue;
-                docNumber = txt_Topic_AJ_Code.Text;
-                objName = txt_Topic_AJ_Name.Text;
                 proName = txt_Topic_Name.Text;
                 proCode = txt_Topic_Code.Text;
-                boxTable = (DataTable)cbo_Topic_Box.DataSource;
                 parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_name FROM project_info WHERE pi_id=(SELECT ti_obj_id FROM topic_info WHERE ti_id='{objId}') AND pi_categor=2");
             }
             else if(controlName.Contains("Subject"))
             {
                 objId = tab_Subject_Info.Tag;
-                boxId = cbo_Subject_Box.SelectedValue;
-                docNumber = txt_Subject_AJ_Code.Text;
-                objName = txt_Subject_AJ_Name.Text;
                 proName = txt_Subject_Name.Text;
                 proCode = txt_Subject_Code.Text;
-                boxTable = (DataTable)cbo_Subject_Box.DataSource;
                 parentObjectName = SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_name FROM topic_info WHERE ti_id=(SELECT si_obj_id FROM subject_info WHERE si_id='{objId}')");
             }
 
-            Frm_PrintBox frm = new Frm_PrintBox(this)
+            Frm_PrintBox frm = new Frm_PrintBox(objId, this)
             {
-                boxTable = boxTable,
-                objectCode = docNumber,
-                objectName = objName,
                 unitName = UserHelper.GetUser().UnitName,
                 proCode = proCode,
                 proName = proName,
@@ -1829,6 +1811,138 @@ namespace 科技计划项目档案数据采集管理系统
             }
             if(tab_MenuList.TabCount > 0)
                 tab_MenuList.SelectedIndex = tab_MenuList.TabCount - 1;
+        }
+
+        /// <summary>
+        /// 计划 - 增加/删除案卷盒
+        /// </summary>
+        private void Lbl_Box_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Label label = sender as Label;
+            if(label.Name.Contains("lbl_Project_Box"))
+            {
+                object objId = tab_Project_Info.Tag;
+                if(objId != null)
+                {
+                    if("lbl_Project_Box_Add".Equals(label.Name))//新增
+                    {
+                        //当前已有盒号数量
+                        int Amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
+                        object GcNumber = GetBoxWaterNumber(6);
+                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{Amount + 1}', '{UnitCode}', '{UnitCode + "" + GcNumber}', '{GcNumber}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 1, '{UnitCode}')";
+                        SqlHelper.ExecuteNonQuery(insertSql);
+                    }
+                    else if("lbl_Project_Box_Remove".Equals(label.Name))//删除
+                    {
+                        object _temp = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
+                        if(_temp != null)
+                        {
+                            int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{cbo_Project_Box.SelectedValue}'"));
+                            if(Convert.ToInt32(_temp) > currentBoxId)
+                                XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            {
+                                object value = cbo_Project_Box.SelectedValue;
+                                if(value != null)
+                                {
+                                    SqlHelper.ExecuteNonQuery(
+                                        $"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_box_id='{value}';" +
+                                        $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{value}');" +
+                                        $"DELETE FROM processing_box WHERE pb_id='{value}';");
+                                }
+                            }
+                        }
+                    }
+                    LoadBoxList(objId, ControlType.Project);
+                }
+            }
+            else if(label.Name.Contains("lbl_Subject_Box"))
+            {
+                object objId = tab_Subject_Info.Tag;
+                if(objId != null)
+                {
+                    if("lbl_Subject_Box_Add".Equals(label.Name))//新增
+                    {
+                        //当前已有盒号数量
+                        int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
+                        object GcNumber = GetBoxWaterNumber(6);
+                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{UnitCode}', '{UnitCode + "" + GcNumber}', '{GcNumber}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 1, '{UnitCode}')";
+                        SqlHelper.ExecuteNonQuery(insertSql);
+                    }
+                    else if("lbl_Subject_Box_Remove".Equals(label.Name))//删除
+                    {
+                        object _temp = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
+                        if(_temp != null)
+                        {
+                            object value = cbo_Subject_Box.SelectedValue;
+                            int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{value}'"));
+                            if(Convert.ToInt32(_temp) > currentBoxId)
+                                XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            {
+                                SqlHelper.ExecuteNonQuery(
+                                        $"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_box_id='{value}';" +
+                                        $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{value}');" +
+                                        $"DELETE FROM processing_box WHERE pb_id='{value}';");
+                            }
+                        }
+                    }
+                    LoadBoxList(objId, ControlType.Subject);
+                }
+            }
+            else if(label.Name.Contains("lbl_Topic_Box"))
+            {
+                object objId = tab_Topic_Info.Tag;
+                if(objId != null)
+                {
+                    if("lbl_Topic_Box_Add".Equals(label.Name))//新增
+                    {
+                        //当前已有盒号数量
+                        int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
+                        object GcNumber = GetBoxWaterNumber(6);
+                        string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
+                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{UnitCode}', '{UnitCode + "" + GcNumber}', '{GcNumber}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 1, '{UnitCode}')";
+                        SqlHelper.ExecuteNonQuery(insertSql);
+                    }
+                    else if("lbl_Topic_Box_Remove".Equals(label.Name))//删除
+                    {
+                        object _temp = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
+                        if(_temp != null)
+                        {
+                            object value = cbo_Topic_Box.SelectedValue;
+                            int currentBoxId = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT pb_box_number FROM processing_box WHERE pb_id='{value}'"));
+                            if(Convert.ToInt32(_temp) > currentBoxId)
+                                XtraMessageBox.Show("请先删除较大盒号。", "删除失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else if(XtraMessageBox.Show("删除当前案卷盒会清空盒下已归档的文件，是否继续？", "删除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            {
+                                SqlHelper.ExecuteNonQuery(
+                                        $"UPDATE processing_file_list SET pfl_box_id=NULL WHERE pfl_box_id='{value}';" +
+                                        $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{value}');" +
+                                        $"DELETE FROM processing_box WHERE pb_id='{value}';");
+                            }
+                        }
+                    }
+                    LoadBoxList(objId, ControlType.Topic);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 获取馆藏号流水号
+        /// （优先获取已删除的）
+        /// </summary>
+        private object GetBoxWaterNumber(int length)
+        {
+            int result = 1;
+            string querySql = "SELECT MAX(num) FROM( SELECT ROW_NUMBER() OVER(ORDER BY pb_gc_number) num, pb_gc_number FROM( " +
+                $"SELECT DISTINCT(pb_gc_number) FROM processing_box a where a.pb_unit_id = '{UnitCode}') A) A WHERE num<> pb_gc_number";
+            object value = SqlHelper.ExecuteOnlyOneQuery(querySql);
+            result = value == null
+                ? SqlHelper.ExecuteCountQuery($"SELECT MAX(pb_gc_number) + 1 FROM processing_box WHERE pb_unit_id='{UnitCode}'")
+                : ToolHelper.GetIntValue(value);
+            return result.ToString().PadLeft(length, '0');
         }
     }
 }
