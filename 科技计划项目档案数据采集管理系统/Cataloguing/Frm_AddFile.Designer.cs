@@ -400,7 +400,7 @@
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "名称";
+            this.columnHeader2.Text = "文件链接";
             this.columnHeader2.Width = 500;
             // 
             // errorProvider1

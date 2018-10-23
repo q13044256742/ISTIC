@@ -74,6 +74,13 @@ namespace 科技计划项目档案数据采集管理系统
             return table;
         }
 
+        public static DataTable ExecuteQuery(string querySql, string tableName)
+        {
+            DataTable dataTable = ExecuteQuery(querySql);
+            dataTable.TableName = tableName;
+            return dataTable;
+        }
+
         /// <summary>
         /// 查询唯一结果的SQL(count)
         /// </summary>

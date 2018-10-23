@@ -36,17 +36,21 @@
             this.btn_ExportOk = new DevExpress.XtraEditors.SimpleButton();
             this.lbl_ExportLink = new System.Windows.Forms.LinkLabel();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.chk_All = new System.Windows.Forms.CheckBox();
+            this.chk_Data = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.txt_ExportEFilePath.Properties)).BeginInit();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView1
             // 
             this.treeView1.CheckBoxes = true;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Location = new System.Drawing.Point(0, 43);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(869, 547);
+            this.treeView1.Size = new System.Drawing.Size(749, 504);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterCheck);
             // 
@@ -79,7 +83,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 547);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(869, 48);
+            this.panel1.Size = new System.Drawing.Size(749, 48);
             this.panel1.TabIndex = 3;
             // 
             // btn_ExportOk
@@ -106,12 +110,46 @@
             this.lbl_ExportLink.Text = "...";
             this.lbl_ExportLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbl_ExportLink_LinkClicked);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.chk_Data);
+            this.panel2.Controls.Add(this.chk_All);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(749, 43);
+            this.panel2.TabIndex = 4;
+            // 
+            // chk_All
+            // 
+            this.chk_All.AutoSize = true;
+            this.chk_All.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.chk_All.Location = new System.Drawing.Point(12, 9);
+            this.chk_All.Name = "chk_All";
+            this.chk_All.Size = new System.Drawing.Size(58, 24);
+            this.chk_All.TabIndex = 0;
+            this.chk_All.Text = "全选";
+            this.chk_All.UseVisualStyleBackColor = true;
+            this.chk_All.CheckedChanged += new System.EventHandler(this.chk_All_CheckedChanged);
+            // 
+            // chk_Data
+            // 
+            this.chk_Data.AutoSize = true;
+            this.chk_Data.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.chk_Data.Location = new System.Drawing.Point(79, 9);
+            this.chk_Data.Name = "chk_Data";
+            this.chk_Data.Size = new System.Drawing.Size(118, 24);
+            this.chk_Data.TabIndex = 1;
+            this.chk_Data.Text = "同时导出数据";
+            this.chk_Data.UseVisualStyleBackColor = true;
+            // 
             // Frm_ExportEFile
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(869, 595);
+            this.ClientSize = new System.Drawing.Size(749, 595);
             this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Frm_ExportEFile";
@@ -120,6 +158,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_ExportEFilePath.Properties)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -133,5 +173,8 @@
         private DevExpress.XtraEditors.SimpleButton btn_ExportOk;
         private System.Windows.Forms.LinkLabel lbl_ExportLink;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.CheckBox chk_Data;
+        private System.Windows.Forms.CheckBox chk_All;
     }
 }
