@@ -38,7 +38,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                     TreeNode speNode = new TreeNode()
                     {
                         Name = ToolHelper.GetValue(speRow["imp_id"]),
-                        Text = ToolHelper.GetValue(impRow["imp_code"]) + $"({ToolHelper.GetValue(impRow["imp_name"])})"
+                        Text = ToolHelper.GetValue(speRow["imp_code"])
                     };
                     rootNode.Nodes.Add(speNode);
 

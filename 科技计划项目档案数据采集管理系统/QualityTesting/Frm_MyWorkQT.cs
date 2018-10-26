@@ -3928,6 +3928,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Cbo_Box_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            errorProvider1.Clear();
             System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
             if (comboBox.Name.Contains("Plan"))
             {
@@ -5178,13 +5179,14 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 DataTable table = null;
                 object id = row.Cells[view.Tag + "stage"].Value;
-                if(id != null && !keyValuePairs.TryGetValue(id, out table))
+                if(!string.IsNullOrEmpty(ToolHelper.GetValue(id))
+                    && !keyValuePairs.TryGetValue(id, out table))
                 {
                     string querySql = $"SELECT dd_id, dd_name+' '+extend_3 as dd_name FROM data_dictionary WHERE dd_pId='{id}' ORDER BY dd_name";
                     table = SqlHelper.ExecuteQuery(querySql);
                     keyValuePairs.Add(id, table);
                 }
-                if(table != null)
+                if(table != null && table.Rows.Count > 0)
                 {
                     new Thread(delegate ()
                     {

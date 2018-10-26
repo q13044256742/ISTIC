@@ -436,6 +436,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Cbo_Box_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            errorProvider.Clear();
             System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
             if(comboBox.Name.Contains("Project"))
             {
@@ -878,15 +879,18 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else if(index == 2)
                     {
-                        string docId = txt_Project_AJ_Code.Text;
-                        string docName = txt_Project_AJ_Name.Text;
-                        string primaryKey = Guid.NewGuid().ToString();
-                        string insertSQL =
-                           $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{cbo_Project_Box.SelectedValue}');" +
-                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}','{docId}','{docName}','{objId}');";
-                        insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Project_GCID.Text}', pt_id='{primaryKey}' WHERE pb_id='{cbo_Project_Box.SelectedValue}';";
-                        SqlHelper.ExecuteNonQuery(insertSQL);
-                        XtraMessageBox.Show("案卷保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        if(CheckValueIsNotNull(ControlType.Project))
+                        {
+                            string docId = txt_Project_AJ_Code.Text;
+                            string docName = txt_Project_AJ_Name.Text;
+                            string primaryKey = Guid.NewGuid().ToString();
+                            string insertSQL =
+                               $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{cbo_Project_Box.SelectedValue}');" +
+                               $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}','{docId}','{docName}','{objId}');";
+                            insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Project_GCID.Text}', pt_id='{primaryKey}' WHERE pb_id='{cbo_Project_Box.SelectedValue}';";
+                            SqlHelper.ExecuteNonQuery(insertSQL);
+                            XtraMessageBox.Show("案卷保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        }
                     }
                 }
             }
@@ -921,15 +925,18 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else if(index == 2)
                     {
-                        string docId = txt_Topic_AJ_Code.Text;
-                        string docName = txt_Topic_AJ_Name.Text;
-                        string primaryKey = Guid.NewGuid().ToString();
-                        string insertSQL =
-                           $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{cbo_Topic_Box.SelectedValue}');" +
-                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}','{docId}','{docName}','{objId}');";
-                        insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Topic_GCID.Text}', pt_id='{primaryKey}' WHERE pb_id='{cbo_Topic_Box.SelectedValue}';";
-                        SqlHelper.ExecuteNonQuery(insertSQL);
-                        XtraMessageBox.Show("案卷保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        if(CheckValueIsNotNull(ControlType.Topic))
+                        {
+                            string docId = txt_Topic_AJ_Code.Text;
+                            string docName = txt_Topic_AJ_Name.Text;
+                            string primaryKey = Guid.NewGuid().ToString();
+                            string insertSQL =
+                               $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{cbo_Topic_Box.SelectedValue}');" +
+                               $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}','{docId}','{docName}','{objId}');";
+                            insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Topic_GCID.Text}', pt_id='{primaryKey}' WHERE pb_id='{cbo_Topic_Box.SelectedValue}';";
+                            SqlHelper.ExecuteNonQuery(insertSQL);
+                            XtraMessageBox.Show("案卷保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        }
                     }
                 }
             }
@@ -964,18 +971,91 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else if(index == 2)
                     {
-                        string docId = txt_Subject_AJ_Code.Text;
-                        string docName = txt_Subject_AJ_Name.Text;
-                        string primaryKey = Guid.NewGuid().ToString();
-                        string insertSQL =
-                           $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{cbo_Subject_Box.SelectedValue}');" +
-                           $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}','{docId}','{docName}','{objId}');";
-                        insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Subject_GCID.Text}', pt_id='{primaryKey}' WHERE pb_id='{cbo_Subject_Box.SelectedValue}';";
-                        SqlHelper.ExecuteNonQuery(insertSQL);
-                        XtraMessageBox.Show("案卷保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        if(CheckValueIsNotNull(ControlType.Subject))
+                        {
+                            string docId = txt_Subject_AJ_Code.Text;
+                            string docName = txt_Subject_AJ_Name.Text;
+                            string primaryKey = Guid.NewGuid().ToString();
+                            string insertSQL =
+                               $"DELETE FROM processing_tag WHERE pt_id=(SELECT pt_id FROM processing_box WHERE pb_id='{cbo_Subject_Box.SelectedValue}');" +
+                               $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}','{docId}','{docName}','{objId}');";
+                            insertSQL += $"UPDATE processing_box SET pb_gc_id='{txt_Subject_GCID.Text}', pt_id='{primaryKey}' WHERE pb_id='{cbo_Subject_Box.SelectedValue}';";
+                            SqlHelper.ExecuteNonQuery(insertSQL);
+                            XtraMessageBox.Show("案卷保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        }
                     }
                 }
             }
+        }
+
+        private bool CheckValueIsNotNull(ControlType type)
+        {
+            bool result = true;
+            errorProvider.Clear();
+            if(type == ControlType.Project)
+            {
+                string value1 = txt_Project_AJ_Code.Text;
+                if(string.IsNullOrEmpty(value1))
+                {
+                    errorProvider.SetError(txt_Project_AJ_Code, "提示：档号不能为空。");
+                    result = false;
+                }
+                string value2 = txt_Project_AJ_Name.Text;
+                if(string.IsNullOrEmpty(value2))
+                {
+                    errorProvider.SetError(txt_Project_AJ_Name, "提示：案卷名称不能为空。");
+                    result = false;
+                }
+                string value3 = txt_Project_GCID.Text;
+                if(string.IsNullOrEmpty(value3))
+                {
+                    errorProvider.SetError(txt_Project_GCID, "提示：馆藏号不能为空。");
+                    result = false;
+                }
+            }
+            else if(type == ControlType.Topic)
+            {
+                string value1 = txt_Topic_AJ_Code.Text;
+                if(string.IsNullOrEmpty(value1))
+                {
+                    errorProvider.SetError(txt_Topic_AJ_Code, "提示：档号不能为空。");
+                    result = false;
+                }
+                string value2 = txt_Topic_AJ_Name.Text;
+                if(string.IsNullOrEmpty(value2))
+                {
+                    errorProvider.SetError(txt_Topic_AJ_Name, "提示：案卷名称不能为空。");
+                    result = false;
+                }
+                string value3 = txt_Topic_GCID.Text;
+                if(string.IsNullOrEmpty(value3))
+                {
+                    errorProvider.SetError(txt_Topic_GCID, "提示：馆藏号不能为空。");
+                    result = false;
+                }
+            }
+            else if(type == ControlType.Subject)
+            {
+                string value1 = txt_Subject_AJ_Code.Text;
+                if(string.IsNullOrEmpty(value1))
+                {
+                    errorProvider.SetError(txt_Subject_AJ_Code, "提示：档号不能为空。");
+                    result = false;
+                }
+                string value2 = txt_Subject_AJ_Name.Text;
+                if(string.IsNullOrEmpty(value2))
+                {
+                    errorProvider.SetError(txt_Subject_AJ_Name, "提示：案卷名称不能为空。");
+                    result = false;
+                }
+                string value3 = txt_Subject_GCID.Text;
+                if(string.IsNullOrEmpty(value3))
+                {
+                    errorProvider.SetError(txt_Subject_GCID, "提示：馆藏号不能为空。");
+                    result = false;
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -1707,13 +1787,15 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 DataTable table = null;
                 object id = row.Cells[view.Tag + "stage"].Value;
-                if(id != null && !keyValuePairs.TryGetValue(id, out table))
+                //ID不为空同时目前不存在则查询
+                if(!string.IsNullOrEmpty(ToolHelper.GetValue(id)) 
+                    && !keyValuePairs.TryGetValue(id, out table))
                 {
                     string querySql = $"SELECT dd_id, dd_name+' '+extend_3 as dd_name FROM data_dictionary WHERE dd_pId='{id}' ORDER BY dd_name";
                     table = SqlHelper.ExecuteQuery(querySql);
                     keyValuePairs.Add(id, table);
                 }
-                if(table != null)
+                if(table != null && table.Rows.Count > 0)
                 {
                     new Thread(delegate ()
                     {
