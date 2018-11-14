@@ -115,7 +115,7 @@
             this.acg_Register.Expanded = true;
             this.acg_Register.Image = ((System.Drawing.Image)(resources.GetObject("acg_Register.Image")));
             this.acg_Register.Name = "acg_Register";
-            this.acg_Register.Text = "档案接收";
+            this.acg_Register.Text = "档案验收";
             this.acg_Register.TextToImageDistance = 10;
             // 
             // ace_all
@@ -158,7 +158,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Frm_DomAccept";
-            this.Text = "档案接收";
+            this.Text = "档案验收";
             this.Load += new System.EventHandler(this.Frm_DomAccept_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DataShow)).EndInit();
             this.pal_LeftMenu.ResumeLayout(false);

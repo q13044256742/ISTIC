@@ -174,19 +174,22 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
         {
             docDataSet = new DataSet("Documents");
             fileDataSet = new DataSet("Files");
-            boxDataSet = new DataSet("Box_Tag");
-            string savePath = txt_ExportEFilePath.Text;
+            boxDataSet = new DataSet("Boxs");
+            string savePath = txt_ExportEFilePath.Text + @"\\" + DateTime.Now.ToString("yyyyMMddHHmm");
             if(!string.IsNullOrEmpty(savePath))
             {
                 if(treeView1.Nodes.Count > 0)
                 {
                     bool isData = chk_Data.Checked;
-                    ExportEFile(treeView1.Nodes[0], savePath, isData);
+                    DataTable table = new DataTable();
+                    ExportEFile(treeView1.Nodes[0], savePath, isData, ref table);
                     if(isData)
                     {
                         docDataSet.WriteXml(savePath + @"\Documents.xml");
                         fileDataSet.WriteXml(savePath + @"\Files.xml");
-                        boxDataSet.WriteXml(savePath + @"\Box_Tag.xml");
+                        boxDataSet.WriteXml(savePath + @"\Boxs.xml");
+                        if(table.Rows.Count > 0)
+                            MicrosoftWordHelper.GetCsvFromDataTable(table, savePath + @"\" + DateTime.Now.ToString("yyyyMMddHHmm") + ".csv", 0);
                     }
                     DialogResult dialogResult = XtraMessageBox.Show("导出完毕，是否立即打开文件夹？", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     if(dialogResult == DialogResult.OK)
@@ -218,7 +221,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
         /// <param name="rootNode">选择节点</param>
         /// <param name="savePath">保存基路径</param>
         /// <param name="isData">是否导出当前选中数据（XML）</param>
-        private void ExportEFile(TreeNode rootNode, string savePath, bool isData)
+        private void ExportEFile(TreeNode rootNode, string savePath, bool isData, ref DataTable refTable)
         {
             if(rootNode.Checked)
             {
@@ -233,42 +236,89 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                         "SELECT ti_id, ti_code, ti_name, ti_field, tb_theme, ti_funds, ti_start_datetime, ti_end_datetime, ti_year, ti_unit, ti_province, ti_uniter, ti_prouser, ti_intro, ti_categor, ti_source_id, ti_orga_id, ti_obj_id FROM topic_info UNION ALL " +
                         "SELECT si_id, si_code, si_name, si_field, si_theme, si_funds, si_start_datetime, si_end_datetime, si_year, si_unit, si_province, si_uniter, si_prouser, si_intro, si_categor, si_source_id, si_orga_id, si_obj_id FROM subject_info) A " +
                        $"WHERE A.pi_id='{objectId}'";
-                    DataTable table = SqlHelper.ExecuteQuery(querySQL);
-                    if(table.Rows.Count > 0)
+                    DataRow dataRow = SqlHelper.ExecuteSingleRowQuery(querySQL);
+                    if(dataRow != null)
                     {
-                        int categor = ToolHelper.GetIntValue(table.Rows[0]["categor"]);
+                        object objectID = dataRow["id"];
+                        int categor = ToolHelper.GetIntValue(dataRow["categor"]);
                         if(categor == 1 || categor == 2)
                         {
                             DataTable _table = docDataSet.Tables["Project"];
                             if(_table != null)
-                                _table.ImportRow(table.Rows[0]);
+                                _table.ImportRow(dataRow);
                             else
                             {
-                                table.TableName = "Project";
-                                docDataSet.Tables.Add(table);
+                                dataRow.Table.TableName = "Project";
+                                docDataSet.Tables.Add(dataRow.Table);
                             }
                         }
                         else if(categor == 3 || categor == -3)
                         {
                             DataTable _table = docDataSet.Tables["Topic"];
                             if(_table != null)
-                                _table.ImportRow(table.Rows[0]);
+                                _table.ImportRow(dataRow);
                             else
                             {
-                                table.TableName = "Topic";
-                                docDataSet.Tables.Add(table);
+                                dataRow.Table.TableName = "Topic";
+                                docDataSet.Tables.Add(dataRow.Table);
                             }
                         }
                         else if(categor == 4)
                         {
                             DataTable _table = docDataSet.Tables["Subject"];
                             if(_table != null)
-                                _table.ImportRow(table.Rows[0]);
+                                _table.ImportRow(dataRow);
                             else
                             {
-                                table.TableName = "Subject";
-                                docDataSet.Tables.Add(table);
+                                dataRow.Table.TableName = "Subject";
+                                docDataSet.Tables.Add(dataRow.Table);
                             }
+                        }
+
+                        //导出CSV文件清单
+                        if(categor == 2 || categor == -3)
+                        {
+                            string _querySQL = $"SELECT A.pi_id id, pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
+                                $"A.pi_code '项目编号', A.pi_name '项目名称',	A.pi_unit '项目承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', " +
+                                 "'' '课题编号','' '课题名称', '' '课题负责单位','' '课题承担人', " +
+                                $"pb.pb_gc_id '馆藏号', pb.pb_box_number '盒号', B.fcount '文件数量', " +
+                                $"pfl.pfl_code '文件编号', pfl.pfl_box_sort+1 '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' FROM( " +
+                                $"SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info UNION ALL " +
+                                $"SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info) A " +
+                                $"LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
+                                $"LEFT JOIN processing_tag pt ON pt.pt_id = pb.pt_id " +
+                                $"LEFT JOIN (SELECT pfl_box_id, COUNT(pfl_id) fcount FROM processing_file_list GROUP BY pfl_box_id )B ON B.pfl_box_id = pb.pb_id " +
+                                $"LEFT JOIN processing_file_list pfl ON pfl.pfl_box_id = pb.pb_id " +
+                                $"WHERE A.pi_id = '{objectID}' ";
+                            DataTable _table = SqlHelper.ExecuteQuery(_querySQL);
+                            if(refTable.Columns.Count == 0)
+                                refTable = _table.Copy();
+                            else
+                                foreach(DataRow _dataRow in _table.Rows)
+                                    refTable.ImportRow(_dataRow);
+                        }
+                        else if(categor == 3 || categor == 4)
+                        {
+                            string _querySQL = "SELECT A.pi_id id, pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
+                                 "A.pi_code '项目编号', A.pi_name '项目名称', A.pi_unit '项目承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', " +
+                                 "C.ti_code '课题编号', C.ti_name '课题名称', C.ti_unit '课题负责单位', C.ti_prouser '课题承担人', pb.pb_gc_id '馆藏号', pb.pb_box_number '盒号', B.fcount '文件数量', " +
+                                 "pfl.pfl_code '文件编号', pfl.pfl_box_sort+1 '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' FROM( " +
+                                 "SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info UNION ALL " +
+                                 "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info) A " +
+                                 "RIGHT JOIN(" +
+                                 "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info UNION ALL " +
+                                 "SELECT si_id, si_code, si_name, si_unit, si_prouser, si_start_datetime, si_end_datetime, si_obj_id FROM subject_info) C ON A.pi_id = C.ti_obj_id " +
+                                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = C.ti_id " +
+                                 "LEFT JOIN processing_tag pt ON pt.pt_id = pb.pt_id " +
+                                 "LEFT JOIN (SELECT pfl_box_id, COUNT(pfl_id) fcount FROM processing_file_list GROUP BY pfl_box_id )B ON B.pfl_box_id = pb.pb_id " +
+                                 "LEFT JOIN processing_file_list pfl ON pfl.pfl_box_id = pb.pb_id " +
+                                $"WHERE C.ti_id = '{objectID}' ";
+                            DataTable _table = SqlHelper.ExecuteQuery(_querySQL);
+                            if(refTable.Columns.Count == 0)
+                                refTable = _table.Copy();
+                            else
+                                foreach(DataRow _dataRow in _table.Rows)
+                                    refTable.ImportRow(_dataRow);
                         }
                     }
 
@@ -305,6 +355,8 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                             boxDataSet.Tables.Add(tagTable);
                         }
                     }
+
+
                 }
                 string fileQuerySql = $"SELECT pfl_id, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_user, pfl_type, pfl_scert, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_remark, pfl_obj_id, pfl_sort, pfl_box_id, pfl_box_sort FROM processing_file_list WHERE pfl_obj_id='{objectId}';";
                 DataTable fileTable = SqlHelper.ExecuteQuery(fileQuerySql);
@@ -343,7 +395,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
             }
             foreach(TreeNode node in rootNode.Nodes)
             {
-                ExportEFile(node, savePath, isData);
+                ExportEFile(node, savePath, isData, ref refTable);
             }
         }
 

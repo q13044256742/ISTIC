@@ -11,5 +11,13 @@ namespace 科技计划项目档案数据采集管理系统
         /// 数据库默认最小日期值
         /// </summary>
         public static DateTime DefaultMinDate = new DateTime(1900, 01, 01, 00, 00, 00);
+
+        /// <summary>
+        /// 首页默认页大小
+        /// </summary>
+        public static int FirstPageSize = 100;
+
+        public static int FileMaxPage = 30;
+
     }
 }

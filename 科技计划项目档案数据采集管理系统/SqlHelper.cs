@@ -15,7 +15,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <para>SQLServer_Local：本地</para>
         /// <para>SQLServer_Server：服务端</para>
         /// </summary>
-        static readonly string SERVER_TYPE = "SQLServer_Server";
+        static readonly string SERVER_TYPE = "SQLServer_Local";
         static readonly string IPAddress = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "IPAddress", null);
         static readonly string Username = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Username", null);
         static readonly string Password = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Password", null);
@@ -95,6 +95,15 @@ namespace 科技计划项目档案数据采集管理系统
             return result;
         }
 
+        public static DataTable GetProvinceList(string fieldName)
+        {
+            string key = "dic_xzqy_province";
+            string querySQL = $"SELECT {fieldName} FROM data_dictionary WHERE dd_pId=" +
+               $"(SELECT dd_id FROM data_dictionary WHERE dd_code = '{key}') " +
+                "ORDER BY dd_sort";
+            return ExecuteQuery(querySQL);
+        }
+
         /// <summary>
         /// 获取指定表的Reader
         /// </summary>
@@ -127,7 +136,8 @@ namespace 科技计划项目档案数据采集管理系统
                     catch(Exception e)
                     {
                         sqlTransaction.Rollback();
-                        DevExpress.XtraEditors.XtraMessageBox.Show(e.Message, "数据出错");
+                        DevExpress.XtraEditors.XtraMessageBox.Show(e.Message, "数据出错(详情查看错误日志)");
+                        LogsHelper.AddErrorLogs("执行SQL语句失败", $"Sql语句为{nonQuerySql}");
                     }
                     finally
                     {
@@ -253,6 +263,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return SqlHelper.ExecuteRowsQuery(querySql);
         }
+       
         /// <summary>
         /// 获取单行数据
         /// </summary>
@@ -261,6 +272,7 @@ namespace 科技计划项目档案数据采集管理系统
             DataTable table = ExecuteQuery(querySql);
             return table.Rows.Count > 0 ? table.Rows[0] : null;
         }
+       
         /// <summary>
         /// 获取统计数(若结果为null或非数字，则默认返回0)
         /// </summary>

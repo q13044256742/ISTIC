@@ -142,5 +142,13 @@ namespace 科技计划项目档案数据采集管理系统
                 exportEFile = new Frm_ExportEFile(trpId);
             return exportEFile;
         }
+
+        private static Frm_SpecialSymbol specialSymbol;
+        internal static Frm_SpecialSymbol GetSpecialSymbol()
+        {
+            if(specialSymbol == null || specialSymbol.IsDisposed)
+                specialSymbol = new Frm_SpecialSymbol(null);
+            return specialSymbol;
+        }
     }
 }

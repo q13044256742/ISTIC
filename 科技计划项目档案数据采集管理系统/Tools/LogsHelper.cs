@@ -15,7 +15,7 @@ namespace 科技计划项目档案数据采集管理系统
         public static void AddErrorLogs(string title, string message)
         {
             string errorLogs = Application.StartupPath + "\\errorLogs.txt";
-            string context = DateTime.Now.ToString("yyyy-MM-dd") + "\t" + message + "\r\n";
+            string context = $"{title}\t" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "\r\n" + message + "\r\n\n";
             File.AppendAllText(errorLogs, context, Encoding.UTF8);
         }
     }

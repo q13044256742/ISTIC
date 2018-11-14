@@ -35,27 +35,39 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadCompanySource()
         {
             string querySql = "SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_key_company_source') ORDER BY dd_sort";
-            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            DataTable sTable = SqlHelper.ExecuteQuery(querySql);
+            DataRow sRow = sTable.NewRow();
+            sRow.SetField("dd_code", "ace_all");
+            sRow.SetField("dd_name", "全部来源单位");
+            sTable.Rows.InsertAt(sRow, 0);
             ac_LeftMenu.BeginUpdate();
-            for(int i = 0; i < table.Rows.Count; i++)
+            for(int i = 0; i < sTable.Rows.Count; i++)
             {
                 AccordionControlElement element = new AccordionControlElement()
                 {
                     Style = ElementStyle.Item,
-                    Name = ToolHelper.GetValue(table.Rows[i]["dd_code"]),
-                    Text = ToolHelper.GetValue(table.Rows[i]["dd_name"]),
+                    Name = ToolHelper.GetValue(sTable.Rows[i]["dd_code"]),
+                    Text = ToolHelper.GetValue(sTable.Rows[i]["dd_name"]),
                 };
                 element.Click += Item_Click;
                 ac_LeftMenu.Elements.Add(element);
             }
             ac_LeftMenu.EndUpdate();
 
+            cbo_SourceList.DataSource = sTable;
+            cbo_SourceList.DisplayMember = "dd_name";
+            cbo_SourceList.ValueMember = "dd_code";
+
             querySql = "SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_key_plan') ORDER BY dd_sort";
-            table = SqlHelper.ExecuteQuery(querySql);
+            DataTable pTable = SqlHelper.ExecuteQuery(querySql);
+            DataRow pRow = pTable.NewRow();
+            pRow.SetField("dd_code", "all_ptype");
+            pRow.SetField("dd_name", "全部计划类别");
+            pTable.Rows.InsertAt(pRow, 0);
             bc_LeftMenu.BeginUpdate();
-            for(int i = 0; i < table.Rows.Count; i++)
+            for(int i = 0; i < pTable.Rows.Count; i++)
             {
-                DataRow row = table.Rows[i];
+                DataRow row = pTable.Rows[i];
                 AccordionControlElement element = new AccordionControlElement()
                 {
                     Name = ToolHelper.GetValue(row["dd_code"]),
@@ -91,20 +103,33 @@ namespace 科技计划项目档案数据采集管理系统
             }
             bc_LeftMenu.EndUpdate();
 
+            DataTable _pTable = pTable.Copy();
+            string _speQuerySql = "SELECT dd_code, dd_name FROM data_dictionary WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_key_project') ORDER BY dd_sort";
+            DataTable _speTable = SqlHelper.ExecuteQuery(_speQuerySql);
+            foreach(DataRow dataRow in _speTable.Rows)
+                _pTable.ImportRow(dataRow);
+            cbo_PlanList.DataSource = _pTable;
+            cbo_PlanList.DisplayMember = "dd_name";
+            cbo_PlanList.ValueMember = "dd_code";
+
             querySql = "SELECT dd_id, dd_name FROM data_dictionary WHERE dd_pId= " +
                 "(SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_xzqy_province') " +
                 "ORDER BY dd_sort";
-            table = SqlHelper.ExecuteQuery(querySql);
+            DataTable lTable = SqlHelper.ExecuteQuery(querySql);
+            DataRow lRow = lTable.NewRow();
+            lRow.SetField("dd_id", "all_ltype");
+            lRow.SetField("dd_name", "全部地区");
+            lTable.Rows.InsertAt(lRow, 0);
             cc_LeftMenu.BeginUpdate();
-            for(int i = 0; i < table.Rows.Count; i++)
+            for(int i = 0; i < lTable.Rows.Count; i++)
             {
                 AccordionControlElement element = new AccordionControlElement()
                 {
                     Style = ElementStyle.Item,
-                    Name = ToolHelper.GetValue(table.Rows[i]["dd_id"]),
-                    Text = ToolHelper.GetValue(table.Rows[i]["dd_name"]),
+                    Name = ToolHelper.GetValue(lTable.Rows[i]["dd_id"]),
+                    Text = ToolHelper.GetValue(lTable.Rows[i]["dd_name"]),
                 };
-                element.Click += Element_Click;
+                element.Click += LocalElement_Click;
                 cc_LeftMenu.Elements.Add(element);
             }
             cc_LeftMenu.EndUpdate();
@@ -113,14 +138,23 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 按地区 - 点击事件
         /// </summary>
-        private void Element_Click(object sender, EventArgs e)
+        private void LocalElement_Click(object sender, EventArgs e)
         {
+            pal_Local.Update();
             string name = (sender as AccordionControlElement).Name;
             if("all_ltype".Equals(name))
                 name = string.Empty;
             else
                 name = $"AND M.dd_id='{name}'";
-            LoadDataListByProvince(name, null, null);
+            object _sourCode = cbo_SourceList.SelectedValue;
+            object _planCode = cbo_PlanList.SelectedValue;
+            string sourCode = "ace_all".Equals(_sourCode) ? "AND LEN(pi_orga_id)>0" : $"AND pi_orga_id='{_sourCode}'";
+            string planCode = "AND LEN(pi_source_id)>0";
+            if("ZX".Equals(_planCode))
+                planCode = $"AND pi_source_id LIKE '%{_planCode}%'";
+            else if(!"all_ptype".Equals(_planCode))
+                planCode = $"AND pi_source_id='{_planCode}'";
+            LoadDataListByProvince(name, null, null, sourCode, planCode);
         }
 
         /// <summary>
@@ -129,25 +163,30 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="provinceId">地区条件SQL(AND M.dd_id='')</param>
         /// <param name="minYear">最小年份</param>
         /// <param name="maxYear">最大年份</param>
-        private void LoadDataListByProvince(string provinceId, object minYear, object maxYear)
+        /// <param name="sourCode">来源单位条件SQL（AND LEN(pi_source_id)>0）</param>
+        /// <param name="planCode">计划类别SQL（LEN(pi_orga_id)>0）</param>
+        private void LoadDataListByProvince(string provinceId, object minYear, object maxYear, object sourCode, object planCode)
         {
             string querySQL = "SELECT M.dd_id, M.dd_name, M.pCount, N.bCount, X.fCount, Y.lCount FROM(" +
                 "SELECT dd_id, dd_name, COUNT(B.pi_id) pCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
-                "SELECT pi_id, pi_province FROM project_info WHERE pi_categor=2 UNION ALL " +
-                "SELECT ti_id, ti_province FROM topic_info) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               $"SELECT ti_id, ti_province, ti_source_id, ti_orga_id FROM topic_info) A WHERE 1=1 {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
                 "WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') GROUP BY dd_id, dd_name) M LEFT JOIN( " +
                 "SELECT dd_id, dd_name, COUNT(pb.pb_id) bCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
-                "SELECT pi_id, pi_province FROM project_info WHERE pi_categor=2 UNION ALL " +
-                "SELECT ti_id, ti_province FROM topic_info) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               $"SELECT ti_id, ti_province, ti_source_id, ti_orga_id FROM topic_info) A WHERE 1=1 {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
                 "LEFT JOIN processing_box pb ON B.pi_id = pb.pb_obj_id WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') " +
                 "GROUP BY dd_id, dd_name ) N ON M.dd_id=N.dd_id LEFT JOIN( " +
                 "SELECT dd_id, dd_name, COUNT(pfl.pfl_id) fCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
-                "SELECT pi_id, pi_province FROM project_info WHERE pi_categor=2 UNION ALL " +
-                "SELECT ti_id, ti_province FROM topic_info) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               $"SELECT ti_id, ti_province, ti_source_id, ti_orga_id FROM topic_info) A WHERE 1=1 {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
                 "LEFT JOIN processing_file_list pfl ON B.pi_id = pfl.pfl_obj_id WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') " +
-                "GROUP BY dd_id, dd_name) X ON N.dd_id=X.dd_id LEFT JOIN( SELECT dd_id, dd_name, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END lCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
-                "SELECT pi_id, pi_province FROM project_info WHERE pi_categor=2 UNION ALL SELECT ti_id, ti_province FROM topic_info) A WHERE pi_province IS NOT NULL AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
-                "LEFT JOIN processing_file_lost pfo ON B.pi_id = pfo.pfo_obj_id WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') GROUP BY dd_id, dd_name) Y ON X.dd_id=Y.dd_id " +
+                "GROUP BY dd_id, dd_name) X ON N.dd_id=X.dd_id " +
+                "LEFT JOIN(SELECT dd_id, dd_name, SUM(lCount) lCount FROM (SELECT dd_id, dd_name, B.pi_id, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END lCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
+                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               $"SELECT ti_id, ti_province, ti_source_id, ti_orga_id FROM topic_info) A WHERE 1=1 {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "LEFT JOIN processing_file_lost pfo ON B.pi_id = pfo.pfo_obj_id WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') " +
+                "GROUP BY dd_id, dd_name, B.pi_id )A GROUP BY dd_id, dd_name) Y ON X.dd_id=Y.dd_id " +
                $"WHERE M.pCount>0 {provinceId} ";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             DataGridViewStyleHelper.ResetDataGridView(view, true);
@@ -367,7 +406,7 @@ namespace 科技计划项目档案数据采集管理系统
                         object efcount = GetEFileAmount(date, userCode, 1);
                         object boxcount = GetBoxAmount(date, userCode, 1);
                         object bcount = GetBackAmount(date, userId, 1);
-                        object pgcount = GetFilePageByFid(userId);
+                        object pgcount = GetFilePageByFid(date, userId);
                         table.Rows.Add(date, pcount, tcount, fcount, efcount, boxcount, bcount, pgcount);
                     }
                     countView.DataSource = DistinctSomeColumn(table, "日期");
@@ -604,9 +643,11 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private int GetFilePageByFid(object userId)
+        private int GetFilePageByFid(object date, object userId)
         {
-            string _querySQL = $"SELECT pfl_id FROM processing_file_list LEFT JOIN project_info ON pi_id = pfl_obj_id WHERE pfl_worker_id = '{userId}' AND pi_worker_date <> pfl_worker_date";
+            string _querySQL = $"SELECT pfl_id FROM processing_file_list " +
+                 "LEFT JOIN project_info ON pi_id = pfl_obj_id " +
+                $"WHERE pfl_worker_id = '{userId}' AND pfl_worker_date='{date}' AND pi_worker_date <> pfl_worker_date";
             string querySQL = $"SELECT SUM(pfl_pages) FROM processing_file_list WHERE pfl_id IN ({_querySQL})";
             return SqlHelper.ExecuteCountQuery(querySQL);
         }
@@ -917,7 +958,7 @@ namespace 科技计划项目档案数据采集管理系统
                 "FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_Plan AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
                 "SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+               $"AND LEN(A.pi_orga_id)>0 {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY F_Title, p.F_ID) AS B ORDER BY F_ID ";
             DataTable pCountTable = SqlHelper.ExecuteQuery(querySql_pCount);
             foreach(DataRow row in pCountTable.Rows)
@@ -928,7 +969,7 @@ namespace 科技计划项目档案数据采集管理系统
             string querySql_bCount = "SELECT F_ID, bCount FROM(SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_Plan AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
                $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+               $"AND LEN(A.pi_orga_id)>0 {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B ORDER BY F_ID";
             DataTable bCountTable = SqlHelper.ExecuteQuery(querySql_bCount);
             for(int i = 0; i < bCountTable.Rows.Count; i++)
@@ -939,7 +980,7 @@ namespace 科技计划项目档案数据采集管理系统
             string querySql_fCount = "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM T_Plan AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
                $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+               $"AND LEN(A.pi_orga_id)>0 {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ORDER BY F_ID";
             DataTable fCountTable = SqlHelper.ExecuteQuery(querySql_fCount);
             for(int i = 0; i < fCountTable.Rows.Count; i++)
@@ -953,7 +994,7 @@ namespace 科技计划项目档案数据采集管理系统
                 "SELECT   ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A " +
                 "LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
                $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND A.pi_orga_id IS NOT NULL AND A.pi_orga_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+               $"AND LEN(A.pi_orga_id)>0 {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY p.F_ID) AS B ORDER BY F_ID";
             DataTable fbCountTable = SqlHelper.ExecuteQuery(querySql_fbCount);
             for(int i = 0; i < fbCountTable.Rows.Count; i++)
@@ -1015,7 +1056,10 @@ namespace 科技计划项目档案数据采集管理系统
             if("all_ptype".Equals(value))
                 value = string.Empty;
             else if("ZX".Equals(value))
+            {
                 value = $"AND A.pi_source_id LIKE 'ZX%'";
+                //bc_LeftMenu.SelectedElement.Name = "ZX";
+            }
             else
                 value = $"AND A.pi_source_id = '{value}'";
             SetTableBySource(value, null, null);
@@ -1033,24 +1077,24 @@ namespace 科技计划项目档案数据采集管理系统
                 "SELECT F_Title, F_ID, pCount FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
                $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID " +
-               $"AND A.pi_source_id IS NOT NULL AND A.pi_source_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+               $"AND LEN(A.pi_source_id)>0 {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN(SELECT   F_ID, bCount FROM(" +
                 "SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_SourceOrg AS p LEFT OUTER JOIN(" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
                $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID " +
-               $"AND A.pi_source_id IS NOT NULL AND A.pi_source_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+               $"AND LEN(A.pi_source_id)>0 {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B) b ON p.F_ID = b.F_ID LEFT JOIN( " +
                 "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
                $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID " +
-               $"AND A.pi_source_id IS NOT NULL AND A.pi_source_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+               $"AND LEN(A.pi_source_id)>0 {value} {minYearCondition} {maxYearCondition} " +
                 "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID " +
                 "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM (SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
                 "SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
                 "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
                 "SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
                $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) A ON A.pi_orga_id = p.F_ID " +
-               $"AND A.pi_source_id IS NOT NULL AND A.pi_source_id<>'' {value} {minYearCondition} {maxYearCondition} " +
+               $"AND LEN(A.pi_source_id)>0 {value} {minYearCondition} {maxYearCondition} " +
                 "GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             int totalPcount = 0, totalFcount = 0, totalBcount = 0, totalFBcount = 0;
@@ -1089,20 +1133,24 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            pal_Local.Visible = false;
             if(tabControl1.SelectedIndex == 0)
             {
-                ac_LeftMenu.SelectedElement = ace_all;
-                Item_Click(ace_all, null);
+                ac_LeftMenu.SelectedElement = ac_LeftMenu.Elements[0];
+                Item_Click(ac_LeftMenu.Elements[0], null);
             }
             else if(tabControl1.SelectedIndex == 1)
             {
-                bc_LeftMenu.SelectedElement = all_ptype;
-                Bc_Element_Click(all_ptype, null);
+                bc_LeftMenu.SelectedElement = bc_LeftMenu.Elements[0];
+                Bc_Element_Click(bc_LeftMenu.Elements[0], null);
             }
             else if(tabControl1.SelectedIndex == 2)
             {
-                cc_LeftMenu.SelectedElement = all_ltype;
-                Element_Click(all_ltype, null);
+                cbo_PlanList.SelectedIndex = 0;
+                cbo_SourceList.SelectedIndex = 0;
+                pal_Local.Visible = true;
+                cc_LeftMenu.SelectedElement = cc_LeftMenu.Elements[0];
+                LocalElement_Click(cc_LeftMenu.Elements[0], null);
             }
         }
 
@@ -1135,28 +1183,30 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LoadImageInfo()
         {
-            chart1.Series.Clear();
-            chart2.Series.Clear();
-            chart3.Series.Clear();
-            int tpye1 = tabControl1.SelectedIndex;
+            string name = rdo_ProCount.Checked ? rdo_ProCount.Text : rdo_BoxCount.Checked ? rdo_BoxCount.Text : rdo_FileCount.Checked ? rdo_FileCount.Text : rdo_FileBCount.Text;
+            chart1.Series.Clear(); chart1.BeginInit();
+            chart2.Series.Clear(); chart2.BeginInit();
+            chart3.Series.Clear(); chart3.BeginInit();
+            int tabType = tabControl1.SelectedIndex;
 
             //项目/课题2，盒3，文件4
             int typeIndex = rdo_ProCount.Checked ? 2 : rdo_BoxCount.Checked ? 3 : rdo_FileCount.Checked ? 4 : 5;
             Series amount = new Series()
             {
                 IsValueShownAsLabel = true,
-                Palette = ChartColorPalette.Excel,
+                Palette = ChartColorPalette.BrightPastel,
                 ChartType = SeriesChartType.Pie
             };
             amount["PieLabelStyle"] = "Outside";//将文字移到外侧 
             amount["PieLineColor"] = "Black";//绘制黑色的连线。 
             amount.Label = "#PERCENT{P2}";
             amount.LegendText = "#VALX";
+            amount.ToolTip = "#VALX(#PERCENT{P2})\n" + name + "：#VALY";
             Series amount2 = new Series()
             {
                 IsValueShownAsLabel = true,
                 ShadowOffset = 5,
-                Palette = ChartColorPalette.Excel,
+                Palette = ChartColorPalette.BrightPastel,
                 ChartType = SeriesChartType.Column
             };
             double maxNum = 0;
@@ -1167,13 +1217,14 @@ namespace 科技计划项目档案数据采集管理系统
                 amount.Points.AddXY(view.Rows[i].Cells[1].Value, value);
                 amount2.Points.AddXY(view.Rows[i].Cells[1].Value, value);
             }
+            amount2.ToolTip = "#VALX(#PERCENT{P2})\n" + name + "：#VALY";
 
             chart1.Series.Add(amount);
             chart2.Series.Add(amount2);
             chart1.ChartAreas[0].AxisY.Maximum = maxNum;
             chart2.ChartAreas[0].AxisY.Maximum = maxNum;
             //来源单位0
-            if(tpye1 == 0)
+            if(tabType == 0)
             {
                 //年度统计
                 if(typeIndex == 2)
@@ -1220,15 +1271,15 @@ namespace 科技计划项目档案数据采集管理系统
                                 pair.TryGetValue(i, out int value);
                                 series.Points.AddXY(i, value);
                             }
+                            series.ToolTip = "#VALX年度（" + view.Rows[j].Cells[1].Value + "）\n项目/课题数：#VALY";
                             chart3.Series.Add(series);
                         }
                     }
                 }
             }
             //计划类别1
-            else
+            else if(tabType == 1)
             {
-
                 //年度统计
                 if(typeIndex == 2)
                 {
@@ -1242,7 +1293,7 @@ namespace 科技计划项目档案数据采集管理系统
                         "UNION ALL SELECT ti_year, ti_start_datetime, ti_source_id FROM topic_info WHERE ti_categor = -3 )a)b " +
                         "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME()) ";
                         if(!"all_ptype".Equals(orgName))
-                            querySQL_Year += $"AND pi_source_id='{orgName}' ";
+                            querySQL_Year += $"AND pi_source_id LIKE '%{orgName}%' ";
                         object[] years = SqlHelper.ExecuteRowsQuery(querySQL_Year);
                         _minYear = ToolHelper.GetValue(years[0]);
                         _maxYear = ToolHelper.GetValue(years[1]);
@@ -1255,7 +1306,7 @@ namespace 科技计划项目档案数据采集管理系统
                         for(int j = 0; j < view.RowCount - 1; j++)
                         {
                             object orgCode = view.Rows[j].Cells[0].Value;
-                            string sorName = "all_ptype".Equals(orgName) ? string.Empty : $"AND pi_source_id='{orgName}'";
+                            string sorName = "all_ptype".Equals(orgName) ? string.Empty : $"AND pi_source_id LIKE '%{orgName}%'";
                             Series series = new Series($"{view.Rows[j].Cells[1].Value}")
                             {
                                 BorderWidth = 2,
@@ -1274,50 +1325,69 @@ namespace 科技计划项目档案数据采集管理系统
                                 pair.TryGetValue(i, out value);
                                 series.Points.AddXY(i, value);
                             }
+                            series.ToolTip = "#VALX年度（" + view.Rows[j].Cells[1].Value + "）\n项目/课题数：#VALY";
                             chart3.Series.Add(series);
                         }
                     }
                 }
             }
-        }
-
-        private void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
-        {
-            string name = rdo_ProCount.Checked ? rdo_ProCount.Text : rdo_BoxCount.Checked ? rdo_BoxCount.Text : rdo_FileCount.Checked ? rdo_FileCount.Text : rdo_FileBCount.Text;
-            Chart chart = sender as Chart;
-            string chartName = chart.Name;
-            //判断鼠标是否移动到数据标记点，是则显示提示信息
-            if(e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
+            //地域
+            else if(tabType == 2)
             {
-                int i = e.HitTestResult.PointIndex;
-                DataPoint dp = e.HitTestResult.Series.Points[i];
-                lbl_TipName.Text = dp.AxisLabel;
-                if("chart1".Equals(chartName))
+                //年度统计
+                if(typeIndex == 2)
                 {
-                    object proAmount = chart.Series[0].Points[i].YValues[0];
-                    //分别显示x轴和y轴的数值                   
-                    lbl_TipAmount.Text = $"{name}：{proAmount}";
+                    string proName = cc_LeftMenu.SelectedElement == null ? "all_ltype" : cc_LeftMenu.SelectedElement.Name;
+                    string _minYear = txt_QuerySyear.Text, _maxYear = txt_QueryEyear.Text;
+                    //如果时间查询条件为空，则获取默认最大最小时间
+                    if(string.IsNullOrEmpty(_minYear) && string.IsNullOrEmpty(_maxYear))
+                    {
+                        string querySQL_Local = "SELECT MIN(myear) maxyear, MAX(myear) minyear FROM( " +
+                            "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) AS myear, pi_province FROM (" +
+                            "SELECT pi_year, pi_start_datetime, pi_province FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                            "SELECT ti_year, ti_start_datetime, ti_province FROM topic_info WHERE ti_categor = -3 )A)B " +
+                            "WHERE myear IS NOT NULL AND myear> '0' AND myear<= YEAR(SYSDATETIME()) ";
+                        if(!"all_ltype".Equals(proName))
+                            querySQL_Local += $"AND pi_province = '{proName}' ";
+                        object[] years = SqlHelper.ExecuteRowsQuery(querySQL_Local);
+                        _minYear = ToolHelper.GetValue(years[0]);
+                        _maxYear = ToolHelper.GetValue(years[1]);
+                    }
+                    if(!string.IsNullOrEmpty(_minYear) && !string.IsNullOrEmpty(_maxYear))
+                    {
+                        int minYear = ToolHelper.GetIntValue(_minYear);
+                        int maxYear = ToolHelper.GetIntValue(_maxYear);
+                        //逐行添加
+                        for(int j = 0; j < view.RowCount - 1; j++)
+                        {
+                            //if("all_ltype".Equals(proName)) continue;
+                            object localID = view.Rows[j].Cells[0].Value;
+                            Series series = new Series($"{view.Rows[j].Cells[1].Value}")
+                            {
+                                BorderWidth = 2,
+                                IsXValueIndexed = true,
+                                ChartType = SeriesChartType.Spline
+                            };
+                            string querySQL = "SELECT nian, COUNT(pi_id) num FROM( " +
+                                "SELECT ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) as nian, pi_province, pi_id FROM(" +
+                                "SELECT pi_id, pi_start_datetime, pi_year, pi_province FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                                "SELECT ti_id, ti_start_datetime, ti_year, ti_province FROM topic_info WHERE ti_categor = -3) AS A ) A " +
+                               $"WHERE A.nian BETWEEN {minYear} AND {maxYear} AND pi_province = '{localID}' GROUP BY nian ";
+                            Dictionary<object, int> pair = SqlHelper.GetKeyValuePair(querySQL);
+                            for(int i = minYear; i <= maxYear; i++)
+                            {
+                                pair.TryGetValue(i, out int value);
+                                series.Points.AddXY(i, value);
+                            }
+                            series.ToolTip = "#VALX年度（" + view.Rows[j].Cells[1].Value + "）\n项目/课题数：#VALY";
+                            chart3.Series.Add(series);
+                        }
+                    }
                 }
-                else if("chart2".Equals(chartName))
-                {
-                    lbl_TipAmount.Text = $"{name}：{dp.YValues[0]}";
-                }
-                else if("chart3".Equals(chartName))
-                {
-                    lbl_TipName.Text = $"{dp.XValue} {e.HitTestResult.Series.Name}";
-                    lbl_TipAmount.Text = $"{name}：{dp.YValues[0]}";
-                }
-                //显示提示信息
-                tip_Panel.Visible = true;
-                Point point = datachart.PointToClient(MousePosition);
-                tip_Panel.Location = new Point(point.X + 30, point.Y);
             }
-
-            //鼠标离开数据标记点，则隐藏提示信息
-            else
-            {
-                tip_Panel.Visible = false;
-            }
+            chart1.EndInit();
+            chart2.EndInit();
+            chart3.EndInit();
         }
 
         private void Btn_Export_Click(object sender, EventArgs e)
@@ -1353,8 +1423,8 @@ namespace 科技计划项目档案数据采集管理系统
             string minYear = txt_QuerySyear.Text, maxYear = txt_QueryEyear.Text;
             if(string.IsNullOrEmpty(minYear) && string.IsNullOrEmpty(maxYear))
                 return;
-            int tpye1 = tabControl1.SelectedIndex;
-            if(tpye1 == 0)
+            int tabType = tabControl1.SelectedIndex;
+            if(tabType == 0)
             {
                 string value = ac_LeftMenu.SelectedElement.Name;
                 if("ace_all".Equals(value))
@@ -1364,7 +1434,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                 SetTableByOrga(value, minYear, maxYear);
             }
-            else if(tpye1 == 1)
+            else if(tabType == 1)
             {
                 string value = bc_LeftMenu.SelectedElement.Name;
                 if("all_ptype".Equals(value))
@@ -1373,6 +1443,12 @@ namespace 科技计划项目档案数据采集管理系统
                     value = $"AND A.pi_source_id = '{value}'";
 
                 SetTableBySource(value, minYear, maxYear);
+            }
+            else if(tabType == 2)
+            {
+                AccordionControlElement element = cc_LeftMenu.SelectedElement;
+                if(element != null)
+                    LocalElement_Click(element, null);
             }
             tabPane2.SelectedPageIndex = 0;
 
@@ -1470,7 +1546,6 @@ namespace 科技计划项目档案数据采集管理系统
             LoadChartInfo();
         }
 
-
         object[] lastRow = null;
         int colindex = 0;
 
@@ -1508,17 +1583,30 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 int queryType = tabControl1.SelectedIndex;
                 object code = view.Rows[e.RowIndex].Cells[0].Value;
-                Frm_QueryBorrowing queryBorrowing = GetFormHelper.GetQueryBorrow(null);
-                queryBorrowing.Update();
-                if(queryType == 0)//来源单位
-                    queryBorrowing.cbo_PlanTypeList.SelectedValue = code;
-                else if(queryType == 1)//计划类别
-                    queryBorrowing.cbo_SourceOrg.SelectedValue = code;
-                queryBorrowing.LoadDataListByPage(null, null);
-
-                queryBorrowing.Show();
-                queryBorrowing.Activate();
+                if(!string.IsNullOrEmpty(ToolHelper.GetValue(code)))
+                {
+                    Frm_QueryBorrowing queryBorrowing = new Frm_QueryBorrowing();
+                    queryBorrowing.Update();
+                    if(queryType == 0)//来源单位
+                        queryBorrowing.cbo_PlanTypeList.SelectedValue = code;
+                    else if(queryType == 1)//计划类别
+                        queryBorrowing.cbo_SourceOrg.SelectedValue = code;
+                    else if(queryType == 2)//地区
+                        queryBorrowing.txt_Province.SelectedValue = code;
+                    //queryBorrowing.LoadDataListByPage(null, null);
+                    queryBorrowing.Show();
+                }
             }
+        }
+
+        /// <summary>
+        /// 地区页【类别下拉框事件】
+        /// </summary>
+        private void Cbo_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            AccordionControlElement element = cc_LeftMenu.SelectedElement;
+            if(element != null)
+                LocalElement_Click(element, null);
         }
     }
 }

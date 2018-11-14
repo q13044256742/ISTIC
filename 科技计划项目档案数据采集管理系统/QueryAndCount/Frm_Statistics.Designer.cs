@@ -46,7 +46,6 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.ac_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
-            this.ace_all = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.view = new System.Windows.Forms.DataGridView();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
             this.tabNavigationPage1 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
@@ -85,15 +84,17 @@
             this.btn_Export = new DevExpress.XtraEditors.SimpleButton();
             this.tabPane2 = new DevExpress.XtraBars.Navigation.TabPane();
             this.datatable = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.pal_Local = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cbo_PlanList = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbo_SourceList = new System.Windows.Forms.ComboBox();
             this.datachart = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.rdo_FileBCount = new System.Windows.Forms.RadioButton();
             this.rdo_ProCount = new System.Windows.Forms.RadioButton();
             this.rdo_FileCount = new System.Windows.Forms.RadioButton();
             this.rdo_BoxCount = new System.Windows.Forms.RadioButton();
-            this.tip_Panel = new System.Windows.Forms.Panel();
-            this.lbl_TipAmount = new System.Windows.Forms.Label();
-            this.lbl_TipName = new System.Windows.Forms.Label();
             this.chart3 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -101,10 +102,8 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.bc_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
-            this.all_ptype = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cc_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
-            this.all_ltype = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             labelControl2 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.ac_LeftMenu)).BeginInit();
@@ -124,9 +123,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_QueryEyear.Properties)).BeginInit();
             this.tabPane2.SuspendLayout();
             this.datatable.SuspendLayout();
+            this.pal_Local.SuspendLayout();
             this.datachart.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.tip_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -168,8 +167,6 @@
             this.ac_LeftMenu.Appearance.Item.Pressed.Options.UseFont = true;
             this.ac_LeftMenu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ac_LeftMenu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ac_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.ace_all});
             this.ac_LeftMenu.Location = new System.Drawing.Point(0, 0);
             this.ac_LeftMenu.LookAndFeel.SkinName = "Office 2007 Silver";
             this.ac_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
@@ -177,13 +174,6 @@
             this.ac_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.ac_LeftMenu.Size = new System.Drawing.Size(284, 667);
             this.ac_LeftMenu.TabIndex = 13;
-            // 
-            // ace_all
-            // 
-            this.ace_all.Name = "ace_all";
-            this.ace_all.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.ace_all.Text = "全部来源单位";
-            this.ace_all.Click += new System.EventHandler(this.Item_Click);
             // 
             // view
             // 
@@ -203,11 +193,11 @@
             this.view.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.view.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.view.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.view.Location = new System.Drawing.Point(0, 0);
+            this.view.Location = new System.Drawing.Point(0, 35);
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(936, 655);
+            this.view.Size = new System.Drawing.Size(952, 636);
             this.view.TabIndex = 0;
             this.view.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View_CellClick);
             this.view.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.view_ColumnHeaderMouseClick);
@@ -274,7 +264,7 @@
             this.tabNavigationPage4});
             this.tabPane3.RegularSize = new System.Drawing.Size(1239, 474);
             this.tabPane3.SelectedPage = this.tabNavigationPage3;
-            this.tabPane3.SelectedPageIndex = 1;
+            this.tabPane3.SelectedPageIndex = 0;
             this.tabPane3.Size = new System.Drawing.Size(1239, 474);
             this.tabPane3.TabIndex = 30;
             this.tabPane3.Text = "tabPane3";
@@ -342,7 +332,7 @@
             this.panel3.Controls.Add(this.rdo3);
             this.panel3.Controls.Add(this.rdo2);
             this.panel3.Controls.Add(this.rdo1);
-            this.panel3.Location = new System.Drawing.Point(573, 3);
+            this.panel3.Location = new System.Drawing.Point(556, 3);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(149, 166);
             this.panel3.TabIndex = 2;
@@ -420,7 +410,7 @@
             series1.ChartArea = "ChartArea1";
             series1.Name = "Series1";
             this.chart5.Series.Add(series1);
-            this.chart5.Size = new System.Drawing.Size(422, 280);
+            this.chart5.Size = new System.Drawing.Size(405, 280);
             this.chart5.TabIndex = 1;
             this.chart5.Text = "chart5";
             // 
@@ -451,7 +441,7 @@
             series2.ChartArea = "ChartArea1";
             series2.Name = "Series1";
             this.chart4.Series.Add(series2);
-            this.chart4.Size = new System.Drawing.Size(558, 280);
+            this.chart4.Size = new System.Drawing.Size(541, 280);
             this.chart4.TabIndex = 0;
             this.chart4.Text = "chart4";
             // 
@@ -641,12 +631,12 @@
             this.txt_QuerySyear.Name = "txt_QuerySyear";
             this.txt_QuerySyear.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.txt_QuerySyear.Properties.Appearance.Options.UseFont = true;
-            this.txt_QuerySyear.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.UltraFlat;
+            this.txt_QuerySyear.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
             this.txt_QuerySyear.Properties.Mask.BeepOnError = true;
             this.txt_QuerySyear.Properties.Mask.EditMask = "\\d{4}";
             this.txt_QuerySyear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txt_QuerySyear.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txt_QuerySyear.Size = new System.Drawing.Size(57, 26);
+            this.txt_QuerySyear.Size = new System.Drawing.Size(57, 28);
             this.txt_QuerySyear.TabIndex = 1;
             // 
             // txt_QueryEyear
@@ -656,12 +646,12 @@
             this.txt_QueryEyear.Name = "txt_QueryEyear";
             this.txt_QueryEyear.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.txt_QueryEyear.Properties.Appearance.Options.UseFont = true;
-            this.txt_QueryEyear.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.UltraFlat;
+            this.txt_QueryEyear.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
             this.txt_QueryEyear.Properties.Mask.BeepOnError = true;
             this.txt_QueryEyear.Properties.Mask.EditMask = "\\d{4}";
             this.txt_QueryEyear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txt_QueryEyear.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txt_QueryEyear.Size = new System.Drawing.Size(57, 26);
+            this.txt_QueryEyear.Size = new System.Drawing.Size(57, 28);
             this.txt_QueryEyear.TabIndex = 2;
             // 
             // btn_Query
@@ -712,7 +702,7 @@
             this.datachart});
             this.tabPane2.RegularSize = new System.Drawing.Size(954, 701);
             this.tabPane2.SelectedPage = this.datachart;
-            this.tabPane2.SelectedPageIndex = 0;
+            this.tabPane2.SelectedPageIndex = 1;
             this.tabPane2.Size = new System.Drawing.Size(954, 701);
             this.tabPane2.TabIndex = 14;
             this.tabPane2.SelectedPageIndexChanged += new System.EventHandler(this.tabPane2_SelectedPageIndexChanged);
@@ -725,9 +715,68 @@
             this.datatable.Appearance.Options.UseImage = true;
             this.datatable.Caption = "datatable";
             this.datatable.Controls.Add(this.view);
+            this.datatable.Controls.Add(this.pal_Local);
             this.datatable.Name = "datatable";
             this.datatable.PageText = "数据统计表";
-            this.datatable.Size = new System.Drawing.Size(936, 655);
+            this.datatable.Size = new System.Drawing.Size(952, 671);
+            // 
+            // pal_Local
+            // 
+            this.pal_Local.Controls.Add(this.label6);
+            this.pal_Local.Controls.Add(this.cbo_PlanList);
+            this.pal_Local.Controls.Add(this.label5);
+            this.pal_Local.Controls.Add(this.cbo_SourceList);
+            this.pal_Local.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pal_Local.Location = new System.Drawing.Point(0, 0);
+            this.pal_Local.Margin = new System.Windows.Forms.Padding(0);
+            this.pal_Local.Name = "pal_Local";
+            this.pal_Local.Size = new System.Drawing.Size(952, 35);
+            this.pal_Local.TabIndex = 1;
+            this.pal_Local.Visible = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.Location = new System.Drawing.Point(376, 6);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(90, 22);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "计划类别：";
+            // 
+            // cbo_PlanList
+            // 
+            this.cbo_PlanList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_PlanList.FormattingEnabled = true;
+            this.cbo_PlanList.IntegralHeight = false;
+            this.cbo_PlanList.Location = new System.Drawing.Point(472, 2);
+            this.cbo_PlanList.MaxDropDownItems = 15;
+            this.cbo_PlanList.Name = "cbo_PlanList";
+            this.cbo_PlanList.Size = new System.Drawing.Size(236, 29);
+            this.cbo_PlanList.TabIndex = 2;
+            this.cbo_PlanList.SelectionChangeCommitted += new System.EventHandler(this.Cbo_SelectionChangeCommitted);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.Location = new System.Drawing.Point(12, 6);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(90, 22);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "来源单位：";
+            // 
+            // cbo_SourceList
+            // 
+            this.cbo_SourceList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_SourceList.FormattingEnabled = true;
+            this.cbo_SourceList.IntegralHeight = false;
+            this.cbo_SourceList.Location = new System.Drawing.Point(108, 2);
+            this.cbo_SourceList.MaxDropDownItems = 15;
+            this.cbo_SourceList.Name = "cbo_SourceList";
+            this.cbo_SourceList.Size = new System.Drawing.Size(236, 29);
+            this.cbo_SourceList.TabIndex = 0;
+            this.cbo_SourceList.SelectionChangeCommitted += new System.EventHandler(this.Cbo_SelectionChangeCommitted);
             // 
             // datachart
             // 
@@ -739,14 +788,13 @@
             this.datachart.BackgroundPadding = new System.Windows.Forms.Padding(0);
             this.datachart.Caption = "tabNavigationPage4";
             this.datachart.Controls.Add(this.panel1);
-            this.datachart.Controls.Add(this.tip_Panel);
             this.datachart.Controls.Add(this.chart3);
             this.datachart.Controls.Add(this.chart2);
             this.datachart.Controls.Add(this.chart1);
             this.datachart.Margin = new System.Windows.Forms.Padding(0);
             this.datachart.Name = "datachart";
             this.datachart.PageText = "数据统计图";
-            this.datachart.Size = new System.Drawing.Size(936, 655);
+            this.datachart.Size = new System.Drawing.Size(952, 671);
             // 
             // panel1
             // 
@@ -755,7 +803,7 @@
             this.panel1.Controls.Add(this.rdo_ProCount);
             this.panel1.Controls.Add(this.rdo_FileCount);
             this.panel1.Controls.Add(this.rdo_BoxCount);
-            this.panel1.Location = new System.Drawing.Point(96, 0);
+            this.panel1.Location = new System.Drawing.Point(14, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(454, 30);
             this.panel1.TabIndex = 7;
@@ -810,40 +858,6 @@
             this.rdo_BoxCount.UseVisualStyleBackColor = true;
             this.rdo_BoxCount.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ProCount_MouseClick);
             // 
-            // tip_Panel
-            // 
-            this.tip_Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.tip_Panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tip_Panel.Controls.Add(this.lbl_TipAmount);
-            this.tip_Panel.Controls.Add(this.lbl_TipName);
-            this.tip_Panel.Location = new System.Drawing.Point(719, 331);
-            this.tip_Panel.Name = "tip_Panel";
-            this.tip_Panel.Size = new System.Drawing.Size(193, 88);
-            this.tip_Panel.TabIndex = 3;
-            this.tip_Panel.Visible = false;
-            // 
-            // lbl_TipAmount
-            // 
-            this.lbl_TipAmount.AutoSize = true;
-            this.lbl_TipAmount.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.lbl_TipAmount.Location = new System.Drawing.Point(15, 35);
-            this.lbl_TipAmount.Name = "lbl_TipAmount";
-            this.lbl_TipAmount.Size = new System.Drawing.Size(51, 17);
-            this.lbl_TipAmount.TabIndex = 1;
-            this.lbl_TipAmount.Text = "数量：1";
-            // 
-            // lbl_TipName
-            // 
-            this.lbl_TipName.BackColor = System.Drawing.Color.Silver;
-            this.lbl_TipName.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbl_TipName.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.lbl_TipName.Location = new System.Drawing.Point(0, 0);
-            this.lbl_TipName.Name = "lbl_TipName";
-            this.lbl_TipName.Size = new System.Drawing.Size(191, 26);
-            this.lbl_TipName.TabIndex = 0;
-            this.lbl_TipName.Text = "重大专项办公室";
-            this.lbl_TipName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // chart3
             // 
             this.chart3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -851,63 +865,74 @@
             this.chart3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
             chartArea3.AxisX.Interval = 2D;
             chartArea3.AxisX.IsLabelAutoFit = false;
+            chartArea3.AxisX.LabelStyle.Angle = -45;
             chartArea3.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
-            chartArea3.AxisX.LabelStyle.IsStaggered = true;
-            chartArea3.AxisX.MajorGrid.Enabled = false;
+            chartArea3.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gainsboro;
             chartArea3.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea3.AxisY.IsLabelAutoFit = false;
             chartArea3.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
-            chartArea3.AxisY.MajorGrid.Enabled = false;
+            chartArea3.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gainsboro;
             chartArea3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
             chartArea3.Name = "ChartArea1";
             this.chart3.ChartAreas.Add(chartArea3);
             legend1.Name = "Legend1";
             this.chart3.Legends.Add(legend1);
-            this.chart3.Location = new System.Drawing.Point(6, 593);
+            this.chart3.Location = new System.Drawing.Point(6, 647);
             this.chart3.Name = "chart3";
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chart3.Series.Add(series3);
-            this.chart3.Size = new System.Drawing.Size(549, 400);
+            this.chart3.Size = new System.Drawing.Size(775, 385);
             this.chart3.TabIndex = 2;
             this.chart3.Text = "chart3";
-            this.chart3.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
             // 
             // chart2
             // 
             this.chart2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chart2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea4.AlignmentOrientation = ((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations)((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Vertical | System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal)));
             chartArea4.AxisX.Interval = 1D;
             chartArea4.AxisX.IntervalOffset = 1D;
             chartArea4.AxisX.IsLabelAutoFit = false;
-            chartArea4.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
-            chartArea4.AxisX.LabelStyle.IsStaggered = true;
+            chartArea4.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)(((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels) 
+            | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30) 
+            | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep45)));
+            chartArea4.AxisX.LabelStyle.Angle = -45;
+            chartArea4.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             chartArea4.AxisX.MajorGrid.Enabled = false;
+            chartArea4.AxisX.MajorGrid.LineColor = System.Drawing.Color.Silver;
             chartArea4.AxisY.IsLabelAutoFit = false;
             chartArea4.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
             chartArea4.AxisY.MajorGrid.Enabled = false;
             chartArea4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea4.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
+            chartArea4.InnerPlotPosition.Auto = false;
+            chartArea4.InnerPlotPosition.Height = 70F;
+            chartArea4.InnerPlotPosition.Width = 95F;
+            chartArea4.InnerPlotPosition.X = 5F;
+            chartArea4.InnerPlotPosition.Y = 5F;
             chartArea4.Name = "ChartArea1";
             this.chart2.ChartAreas.Add(chartArea4);
-            this.chart2.Location = new System.Drawing.Point(6, 307);
+            this.chart2.Location = new System.Drawing.Point(6, 338);
             this.chart2.Name = "chart2";
             series4.ChartArea = "ChartArea1";
             series4.Name = "Series1";
             series4.ShadowOffset = 5;
             this.chart2.Series.Add(series4);
-            this.chart2.Size = new System.Drawing.Size(549, 274);
+            this.chart2.Size = new System.Drawing.Size(570, 302);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
-            this.chart2.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
             // 
             // chart1
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea5.Area3DStyle.Enable3D = true;
             chartArea5.AxisX.Interval = 1D;
             chartArea5.AxisX.IntervalOffset = 1D;
             chartArea5.AxisX.IsLabelAutoFit = false;
@@ -918,6 +943,10 @@
             chartArea5.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
             chartArea5.AxisY.MajorGrid.Enabled = false;
             chartArea5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+            chartArea5.InnerPlotPosition.Auto = false;
+            chartArea5.InnerPlotPosition.Height = 80F;
+            chartArea5.InnerPlotPosition.Width = 100F;
+            chartArea5.InnerPlotPosition.Y = 10F;
             chartArea5.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea5);
             legend2.Name = "Legend1";
@@ -929,10 +958,9 @@
             series5.Legend = "Legend1";
             series5.Name = "Series1";
             this.chart1.Series.Add(series5);
-            this.chart1.Size = new System.Drawing.Size(604, 236);
+            this.chart1.Size = new System.Drawing.Size(450, 282);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
-            this.chart1.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.chart1_GetToolTipText);
             // 
             // tabControl1
             // 
@@ -963,7 +991,7 @@
             this.tabPage2.Controls.Add(this.bc_LeftMenu);
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(284, 667);
+            this.tabPage2.Size = new System.Drawing.Size(284, 715);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "计划类别";
             // 
@@ -987,30 +1015,21 @@
             this.bc_LeftMenu.Appearance.Item.Pressed.Options.UseFont = true;
             this.bc_LeftMenu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bc_LeftMenu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bc_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.all_ptype});
             this.bc_LeftMenu.Location = new System.Drawing.Point(0, 0);
             this.bc_LeftMenu.LookAndFeel.SkinName = "Office 2007 Silver";
             this.bc_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
             this.bc_LeftMenu.Name = "bc_LeftMenu";
             this.bc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.bc_LeftMenu.ShowToolTips = false;
-            this.bc_LeftMenu.Size = new System.Drawing.Size(284, 667);
+            this.bc_LeftMenu.Size = new System.Drawing.Size(284, 715);
             this.bc_LeftMenu.TabIndex = 14;
-            // 
-            // all_ptype
-            // 
-            this.all_ptype.Name = "all_ptype";
-            this.all_ptype.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.all_ptype.Text = "全部计划类别";
-            this.all_ptype.Click += new System.EventHandler(this.Bc_Element_Click);
             // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.cc_LeftMenu);
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(284, 667);
+            this.tabPage3.Size = new System.Drawing.Size(284, 715);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "地域";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1035,23 +1054,14 @@
             this.cc_LeftMenu.Appearance.Item.Pressed.Options.UseFont = true;
             this.cc_LeftMenu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cc_LeftMenu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cc_LeftMenu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.all_ltype});
             this.cc_LeftMenu.Location = new System.Drawing.Point(0, 0);
             this.cc_LeftMenu.LookAndFeel.SkinName = "Office 2007 Silver";
             this.cc_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
             this.cc_LeftMenu.Name = "cc_LeftMenu";
             this.cc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.cc_LeftMenu.ShowToolTips = false;
-            this.cc_LeftMenu.Size = new System.Drawing.Size(284, 667);
+            this.cc_LeftMenu.Size = new System.Drawing.Size(284, 715);
             this.cc_LeftMenu.TabIndex = 15;
-            // 
-            // all_ltype
-            // 
-            this.all_ltype.Name = "all_ltype";
-            this.all_ltype.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.all_ltype.Text = "全部地区";
-            this.all_ltype.Click += new System.EventHandler(this.Element_Click);
             // 
             // Frm_Statistics
             // 
@@ -1085,11 +1095,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_QueryEyear.Properties)).EndInit();
             this.tabPane2.ResumeLayout(false);
             this.datatable.ResumeLayout(false);
+            this.pal_Local.ResumeLayout(false);
+            this.pal_Local.PerformLayout();
             this.datachart.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.tip_Panel.ResumeLayout(false);
-            this.tip_Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
@@ -1106,7 +1116,6 @@
         #endregion
 
         private DevExpress.XtraBars.Navigation.AccordionControl ac_LeftMenu;
-        private DevExpress.XtraBars.Navigation.AccordionControlElement ace_all;
         private System.Windows.Forms.DataGridView view;
         private DevExpress.XtraBars.Navigation.TabPane tabPane1;
         private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage1;
@@ -1128,16 +1137,12 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private DevExpress.XtraBars.Navigation.AccordionControl bc_LeftMenu;
-        private DevExpress.XtraBars.Navigation.AccordionControlElement all_ptype;
         private DevExpress.XtraBars.Navigation.TabPane tabPane2;
         private DevExpress.XtraBars.Navigation.TabNavigationPage datatable;
         private DevExpress.XtraBars.Navigation.TabNavigationPage datachart;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart3;
-        private System.Windows.Forms.Panel tip_Panel;
-        private System.Windows.Forms.Label lbl_TipAmount;
-        private System.Windows.Forms.Label lbl_TipName;
         private DevExpress.XtraEditors.SimpleButton btn_Export;
         private System.Windows.Forms.RadioButton rdo_ProCount;
         private System.Windows.Forms.RadioButton rdo_BoxCount;
@@ -1161,10 +1166,14 @@
         private System.Windows.Forms.RadioButton rdo1;
         private System.Windows.Forms.TabPage tabPage3;
         private DevExpress.XtraBars.Navigation.AccordionControl cc_LeftMenu;
-        private DevExpress.XtraBars.Navigation.AccordionControlElement all_ltype;
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraEditors.SimpleButton btn_Query;
         private DevExpress.XtraEditors.TextEdit txt_QueryEyear;
         private DevExpress.XtraEditors.TextEdit txt_QuerySyear;
+        private System.Windows.Forms.Panel pal_Local;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cbo_PlanList;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cbo_SourceList;
     }
 }

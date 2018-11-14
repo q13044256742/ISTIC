@@ -57,64 +57,46 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="trpId">批次ID</param>
         private string GetFileCompleteResult(object trpId)
         {
-            bool result = true;
-            string querySql = "SELECT wm.wm_obj_id, wm.wm_type FROM work_myreg wm " +
+            string querySql = "SELECT wm.wm_obj_id FROM work_myreg wm " +
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
                 "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
-                "WHERE trp.trp_id = '" + trpId + "'";
-            DataTable table = SqlHelper.ExecuteQuery(querySql);
-            for(int i = 0; i < table.Rows.Count; i++)
+                "WHERE wm.wm_type=3 AND trp.trp_id = '" + trpId + "'";
+            object[] objIDs = SqlHelper.ExecuteSingleColumnQuery(querySql);
+
+            foreach(object objID in objIDs)
             {
-                object objId = table.Rows[i]["wm_obj_id"];
-                WorkType type = (WorkType)(int)table.Rows[i]["wm_type"];
-                if(type == WorkType.PaperWork_Imp || type == WorkType.PaperWork_Plan)
+                if(IsLostFile(objID))
+                    return "不齐备";
+
+                //如果项目不缺失文件，则判断其下属课题是否有缺失文件
+                object[] topicIdList = SqlHelper.ExecuteSingleColumnQuery(
+                    $"SELECT ti_id FROM topic_info WHERE ti_obj_id = '{objID}' UNION ALL " +
+                    $"SELECT si_id FROM subject_info WHERE si_obj_id = '{objID}'");
+                for(int j = 0; j < topicIdList.Length; j++)
                 {
-                    if(HaveLostFile(objId))
-                        result = false;
-                }
-                else if(type == WorkType.ProjectWork)
-                {
-                    if(HaveLostFile(objId))
-                        result = false;
-                    else
+                    if(IsLostFile(topicIdList[j]))
+                        return "不齐备";
+
+                    object[] subjectIdList = SqlHelper.ExecuteSingleColumnQuery($"SELECT si_id FROM subject_info WHERE si_obj_id = '{topicIdList[j]}'");
+                    for(int k = 0; k < subjectIdList.Length; k++)
                     {
-                        object[] list = SqlHelper.ExecuteSingleColumnQuery($"SELECT ti_id FROM topic_info WHERE ti_obj_id = '{objId}' UNION ALL " +
-                            $"SELECT si_id FROM subject_info WHERE si_obj_id = '{objId}'");
-                        for(int j = 0; j < list.Length; j++)
-                        {
-                            if(HaveLostFile(list[j]))
-                            {
-                                result = false;
-                                break;
-                            }
-                            object[] list2 = SqlHelper.ExecuteSingleColumnQuery($"SELECT si_id FROM subject_info WHERE si_obj_id = '{list[j]}'");
-                            for(int k = 0; k < list2.Length; k++)
-                            {
-                                if(HaveLostFile(list2[k]))
-                                {
-                                    result = false;
-                                    break;
-                                }
-                            }
-                        }
+                        if(IsLostFile(subjectIdList[k]))
+                            return "不齐备";
                     }
                 }
             }
-            return result ? "齐备" : "不齐备";
+            return "齐备";
         }
 
         /// <summary>
-        /// 是否缺失文件
+        /// 判断指定项目/课题是否缺失文件
         /// </summary>
-        private bool HaveLostFile(object id)
+        private bool IsLostFile(object objID)
         {
-            int count = SqlHelper.ExecuteCountQuery("SELECT COUNT(dd_id) AS Expr1 FROM data_dictionary AS dd " +
-                "WHERE dd_pId IN (SELECT dd_id FROM data_dictionary " +
-                "WHERE dd_pId = (SELECT dd_id FROM data_dictionary " +
-                "WHERE dd_code = 'dic_file_jd')) AND dd_name NOT IN (SELECT dd.dd_name " +
-                "FROM processing_file_list AS fi LEFT OUTER JOIN data_dictionary AS dd ON fi.pfl_categor = dd.dd_id " +
-                $"WHERE fi.pfl_obj_id = '{id}') AND extend_2 = 1");
-            return count == 0 ? false : true;
+            string querySQL = $"SELECT COUNT(pfo_id) FROM processing_file_lost WHERE pfo_obj_id='{objID}' AND pfo_ismust=1";
+            int result = SqlHelper.ExecuteCountQuery(querySQL);
+            //大于0则有缺失记录，返回true；反之返回false
+            return result > 0;
         }
 
         /// <summary>

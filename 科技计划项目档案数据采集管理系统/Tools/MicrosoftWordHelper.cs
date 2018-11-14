@@ -167,7 +167,7 @@ namespace 科技计划项目档案数据采集管理系统
                 var lines = new List<string>();
                 string[] columnNames = dataTable.Columns
                                                 .Cast<DataColumn>()
-                                                .Select(column => column.ColumnName.Replace(",", "，"))
+                                                .Select(column => GetTrueValue(column.ColumnName))
                                                 .ToArray();
                 var header = string.Join(",", columnNames);
                 lines.Add(header);
@@ -188,7 +188,9 @@ namespace 科技计划项目档案数据采集管理系统
         {
             return ToolHelper.GetValue(value)
                 .Replace(",", "，")
-                .Replace("\n", "");
+                .Replace("\n", string.Empty)
+                .Replace("\t", string.Empty)
+                .Replace("\r", string.Empty);
         }
 
         /// <summary>
@@ -236,6 +238,44 @@ namespace 科技计划项目档案数据采集管理系统
             sr.Close();
             fs.Close();
             return dt;
+        }
+
+        /// <summary>
+        /// 将DataTable导出为CSV格式的表
+        /// </summary>
+        /// <param name="dataTable">源数据表</param>
+        /// <param name="fileName">csv文件存储路径</param>
+        /// <param name="columnIndex">要排除的列索引</param>
+        public static bool GetCsvFromDataTable(System.Data.DataTable dataTable, string fileName, int columnIndex)
+        {
+            try
+            {
+                var lines = new List<string>();
+                string[] columnNames = dataTable.Columns
+                                                .Cast<DataColumn>()
+                                                .Select(column => GetTrueValue(column.ColumnName))
+                                                .ToArray();
+                object[] _newColumn = RemoveColumnByIndex(columnNames, columnIndex);
+                var header = string.Join(",", _newColumn);
+                lines.Add(header);
+                var valueLines = dataTable.AsEnumerable()
+                                .Select(row => string.Join(",", RemoveColumnByIndex(row.ItemArray.Select(value => GetTrueValue(value)).ToArray(), columnIndex)));
+                lines.AddRange(valueLines);
+                File.WriteAllLines(fileName, lines, Encoding.Default);
+                return true;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+
+        private static object[] RemoveColumnByIndex(object[] columnNames, int columnIndex)
+        {
+            List<object> list = columnNames.ToList();
+            list.RemoveAt(columnIndex);
+            return list.ToArray();
         }
     }
     class EntityObject

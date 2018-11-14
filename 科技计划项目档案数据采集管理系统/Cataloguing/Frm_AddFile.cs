@@ -582,9 +582,13 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_AddFile_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Control && e.KeyCode == Keys.Enter)
+            if(e.KeyCode == Keys.PageUp)
             {
-                Btn_Save_Click(null, null);
+                Btn_Last_Click(null, null);
+            }
+            else if(e.KeyCode == Keys.PageDown)
+            {
+                Btn_Next_Click(null, null);
             }
         }
 

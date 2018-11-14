@@ -94,7 +94,7 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 我的质检
+        /// 我的质检【历史记录】
         /// </summary>
         private void LoadMyRegedList()
         {
@@ -282,7 +282,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewButtonColumn(){ Name = "mr_submit", HeaderText = "完成", FillWeight = 8, Text = "提交", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable}
             });
 
-            DataTable table = SqlHelper.ExecuteQuery("SELECT wm_id, wm_type, wm_obj_id, wm_ticker FROM work_myreg " +
+            DataTable table = SqlHelper.ExecuteQuery("SELECT wm_id, wm_type, wm_obj_id, wm_ticker+1 wm_ticker FROM work_myreg " +
                 $"WHERE wm_accepter='{UserHelper.GetUser().UserKey}' AND wm_status={(int)QualityStatus.Qualitting } " +
                  "ORDER BY wm_accepter_date DESC");
             foreach(DataRow row in table.Rows)
@@ -648,7 +648,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp.Rows[e.RowIndex].Cells["imp_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_accepter_date='{DateTime.Now}' WHERE wm_id='{wmid}'");
                         dgv_Imp.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -669,7 +669,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if(XtraMessageBox.Show("确定要质检当前选中数据吗？", "领取确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
                         object wmid = dgv_Imp_Dev.Rows[e.RowIndex].Cells["imp_dev_id"].Tag;
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_accepter_date='{DateTime.Now}' WHERE wm_id='{wmid}'");
                         dgv_Imp_Dev.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -717,7 +717,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 updateSQL.Append($"UPDATE processing_file_list SET pfl_checker_id='{UserHelper.GetUser().UserKey}', pfl_checker_date='{DateTime.Now}' WHERE pfl_obj_id='{subRow["si_id"]}';");
                             }
                         }
-                        updateSQL.Append($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_accepter_date='{DateTime.Now}', wm_ticker+=1 WHERE wm_id='{wmid}';");
+                        updateSQL.Append($"UPDATE work_myreg SET wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{UserHelper.GetUser().UserKey}', wm_accepter_date='{DateTime.Now}' WHERE wm_id='{wmid}';");
 
                         SqlHelper.ExecuteNonQuery(updateSQL.ToString());
 
@@ -828,7 +828,7 @@ namespace 科技计划项目档案数据采集管理系统
                         result = XtraMessageBox.Show("确定要完成对当前数据的质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK;
                     if(result)
                     {
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityFinish} WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityFinish}, wm_accepter_date='{DateTime.Now}' WHERE wm_id='{wmid}'");
                         LoadMyRegList();
                     }
                 }
@@ -845,6 +845,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void CheckExistBackLog(WorkType type, object objid, object wmid, object piid)
         {
+            string tipString = "此数据有返工记录，是否执行返工操作？";
             int index = 0;
             if(type == WorkType.PaperWork_Imp || type == WorkType.CDWork_Imp)
             {
@@ -858,9 +859,9 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 if(HaveBacked(piid))
                 {
-                    if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                    if(XtraMessageBox.Show(tipString, "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                     {
-                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
+                        SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack}, wm_accepter_date='{DateTime.Now}' WHERE wm_id='{wmid}'");
                         LoadMyRegList();
                         XtraMessageBox.Show("操作成功。");
                     }
@@ -869,9 +870,9 @@ namespace 科技计划项目档案数据采集管理系统
             }
             if(index > 0)
             {
-                if(XtraMessageBox.Show("此数据有返工记录，是否执行返工操作？", "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                if(XtraMessageBox.Show(tipString, "温馨提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                 {
-                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack} WHERE wm_id='{wmid}'");
+                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityBack}, wm_accepter_date='{DateTime.Now}' WHERE wm_id='{wmid}'");
                     LoadMyRegList();
                     XtraMessageBox.Show("操作成功。");
                 }

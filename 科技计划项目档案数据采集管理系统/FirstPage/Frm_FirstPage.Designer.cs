@@ -50,6 +50,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             this.search = new DevExpress.XtraEditors.SearchControl();
             this.tileBar1 = new DevExpress.XtraBars.Navigation.TileBar();
             this.tileBarGroup2 = new DevExpress.XtraBars.Navigation.TileBarGroup();
@@ -77,12 +78,10 @@
             this.year = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tip_User = new System.Windows.Forms.ToolStripStatusLabel();
-            this.label1 = new System.Windows.Forms.Label();
             this.btn_Query = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.bar2 = new DevExpress.XtraBars.Bar();
+            this.userinfo = new DevExpress.XtraBars.BarStaticItem();
             this.barSubItem1 = new DevExpress.XtraBars.BarSubItem();
             this.btn_QuitUser = new DevExpress.XtraBars.BarButtonItem();
             this.btn_ExitSystem = new DevExpress.XtraBars.BarButtonItem();
@@ -93,6 +92,7 @@
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.barEditItem1 = new DevExpress.XtraBars.BarEditItem();
+            this.barStaticItem1 = new DevExpress.XtraBars.BarStaticItem();
             this.txt_DateSearch = new DevExpress.XtraEditors.DateEdit();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
             this.tab_Work = new DevExpress.XtraBars.Navigation.TabNavigationPage();
@@ -105,9 +105,15 @@
             this.cdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cuser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tileBarGroup11 = new DevExpress.XtraBars.Navigation.TileBarGroup();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.txt_page = new DevExpress.XtraEditors.TextEdit();
+            this.btn_lpage = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_npage = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_epage = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_fpage = new DevExpress.XtraEditors.SimpleButton();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.search.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_DateSearch.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_DateSearch.Properties)).BeginInit();
@@ -115,6 +121,8 @@
             this.tab_Work.SuspendLayout();
             this.tab_Check.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.view2)).BeginInit();
+            this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_page.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // search
@@ -122,7 +130,7 @@
             this.search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.search.EditValue = "";
-            this.search.Location = new System.Drawing.Point(14, 158);
+            this.search.Location = new System.Drawing.Point(14, 139);
             this.search.Name = "search";
             this.search.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 21F);
             this.search.Properties.Appearance.Options.UseFont = true;
@@ -179,7 +187,7 @@
             this.tileBar1.IndentBetweenItems = 5;
             this.tileBar1.ItemPadding = new System.Windows.Forms.Padding(5, 6, 5, 3);
             this.tileBar1.ItemSize = 66;
-            this.tileBar1.Location = new System.Drawing.Point(-1, 26);
+            this.tileBar1.Location = new System.Drawing.Point(-1, 28);
             this.tileBar1.MaxId = 11;
             this.tileBar1.Name = "tileBar1";
             this.tileBar1.ScrollMode = DevExpress.XtraEditors.TileControlScrollMode.ScrollButtons;
@@ -327,7 +335,7 @@
             this.tbar_Download.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
             tileItemElement8.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement8.Image")));
             tileItemElement8.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.TopCenter;
-            tileItemElement8.Text = "相关下载";
+            tileItemElement8.Text = "工作文件";
             tileItemElement8.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.BottomCenter;
             this.tbar_Download.Elements.Add(tileItemElement8);
             this.tbar_Download.Id = 7;
@@ -384,7 +392,7 @@
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(1236, 458);
+            this.view.Size = new System.Drawing.Size(1236, 464);
             this.view.TabIndex = 3;
             this.view.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.view_CellContentDoubleClick);
             // 
@@ -448,36 +456,6 @@
             this.user.ReadOnly = true;
             this.user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tip_User});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 699);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.statusStrip1.Size = new System.Drawing.Size(1264, 22);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 8;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // tip_User
-            // 
-            this.tip_User.Font = new System.Drawing.Font("华文中宋", 12F);
-            this.tip_User.Name = "tip_User";
-            this.tip_User.Size = new System.Drawing.Size(0, 17);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("华文中宋", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(-1, 700);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(334, 19);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "欢迎使用 科技计划项目档案数据采集管理系统";
-            // 
             // btn_Query
             // 
             this.btn_Query.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -487,7 +465,7 @@
             this.btn_Query.ImageIndex = 0;
             this.btn_Query.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleLeft;
             this.btn_Query.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Query.Location = new System.Drawing.Point(1142, 161);
+            this.btn_Query.Location = new System.Drawing.Point(1142, 142);
             this.btn_Query.Name = "btn_Query";
             this.btn_Query.Size = new System.Drawing.Size(85, 39);
             this.btn_Query.TabIndex = 2;
@@ -509,9 +487,11 @@
             this.barSubItem2,
             this.btn_QuitUser,
             this.btn_ExitSystem,
-            this.barEditItem1});
+            this.barEditItem1,
+            this.barStaticItem1,
+            this.userinfo});
             this.barManager1.MainMenu = this.bar2;
-            this.barManager1.MaxItemId = 8;
+            this.barManager1.MaxItemId = 10;
             // 
             // bar2
             // 
@@ -519,17 +499,28 @@
             this.bar2.DockCol = 0;
             this.bar2.DockRow = 0;
             this.bar2.DockStyle = DevExpress.XtraBars.BarDockStyle.Top;
+            this.bar2.FloatLocation = new System.Drawing.Point(1005, 155);
             this.bar2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.userinfo),
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.barSubItem1, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem2)});
+            this.bar2.Offset = 1083;
             this.bar2.OptionsBar.DrawDragBorder = false;
-            this.bar2.OptionsBar.MultiLine = true;
             this.bar2.Text = "Main menu";
+            // 
+            // userinfo
+            // 
+            this.userinfo.Id = 9;
+            this.userinfo.ItemAppearance.Normal.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Bold);
+            this.userinfo.ItemAppearance.Normal.Options.UseFont = true;
+            this.userinfo.Name = "userinfo";
+            this.userinfo.TextAlignment = System.Drawing.StringAlignment.Near;
             // 
             // barSubItem1
             // 
-            this.barSubItem1.Caption = "系统(&S)";
+            this.barSubItem1.Caption = "系统(&Y)";
             this.barSubItem1.Id = 0;
+            this.barSubItem1.ImageUri.Uri = "Home";
             this.barSubItem1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.btn_QuitUser, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.btn_ExitSystem, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph)});
@@ -600,11 +591,18 @@
             this.barEditItem1.Id = 6;
             this.barEditItem1.Name = "barEditItem1";
             // 
+            // barStaticItem1
+            // 
+            this.barStaticItem1.Caption = "barStaticItem1";
+            this.barStaticItem1.Id = 8;
+            this.barStaticItem1.Name = "barStaticItem1";
+            this.barStaticItem1.TextAlignment = System.Drawing.StringAlignment.Near;
+            // 
             // txt_DateSearch
             // 
             this.txt_DateSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_DateSearch.EditValue = null;
-            this.txt_DateSearch.Location = new System.Drawing.Point(955, 158);
+            this.txt_DateSearch.Location = new System.Drawing.Point(955, 139);
             this.txt_DateSearch.MenuManager = this.barManager1;
             this.txt_DateSearch.Name = "txt_DateSearch";
             this.txt_DateSearch.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 21F);
@@ -631,16 +629,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabPane1.Controls.Add(this.tab_Work);
             this.tabPane1.Controls.Add(this.tab_Check);
-            this.tabPane1.Location = new System.Drawing.Point(14, 206);
+            this.tabPane1.Location = new System.Drawing.Point(14, 188);
             this.tabPane1.Name = "tabPane1";
             this.tabPane1.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
             this.tab_Work,
             this.tab_Check});
-            this.tabPane1.RegularSize = new System.Drawing.Size(1238, 490);
+            this.tabPane1.RegularSize = new System.Drawing.Size(1238, 496);
             this.tabPane1.SelectedPage = this.tab_Check;
-            this.tabPane1.SelectedPageIndex = 0;
-            this.tabPane1.Size = new System.Drawing.Size(1238, 490);
+            this.tabPane1.SelectedPageIndex = 1;
+            this.tabPane1.Size = new System.Drawing.Size(1238, 496);
             this.tabPane1.TabIndex = 19;
+            this.tabPane1.SelectedPageIndexChanged += new System.EventHandler(this.tabPane1_SelectedPageIndexChanged);
             // 
             // tab_Work
             // 
@@ -653,7 +652,7 @@
             this.tab_Work.ItemShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.tab_Work.Name = "tab_Work";
             this.tab_Work.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
-            this.tab_Work.Size = new System.Drawing.Size(1236, 458);
+            this.tab_Work.Size = new System.Drawing.Size(1236, 464);
             // 
             // tab_Check
             // 
@@ -666,7 +665,7 @@
             this.tab_Check.ItemShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.tab_Check.Name = "tab_Check";
             this.tab_Check.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
-            this.tab_Check.Size = new System.Drawing.Size(1236, 458);
+            this.tab_Check.Size = new System.Drawing.Size(1236, 464);
             // 
             // view2
             // 
@@ -699,7 +698,7 @@
             this.view2.Name = "view2";
             this.view2.ReadOnly = true;
             this.view2.RowTemplate.Height = 23;
-            this.view2.Size = new System.Drawing.Size(1236, 458);
+            this.view2.Size = new System.Drawing.Size(1236, 464);
             this.view2.TabIndex = 4;
             this.view2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.view_CellContentDoubleClick);
             // 
@@ -753,6 +752,8 @@
             // 
             // cuser
             // 
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cuser.DefaultCellStyle = dataGridViewCellStyle11;
             this.cuser.FillWeight = 60F;
             this.cuser.HeaderText = "质检人";
             this.cuser.Name = "cuser";
@@ -763,14 +764,105 @@
             // 
             this.tileBarGroup11.Name = "tileBarGroup11";
             // 
+            // panel4
+            // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.Controls.Add(this.txt_page);
+            this.panel4.Controls.Add(this.btn_lpage);
+            this.panel4.Controls.Add(this.btn_npage);
+            this.panel4.Controls.Add(this.btn_epage);
+            this.panel4.Controls.Add(this.btn_fpage);
+            this.panel4.Controls.Add(this.label1);
+            this.panel4.Location = new System.Drawing.Point(14, 687);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1236, 33);
+            this.panel4.TabIndex = 24;
+            // 
+            // txt_page
+            // 
+            this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_page.EditValue = "";
+            this.txt_page.Location = new System.Drawing.Point(1075, 3);
+            this.txt_page.Name = "txt_page";
+            this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.txt_page.Properties.Appearance.Options.UseFont = true;
+            this.txt_page.Properties.Appearance.Options.UseTextOptions = true;
+            this.txt_page.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txt_page.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_page.Properties.Mask.EditMask = "d";
+            this.txt_page.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txt_page.Size = new System.Drawing.Size(41, 28);
+            this.txt_page.TabIndex = 7;
+            // 
+            // btn_lpage
+            // 
+            this.btn_lpage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_lpage.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_lpage.Appearance.Options.UseFont = true;
+            this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
+            this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_lpage.Location = new System.Drawing.Point(1033, 5);
+            this.btn_lpage.Name = "btn_lpage";
+            this.btn_lpage.Size = new System.Drawing.Size(41, 23);
+            this.btn_lpage.TabIndex = 6;
+            this.btn_lpage.Click += new System.EventHandler(this.Btn_Page_Click);
+            // 
+            // btn_npage
+            // 
+            this.btn_npage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_npage.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_npage.Appearance.Options.UseFont = true;
+            this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
+            this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_npage.Location = new System.Drawing.Point(1117, 5);
+            this.btn_npage.Name = "btn_npage";
+            this.btn_npage.Size = new System.Drawing.Size(41, 23);
+            this.btn_npage.TabIndex = 5;
+            this.btn_npage.Click += new System.EventHandler(this.Btn_Page_Click);
+            // 
+            // btn_epage
+            // 
+            this.btn_epage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_epage.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_epage.Appearance.Options.UseFont = true;
+            this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
+            this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_epage.Location = new System.Drawing.Point(1160, 5);
+            this.btn_epage.Name = "btn_epage";
+            this.btn_epage.Size = new System.Drawing.Size(41, 23);
+            this.btn_epage.TabIndex = 4;
+            this.btn_epage.Click += new System.EventHandler(this.Btn_Page_Click);
+            // 
+            // btn_fpage
+            // 
+            this.btn_fpage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_fpage.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_fpage.Appearance.Options.UseFont = true;
+            this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
+            this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_fpage.Location = new System.Drawing.Point(990, 5);
+            this.btn_fpage.Name = "btn_fpage";
+            this.btn_fpage.Size = new System.Drawing.Size(41, 23);
+            this.btn_fpage.TabIndex = 3;
+            this.btn_fpage.Click += new System.EventHandler(this.Btn_Page_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(194, 21);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "共    页，  个项目，第  页";
+            // 
             // Frm_FirstPage
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1264, 721);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.tabPane1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btn_Query);
             this.Controls.Add(this.search);
             this.Controls.Add(this.tileBar1);
@@ -789,8 +881,6 @@
             this.Load += new System.EventHandler(this.Frm_FirstPage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.search.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_DateSearch.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_DateSearch.Properties)).EndInit();
@@ -798,6 +888,9 @@
             this.tab_Work.ResumeLayout(false);
             this.tab_Check.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.view2)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_page.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -823,9 +916,6 @@
         private DevExpress.XtraBars.Navigation.TileBarItem tbar_Download;
         private DevExpress.XtraBars.Navigation.TileBarItem tbar_DAJS;
         private System.Windows.Forms.DataGridView view;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel tip_User;
-        private System.Windows.Forms.Label label1;
         private DevExpress.XtraBars.BarManager barManager1;
         private DevExpress.XtraBars.BarSubItem barSubItem1;
         private DevExpress.XtraBars.BarDockControl barDockControlTop;
@@ -850,14 +940,23 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn year;
         private System.Windows.Forms.DataGridViewTextBoxColumn idate;
         private System.Windows.Forms.DataGridViewTextBoxColumn user;
+        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup7;
+        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup1;
+        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup11;
+        private DevExpress.XtraBars.BarStaticItem userinfo;
+        private DevExpress.XtraBars.BarStaticItem barStaticItem1;
+        private System.Windows.Forms.Panel panel4;
+        private DevExpress.XtraEditors.TextEdit txt_page;
+        private DevExpress.XtraEditors.SimpleButton btn_lpage;
+        private DevExpress.XtraEditors.SimpleButton btn_npage;
+        private DevExpress.XtraEditors.SimpleButton btn_epage;
+        private DevExpress.XtraEditors.SimpleButton btn_fpage;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn cid;
         private System.Windows.Forms.DataGridViewLinkColumn ccode;
         private System.Windows.Forms.DataGridViewTextBoxColumn cname;
         private System.Windows.Forms.DataGridViewTextBoxColumn cyear;
         private System.Windows.Forms.DataGridViewTextBoxColumn cdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn cuser;
-        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup7;
-        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup1;
-        private DevExpress.XtraBars.Navigation.TileBarGroup tileBarGroup11;
     }
 }

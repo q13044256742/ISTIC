@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -244,6 +247,21 @@ namespace 科技计划项目档案数据采集管理系统
             return result.Length > 0 ? result.Substring(0, result.Length - 1) : string.Empty;
         }
 
+        /// <summary>
+        /// 在指定树下获取指定节点
+        /// </summary>
+        /// <param name="treeNode">树</param>
+        /// <param name="nodeName">节点名称（name）</param>
+        public static TreeNode GetTreeNodeByName(TreeNode treeNode, object nodeName)
+        {
+            if(treeNode.Name.Equals(nodeName))
+                return treeNode;
+            foreach(TreeNode node in treeNode.Nodes)
+            {
+                return GetTreeNodeByName(node, nodeName);
+            }
+            return null;
+        }
     }
 
 }

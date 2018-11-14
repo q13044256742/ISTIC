@@ -87,6 +87,7 @@
             // 
             this.btn_Print.Appearance.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.btn_Print.Appearance.Options.UseFont = true;
+            this.btn_Print.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_Print.Image = ((System.Drawing.Image)(resources.GetObject("btn_Print.Image")));
             this.btn_Print.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Print.Location = new System.Drawing.Point(165, 193);
@@ -121,6 +122,7 @@
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.CancelButton = this.btn_Print;
             this.ClientSize = new System.Drawing.Size(396, 249);
             this.Controls.Add(this.lbl2);
             this.Controls.Add(this.lbl1);

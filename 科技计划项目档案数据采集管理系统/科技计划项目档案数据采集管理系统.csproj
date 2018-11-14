@@ -185,6 +185,7 @@
     <Compile Include="QueryAndCount\Frm_BorrowEditBox.Designer.cs">
       <DependentUpon>Frm_BorrowEditBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\CategorHelper.cs" />
     <Compile Include="Tools\Frm_PrintChoose.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -314,6 +315,12 @@
     </Compile>
     <Compile Include="Tools\Frm_PrintBox.Designer.cs">
       <DependentUpon>Frm_PrintBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\Frm_SpecialSymbol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\Frm_SpecialSymbol.Designer.cs">
+      <DependentUpon>Frm_SpecialSymbol.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\GetFromHelper.cs" />
     <Compile Include="Tools\LocalizationCHS.cs" />
@@ -501,6 +508,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Frm_PrintBox.resx">
       <DependentUpon>Frm_PrintBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\Frm_SpecialSymbol.resx">
+      <DependentUpon>Frm_SpecialSymbol.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_AddPC.resx">
       <DependentUpon>Frm_AddPC.cs</DependentUpon>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -21,12 +22,14 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 根据编码获取其下的数据表格
         /// </summary>
-        /// <param name="parentCode"></param>
-        /// <returns></returns>
+        /// <param name="parentCode">父编码</param>
         public static DataTable GetTableByCode(object parentCode)
         {
-            object parentId = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_id FROM data_dictionary WHERE dd_code = '{parentCode}'");
-            return SqlHelper.ExecuteQuery($"SELECT * FROM data_dictionary WHERE dd_pId='{parentId}' ORDER BY dd_sort");
+            return SqlHelper.ExecuteQuery(
+                $"SELECT * FROM data_dictionary WHERE dd_pId=(" +
+                $"SELECT TOP(1) dd_id FROM data_dictionary WHERE dd_code = '{parentCode}') " +
+                $"ORDER BY dd_sort");
         }
+
     }
 }

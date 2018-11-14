@@ -56,14 +56,14 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                 }
             }
 
-            tip_User.Text = $"当前用户：{UserHelper.GetUserRoleName()}（{UserHelper.GetUser().RealName}） {ToolHelper.GetDateValue(DateTime.Now, "yyyy年MM月dd日")} {System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)} " +
+            userinfo.Caption = $"当前用户：{UserHelper.GetUserRoleName()}（{UserHelper.GetUser().RealName}） {ToolHelper.GetDateValue(DateTime.Now, "yyyy年MM月dd日")} {System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)} " +
                 $"农历{ToolHelper.GetChineseDateTime(DateTime.Now)}";
         }
 
 
         private void Frm_FirstPage_Load(object sender, EventArgs e)
         {
-            LoadLastData(null);
+            LoadDataListByPage(null, 1);
             view.ClearSelection();
 
             string filePath = Application.ExecutablePath;
@@ -80,13 +80,16 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             }
         }
 
-        private void LoadLastData(string querySqlString)
+        private int maxPage = 0;
+        private void LoadDataListByPage(string querySqlString, int pageNumber)
         {
             search.Properties.Items.Clear();
             string querySql = string.Empty;
+            string countQuerySql = string.Empty;
+            int searchType = tabPane1.SelectedPageIndex;
             if(string.IsNullOrEmpty(querySqlString))
             {
-                querySql = "SELECT TOP(100) * FROM (" +
+                querySql = "SELECT ROW_NUMBER() OVER(ORDER BY pi_worker_date DESC, pi_code) id, TB1.* FROM (" +
                      "SELECT pi_id, pi_code, pi_name, pi_year, pi_worker_date, pi_worker_id, pi_checker_date, pi_checker_id FROM project_info WHERE pi_categor = 2 " +
                      "UNION ALL " +
                      "SELECT ti_id, ti_code, ti_name, ti_year, ti_worker_date, ti_worker_id, ti_checker_date, ti_checker_id FROM topic_info " +
@@ -94,11 +97,14 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                      "SELECT si_id, si_code, si_name, si_year, si_worker_date, si_worker_id, si_checker_date, si_checker_id FROM subject_info) TB1 " +
                      "WHERE 1=1 ";
             }
-            if(UserHelper.GetUserRole() == UserRole.Worker || 
-                UserHelper.GetUserRole() == UserRole.DocManager || 
+            if(UserHelper.GetUserRole() == UserRole.Worker ||
+                UserHelper.GetUserRole() == UserRole.DocManager ||
                 UserHelper.GetUserRole() == UserRole.W_Q_Manager)
             {
-                string querySql1 = string.IsNullOrEmpty(querySqlString) ? querySql + "AND pi_worker_date IS NOT NULL ORDER BY pi_worker_date DESC" : querySqlString;
+                string querySql1 = string.IsNullOrEmpty(querySqlString) ? querySql + "AND LEN(pi_worker_date)>0 " : querySqlString;
+                if(searchType == 0 || UserHelper.GetUserRole() == UserRole.Worker)
+                    countQuerySql = $"SELECT COUNT(pi_id) FROM ({querySql1}) A ";
+                querySql1 = $"SELECT * FROM({querySql1}) A WHERE id BETWEEN {(pageNumber - 1) * DefaultValue.FirstPageSize + 1} AND {(pageNumber - 1) * DefaultValue.FirstPageSize + DefaultValue.FirstPageSize}";
                 DataTable table = SqlHelper.ExecuteQuery(querySql1);
                 view.Rows.Clear();
                 foreach(DataRow row in table.Rows)
@@ -114,11 +120,14 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                     search.Properties.Items.AddRange(new object[] { row["pi_code"], row["pi_name"] });
                 }
             }
-            if(UserHelper.GetUserRole() == UserRole.Qualityer || 
-                UserHelper.GetUserRole() == UserRole.DocManager || 
+            if(UserHelper.GetUserRole() == UserRole.Qualityer ||
+                UserHelper.GetUserRole() == UserRole.DocManager ||
                 UserHelper.GetUserRole() == UserRole.W_Q_Manager)
             {
-                string querySql1 = string.IsNullOrEmpty(querySqlString) ? querySql + "AND pi_checker_date IS NOT NULL ORDER BY TB1.pi_checker_date DESC" : querySqlString;
+                string querySql1 = string.IsNullOrEmpty(querySqlString) ? querySql + "AND LEN(pi_checker_date)>0 " : querySqlString;
+                if(searchType == 1 || UserHelper.GetUserRole() == UserRole.Qualityer)
+                    countQuerySql = $"SELECT COUNT(pi_id) FROM ({querySql1}) A ";
+                querySql1 = $"SELECT * FROM({querySql1}) A WHERE id BETWEEN {(pageNumber - 1) * DefaultValue.FirstPageSize + 1} AND {(pageNumber - 1) * DefaultValue.FirstPageSize + DefaultValue.FirstPageSize}";
                 DataTable table = SqlHelper.ExecuteQuery(querySql1);
                 view2.Rows.Clear();
                 foreach(DataRow row in table.Rows)
@@ -137,6 +146,54 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                 tabPane1.Pages.Remove(tab_Check);
             else if(UserHelper.GetUserRole() == UserRole.Qualityer)
                 tabPane1.Pages.Remove(tab_Work);
+            if(pageNumber == 1)
+            {
+                int maxRow = SqlHelper.ExecuteCountQuery(countQuerySql);
+                maxPage = maxRow % DefaultValue.FirstPageSize == 0 ? maxRow / DefaultValue.FirstPageSize : maxRow / DefaultValue.FirstPageSize + 1;
+                label1.Text = $"共{maxRow}条数据， 合计{maxPage}页，每页{DefaultValue.FirstPageSize}条记录";
+            }
+            txt_page.EditValue = pageNumber;
+        }
+
+        private void Btn_Page_Click(object sender, EventArgs e)
+        {
+            string name = (sender as Control).Name;
+            //下一页
+            if("btn_npage".Equals(name))
+            {
+                int page = Convert.ToInt32(txt_page.Text) + 1;
+                if(page <= maxPage)
+                {
+                    Btn_Query_Click(page, null);
+                }
+            }
+            //上一页
+            else if("btn_lpage".Equals(name))
+            {
+                int page = Convert.ToInt32(txt_page.Text) - 1;
+                if(page > 0)
+                {
+                    Btn_Query_Click(page, null);
+                }
+            }
+            //首页
+            else if("btn_fpage".Equals(name))
+            {
+                int page = Convert.ToInt32(txt_page.Text);
+                if(page > 1)
+                {
+                    Btn_Query_Click(1, null);
+                }
+            }
+            //末页
+            if("btn_epage".Equals(name))
+            {
+                int page = Convert.ToInt32(txt_page.Text);
+                if(page < maxPage)
+                {
+                    Btn_Query_Click(maxPage, null);
+                }
+            }
         }
 
         /// <summary>
@@ -229,7 +286,7 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             {
                 search.ResetText();
                 txt_DateSearch.ResetText();
-                LoadLastData(null);
+                LoadDataListByPage(null, 1);
             }
         }
 
@@ -244,7 +301,14 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
         private void Frm_FirstPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             UserHelper.SetLogin(false);
-            Environment.Exit(0);
+            try
+            {
+                Environment.Exit(0);
+            }
+            catch(Exception ex)
+            {
+                LogsHelper.AddErrorLogs("退出错误", ex.Message);
+            }
         }
 
         private void Btn_ExitSystem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -257,31 +321,28 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             int type = tabPane1.SelectedPageIndex;
             string key1 = search.Text;
             string key2 = txt_DateSearch.Text;
-            if(!string.IsNullOrEmpty(key1) || !string.IsNullOrEmpty(key2))
+            int pageNumber = ToolHelper.GetIntValue(sender, 1);
+            string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_worker_date DESC, pi_code) id, A.* FROM (SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_checker_date, pi_checker_id FROM project_info " +
+                $"UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_year, ti_funds, ti_worker_date, ti_worker_id, ti_checker_date, ti_checker_id FROM topic_info " +
+                $"UNION ALL SELECT si_id, si_code, si_name, si_start_datetime, si_year, si_funds, si_worker_date, si_worker_id, si_checker_date, si_checker_id FROM subject_info ) A " +
+                $"WHERE 1=1 ";
+            if(!string.IsNullOrEmpty(key1))
+                querySQL += $"AND (A.pi_code LIKE '%{key1}%' OR A.pi_name LIKE '%{key1}%') ";
+            if(!string.IsNullOrEmpty(key2))
             {
-                string querySQL = $"SELECT TOP(100) * FROM (SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_checker_date, pi_checker_id FROM project_info " +
-                    $"UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_year, ti_funds, ti_worker_date, ti_worker_id, ti_checker_date, ti_checker_id FROM topic_info " +
-                    $"UNION ALL SELECT si_id, si_code, si_name, si_start_datetime, si_year, si_funds, si_worker_date, si_worker_id, si_checker_date, si_checker_id FROM subject_info ) A " +
-                    $"WHERE 1=1 ";
-                if(!string.IsNullOrEmpty(key1))
-                    querySQL += $"AND (A.pi_code LIKE '%{key1}%' OR A.pi_name LIKE '%{key1}%') ";
-                if(!string.IsNullOrEmpty(key2))
-                {
-                    if(type == 0)
-                        querySQL += $"AND A.pi_worker_date='{key2}' ";
-                    else if(type == 1)
-                        querySQL += $"AND A.pi_checker_date='{key2}' ";
-                }
-                else
-                {
-                    if(type == 0)
-                        querySQL += $"AND LEN(A.pi_worker_date)>0 ";
-                    else if(type == 1)
-                        querySQL += $"AND LEN(A.pi_checker_date)>0 ";
-                }
-                querySQL += " ORDER BY pi_code ";
-                LoadLastData(querySQL);
+                if(type == 0)
+                    querySQL += $"AND A.pi_worker_date='{key2}' ";
+                else if(type == 1)
+                    querySQL += $"AND A.pi_checker_date='{key2}' ";
             }
+            else
+            {
+                if(type == 0)
+                    querySQL += $"AND LEN(A.pi_worker_date)>0 ";
+                else if(type == 1)
+                    querySQL += $"AND LEN(A.pi_checker_date)>0 ";
+            }
+            LoadDataListByPage(querySQL, pageNumber);
         }
 
         private void view_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -296,9 +357,16 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
                 Frm_ProDetails details = new Frm_ProDetails(id);
                 if(details.ShowDialog() == DialogResult.OK)
                 {
-                    LoadLastData(null);
+                    LoadDataListByPage(null, 1);
                 }
             }
+        }
+
+        private void tabPane1_SelectedPageIndexChanged(object sender, EventArgs e)
+        {
+            search.ResetText();
+            txt_DateSearch.ResetText();
+            LoadDataListByPage(null, 1);
         }
     }
 }

@@ -104,35 +104,47 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 }
             }
         }
-
+        List<object> idList;
         /// <summary>
         /// 导出缺失文件清单
         /// </summary>
         private void CreateLostFileList()
         {
-            string querySQL = "SELECT A.pi_code '项目/课题编号', A.pi_name '项目/课题名称', A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', B.dd_name '缺失文件类别', B.dd_note '缺失文件名称' " +
+            idList = new List<object>();
+            string querySQL = "SELECT A.pi_id id, A.pi_code '项目/课题编号', A.pi_name '项目/课题名称', A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称' " +
                 "FROM transfer_registration_pc trp " +
                 "LEFT JOIN imp_info ii ON ii.imp_obj_id=trp.trp_id " +
                 "LEFT JOIN imp_dev_info idi ON idi.imp_obj_id=ii.imp_id " +
-                "LEFT JOIN " +
-                "(SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
-                " SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=-3 " +
-                ")A ON A.pi_obj_id=idi.imp_id " +
-                "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
-                "LEFT JOIN (" +
-                "    SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_pId IN " +
-                "   (SELECT dd_id FROM data_dictionary WHERE dd_pId = " +
-                "    (SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_file_jd')) AND extend_2=1 )B ON pfl.pfl_categor NOT IN (B.dd_id) " +
-               $"WHERE trp.trp_id='{trpId}' AND idi.imp_id IS NOT NULL ORDER BY A.pi_code, dd_name";
+                "LEFT JOIN( " +
+                "SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=-3)A ON A.pi_obj_id=idi.imp_id " +
+                "INNER JOIN processing_file_lost pfo ON (pfo.pfo_obj_id = A.pi_id AND pfo.pfo_ismust=1) " +
+                "LEFT JOIN data_dictionary dd ON pfo.pfo_categor = dd.dd_name " +
+               $"WHERE trp.trp_id='{trpId}' AND A.pi_id IS NOT NULL ORDER BY A.pi_code, dd_name ";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             if(table.Rows.Count > 0)
             {
+                DataTable _table = table.Copy();
+                foreach(DataRow row in table.Rows)
+                {
+                    object projectID = row["id"];
+                    if(idList.Contains(projectID)) continue;
+                    else idList.Add(projectID);
+                    string topicQuerySql = "SELECT B.ti_id id, B.ti_code '项目/课题编号', B.ti_name '项目/课题名称', B.ti_unit '承担单位', B.ti_prouser '项目负责人', B.ti_start_datetime '项目开始时间', B.ti_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称' FROM (" +
+                        "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+                        "SELECT si_id, si_code, si_name, si_unit, si_prouser, si_start_datetime, si_end_datetime, si_obj_id FROM subject_info) B " +
+                        "INNER JOIN processing_file_lost pfo ON (pfo.pfo_obj_id = B.ti_id AND pfo.pfo_ismust=1) " +
+                        "LEFT JOIN data_dictionary dd ON pfo.pfo_categor = dd.dd_name " +
+                       $"WHERE B.ti_obj_id='{projectID}' ORDER BY B.ti_code, dd_name ";
+                    DataTable topicTable = SqlHelper.ExecuteQuery(topicQuerySql);
+                    _table.Merge(topicTable);
+                }
                 saveFileDialog1.Title = "请选择导出位置";
                 saveFileDialog1.Filter = "CSV文件|*.csv";
                 if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     string savePath = saveFileDialog1.FileName;
-                    bool flag = MicrosoftWordHelper.GetCsvFromDataTable(table, savePath);
+                    bool flag = MicrosoftWordHelper.GetCsvFromDataTable(_table, savePath, 0);
                     {
                         if(XtraMessageBox.Show("导出缺失文件清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                         {
@@ -143,28 +155,40 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
             }
             else
             {
-                string querySQL2 = "SELECT A.pi_code '项目/课题编号', A.pi_name '项目/课题名称', A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', B.dd_name '缺失文件类别', B.dd_note '缺失文件名称' " +
+                string querySQL2 = "SELECT A.pi_id id, A.pi_code '项目/课题编号', A.pi_name '项目/课题名称', A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称' " +
                     "FROM transfer_registration_pc trp " +
                     "LEFT JOIN project_info pi ON pi.pi_categor=1 AND pi.trc_id=trp.trp_id " +
-                    "LEFT JOIN " +
-                    "(SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
-                    " SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=-3 " +
-                    ")A ON A.pi_obj_id=pi.pi_id " +
-                    "LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id = A.pi_id " +
-                    "LEFT JOIN (" +
-                    "    SELECT dd_id, dd_name, dd_note FROM data_dictionary WHERE dd_pId IN " +
-                    "   (SELECT dd_id FROM data_dictionary WHERE dd_pId = " +
-                    "    (SELECT dd_id FROM data_dictionary WHERE dd_code = 'dic_file_jd')) AND extend_2=1 )B ON pfl.pfl_categor NOT IN (B.dd_id) " +
+                    "LEFT JOIN( " +
+                    "SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                    "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=-3) A ON A.pi_obj_id=pi.pi_id " +
+                    "INNER JOIN processing_file_lost pfo ON (pfo.pfo_obj_id = A.pi_id AND pfo_ismust=1) " +
+                    "LEFT JOIN data_dictionary dd ON pfo.pfo_categor = dd.dd_name " +
                    $"WHERE trp.trp_id='{trpId}' AND pi.pi_id IS NOT NULL ORDER BY A.pi_code, dd_name";
                 DataTable table2 = SqlHelper.ExecuteQuery(querySQL2);
                 if(table2.Rows.Count > 0)
                 {
+                    DataTable _table = table2.Copy();
+                    foreach(DataRow row in table2.Rows)
+                    {
+                        object projectID = row["id"];
+                        if(idList.Contains(projectID)) continue;
+                        else idList.Add(projectID);
+                        string topicQuerySql = "SELECT B.ti_id id, B.ti_code '项目/课题编号', B.ti_name '项目/课题名称', B.ti_unit '承担单位', B.ti_prouser '项目负责人', B.ti_start_datetime '项目开始时间', B.ti_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称' " +
+                            "FROM ( " +
+                            "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+                            "SELECT si_id, si_code, si_name, si_unit, si_prouser, si_start_datetime, si_end_datetime, si_obj_id FROM subject_info) B " +
+                            "INNER JOIN processing_file_lost pfo ON (pfo.pfo_obj_id = B.ti_id AND pfo.pfo_ismust=1) " +
+                            "LEFT JOIN data_dictionary dd ON pfo.pfo_categor = dd.dd_name " +
+                           $"WHERE B.ti_obj_id='{projectID}' ORDER BY B.ti_code, dd_name ";
+                        DataTable topicTable = SqlHelper.ExecuteQuery(topicQuerySql);
+                        _table.Merge(topicTable);
+                    }
                     saveFileDialog1.Title = "请选择导出位置";
                     saveFileDialog1.Filter = "CSV文件|*.csv";
                     if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         string savePath = saveFileDialog1.FileName;
-                        bool flag = MicrosoftWordHelper.GetCsvFromDataTable(table2, savePath);
+                        bool flag = MicrosoftWordHelper.GetCsvFromDataTable(_table, savePath, 0);
                         {
                             if(XtraMessageBox.Show("导出缺失文件清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                             {
@@ -175,7 +199,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 }
                 else
                 {
-                    XtraMessageBox.Show("当前批次下尚无项目/课题。", "导出缺失文件清单失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    XtraMessageBox.Show("当前批次下尚无缺失文件记录。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
             }
         }
@@ -185,28 +209,52 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
         /// </summary>
         private void CreateFileList()
         {
-            List<DataTable> list = new List<DataTable>();
+            idList = new List<object>();
             //普通计划
-            string querySQL = $"SELECT pi.pi_name '计划名称', pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
-                $"A.pi_code '项目编号', A.pi_name '项目名称',	A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', " +
+            string querySQL = $"SELECT A.pi_id id, pi.pi_name '计划名称', pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
+                $"A.pi_code '项目编号', A.pi_name '项目名称',	A.pi_unit '项目承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', " +
+                 "'' '课题编号','' '课题名称', '' '课题负责人','' '课题承担单位', " +
                 $"pb.pb_gc_id '馆藏号', pb.pb_box_number '盒号', B.fcount '文件数量', " +
-                $"pfl.pfl_code '文件编号', pfl.pfl_box_sort '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' " +
-                $"FROM transfer_registration_pc trp LEFT JOIN project_info pi ON pi.trc_id = trp.trp_id AND pi.pi_categor = 1 LEFT JOIN ( " +
+                $"pfl.pfl_code '文件编号', pfl.pfl_box_sort+1 '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' FROM transfer_registration_pc trp " +
+                $"LEFT JOIN project_info pi ON (pi.trc_id = trp.trp_id AND pi.pi_categor = 1) " +
+                $"LEFT JOIN ( " +
                 $"SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor= 2 UNION ALL " +
-                $"SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor= -3)A ON A.pi_obj_id = pi.pi_id " +
-                $"LEFT JOIN processing_tag pt ON pt.pt_obj_id = A.pi_id LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id LEFT JOIN ( " +
-                $"SELECT pfl_box_id, COUNT(pfl_id) fcount FROM processing_file_list GROUP BY pfl_box_id )B ON B.pfl_box_id = pb.pb_id " +
+                $"SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor= -3) A ON A.pi_obj_id = pi.pi_id " +
+                $"LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
+                $"LEFT JOIN processing_tag pt ON pt.pt_id = pb.pt_id " +
+                $"LEFT JOIN (SELECT pfl_box_id, COUNT(pfl_id) fcount FROM processing_file_list GROUP BY pfl_box_id )B ON B.pfl_box_id = pb.pb_id " +
                 $"LEFT JOIN processing_file_list pfl ON pfl.pfl_box_id = pb.pb_id " +
                 $"WHERE trp.trp_id = '{trpId}' AND pi.pi_id IS NOT NULL ";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             if(table.Rows.Count > 0)
             {
+                DataTable _table = table.Copy();
+                foreach(DataRow row in table.Rows)
+                {
+                    object projectID = row["id"];
+                    if(idList.Contains(projectID)) continue;
+                    else idList.Add(projectID);
+                    string topicQuerySql = $"SELECT C.ti_id id, '{row["计划名称"]}' AS '计划名称', pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
+                        $"'{row["项目编号"]}' '项目编号', '{row["项目名称"]}' '项目名称', '{row["项目承担单位"]}' '项目承担单位', '{row["项目负责人"]}' '项目负责人', '{row["项目开始时间"]}' '项目开始时间', '{row["项目结束时间"]}' '项目结束时间', C.ti_code '课题编号', C.ti_name '课题名称', C.ti_prouser '课题负责人', C.ti_unit '课题承担单位', C.ti_start_datetime '项目开始时间', C.ti_end_datetime '项目结束时间', " +
+                        $"pb.pb_gc_id '馆藏号', pb.pb_box_number '盒号', B.fcount '文件数量', " +
+                        $"pfl.pfl_code '文件编号', pfl.pfl_box_sort+1 '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' " +
+                        $"FROM ( " +
+                        $"SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor= 3 UNION ALL " +
+                        $"SELECT si_id, si_code, si_name, si_unit, si_prouser, si_start_datetime, si_end_datetime, si_obj_id FROM subject_info) C " + 
+                        $"LEFT JOIN processing_box pb ON pb.pb_obj_id = C.ti_id " +
+                        $"LEFT JOIN processing_tag pt ON pt.pt_id = pb.pt_id " +
+                        $"LEFT JOIN (SELECT pfl_box_id, COUNT(pfl_id) fcount FROM processing_file_list GROUP BY pfl_box_id )B ON B.pfl_box_id = pb.pb_id " +
+                        $"LEFT JOIN processing_file_list pfl ON pfl.pfl_box_id = pb.pb_id " +
+                        $"WHERE C.ti_obj_id='{projectID}' ";
+                    DataTable topicTable = SqlHelper.ExecuteQuery(topicQuerySql);
+                    _table.Merge(topicTable);
+                }
                 saveFileDialog1.Title = "请选择导出位置";
                 saveFileDialog1.Filter = "CSV文件|*.csv";
                 if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     string savePath = saveFileDialog1.FileName;
-                    bool flag = MicrosoftWordHelper.GetCsvFromDataTable(table, savePath);
+                    bool flag = MicrosoftWordHelper.GetCsvFromDataTable(_table, savePath, 0);
                     {
                         if(XtraMessageBox.Show("导出文件列表清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                         {
@@ -217,27 +265,53 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
             }
             else
             {
-                querySQL = $"SELECT idi.imp_name '计划名称', pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
-                   $"A.pi_code '项目编号', A.pi_name '项目名称',	A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', " +
+                querySQL = $"SELECT A.pi_id id, idi.imp_name '计划名称', pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
+                   $"A.pi_code '项目编号', A.pi_name '项目名称', A.pi_unit '项目承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', " +
+                    "'' '课题编号','' '课题名称', '' '课题负责人','' '课题承担单位', " +
                    $"pb.pb_gc_id '馆藏号', pb.pb_box_number '盒号', B.fcount '文件数量', " +
-                   $"pfl.pfl_code '文件编号', pfl.pfl_box_sort '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' " +
-                   $"FROM transfer_registration_pc trp LEFT JOIN imp_info ii ON ii.imp_obj_id=trp.trp_id " +
-                   $"LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id LEFT JOIN ( " +
+                   $"pfl.pfl_code '文件编号', pfl.pfl_box_sort+1 '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' FROM transfer_registration_pc trp " +
+                   $"LEFT JOIN imp_info ii ON ii.imp_obj_id=trp.trp_id " +
+                   $"LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id " +
+                   $"LEFT JOIN ( " +
                    $"SELECT pi_id, pi_code, pi_name, pi_unit, pi_prouser, pi_start_datetime, pi_end_datetime, pi_obj_id FROM project_info WHERE pi_categor= 2 UNION ALL " +
                    $"SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor= -3)A ON A.pi_obj_id = idi.imp_id " +
-                   $"LEFT JOIN processing_tag pt ON pt.pt_obj_id = A.pi_id LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id LEFT JOIN ( " +
+                   $"LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id " +
+                   $"LEFT JOIN processing_tag pt ON pt.pt_id = pb.pt_id " +
+                   $"LEFT JOIN ( " +
                    $"SELECT pfl_box_id, COUNT(pfl_id) fcount FROM processing_file_list GROUP BY pfl_box_id )B ON B.pfl_box_id = pb.pb_id " +
                    $"LEFT JOIN processing_file_list pfl ON pfl.pfl_box_id = pb.pb_id " +
                    $"WHERE trp.trp_id = '{trpId}' AND idi.imp_id IS NOT NULL ";
                 DataTable speTable = SqlHelper.ExecuteQuery(querySQL);
                 if(speTable.Rows.Count > 0)
                 {
+                    DataTable _table = speTable.Copy();
+                    foreach(DataRow row in speTable.Rows)
+                    {
+                        object projectID = row["id"];
+                        if(idList.Contains(projectID)) continue;
+                        else idList.Add(projectID);
+                        string topicQuerySql = $"SELECT C.ti_id id, '{row["计划名称"]}' AS '计划名称', pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
+                            $"'{row["项目编号"]}' '项目编号', '{row["项目名称"]}' '项目名称', '{row["项目承担单位"]}' '项目承担单位', '{row["项目负责人"]}' '项目负责人', '{row["项目开始时间"]}' '项目开始时间', '{row["项目结束时间"]}' '项目结束时间', " +
+                            $"C.ti_code '项目编号', C.ti_name '项目名称', C.ti_unit '承担单位', C.ti_prouser '项目负责人', C.ti_start_datetime '项目开始时间', C.ti_end_datetime '项目结束时间', " +
+                            $"pb.pb_gc_id '馆藏号', pb.pb_box_number '盒号', B.fcount '文件数量', " +
+                            $"pfl.pfl_code '文件编号', pfl.pfl_box_sort+1 '文件盒内序号', pfl.pfl_name '文件题名', pfl.pfl_amount '文件移交份数', pfl_pages '文件页数' " +
+                            $"FROM ( " +
+                            $"SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor= 3 UNION ALL " +
+                            $"SELECT si_id, si_code, si_name, si_unit, si_prouser, si_start_datetime, si_end_datetime, si_obj_id FROM subject_info) C " +
+                            $"LEFT JOIN processing_box pb ON pb.pb_obj_id = C.ti_id " +
+                            $"LEFT JOIN processing_tag pt ON pt.pt_id =pb.pt_id " +
+                            $"LEFT JOIN (SELECT pfl_box_id, COUNT(pfl_id) fcount FROM processing_file_list GROUP BY pfl_box_id )B ON B.pfl_box_id = pb.pb_id " +
+                            $"LEFT JOIN processing_file_list pfl ON pfl.pfl_box_id = pb.pb_id " +
+                            $"WHERE C.ti_id='{projectID}' ";
+                        DataTable topicTable = SqlHelper.ExecuteQuery(topicQuerySql);
+                        _table.Merge(topicTable);
+                    }
                     saveFileDialog1.Title = "请选择导出位置";
                     saveFileDialog1.Filter = "CSV文件|*.csv";
                     if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         string savePath = saveFileDialog1.FileName;
-                        bool flag = MicrosoftWordHelper.GetCsvFromDataTable(speTable, savePath);
+                        bool flag = MicrosoftWordHelper.GetCsvFromDataTable(_table, savePath, 0);
                         {
                             if(XtraMessageBox.Show("导出文件列表清单成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                             {
@@ -356,6 +430,11 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
         private void lbl2_Click(object sender, EventArgs e)
         {
             new WebBrowser() { DocumentText = GetDomRecHTML() }.DocumentCompleted += Frm_Print_DocumentCompleted;
+        }
+
+        private void progressPanel1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

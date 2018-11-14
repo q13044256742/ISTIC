@@ -80,8 +80,9 @@ namespace 科技计划项目档案数据采集管理系统
             if(querySql == null)
             {
                 querySql = new StringBuilder("SELECT pc.trp_id, dd_name, trp_name, trp_code, trp_cd_amount FROM transfer_registration_pc pc " +
-                    "LEFT JOIN data_dictionary dd ON pc.com_id = dd.dd_id WHERE pc.trp_work_status=1 AND pc.trp_submit_status=2 ORDER BY trp_code");//已提交但待领取
+                    "LEFT JOIN data_dictionary dd ON pc.com_id = dd.dd_id WHERE pc.trp_work_status=1 AND pc.trp_submit_status=2 ");//已提交但待领取
                 if(csid != null) querySql.Append($" AND dd.dd_id='{csid}'");
+                querySql.Append(" ORDER BY trp_code");
             }
             DataTable dataTable = SqlHelper.ExecuteQuery(querySql.ToString());
             for(int i = 0; i < dataTable.Rows.Count; i++)
@@ -996,7 +997,7 @@ namespace 科技计划项目档案数据采集管理系统
                             if(XtraMessageBox.Show("确定要将当前数据提交至质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                             {
                                 object wmid = view.Rows[e.RowIndex].Cells["bk_code"].Tag;//返工表主键
-                                SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status='{(int)QualityStatus.NonQuality}', wm_user='{UserHelper.GetUser().UserKey}' WHERE wm_id='{wmid}'");
+                                SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status='{(int)QualityStatus.NonQuality}', wm_ticker+=1 WHERE wm_id='{wmid}'");
 
                                 SetBackWorkNumber();
                                 LoadWorkBackList();
@@ -1014,7 +1015,7 @@ namespace 科技计划项目档案数据采集管理系统
                             if(XtraMessageBox.Show("确定要将当前数据提交至质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                             {
                                 object wmid = view.Rows[e.RowIndex].Cells["bk_code"].Tag;//返工表主键
-                                SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status='{(int)QualityStatus.NonQuality}', wm_user='{UserHelper.GetUser().UserKey}' WHERE wm_id='{wmid}'");
+                                SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status='{(int)QualityStatus.NonQuality}', wm_user='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
 
                                 SetBackWorkNumber();
                                 LoadWorkBackList();
@@ -1032,7 +1033,7 @@ namespace 科技计划项目档案数据采集管理系统
                             if(XtraMessageBox.Show("确定要将当前数据提交至质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                             {
                                 object wmid = view.Rows[e.RowIndex].Cells["bk_code"].Tag;//返工表主键
-                                SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status='{(int)QualityStatus.NonQuality}', wm_user='{UserHelper.GetUser().UserKey}' WHERE wm_id='{wmid}'");
+                                SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status='{(int)QualityStatus.NonQuality}', wm_user='{UserHelper.GetUser().UserKey}', wm_ticker+=1 WHERE wm_id='{wmid}'");
 
                                 SetBackWorkNumber();
                                 LoadWorkBackList();
@@ -1057,11 +1058,8 @@ namespace 科技计划项目档案数据采集管理系统
                             if(XtraMessageBox.Show("确定要将当前数据提交至质检吗？", "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
                             {
                                 object wmid = view.Rows[e.RowIndex].Cells["bk_code"].Tag;//返工表主键
-                                object accepter = SqlHelper.ExecuteOnlyOneQuery($"SELECT wm_accepter FROM work_myreg WHERE wm_id='{wmid}'");
-                                if(accepter == null)
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status='{(int)QualityStatus.NonQuality}', wm_user='{UserHelper.GetUser().UserKey}' WHERE wm_id='{wmid}'");
-                                else
-                                    SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status='{(int)QualityStatus.Qualitting}', wm_accepter='{accepter}', wm_ticker+=1 WHERE wm_id='{wmid}';");
+                                //返工记录（记录最新时间，优先显示在质检人列表中；质检次数+1，统计被返工数）
+                                SqlHelper.ExecuteNonQuery($"UPDATE work_myreg SET wm_accepter_date='{DateTime.Now}', wm_status='{(int)QualityStatus.Qualitting}', wm_ticker+=1 WHERE wm_id='{wmid}';");
                                 SetBackWorkNumber();
                                 LoadWorkBackList();
                             }
