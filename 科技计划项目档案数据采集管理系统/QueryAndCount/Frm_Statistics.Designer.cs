@@ -42,9 +42,6 @@
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.ac_LeftMenu = new DevExpress.XtraBars.Navigation.AccordionControl();
             this.view = new System.Windows.Forms.DataGridView();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
@@ -90,6 +87,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.cbo_SourceList = new System.Windows.Forms.ComboBox();
             this.datachart = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.chart1 = new System.Windows.Forms.Panel();
+            this.mapPanel = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.rdo_FileBCount = new System.Windows.Forms.RadioButton();
             this.rdo_ProCount = new System.Windows.Forms.RadioButton();
@@ -97,7 +96,6 @@
             this.rdo_BoxCount = new System.Windows.Forms.RadioButton();
             this.chart3 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -128,7 +126,6 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -197,7 +194,7 @@
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(952, 636);
+            this.view.Size = new System.Drawing.Size(936, 620);
             this.view.TabIndex = 0;
             this.view.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View_CellClick);
             this.view.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.view_ColumnHeaderMouseClick);
@@ -702,7 +699,7 @@
             this.datachart});
             this.tabPane2.RegularSize = new System.Drawing.Size(954, 701);
             this.tabPane2.SelectedPage = this.datachart;
-            this.tabPane2.SelectedPageIndex = 1;
+            this.tabPane2.SelectedPageIndex = 0;
             this.tabPane2.Size = new System.Drawing.Size(954, 701);
             this.tabPane2.TabIndex = 14;
             this.tabPane2.SelectedPageIndexChanged += new System.EventHandler(this.tabPane2_SelectedPageIndexChanged);
@@ -718,7 +715,7 @@
             this.datatable.Controls.Add(this.pal_Local);
             this.datatable.Name = "datatable";
             this.datatable.PageText = "数据统计表";
-            this.datatable.Size = new System.Drawing.Size(952, 671);
+            this.datatable.Size = new System.Drawing.Size(936, 655);
             // 
             // pal_Local
             // 
@@ -730,7 +727,7 @@
             this.pal_Local.Location = new System.Drawing.Point(0, 0);
             this.pal_Local.Margin = new System.Windows.Forms.Padding(0);
             this.pal_Local.Name = "pal_Local";
-            this.pal_Local.Size = new System.Drawing.Size(952, 35);
+            this.pal_Local.Size = new System.Drawing.Size(936, 35);
             this.pal_Local.TabIndex = 1;
             this.pal_Local.Visible = false;
             // 
@@ -787,14 +784,35 @@
             this.datachart.AutoScroll = true;
             this.datachart.BackgroundPadding = new System.Windows.Forms.Padding(0);
             this.datachart.Caption = "tabNavigationPage4";
+            this.datachart.Controls.Add(this.chart1);
+            this.datachart.Controls.Add(this.mapPanel);
             this.datachart.Controls.Add(this.panel1);
             this.datachart.Controls.Add(this.chart3);
             this.datachart.Controls.Add(this.chart2);
-            this.datachart.Controls.Add(this.chart1);
             this.datachart.Margin = new System.Windows.Forms.Padding(0);
             this.datachart.Name = "datachart";
             this.datachart.PageText = "数据统计图";
-            this.datachart.Size = new System.Drawing.Size(952, 671);
+            this.datachart.Size = new System.Drawing.Size(936, 655);
+            // 
+            // chart1
+            // 
+            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chart1.Location = new System.Drawing.Point(4, 32);
+            this.chart1.Name = "chart1";
+            this.chart1.Size = new System.Drawing.Size(413, 420);
+            this.chart1.TabIndex = 9;
+            // 
+            // mapPanel
+            // 
+            this.mapPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mapPanel.AutoScroll = true;
+            this.mapPanel.Location = new System.Drawing.Point(497, 466);
+            this.mapPanel.Name = "mapPanel";
+            this.mapPanel.Size = new System.Drawing.Size(223, 650);
+            this.mapPanel.TabIndex = 8;
+            this.mapPanel.Visible = false;
             // 
             // panel1
             // 
@@ -803,7 +821,7 @@
             this.panel1.Controls.Add(this.rdo_ProCount);
             this.panel1.Controls.Add(this.rdo_FileCount);
             this.panel1.Controls.Add(this.rdo_BoxCount);
-            this.panel1.Location = new System.Drawing.Point(14, 0);
+            this.panel1.Location = new System.Drawing.Point(-129, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(454, 30);
             this.panel1.TabIndex = 7;
@@ -877,14 +895,14 @@
             this.chart3.ChartAreas.Add(chartArea3);
             legend1.Name = "Legend1";
             this.chart3.Legends.Add(legend1);
-            this.chart3.Location = new System.Drawing.Point(6, 647);
+            this.chart3.Location = new System.Drawing.Point(4, 782);
             this.chart3.Name = "chart3";
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chart3.Series.Add(series3);
-            this.chart3.Size = new System.Drawing.Size(775, 385);
+            this.chart3.Size = new System.Drawing.Size(504, 385);
             this.chart3.TabIndex = 2;
             this.chart3.Text = "chart3";
             // 
@@ -917,50 +935,15 @@
             chartArea4.InnerPlotPosition.Y = 5F;
             chartArea4.Name = "ChartArea1";
             this.chart2.ChartAreas.Add(chartArea4);
-            this.chart2.Location = new System.Drawing.Point(6, 338);
+            this.chart2.Location = new System.Drawing.Point(4, 466);
             this.chart2.Name = "chart2";
             series4.ChartArea = "ChartArea1";
             series4.Name = "Series1";
             series4.ShadowOffset = 5;
             this.chart2.Series.Add(series4);
-            this.chart2.Size = new System.Drawing.Size(570, 302);
+            this.chart2.Size = new System.Drawing.Size(299, 302);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
-            // 
-            // chart1
-            // 
-            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
-            chartArea5.Area3DStyle.Enable3D = true;
-            chartArea5.AxisX.Interval = 1D;
-            chartArea5.AxisX.IntervalOffset = 1D;
-            chartArea5.AxisX.IsLabelAutoFit = false;
-            chartArea5.AxisX.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
-            chartArea5.AxisX.LabelStyle.IsStaggered = true;
-            chartArea5.AxisX.MajorGrid.Enabled = false;
-            chartArea5.AxisY.IsLabelAutoFit = false;
-            chartArea5.AxisY.LabelStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
-            chartArea5.AxisY.MajorGrid.Enabled = false;
-            chartArea5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
-            chartArea5.InnerPlotPosition.Auto = false;
-            chartArea5.InnerPlotPosition.Height = 80F;
-            chartArea5.InnerPlotPosition.Width = 100F;
-            chartArea5.InnerPlotPosition.Y = 10F;
-            chartArea5.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea5);
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
-            this.chart1.Location = new System.Drawing.Point(6, 37);
-            this.chart1.Name = "chart1";
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            this.chart1.Series.Add(series5);
-            this.chart1.Size = new System.Drawing.Size(450, 282);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
             // 
             // tabControl1
             // 
@@ -1102,7 +1085,6 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -1140,7 +1122,6 @@
         private DevExpress.XtraBars.Navigation.TabPane tabPane2;
         private DevExpress.XtraBars.Navigation.TabNavigationPage datatable;
         private DevExpress.XtraBars.Navigation.TabNavigationPage datachart;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart3;
         private DevExpress.XtraEditors.SimpleButton btn_Export;
@@ -1175,5 +1156,7 @@
         private System.Windows.Forms.ComboBox cbo_PlanList;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cbo_SourceList;
+        private System.Windows.Forms.Panel mapPanel;
+        private System.Windows.Forms.Panel chart1;
     }
 }

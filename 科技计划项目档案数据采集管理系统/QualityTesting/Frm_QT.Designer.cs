@@ -56,6 +56,13 @@ namespace 科技计划项目档案数据采集管理系统
             this.btn_fpage = new DevExpress.XtraEditors.SimpleButton();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_Search = new DevExpress.XtraEditors.SimpleButton();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.txt_SearchData_F = new DevExpress.XtraEditors.TextEdit();
+            this.txt_SearchDate_S = new DevExpress.XtraEditors.TextEdit();
+            this.btn_MyWorkQuery = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.pal_LeftMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).BeginInit();
@@ -71,6 +78,9 @@ namespace 科技计划项目档案数据采集管理系统
             this.panel1.SuspendLayout();
             this.pal_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_page.Properties)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SearchData_F.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SearchDate_S.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // pal_LeftMenu
@@ -80,7 +90,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.pal_LeftMenu.Location = new System.Drawing.Point(0, 0);
             this.pal_LeftMenu.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pal_LeftMenu.Name = "pal_LeftMenu";
-            this.pal_LeftMenu.Size = new System.Drawing.Size(214, 511);
+            this.pal_LeftMenu.Size = new System.Drawing.Size(214, 673);
             this.pal_LeftMenu.TabIndex = 0;
             // 
             // ace_LeftMenu
@@ -104,7 +114,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.ace_LeftMenu.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ace_LeftMenu.Name = "ace_LeftMenu";
             this.ace_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
-            this.ace_LeftMenu.Size = new System.Drawing.Size(214, 511);
+            this.ace_LeftMenu.Size = new System.Drawing.Size(214, 673);
             this.ace_LeftMenu.TabIndex = 17;
             // 
             // acg_Worked
@@ -191,7 +201,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Imp.Name = "dgv_Imp";
             this.dgv_Imp.ReadOnly = true;
             this.dgv_Imp.RowTemplate.Height = 23;
-            this.dgv_Imp.Size = new System.Drawing.Size(721, 433);
+            this.dgv_Imp.Size = new System.Drawing.Size(1003, 543);
             this.dgv_Imp.TabIndex = 2;
             this.dgv_Imp.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Imp_CellClick);
             // 
@@ -204,7 +214,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.tab_Menulist.Margin = new System.Windows.Forms.Padding(0);
             this.tab_Menulist.Name = "tab_Menulist";
             this.tab_Menulist.SelectedTabPage = this.imp;
-            this.tab_Menulist.Size = new System.Drawing.Size(727, 473);
+            this.tab_Menulist.Size = new System.Drawing.Size(1009, 583);
             this.tab_Menulist.TabIndex = 3;
             this.tab_Menulist.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.imp,
@@ -221,7 +231,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.imp.Controls.Add(this.dgv_Imp);
             this.imp.Margin = new System.Windows.Forms.Padding(0);
             this.imp.Name = "imp";
-            this.imp.Size = new System.Drawing.Size(721, 433);
+            this.imp.Size = new System.Drawing.Size(1003, 543);
             this.imp.Text = "计划";
             // 
             // imp_dev
@@ -233,7 +243,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.imp_dev.Controls.Add(this.dgv_Imp_Dev);
             this.imp_dev.Margin = new System.Windows.Forms.Padding(0);
             this.imp_dev.Name = "imp_dev";
-            this.imp_dev.Size = new System.Drawing.Size(721, 433);
+            this.imp_dev.Size = new System.Drawing.Size(1003, 543);
             this.imp_dev.Text = "专项";
             // 
             // dgv_Imp_Dev
@@ -250,7 +260,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Imp_Dev.Name = "dgv_Imp_Dev";
             this.dgv_Imp_Dev.ReadOnly = true;
             this.dgv_Imp_Dev.RowTemplate.Height = 23;
-            this.dgv_Imp_Dev.Size = new System.Drawing.Size(721, 433);
+            this.dgv_Imp_Dev.Size = new System.Drawing.Size(1003, 543);
             this.dgv_Imp_Dev.TabIndex = 0;
             this.dgv_Imp_Dev.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Imp_Dev_CellClick);
             // 
@@ -263,7 +273,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.project.Controls.Add(this.dgv_Project);
             this.project.Margin = new System.Windows.Forms.Padding(0);
             this.project.Name = "project";
-            this.project.Size = new System.Drawing.Size(721, 433);
+            this.project.Size = new System.Drawing.Size(1003, 543);
             this.project.Text = "项目/课题";
             // 
             // dgv_Project
@@ -280,7 +290,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_Project.Name = "dgv_Project";
             this.dgv_Project.ReadOnly = true;
             this.dgv_Project.RowTemplate.Height = 23;
-            this.dgv_Project.Size = new System.Drawing.Size(721, 433);
+            this.dgv_Project.Size = new System.Drawing.Size(1003, 543);
             this.dgv_Project.TabIndex = 0;
             this.dgv_Project.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Project_CellClick);
             // 
@@ -296,7 +306,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.dgv_MyReg.Name = "dgv_MyReg";
             this.dgv_MyReg.ReadOnly = true;
             this.dgv_MyReg.RowTemplate.Height = 23;
-            this.dgv_MyReg.Size = new System.Drawing.Size(727, 473);
+            this.dgv_MyReg.Size = new System.Drawing.Size(1009, 583);
             this.dgv_MyReg.TabIndex = 2;
             this.dgv_MyReg.Visible = false;
             this.dgv_MyReg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_MyReg_CellClick);
@@ -304,7 +314,7 @@ namespace 科技计划项目档案数据采集管理系统
             // searchControl
             // 
             this.searchControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.searchControl.Location = new System.Drawing.Point(671, 2);
+            this.searchControl.Location = new System.Drawing.Point(953, 2);
             this.searchControl.Name = "searchControl";
             this.searchControl.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchControl.Properties.Appearance.Options.UseFont = true;
@@ -321,9 +331,9 @@ namespace 科技计划项目档案数据采集管理系统
             this.panel1.Controls.Add(this.tab_Menulist);
             this.panel1.Controls.Add(this.dgv_MyReg);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(214, 0);
+            this.panel1.Location = new System.Drawing.Point(214, 52);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(727, 473);
+            this.panel1.Size = new System.Drawing.Size(1009, 583);
             this.panel1.TabIndex = 4;
             // 
             // pal_Page
@@ -336,9 +346,9 @@ namespace 科技计划项目档案数据采集管理系统
             this.pal_Page.Controls.Add(this.label1);
             this.pal_Page.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pal_Page.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.pal_Page.Location = new System.Drawing.Point(214, 473);
+            this.pal_Page.Location = new System.Drawing.Point(214, 635);
             this.pal_Page.Name = "pal_Page";
-            this.pal_Page.Size = new System.Drawing.Size(727, 38);
+            this.pal_Page.Size = new System.Drawing.Size(1009, 38);
             this.pal_Page.TabIndex = 4;
             this.pal_Page.Visible = false;
             // 
@@ -346,7 +356,7 @@ namespace 科技计划项目档案数据采集管理系统
             // 
             this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_page.EditValue = "";
-            this.txt_page.Location = new System.Drawing.Point(594, 7);
+            this.txt_page.Location = new System.Drawing.Point(876, 7);
             this.txt_page.Name = "txt_page";
             this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.txt_page.Properties.Appearance.Options.UseFont = true;
@@ -364,7 +374,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.btn_lpage.Appearance.Options.UseFont = true;
             this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
             this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_lpage.Location = new System.Drawing.Point(552, 8);
+            this.btn_lpage.Location = new System.Drawing.Point(834, 8);
             this.btn_lpage.Name = "btn_lpage";
             this.btn_lpage.Size = new System.Drawing.Size(41, 23);
             this.btn_lpage.TabIndex = 6;
@@ -377,7 +387,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.btn_npage.Appearance.Options.UseFont = true;
             this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
             this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_npage.Location = new System.Drawing.Point(636, 8);
+            this.btn_npage.Location = new System.Drawing.Point(918, 8);
             this.btn_npage.Name = "btn_npage";
             this.btn_npage.Size = new System.Drawing.Size(41, 23);
             this.btn_npage.TabIndex = 5;
@@ -390,7 +400,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.btn_epage.Appearance.Options.UseFont = true;
             this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
             this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_epage.Location = new System.Drawing.Point(679, 8);
+            this.btn_epage.Location = new System.Drawing.Point(961, 8);
             this.btn_epage.Name = "btn_epage";
             this.btn_epage.Size = new System.Drawing.Size(41, 23);
             this.btn_epage.TabIndex = 4;
@@ -403,7 +413,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.btn_fpage.Appearance.Options.UseFont = true;
             this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
             this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_fpage.Location = new System.Drawing.Point(509, 8);
+            this.btn_fpage.Location = new System.Drawing.Point(791, 8);
             this.btn_fpage.Name = "btn_fpage";
             this.btn_fpage.Size = new System.Drawing.Size(41, 23);
             this.btn_fpage.TabIndex = 3;
@@ -425,7 +435,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.btn_Search.Appearance.Options.UseFont = true;
             this.btn_Search.Image = ((System.Drawing.Image)(resources.GetObject("btn_Search.Image")));
             this.btn_Search.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Search.Location = new System.Drawing.Point(871, 3);
+            this.btn_Search.Location = new System.Drawing.Point(1153, 3);
             this.btn_Search.Name = "btn_Search";
             this.btn_Search.Size = new System.Drawing.Size(66, 29);
             this.btn_Search.TabIndex = 3;
@@ -433,13 +443,112 @@ namespace 科技计划项目档案数据采集管理系统
             this.btn_Search.Visible = false;
             this.btn_Search.Click += new System.EventHandler(this.btn_Search_Click);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.comboBox1);
+            this.panel2.Controls.Add(this.txt_SearchData_F);
+            this.panel2.Controls.Add(this.txt_SearchDate_S);
+            this.panel2.Controls.Add(this.btn_MyWorkQuery);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(214, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1009, 52);
+            this.panel2.TabIndex = 20;
+            this.panel2.Visible = false;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "选择时间段",
+            "最近三天",
+            "最近一周",
+            "最近一个月"});
+            this.comboBox1.Location = new System.Drawing.Point(436, 12);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(142, 28);
+            this.comboBox1.TabIndex = 16;
+            this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
+            // 
+            // txt_SearchData_F
+            // 
+            this.txt_SearchData_F.EditValue = "";
+            this.txt_SearchData_F.Location = new System.Drawing.Point(300, 10);
+            this.txt_SearchData_F.Name = "txt_SearchData_F";
+            this.txt_SearchData_F.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 13F);
+            this.txt_SearchData_F.Properties.Appearance.Options.UseFont = true;
+            this.txt_SearchData_F.Properties.Appearance.Options.UseTextOptions = true;
+            this.txt_SearchData_F.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txt_SearchData_F.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_SearchData_F.Properties.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.txt_SearchData_F.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.txt_SearchData_F.Properties.Mask.BeepOnError = true;
+            this.txt_SearchData_F.Properties.Mask.EditMask = "yyyy-MM-dd";
+            this.txt_SearchData_F.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTime;
+            this.txt_SearchData_F.Size = new System.Drawing.Size(130, 32);
+            this.txt_SearchData_F.TabIndex = 15;
+            // 
+            // txt_SearchDate_S
+            // 
+            this.txt_SearchDate_S.EditValue = "";
+            this.txt_SearchDate_S.Location = new System.Drawing.Point(125, 10);
+            this.txt_SearchDate_S.Name = "txt_SearchDate_S";
+            this.txt_SearchDate_S.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 13F);
+            this.txt_SearchDate_S.Properties.Appearance.Options.UseFont = true;
+            this.txt_SearchDate_S.Properties.Appearance.Options.UseTextOptions = true;
+            this.txt_SearchDate_S.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txt_SearchDate_S.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_SearchDate_S.Properties.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.txt_SearchDate_S.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.txt_SearchDate_S.Properties.Mask.BeepOnError = true;
+            this.txt_SearchDate_S.Properties.Mask.EditMask = "yyyy-MM-dd";
+            this.txt_SearchDate_S.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTime;
+            this.txt_SearchDate_S.Size = new System.Drawing.Size(141, 32);
+            this.txt_SearchDate_S.TabIndex = 14;
+            // 
+            // btn_MyWorkQuery
+            // 
+            this.btn_MyWorkQuery.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btn_MyWorkQuery.Appearance.Options.UseFont = true;
+            this.btn_MyWorkQuery.Image = ((System.Drawing.Image)(resources.GetObject("btn_MyWorkQuery.Image")));
+            this.btn_MyWorkQuery.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_MyWorkQuery.Location = new System.Drawing.Point(584, 11);
+            this.btn_MyWorkQuery.Name = "btn_MyWorkQuery";
+            this.btn_MyWorkQuery.Size = new System.Drawing.Size(76, 31);
+            this.btn_MyWorkQuery.TabIndex = 13;
+            this.btn_MyWorkQuery.Text = "查看";
+            this.btn_MyWorkQuery.Click += new System.EventHandler(this.btn_MyWorkQuery_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(272, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(19, 20);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "~";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 13F);
+            this.label2.Location = new System.Drawing.Point(19, 14);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 24);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "日期范围：";
+            // 
             // Frm_QT
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(941, 511);
+            this.ClientSize = new System.Drawing.Size(1223, 673);
             this.Controls.Add(this.searchControl);
             this.Controls.Add(this.btn_Search);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.pal_Page);
             this.Controls.Add(this.pal_LeftMenu);
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -466,6 +575,10 @@ namespace 科技计划项目档案数据采集管理系统
             this.pal_Page.ResumeLayout(false);
             this.pal_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_page.Properties)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SearchData_F.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SearchDate_S.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -495,5 +608,12 @@ namespace 科技计划项目档案数据采集管理系统
         private DevExpress.XtraEditors.SimpleButton btn_fpage;
         private Label label1;
         private DevExpress.XtraEditors.SimpleButton btn_Search;
+        private Panel panel2;
+        private ComboBox comboBox1;
+        private DevExpress.XtraEditors.TextEdit txt_SearchData_F;
+        private DevExpress.XtraEditors.TextEdit txt_SearchDate_S;
+        private KyoControl.KyoButton btn_MyWorkQuery;
+        private Label label3;
+        private Label label2;
     }
 }

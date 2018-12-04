@@ -1,8 +1,9 @@
-﻿using DevExpress.XtraBars.Navigation;
+﻿using CefSharp;
+using CefSharp.WinForms;
+using DevExpress.XtraBars.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -168,26 +169,30 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadDataListByProvince(string provinceId, object minYear, object maxYear, object sourCode, object planCode)
         {
             string querySQL = "SELECT M.dd_id, M.dd_name, M.pCount, N.bCount, X.fCount, Y.lCount FROM(" +
-                "SELECT dd_id, dd_name, COUNT(B.pi_id) pCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
-                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor=2 UNION ALL " +
-               $"SELECT ti_id, ti_province, ti_source_id, ti_orga_id FROM topic_info) A WHERE 1=1 {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
-                "WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') GROUP BY dd_id, dd_name) M LEFT JOIN( " +
+                "SELECT dd_id, dd_name, COUNT(B.pi_id) pCount, dd_sort FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
+                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                "SELECT ti_id, ti_province, ti_source_id, ti_orga_id, ti_worker_id FROM topic_info) A " +
+               $"LEFT JOIN work_myreg ON wm_obj_id=A.pi_id WHERE (wm_status=3 OR (wm_status IS NULL AND pi_worker_id IS NULL)) {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') GROUP BY dd_id, dd_name, dd_sort) M LEFT JOIN( " +
                 "SELECT dd_id, dd_name, COUNT(pb.pb_id) bCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
-                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor=2 UNION ALL " +
-               $"SELECT ti_id, ti_province, ti_source_id, ti_orga_id FROM topic_info) A WHERE 1=1 {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                "SELECT ti_id, ti_province, ti_source_id, ti_orga_id, ti_worker_id FROM topic_info) A " +
+               $"LEFT JOIN work_myreg ON wm_obj_id=A.pi_id WHERE (wm_status=3 OR (wm_status IS NULL AND pi_worker_id IS NULL)) {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
                 "LEFT JOIN processing_box pb ON B.pi_id = pb.pb_obj_id WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') " +
                 "GROUP BY dd_id, dd_name ) N ON M.dd_id=N.dd_id LEFT JOIN( " +
                 "SELECT dd_id, dd_name, COUNT(pfl.pfl_id) fCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
-                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor=2 UNION ALL " +
-               $"SELECT ti_id, ti_province, ti_source_id, ti_orga_id FROM topic_info) A WHERE 1=1 {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                "SELECT ti_id, ti_province, ti_source_id, ti_orga_id, ti_worker_id FROM topic_info) A " +
+               $"LEFT JOIN work_myreg ON wm_obj_id=A.pi_id WHERE (wm_status=3 OR (wm_status IS NULL AND pi_worker_id IS NULL)) {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
                 "LEFT JOIN processing_file_list pfl ON B.pi_id = pfl.pfl_obj_id WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') " +
                 "GROUP BY dd_id, dd_name) X ON N.dd_id=X.dd_id " +
                 "LEFT JOIN(SELECT dd_id, dd_name, SUM(lCount) lCount FROM (SELECT dd_id, dd_name, B.pi_id, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END lCount FROM data_dictionary LEFT JOIN (SELECT A.* FROM( " +
-                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id FROM project_info WHERE pi_categor=2 UNION ALL " +
-               $"SELECT ti_id, ti_province, ti_source_id, ti_orga_id FROM topic_info) A WHERE 1=1 {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
+                "SELECT pi_id, pi_province, pi_source_id, pi_orga_id, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                "SELECT ti_id, ti_province, ti_source_id, ti_orga_id, ti_worker_id FROM topic_info) A " +
+               $"LEFT JOIN work_myreg ON wm_obj_id=A.pi_id WHERE (wm_status=3 OR (wm_status IS NULL AND pi_worker_id IS NULL)) {sourCode} {planCode} AND LEN(pi_province)<>0) B ON dd_id=pi_province " +
                 "LEFT JOIN processing_file_lost pfo ON B.pi_id = pfo.pfo_obj_id WHERE dd_pId=(SELECT dd_id FROM data_dictionary WHERE dd_code='dic_xzqy_province') " +
                 "GROUP BY dd_id, dd_name, B.pi_id )A GROUP BY dd_id, dd_name) Y ON X.dd_id=Y.dd_id " +
-               $"WHERE M.pCount>0 {provinceId} ";
+               $"WHERE M.pCount>0 {provinceId} ORDER BY dd_sort";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             DataGridViewStyleHelper.ResetDataGridView(view, true);
             DataTable tableEntity = new DataTable();
@@ -944,6 +949,7 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataColumn("fCount", typeof(int)),
                 new DataColumn("fbCount", typeof(int))
             });
+            tableEntity.PrimaryKey = new DataColumn[] { tableEntity.Columns[0] };
             view.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewTextBoxColumn() { DataPropertyName = "F_ID" },
@@ -954,52 +960,188 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn() { DataPropertyName = "fbCount", HeaderText = "缺失必备文件项目数" },
             });
 
-            string querySql_pCount = "SELECT F_ID, F_Title, pCount " +
-                "FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_Plan AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND LEN(A.pi_orga_id)>0 {value} {minYearCondition} {maxYearCondition} " +
-                "GROUP BY F_Title, p.F_ID) AS B ORDER BY F_ID ";
+            //项目|课题数
+            string querySql_pCount = "SELECT A.F_ID, A.F_Title, pCount+tCount+sCount pCount FROM ( " +
+               "    SELECT p.F_Title, p.F_ID, COUNT(DISTINCT(A.pi_id)) AS pCount FROM T_Plan AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_source_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_orga_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_Title, p.F_ID " +
+               " ) AS A  " +
+               " LEFT JOIN " +
+               " ( " +
+               "    SELECT p.F_ID, COUNT(DISTINCT(B.ti_id)) AS tCount FROM T_Plan AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_source_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_orga_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_ID " +
+               ") AS B ON A.F_ID = B.F_ID " +
+               "LEFT JOIN " +
+               "( " +
+               "    SELECT p.F_ID, COUNT(DISTINCT(C.si_id)) AS sCount FROM T_Plan AS p  " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL  " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_source_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+               "    LEFT JOIN subject_info C ON B.ti_id = C.si_obj_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_orga_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_ID " +
+               ") AS C ON A.F_ID = C.F_ID ORDER BY A.F_ID";
             DataTable pCountTable = SqlHelper.ExecuteQuery(querySql_pCount);
             foreach(DataRow row in pCountTable.Rows)
             {
                 tableEntity.Rows.Add(row["F_ID"], row["F_Title"], row["pCount"]);
             }
 
-            string querySql_bCount = "SELECT F_ID, bCount FROM(SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_Plan AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND LEN(A.pi_orga_id)>0 {value} {minYearCondition} {maxYearCondition} " +
-                "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B ORDER BY F_ID";
+            //盒数
+            string querySql_bCount = "SELECT A.F_ID, A.F_Title, pCount+tCount+sCount bCount FROM ( " +
+               "    SELECT p.F_Title, p.F_ID, COUNT(pb.pb_id) AS pCount FROM T_Plan AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_source_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id=A.pi_id " +
+               "    LEFT JOIN processing_box pb ON pb.pb_obj_id=A.pi_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_orga_id) > 0 {value} {minYearCondition} {maxYearCondition}" +
+               "    GROUP BY p.F_Title, p.F_ID " +
+               " ) AS A  " +
+               " LEFT JOIN " +
+               " ( " +
+               "    SELECT p.F_ID, COUNT(pb.pb_id) AS tCount FROM T_Plan AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_source_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+               "    LEFT JOIN processing_box pb ON pb.pb_obj_id=B.ti_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_orga_id) > 0 {value} {minYearCondition} {maxYearCondition}" +
+               "    GROUP BY p.F_ID " +
+               ") AS B ON A.F_ID = B.F_ID " +
+               "LEFT JOIN " +
+               "( " +
+               "    SELECT p.F_ID, COUNT(pb.pb_id) AS sCount FROM T_Plan AS p  " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL  " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_source_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+               "    LEFT JOIN subject_info C ON B.ti_id = C.si_obj_id " +
+               "    LEFT JOIN processing_box pb ON pb.pb_obj_id=C.si_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_orga_id) > 0 {value} {minYearCondition} {maxYearCondition}" +
+               "    GROUP BY p.F_ID " +
+               ") AS C ON A.F_ID = C.F_ID ORDER BY A.F_ID";
             DataTable bCountTable = SqlHelper.ExecuteQuery(querySql_bCount);
             for(int i = 0; i < bCountTable.Rows.Count; i++)
             {
-                tableEntity.Rows[i]["bCount"] = bCountTable.Rows[i]["bCount"];
+                DataRow dataRow = bCountTable.Rows[i];
+                DataRow _data = tableEntity.Rows.Find(dataRow["F_ID"]);
+                if (_data != null)
+                {
+                    _data["bCount"] = dataRow["bCount"];
+                }
+                //tableEntity.Rows[i]["bCount"] = bCountTable.Rows[i]["bCount"];
             }
 
-            string querySql_fCount = "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM T_Plan AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND LEN(A.pi_orga_id)>0 {value} {minYearCondition} {maxYearCondition} " +
-                "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ORDER BY F_ID";
+            //文件数
+            string querySql_fCount = "SELECT A.F_ID, A.F_Title, pCount+tCount+sCount fCount FROM ( " +
+               "    SELECT p.F_Title, p.F_ID, COUNT(pfl.pfl_id) AS pCount FROM T_Plan AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_source_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id=A.pi_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_orga_id) > 0 {value} {minYearCondition} {maxYearCondition}" +
+               "    GROUP BY p.F_Title, p.F_ID " +
+               " ) AS A  " +
+               " LEFT JOIN " +
+               " ( " +
+               "    SELECT p.F_ID, COUNT(pfl.pfl_id) AS tCount FROM T_Plan AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_source_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+               "    LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id=B.ti_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_orga_id) > 0 {value} {minYearCondition} {maxYearCondition}" +
+               "    GROUP BY p.F_ID " +
+               ") AS B ON A.F_ID = B.F_ID " +
+               "LEFT JOIN " +
+               "( " +
+               "    SELECT p.F_ID, COUNT(pfl.pfl_id) AS sCount FROM T_Plan AS p  " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL  " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_source_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+               "    LEFT JOIN subject_info C ON B.ti_id = C.si_obj_id " +
+               "    LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id=C.si_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_orga_id) > 0 {value} {minYearCondition} {maxYearCondition}" +
+               "    GROUP BY p.F_ID " +
+               ") AS C ON A.F_ID = C.F_ID ORDER BY A.F_ID";
             DataTable fCountTable = SqlHelper.ExecuteQuery(querySql_fCount);
             for(int i = 0; i < fCountTable.Rows.Count; i++)
             {
-                tableEntity.Rows[i]["fCount"] = fCountTable.Rows[i]["fCount"];
+                DataRow dataRow = fCountTable.Rows[i];
+                DataRow _data = tableEntity.Rows.Find(dataRow["F_ID"]);
+                if (_data != null)
+                {
+                    _data["fCount"] = dataRow["fCount"];
+                }
+                //tableEntity.Rows[i]["fCount"] = fCountTable.Rows[i]["fCount"];
             }
 
-            string querySql_fbCount = "SELECT F_ID, fbCount FROM(SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_Plan AS p LEFT OUTER JOIN (" +
-                "SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
-                "SELECT   pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT   ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A " +
+            //必备文件缺失项目数
+            string querySql_fbCount = "SELECT F_ID, fbCount FROM(SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_Plan AS p " +
+                "LEFT JOIN (SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
+                "   SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "   SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info) A " +
+                "LEFT JOIN work_myreg wm ON wm.wm_obj_id=A.pi_id AND (wm.wm_status=3 OR wm.wm_status IS NULL) " +
                 "LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
                $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) AS A ON A.pi_source_id = p.F_ID " +
-               $"AND LEN(A.pi_orga_id)>0 {value} {minYearCondition} {maxYearCondition} " +
-                "GROUP BY p.F_ID) AS B ORDER BY F_ID";
+               $"WHERE 1=1 AND LEN(A.pi_orga_id)>0 {value} {minYearCondition} {maxYearCondition} " +
+                "GROUP BY p.F_ID) AS B ORDER BY F_ID ";
             DataTable fbCountTable = SqlHelper.ExecuteQuery(querySql_fbCount);
             for(int i = 0; i < fbCountTable.Rows.Count; i++)
             {
-                tableEntity.Rows[i]["fbCount"] = fbCountTable.Rows[i]["fbCount"];
+                DataRow dataRow = fbCountTable.Rows[i];
+                DataRow _data = tableEntity.Rows.Find(dataRow["F_ID"]);
+                if (_data != null)
+                {
+                    _data["fbCount"] = dataRow["fbCount"];
+                }
+                //tableEntity.Rows[i]["fbCount"] = fbCountTable.Rows[i]["fbCount"];
             }
 
             tableEntity = HandleZX(tableEntity);
@@ -1053,12 +1195,15 @@ namespace 科技计划项目档案数据采集管理系统
         private void Bc_Element_Click(object sender, EventArgs e)
         {
             string value = (sender as AccordionControlElement).Name;
-            if("all_ptype".Equals(value))
+            bc_LeftMenu.Tag = value;
+            if ("all_ptype".Equals(value))
+            {
                 value = string.Empty;
-            else if("ZX".Equals(value))
+            }
+            else if ("ZX".Equals(value))
             {
                 value = $"AND A.pi_source_id LIKE 'ZX%'";
-                //bc_LeftMenu.SelectedElement.Name = "ZX";
+                bc_LeftMenu.Tag = "ZX";
             }
             else
                 value = $"AND A.pi_source_id = '{value}'";
@@ -1067,66 +1212,226 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void SetTableBySource(string value, string minYear, string maxYear)
         {
+            DataGridViewStyleHelper.ResetDataGridView(view, true);
             string minYearCondition = string.Empty;
             string maxYearCondition = string.Empty;
             if(!string.IsNullOrEmpty(minYear))
                 minYearCondition = $"AND ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) >= {minYear}";
             if(!string.IsNullOrEmpty(maxYear))
                 maxYearCondition = $"AND ISNULL(pi_year, TRY_CAST(SUBSTRING(pi_start_datetime, 1, 4) AS INT)) <= {maxYear}";
-            string querySQL = "SELECT p.F_ID,F_Title, pCount, bCount, fCount, fbCount FROM( " +
-                "SELECT F_Title, F_ID, pCount FROM(SELECT p.F_Title, p.F_ID, COUNT(A.pi_id) AS pCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE(pi_categor = 2) UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID " +
-               $"AND LEN(A.pi_source_id)>0 {value} {minYearCondition} {maxYearCondition} " +
-                "GROUP BY F_Title, p.F_ID) AS B WHERE pCount>0) p LEFT JOIN(SELECT   F_ID, bCount FROM(" +
-                "SELECT p.F_ID, COUNT(pb.pb_id) AS bCount FROM T_SourceOrg AS p LEFT OUTER JOIN(" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID " +
-               $"AND LEN(A.pi_source_id)>0 {value} {minYearCondition} {maxYearCondition} " +
-                "LEFT JOIN processing_box pb ON pb.pb_obj_id = A.pi_id GROUP BY p.F_ID) AS B) b ON p.F_ID = b.F_ID LEFT JOIN( " +
-                "SELECT F_ID, fCount FROM (SELECT p.F_ID, COUNT(pb.pfl_id) AS fCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-               $"SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) AS A ON A.pi_orga_id = p.F_ID " +
-               $"AND LEN(A.pi_source_id)>0 {value} {minYearCondition} {maxYearCondition} " +
-                "LEFT JOIN processing_file_list pb ON pb.pfl_obj_id = A.pi_id GROUP BY p.F_ID) AS B ) f ON f.F_ID = b.F_ID " +
-                "LEFT OUTER JOIN (SELECT F_ID, fbCount FROM (SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_SourceOrg AS p LEFT OUTER JOIN (" +
-                "SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
-                "SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
-               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) A ON A.pi_orga_id = p.F_ID " +
-               $"AND LEN(A.pi_source_id)>0 {value} {minYearCondition} {maxYearCondition} " +
-                "GROUP BY p.F_ID) AS B) AS fb ON fb.F_ID = b.F_ID";
-            DataTable table = SqlHelper.ExecuteQuery(querySQL);
-            int totalPcount = 0, totalFcount = 0, totalBcount = 0, totalFBcount = 0;
-            DataGridViewStyleHelper.ResetDataGridView(view, true);
             DataTable tableEntity = new DataTable();
             tableEntity.Columns.AddRange(new DataColumn[]
             {
-                    new DataColumn("来源单位编号"),
-                    new DataColumn("来源单位名称"),
-                    new DataColumn("项目/课题数", typeof(int)),
-                    new DataColumn("盒数", typeof(int)),
-                    new DataColumn("文件数", typeof(int)),
-                    new DataColumn("必备文件缺失项目数", typeof(int)),
+                new DataColumn("F_ID", typeof(string)),
+                new DataColumn("F_Title", typeof(string)),
+                new DataColumn("pCount", typeof(int)),
+                new DataColumn("bCount", typeof(int)),
+                new DataColumn("fCount", typeof(int)),
+                new DataColumn("fbCount", typeof(int))
             });
-            DataRowCollection rowCollection = table.Rows;
-            for(int i = 0; i < rowCollection.Count; i++)
+            tableEntity.PrimaryKey = new DataColumn[] { tableEntity.Columns[0] };
+            view.Columns.AddRange(new DataGridViewColumn[]
             {
-                DataRow row = rowCollection[i];
-                int _pcount = ToolHelper.GetIntValue(row["pCount"], 0);
-                int _bcount = ToolHelper.GetIntValue(row["bCount"], 0);
-                int _fcount = ToolHelper.GetIntValue(row["fCount"], 0);
-                int _fbcount = ToolHelper.GetIntValue(row["fbCount"], 0);
-                tableEntity.Rows.Add(row["F_ID"], row["F_Title"], _pcount, _bcount, _fcount, _fbcount);
+                new DataGridViewTextBoxColumn(){ DataPropertyName= "F_ID" },
+                new DataGridViewTextBoxColumn(){ DataPropertyName= "F_Title", HeaderText= "来源单位名称" },
+                new DataGridViewTextBoxColumn(){ DataPropertyName= "pCount", HeaderText= "项目/课题数" },
+                new DataGridViewTextBoxColumn(){ DataPropertyName= "bCount", HeaderText= "盒数" },
+                new DataGridViewTextBoxColumn(){ DataPropertyName= "fCount", HeaderText= "文件数" },
+                new DataGridViewTextBoxColumn(){ DataPropertyName= "fbCount", HeaderText= "必备文件缺失项目数" },
+            });
 
-                totalPcount += _pcount;
-                totalBcount += _bcount;
-                totalFcount += _fcount;
-                totalFBcount += _fbcount;
+            //项目|课题数
+            string querySql_pCount = "SELECT A.F_ID, A.F_Title, pCount+tCount+sCount pCount FROM ( " +
+               "    SELECT p.F_Title, p.F_ID, COUNT(DISTINCT(A.pi_id)) AS pCount FROM T_SourceOrg AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_orga_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_Title, p.F_ID " +
+               " ) AS A  " +
+               " LEFT JOIN " +
+               " ( " +
+               "    SELECT p.F_ID, COUNT(DISTINCT(B.ti_id)) AS tCount FROM T_SourceOrg AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_orga_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_ID " +
+               ") AS B ON A.F_ID = B.F_ID " +
+               "LEFT JOIN " +
+               "( " +
+               "    SELECT p.F_ID, COUNT(DISTINCT(C.si_id)) AS sCount FROM T_SourceOrg AS p  " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL  " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_orga_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+               "    LEFT JOIN subject_info C ON B.ti_id = C.si_obj_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_ID " +
+               ") AS C ON A.F_ID = C.F_ID ORDER BY A.F_ID";
+            DataTable pCountTable = SqlHelper.ExecuteQuery(querySql_pCount);
+            foreach (DataRow row in pCountTable.Rows)
+            {
+                tableEntity.Rows.Add(row["F_ID"], row["F_Title"], row["pCount"]);
             }
 
+            //盒数
+            string querySql_bCount = "SELECT A.F_ID, A.F_Title, pCount+tCount+sCount bCount FROM ( " +
+               "    SELECT p.F_Title, p.F_ID, COUNT(pb.pb_id) AS pCount FROM T_SourceOrg AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_orga_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id=A.pi_id " +
+               "    LEFT JOIN processing_box pb ON pb.pb_obj_id=A.pi_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_Title, p.F_ID " +
+               " ) AS A  " +
+               " LEFT JOIN " +
+               " ( " +
+               "    SELECT p.F_ID, COUNT(pb.pb_id) AS tCount FROM T_SourceOrg AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_orga_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+               "    LEFT JOIN processing_box pb ON pb.pb_obj_id=B.ti_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_ID " +
+               ") AS B ON A.F_ID = B.F_ID " +
+               "LEFT JOIN " +
+               "( " +
+               "    SELECT p.F_ID, COUNT(pb.pb_id) AS sCount FROM T_SourceOrg AS p  " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL  " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_orga_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+               "    LEFT JOIN subject_info C ON B.ti_id = C.si_obj_id " +
+               "    LEFT JOIN processing_box pb ON pb.pb_obj_id=C.si_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_ID " +
+               ") AS C ON A.F_ID = C.F_ID ORDER BY A.F_ID";
+            DataTable bCountTable = SqlHelper.ExecuteQuery(querySql_bCount);
+            for (int i = 0; i < bCountTable.Rows.Count; i++)
+            {
+                DataRow dataRow = bCountTable.Rows[i];
+                DataRow _data = tableEntity.Rows.Find(dataRow["F_ID"]);
+                if (_data != null)
+                {
+                    _data["bCount"] = dataRow["bCount"];
+                }
+            }
+
+            //文件数
+            string querySql_fCount = "SELECT A.F_ID, A.F_Title, pCount+tCount+sCount fCount FROM ( " +
+               "    SELECT p.F_Title, p.F_ID, COUNT(pfl.pfl_id) AS pCount FROM T_SourceOrg AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_orga_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id=A.pi_id " +
+               "    LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id=A.pi_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_Title, p.F_ID " +
+               " ) AS A  " +
+               " LEFT JOIN " +
+               " ( " +
+               "    SELECT p.F_ID, COUNT(pfl.pfl_id) AS tCount FROM T_SourceOrg AS p " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_orga_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+               "    LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id=B.ti_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_ID " +
+               ") AS B ON A.F_ID = B.F_ID " +
+               "LEFT JOIN " +
+               "( " +
+               "    SELECT p.F_ID, COUNT(pfl.pfl_id) AS sCount FROM T_SourceOrg AS p  " +
+               "    LEFT JOIN ( " +
+               "        SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, pi_worker_id FROM project_info WHERE pi_categor=2 UNION ALL  " +
+               "        SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime, ti_worker_id FROM topic_info WHERE ti_categor=-3 " +
+               "    ) A ON A.pi_orga_id = p.F_ID " +
+               "    LEFT JOIN work_myreg wm ON wm.wm_obj_id = A.pi_id " +
+               "    LEFT JOIN ( " +
+               "        SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
+               "        SELECT si_id, si_obj_id FROM subject_info " +
+               "    ) B ON A.pi_id = B.ti_obj_id " +
+               "    LEFT JOIN subject_info C ON B.ti_id = C.si_obj_id " +
+               "    LEFT JOIN processing_file_list pfl ON pfl.pfl_obj_id=C.si_id " +
+              $"    WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id) > 0 {value} {minYearCondition} {maxYearCondition} " +
+               "    GROUP BY p.F_ID " +
+               ") AS C ON A.F_ID = C.F_ID ORDER BY A.F_ID";
+            DataTable fCountTable = SqlHelper.ExecuteQuery(querySql_fCount);
+            for (int i = 0; i < fCountTable.Rows.Count; i++)
+            {
+                DataRow dataRow = fCountTable.Rows[i];
+                DataRow _data = tableEntity.Rows.Find(dataRow["F_ID"]);
+                if (_data != null)
+                {
+                    _data["fCount"] = dataRow["fCount"];
+                }
+                //tableEntity.Rows[i]["fCount"] = fCountTable.Rows[i]["fCount"];
+            }
+
+            //必备文件缺失项目数
+            string querySql_fbCount = "SELECT F_ID, fbCount FROM(SELECT p.F_ID, COUNT(A.pi_id) AS fbCount FROM T_SourceOrg AS p " +
+                "LEFT JOIN (SELECT * FROM(SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime, CASE COUNT(pfo.pfo_id) WHEN 0 THEN 0 ELSE 1 END oCount FROM(" +
+                "   SELECT pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                "   SELECT ti_id, ti_source_id, ti_orga_id, ti_year, ti_start_datetime FROM topic_info) A " +
+                "LEFT JOIN work_myreg wm ON wm.wm_obj_id=A.pi_id AND (wm.wm_status=3 OR wm.wm_status IS NULL) " +
+                "LEFT JOIN processing_file_lost pfo ON A.pi_id = pfo.pfo_obj_id AND pfo.pfo_ismust = 1 " +
+               $"GROUP BY pi_id, pi_source_id, pi_orga_id, pi_year, pi_start_datetime) B WHERE B.oCount>0) AS A ON A.pi_orga_id = p.F_ID " +
+               $"WHERE 1=1 AND LEN(A.pi_source_id)>0 {value} {minYearCondition} {maxYearCondition} " +
+                "GROUP BY p.F_ID) AS B ORDER BY F_ID ";
+            DataTable fbCountTable = SqlHelper.ExecuteQuery(querySql_fbCount);
+            for (int i = 0; i < fbCountTable.Rows.Count; i++)
+            {
+                DataRow dataRow = fbCountTable.Rows[i];
+                DataRow _data = tableEntity.Rows.Find(dataRow["F_ID"]);
+                if (_data != null)
+                {
+                    _data["fbCount"] = dataRow["fbCount"];
+                }
+                //tableEntity.Rows[i]["fbCount"] = fbCountTable.Rows[i]["fbCount"];
+            }
+
+            tableEntity = HandleZX(tableEntity);
+            object totalPcount = 0, totalFcount = 0, totalBcount = 0, totalFBcount = 0;
+            totalPcount = tableEntity.Compute("SUM(pCount)", null);
+            totalFcount = tableEntity.Compute("SUM(fCount)", null);
+            totalBcount = tableEntity.Compute("SUM(bCount)", null);
+            totalFBcount = tableEntity.Compute("SUM(fbCount)", null);
             tableEntity.Rows.Add(string.Empty, "合计", totalPcount, totalBcount, totalFcount, totalFBcount);
             view.DataSource = tableEntity;
+
             view.Columns[0].Visible = false;
             tabPane2.SelectedPageIndex = 0;
         }
@@ -1154,6 +1459,27 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
+        /// <summary>
+        /// 加载中国地图信息
+        /// </summary>
+        /// <param name="mapPanel">地图框架</param>
+        /// <param name="mapFile">地图文件路径</param>
+        private void LoadMapDataInstince(Panel mapPanel, string mapFile)
+        {
+            mapPanel.Controls.Clear();
+            if (!Cef.IsInitialized)
+            {
+                CefSettings settings = new CefSettings();
+                Cef.Initialize(settings);
+            }
+            mapPanel.Controls.Add(
+                new ChromiumWebBrowser(mapFile)
+                {
+                    Dock = DockStyle.Fill
+                }
+             );
+        }
+
         private void tabPane1_SelectedPageIndexChanged(object sender, EventArgs e)
         {
             if(tabPane1.SelectedPageIndex == 1)
@@ -1168,13 +1494,56 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void tabPane2_SelectedPageIndexChanged(object sender, EventArgs e)
         {
-            chart1.Series.Clear();
+            chart1.Controls.Clear();
             chart2.Series.Clear();
             chart3.Series.Clear();
             if(tabPane2.SelectedPageIndex == 1)
             {
                 tabPane2.Update();
                 LoadImageInfo();
+                if (tabControl1.SelectedIndex == 2)
+                {
+                    //地域单独加载中国地图
+                    LoadMapData();
+                }
+                else
+                {
+                    mapPanel.Visible = false;
+                    chart2.Visible = true;
+                    chart3.Top = chart2.Top + chart2.Height + 5;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 加载地图
+        /// </summary>
+        private void LoadMapData()
+        {
+            string mapFile = Application.StartupPath + @"\Datas\chinamap.html";
+            if (File.Exists(mapFile))
+            {
+                mapPanel.Visible = true;
+                chart2.Visible = false;
+                chart3.Top = mapPanel.Top + mapPanel.Height + 5;
+
+                mapPanel.Location = chart2.Location;
+                mapPanel.Width = chart2.Width;
+                string mapString = File.ReadAllText(mapFile, Encoding.UTF8);
+                int type = rdo_ProCount.Checked ? 2 : rdo_BoxCount.Checked ? 3 : rdo_FileCount.Checked ? 4 : rdo_FileBCount.Checked ? 5 : 0;
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < view.RowCount - 1; i++)
+                {
+                    DataGridViewRow row = view.Rows[i];
+                    builder.Append("{name: '" + row.Cells[1].Value + "', value: '" + row.Cells[type].Value + "' },");
+                }
+                mapString = mapString.Replace("var dataMap = []", $"var dataMap = [{builder.ToString()}]");
+                mapString = mapString.Replace("当前数据", view.Columns[type].HeaderText);
+                string tempFile = Path.GetDirectoryName(mapFile) + "\\temp\\" + DateTime.Now.Millisecond + ".html";
+                if (!Directory.Exists(Path.GetDirectoryName(tempFile)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(tempFile));
+                File.WriteAllText(tempFile, mapString, Encoding.UTF8);
+                LoadMapDataInstince(mapPanel, tempFile);
             }
         }
 
@@ -1184,24 +1553,13 @@ namespace 科技计划项目档案数据采集管理系统
         private void LoadImageInfo()
         {
             string name = rdo_ProCount.Checked ? rdo_ProCount.Text : rdo_BoxCount.Checked ? rdo_BoxCount.Text : rdo_FileCount.Checked ? rdo_FileCount.Text : rdo_FileBCount.Text;
-            chart1.Series.Clear(); chart1.BeginInit();
+            chart1.Controls.Clear(); 
             chart2.Series.Clear(); chart2.BeginInit();
             chart3.Series.Clear(); chart3.BeginInit();
             int tabType = tabControl1.SelectedIndex;
 
             //项目/课题2，盒3，文件4
             int typeIndex = rdo_ProCount.Checked ? 2 : rdo_BoxCount.Checked ? 3 : rdo_FileCount.Checked ? 4 : 5;
-            Series amount = new Series()
-            {
-                IsValueShownAsLabel = true,
-                Palette = ChartColorPalette.BrightPastel,
-                ChartType = SeriesChartType.Pie
-            };
-            amount["PieLabelStyle"] = "Outside";//将文字移到外侧 
-            amount["PieLineColor"] = "Black";//绘制黑色的连线。 
-            amount.Label = "#PERCENT{P2}";
-            amount.LegendText = "#VALX";
-            amount.ToolTip = "#VALX(#PERCENT{P2})\n" + name + "：#VALY";
             Series amount2 = new Series()
             {
                 IsValueShownAsLabel = true,
@@ -1210,19 +1568,27 @@ namespace 科技计划项目档案数据采集管理系统
                 ChartType = SeriesChartType.Column
             };
             double maxNum = 0;
+            StringBuilder keyData = new StringBuilder();
+            StringBuilder valueData = new StringBuilder();
             for(int i = 0; i < view.RowCount - 1; i++)
             {
+                object objectName = view.Rows[i].Cells[1].Value;
                 int value = ToolHelper.GetIntValue(view.Rows[i].Cells[typeIndex].Value, 0);
                 maxNum = value > maxNum ? value : maxNum;
-                amount.Points.AddXY(view.Rows[i].Cells[1].Value, value);
-                amount2.Points.AddXY(view.Rows[i].Cells[1].Value, value);
+                keyData.Append($"'{objectName}',");
+                valueData.AppendLine("{ value: " + value + ", name: '" + objectName + "' },");
+                amount2.Points.AddXY(objectName, value);
             }
             amount2.ToolTip = "#VALX(#PERCENT{P2})\n" + name + "：#VALY";
-
-            chart1.Series.Add(amount);
-            chart2.Series.Add(amount2);
-            chart1.ChartAreas[0].AxisY.Maximum = maxNum;
-            chart2.ChartAreas[0].AxisY.Maximum = maxNum;
+            //加载饼图
+            string typeName = view.Columns[typeIndex].HeaderText;
+            LoadPie(chart1, keyData, valueData, typeName);
+            //地域选项卡不用加载柱形图（由地图代替）
+            if (tabType != 2)
+            {
+                chart2.Series.Add(amount2);
+                chart2.ChartAreas[0].AxisY.Maximum = maxNum;
+            }
             //来源单位0
             if(tabType == 0)
             {
@@ -1283,7 +1649,7 @@ namespace 科技计划项目档案数据采集管理系统
                 //年度统计
                 if(typeIndex == 2)
                 {
-                    string orgName = bc_LeftMenu.SelectedElement == null ? "all_ptype" : bc_LeftMenu.SelectedElement.Name;
+                    object orgName = bc_LeftMenu.Tag ?? "all_ptype";
                     string _minYear = txt_QuerySyear.Text, _maxYear = txt_QueryEyear.Text;
                     if(string.IsNullOrEmpty(_minYear) && string.IsNullOrEmpty(_maxYear))
                     {
@@ -1321,8 +1687,7 @@ namespace 科技计划项目档案数据采集管理系统
                             Dictionary<object, int> pair = SqlHelper.GetKeyValuePair(querySQL);
                             for(int i = minYear; i <= maxYear; i++)
                             {
-                                int value = 0;
-                                pair.TryGetValue(i, out value);
+                                pair.TryGetValue(i, out int value);
                                 series.Points.AddXY(i, value);
                             }
                             series.ToolTip = "#VALX年度（" + view.Rows[j].Cells[1].Value + "）\n项目/课题数：#VALY";
@@ -1385,11 +1750,41 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                 }
             }
-            chart1.EndInit();
             chart2.EndInit();
             chart3.EndInit();
         }
 
+        /// <summary>
+        /// 加载饼图
+        /// </summary>
+        private void LoadPie(Panel piePanel, object key, object value, object typeName)
+        {
+            string filePath = Application.StartupPath + "\\Datas\\pie.html";
+            if (File.Exists(filePath))
+            {
+                string pieString = File.ReadAllText(filePath, Encoding.UTF8);
+                pieString = pieString.Replace("data: [],", $"data: [{value.ToString()}],");
+                pieString = pieString.Replace("data: []", $"data: [{key.ToString()}]");
+                pieString = pieString.Replace("访问来源", $"{typeName}");
+                string tempFile = Path.GetDirectoryName(filePath) + "\\temp\\pie.html";
+                if (!Directory.Exists(Path.GetDirectoryName(tempFile)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(tempFile));
+                File.WriteAllText(tempFile, pieString, Encoding.UTF8);
+
+                piePanel.Controls.Clear();
+                if (!Cef.IsInitialized)
+                {
+                    CefSettings settings = new CefSettings();
+                    Cef.Initialize(settings);
+                }
+                piePanel.Controls.Add(
+                    new ChromiumWebBrowser(tempFile)
+                    {
+                        Dock = DockStyle.Fill
+                    }
+                 );
+            }
+        }
         private void Btn_Export_Click(object sender, EventArgs e)
         {
             object dataSource = view.DataSource;
@@ -1457,6 +1852,17 @@ namespace 科技计划项目档案数据采集管理系统
         private void ProCount_MouseClick(object sender, MouseEventArgs e)
         {
             LoadImageInfo();
+            if (tabControl1.SelectedIndex == 2)
+            {
+                //地域单独加载中国地图
+                LoadMapData();
+            }
+            else
+            {
+                mapPanel.Visible = false;
+                chart2.Visible = true;
+                chart3.Top = chart2.Top + chart2.Height + 5;
+            }
         }
 
         private void tabPane3_SelectedPageChanged(object sender, SelectedPageChangedEventArgs e)

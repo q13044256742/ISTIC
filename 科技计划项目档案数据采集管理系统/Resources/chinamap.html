@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+</head>
+<body style="background-color:#EBECEF">
+	<div id="main" style="height: 800px; width:1200px; background:#EBECEF; margin:20px 0 0;"></div>
+</body>
+</html>
+<script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../js/echarts.min.js"></script>
+<script type="text/javascript" src="../js/china.js"></script>
+<script type="text/javascript">
+	var dataMap = [];
+	var optionMap = {
+	    backgroundColor: '#EBECEF',
+	    tooltip: {
+	        trigger: 'item',
+	        formatter: function (data) {
+	            var value = "暂无数据";
+	            if (!isNaN(data.value)) {
+	                var value = data.name + "<br/>当前数据:" + data.value;
+	            }
+	            return value;
+	        }
+	    },
+
+	    //左侧小导航图标
+	    visualMap: {
+	        show: true,
+	        x: 'left',
+	        y: 'center',
+	        splitList: [
+				{ start: 1000 }, { start: 800, end: 1000 },
+				{ start: 600, end: 800 }, { start: 400, end: 600 },
+				{ start: 200, end: 400 }, { start: 0, end: 200 },
+	        ],
+	        color: ['#5475f5', '#9feaa5', '#85daef', '#74e2ca', '#e6ac53', '#9fb5ea']
+	    },
+
+	    //配置属性
+	    series: [{
+	        name: '数据',
+	        type: 'map',
+	        mapType: 'china',
+	        roam: true,
+	        label: {
+	            normal: {
+	                show: true  //省份名称  
+	            },
+	            emphasis: {
+	                show: false
+	            }
+	        },
+	        data: dataMap  //数据
+	    }]
+	};
+	//初始化echarts实例
+	var myChart = echarts.init(document.getElementById('main'));
+
+	//使用制定的配置项和数据显示图表
+	myChart.setOption(optionMap);
+</script>

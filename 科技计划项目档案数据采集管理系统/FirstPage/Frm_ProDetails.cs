@@ -612,7 +612,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Project_FileList.SelectedRows.Count == 1 && dgv_Project_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.CurrentRow.Cells[key + "num"].Value, null);
+                        frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.SelectedRows[0].Cells[key + "num"].Value, null);
                     else
                         frm = new Frm_AddFile(dgv_Project_FileList, key, null, null);
                     frm.UpdateDataSource = LoadFileList;
@@ -630,7 +630,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Topic_FileList.SelectedRows.Count == 1 && dgv_Topic_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.CurrentRow.Cells[key + "num"].Value, null);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.SelectedRows[0].Cells[key + "num"].Value, null);
                     else
                         frm = new Frm_AddFile(dgv_Topic_FileList, key, null, null);
                     frm.UpdateDataSource = LoadFileList;
@@ -648,7 +648,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Subject_FileList.SelectedRows.Count == 1 && dgv_Subject_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.CurrentRow.Cells[key + "num"].Value, null);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.SelectedRows[0].Cells[key + "num"].Value, null);
                     else
                         frm = new Frm_AddFile(dgv_Subject_FileList, key, null, null);
                     frm.UpdateDataSource = LoadFileList;

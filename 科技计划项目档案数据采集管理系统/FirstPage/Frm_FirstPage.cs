@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraEditors;
+﻿using CefSharp;
+using DevExpress.XtraEditors;
 using System;
 using System.Data;
 using System.Drawing;
@@ -303,6 +304,10 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             UserHelper.SetLogin(false);
             try
             {
+                if (Cef.IsInitialized)
+                {
+                    Cef.Shutdown();
+                }
                 Environment.Exit(0);
             }
             catch(Exception ex)

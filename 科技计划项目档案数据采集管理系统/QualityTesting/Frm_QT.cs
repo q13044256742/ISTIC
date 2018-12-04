@@ -55,6 +55,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Sub_Click(object sender, EventArgs e)
         {
             string name = (sender as DevExpress.XtraBars.Navigation.AccordionControlElement).Name;
+            panel2.Visible = false;
             if("ace_Login".Equals(name))
             {
                 dgv_MyReg.Visible = false;
@@ -85,18 +86,23 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_MyReg.Visible = true;
                 dgv_MyReg.DefaultCellStyle = dgv_Project.DefaultCellStyle;
                 dgv_MyReg.ColumnHeadersDefaultCellStyle = DataGridViewStyleHelper.GetHeaderStyle();
-                LoadMyRegedList();
                 searchControl.Visible = false;
                 pal_Page.Visible = false;
                 searchControl.ResetText();
                 btn_Search.Visible = false;
+
+                panel2.Update();
+                panel2.Visible = true;
+
+                DataGridViewStyleHelper.ResetDataGridView(dgv_MyReg, true);
+                //LoadMyRegedList();
             }
         }
 
         /// <summary>
         /// 我的质检【历史记录】
         /// </summary>
-        private void LoadMyRegedList()
+        private void LoadMyRegedList(string sDate, string fDate)
         {
             DataGridViewStyleHelper.ResetDataGridView(dgv_MyReg, true);
             dgv_MyReg.Columns.AddRange(new DataGridViewColumn[]
@@ -110,34 +116,30 @@ namespace 科技计划项目档案数据采集管理系统
                 new DataGridViewTextBoxColumn(){ Name = "mrl_state", HeaderText = "状态", FillWeight = 8, SortMode = DataGridViewColumnSortMode.NotSortable},
                 new DataGridViewButtonColumn(){ Name = "mrl_edit", HeaderText = "操作", FillWeight = 5, Text = "查看", UseColumnTextForButtonValue = true, SortMode = DataGridViewColumnSortMode.NotSortable},
             });
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT wm_id, wm_obj_id FROM work_myreg WHERE wm_accepter='{UserHelper.GetUser().UserKey}' AND wm_type=3 AND wm_status<>1");
-            foreach(DataRow row in table.Rows)
+            string querySql = "SELECT dd_name, dd.dd_code, wm.wm_id, A.pi_id, A.pi_code, A.pi_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status " +
+                "FROM work_myreg wm INNER JOIN(" +
+                "   SELECT pi_id, pi_code, pi_name, pi_checker_date FROM project_info UNION ALL " +
+                "   SELECT ti_id, ti_code, ti_name, ti_checker_date FROM topic_info WHERE ti_categor=-3) A  ON wm.wm_obj_id = A.pi_id " +
+                "LEFT JOIN work_registration AS wr ON wr.wr_id = wm.wr_id " +
+                "LEFT JOIN transfer_registration_pc AS trp ON wr.trp_id = trp.trp_id " +
+                "LEFT JOIN transfer_registraion_cd AS trc ON trp.trp_id = trc.trp_id " +
+                "LEFT JOIN data_dictionary AS dd ON dd.dd_id = trp.com_id " +
+               $"WHERE wm.wm_accepter='{UserHelper.GetUser().UserKey}' AND wm.wm_status<>2 {sDate} {fDate} ";
+            DataTable table = SqlHelper.ExecuteQuery(querySql);
+            foreach (DataRow dataRow in table.Rows)
             {
-                object objId = row["wm_obj_id"];
-                string querySql = "SELECT   TOP (1)  dd_name, dd.dd_code, wm.wm_id, A.pi_id, A.pi_code, A.pi_name, wr.wr_obj_id, trp.trp_code, trc.trc_id, wm.wm_status " +
-                    "FROM(SELECT * FROM project_info UNION ALL SELECT * FROM topic_info) A " +
-                    "LEFT OUTER JOIN work_myreg AS wm ON wm.wm_obj_id = A.pi_id " +
-                    "LEFT OUTER JOIN work_registration AS wr ON wr.wr_id = wm.wr_id " +
-                    "LEFT OUTER JOIN transfer_registration_pc AS trp ON wr.trp_id = trp.trp_id " +
-                    "LEFT OUTER JOIN transfer_registraion_cd AS trc ON trp.trp_id = trc.trp_id " +
-                    "LEFT OUTER JOIN data_dictionary AS dd ON dd.dd_id = trp.com_id " +
-                   $"WHERE(wm.wm_obj_id = '{objId}') AND wm_status<>{(int)QualityStatus.Qualitting}";
-                DataRow dataRow = SqlHelper.ExecuteSingleRowQuery(querySql);
-                if(dataRow != null)
-                {
-                    int rowIndex = dgv_MyReg.Rows.Add();
-                    dgv_MyReg.Rows[rowIndex].Tag = row["wm_id"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_id"].Value = dataRow["pi_id"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_name"].Value = dataRow["pi_name"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_pcode"].Value = dataRow["trp_code"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_pcode"].Tag = dataRow["trc_id"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_code"].Value = dataRow["pi_code"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_code"].Tag = dataRow["wr_obj_id"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_unit"].Value = dataRow["dd_name"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_unit"].Tag = dataRow["dd_code"];
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_state"].Value = GetMyWorkState(dataRow["wm_status"]);
-                    dgv_MyReg.Rows[rowIndex].Cells["mrl_fileamount"].Value = GetFileAmountById(dataRow["pi_id"]);
-                }
+                int rowIndex = dgv_MyReg.Rows.Add();
+                dgv_MyReg.Rows[rowIndex].Tag = dataRow["wm_id"];
+                dgv_MyReg.Rows[rowIndex].Cells["mrl_id"].Value = dataRow["pi_id"];
+                dgv_MyReg.Rows[rowIndex].Cells["mrl_name"].Value = dataRow["pi_name"];
+                dgv_MyReg.Rows[rowIndex].Cells["mrl_pcode"].Value = dataRow["trp_code"];
+                dgv_MyReg.Rows[rowIndex].Cells["mrl_pcode"].Tag = dataRow["trc_id"];
+                dgv_MyReg.Rows[rowIndex].Cells["mrl_code"].Value = dataRow["pi_code"];
+                dgv_MyReg.Rows[rowIndex].Cells["mrl_code"].Tag = dataRow["wr_obj_id"];
+                dgv_MyReg.Rows[rowIndex].Cells["mrl_unit"].Value = dataRow["dd_name"];
+                dgv_MyReg.Rows[rowIndex].Cells["mrl_unit"].Tag = dataRow["dd_code"];
+                dgv_MyReg.Rows[rowIndex].Cells["mrl_state"].Value = GetMyWorkState(dataRow["wm_status"]);
+                dgv_MyReg.Rows[rowIndex].Cells["mrl_fileamount"].Value = GetFileAmountById(dataRow["pi_id"]);
             }
             dgv_MyReg.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgv_MyReg.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -974,6 +976,44 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string key = searchControl.Text;
             LoadProjectList(0, key);
+        }
+
+        private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            int i = comboBox1.SelectedIndex;
+            if (i == 0)
+            {
+                txt_SearchDate_S.ResetText();
+                txt_SearchData_F.ResetText();
+            }
+            else
+            {
+                DateTime now = DateTime.Now;
+                txt_SearchData_F.Text = now.ToString("yyyy-MM-dd");
+                if (i == 1)//最近三天
+                {
+                    txt_SearchDate_S.Text = now.AddDays(-3).ToString("yyyy-MM-dd");
+                }
+                else if (i == 2)//最近一周
+                {
+                    txt_SearchDate_S.Text = now.AddDays(-7).ToString("yyyy-MM-dd");
+                }
+                else if (i == 3)//最近一个月
+                {
+                    txt_SearchDate_S.Text = now.AddMonths(-1).ToString("yyyy-MM-dd");
+                }
+            }
+        }
+
+        private void btn_MyWorkQuery_Click(object sender, EventArgs e)
+        {
+            string sData = txt_SearchDate_S.Text;
+            string fData = txt_SearchData_F.Text;
+            if (!string.IsNullOrEmpty(sData))
+                sData = $"AND TRY_CAST(ISNULL(wm.wm_accepter_date, A.pi_checker_date) AS DATE) >= '{sData}'";
+            if (!string.IsNullOrEmpty(fData))
+                fData = $"AND TRY_CAST(ISNULL(wm.wm_accepter_date, A.pi_checker_date) AS DATE) <= '{fData}'";
+            LoadMyRegedList(sData, fData);
         }
     }
 }

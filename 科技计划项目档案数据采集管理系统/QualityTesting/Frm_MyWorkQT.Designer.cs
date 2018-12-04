@@ -51,26 +51,11 @@
             this.tsm_Refresh = new System.Windows.Forms.ToolStripMenuItem();
             this.Tsm_Up = new System.Windows.Forms.ToolStripMenuItem();
             this.Tsm_Down = new System.Windows.Forms.ToolStripMenuItem();
+            this.自动排序AToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.special = new System.Windows.Forms.TabPage();
             this.tab_Special_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage25 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Special_FileList = new System.Windows.Forms.DataGridView();
-            this.special_fl_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.special_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.special_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.special_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.special_fl_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.special_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage26 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Special_FileValid = new System.Windows.Forms.DataGridView();
             this.special_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -120,22 +105,6 @@
             this.tab_Imp_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage21 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Imp_FileList = new System.Windows.Forms.DataGridView();
-            this.imp_fl_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imp_fl_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.imp_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage22 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Imp_FileValid = new System.Windows.Forms.DataGridView();
             this.imp_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -180,22 +149,6 @@
             this.tab_Subject_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage16 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Subject_FileList = new System.Windows.Forms.DataGridView();
-            this.subject_fl_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.subject_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.subject_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.subject_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_fl_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.subject_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage17 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Subject_FileValid = new System.Windows.Forms.DataGridView();
             this.subject_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -263,22 +216,6 @@
             this.tab_Topic_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage5 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Topic_FileList = new System.Windows.Forms.DataGridView();
-            this.topic_fl_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.topic_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.topic_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.topic_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topic_fl_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.topic_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage6 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Topic_FileValid = new System.Windows.Forms.DataGridView();
             this.topic_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -348,22 +285,6 @@
             this.tab_Project_Info = new 科技计划项目档案数据采集管理系统.KyoControl.KyoTabControl();
             this.tabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Project_FileList = new System.Windows.Forms.DataGridView();
-            this.project_fl_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.project_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.project_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.project_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.project_fl_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.project_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new DevExpress.XtraTab.XtraTabPage();
             this.dgv_Project_FileValid = new System.Windows.Forms.DataGridView();
             this.project_fc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -492,6 +413,86 @@
             this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
             this.tab_MenuList = new System.Windows.Forms.TabControl();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.project_fl_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.project_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.project_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.project_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.project_fl_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.project_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.topic_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.topic_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.topic_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.topic_fl_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.topic_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.subject_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.subject_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.subject_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_fl_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.subject_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imp_fl_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.imp_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_stage = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.special_fl_categor = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.special_fl_categorname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.special_fl_pages = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.special_fl_carrier = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.special_fl_link = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1.SuspendLayout();
             this.special.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab_Special_Info)).BeginInit();
@@ -576,15 +577,16 @@
             this.tsm_DeleteRow,
             this.tsm_Refresh,
             this.Tsm_Up,
-            this.Tsm_Down});
+            this.Tsm_Down,
+            this.自动排序AToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 114);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(141, 136);
             // 
             // tsm_Insert
             // 
             this.tsm_Insert.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._1;
             this.tsm_Insert.Name = "tsm_Insert";
-            this.tsm_Insert.Size = new System.Drawing.Size(112, 22);
+            this.tsm_Insert.Size = new System.Drawing.Size(140, 22);
             this.tsm_Insert.Text = "插入行";
             this.tsm_Insert.Click += new System.EventHandler(this.Tsm_Insert);
             // 
@@ -592,7 +594,7 @@
             // 
             this.tsm_DeleteRow.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._2;
             this.tsm_DeleteRow.Name = "tsm_DeleteRow";
-            this.tsm_DeleteRow.Size = new System.Drawing.Size(112, 22);
+            this.tsm_DeleteRow.Size = new System.Drawing.Size(140, 22);
             this.tsm_DeleteRow.Text = "删除行";
             this.tsm_DeleteRow.Click += new System.EventHandler(this.Tsm_DeleteRow);
             // 
@@ -600,23 +602,30 @@
             // 
             this.tsm_Refresh.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._3;
             this.tsm_Refresh.Name = "tsm_Refresh";
-            this.tsm_Refresh.Size = new System.Drawing.Size(112, 22);
+            this.tsm_Refresh.Size = new System.Drawing.Size(140, 22);
             this.tsm_Refresh.Text = "刷新";
             this.tsm_Refresh.Click += new System.EventHandler(this.Tsm_Refresh);
             // 
             // Tsm_Up
             // 
             this.Tsm_Up.Name = "Tsm_Up";
-            this.Tsm_Up.Size = new System.Drawing.Size(112, 22);
+            this.Tsm_Up.Size = new System.Drawing.Size(140, 22);
             this.Tsm_Up.Text = "上移";
             this.Tsm_Up.Click += new System.EventHandler(this.Tsm_Click);
             // 
             // Tsm_Down
             // 
             this.Tsm_Down.Name = "Tsm_Down";
-            this.Tsm_Down.Size = new System.Drawing.Size(112, 22);
+            this.Tsm_Down.Size = new System.Drawing.Size(140, 22);
             this.Tsm_Down.Text = "下移";
             this.Tsm_Down.Click += new System.EventHandler(this.Tsm_Click);
+            // 
+            // 自动排序AToolStripMenuItem
+            // 
+            this.自动排序AToolStripMenuItem.Name = "自动排序AToolStripMenuItem";
+            this.自动排序AToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.自动排序AToolStripMenuItem.Text = "自动排序(&A)";
+            this.自动排序AToolStripMenuItem.Click += new System.EventHandler(this.自动排序AToolStripMenuItem_Click);
             // 
             // special
             // 
@@ -701,128 +710,6 @@
             this.dgv_Special_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Special_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Special_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
-            // 
-            // special_fl_num
-            // 
-            this.special_fl_num.DataPropertyName = "pfl_id";
-            this.special_fl_num.HeaderText = "Column1";
-            this.special_fl_num.Name = "special_fl_num";
-            this.special_fl_num.Visible = false;
-            // 
-            // special_fl_id
-            // 
-            this.special_fl_id.DataPropertyName = "rownum";
-            this.special_fl_id.HeaderText = "序号";
-            this.special_fl_id.Name = "special_fl_id";
-            this.special_fl_id.ReadOnly = true;
-            this.special_fl_id.Width = 50;
-            // 
-            // special_fl_stage
-            // 
-            this.special_fl_stage.DataPropertyName = "pfl_stage";
-            this.special_fl_stage.HeaderText = "阶段";
-            this.special_fl_stage.Name = "special_fl_stage";
-            this.special_fl_stage.Width = 150;
-            // 
-            // special_fl_categor
-            // 
-            this.special_fl_categor.DataPropertyName = "pfl_categor";
-            this.special_fl_categor.HeaderText = "文件类别";
-            this.special_fl_categor.Name = "special_fl_categor";
-            this.special_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.special_fl_categor.Width = 180;
-            // 
-            // special_fl_categorname
-            // 
-            this.special_fl_categorname.HeaderText = "类别名称";
-            this.special_fl_categorname.Name = "special_fl_categorname";
-            this.special_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.special_fl_categorname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.special_fl_categorname.Visible = false;
-            // 
-            // special_fl_code
-            // 
-            this.special_fl_code.DataPropertyName = "pfl_code";
-            this.special_fl_code.HeaderText = "文件编号";
-            this.special_fl_code.Name = "special_fl_code";
-            this.special_fl_code.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // special_fl_name
-            // 
-            this.special_fl_name.DataPropertyName = "pfl_name";
-            this.special_fl_name.HeaderText = "文件名称";
-            this.special_fl_name.Name = "special_fl_name";
-            this.special_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.special_fl_name.Width = 550;
-            // 
-            // special_fl_amount
-            // 
-            this.special_fl_amount.DataPropertyName = "pfl_amount";
-            this.special_fl_amount.HeaderText = "份数(移交)";
-            this.special_fl_amount.Name = "special_fl_amount";
-            this.special_fl_amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.special_fl_amount.Width = 50;
-            // 
-            // special_fl_user
-            // 
-            this.special_fl_user.DataPropertyName = "pfl_user";
-            this.special_fl_user.HeaderText = "责任者";
-            this.special_fl_user.Name = "special_fl_user";
-            this.special_fl_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // special_fl_type
-            // 
-            this.special_fl_type.DataPropertyName = "pfl_type";
-            this.special_fl_type.HeaderText = "类型";
-            this.special_fl_type.Name = "special_fl_type";
-            this.special_fl_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // special_fl_pages
-            // 
-            this.special_fl_pages.DataPropertyName = "pfl_pages";
-            this.special_fl_pages.HeaderText = "页数";
-            this.special_fl_pages.Name = "special_fl_pages";
-            this.special_fl_pages.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.special_fl_pages.Width = 50;
-            // 
-            // special_fl_count
-            // 
-            this.special_fl_count.DataPropertyName = "pfl_count";
-            this.special_fl_count.HeaderText = "份数";
-            this.special_fl_count.Name = "special_fl_count";
-            this.special_fl_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.special_fl_count.Width = 50;
-            // 
-            // special_fl_date
-            // 
-            this.special_fl_date.DataPropertyName = "pfl_date";
-            this.special_fl_date.HeaderText = "形成日期";
-            this.special_fl_date.Name = "special_fl_date";
-            this.special_fl_date.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.special_fl_date.Width = 130;
-            // 
-            // special_fl_unit
-            // 
-            this.special_fl_unit.DataPropertyName = "pfl_unit";
-            this.special_fl_unit.HeaderText = "存放单位";
-            this.special_fl_unit.Name = "special_fl_unit";
-            this.special_fl_unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.special_fl_unit.Width = 300;
-            // 
-            // special_fl_carrier
-            // 
-            this.special_fl_carrier.DataPropertyName = "pfl_carrier";
-            this.special_fl_carrier.HeaderText = "载体";
-            this.special_fl_carrier.Name = "special_fl_carrier";
-            // 
-            // special_fl_link
-            // 
-            this.special_fl_link.DataPropertyName = "pfl_link";
-            this.special_fl_link.HeaderText = "电子文件挂接";
-            this.special_fl_link.Name = "special_fl_link";
-            this.special_fl_link.ReadOnly = true;
-            this.special_fl_link.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.special_fl_link.Width = 300;
             // 
             // tabPage26
             // 
@@ -1433,128 +1320,6 @@
             this.dgv_Imp_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Imp_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
             // 
-            // imp_fl_num
-            // 
-            this.imp_fl_num.DataPropertyName = "pfl_id";
-            this.imp_fl_num.HeaderText = "Column1";
-            this.imp_fl_num.Name = "imp_fl_num";
-            this.imp_fl_num.Visible = false;
-            // 
-            // imp_fl_id
-            // 
-            this.imp_fl_id.DataPropertyName = "rownum";
-            this.imp_fl_id.HeaderText = "序号";
-            this.imp_fl_id.Name = "imp_fl_id";
-            this.imp_fl_id.ReadOnly = true;
-            this.imp_fl_id.Width = 50;
-            // 
-            // imp_fl_stage
-            // 
-            this.imp_fl_stage.DataPropertyName = "pfl_stage";
-            this.imp_fl_stage.HeaderText = "阶段";
-            this.imp_fl_stage.Name = "imp_fl_stage";
-            this.imp_fl_stage.Width = 150;
-            // 
-            // imp_fl_categor
-            // 
-            this.imp_fl_categor.DataPropertyName = "pfl_categor";
-            this.imp_fl_categor.HeaderText = "文件类别";
-            this.imp_fl_categor.Name = "imp_fl_categor";
-            this.imp_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.imp_fl_categor.Width = 180;
-            // 
-            // imp_fl_categorname
-            // 
-            this.imp_fl_categorname.HeaderText = "类别名称";
-            this.imp_fl_categorname.Name = "imp_fl_categorname";
-            this.imp_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.imp_fl_categorname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.imp_fl_categorname.Visible = false;
-            // 
-            // imp_fl_code
-            // 
-            this.imp_fl_code.DataPropertyName = "pfl_code";
-            this.imp_fl_code.HeaderText = "文件编号";
-            this.imp_fl_code.Name = "imp_fl_code";
-            this.imp_fl_code.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // imp_fl_name
-            // 
-            this.imp_fl_name.DataPropertyName = "pfl_name";
-            this.imp_fl_name.HeaderText = "文件名称";
-            this.imp_fl_name.Name = "imp_fl_name";
-            this.imp_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.imp_fl_name.Width = 550;
-            // 
-            // imp_fl_amount
-            // 
-            this.imp_fl_amount.DataPropertyName = "pfl_amount";
-            this.imp_fl_amount.HeaderText = "份数(移交)";
-            this.imp_fl_amount.Name = "imp_fl_amount";
-            this.imp_fl_amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.imp_fl_amount.Width = 50;
-            // 
-            // imp_fl_user
-            // 
-            this.imp_fl_user.DataPropertyName = "pfl_user";
-            this.imp_fl_user.HeaderText = "责任者";
-            this.imp_fl_user.Name = "imp_fl_user";
-            this.imp_fl_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // imp_fl_type
-            // 
-            this.imp_fl_type.DataPropertyName = "pfl_type";
-            this.imp_fl_type.HeaderText = "类型";
-            this.imp_fl_type.Name = "imp_fl_type";
-            this.imp_fl_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // imp_fl_pages
-            // 
-            this.imp_fl_pages.DataPropertyName = "pfl_pages";
-            this.imp_fl_pages.HeaderText = "页数";
-            this.imp_fl_pages.Name = "imp_fl_pages";
-            this.imp_fl_pages.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.imp_fl_pages.Width = 50;
-            // 
-            // imp_fl_count
-            // 
-            this.imp_fl_count.DataPropertyName = "pfl_count";
-            this.imp_fl_count.HeaderText = "份数";
-            this.imp_fl_count.Name = "imp_fl_count";
-            this.imp_fl_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.imp_fl_count.Width = 50;
-            // 
-            // imp_fl_date
-            // 
-            this.imp_fl_date.DataPropertyName = "pfl_date";
-            this.imp_fl_date.HeaderText = "形成日期";
-            this.imp_fl_date.Name = "imp_fl_date";
-            this.imp_fl_date.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.imp_fl_date.Width = 130;
-            // 
-            // imp_fl_unit
-            // 
-            this.imp_fl_unit.DataPropertyName = "pfl_unit";
-            this.imp_fl_unit.HeaderText = "存放单位";
-            this.imp_fl_unit.Name = "imp_fl_unit";
-            this.imp_fl_unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.imp_fl_unit.Width = 300;
-            // 
-            // imp_fl_carrier
-            // 
-            this.imp_fl_carrier.DataPropertyName = "pfl_carrier";
-            this.imp_fl_carrier.HeaderText = "载体";
-            this.imp_fl_carrier.Name = "imp_fl_carrier";
-            // 
-            // imp_fl_link
-            // 
-            this.imp_fl_link.DataPropertyName = "pfl_link";
-            this.imp_fl_link.HeaderText = "电子文件挂接";
-            this.imp_fl_link.Name = "imp_fl_link";
-            this.imp_fl_link.ReadOnly = true;
-            this.imp_fl_link.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.imp_fl_link.Width = 300;
-            // 
             // tabPage22
             // 
             this.tabPage22.Appearance.Header.Font = new System.Drawing.Font("微软雅黑", 12F);
@@ -2106,128 +1871,6 @@
             this.dgv_Subject_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Subject_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Subject_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
-            // 
-            // subject_fl_num
-            // 
-            this.subject_fl_num.DataPropertyName = "pfl_id";
-            this.subject_fl_num.HeaderText = "Column1";
-            this.subject_fl_num.Name = "subject_fl_num";
-            this.subject_fl_num.Visible = false;
-            // 
-            // subject_fl_id
-            // 
-            this.subject_fl_id.DataPropertyName = "rownum";
-            this.subject_fl_id.HeaderText = "序号";
-            this.subject_fl_id.Name = "subject_fl_id";
-            this.subject_fl_id.ReadOnly = true;
-            this.subject_fl_id.Width = 50;
-            // 
-            // subject_fl_stage
-            // 
-            this.subject_fl_stage.DataPropertyName = "pfl_stage";
-            this.subject_fl_stage.HeaderText = "阶段";
-            this.subject_fl_stage.Name = "subject_fl_stage";
-            this.subject_fl_stage.Width = 150;
-            // 
-            // subject_fl_categor
-            // 
-            this.subject_fl_categor.DataPropertyName = "pfl_categor";
-            this.subject_fl_categor.HeaderText = "文件类别";
-            this.subject_fl_categor.Name = "subject_fl_categor";
-            this.subject_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.subject_fl_categor.Width = 180;
-            // 
-            // subject_fl_categorname
-            // 
-            this.subject_fl_categorname.HeaderText = "类别名称";
-            this.subject_fl_categorname.Name = "subject_fl_categorname";
-            this.subject_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.subject_fl_categorname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.subject_fl_categorname.Visible = false;
-            // 
-            // subject_fl_code
-            // 
-            this.subject_fl_code.DataPropertyName = "pfl_code";
-            this.subject_fl_code.HeaderText = "文件编号";
-            this.subject_fl_code.Name = "subject_fl_code";
-            this.subject_fl_code.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // subject_fl_name
-            // 
-            this.subject_fl_name.DataPropertyName = "pfl_name";
-            this.subject_fl_name.HeaderText = "文件名称";
-            this.subject_fl_name.Name = "subject_fl_name";
-            this.subject_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.subject_fl_name.Width = 550;
-            // 
-            // subject_fl_amount
-            // 
-            this.subject_fl_amount.DataPropertyName = "pfl_amount";
-            this.subject_fl_amount.HeaderText = "份数(移交)";
-            this.subject_fl_amount.Name = "subject_fl_amount";
-            this.subject_fl_amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.subject_fl_amount.Width = 50;
-            // 
-            // subject_fl_user
-            // 
-            this.subject_fl_user.DataPropertyName = "pfl_user";
-            this.subject_fl_user.HeaderText = "责任者";
-            this.subject_fl_user.Name = "subject_fl_user";
-            this.subject_fl_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // subject_fl_type
-            // 
-            this.subject_fl_type.DataPropertyName = "pfl_type";
-            this.subject_fl_type.HeaderText = "类型";
-            this.subject_fl_type.Name = "subject_fl_type";
-            this.subject_fl_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // subject_fl_pages
-            // 
-            this.subject_fl_pages.DataPropertyName = "pfl_pages";
-            this.subject_fl_pages.HeaderText = "页数";
-            this.subject_fl_pages.Name = "subject_fl_pages";
-            this.subject_fl_pages.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.subject_fl_pages.Width = 50;
-            // 
-            // subject_fl_count
-            // 
-            this.subject_fl_count.DataPropertyName = "pfl_count";
-            this.subject_fl_count.HeaderText = "份数";
-            this.subject_fl_count.Name = "subject_fl_count";
-            this.subject_fl_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.subject_fl_count.Width = 50;
-            // 
-            // subject_fl_date
-            // 
-            this.subject_fl_date.DataPropertyName = "pfl_date";
-            this.subject_fl_date.HeaderText = "形成日期";
-            this.subject_fl_date.Name = "subject_fl_date";
-            this.subject_fl_date.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.subject_fl_date.Width = 130;
-            // 
-            // subject_fl_unit
-            // 
-            this.subject_fl_unit.DataPropertyName = "pfl_unit";
-            this.subject_fl_unit.HeaderText = "存放单位";
-            this.subject_fl_unit.Name = "subject_fl_unit";
-            this.subject_fl_unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.subject_fl_unit.Width = 300;
-            // 
-            // subject_fl_carrier
-            // 
-            this.subject_fl_carrier.DataPropertyName = "pfl_carrier";
-            this.subject_fl_carrier.HeaderText = "载体";
-            this.subject_fl_carrier.Name = "subject_fl_carrier";
-            // 
-            // subject_fl_link
-            // 
-            this.subject_fl_link.DataPropertyName = "pfl_link";
-            this.subject_fl_link.HeaderText = "电子文件挂接";
-            this.subject_fl_link.Name = "subject_fl_link";
-            this.subject_fl_link.ReadOnly = true;
-            this.subject_fl_link.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.subject_fl_link.Width = 300;
             // 
             // tabPage17
             // 
@@ -3010,127 +2653,6 @@
             this.dgv_Topic_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Topic_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Topic_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
-            // 
-            // topic_fl_num
-            // 
-            this.topic_fl_num.DataPropertyName = "pfl_id";
-            this.topic_fl_num.HeaderText = "Column1";
-            this.topic_fl_num.Name = "topic_fl_num";
-            this.topic_fl_num.Visible = false;
-            // 
-            // topic_fl_id
-            // 
-            this.topic_fl_id.DataPropertyName = "rownum";
-            this.topic_fl_id.HeaderText = "序号";
-            this.topic_fl_id.Name = "topic_fl_id";
-            this.topic_fl_id.ReadOnly = true;
-            this.topic_fl_id.Width = 50;
-            // 
-            // topic_fl_stage
-            // 
-            this.topic_fl_stage.DataPropertyName = "pfl_stage";
-            this.topic_fl_stage.HeaderText = "阶段";
-            this.topic_fl_stage.Name = "topic_fl_stage";
-            this.topic_fl_stage.Width = 150;
-            // 
-            // topic_fl_categor
-            // 
-            this.topic_fl_categor.DataPropertyName = "pfl_categor";
-            this.topic_fl_categor.HeaderText = "文件类别";
-            this.topic_fl_categor.Name = "topic_fl_categor";
-            this.topic_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.topic_fl_categor.Width = 180;
-            // 
-            // topic_fl_categorname
-            // 
-            this.topic_fl_categorname.HeaderText = "类别名称";
-            this.topic_fl_categorname.Name = "topic_fl_categorname";
-            this.topic_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.topic_fl_categorname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.topic_fl_categorname.Visible = false;
-            // 
-            // topic_fl_code
-            // 
-            this.topic_fl_code.DataPropertyName = "pfl_code";
-            this.topic_fl_code.HeaderText = "文件编号";
-            this.topic_fl_code.Name = "topic_fl_code";
-            // 
-            // topic_fl_name
-            // 
-            this.topic_fl_name.DataPropertyName = "pfl_name";
-            this.topic_fl_name.HeaderText = "文件名称";
-            this.topic_fl_name.Name = "topic_fl_name";
-            this.topic_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.topic_fl_name.Width = 550;
-            // 
-            // topic_fl_amount
-            // 
-            this.topic_fl_amount.DataPropertyName = "pfl_amount";
-            this.topic_fl_amount.HeaderText = "份数(移交)";
-            this.topic_fl_amount.Name = "topic_fl_amount";
-            this.topic_fl_amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.topic_fl_amount.Width = 50;
-            // 
-            // topic_fl_user
-            // 
-            this.topic_fl_user.DataPropertyName = "pfl_user";
-            this.topic_fl_user.HeaderText = "责任者";
-            this.topic_fl_user.Name = "topic_fl_user";
-            this.topic_fl_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // topic_fl_type
-            // 
-            this.topic_fl_type.DataPropertyName = "pfl_type";
-            this.topic_fl_type.HeaderText = "类型";
-            this.topic_fl_type.Name = "topic_fl_type";
-            this.topic_fl_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // topic_fl_pages
-            // 
-            this.topic_fl_pages.DataPropertyName = "pfl_pages";
-            this.topic_fl_pages.HeaderText = "页数";
-            this.topic_fl_pages.Name = "topic_fl_pages";
-            this.topic_fl_pages.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.topic_fl_pages.Width = 50;
-            // 
-            // topic_fl_count
-            // 
-            this.topic_fl_count.DataPropertyName = "pfl_count";
-            this.topic_fl_count.HeaderText = "份数";
-            this.topic_fl_count.Name = "topic_fl_count";
-            this.topic_fl_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.topic_fl_count.Width = 50;
-            // 
-            // topic_fl_date
-            // 
-            this.topic_fl_date.DataPropertyName = "pfl_date";
-            this.topic_fl_date.HeaderText = "形成日期";
-            this.topic_fl_date.Name = "topic_fl_date";
-            this.topic_fl_date.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.topic_fl_date.Width = 130;
-            // 
-            // topic_fl_unit
-            // 
-            this.topic_fl_unit.DataPropertyName = "pfl_unit";
-            this.topic_fl_unit.HeaderText = "存放单位";
-            this.topic_fl_unit.Name = "topic_fl_unit";
-            this.topic_fl_unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.topic_fl_unit.Width = 300;
-            // 
-            // topic_fl_carrier
-            // 
-            this.topic_fl_carrier.DataPropertyName = "pfl_carrier";
-            this.topic_fl_carrier.HeaderText = "载体";
-            this.topic_fl_carrier.Name = "topic_fl_carrier";
-            // 
-            // topic_fl_link
-            // 
-            this.topic_fl_link.DataPropertyName = "pfl_link";
-            this.topic_fl_link.HeaderText = "电子文件挂接";
-            this.topic_fl_link.Name = "topic_fl_link";
-            this.topic_fl_link.ReadOnly = true;
-            this.topic_fl_link.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.topic_fl_link.Width = 300;
             // 
             // tabPage6
             // 
@@ -3940,127 +3462,6 @@
             this.dgv_Project_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Project_FileList.Sorted += new System.EventHandler(this.FileList_DataSourceChanged);
             this.dgv_Project_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
-            // 
-            // project_fl_num
-            // 
-            this.project_fl_num.DataPropertyName = "pfl_id";
-            this.project_fl_num.HeaderText = "Column1";
-            this.project_fl_num.Name = "project_fl_num";
-            this.project_fl_num.Visible = false;
-            // 
-            // project_fl_id
-            // 
-            this.project_fl_id.DataPropertyName = "rownum";
-            this.project_fl_id.HeaderText = "序号";
-            this.project_fl_id.Name = "project_fl_id";
-            this.project_fl_id.ReadOnly = true;
-            this.project_fl_id.Width = 50;
-            // 
-            // project_fl_stage
-            // 
-            this.project_fl_stage.DataPropertyName = "pfl_stage";
-            this.project_fl_stage.HeaderText = "阶段";
-            this.project_fl_stage.Name = "project_fl_stage";
-            this.project_fl_stage.Width = 150;
-            // 
-            // project_fl_categor
-            // 
-            this.project_fl_categor.DataPropertyName = "pfl_categor";
-            this.project_fl_categor.HeaderText = "文件类别";
-            this.project_fl_categor.Name = "project_fl_categor";
-            this.project_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.project_fl_categor.Width = 180;
-            // 
-            // project_fl_categorname
-            // 
-            this.project_fl_categorname.HeaderText = "类别名称";
-            this.project_fl_categorname.Name = "project_fl_categorname";
-            this.project_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.project_fl_categorname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.project_fl_categorname.Visible = false;
-            // 
-            // project_fl_code
-            // 
-            this.project_fl_code.DataPropertyName = "pfl_code";
-            this.project_fl_code.HeaderText = "文件编号";
-            this.project_fl_code.Name = "project_fl_code";
-            // 
-            // project_fl_name
-            // 
-            this.project_fl_name.DataPropertyName = "pfl_name";
-            this.project_fl_name.HeaderText = "文件名称";
-            this.project_fl_name.Name = "project_fl_name";
-            this.project_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.project_fl_name.Width = 550;
-            // 
-            // project_fl_amount
-            // 
-            this.project_fl_amount.DataPropertyName = "pfl_amount";
-            this.project_fl_amount.HeaderText = "份数(移交)";
-            this.project_fl_amount.Name = "project_fl_amount";
-            this.project_fl_amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.project_fl_amount.Width = 50;
-            // 
-            // project_fl_user
-            // 
-            this.project_fl_user.DataPropertyName = "pfl_user";
-            this.project_fl_user.HeaderText = "责任者";
-            this.project_fl_user.Name = "project_fl_user";
-            this.project_fl_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // project_fl_type
-            // 
-            this.project_fl_type.DataPropertyName = "pfl_type";
-            this.project_fl_type.HeaderText = "类型";
-            this.project_fl_type.Name = "project_fl_type";
-            this.project_fl_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // project_fl_pages
-            // 
-            this.project_fl_pages.DataPropertyName = "pfl_pages";
-            this.project_fl_pages.HeaderText = "页数";
-            this.project_fl_pages.Name = "project_fl_pages";
-            this.project_fl_pages.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.project_fl_pages.Width = 50;
-            // 
-            // project_fl_count
-            // 
-            this.project_fl_count.DataPropertyName = "pfl_count";
-            this.project_fl_count.HeaderText = "份数";
-            this.project_fl_count.Name = "project_fl_count";
-            this.project_fl_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.project_fl_count.Width = 50;
-            // 
-            // project_fl_date
-            // 
-            this.project_fl_date.DataPropertyName = "pfl_date";
-            this.project_fl_date.HeaderText = "形成日期";
-            this.project_fl_date.Name = "project_fl_date";
-            this.project_fl_date.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.project_fl_date.Width = 130;
-            // 
-            // project_fl_unit
-            // 
-            this.project_fl_unit.DataPropertyName = "pfl_unit";
-            this.project_fl_unit.HeaderText = "存放单位";
-            this.project_fl_unit.Name = "project_fl_unit";
-            this.project_fl_unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.project_fl_unit.Width = 300;
-            // 
-            // project_fl_carrier
-            // 
-            this.project_fl_carrier.DataPropertyName = "pfl_carrier";
-            this.project_fl_carrier.HeaderText = "载体";
-            this.project_fl_carrier.Name = "project_fl_carrier";
-            // 
-            // project_fl_link
-            // 
-            this.project_fl_link.DataPropertyName = "pfl_link";
-            this.project_fl_link.HeaderText = "电子文件挂接";
-            this.project_fl_link.Name = "project_fl_link";
-            this.project_fl_link.ReadOnly = true;
-            this.project_fl_link.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.project_fl_link.Width = 300;
             // 
             // tabPage2
             // 
@@ -4968,7 +4369,6 @@
             this.plan_fl_date.DataPropertyName = "pfl_date";
             this.plan_fl_date.HeaderText = "形成日期";
             this.plan_fl_date.Name = "plan_fl_date";
-            this.plan_fl_date.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.plan_fl_date.Width = 130;
             // 
             // plan_fl_unit
@@ -5501,6 +4901,609 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // project_fl_num
+            // 
+            this.project_fl_num.DataPropertyName = "pfl_id";
+            this.project_fl_num.HeaderText = "Column1";
+            this.project_fl_num.Name = "project_fl_num";
+            this.project_fl_num.Visible = false;
+            // 
+            // project_fl_id
+            // 
+            this.project_fl_id.DataPropertyName = "rownum";
+            this.project_fl_id.HeaderText = "序号";
+            this.project_fl_id.Name = "project_fl_id";
+            this.project_fl_id.ReadOnly = true;
+            this.project_fl_id.Width = 50;
+            // 
+            // project_fl_stage
+            // 
+            this.project_fl_stage.DataPropertyName = "pfl_stage";
+            this.project_fl_stage.HeaderText = "阶段";
+            this.project_fl_stage.Name = "project_fl_stage";
+            this.project_fl_stage.Width = 150;
+            // 
+            // project_fl_categor
+            // 
+            this.project_fl_categor.DataPropertyName = "pfl_categor";
+            this.project_fl_categor.HeaderText = "文件类别";
+            this.project_fl_categor.Name = "project_fl_categor";
+            this.project_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.project_fl_categor.Width = 180;
+            // 
+            // project_fl_categorname
+            // 
+            this.project_fl_categorname.HeaderText = "类别名称";
+            this.project_fl_categorname.Name = "project_fl_categorname";
+            this.project_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.project_fl_categorname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.project_fl_categorname.Visible = false;
+            // 
+            // project_fl_code
+            // 
+            this.project_fl_code.DataPropertyName = "pfl_code";
+            this.project_fl_code.HeaderText = "文件编号";
+            this.project_fl_code.Name = "project_fl_code";
+            // 
+            // project_fl_name
+            // 
+            this.project_fl_name.DataPropertyName = "pfl_name";
+            this.project_fl_name.HeaderText = "文件名称";
+            this.project_fl_name.Name = "project_fl_name";
+            this.project_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.project_fl_name.Width = 550;
+            // 
+            // project_fl_amount
+            // 
+            this.project_fl_amount.DataPropertyName = "pfl_amount";
+            this.project_fl_amount.HeaderText = "份数(移交)";
+            this.project_fl_amount.Name = "project_fl_amount";
+            this.project_fl_amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.project_fl_amount.Width = 50;
+            // 
+            // project_fl_user
+            // 
+            this.project_fl_user.DataPropertyName = "pfl_user";
+            this.project_fl_user.HeaderText = "责任者";
+            this.project_fl_user.Name = "project_fl_user";
+            this.project_fl_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // project_fl_type
+            // 
+            this.project_fl_type.DataPropertyName = "pfl_type";
+            this.project_fl_type.HeaderText = "类型";
+            this.project_fl_type.Name = "project_fl_type";
+            this.project_fl_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // project_fl_pages
+            // 
+            this.project_fl_pages.DataPropertyName = "pfl_pages";
+            this.project_fl_pages.HeaderText = "页数";
+            this.project_fl_pages.Name = "project_fl_pages";
+            this.project_fl_pages.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.project_fl_pages.Width = 50;
+            // 
+            // project_fl_count
+            // 
+            this.project_fl_count.DataPropertyName = "pfl_count";
+            this.project_fl_count.HeaderText = "份数";
+            this.project_fl_count.Name = "project_fl_count";
+            this.project_fl_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.project_fl_count.Width = 50;
+            // 
+            // project_fl_date
+            // 
+            this.project_fl_date.DataPropertyName = "pfl_date";
+            this.project_fl_date.HeaderText = "形成日期";
+            this.project_fl_date.Name = "project_fl_date";
+            this.project_fl_date.Width = 130;
+            // 
+            // project_fl_unit
+            // 
+            this.project_fl_unit.DataPropertyName = "pfl_unit";
+            this.project_fl_unit.HeaderText = "存放单位";
+            this.project_fl_unit.Name = "project_fl_unit";
+            this.project_fl_unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.project_fl_unit.Width = 300;
+            // 
+            // project_fl_carrier
+            // 
+            this.project_fl_carrier.DataPropertyName = "pfl_carrier";
+            this.project_fl_carrier.HeaderText = "载体";
+            this.project_fl_carrier.Name = "project_fl_carrier";
+            // 
+            // project_fl_link
+            // 
+            this.project_fl_link.DataPropertyName = "pfl_link";
+            this.project_fl_link.HeaderText = "电子文件挂接";
+            this.project_fl_link.Name = "project_fl_link";
+            this.project_fl_link.ReadOnly = true;
+            this.project_fl_link.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.project_fl_link.Width = 300;
+            // 
+            // topic_fl_num
+            // 
+            this.topic_fl_num.DataPropertyName = "pfl_id";
+            this.topic_fl_num.HeaderText = "Column1";
+            this.topic_fl_num.Name = "topic_fl_num";
+            this.topic_fl_num.Visible = false;
+            // 
+            // topic_fl_id
+            // 
+            this.topic_fl_id.DataPropertyName = "rownum";
+            this.topic_fl_id.HeaderText = "序号";
+            this.topic_fl_id.Name = "topic_fl_id";
+            this.topic_fl_id.ReadOnly = true;
+            this.topic_fl_id.Width = 50;
+            // 
+            // topic_fl_stage
+            // 
+            this.topic_fl_stage.DataPropertyName = "pfl_stage";
+            this.topic_fl_stage.HeaderText = "阶段";
+            this.topic_fl_stage.Name = "topic_fl_stage";
+            this.topic_fl_stage.Width = 150;
+            // 
+            // topic_fl_categor
+            // 
+            this.topic_fl_categor.DataPropertyName = "pfl_categor";
+            this.topic_fl_categor.HeaderText = "文件类别";
+            this.topic_fl_categor.Name = "topic_fl_categor";
+            this.topic_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.topic_fl_categor.Width = 180;
+            // 
+            // topic_fl_categorname
+            // 
+            this.topic_fl_categorname.HeaderText = "类别名称";
+            this.topic_fl_categorname.Name = "topic_fl_categorname";
+            this.topic_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.topic_fl_categorname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.topic_fl_categorname.Visible = false;
+            // 
+            // topic_fl_code
+            // 
+            this.topic_fl_code.DataPropertyName = "pfl_code";
+            this.topic_fl_code.HeaderText = "文件编号";
+            this.topic_fl_code.Name = "topic_fl_code";
+            // 
+            // topic_fl_name
+            // 
+            this.topic_fl_name.DataPropertyName = "pfl_name";
+            this.topic_fl_name.HeaderText = "文件名称";
+            this.topic_fl_name.Name = "topic_fl_name";
+            this.topic_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.topic_fl_name.Width = 550;
+            // 
+            // topic_fl_amount
+            // 
+            this.topic_fl_amount.DataPropertyName = "pfl_amount";
+            this.topic_fl_amount.HeaderText = "份数(移交)";
+            this.topic_fl_amount.Name = "topic_fl_amount";
+            this.topic_fl_amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.topic_fl_amount.Width = 50;
+            // 
+            // topic_fl_user
+            // 
+            this.topic_fl_user.DataPropertyName = "pfl_user";
+            this.topic_fl_user.HeaderText = "责任者";
+            this.topic_fl_user.Name = "topic_fl_user";
+            this.topic_fl_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // topic_fl_type
+            // 
+            this.topic_fl_type.DataPropertyName = "pfl_type";
+            this.topic_fl_type.HeaderText = "类型";
+            this.topic_fl_type.Name = "topic_fl_type";
+            this.topic_fl_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // topic_fl_pages
+            // 
+            this.topic_fl_pages.DataPropertyName = "pfl_pages";
+            this.topic_fl_pages.HeaderText = "页数";
+            this.topic_fl_pages.Name = "topic_fl_pages";
+            this.topic_fl_pages.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.topic_fl_pages.Width = 50;
+            // 
+            // topic_fl_count
+            // 
+            this.topic_fl_count.DataPropertyName = "pfl_count";
+            this.topic_fl_count.HeaderText = "份数";
+            this.topic_fl_count.Name = "topic_fl_count";
+            this.topic_fl_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.topic_fl_count.Width = 50;
+            // 
+            // topic_fl_date
+            // 
+            this.topic_fl_date.DataPropertyName = "pfl_date";
+            this.topic_fl_date.HeaderText = "形成日期";
+            this.topic_fl_date.Name = "topic_fl_date";
+            this.topic_fl_date.Width = 130;
+            // 
+            // topic_fl_unit
+            // 
+            this.topic_fl_unit.DataPropertyName = "pfl_unit";
+            this.topic_fl_unit.HeaderText = "存放单位";
+            this.topic_fl_unit.Name = "topic_fl_unit";
+            this.topic_fl_unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.topic_fl_unit.Width = 300;
+            // 
+            // topic_fl_carrier
+            // 
+            this.topic_fl_carrier.DataPropertyName = "pfl_carrier";
+            this.topic_fl_carrier.HeaderText = "载体";
+            this.topic_fl_carrier.Name = "topic_fl_carrier";
+            // 
+            // topic_fl_link
+            // 
+            this.topic_fl_link.DataPropertyName = "pfl_link";
+            this.topic_fl_link.HeaderText = "电子文件挂接";
+            this.topic_fl_link.Name = "topic_fl_link";
+            this.topic_fl_link.ReadOnly = true;
+            this.topic_fl_link.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.topic_fl_link.Width = 300;
+            // 
+            // subject_fl_num
+            // 
+            this.subject_fl_num.DataPropertyName = "pfl_id";
+            this.subject_fl_num.HeaderText = "Column1";
+            this.subject_fl_num.Name = "subject_fl_num";
+            this.subject_fl_num.Visible = false;
+            // 
+            // subject_fl_id
+            // 
+            this.subject_fl_id.DataPropertyName = "rownum";
+            this.subject_fl_id.HeaderText = "序号";
+            this.subject_fl_id.Name = "subject_fl_id";
+            this.subject_fl_id.ReadOnly = true;
+            this.subject_fl_id.Width = 50;
+            // 
+            // subject_fl_stage
+            // 
+            this.subject_fl_stage.DataPropertyName = "pfl_stage";
+            this.subject_fl_stage.HeaderText = "阶段";
+            this.subject_fl_stage.Name = "subject_fl_stage";
+            this.subject_fl_stage.Width = 150;
+            // 
+            // subject_fl_categor
+            // 
+            this.subject_fl_categor.DataPropertyName = "pfl_categor";
+            this.subject_fl_categor.HeaderText = "文件类别";
+            this.subject_fl_categor.Name = "subject_fl_categor";
+            this.subject_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.subject_fl_categor.Width = 180;
+            // 
+            // subject_fl_categorname
+            // 
+            this.subject_fl_categorname.HeaderText = "类别名称";
+            this.subject_fl_categorname.Name = "subject_fl_categorname";
+            this.subject_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.subject_fl_categorname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.subject_fl_categorname.Visible = false;
+            // 
+            // subject_fl_code
+            // 
+            this.subject_fl_code.DataPropertyName = "pfl_code";
+            this.subject_fl_code.HeaderText = "文件编号";
+            this.subject_fl_code.Name = "subject_fl_code";
+            this.subject_fl_code.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // subject_fl_name
+            // 
+            this.subject_fl_name.DataPropertyName = "pfl_name";
+            this.subject_fl_name.HeaderText = "文件名称";
+            this.subject_fl_name.Name = "subject_fl_name";
+            this.subject_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.subject_fl_name.Width = 550;
+            // 
+            // subject_fl_amount
+            // 
+            this.subject_fl_amount.DataPropertyName = "pfl_amount";
+            this.subject_fl_amount.HeaderText = "份数(移交)";
+            this.subject_fl_amount.Name = "subject_fl_amount";
+            this.subject_fl_amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.subject_fl_amount.Width = 50;
+            // 
+            // subject_fl_user
+            // 
+            this.subject_fl_user.DataPropertyName = "pfl_user";
+            this.subject_fl_user.HeaderText = "责任者";
+            this.subject_fl_user.Name = "subject_fl_user";
+            this.subject_fl_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // subject_fl_type
+            // 
+            this.subject_fl_type.DataPropertyName = "pfl_type";
+            this.subject_fl_type.HeaderText = "类型";
+            this.subject_fl_type.Name = "subject_fl_type";
+            this.subject_fl_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // subject_fl_pages
+            // 
+            this.subject_fl_pages.DataPropertyName = "pfl_pages";
+            this.subject_fl_pages.HeaderText = "页数";
+            this.subject_fl_pages.Name = "subject_fl_pages";
+            this.subject_fl_pages.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.subject_fl_pages.Width = 50;
+            // 
+            // subject_fl_count
+            // 
+            this.subject_fl_count.DataPropertyName = "pfl_count";
+            this.subject_fl_count.HeaderText = "份数";
+            this.subject_fl_count.Name = "subject_fl_count";
+            this.subject_fl_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.subject_fl_count.Width = 50;
+            // 
+            // subject_fl_date
+            // 
+            this.subject_fl_date.DataPropertyName = "pfl_date";
+            this.subject_fl_date.HeaderText = "形成日期";
+            this.subject_fl_date.Name = "subject_fl_date";
+            this.subject_fl_date.Width = 130;
+            // 
+            // subject_fl_unit
+            // 
+            this.subject_fl_unit.DataPropertyName = "pfl_unit";
+            this.subject_fl_unit.HeaderText = "存放单位";
+            this.subject_fl_unit.Name = "subject_fl_unit";
+            this.subject_fl_unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.subject_fl_unit.Width = 300;
+            // 
+            // subject_fl_carrier
+            // 
+            this.subject_fl_carrier.DataPropertyName = "pfl_carrier";
+            this.subject_fl_carrier.HeaderText = "载体";
+            this.subject_fl_carrier.Name = "subject_fl_carrier";
+            // 
+            // subject_fl_link
+            // 
+            this.subject_fl_link.DataPropertyName = "pfl_link";
+            this.subject_fl_link.HeaderText = "电子文件挂接";
+            this.subject_fl_link.Name = "subject_fl_link";
+            this.subject_fl_link.ReadOnly = true;
+            this.subject_fl_link.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.subject_fl_link.Width = 300;
+            // 
+            // imp_fl_num
+            // 
+            this.imp_fl_num.DataPropertyName = "pfl_id";
+            this.imp_fl_num.HeaderText = "Column1";
+            this.imp_fl_num.Name = "imp_fl_num";
+            this.imp_fl_num.Visible = false;
+            // 
+            // imp_fl_id
+            // 
+            this.imp_fl_id.DataPropertyName = "rownum";
+            this.imp_fl_id.HeaderText = "序号";
+            this.imp_fl_id.Name = "imp_fl_id";
+            this.imp_fl_id.ReadOnly = true;
+            this.imp_fl_id.Width = 50;
+            // 
+            // imp_fl_stage
+            // 
+            this.imp_fl_stage.DataPropertyName = "pfl_stage";
+            this.imp_fl_stage.HeaderText = "阶段";
+            this.imp_fl_stage.Name = "imp_fl_stage";
+            this.imp_fl_stage.Width = 150;
+            // 
+            // imp_fl_categor
+            // 
+            this.imp_fl_categor.DataPropertyName = "pfl_categor";
+            this.imp_fl_categor.HeaderText = "文件类别";
+            this.imp_fl_categor.Name = "imp_fl_categor";
+            this.imp_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.imp_fl_categor.Width = 180;
+            // 
+            // imp_fl_categorname
+            // 
+            this.imp_fl_categorname.HeaderText = "类别名称";
+            this.imp_fl_categorname.Name = "imp_fl_categorname";
+            this.imp_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.imp_fl_categorname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.imp_fl_categorname.Visible = false;
+            // 
+            // imp_fl_code
+            // 
+            this.imp_fl_code.DataPropertyName = "pfl_code";
+            this.imp_fl_code.HeaderText = "文件编号";
+            this.imp_fl_code.Name = "imp_fl_code";
+            this.imp_fl_code.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // imp_fl_name
+            // 
+            this.imp_fl_name.DataPropertyName = "pfl_name";
+            this.imp_fl_name.HeaderText = "文件名称";
+            this.imp_fl_name.Name = "imp_fl_name";
+            this.imp_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.imp_fl_name.Width = 550;
+            // 
+            // imp_fl_amount
+            // 
+            this.imp_fl_amount.DataPropertyName = "pfl_amount";
+            this.imp_fl_amount.HeaderText = "份数(移交)";
+            this.imp_fl_amount.Name = "imp_fl_amount";
+            this.imp_fl_amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.imp_fl_amount.Width = 50;
+            // 
+            // imp_fl_user
+            // 
+            this.imp_fl_user.DataPropertyName = "pfl_user";
+            this.imp_fl_user.HeaderText = "责任者";
+            this.imp_fl_user.Name = "imp_fl_user";
+            this.imp_fl_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // imp_fl_type
+            // 
+            this.imp_fl_type.DataPropertyName = "pfl_type";
+            this.imp_fl_type.HeaderText = "类型";
+            this.imp_fl_type.Name = "imp_fl_type";
+            this.imp_fl_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // imp_fl_pages
+            // 
+            this.imp_fl_pages.DataPropertyName = "pfl_pages";
+            this.imp_fl_pages.HeaderText = "页数";
+            this.imp_fl_pages.Name = "imp_fl_pages";
+            this.imp_fl_pages.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.imp_fl_pages.Width = 50;
+            // 
+            // imp_fl_count
+            // 
+            this.imp_fl_count.DataPropertyName = "pfl_count";
+            this.imp_fl_count.HeaderText = "份数";
+            this.imp_fl_count.Name = "imp_fl_count";
+            this.imp_fl_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.imp_fl_count.Width = 50;
+            // 
+            // imp_fl_date
+            // 
+            this.imp_fl_date.DataPropertyName = "pfl_date";
+            this.imp_fl_date.HeaderText = "形成日期";
+            this.imp_fl_date.Name = "imp_fl_date";
+            this.imp_fl_date.Width = 130;
+            // 
+            // imp_fl_unit
+            // 
+            this.imp_fl_unit.DataPropertyName = "pfl_unit";
+            this.imp_fl_unit.HeaderText = "存放单位";
+            this.imp_fl_unit.Name = "imp_fl_unit";
+            this.imp_fl_unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.imp_fl_unit.Width = 300;
+            // 
+            // imp_fl_carrier
+            // 
+            this.imp_fl_carrier.DataPropertyName = "pfl_carrier";
+            this.imp_fl_carrier.HeaderText = "载体";
+            this.imp_fl_carrier.Name = "imp_fl_carrier";
+            // 
+            // imp_fl_link
+            // 
+            this.imp_fl_link.DataPropertyName = "pfl_link";
+            this.imp_fl_link.HeaderText = "电子文件挂接";
+            this.imp_fl_link.Name = "imp_fl_link";
+            this.imp_fl_link.ReadOnly = true;
+            this.imp_fl_link.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.imp_fl_link.Width = 300;
+            // 
+            // special_fl_num
+            // 
+            this.special_fl_num.DataPropertyName = "pfl_id";
+            this.special_fl_num.HeaderText = "Column1";
+            this.special_fl_num.Name = "special_fl_num";
+            this.special_fl_num.Visible = false;
+            // 
+            // special_fl_id
+            // 
+            this.special_fl_id.DataPropertyName = "rownum";
+            this.special_fl_id.HeaderText = "序号";
+            this.special_fl_id.Name = "special_fl_id";
+            this.special_fl_id.ReadOnly = true;
+            this.special_fl_id.Width = 50;
+            // 
+            // special_fl_stage
+            // 
+            this.special_fl_stage.DataPropertyName = "pfl_stage";
+            this.special_fl_stage.HeaderText = "阶段";
+            this.special_fl_stage.Name = "special_fl_stage";
+            this.special_fl_stage.Width = 150;
+            // 
+            // special_fl_categor
+            // 
+            this.special_fl_categor.DataPropertyName = "pfl_categor";
+            this.special_fl_categor.HeaderText = "文件类别";
+            this.special_fl_categor.Name = "special_fl_categor";
+            this.special_fl_categor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.special_fl_categor.Width = 180;
+            // 
+            // special_fl_categorname
+            // 
+            this.special_fl_categorname.HeaderText = "类别名称";
+            this.special_fl_categorname.Name = "special_fl_categorname";
+            this.special_fl_categorname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.special_fl_categorname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.special_fl_categorname.Visible = false;
+            // 
+            // special_fl_code
+            // 
+            this.special_fl_code.DataPropertyName = "pfl_code";
+            this.special_fl_code.HeaderText = "文件编号";
+            this.special_fl_code.Name = "special_fl_code";
+            this.special_fl_code.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // special_fl_name
+            // 
+            this.special_fl_name.DataPropertyName = "pfl_name";
+            this.special_fl_name.HeaderText = "文件名称";
+            this.special_fl_name.Name = "special_fl_name";
+            this.special_fl_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.special_fl_name.Width = 550;
+            // 
+            // special_fl_amount
+            // 
+            this.special_fl_amount.DataPropertyName = "pfl_amount";
+            this.special_fl_amount.HeaderText = "份数(移交)";
+            this.special_fl_amount.Name = "special_fl_amount";
+            this.special_fl_amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.special_fl_amount.Width = 50;
+            // 
+            // special_fl_user
+            // 
+            this.special_fl_user.DataPropertyName = "pfl_user";
+            this.special_fl_user.HeaderText = "责任者";
+            this.special_fl_user.Name = "special_fl_user";
+            this.special_fl_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // special_fl_type
+            // 
+            this.special_fl_type.DataPropertyName = "pfl_type";
+            this.special_fl_type.HeaderText = "类型";
+            this.special_fl_type.Name = "special_fl_type";
+            this.special_fl_type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // special_fl_pages
+            // 
+            this.special_fl_pages.DataPropertyName = "pfl_pages";
+            this.special_fl_pages.HeaderText = "页数";
+            this.special_fl_pages.Name = "special_fl_pages";
+            this.special_fl_pages.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.special_fl_pages.Width = 50;
+            // 
+            // special_fl_count
+            // 
+            this.special_fl_count.DataPropertyName = "pfl_count";
+            this.special_fl_count.HeaderText = "份数";
+            this.special_fl_count.Name = "special_fl_count";
+            this.special_fl_count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.special_fl_count.Width = 50;
+            // 
+            // special_fl_date
+            // 
+            this.special_fl_date.DataPropertyName = "pfl_date";
+            this.special_fl_date.HeaderText = "形成日期";
+            this.special_fl_date.Name = "special_fl_date";
+            this.special_fl_date.Width = 130;
+            // 
+            // special_fl_unit
+            // 
+            this.special_fl_unit.DataPropertyName = "pfl_unit";
+            this.special_fl_unit.HeaderText = "存放单位";
+            this.special_fl_unit.Name = "special_fl_unit";
+            this.special_fl_unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.special_fl_unit.Width = 300;
+            // 
+            // special_fl_carrier
+            // 
+            this.special_fl_carrier.DataPropertyName = "pfl_carrier";
+            this.special_fl_carrier.HeaderText = "载体";
+            this.special_fl_carrier.Name = "special_fl_carrier";
+            // 
+            // special_fl_link
+            // 
+            this.special_fl_link.DataPropertyName = "pfl_link";
+            this.special_fl_link.HeaderText = "电子文件挂接";
+            this.special_fl_link.Name = "special_fl_link";
+            this.special_fl_link.ReadOnly = true;
+            this.special_fl_link.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.special_fl_link.Width = 300;
+            // 
             // Frm_MyWorkQT
             // 
             this.Appearance.Options.UseFont = true;
@@ -5960,6 +5963,23 @@
         private System.Windows.Forms.ToolStripMenuItem Tsm_Up;
         private System.Windows.Forms.ToolStripMenuItem Tsm_Down;
         private System.Windows.Forms.ToolStripMenuItem tsm_Insert;
+        private System.Windows.Forms.ToolStripMenuItem 自动排序AToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_num;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_id;
+        private System.Windows.Forms.DataGridViewComboBoxColumn plan_fl_stage;
+        private System.Windows.Forms.DataGridViewComboBoxColumn plan_fl_categor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_categorname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_code;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_amount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_user;
+        private System.Windows.Forms.DataGridViewComboBoxColumn plan_fl_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_pages;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_count;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_unit;
+        private System.Windows.Forms.DataGridViewComboBoxColumn plan_fl_carrier;
+        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_link;
         private System.Windows.Forms.DataGridViewTextBoxColumn special_fl_num;
         private System.Windows.Forms.DataGridViewTextBoxColumn special_fl_id;
         private System.Windows.Forms.DataGridViewComboBoxColumn special_fl_stage;
@@ -6040,21 +6060,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn project_fl_unit;
         private System.Windows.Forms.DataGridViewComboBoxColumn project_fl_carrier;
         private System.Windows.Forms.DataGridViewTextBoxColumn project_fl_link;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_num;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_id;
-        private System.Windows.Forms.DataGridViewComboBoxColumn plan_fl_stage;
-        private System.Windows.Forms.DataGridViewComboBoxColumn plan_fl_categor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_categorname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_code;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_amount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_user;
-        private System.Windows.Forms.DataGridViewComboBoxColumn plan_fl_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_pages;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_count;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_unit;
-        private System.Windows.Forms.DataGridViewComboBoxColumn plan_fl_carrier;
-        private System.Windows.Forms.DataGridViewTextBoxColumn plan_fl_link;
     }
 }

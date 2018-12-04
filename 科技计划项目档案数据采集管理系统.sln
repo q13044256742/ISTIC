@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "科技计划项目档案数据采集管理系统", "科技计划项目档案数据采集管理系统\科技计划项目档案数据采集管理系统.csproj", "{F603A398-0EB1-4FF7-BD65-EA24FB68F389}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ISTIC_IMP", "..\ISTIC_IMP\ISTIC_IMP.vdproj", "{C2C45641-C982-433A-9DC9-00EC4BB26587}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ISTIC_IMP", "ISTIC_IMP\ISTIC_IMP.vdproj", "{0446D833-3819-4506-BF44-271EA67678F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{F603A398-0EB1-4FF7-BD65-EA24FB68F389}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F603A398-0EB1-4FF7-BD65-EA24FB68F389}.Release|x86.ActiveCfg = Release|Any CPU
 		{F603A398-0EB1-4FF7-BD65-EA24FB68F389}.Release|x86.Build.0 = Release|Any CPU
-		{C2C45641-C982-433A-9DC9-00EC4BB26587}.Debug|Any CPU.ActiveCfg = Debug
-		{C2C45641-C982-433A-9DC9-00EC4BB26587}.Debug|x86.ActiveCfg = Debug
-		{C2C45641-C982-433A-9DC9-00EC4BB26587}.Release|Any CPU.ActiveCfg = Release
-		{C2C45641-C982-433A-9DC9-00EC4BB26587}.Release|x86.ActiveCfg = Release
+		{0446D833-3819-4506-BF44-271EA67678F4}.Debug|Any CPU.ActiveCfg = Debug
+		{0446D833-3819-4506-BF44-271EA67678F4}.Debug|x86.ActiveCfg = Debug
+		{0446D833-3819-4506-BF44-271EA67678F4}.Release|Any CPU.ActiveCfg = Release
+		{0446D833-3819-4506-BF44-271EA67678F4}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

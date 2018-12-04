@@ -44,11 +44,21 @@
             this.ac_MyWork = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pal_UnitList = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.txt_SearchData_F = new DevExpress.XtraEditors.TextEdit();
+            this.txt_SearchDate_S = new DevExpress.XtraEditors.TextEdit();
+            this.btn_MyWorkQuery = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.view)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Search.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             this.panel1.SuspendLayout();
             this.pal_UnitList.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SearchData_F.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SearchDate_S.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // view
@@ -71,21 +81,21 @@
             this.view.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.view.ColumnTreeView = null;
             this.view.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.view.Location = new System.Drawing.Point(223, 52);
+            this.view.Location = new System.Drawing.Point(223, 104);
             this.view.MergeColumnNames = ((System.Collections.Generic.List<string>)(resources.GetObject("view.MergeColumnNames")));
             this.view.Name = "view";
             this.view.ReadOnly = true;
             this.view.RefreshAtHscroll = false;
             this.view.RowHeadersVisible = false;
             this.view.RowTemplate.Height = 23;
-            this.view.Size = new System.Drawing.Size(778, 439);
+            this.view.Size = new System.Drawing.Size(1023, 600);
             this.view.TabIndex = 15;
             this.view.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_WorkLog_CellClick);
             // 
             // txt_Search
             // 
             this.txt_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_Search.Location = new System.Drawing.Point(468, 13);
+            this.txt_Search.Location = new System.Drawing.Point(713, 13);
             this.txt_Search.Name = "txt_Search";
             this.txt_Search.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.txt_Search.Properties.Appearance.Options.UseFont = true;
@@ -130,7 +140,7 @@
             this.btn_Back.Image = ((System.Drawing.Image)(resources.GetObject("btn_Back.Image")));
             this.btn_Back.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Back.ImageToTextIndent = 5;
-            this.btn_Back.Location = new System.Drawing.Point(704, 12);
+            this.btn_Back.Location = new System.Drawing.Point(949, 12);
             this.btn_Back.Name = "btn_Back";
             this.btn_Back.Size = new System.Drawing.Size(67, 30);
             this.btn_Back.TabIndex = 5;
@@ -162,7 +172,7 @@
             this.ace_LeftMenu.LookAndFeel.UseDefaultLookAndFeel = false;
             this.ace_LeftMenu.Name = "ace_LeftMenu";
             this.ace_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
-            this.ace_LeftMenu.Size = new System.Drawing.Size(223, 491);
+            this.ace_LeftMenu.Size = new System.Drawing.Size(223, 704);
             this.ace_LeftMenu.TabIndex = 16;
             this.ace_LeftMenu.SelectedElementChanged += new DevExpress.XtraBars.Navigation.SelectedElementChangedEventHandler(this.Ace_LeftMenu_SelectedElementChanged);
             // 
@@ -242,9 +252,9 @@
             this.panel1.Controls.Add(this.txt_Search);
             this.panel1.Controls.Add(this.btn_Back);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(223, 0);
+            this.panel1.Location = new System.Drawing.Point(223, 52);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(778, 52);
+            this.panel1.Size = new System.Drawing.Size(1023, 52);
             this.panel1.TabIndex = 17;
             // 
             // pal_UnitList
@@ -256,12 +266,111 @@
             this.pal_UnitList.Size = new System.Drawing.Size(345, 39);
             this.pal_UnitList.TabIndex = 18;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.comboBox1);
+            this.panel2.Controls.Add(this.txt_SearchData_F);
+            this.panel2.Controls.Add(this.txt_SearchDate_S);
+            this.panel2.Controls.Add(this.btn_MyWorkQuery);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(223, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1023, 52);
+            this.panel2.TabIndex = 19;
+            this.panel2.Visible = false;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "选择时间段",
+            "最近三天",
+            "最近一周",
+            "最近一个月"});
+            this.comboBox1.Location = new System.Drawing.Point(436, 12);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(142, 29);
+            this.comboBox1.TabIndex = 16;
+            this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
+            // 
+            // txt_SearchData_F
+            // 
+            this.txt_SearchData_F.EditValue = "";
+            this.txt_SearchData_F.Location = new System.Drawing.Point(300, 10);
+            this.txt_SearchData_F.Name = "txt_SearchData_F";
+            this.txt_SearchData_F.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 13F);
+            this.txt_SearchData_F.Properties.Appearance.Options.UseFont = true;
+            this.txt_SearchData_F.Properties.Appearance.Options.UseTextOptions = true;
+            this.txt_SearchData_F.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txt_SearchData_F.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_SearchData_F.Properties.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.txt_SearchData_F.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.txt_SearchData_F.Properties.Mask.BeepOnError = true;
+            this.txt_SearchData_F.Properties.Mask.EditMask = "yyyy-MM-dd";
+            this.txt_SearchData_F.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTime;
+            this.txt_SearchData_F.Size = new System.Drawing.Size(130, 32);
+            this.txt_SearchData_F.TabIndex = 15;
+            // 
+            // txt_SearchDate_S
+            // 
+            this.txt_SearchDate_S.EditValue = "";
+            this.txt_SearchDate_S.Location = new System.Drawing.Point(125, 10);
+            this.txt_SearchDate_S.Name = "txt_SearchDate_S";
+            this.txt_SearchDate_S.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 13F);
+            this.txt_SearchDate_S.Properties.Appearance.Options.UseFont = true;
+            this.txt_SearchDate_S.Properties.Appearance.Options.UseTextOptions = true;
+            this.txt_SearchDate_S.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txt_SearchDate_S.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.txt_SearchDate_S.Properties.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.txt_SearchDate_S.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.txt_SearchDate_S.Properties.Mask.BeepOnError = true;
+            this.txt_SearchDate_S.Properties.Mask.EditMask = "yyyy-MM-dd";
+            this.txt_SearchDate_S.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTime;
+            this.txt_SearchDate_S.Size = new System.Drawing.Size(141, 32);
+            this.txt_SearchDate_S.TabIndex = 14;
+            // 
+            // btn_MyWorkQuery
+            // 
+            this.btn_MyWorkQuery.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btn_MyWorkQuery.Appearance.Options.UseFont = true;
+            this.btn_MyWorkQuery.Image = ((System.Drawing.Image)(resources.GetObject("btn_MyWorkQuery.Image")));
+            this.btn_MyWorkQuery.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_MyWorkQuery.Location = new System.Drawing.Point(584, 11);
+            this.btn_MyWorkQuery.Name = "btn_MyWorkQuery";
+            this.btn_MyWorkQuery.Size = new System.Drawing.Size(76, 31);
+            this.btn_MyWorkQuery.TabIndex = 13;
+            this.btn_MyWorkQuery.Text = "查看";
+            this.btn_MyWorkQuery.Click += new System.EventHandler(this.btn_MyWorkQuery_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(272, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(22, 21);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "~";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 13F);
+            this.label2.Location = new System.Drawing.Point(19, 14);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 24);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "日期范围：";
+            // 
             // Frm_CG
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1001, 491);
+            this.ClientSize = new System.Drawing.Size(1246, 704);
             this.Controls.Add(this.view);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.ace_LeftMenu);
             this.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -277,6 +386,10 @@
             this.panel1.ResumeLayout(false);
             this.pal_UnitList.ResumeLayout(false);
             this.pal_UnitList.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SearchData_F.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SearchDate_S.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -295,5 +408,12 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel pal_UnitList;
         private DevExpress.XtraBars.Navigation.AccordionControlElement ac_MyWork;
+        private System.Windows.Forms.Panel panel2;
+        private KyoControl.KyoButton btn_MyWorkQuery;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private DevExpress.XtraEditors.TextEdit txt_SearchData_F;
+        private DevExpress.XtraEditors.TextEdit txt_SearchDate_S;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
