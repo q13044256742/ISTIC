@@ -1640,22 +1640,22 @@ namespace 科技计划项目档案数据采集管理系统
                 }
 
                 //页数
-                DataGridViewCell pagesCell = rows[i].Cells[key + "pages"];
-                if (pagesCell.Value == null)
-                {
-                    pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
-                    result = false;
-                }
-                else
-                {
-                    if (!Regex.IsMatch(ToolHelper.GetValue(pagesCell.Value), "^[0-9]{1,4}$"))
-                    {
-                        pagesCell.ErrorText = "温馨提示：请输入小于4位数的合法数字。";
-                        result = false;
-                    }
-                    else
-                        pagesCell.ErrorText = null;
-                }
+                //DataGridViewCell pagesCell = rows[i].Cells[key + "pages"];
+                //if (pagesCell.Value == null)
+                //{
+                //    pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
+                //    result = false;
+                //}
+                //else
+                //{
+                //    if (!Regex.IsMatch(ToolHelper.GetValue(pagesCell.Value), "^[0-9]{1,4}$"))
+                //    {
+                //        pagesCell.ErrorText = "温馨提示：请输入小于4位数的合法数字。";
+                //        result = false;
+                //    }
+                //    else
+                //        pagesCell.ErrorText = null;
+                //}
 
                 //份数
                 DataGridViewCell countCell = rows[i].Cells[key + "count"];
@@ -6056,22 +6056,22 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
 
-            DataGridViewCell pagesCell = row.Cells[key + "pages"];
-            if (pagesCell.Value == null)
-            {
-                pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
-                result = false;
-            }
-            else
-            {
-                if (!Regex.IsMatch(ToolHelper.GetValue(pagesCell.Value), "^[0-9]{1,4}$"))
-                {
-                    pagesCell.ErrorText = "温馨提示：请输入小于4位数的合法数字。";
-                    result = false;
-                }
-                else
-                    pagesCell.ErrorText = null;
-            }
+            //DataGridViewCell pagesCell = row.Cells[key + "pages"];
+            //if (pagesCell.Value == null)
+            //{
+            //    pagesCell.ErrorText = "温馨提示：页数不能为0或空。";
+            //    result = false;
+            //}
+            //else
+            //{
+            //    if (!Regex.IsMatch(ToolHelper.GetValue(pagesCell.Value), "^[0-9]{1,4}$"))
+            //    {
+            //        pagesCell.ErrorText = "温馨提示：请输入小于4位数的合法数字。";
+            //        result = false;
+            //    }
+            //    else
+            //        pagesCell.ErrorText = null;
+            //}
 
             bool isOtherType = "其他".Equals(ToolHelper.GetValue(row.Cells[key + "categor"].FormattedValue).Trim());
             DataGridViewCell cellCategor = row.Cells[key + "categorname"];

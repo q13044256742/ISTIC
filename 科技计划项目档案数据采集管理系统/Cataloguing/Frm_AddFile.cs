@@ -463,12 +463,12 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
             //页数
-            NumericUpDown pagesCell = num_Pages;
-            if(pagesCell.Value == 0)
-            {
-                errorProvider1.SetError(pagesCell, "提示：页数不能为0。");
-                result = false;
-            }
+            //NumericUpDown pagesCell = num_Pages;
+            //if(pagesCell.Value == 0)
+            //{
+            //    errorProvider1.SetError(pagesCell, "提示：页数不能为0。");
+            //    result = false;
+            //}
             //文件名
             string nameValue = txt_fileName.Text.Trim();
             if(string.IsNullOrEmpty(nameValue))
