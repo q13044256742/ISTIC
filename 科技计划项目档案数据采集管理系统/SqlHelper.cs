@@ -29,7 +29,7 @@ namespace 科技计划项目档案数据采集管理系统
 
 
         /// <summary>
-        /// 获取SqlConnection连接
+        /// 获取已经打开的SqlConnection连接
         /// </summary>
         public static SqlConnection GetConnect()
         {

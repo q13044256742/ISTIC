@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using DevExpress.XtraEditors;
+using DevExpress.XtraSplashScreen;
 using System;
 using System.Data;
 using System.Drawing;
@@ -249,9 +250,11 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             }
             else if("tbar_DAJS".Equals(itemName))//档案接收
             {
+                SplashScreenManager.ShowDefaultWaitForm(this, true, false);
                 Frm_MainFrame frm = GetFormHelper.GetMainFrame(new Frm_DomAccept());
                 frm.Show();
                 frm.Activate();
+                SplashScreenManager.CloseDefaultWaitForm();
             }
             else if("tbar_DAZJ".Equals(itemName))//档案质检
             {

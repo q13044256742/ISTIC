@@ -17,8 +17,12 @@ namespace 科技计划项目档案数据采集管理系统
             InitializeComponent();
             cbo_FileType.Items.AddRange(new object[] { "原件", "复印件", "电子" });
             DataRow row = SqlHelper.ExecuteSingleRowQuery("SELECT * FROM processing_box " +
-                 "LEFT JOIN( SELECT pi_id, pi_code, pi_name FROM project_info WHERE pi_categor = 2 " +
-                 "UNION ALL SELECT ti_id, ti_code, ti_name FROM topic_info)A ON A.pi_id = pb_obj_id " +
+                 "LEFT JOIN(" +
+                 "  SELECT pi_id, pi_code, pi_name FROM project_info UNION ALL " +
+                 "  SELECT ti_id, ti_code, ti_name FROM topic_info UNION ALL " +
+                 "  SELECT imp_id, imp_code, imp_name FROM imp_info UNION ALL " +
+                 "  SELECT imp_id, imp_code, imp_name FROM imp_dev_info UNION ALL " +
+                 "  SELECT si_id, si_code, si_name FROM subject_info)A ON A.pi_id = pb_obj_id " +
                 $"LEFT JOIN borrow_log bl ON bl.bl_file_id = pb_id {queryCon} WHERE pb_id = '{boxId}'");
             if(row != null)
             {

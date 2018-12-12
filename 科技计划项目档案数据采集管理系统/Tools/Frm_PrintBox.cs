@@ -214,13 +214,14 @@ namespace 科技计划项目档案数据采集管理系统
             int i = 0;
             foreach(DataRow dataRow in dataTable.Rows)
             {
+                int _page = ToolHelper.GetIntValue(dataRow["pfl_pages"], 0);
                 string newRr = "<tr>" +
                     $"<td>{++i}</td>" +
                     $"<td>{dataRow["pfl_code"]}&nbsp;</td>" +
                     $"<td>{dataRow["pfl_user"]}&nbsp;</td>" +
                     $"<td style='text-align: left;'>{dataRow["pfl_name"]}&nbsp;</td>" +
                     $"<td>{ToolHelper.GetDateValue(dataRow["pfl_date"], "yyyy-MM-dd")}&nbsp;</td>" +
-                    $"<td>{dataRow["pfl_pages"]}&nbsp;</td>" +
+                    $"<td>{(_page == 0 ? string.Empty : _page.ToString())}&nbsp;</td>" +
                     $"<td>{dataRow["pfl_remark"]}&nbsp;</td>" +
                     $"</tr>";
                 jnmlString = jnmlString.Replace("</tbody>", $"{newRr}</tbody>");
@@ -295,7 +296,8 @@ namespace 科技计划项目档案数据采集管理系统
         {
             string bkbString = Resources.bkb;
             string fa = MicrosoftWordHelper.GetZN(GetFilePageCount(boxId, 1));
-            string fp = MicrosoftWordHelper.GetZN(GetFilePageCount(boxId, 2));
+            int _fp = GetFilePageCount(boxId, 2);
+            string fp = _fp == 0 ? string.Empty : MicrosoftWordHelper.GetZN(_fp);
             string hh = MicrosoftWordHelper.GetZN(boxNumber);
 
             bkbString = bkbString.Replace("name=\"count\"", $"name=\"count\" value=\"{fa}\"");

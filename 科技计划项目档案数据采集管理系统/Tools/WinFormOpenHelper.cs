@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -94,5 +95,6 @@ namespace 科技计划项目档案数据采集管理系统
 
         [System.Runtime.InteropServices.DllImport("shell32.dll")]
         public static extern IntPtr ShellExecute(int hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
+
     }
 }

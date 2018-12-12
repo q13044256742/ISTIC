@@ -16,9 +16,14 @@ namespace 科技计划项目档案数据采集管理系统
             FILE_ID = fileId;
             InitializeComponent();
             cbo_FileType.Items.AddRange(new object[] { "原件", "复印件", "电子" });
-            string querySql = $"SELECT * FROM processing_file_list pfl " +
-                $"LEFT JOIN (SELECT pi_id, pi_code, pi_name FROM project_info UNION ALL SELECT ti_id, ti_code, ti_name FROM topic_info UNION ALL SELECT si_id, si_code, si_name FROM subject_info) a ON pfl_obj_id = a.pi_id " +
-                $"LEFT JOIN processing_box pb ON pb.pb_id = pfl.pfl_box_id " +
+            string querySql = "SELECT * FROM processing_file_list pfl " +
+                 "LEFT JOIN (" +
+                 "  SELECT pi_id, pi_code, pi_name FROM project_info UNION ALL " +
+                 "  SELECT ti_id, ti_code, ti_name FROM topic_info UNION ALL " +
+                 "  SELECT imp_id, imp_code, imp_name FROM imp_info UNION ALL " +
+                 "  SELECT imp_id, imp_code, imp_name FROM imp_dev_info UNION ALL " +
+                 "  SELECT si_id, si_code, si_name FROM subject_info) a ON pfl_obj_id = a.pi_id " +
+                 "LEFT JOIN processing_box pb ON pb.pb_id = pfl.pfl_box_id " +
                 $"LEFT JOIN borrow_log bl ON bl.bl_file_id = pfl.pfl_id {queryCon} " +
                 $"WHERE pfl_id = '{fileId}'";
             DataRow row = SqlHelper.ExecuteSingleRowQuery(querySql);

@@ -1331,7 +1331,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void FileList_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            DataGridView view = (sender as DataGridView);
+            DataGridView view = sender as DataGridView;
             removeIdList.Add(e.Row.Cells[view.Tag + "num"].Value);
         }
 

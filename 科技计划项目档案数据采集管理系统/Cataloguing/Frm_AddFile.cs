@@ -71,9 +71,9 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_User.Text = GetValue(row["pfl_user"]);
                 txt_fileName.Text = GetValue(row["pfl_name"]);
                 txt_date.Text = ToolHelper.GetDateValue(row["pfl_date"], "yyyy-MM-dd");
-                num_Pages.Value = Convert.ToInt32(row["pfl_pages"]);
-                num_Count.Value = Convert.ToInt32(row["pfl_count"]);
-                num_Amount.Value = Convert.ToInt32(row["pfl_amount"]);
+                num_Pages.Value = ToolHelper.GetIntValue(row["pfl_pages"], 0);
+                num_Count.Value = ToolHelper.GetIntValue(row["pfl_count"], 0);
+                num_Amount.Value = ToolHelper.GetIntValue(row["pfl_amount"], 0);
                 SetRadioValue(row["pfl_type"], pal_type);
                 txt_Unit.Text = GetValue(row["pfl_unit"]);
                 LoadFileLinkList(GetValue(row["pfl_file_id"]));

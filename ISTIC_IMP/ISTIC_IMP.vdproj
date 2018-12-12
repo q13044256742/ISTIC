@@ -874,6 +874,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
     }
@@ -2238,7 +2246,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ISTIC_IMP"
         "ProductCode" = "8:{FBE03908-CF80-4A0B-9587-165A11BD8240}"
-        "PackageCode" = "8:{67DD3A1F-4DA1-4BB1-9EC4-44A65A523D0A}"
+        "PackageCode" = "8:{ED67BC7A-0B34-401D-8E84-DA4C0863630E}"
         "UpgradeCode" = "8:{A3567B7A-A1D5-4414-992A-979A6A53E430}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"

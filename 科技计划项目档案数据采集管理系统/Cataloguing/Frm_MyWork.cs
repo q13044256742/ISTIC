@@ -2052,7 +2052,7 @@ namespace 科技计划项目档案数据采集管理系统
             object categor = row.Cells[key + "categor"].Value;
             object categorName = row.Cells[key + "categorname"].Value;
             object name = ToolHelper.GetValue(row.Cells[key + "name"].Value).Replace("'", "''");
-            object user = row.Cells[key + "user"].Value;
+            object user = ToolHelper.GetValue(row.Cells[key + "user"].Value).Replace("'", "''");
             object type = row.Cells[key + "type"].Value;
             object pages = row.Cells[key + "pages"].Value;
             object count = row.Cells[key + "count"].Value;

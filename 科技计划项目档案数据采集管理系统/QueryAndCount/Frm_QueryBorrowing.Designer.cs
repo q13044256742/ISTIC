@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_QueryBorrowing));
             this.navigationPane1 = new DevExpress.XtraBars.Navigation.NavigationPane();
             this.ngp_Query = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.btn_Export = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl17 = new DevExpress.XtraEditors.LabelControl();
             this.cbo_SourceOrg = new System.Windows.Forms.ComboBox();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
@@ -48,10 +49,34 @@
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.txt_BatchCode = new DevExpress.XtraEditors.TextEdit();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.tab_ResultSet = new DevExpress.XtraBars.Navigation.TabPane();
+            this.tap_Plan = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.dgv_Plan = new System.Windows.Forms.DataGridView();
+            this.p_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.p_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.p_OrgID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.p_OrgCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.p_OrgName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.p_BatchCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.p_AJCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.p_AJName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.p_BoxCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.p_FilesCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tap_Special = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.dgv_Special = new System.Windows.Forms.DataGridView();
+            this.s_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_OrgID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_OrgCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_OrgName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_BatchCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_AJCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_AJName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_BoxCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_FilesCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.tap_Project = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
-            this.pal1 = new System.Windows.Forms.Panel();
-            this.btn_Export = new DevExpress.XtraEditors.SimpleButton();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.panel4 = new System.Windows.Forms.Panel();
             this.txt_page = new DevExpress.XtraEditors.TextEdit();
             this.btn_lpage = new DevExpress.XtraEditors.SimpleButton();
@@ -119,8 +144,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_BatchCode.Properties)).BeginInit();
             this.panel3.SuspendLayout();
+            this.tab_ResultSet.SuspendLayout();
+            this.tap_Plan.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Plan)).BeginInit();
+            this.tap_Special.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Special)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.tap_Project.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
-            this.pal1.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_page.Properties)).BeginInit();
             this.ngp_Borrow.SuspendLayout();
@@ -167,7 +198,7 @@
             this.ngp_Log});
             this.navigationPane1.RegularSize = new System.Drawing.Size(1228, 749);
             this.navigationPane1.SelectedPage = this.ngp_Query;
-            this.navigationPane1.SelectedPageIndex = 0;
+            this.navigationPane1.SelectedPageIndex = 1;
             this.navigationPane1.Size = new System.Drawing.Size(1228, 749);
             this.navigationPane1.TabIndex = 2;
             this.navigationPane1.StateChanged += new DevExpress.XtraBars.Navigation.StateChangedEventHandler(this.navigationPane1_StateChanged);
@@ -180,6 +211,7 @@
             this.ngp_Query.Appearance.Options.UseFont = true;
             this.ngp_Query.BackgroundPadding = new System.Windows.Forms.Padding(0);
             this.ngp_Query.Caption = "高级检索";
+            this.ngp_Query.Controls.Add(this.btn_Export);
             this.ngp_Query.Controls.Add(this.labelControl17);
             this.ngp_Query.Controls.Add(this.cbo_SourceOrg);
             this.ngp_Query.Controls.Add(this.labelControl9);
@@ -215,6 +247,19 @@
             this.ngp_Query.Properties.ShowExpandButton = DevExpress.Utils.DefaultBoolean.False;
             this.ngp_Query.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.ngp_Query.Size = new System.Drawing.Size(1112, 708);
+            // 
+            // btn_Export
+            // 
+            this.btn_Export.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Export.Image = ((System.Drawing.Image)(resources.GetObject("btn_Export.Image")));
+            this.btn_Export.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_Export.ImageToTextIndent = 5;
+            this.btn_Export.Location = new System.Drawing.Point(3471, 205);
+            this.btn_Export.Name = "btn_Export";
+            this.btn_Export.Size = new System.Drawing.Size(70, 26);
+            this.btn_Export.TabIndex = 27;
+            this.btn_Export.Text = "导出";
+            this.btn_Export.Click += new System.EventHandler(this.btn_Export_Click);
             // 
             // labelControl17
             // 
@@ -381,14 +426,292 @@
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel3.Controls.Add(this.treeList1);
-            this.panel3.Controls.Add(this.pal1);
+            this.panel3.Controls.Add(this.tab_ResultSet);
             this.panel3.Controls.Add(this.panel4);
             this.panel3.Location = new System.Drawing.Point(0, 205);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(500, 528);
+            this.panel3.Size = new System.Drawing.Size(3320, 1686);
             this.panel3.TabIndex = 1;
+            // 
+            // tab_ResultSet
+            // 
+            this.tab_ResultSet.Controls.Add(this.tap_Plan);
+            this.tab_ResultSet.Controls.Add(this.tap_Special);
+            this.tab_ResultSet.Controls.Add(this.tap_Project);
+            this.tab_ResultSet.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tab_ResultSet.Location = new System.Drawing.Point(0, 0);
+            this.tab_ResultSet.Margin = new System.Windows.Forms.Padding(0);
+            this.tab_ResultSet.Name = "tab_ResultSet";
+            this.tab_ResultSet.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
+            this.tap_Plan,
+            this.tap_Special,
+            this.tap_Project});
+            this.tab_ResultSet.RegularSize = new System.Drawing.Size(3320, 1653);
+            this.tab_ResultSet.SelectedPage = this.tap_Project;
+            this.tab_ResultSet.SelectedPageIndex = 0;
+            this.tab_ResultSet.Size = new System.Drawing.Size(3320, 1653);
+            this.tab_ResultSet.TabIndex = 5;
+            this.tab_ResultSet.Text = "tabPane1";
+            // 
+            // tap_Plan
+            // 
+            this.tap_Plan.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.tap_Plan.Appearance.Options.UseFont = true;
+            this.tap_Plan.BackgroundPadding = new System.Windows.Forms.Padding(0);
+            this.tap_Plan.Caption = "tabNavigationPage1";
+            this.tap_Plan.Controls.Add(this.dgv_Plan);
+            this.tap_Plan.Margin = new System.Windows.Forms.Padding(0);
+            this.tap_Plan.Name = "tap_Plan";
+            this.tap_Plan.PageText = "计划列表";
+            this.tap_Plan.Size = new System.Drawing.Size(3318, 1623);
+            // 
+            // dgv_Plan
+            // 
+            this.dgv_Plan.AllowUserToAddRows = false;
+            this.dgv_Plan.AllowUserToDeleteRows = false;
+            this.dgv_Plan.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_Plan.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgv_Plan.BackgroundColor = System.Drawing.Color.White;
+            this.dgv_Plan.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_Plan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Plan.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.p_num,
+            this.p_ID,
+            this.p_OrgID,
+            this.p_OrgCode,
+            this.p_OrgName,
+            this.p_BatchCode,
+            this.p_AJCode,
+            this.p_AJName,
+            this.p_BoxCount,
+            this.p_FilesCount});
+            this.dgv_Plan.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Plan.Location = new System.Drawing.Point(0, 0);
+            this.dgv_Plan.Name = "dgv_Plan";
+            this.dgv_Plan.ReadOnly = true;
+            this.dgv_Plan.RowTemplate.Height = 23;
+            this.dgv_Plan.Size = new System.Drawing.Size(3318, 1623);
+            this.dgv_Plan.TabIndex = 0;
+            this.dgv_Plan.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Plan_CellDoubleClick);
+            // 
+            // p_num
+            // 
+            this.p_num.DataPropertyName = "num";
+            this.p_num.HeaderText = "";
+            this.p_num.Name = "p_num";
+            this.p_num.ReadOnly = true;
+            this.p_num.Visible = false;
+            // 
+            // p_ID
+            // 
+            this.p_ID.DataPropertyName = "id";
+            this.p_ID.FillWeight = 50F;
+            this.p_ID.HeaderText = "序号";
+            this.p_ID.Name = "p_ID";
+            this.p_ID.ReadOnly = true;
+            // 
+            // p_OrgID
+            // 
+            this.p_OrgID.DataPropertyName = "dd_name";
+            this.p_OrgID.FillWeight = 150F;
+            this.p_OrgID.HeaderText = "来源单位";
+            this.p_OrgID.Name = "p_OrgID";
+            this.p_OrgID.ReadOnly = true;
+            // 
+            // p_OrgCode
+            // 
+            this.p_OrgCode.DataPropertyName = "imp_code";
+            this.p_OrgCode.HeaderText = "计划代码";
+            this.p_OrgCode.Name = "p_OrgCode";
+            this.p_OrgCode.ReadOnly = true;
+            // 
+            // p_OrgName
+            // 
+            this.p_OrgName.DataPropertyName = "imp_name";
+            this.p_OrgName.HeaderText = "计划名称";
+            this.p_OrgName.Name = "p_OrgName";
+            this.p_OrgName.ReadOnly = true;
+            // 
+            // p_BatchCode
+            // 
+            this.p_BatchCode.DataPropertyName = "trp_code";
+            this.p_BatchCode.HeaderText = "批次号";
+            this.p_BatchCode.Name = "p_BatchCode";
+            this.p_BatchCode.ReadOnly = true;
+            // 
+            // p_AJCode
+            // 
+            this.p_AJCode.DataPropertyName = "pt_code";
+            this.p_AJCode.HeaderText = "案卷编号";
+            this.p_AJCode.Name = "p_AJCode";
+            this.p_AJCode.ReadOnly = true;
+            // 
+            // p_AJName
+            // 
+            this.p_AJName.DataPropertyName = "pt_name";
+            this.p_AJName.HeaderText = "案卷名称";
+            this.p_AJName.Name = "p_AJName";
+            this.p_AJName.ReadOnly = true;
+            // 
+            // p_BoxCount
+            // 
+            this.p_BoxCount.DataPropertyName = "bCount";
+            this.p_BoxCount.FillWeight = 50F;
+            this.p_BoxCount.HeaderText = "盒数";
+            this.p_BoxCount.Name = "p_BoxCount";
+            this.p_BoxCount.ReadOnly = true;
+            this.p_BoxCount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // p_FilesCount
+            // 
+            this.p_FilesCount.DataPropertyName = "fCount";
+            this.p_FilesCount.FillWeight = 50F;
+            this.p_FilesCount.HeaderText = "文件数";
+            this.p_FilesCount.Name = "p_FilesCount";
+            this.p_FilesCount.ReadOnly = true;
+            this.p_FilesCount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // tap_Special
+            // 
+            this.tap_Special.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.tap_Special.Appearance.Options.UseFont = true;
+            this.tap_Special.BackgroundPadding = new System.Windows.Forms.Padding(0);
+            this.tap_Special.Caption = "tabNavigationPage2";
+            this.tap_Special.Controls.Add(this.dgv_Special);
+            this.tap_Special.Controls.Add(this.dataGridView2);
+            this.tap_Special.Margin = new System.Windows.Forms.Padding(0);
+            this.tap_Special.Name = "tap_Special";
+            this.tap_Special.PageText = "专项列表";
+            this.tap_Special.Size = new System.Drawing.Size(3318, 1623);
+            // 
+            // dgv_Special
+            // 
+            this.dgv_Special.AllowUserToAddRows = false;
+            this.dgv_Special.AllowUserToDeleteRows = false;
+            this.dgv_Special.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_Special.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgv_Special.BackgroundColor = System.Drawing.Color.White;
+            this.dgv_Special.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_Special.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Special.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.s_num,
+            this.s_ID,
+            this.s_OrgID,
+            this.s_OrgCode,
+            this.s_OrgName,
+            this.s_BatchCode,
+            this.s_AJCode,
+            this.s_AJName,
+            this.s_BoxCount,
+            this.s_FilesCount});
+            this.dgv_Special.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Special.Location = new System.Drawing.Point(0, 0);
+            this.dgv_Special.Name = "dgv_Special";
+            this.dgv_Special.ReadOnly = true;
+            this.dgv_Special.RowTemplate.Height = 23;
+            this.dgv_Special.Size = new System.Drawing.Size(3318, 1623);
+            this.dgv_Special.TabIndex = 1;
+            this.dgv_Special.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Special_CellDoubleClick);
+            // 
+            // s_num
+            // 
+            this.s_num.DataPropertyName = "num";
+            this.s_num.HeaderText = "";
+            this.s_num.Name = "s_num";
+            this.s_num.ReadOnly = true;
+            this.s_num.Visible = false;
+            // 
+            // s_ID
+            // 
+            this.s_ID.DataPropertyName = "id";
+            this.s_ID.FillWeight = 50F;
+            this.s_ID.HeaderText = "序号";
+            this.s_ID.Name = "s_ID";
+            this.s_ID.ReadOnly = true;
+            // 
+            // s_OrgID
+            // 
+            this.s_OrgID.DataPropertyName = "dd_name";
+            this.s_OrgID.HeaderText = "来源单位";
+            this.s_OrgID.Name = "s_OrgID";
+            this.s_OrgID.ReadOnly = true;
+            // 
+            // s_OrgCode
+            // 
+            this.s_OrgCode.DataPropertyName = "imp_code";
+            this.s_OrgCode.HeaderText = "专项代码";
+            this.s_OrgCode.Name = "s_OrgCode";
+            this.s_OrgCode.ReadOnly = true;
+            // 
+            // s_OrgName
+            // 
+            this.s_OrgName.DataPropertyName = "imp_name";
+            this.s_OrgName.HeaderText = "专项名称";
+            this.s_OrgName.Name = "s_OrgName";
+            this.s_OrgName.ReadOnly = true;
+            // 
+            // s_BatchCode
+            // 
+            this.s_BatchCode.DataPropertyName = "trp_code";
+            this.s_BatchCode.HeaderText = "批次号";
+            this.s_BatchCode.Name = "s_BatchCode";
+            this.s_BatchCode.ReadOnly = true;
+            // 
+            // s_AJCode
+            // 
+            this.s_AJCode.DataPropertyName = "pt_code";
+            this.s_AJCode.HeaderText = "案卷编号";
+            this.s_AJCode.Name = "s_AJCode";
+            this.s_AJCode.ReadOnly = true;
+            // 
+            // s_AJName
+            // 
+            this.s_AJName.DataPropertyName = "pt_name";
+            this.s_AJName.HeaderText = "案卷名称";
+            this.s_AJName.Name = "s_AJName";
+            this.s_AJName.ReadOnly = true;
+            // 
+            // s_BoxCount
+            // 
+            this.s_BoxCount.DataPropertyName = "bCount";
+            this.s_BoxCount.FillWeight = 50F;
+            this.s_BoxCount.HeaderText = "盒数";
+            this.s_BoxCount.Name = "s_BoxCount";
+            this.s_BoxCount.ReadOnly = true;
+            this.s_BoxCount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // s_FilesCount
+            // 
+            this.s_FilesCount.DataPropertyName = "fCount";
+            this.s_FilesCount.FillWeight = 50F;
+            this.s_FilesCount.HeaderText = "文件数";
+            this.s_FilesCount.Name = "s_FilesCount";
+            this.s_FilesCount.ReadOnly = true;
+            this.s_FilesCount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView2.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowTemplate.Height = 23;
+            this.dataGridView2.Size = new System.Drawing.Size(3318, 1623);
+            this.dataGridView2.TabIndex = 0;
+            // 
+            // tap_Project
+            // 
+            this.tap_Project.Appearance.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.tap_Project.Appearance.Options.UseFont = true;
+            this.tap_Project.BackgroundPadding = new System.Windows.Forms.Padding(0);
+            this.tap_Project.Caption = "tabNavigationPage3";
+            this.tap_Project.Controls.Add(this.treeList1);
+            this.tap_Project.Margin = new System.Windows.Forms.Padding(0);
+            this.tap_Project.Name = "tap_Project";
+            this.tap_Project.PageText = "项目/课题";
+            this.tap_Project.Size = new System.Drawing.Size(3318, 1623);
             // 
             // treeList1
             // 
@@ -399,52 +722,16 @@
             this.treeList1.Appearance.Row.Font = new System.Drawing.Font("华文中宋", 14F);
             this.treeList1.Appearance.Row.Options.UseFont = true;
             this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeList1.Location = new System.Drawing.Point(0, 30);
+            this.treeList1.Location = new System.Drawing.Point(0, 0);
             this.treeList1.Name = "treeList1";
             this.treeList1.OptionsBehavior.Editable = false;
             this.treeList1.OptionsCustomization.AllowBandMoving = false;
             this.treeList1.OptionsCustomization.AllowColumnMoving = false;
-            this.treeList1.Size = new System.Drawing.Size(500, 465);
+            this.treeList1.Size = new System.Drawing.Size(3318, 1623);
             this.treeList1.TabIndex = 4;
             this.treeList1.NodeCellStyle += new DevExpress.XtraTreeList.GetCustomNodeCellStyleEventHandler(this.treeList1_NodeCellStyle);
             this.treeList1.EndSorting += new System.EventHandler(this.treeList1_EndSorting);
             this.treeList1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeList1_MouseDoubleClick);
-            // 
-            // pal1
-            // 
-            this.pal1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pal1.Controls.Add(this.btn_Export);
-            this.pal1.Controls.Add(this.labelControl2);
-            this.pal1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pal1.Location = new System.Drawing.Point(0, 0);
-            this.pal1.Name = "pal1";
-            this.pal1.Size = new System.Drawing.Size(500, 30);
-            this.pal1.TabIndex = 0;
-            // 
-            // btn_Export
-            // 
-            this.btn_Export.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Export.Image = ((System.Drawing.Image)(resources.GetObject("btn_Export.Image")));
-            this.btn_Export.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Export.ImageToTextIndent = 5;
-            this.btn_Export.Location = new System.Drawing.Point(424, 2);
-            this.btn_Export.Name = "btn_Export";
-            this.btn_Export.Size = new System.Drawing.Size(70, 26);
-            this.btn_Export.TabIndex = 27;
-            this.btn_Export.Text = "导出";
-            this.btn_Export.Click += new System.EventHandler(this.btn_Export_Click);
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelControl2.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("labelControl2.Appearance.Image")));
-            this.labelControl2.Appearance.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labelControl2.ImageAlignToText = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.labelControl2.Location = new System.Drawing.Point(4, 5);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(85, 21);
-            this.labelControl2.TabIndex = 0;
-            this.labelControl2.Text = "项目列表";
             // 
             // panel4
             // 
@@ -455,16 +742,16 @@
             this.panel4.Controls.Add(this.btn_fpage);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 495);
+            this.panel4.Location = new System.Drawing.Point(0, 1653);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(500, 33);
+            this.panel4.Size = new System.Drawing.Size(3320, 33);
             this.panel4.TabIndex = 3;
             // 
             // txt_page
             // 
             this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_page.EditValue = "";
-            this.txt_page.Location = new System.Drawing.Point(287, 3);
+            this.txt_page.Location = new System.Drawing.Point(3107, 3);
             this.txt_page.Name = "txt_page";
             this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.txt_page.Properties.Appearance.Options.UseFont = true;
@@ -483,7 +770,7 @@
             this.btn_lpage.Appearance.Options.UseFont = true;
             this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
             this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_lpage.Location = new System.Drawing.Point(245, 5);
+            this.btn_lpage.Location = new System.Drawing.Point(3065, 5);
             this.btn_lpage.Name = "btn_lpage";
             this.btn_lpage.Size = new System.Drawing.Size(41, 23);
             this.btn_lpage.TabIndex = 6;
@@ -496,7 +783,7 @@
             this.btn_npage.Appearance.Options.UseFont = true;
             this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
             this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_npage.Location = new System.Drawing.Point(329, 5);
+            this.btn_npage.Location = new System.Drawing.Point(3149, 5);
             this.btn_npage.Name = "btn_npage";
             this.btn_npage.Size = new System.Drawing.Size(41, 23);
             this.btn_npage.TabIndex = 5;
@@ -509,7 +796,7 @@
             this.btn_epage.Appearance.Options.UseFont = true;
             this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
             this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_epage.Location = new System.Drawing.Point(372, 5);
+            this.btn_epage.Location = new System.Drawing.Point(3192, 5);
             this.btn_epage.Name = "btn_epage";
             this.btn_epage.Size = new System.Drawing.Size(41, 23);
             this.btn_epage.TabIndex = 4;
@@ -522,7 +809,7 @@
             this.btn_fpage.Appearance.Options.UseFont = true;
             this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
             this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_fpage.Location = new System.Drawing.Point(202, 5);
+            this.btn_fpage.Location = new System.Drawing.Point(3022, 5);
             this.btn_fpage.Name = "btn_fpage";
             this.btn_fpage.Size = new System.Drawing.Size(41, 23);
             this.btn_fpage.TabIndex = 3;
@@ -905,7 +1192,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 191);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1568, 643);
+            this.panel1.Size = new System.Drawing.Size(5396, 1996);
             this.panel1.TabIndex = 18;
             // 
             // view2
@@ -921,7 +1208,7 @@
             this.view2.Name = "view2";
             this.view2.ReadOnly = true;
             this.view2.RowTemplate.Height = 23;
-            this.view2.Size = new System.Drawing.Size(1568, 613);
+            this.view2.Size = new System.Drawing.Size(5396, 1966);
             this.view2.TabIndex = 1;
             this.view2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View2_CellContentClick);
             // 
@@ -933,7 +1220,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1568, 30);
+            this.panel2.Size = new System.Drawing.Size(5396, 30);
             this.panel2.TabIndex = 0;
             // 
             // btn_Refresh
@@ -1021,6 +1308,7 @@
             this.view_Log.AllowUserToDeleteRows = false;
             this.view_Log.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.view_Log.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.view_Log.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.view_Log.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.view_Log.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
@@ -1182,9 +1470,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_BatchCode.Properties)).EndInit();
             this.panel3.ResumeLayout(false);
+            this.tab_ResultSet.ResumeLayout(false);
+            this.tap_Plan.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Plan)).EndInit();
+            this.tap_Special.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Special)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.tap_Project.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
-            this.pal1.ResumeLayout(false);
-            this.pal1.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_page.Properties)).EndInit();
@@ -1224,8 +1517,6 @@
         private DevExpress.XtraBars.Navigation.NavigationPage ngp_Query;
         private DevExpress.XtraBars.Navigation.NavigationPage ngp_Borrow;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel pal1;
-        private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.LabelControl labelControl3;
         private DevExpress.XtraEditors.TextEdit txt_BatchCode;
         private DevExpress.XtraEditors.LabelControl labelControl5;
@@ -1304,5 +1595,32 @@
         private DevExpress.XtraEditors.SimpleButton btn_NextPage;
         private DevExpress.XtraEditors.SimpleButton btn_ePage2;
         private DevExpress.XtraEditors.SimpleButton btn_fPage2;
+        private DevExpress.XtraBars.Navigation.TabPane tab_ResultSet;
+        private DevExpress.XtraBars.Navigation.TabNavigationPage tap_Plan;
+        private DevExpress.XtraBars.Navigation.TabNavigationPage tap_Special;
+        private DevExpress.XtraBars.Navigation.TabNavigationPage tap_Project;
+        private System.Windows.Forms.DataGridView dgv_Plan;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgv_Special;
+        private System.Windows.Forms.DataGridViewTextBoxColumn p_num;
+        private System.Windows.Forms.DataGridViewTextBoxColumn p_ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn p_OrgID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn p_OrgCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn p_OrgName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn p_BatchCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn p_AJCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn p_AJName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn p_BoxCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn p_FilesCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_num;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_OrgID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_OrgCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_OrgName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_BatchCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_AJCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_AJName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_BoxCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_FilesCount;
     }
 }

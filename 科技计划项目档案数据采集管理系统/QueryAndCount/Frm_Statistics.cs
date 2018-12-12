@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
 using DevExpress.XtraBars.Navigation;
+using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -141,7 +142,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LocalElement_Click(object sender, EventArgs e)
         {
-            pal_Local.Update();
+            SplashScreenManager.ShowDefaultWaitForm(this, false, false);
             string name = (sender as AccordionControlElement).Name;
             if("all_ltype".Equals(name))
                 name = string.Empty;
@@ -156,6 +157,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if(!"all_ptype".Equals(_planCode))
                 planCode = $"AND pi_source_id='{_planCode}'";
             LoadDataListByProvince(name, null, null, sourCode, planCode);
+            SplashScreenManager.CloseDefaultWaitForm();
         }
 
         /// <summary>
@@ -308,6 +310,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Btn_StartCount_Click(object sender, EventArgs e)
         {
+            SplashScreenManager.ShowDefaultWaitForm(this, false, false);
             tabPane3.SelectedPageIndex = 0;
             object userId = cbo_UserList.SelectedValue;
             bool allUser = "all".Equals(userId);
@@ -388,6 +391,7 @@ namespace 科技计划项目档案数据采集管理系统
                         table.Rows.Add(date, pcount, tcount, fcount, efcount, boxcount, bcount, pgcount);
                     }
 
+                    //单独统计文件加工工作量
                     if(!flag)
                     {
                         if(startDate.Date == endDate.Date)
@@ -395,12 +399,24 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                             queryCondition = $"AND pfl_worker_date >=  CONVERT(DATE, '{startDate}') AND pfl_worker_date <=  CONVERT(DATE, '{endDate}')";
                     }
-                    //单独统计文件加工工作量
-                    querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list " +
-                        $"WHERE pfl_worker_id = '{userId}' {queryCondition} AND pfl_worker_id NOT IN( " +
-                        $"SELECT pi_worker_id FROM project_info WHERE pi_worker_id = '{userId}' AND pi_worker_date = pfl_worker_date UNION ALL " +
-                        $"SELECT ti_worker_id FROM topic_info WHERE ti_worker_id = '{userId}' AND ti_worker_date = pfl_worker_date) " +
-                        $"GROUP BY pfl_worker_date; ";
+                    if (allUser)
+                    {
+                        querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list WHERE 1=1 " +
+                            $"{queryCondition} AND pfl_worker_id NOT IN( " +
+                            $"SELECT pi_worker_id FROM project_info WHERE pi_worker_date = pfl_worker_date UNION ALL " +
+                            $"SELECT ti_worker_id FROM topic_info WHERE ti_worker_date = pfl_worker_date) " +
+                            $"GROUP BY pfl_worker_date; ";
+                    }
+                    else
+                    {
+                        querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list WHERE 1=1 " +
+                               $"AND pfl_worker_id='{userId}' {queryCondition} AND pfl_worker_id NOT IN( " +
+                               $"SELECT pi_worker_id FROM project_info WHERE pi_worker_id='{userId}' AND pi_worker_date = pfl_worker_date UNION ALL " +
+                               $"SELECT ti_worker_id FROM topic_info WHERE ti_worker_id='{userId}' AND ti_worker_date = pfl_worker_date) " +
+                                "GROUP BY pfl_worker_date; ";
+                    }
+                    string fUserConditon = !allUser ? $" " : string.Empty;
+                    
                     List<object[]> list3 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                     for(int i = 0; i < list3.Count; i++)
                     {
@@ -533,6 +549,7 @@ namespace 科技计划项目档案数据采集管理系统
                     countView.DataSource = DistinctSomeColumn(table, "姓名"); ;
                 }
             }
+            SplashScreenManager.CloseDefaultWaitForm();
         }
 
         /// <summary>
@@ -915,6 +932,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Item_Click(object sender, EventArgs e)
         {
+            SplashScreenManager.ShowDefaultWaitForm(this, false, false);
             string value = (sender as AccordionControlElement).Name;
             if("ace_all".Equals(value))
                 value = string.Empty;
@@ -922,6 +940,7 @@ namespace 科技计划项目档案数据采集管理系统
                 value = $"AND A.pi_orga_id = '{value}'";
 
             SetTableByOrga(value, null, null);
+            SplashScreenManager.CloseDefaultWaitForm();
         }
 
         /// <summary>
@@ -1194,6 +1213,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void Bc_Element_Click(object sender, EventArgs e)
         {
+            SplashScreenManager.ShowDefaultWaitForm(this, false, false);
             string value = (sender as AccordionControlElement).Name;
             bc_LeftMenu.Tag = value;
             if ("all_ptype".Equals(value))
@@ -1208,6 +1228,7 @@ namespace 科技计划项目档案数据采集管理系统
             else
                 value = $"AND A.pi_source_id = '{value}'";
             SetTableBySource(value, null, null);
+            SplashScreenManager.CloseDefaultWaitForm();
         }
 
         private void SetTableBySource(string value, string minYear, string maxYear)
