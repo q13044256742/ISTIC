@@ -415,7 +415,7 @@ namespace 科技计划项目档案数据采集管理系统
                         DataGridViewRow row = view.Rows[CurrentRowIndex];
                         view.ClearSelection();
                         row.Selected = true;
-                        view.CurrentCell = row.Cells[1];
+                        //view.CurrentCell = row.Cells[1];
                     }
                 }
             }

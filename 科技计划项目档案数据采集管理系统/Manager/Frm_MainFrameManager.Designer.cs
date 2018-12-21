@@ -287,6 +287,7 @@
             this.ace_WorkLog.Name = "ace_WorkLog";
             this.ace_WorkLog.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.ace_WorkLog.Text = "业务日志";
+            this.ace_WorkLog.Visible = false;
             // 
             // accordionControlElement4
             // 

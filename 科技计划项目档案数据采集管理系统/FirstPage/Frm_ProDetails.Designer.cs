@@ -88,6 +88,7 @@
             this.cbo_Project_Box = new System.Windows.Forms.ComboBox();
             this.label63 = new System.Windows.Forms.Label();
             this.pal_Project_BtnGroup = new System.Windows.Forms.Panel();
+            this.lbl_Project_Tip = new DevExpress.XtraEditors.LabelControl();
             this.btn_Project_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Project_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Project_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -168,6 +169,7 @@
             this.cbo_Topic_Box = new System.Windows.Forms.ComboBox();
             this.label71 = new System.Windows.Forms.Label();
             this.pal_Topic_BtnGroup = new System.Windows.Forms.Panel();
+            this.lbl_Topic_Tip = new DevExpress.XtraEditors.LabelControl();
             this.btn_Topic_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Topic_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Topic_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -248,6 +250,7 @@
             this.cbo_Subject_Box = new System.Windows.Forms.ComboBox();
             this.label87 = new System.Windows.Forms.Label();
             this.pal_Subject_BtnGroup = new System.Windows.Forms.Panel();
+            this.lbl_Subject_Tip = new DevExpress.XtraEditors.LabelControl();
             this.btn_Subject_QTReason = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Subject_Save = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Subject_AddFile = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -417,7 +420,7 @@
             this.tab_Project_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Project_Info.Name = "tab_Project_Info";
             this.tab_Project_Info.SelectedTabPage = this.tabPage1;
-            this.tab_Project_Info.Size = new System.Drawing.Size(1085, 346);
+            this.tab_Project_Info.Size = new System.Drawing.Size(1085, 304);
             this.tab_Project_Info.TabIndex = 3;
             this.tab_Project_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage1,
@@ -433,7 +436,7 @@
             this.tabPage1.Image = ((System.Drawing.Image)(resources.GetObject("tabPage1.Image")));
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1079, 310);
+            this.tabPage1.Size = new System.Drawing.Size(1079, 268);
             this.tabPage1.Text = "文件列表";
             // 
             // dgv_Project_FileList
@@ -471,7 +474,7 @@
             this.dgv_Project_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Project_FileList.Name = "dgv_Project_FileList";
             this.dgv_Project_FileList.RowTemplate.Height = 23;
-            this.dgv_Project_FileList.Size = new System.Drawing.Size(1073, 304);
+            this.dgv_Project_FileList.Size = new System.Drawing.Size(1073, 262);
             this.dgv_Project_FileList.TabIndex = 0;
             this.dgv_Project_FileList.Tag = "project_fl_";
             this.dgv_Project_FileList.DataSourceChanged += new System.EventHandler(this.FileList_DataSourceChanged);
@@ -479,6 +482,7 @@
             this.dgv_Project_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.FileList_EditingControlShowing);
             this.dgv_Project_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Project_FileList.Sorted += new System.EventHandler(this.FileList_Sort);
+            this.dgv_Project_FileList.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserAddedRow);
             this.dgv_Project_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
             // 
             // project_fl_num
@@ -602,7 +606,7 @@
             this.tabPage2.Controls.Add(this.dgv_Project_FileValid);
             this.tabPage2.Image = ((System.Drawing.Image)(resources.GetObject("tabPage2.Image")));
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(1079, 317);
+            this.tabPage2.Size = new System.Drawing.Size(1079, 275);
             this.tabPage2.Text = "文件核查";
             // 
             // dgv_Project_FileValid
@@ -632,7 +636,7 @@
             this.dgv_Project_FileValid.Name = "dgv_Project_FileValid";
             this.dgv_Project_FileValid.RowHeadersVisible = false;
             this.dgv_Project_FileValid.RowTemplate.Height = 23;
-            this.dgv_Project_FileValid.Size = new System.Drawing.Size(1079, 317);
+            this.dgv_Project_FileValid.Size = new System.Drawing.Size(1079, 275);
             this.dgv_Project_FileValid.TabIndex = 0;
             this.dgv_Project_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataError);
             // 
@@ -697,7 +701,7 @@
             this.tabPage4.Controls.Add(this.label63);
             this.tabPage4.Image = ((System.Drawing.Image)(resources.GetObject("tabPage4.Image")));
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1079, 310);
+            this.tabPage4.Size = new System.Drawing.Size(1079, 275);
             this.tabPage4.Text = "卷盒信息";
             // 
             // lbl_Project_Box_Remove
@@ -871,7 +875,7 @@
             this.lsv_JH_XM_File2.GridLines = true;
             this.lsv_JH_XM_File2.Location = new System.Drawing.Point(572, 83);
             this.lsv_JH_XM_File2.Name = "lsv_JH_XM_File2";
-            this.lsv_JH_XM_File2.Size = new System.Drawing.Size(500, 224);
+            this.lsv_JH_XM_File2.Size = new System.Drawing.Size(500, 189);
             this.lsv_JH_XM_File2.TabIndex = 7;
             this.lsv_JH_XM_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_File2.View = System.Windows.Forms.View.Details;
@@ -885,7 +889,7 @@
             this.lsv_JH_XM_File1.GridLines = true;
             this.lsv_JH_XM_File1.Location = new System.Drawing.Point(3, 83);
             this.lsv_JH_XM_File1.Name = "lsv_JH_XM_File1";
-            this.lsv_JH_XM_File1.Size = new System.Drawing.Size(499, 224);
+            this.lsv_JH_XM_File1.Size = new System.Drawing.Size(499, 189);
             this.lsv_JH_XM_File1.TabIndex = 6;
             this.lsv_JH_XM_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_File1.View = System.Windows.Forms.View.Details;
@@ -933,6 +937,7 @@
             // 
             // pal_Project_BtnGroup
             // 
+            this.pal_Project_BtnGroup.Controls.Add(this.lbl_Project_Tip);
             this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_QTReason);
             this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_Save);
             this.pal_Project_BtnGroup.Controls.Add(this.btn_Project_AddFile);
@@ -942,6 +947,15 @@
             this.pal_Project_BtnGroup.Name = "pal_Project_BtnGroup";
             this.pal_Project_BtnGroup.Size = new System.Drawing.Size(1085, 40);
             this.pal_Project_BtnGroup.TabIndex = 4;
+            // 
+            // lbl_Project_Tip
+            // 
+            this.lbl_Project_Tip.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Project_Tip.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Project_Tip.Location = new System.Drawing.Point(384, 7);
+            this.lbl_Project_Tip.Name = "lbl_Project_Tip";
+            this.lbl_Project_Tip.Size = new System.Drawing.Size(0, 27);
+            this.lbl_Project_Tip.TabIndex = 83;
             // 
             // btn_Project_QTReason
             // 
@@ -1025,16 +1039,16 @@
             this.btn_Project_OtherDoc.Appearance.Options.UseFont = true;
             this.btn_Project_OtherDoc.Image = ((System.Drawing.Image)(resources.GetObject("btn_Project_OtherDoc.Image")));
             this.btn_Project_OtherDoc.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Project_OtherDoc.Location = new System.Drawing.Point(943, 271);
+            this.btn_Project_OtherDoc.Location = new System.Drawing.Point(927, 274);
             this.btn_Project_OtherDoc.Name = "btn_Project_OtherDoc";
-            this.btn_Project_OtherDoc.Size = new System.Drawing.Size(125, 30);
+            this.btn_Project_OtherDoc.Size = new System.Drawing.Size(140, 30);
             this.btn_Project_OtherDoc.TabIndex = 66;
             this.btn_Project_OtherDoc.Text = "其它载体档案";
             this.btn_Project_OtherDoc.Click += new System.EventHandler(this.Btn_OtherDoc_Click);
             // 
             // txt_Project_Funds
             // 
-            this.txt_Project_Funds.Location = new System.Drawing.Point(845, 39);
+            this.txt_Project_Funds.Location = new System.Drawing.Point(845, 40);
             this.txt_Project_Funds.Name = "txt_Project_Funds";
             this.txt_Project_Funds.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_Funds.Properties.Appearance.Options.UseFont = true;
@@ -1044,7 +1058,7 @@
             // 
             // txt_Project_EndTime
             // 
-            this.txt_Project_EndTime.Location = new System.Drawing.Point(477, 74);
+            this.txt_Project_EndTime.Location = new System.Drawing.Point(477, 75);
             this.txt_Project_EndTime.Name = "txt_Project_EndTime";
             this.txt_Project_EndTime.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_EndTime.Properties.Appearance.Options.UseFont = true;
@@ -1054,7 +1068,7 @@
             // 
             // txt_Project_StartTime
             // 
-            this.txt_Project_StartTime.Location = new System.Drawing.Point(120, 74);
+            this.txt_Project_StartTime.Location = new System.Drawing.Point(120, 75);
             this.txt_Project_StartTime.Name = "txt_Project_StartTime";
             this.txt_Project_StartTime.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_StartTime.Properties.Appearance.Options.UseFont = true;
@@ -1068,7 +1082,7 @@
             this.cbo_Project_Province.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbo_Project_Province.Font = new System.Drawing.Font("华文中宋", 15F);
             this.cbo_Project_Province.IntegralHeight = false;
-            this.cbo_Project_Province.Location = new System.Drawing.Point(477, 109);
+            this.cbo_Project_Province.Location = new System.Drawing.Point(477, 111);
             this.cbo_Project_Province.MaxDropDownItems = 15;
             this.cbo_Project_Province.Name = "cbo_Project_Province";
             this.cbo_Project_Province.Size = new System.Drawing.Size(224, 31);
@@ -1076,7 +1090,7 @@
             // 
             // txt_Project_Unit
             // 
-            this.txt_Project_Unit.Location = new System.Drawing.Point(120, 109);
+            this.txt_Project_Unit.Location = new System.Drawing.Point(120, 110);
             this.txt_Project_Unit.Name = "txt_Project_Unit";
             this.txt_Project_Unit.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_Unit.Properties.Appearance.Options.UseFont = true;
@@ -1086,7 +1100,7 @@
             // 
             // txt_Project_ProUser
             // 
-            this.txt_Project_ProUser.Location = new System.Drawing.Point(120, 144);
+            this.txt_Project_ProUser.Location = new System.Drawing.Point(120, 145);
             this.txt_Project_ProUser.Name = "txt_Project_ProUser";
             this.txt_Project_ProUser.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_ProUser.Properties.Appearance.Options.UseFont = true;
@@ -1106,7 +1120,7 @@
             // 
             // txt_Project_UnitUser
             // 
-            this.txt_Project_UnitUser.Location = new System.Drawing.Point(845, 109);
+            this.txt_Project_UnitUser.Location = new System.Drawing.Point(845, 110);
             this.txt_Project_UnitUser.Name = "txt_Project_UnitUser";
             this.txt_Project_UnitUser.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_UnitUser.Properties.Appearance.Options.UseFont = true;
@@ -1126,7 +1140,7 @@
             // 
             // txt_Project_Intro
             // 
-            this.txt_Project_Intro.Location = new System.Drawing.Point(120, 179);
+            this.txt_Project_Intro.Location = new System.Drawing.Point(120, 180);
             this.txt_Project_Intro.Name = "txt_Project_Intro";
             this.txt_Project_Intro.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_Intro.Properties.Appearance.Options.UseFont = true;
@@ -1156,7 +1170,7 @@
             // 
             // txt_Project_Year
             // 
-            this.txt_Project_Year.Location = new System.Drawing.Point(845, 74);
+            this.txt_Project_Year.Location = new System.Drawing.Point(845, 75);
             this.txt_Project_Year.Name = "txt_Project_Year";
             this.txt_Project_Year.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_Year.Properties.Appearance.Options.UseFont = true;
@@ -1206,7 +1220,7 @@
             // 
             // txt_Project_Theme
             // 
-            this.txt_Project_Theme.Location = new System.Drawing.Point(477, 39);
+            this.txt_Project_Theme.Location = new System.Drawing.Point(477, 40);
             this.txt_Project_Theme.Name = "txt_Project_Theme";
             this.txt_Project_Theme.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_Theme.Properties.Appearance.Options.UseFont = true;
@@ -1226,7 +1240,7 @@
             // 
             // txt_Project_Field
             // 
-            this.txt_Project_Field.Location = new System.Drawing.Point(120, 39);
+            this.txt_Project_Field.Location = new System.Drawing.Point(120, 40);
             this.txt_Project_Field.Name = "txt_Project_Field";
             this.txt_Project_Field.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_Field.Properties.Appearance.Options.UseFont = true;
@@ -1256,7 +1270,7 @@
             // 
             // txt_Project_Name
             // 
-            this.txt_Project_Name.Location = new System.Drawing.Point(477, 4);
+            this.txt_Project_Name.Location = new System.Drawing.Point(477, 5);
             this.txt_Project_Name.Name = "txt_Project_Name";
             this.txt_Project_Name.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Project_Name.Properties.Appearance.Options.UseFont = true;
@@ -1276,7 +1290,7 @@
             // 
             // txt_Project_Code
             // 
-            this.txt_Project_Code.Location = new System.Drawing.Point(120, 4);
+            this.txt_Project_Code.Location = new System.Drawing.Point(120, 5);
             this.txt_Project_Code.Name = "txt_Project_Code";
             this.txt_Project_Code.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.txt_Project_Code.Properties.Appearance.Options.UseFont = true;
@@ -1300,10 +1314,10 @@
             this.Topic.Controls.Add(this.tab_Topic_Info);
             this.Topic.Controls.Add(this.pal_Topic_BtnGroup);
             this.Topic.Controls.Add(this.pal_Topic);
-            this.Topic.Location = new System.Drawing.Point(4, 23);
+            this.Topic.Location = new System.Drawing.Point(4, 30);
             this.Topic.Name = "Topic";
             this.Topic.Padding = new System.Windows.Forms.Padding(3);
-            this.Topic.Size = new System.Drawing.Size(1091, 719);
+            this.Topic.Size = new System.Drawing.Size(1091, 712);
             this.Topic.TabIndex = 2;
             this.Topic.Text = "课题";
             // 
@@ -1315,7 +1329,7 @@
             this.tab_Topic_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Topic_Info.Name = "tab_Topic_Info";
             this.tab_Topic_Info.SelectedTabPage = this.tabPage5;
-            this.tab_Topic_Info.Size = new System.Drawing.Size(1085, 269);
+            this.tab_Topic_Info.Size = new System.Drawing.Size(1085, 241);
             this.tab_Topic_Info.TabIndex = 6;
             this.tab_Topic_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage5,
@@ -1331,7 +1345,7 @@
             this.tabPage5.Image = ((System.Drawing.Image)(resources.GetObject("tabPage5.Image")));
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1079, 233);
+            this.tabPage5.Size = new System.Drawing.Size(1079, 205);
             this.tabPage5.Text = "文件列表";
             // 
             // dgv_Topic_FileList
@@ -1369,7 +1383,7 @@
             this.dgv_Topic_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Topic_FileList.Name = "dgv_Topic_FileList";
             this.dgv_Topic_FileList.RowTemplate.Height = 23;
-            this.dgv_Topic_FileList.Size = new System.Drawing.Size(1073, 227);
+            this.dgv_Topic_FileList.Size = new System.Drawing.Size(1073, 199);
             this.dgv_Topic_FileList.TabIndex = 0;
             this.dgv_Topic_FileList.Tag = "topic_fl_";
             this.dgv_Topic_FileList.DataSourceChanged += new System.EventHandler(this.FileList_DataSourceChanged);
@@ -1377,6 +1391,7 @@
             this.dgv_Topic_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.FileList_EditingControlShowing);
             this.dgv_Topic_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Topic_FileList.Sorted += new System.EventHandler(this.FileList_Sort);
+            this.dgv_Topic_FileList.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserAddedRow);
             this.dgv_Topic_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
             // 
             // topic_fl_num
@@ -1502,7 +1517,7 @@
             this.tabPage6.Controls.Add(this.dgv_Topic_FileValid);
             this.tabPage6.Image = ((System.Drawing.Image)(resources.GetObject("tabPage6.Image")));
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1079, 233);
+            this.tabPage6.Size = new System.Drawing.Size(1079, 212);
             this.tabPage6.Text = "文件核查";
             // 
             // dgv_Topic_FileValid
@@ -1532,7 +1547,7 @@
             this.dgv_Topic_FileValid.Name = "dgv_Topic_FileValid";
             this.dgv_Topic_FileValid.RowHeadersVisible = false;
             this.dgv_Topic_FileValid.RowTemplate.Height = 23;
-            this.dgv_Topic_FileValid.Size = new System.Drawing.Size(1079, 233);
+            this.dgv_Topic_FileValid.Size = new System.Drawing.Size(1079, 212);
             this.dgv_Topic_FileValid.TabIndex = 0;
             this.dgv_Topic_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataError);
             // 
@@ -1597,7 +1612,7 @@
             this.tabPage8.Controls.Add(this.label71);
             this.tabPage8.Image = ((System.Drawing.Image)(resources.GetObject("tabPage8.Image")));
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1079, 233);
+            this.tabPage8.Size = new System.Drawing.Size(1079, 212);
             this.tabPage8.Text = "卷盒信息";
             // 
             // lbl_Topic_Box_Remove
@@ -1766,7 +1781,7 @@
             this.lsv_JH_KT_File2.GridLines = true;
             this.lsv_JH_KT_File2.Location = new System.Drawing.Point(573, 86);
             this.lsv_JH_KT_File2.Name = "lsv_JH_KT_File2";
-            this.lsv_JH_KT_File2.Size = new System.Drawing.Size(498, 144);
+            this.lsv_JH_KT_File2.Size = new System.Drawing.Size(498, 123);
             this.lsv_JH_KT_File2.TabIndex = 7;
             this.lsv_JH_KT_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_KT_File2.View = System.Windows.Forms.View.Details;
@@ -1780,7 +1795,7 @@
             this.lsv_JH_KT_File1.GridLines = true;
             this.lsv_JH_KT_File1.Location = new System.Drawing.Point(3, 86);
             this.lsv_JH_KT_File1.Name = "lsv_JH_KT_File1";
-            this.lsv_JH_KT_File1.Size = new System.Drawing.Size(499, 144);
+            this.lsv_JH_KT_File1.Size = new System.Drawing.Size(499, 123);
             this.lsv_JH_KT_File1.TabIndex = 6;
             this.lsv_JH_KT_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_KT_File1.View = System.Windows.Forms.View.Details;
@@ -1828,15 +1843,25 @@
             // 
             // pal_Topic_BtnGroup
             // 
+            this.pal_Topic_BtnGroup.Controls.Add(this.lbl_Topic_Tip);
             this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_QTReason);
             this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_AddFile);
             this.pal_Topic_BtnGroup.Controls.Add(this.btn_Topic_Save);
             this.pal_Topic_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pal_Topic_BtnGroup.Enabled = false;
-            this.pal_Topic_BtnGroup.Location = new System.Drawing.Point(3, 676);
+            this.pal_Topic_BtnGroup.Location = new System.Drawing.Point(3, 669);
             this.pal_Topic_BtnGroup.Name = "pal_Topic_BtnGroup";
             this.pal_Topic_BtnGroup.Size = new System.Drawing.Size(1085, 40);
             this.pal_Topic_BtnGroup.TabIndex = 7;
+            // 
+            // lbl_Topic_Tip
+            // 
+            this.lbl_Topic_Tip.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Topic_Tip.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Topic_Tip.Location = new System.Drawing.Point(384, 7);
+            this.lbl_Topic_Tip.Name = "lbl_Topic_Tip";
+            this.lbl_Topic_Tip.Size = new System.Drawing.Size(0, 27);
+            this.lbl_Topic_Tip.TabIndex = 84;
             // 
             // btn_Topic_QTReason
             // 
@@ -1844,7 +1869,7 @@
             this.btn_Topic_QTReason.Appearance.Options.UseFont = true;
             this.btn_Topic_QTReason.Image = ((System.Drawing.Image)(resources.GetObject("btn_Topic_QTReason.Image")));
             this.btn_Topic_QTReason.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Topic_QTReason.Location = new System.Drawing.Point(107, 5);
+            this.btn_Topic_QTReason.Location = new System.Drawing.Point(105, 5);
             this.btn_Topic_QTReason.Name = "btn_Topic_QTReason";
             this.btn_Topic_QTReason.Size = new System.Drawing.Size(93, 30);
             this.btn_Topic_QTReason.TabIndex = 81;
@@ -1857,7 +1882,7 @@
             this.btn_Topic_AddFile.Appearance.Options.UseFont = true;
             this.btn_Topic_AddFile.Image = ((System.Drawing.Image)(resources.GetObject("btn_Topic_AddFile.Image")));
             this.btn_Topic_AddFile.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Topic_AddFile.Location = new System.Drawing.Point(8, 5);
+            this.btn_Topic_AddFile.Location = new System.Drawing.Point(6, 5);
             this.btn_Topic_AddFile.Name = "btn_Topic_AddFile";
             this.btn_Topic_AddFile.Size = new System.Drawing.Size(93, 30);
             this.btn_Topic_AddFile.TabIndex = 78;
@@ -1921,16 +1946,16 @@
             this.btn_Topic_OtherDoc.Appearance.Options.UseFont = true;
             this.btn_Topic_OtherDoc.Image = ((System.Drawing.Image)(resources.GetObject("btn_Topic_OtherDoc.Image")));
             this.btn_Topic_OtherDoc.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Topic_OtherDoc.Location = new System.Drawing.Point(945, 272);
+            this.btn_Topic_OtherDoc.Location = new System.Drawing.Point(927, 274);
             this.btn_Topic_OtherDoc.Name = "btn_Topic_OtherDoc";
-            this.btn_Topic_OtherDoc.Size = new System.Drawing.Size(125, 31);
+            this.btn_Topic_OtherDoc.Size = new System.Drawing.Size(140, 30);
             this.btn_Topic_OtherDoc.TabIndex = 68;
             this.btn_Topic_OtherDoc.Text = "其它载体档案";
             this.btn_Topic_OtherDoc.Click += new System.EventHandler(this.Btn_OtherDoc_Click);
             // 
             // txt_Topic_Funds
             // 
-            this.txt_Topic_Funds.Location = new System.Drawing.Point(845, 37);
+            this.txt_Topic_Funds.Location = new System.Drawing.Point(845, 40);
             this.txt_Topic_Funds.Name = "txt_Topic_Funds";
             this.txt_Topic_Funds.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_Funds.Properties.Appearance.Options.UseFont = true;
@@ -1940,7 +1965,7 @@
             // 
             // txt_Topic_EndTime
             // 
-            this.txt_Topic_EndTime.Location = new System.Drawing.Point(475, 72);
+            this.txt_Topic_EndTime.Location = new System.Drawing.Point(477, 75);
             this.txt_Topic_EndTime.Name = "txt_Topic_EndTime";
             this.txt_Topic_EndTime.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_EndTime.Properties.Appearance.Options.UseFont = true;
@@ -1950,7 +1975,7 @@
             // 
             // txt_Topic_StartTime
             // 
-            this.txt_Topic_StartTime.Location = new System.Drawing.Point(120, 72);
+            this.txt_Topic_StartTime.Location = new System.Drawing.Point(120, 75);
             this.txt_Topic_StartTime.Name = "txt_Topic_StartTime";
             this.txt_Topic_StartTime.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_StartTime.Properties.Appearance.Options.UseFont = true;
@@ -1964,7 +1989,7 @@
             this.cbo_Topic_Province.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbo_Topic_Province.Font = new System.Drawing.Font("华文中宋", 15F);
             this.cbo_Topic_Province.IntegralHeight = false;
-            this.cbo_Topic_Province.Location = new System.Drawing.Point(475, 107);
+            this.cbo_Topic_Province.Location = new System.Drawing.Point(477, 111);
             this.cbo_Topic_Province.MaxDropDownItems = 15;
             this.cbo_Topic_Province.Name = "cbo_Topic_Province";
             this.cbo_Topic_Province.Size = new System.Drawing.Size(224, 31);
@@ -1972,7 +1997,7 @@
             // 
             // txt_Topic_Unit
             // 
-            this.txt_Topic_Unit.Location = new System.Drawing.Point(120, 107);
+            this.txt_Topic_Unit.Location = new System.Drawing.Point(120, 110);
             this.txt_Topic_Unit.Name = "txt_Topic_Unit";
             this.txt_Topic_Unit.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_Unit.Properties.Appearance.Options.UseFont = true;
@@ -1982,7 +2007,7 @@
             // 
             // txt_Topic_ProUser
             // 
-            this.txt_Topic_ProUser.Location = new System.Drawing.Point(120, 142);
+            this.txt_Topic_ProUser.Location = new System.Drawing.Point(120, 145);
             this.txt_Topic_ProUser.Name = "txt_Topic_ProUser";
             this.txt_Topic_ProUser.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_ProUser.Properties.Appearance.Options.UseFont = true;
@@ -1994,7 +2019,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(31, 149);
+            this.label2.Location = new System.Drawing.Point(31, 151);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 20);
             this.label2.TabIndex = 64;
@@ -2002,7 +2027,7 @@
             // 
             // txt_Topic_UnitUser
             // 
-            this.txt_Topic_UnitUser.Location = new System.Drawing.Point(845, 107);
+            this.txt_Topic_UnitUser.Location = new System.Drawing.Point(845, 110);
             this.txt_Topic_UnitUser.Name = "txt_Topic_UnitUser";
             this.txt_Topic_UnitUser.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_UnitUser.Properties.Appearance.Options.UseFont = true;
@@ -2014,7 +2039,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label20.Location = new System.Drawing.Point(733, 79);
+            this.label20.Location = new System.Drawing.Point(735, 81);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(104, 20);
             this.label20.TabIndex = 62;
@@ -2022,19 +2047,19 @@
             // 
             // txt_Topic_Intro
             // 
-            this.txt_Topic_Intro.Location = new System.Drawing.Point(120, 177);
+            this.txt_Topic_Intro.Location = new System.Drawing.Point(120, 180);
             this.txt_Topic_Intro.Name = "txt_Topic_Intro";
             this.txt_Topic_Intro.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_Intro.Properties.Appearance.Options.UseFont = true;
             this.txt_Topic_Intro.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
-            this.txt_Topic_Intro.Size = new System.Drawing.Size(950, 89);
+            this.txt_Topic_Intro.Size = new System.Drawing.Size(948, 91);
             this.txt_Topic_Intro.TabIndex = 12;
             // 
             // label21
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label21.Location = new System.Drawing.Point(10, 177);
+            this.label21.Location = new System.Drawing.Point(10, 179);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(104, 20);
             this.label21.TabIndex = 60;
@@ -2044,7 +2069,7 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label22.Location = new System.Drawing.Point(712, 114);
+            this.label22.Location = new System.Drawing.Point(714, 116);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(125, 20);
             this.label22.TabIndex = 58;
@@ -2052,7 +2077,7 @@
             // 
             // txt_Topic_Year
             // 
-            this.txt_Topic_Year.Location = new System.Drawing.Point(845, 72);
+            this.txt_Topic_Year.Location = new System.Drawing.Point(845, 75);
             this.txt_Topic_Year.Name = "txt_Topic_Year";
             this.txt_Topic_Year.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_Year.Properties.Appearance.Options.UseFont = true;
@@ -2064,7 +2089,7 @@
             // 
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label24.Location = new System.Drawing.Point(354, 114);
+            this.label24.Location = new System.Drawing.Point(356, 116);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(115, 20);
             this.label24.TabIndex = 54;
@@ -2074,7 +2099,7 @@
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label25.Location = new System.Drawing.Point(10, 114);
+            this.label25.Location = new System.Drawing.Point(10, 116);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(104, 20);
             this.label25.TabIndex = 53;
@@ -2084,7 +2109,7 @@
             // 
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label26.Location = new System.Drawing.Point(354, 44);
+            this.label26.Location = new System.Drawing.Point(356, 46);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(115, 20);
             this.label26.TabIndex = 52;
@@ -2094,7 +2119,7 @@
             // 
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label27.Location = new System.Drawing.Point(365, 79);
+            this.label27.Location = new System.Drawing.Point(367, 81);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(104, 20);
             this.label27.TabIndex = 51;
@@ -2102,7 +2127,7 @@
             // 
             // txt_Topic_Theme
             // 
-            this.txt_Topic_Theme.Location = new System.Drawing.Point(475, 37);
+            this.txt_Topic_Theme.Location = new System.Drawing.Point(477, 40);
             this.txt_Topic_Theme.Name = "txt_Topic_Theme";
             this.txt_Topic_Theme.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_Theme.Properties.Appearance.Options.UseFont = true;
@@ -2114,7 +2139,7 @@
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label28.Location = new System.Drawing.Point(10, 79);
+            this.label28.Location = new System.Drawing.Point(10, 81);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(104, 20);
             this.label28.TabIndex = 49;
@@ -2122,7 +2147,7 @@
             // 
             // txt_Topic_Field
             // 
-            this.txt_Topic_Field.Location = new System.Drawing.Point(120, 37);
+            this.txt_Topic_Field.Location = new System.Drawing.Point(120, 40);
             this.txt_Topic_Field.Name = "txt_Topic_Field";
             this.txt_Topic_Field.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_Field.Properties.Appearance.Options.UseFont = true;
@@ -2134,7 +2159,7 @@
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label29.Location = new System.Drawing.Point(711, 44);
+            this.label29.Location = new System.Drawing.Point(713, 46);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(126, 20);
             this.label29.TabIndex = 47;
@@ -2144,7 +2169,7 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label30.Location = new System.Drawing.Point(10, 44);
+            this.label30.Location = new System.Drawing.Point(10, 46);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(104, 20);
             this.label30.TabIndex = 45;
@@ -2152,7 +2177,7 @@
             // 
             // txt_Topic_Name
             // 
-            this.txt_Topic_Name.Location = new System.Drawing.Point(475, 2);
+            this.txt_Topic_Name.Location = new System.Drawing.Point(477, 5);
             this.txt_Topic_Name.Name = "txt_Topic_Name";
             this.txt_Topic_Name.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Topic_Name.Properties.Appearance.Options.UseFont = true;
@@ -2164,7 +2189,7 @@
             // 
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label31.Location = new System.Drawing.Point(407, 9);
+            this.label31.Location = new System.Drawing.Point(409, 11);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(62, 20);
             this.label31.TabIndex = 43;
@@ -2172,7 +2197,7 @@
             // 
             // txt_Topic_Code
             // 
-            this.txt_Topic_Code.Location = new System.Drawing.Point(120, 2);
+            this.txt_Topic_Code.Location = new System.Drawing.Point(120, 5);
             this.txt_Topic_Code.Name = "txt_Topic_Code";
             this.txt_Topic_Code.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.txt_Topic_Code.Properties.Appearance.Options.UseFont = true;
@@ -2184,7 +2209,7 @@
             // 
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label33.Location = new System.Drawing.Point(52, 9);
+            this.label33.Location = new System.Drawing.Point(52, 11);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(62, 20);
             this.label33.TabIndex = 39;
@@ -2196,10 +2221,10 @@
             this.Subject.Controls.Add(this.tab_Subject_Info);
             this.Subject.Controls.Add(this.pal_Subject_BtnGroup);
             this.Subject.Controls.Add(this.pal_Subject);
-            this.Subject.Location = new System.Drawing.Point(4, 23);
+            this.Subject.Location = new System.Drawing.Point(4, 30);
             this.Subject.Name = "Subject";
             this.Subject.Padding = new System.Windows.Forms.Padding(3);
-            this.Subject.Size = new System.Drawing.Size(1091, 719);
+            this.Subject.Size = new System.Drawing.Size(1091, 712);
             this.Subject.TabIndex = 4;
             this.Subject.Text = "子课题";
             // 
@@ -2211,7 +2236,7 @@
             this.tab_Subject_Info.Location = new System.Drawing.Point(3, 310);
             this.tab_Subject_Info.Name = "tab_Subject_Info";
             this.tab_Subject_Info.SelectedTabPage = this.tabPage16;
-            this.tab_Subject_Info.Size = new System.Drawing.Size(1085, 157);
+            this.tab_Subject_Info.Size = new System.Drawing.Size(1085, 313);
             this.tab_Subject_Info.TabIndex = 9;
             this.tab_Subject_Info.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPage16,
@@ -2227,7 +2252,7 @@
             this.tabPage16.Image = ((System.Drawing.Image)(resources.GetObject("tabPage16.Image")));
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(1079, 121);
+            this.tabPage16.Size = new System.Drawing.Size(1079, 277);
             this.tabPage16.Text = "文件列表";
             // 
             // dgv_Subject_FileList
@@ -2265,7 +2290,7 @@
             this.dgv_Subject_FileList.Location = new System.Drawing.Point(3, 3);
             this.dgv_Subject_FileList.Name = "dgv_Subject_FileList";
             this.dgv_Subject_FileList.RowTemplate.Height = 23;
-            this.dgv_Subject_FileList.Size = new System.Drawing.Size(1073, 115);
+            this.dgv_Subject_FileList.Size = new System.Drawing.Size(1073, 271);
             this.dgv_Subject_FileList.TabIndex = 0;
             this.dgv_Subject_FileList.Tag = "subject_fl_";
             this.dgv_Subject_FileList.DataSourceChanged += new System.EventHandler(this.FileList_DataSourceChanged);
@@ -2273,6 +2298,7 @@
             this.dgv_Subject_FileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.FileList_EditingControlShowing);
             this.dgv_Subject_FileList.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FileList_RowHeaderMouseDoubleClick);
             this.dgv_Subject_FileList.Sorted += new System.EventHandler(this.FileList_Sort);
+            this.dgv_Subject_FileList.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.FileList_UserAddedRow);
             this.dgv_Subject_FileList.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.FileList_UserDeletingRow);
             // 
             // subject_fl_num
@@ -2399,7 +2425,7 @@
             this.tabPage17.Controls.Add(this.dgv_Subject_FileValid);
             this.tabPage17.Image = ((System.Drawing.Image)(resources.GetObject("tabPage17.Image")));
             this.tabPage17.Name = "tabPage17";
-            this.tabPage17.Size = new System.Drawing.Size(1079, 121);
+            this.tabPage17.Size = new System.Drawing.Size(1079, 284);
             this.tabPage17.Text = "文件核查";
             // 
             // dgv_Subject_FileValid
@@ -2429,7 +2455,7 @@
             this.dgv_Subject_FileValid.Name = "dgv_Subject_FileValid";
             this.dgv_Subject_FileValid.RowHeadersVisible = false;
             this.dgv_Subject_FileValid.RowTemplate.Height = 23;
-            this.dgv_Subject_FileValid.Size = new System.Drawing.Size(1079, 121);
+            this.dgv_Subject_FileValid.Size = new System.Drawing.Size(1079, 284);
             this.dgv_Subject_FileValid.TabIndex = 0;
             this.dgv_Subject_FileValid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataError);
             // 
@@ -2494,7 +2520,7 @@
             this.tabPage19.Controls.Add(this.label87);
             this.tabPage19.Image = ((System.Drawing.Image)(resources.GetObject("tabPage19.Image")));
             this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Size = new System.Drawing.Size(1079, 121);
+            this.tabPage19.Size = new System.Drawing.Size(1079, 284);
             this.tabPage19.Text = "卷盒信息";
             // 
             // lbl_Subject_Box_Remove
@@ -2663,7 +2689,7 @@
             this.lsv_JH_XM_KT_ZKT_File2.GridLines = true;
             this.lsv_JH_XM_KT_ZKT_File2.Location = new System.Drawing.Point(573, 86);
             this.lsv_JH_XM_KT_ZKT_File2.Name = "lsv_JH_XM_KT_ZKT_File2";
-            this.lsv_JH_XM_KT_ZKT_File2.Size = new System.Drawing.Size(498, 32);
+            this.lsv_JH_XM_KT_ZKT_File2.Size = new System.Drawing.Size(498, 195);
             this.lsv_JH_XM_KT_ZKT_File2.TabIndex = 7;
             this.lsv_JH_XM_KT_ZKT_File2.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_KT_ZKT_File2.View = System.Windows.Forms.View.Details;
@@ -2677,7 +2703,7 @@
             this.lsv_JH_XM_KT_ZKT_File1.GridLines = true;
             this.lsv_JH_XM_KT_ZKT_File1.Location = new System.Drawing.Point(3, 86);
             this.lsv_JH_XM_KT_ZKT_File1.Name = "lsv_JH_XM_KT_ZKT_File1";
-            this.lsv_JH_XM_KT_ZKT_File1.Size = new System.Drawing.Size(499, 32);
+            this.lsv_JH_XM_KT_ZKT_File1.Size = new System.Drawing.Size(499, 195);
             this.lsv_JH_XM_KT_ZKT_File1.TabIndex = 6;
             this.lsv_JH_XM_KT_ZKT_File1.UseCompatibleStateImageBehavior = false;
             this.lsv_JH_XM_KT_ZKT_File1.View = System.Windows.Forms.View.Details;
@@ -2725,16 +2751,26 @@
             // 
             // pal_Subject_BtnGroup
             // 
+            this.pal_Subject_BtnGroup.Controls.Add(this.lbl_Subject_Tip);
             this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_QTReason);
             this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_Save);
             this.pal_Subject_BtnGroup.Controls.Add(this.btn_Subject_AddFile);
             this.pal_Subject_BtnGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pal_Subject_BtnGroup.Enabled = false;
             this.pal_Subject_BtnGroup.Font = new System.Drawing.Font("宋体", 11F);
-            this.pal_Subject_BtnGroup.Location = new System.Drawing.Point(3, 676);
+            this.pal_Subject_BtnGroup.Location = new System.Drawing.Point(3, 669);
             this.pal_Subject_BtnGroup.Name = "pal_Subject_BtnGroup";
             this.pal_Subject_BtnGroup.Size = new System.Drawing.Size(1085, 40);
             this.pal_Subject_BtnGroup.TabIndex = 10;
+            // 
+            // lbl_Subject_Tip
+            // 
+            this.lbl_Subject_Tip.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Subject_Tip.Appearance.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Subject_Tip.Location = new System.Drawing.Point(384, 7);
+            this.lbl_Subject_Tip.Name = "lbl_Subject_Tip";
+            this.lbl_Subject_Tip.Size = new System.Drawing.Size(0, 27);
+            this.lbl_Subject_Tip.TabIndex = 84;
             // 
             // btn_Subject_QTReason
             // 
@@ -2742,7 +2778,7 @@
             this.btn_Subject_QTReason.Appearance.Options.UseFont = true;
             this.btn_Subject_QTReason.Image = ((System.Drawing.Image)(resources.GetObject("btn_Subject_QTReason.Image")));
             this.btn_Subject_QTReason.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Subject_QTReason.Location = new System.Drawing.Point(106, 5);
+            this.btn_Subject_QTReason.Location = new System.Drawing.Point(105, 5);
             this.btn_Subject_QTReason.Name = "btn_Subject_QTReason";
             this.btn_Subject_QTReason.Size = new System.Drawing.Size(93, 30);
             this.btn_Subject_QTReason.TabIndex = 82;
@@ -2757,7 +2793,7 @@
             this.btn_Subject_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Subject_Save.Image")));
             this.btn_Subject_Save.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Subject_Save.ImageToTextIndent = 0;
-            this.btn_Subject_Save.Location = new System.Drawing.Point(1001, 5);
+            this.btn_Subject_Save.Location = new System.Drawing.Point(1004, 5);
             this.btn_Subject_Save.Name = "btn_Subject_Save";
             this.btn_Subject_Save.Size = new System.Drawing.Size(76, 30);
             this.btn_Subject_Save.TabIndex = 76;
@@ -2770,7 +2806,7 @@
             this.btn_Subject_AddFile.Appearance.Options.UseFont = true;
             this.btn_Subject_AddFile.Image = ((System.Drawing.Image)(resources.GetObject("btn_Subject_AddFile.Image")));
             this.btn_Subject_AddFile.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Subject_AddFile.Location = new System.Drawing.Point(7, 5);
+            this.btn_Subject_AddFile.Location = new System.Drawing.Point(6, 5);
             this.btn_Subject_AddFile.Name = "btn_Subject_AddFile";
             this.btn_Subject_AddFile.Size = new System.Drawing.Size(93, 30);
             this.btn_Subject_AddFile.TabIndex = 77;
@@ -2819,16 +2855,16 @@
             this.btn_Subject_OtherDoc.Appearance.Options.UseFont = true;
             this.btn_Subject_OtherDoc.Image = ((System.Drawing.Image)(resources.GetObject("btn_Subject_OtherDoc.Image")));
             this.btn_Subject_OtherDoc.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Subject_OtherDoc.Location = new System.Drawing.Point(946, 271);
+            this.btn_Subject_OtherDoc.Location = new System.Drawing.Point(927, 274);
             this.btn_Subject_OtherDoc.Name = "btn_Subject_OtherDoc";
-            this.btn_Subject_OtherDoc.Size = new System.Drawing.Size(125, 31);
+            this.btn_Subject_OtherDoc.Size = new System.Drawing.Size(140, 30);
             this.btn_Subject_OtherDoc.TabIndex = 70;
             this.btn_Subject_OtherDoc.Text = "其它载体档案";
             this.btn_Subject_OtherDoc.Click += new System.EventHandler(this.Btn_OtherDoc_Click);
             // 
             // txt_Subject_Funds
             // 
-            this.txt_Subject_Funds.Location = new System.Drawing.Point(845, 36);
+            this.txt_Subject_Funds.Location = new System.Drawing.Point(845, 40);
             this.txt_Subject_Funds.Name = "txt_Subject_Funds";
             this.txt_Subject_Funds.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_Funds.Properties.Appearance.Options.UseFont = true;
@@ -2838,7 +2874,7 @@
             // 
             // txt_Subject_EndTime
             // 
-            this.txt_Subject_EndTime.Location = new System.Drawing.Point(475, 71);
+            this.txt_Subject_EndTime.Location = new System.Drawing.Point(477, 75);
             this.txt_Subject_EndTime.Name = "txt_Subject_EndTime";
             this.txt_Subject_EndTime.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_EndTime.Properties.Appearance.Options.UseFont = true;
@@ -2848,7 +2884,7 @@
             // 
             // txt_Subject_StartTime
             // 
-            this.txt_Subject_StartTime.Location = new System.Drawing.Point(120, 71);
+            this.txt_Subject_StartTime.Location = new System.Drawing.Point(120, 75);
             this.txt_Subject_StartTime.Name = "txt_Subject_StartTime";
             this.txt_Subject_StartTime.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_StartTime.Properties.Appearance.Options.UseFont = true;
@@ -2862,7 +2898,7 @@
             this.cbo_Subject_Province.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbo_Subject_Province.Font = new System.Drawing.Font("华文中宋", 15F);
             this.cbo_Subject_Province.IntegralHeight = false;
-            this.cbo_Subject_Province.Location = new System.Drawing.Point(475, 106);
+            this.cbo_Subject_Province.Location = new System.Drawing.Point(477, 111);
             this.cbo_Subject_Province.MaxDropDownItems = 15;
             this.cbo_Subject_Province.Name = "cbo_Subject_Province";
             this.cbo_Subject_Province.Size = new System.Drawing.Size(224, 31);
@@ -2870,7 +2906,7 @@
             // 
             // txt_Subject_Unit
             // 
-            this.txt_Subject_Unit.Location = new System.Drawing.Point(120, 106);
+            this.txt_Subject_Unit.Location = new System.Drawing.Point(120, 110);
             this.txt_Subject_Unit.Name = "txt_Subject_Unit";
             this.txt_Subject_Unit.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_Unit.Properties.Appearance.Options.UseFont = true;
@@ -2880,7 +2916,7 @@
             // 
             // txt_Subject_ProUser
             // 
-            this.txt_Subject_ProUser.Location = new System.Drawing.Point(120, 141);
+            this.txt_Subject_ProUser.Location = new System.Drawing.Point(120, 145);
             this.txt_Subject_ProUser.Name = "txt_Subject_ProUser";
             this.txt_Subject_ProUser.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_ProUser.Properties.Appearance.Options.UseFont = true;
@@ -2892,7 +2928,7 @@
             // 
             this.label88.AutoSize = true;
             this.label88.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label88.Location = new System.Drawing.Point(31, 148);
+            this.label88.Location = new System.Drawing.Point(31, 151);
             this.label88.Name = "label88";
             this.label88.Size = new System.Drawing.Size(83, 20);
             this.label88.TabIndex = 64;
@@ -2900,7 +2936,7 @@
             // 
             // txt_Subject_Unituser
             // 
-            this.txt_Subject_Unituser.Location = new System.Drawing.Point(845, 106);
+            this.txt_Subject_Unituser.Location = new System.Drawing.Point(845, 110);
             this.txt_Subject_Unituser.Name = "txt_Subject_Unituser";
             this.txt_Subject_Unituser.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_Unituser.Properties.Appearance.Options.UseFont = true;
@@ -2912,7 +2948,7 @@
             // 
             this.label89.AutoSize = true;
             this.label89.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label89.Location = new System.Drawing.Point(733, 78);
+            this.label89.Location = new System.Drawing.Point(735, 81);
             this.label89.Name = "label89";
             this.label89.Size = new System.Drawing.Size(104, 20);
             this.label89.TabIndex = 62;
@@ -2920,19 +2956,19 @@
             // 
             // txt_Subject_Intro
             // 
-            this.txt_Subject_Intro.Location = new System.Drawing.Point(120, 176);
+            this.txt_Subject_Intro.Location = new System.Drawing.Point(120, 180);
             this.txt_Subject_Intro.Name = "txt_Subject_Intro";
             this.txt_Subject_Intro.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_Intro.Properties.Appearance.Options.UseFont = true;
             this.txt_Subject_Intro.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
-            this.txt_Subject_Intro.Size = new System.Drawing.Size(950, 93);
+            this.txt_Subject_Intro.Size = new System.Drawing.Size(948, 91);
             this.txt_Subject_Intro.TabIndex = 12;
             // 
             // label90
             // 
             this.label90.AutoSize = true;
             this.label90.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label90.Location = new System.Drawing.Point(10, 176);
+            this.label90.Location = new System.Drawing.Point(10, 179);
             this.label90.Name = "label90";
             this.label90.Size = new System.Drawing.Size(104, 20);
             this.label90.TabIndex = 60;
@@ -2942,7 +2978,7 @@
             // 
             this.label91.AutoSize = true;
             this.label91.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label91.Location = new System.Drawing.Point(712, 113);
+            this.label91.Location = new System.Drawing.Point(714, 116);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(125, 20);
             this.label91.TabIndex = 58;
@@ -2950,7 +2986,7 @@
             // 
             // txt_Subject_Year
             // 
-            this.txt_Subject_Year.Location = new System.Drawing.Point(845, 71);
+            this.txt_Subject_Year.Location = new System.Drawing.Point(845, 75);
             this.txt_Subject_Year.Name = "txt_Subject_Year";
             this.txt_Subject_Year.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_Year.Properties.Appearance.Options.UseFont = true;
@@ -2962,7 +2998,7 @@
             // 
             this.label93.AutoSize = true;
             this.label93.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label93.Location = new System.Drawing.Point(354, 113);
+            this.label93.Location = new System.Drawing.Point(356, 116);
             this.label93.Name = "label93";
             this.label93.Size = new System.Drawing.Size(115, 20);
             this.label93.TabIndex = 54;
@@ -2972,7 +3008,7 @@
             // 
             this.label94.AutoSize = true;
             this.label94.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label94.Location = new System.Drawing.Point(10, 113);
+            this.label94.Location = new System.Drawing.Point(10, 116);
             this.label94.Name = "label94";
             this.label94.Size = new System.Drawing.Size(104, 20);
             this.label94.TabIndex = 53;
@@ -2982,7 +3018,7 @@
             // 
             this.label95.AutoSize = true;
             this.label95.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label95.Location = new System.Drawing.Point(354, 43);
+            this.label95.Location = new System.Drawing.Point(356, 46);
             this.label95.Name = "label95";
             this.label95.Size = new System.Drawing.Size(115, 20);
             this.label95.TabIndex = 52;
@@ -2992,7 +3028,7 @@
             // 
             this.label96.AutoSize = true;
             this.label96.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label96.Location = new System.Drawing.Point(365, 78);
+            this.label96.Location = new System.Drawing.Point(367, 81);
             this.label96.Name = "label96";
             this.label96.Size = new System.Drawing.Size(104, 20);
             this.label96.TabIndex = 51;
@@ -3000,7 +3036,7 @@
             // 
             // txt_Subject_Theme
             // 
-            this.txt_Subject_Theme.Location = new System.Drawing.Point(475, 36);
+            this.txt_Subject_Theme.Location = new System.Drawing.Point(477, 40);
             this.txt_Subject_Theme.Name = "txt_Subject_Theme";
             this.txt_Subject_Theme.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_Theme.Properties.Appearance.Options.UseFont = true;
@@ -3012,7 +3048,7 @@
             // 
             this.label97.AutoSize = true;
             this.label97.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label97.Location = new System.Drawing.Point(10, 78);
+            this.label97.Location = new System.Drawing.Point(10, 81);
             this.label97.Name = "label97";
             this.label97.Size = new System.Drawing.Size(104, 20);
             this.label97.TabIndex = 49;
@@ -3020,7 +3056,7 @@
             // 
             // txt_Subject_Field
             // 
-            this.txt_Subject_Field.Location = new System.Drawing.Point(120, 36);
+            this.txt_Subject_Field.Location = new System.Drawing.Point(120, 40);
             this.txt_Subject_Field.Name = "txt_Subject_Field";
             this.txt_Subject_Field.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_Field.Properties.Appearance.Options.UseFont = true;
@@ -3032,7 +3068,7 @@
             // 
             this.label98.AutoSize = true;
             this.label98.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label98.Location = new System.Drawing.Point(711, 43);
+            this.label98.Location = new System.Drawing.Point(713, 46);
             this.label98.Name = "label98";
             this.label98.Size = new System.Drawing.Size(126, 20);
             this.label98.TabIndex = 47;
@@ -3042,7 +3078,7 @@
             // 
             this.label99.AutoSize = true;
             this.label99.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label99.Location = new System.Drawing.Point(10, 43);
+            this.label99.Location = new System.Drawing.Point(10, 46);
             this.label99.Name = "label99";
             this.label99.Size = new System.Drawing.Size(104, 20);
             this.label99.TabIndex = 45;
@@ -3050,7 +3086,7 @@
             // 
             // txt_Subject_Name
             // 
-            this.txt_Subject_Name.Location = new System.Drawing.Point(475, 1);
+            this.txt_Subject_Name.Location = new System.Drawing.Point(477, 5);
             this.txt_Subject_Name.Name = "txt_Subject_Name";
             this.txt_Subject_Name.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F);
             this.txt_Subject_Name.Properties.Appearance.Options.UseFont = true;
@@ -3062,7 +3098,7 @@
             // 
             this.label100.AutoSize = true;
             this.label100.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label100.Location = new System.Drawing.Point(407, 8);
+            this.label100.Location = new System.Drawing.Point(409, 11);
             this.label100.Name = "label100";
             this.label100.Size = new System.Drawing.Size(62, 20);
             this.label100.TabIndex = 43;
@@ -3070,7 +3106,7 @@
             // 
             // txt_Subject_Code
             // 
-            this.txt_Subject_Code.Location = new System.Drawing.Point(120, 1);
+            this.txt_Subject_Code.Location = new System.Drawing.Point(120, 5);
             this.txt_Subject_Code.Name = "txt_Subject_Code";
             this.txt_Subject_Code.Properties.Appearance.Font = new System.Drawing.Font("华文中宋", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.txt_Subject_Code.Properties.Appearance.Options.UseFont = true;
@@ -3082,7 +3118,7 @@
             // 
             this.label101.AutoSize = true;
             this.label101.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.label101.Location = new System.Drawing.Point(52, 8);
+            this.label101.Location = new System.Drawing.Point(52, 11);
             this.label101.Name = "label101";
             this.label101.Size = new System.Drawing.Size(62, 20);
             this.label101.TabIndex = 39;
@@ -3100,6 +3136,7 @@
             this.Controls.Add(this.tab_MenuList);
             this.Controls.Add(this.Pal_LeftBar);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "Frm_ProDetails";
             this.Text = "项目/课题详情";
@@ -3121,6 +3158,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_Project_AJ_Code.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Project_GCID.Properties)).EndInit();
             this.pal_Project_BtnGroup.ResumeLayout(false);
+            this.pal_Project_BtnGroup.PerformLayout();
             this.pal_Project.ResumeLayout(false);
             this.pal_Project.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Project_Funds.Properties)).EndInit();
@@ -3149,6 +3187,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_Topic_AJ_Code.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Topic_GCID.Properties)).EndInit();
             this.pal_Topic_BtnGroup.ResumeLayout(false);
+            this.pal_Topic_BtnGroup.PerformLayout();
             this.pal_Topic.ResumeLayout(false);
             this.pal_Topic.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Topic_Funds.Properties)).EndInit();
@@ -3177,6 +3216,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_Subject_AJ_Code.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Subject_GCID.Properties)).EndInit();
             this.pal_Subject_BtnGroup.ResumeLayout(false);
+            this.pal_Subject_BtnGroup.PerformLayout();
             this.pal_Subject.ResumeLayout(false);
             this.pal_Subject.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Subject_Funds.Properties)).EndInit();
@@ -3442,5 +3482,8 @@
         private System.Windows.Forms.LinkLabel lbl_Topic_Box_Add;
         private System.Windows.Forms.LinkLabel lbl_Subject_Box_Remove;
         private System.Windows.Forms.LinkLabel lbl_Subject_Box_Add;
+        private DevExpress.XtraEditors.LabelControl lbl_Project_Tip;
+        private DevExpress.XtraEditors.LabelControl lbl_Topic_Tip;
+        private DevExpress.XtraEditors.LabelControl lbl_Subject_Tip;
     }
 }

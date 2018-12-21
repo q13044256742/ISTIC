@@ -222,7 +222,8 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(type == ControlType.Project)
             {
-                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM project_info WHERE pi_id='{node.Name}'");
+                DataRow row = SqlHelper.ExecuteSingleRowQuery("SELECT pi.*, od.oCount FROM project_info pi " +
+                    $"LEFT JOIN(SELECT od_obj_id, COUNT(od_id) oCount FROM other_doc GROUP BY od_obj_id) od ON od.od_obj_id = pi.pi_id WHERE pi.pi_id='{node.Name}'");
                 if(row != null)
                 {
                     tab_Project_Info.Tag = row["pi_id"];
@@ -239,8 +240,11 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Project_UnitUser.Text = ToolHelper.GetValue(row["pi_uniter"]);
                     txt_Project_ProUser.Text = ToolHelper.GetValue(row["pi_prouser"]);
                     txt_Project_Intro.Text = ToolHelper.GetValue(row["pi_intro"]);
+                    lbl_Project_Tip.Text = $"著录人：{UserHelper.GetUserNameById(row["pi_worker_id"])}          质检人：{UserHelper.GetUserNameById(row["pi_checker_id"])}";
                     Topic.Tag = row["pi_obj_id"];
-
+                    int otherDocsCount = ToolHelper.GetIntValue(row["oCount"], 0);
+                    if (otherDocsCount != 0)
+                        btn_Project_OtherDoc.Text = $"其它载体档案({otherDocsCount})";
                     string orgCode = ToolHelper.GetValue(row["pi_orga_id"]);
                     string sourCode = ToolHelper.GetValue(row["pi_source_id"]);
                     if(sourCode.StartsWith("ZX"))
@@ -253,7 +257,8 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Topic)
             {
-                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM topic_info WHERE ti_id='{node.Name}'");
+                DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT pi.*, od.oCount FROM topic_info pi " +
+                    $"LEFT JOIN(SELECT od_obj_id, COUNT(od_id) oCount FROM other_doc GROUP BY od_obj_id) od ON od.od_obj_id = pi.ti_id WHERE pi.ti_id='{node.Name}'");
                 if(row != null)
                 {
                     tab_Topic_Info.Tag = row["ti_id"];
@@ -270,8 +275,11 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Topic_UnitUser.Text = ToolHelper.GetValue(row["ti_uniter"]);
                     txt_Topic_ProUser.Text = ToolHelper.GetValue(row["ti_prouser"]);
                     txt_Topic_Intro.Text = ToolHelper.GetValue(row["ti_intro"]);
+                    lbl_Topic_Tip.Text = $"著录人：{UserHelper.GetUserNameById(row["ti_worker_id"])}          质检人：{UserHelper.GetUserNameById(row["ti_checker_id"])}";
                     Topic.Tag = row["ti_obj_id"];
-
+                    int otherDocsCount = ToolHelper.GetIntValue(row["oCount"], 0);
+                    if (otherDocsCount != 0)
+                        btn_Topic_OtherDoc.Text = $"其它载体档案({otherDocsCount})";
                     string orgCode = ToolHelper.GetValue(row["ti_orga_id"]);
                     string sourCode = ToolHelper.GetValue(row["ti_source_id"]);
                     if(sourCode.StartsWith("ZX"))
@@ -284,7 +292,8 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else if(type == ControlType.Subject)
             {
-                DataTable table = SqlHelper.ExecuteQuery($"SELECT * FROM subject_info WHERE si_id='{node.Name}'");
+                DataTable table = SqlHelper.ExecuteQuery($"SELECT pi.*, od.oCount FROM subject_info pi " +
+                    $"LEFT JOIN(SELECT od_obj_id, COUNT(od_id) oCount FROM other_doc GROUP BY od_obj_id) od ON od.od_obj_id = pi.si_id WHERE pi.si_id='{node.Name}'");
                 if(table.Rows.Count > 0)
                 {
                     DataRow row = table.Rows[0];
@@ -305,8 +314,11 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Subject_Unituser.Text = ToolHelper.GetValue(row["si_uniter"]);
                     txt_Subject_ProUser.Text = ToolHelper.GetValue(row["si_prouser"]);
                     txt_Subject_Intro.Text = ToolHelper.GetValue(row["si_intro"]);
+                    lbl_Subject_Tip.Text = $"著录人：{UserHelper.GetUserNameById(row["si_worker_id"])}          质检人：{UserHelper.GetUserNameById(row["si_checker_id"])}";
                     Subject.Tag = row["si_obj_id"];
-
+                    int otherDocsCount = ToolHelper.GetIntValue(row["oCount"], 0);
+                    if (otherDocsCount != 0)
+                        btn_Subject_OtherDoc.Text = $"其它载体档案({otherDocsCount})";
                     string orgCode = ToolHelper.GetValue(row["si_orga_id"]);
                     string sourCode = ToolHelper.GetValue(row["si_source_id"]);
                     if(sourCode.StartsWith("ZX"))
@@ -2056,6 +2068,138 @@ namespace 科技计划项目档案数据采集管理系统
                     specialSymbol.ShowDialog();
                 }
             }
+        }
+
+        private void FileList_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            DataGridView view = sender as DataGridView;
+            view.Rows[e.Row.Index - 1].Cells[view.Tag + "amount"].Value = 1;
+            new Thread(delegate ()
+            {
+                int lastRowIndex = e.Row.Index - 1;
+                if (lastRowIndex > 0)//当前行不能是第一行
+                {
+                    DataGridViewRow row = view.Rows[lastRowIndex - 1];
+                    if (row.Cells[0].Tag == null)//当前行不能使修改（只能新增）
+                    {
+                        string key = null;
+                        object pId = null;
+                        if (view.Name.Contains("Project"))
+                        { key = "project_fl_"; pId = tab_Project_Info.Tag; }
+                        else if (view.Name.Contains("Topic"))
+                        { key = "topic_fl_"; pId = tab_Topic_Info.Tag; }
+                        else if (view.Name.Contains("Subject"))
+                        { key = "subject_fl_"; pId = tab_Subject_Info.Tag; }
+                        if (pId != null && CheckFileName(row, key))
+                        {
+                            row.Cells[$"{key}num"].Value = AddFileInfo(key, row, pId, row.Index);
+                        }
+                    }
+                }
+                Thread.CurrentThread.Abort();
+            }).Start();
+        }
+
+        private bool CheckFileName(DataGridViewRow row, string key)
+        {
+            bool result = true;
+            DataGridViewCell cellName = row.Cells[key + "name"];
+            if (cellName.Value == null || string.IsNullOrEmpty(ToolHelper.GetValue(cellName.Value).Trim()))
+            {
+                cellName.ErrorText = "温馨提示：文件名不能为空。";
+                result = false;
+            }
+            else
+            {
+                cellName.ErrorText = null;
+                for (int j = 0; j < row.Index; j++)
+                {
+                    DataGridViewCell cell2 = row.DataGridView.Rows[j].Cells[key + "name"];
+                    if (cellName.Value.Equals(cell2.Value))
+                    {
+                        cellName.ErrorText = $"温馨提示：与行{j + 1}的文件名重复。";
+                        result = false;
+                    }
+                    else
+                        cellName.ErrorText = null;
+                }
+            }
+
+            //检测文件编号重复
+            DataGridViewCell cellCode = row.Cells[key + "code"];
+            if (cellCode.Value == null || string.IsNullOrEmpty(ToolHelper.GetValue(cellCode.Value).Trim()))
+            {
+                cellCode.ErrorText = "温馨提示：文件编号不能为空。";
+                result = false;
+            }
+            else
+            {
+                cellCode.ErrorText = null;
+                for (int j = 0; j < row.Index; j++)
+                {
+                    DataGridViewCell cell2 = row.DataGridView.Rows[j].Cells[key + "code"];
+                    if (cellCode.Value.Equals(cell2.Value))
+                    {
+                        cellCode.ErrorText = $"温馨提示：与行{j + 1}的文件编号重复。";
+                        result = false;
+                    }
+                    else
+                        cellCode.ErrorText = null;
+                }
+            }
+
+            bool isOtherType = "其他".Equals(ToolHelper.GetValue(row.Cells[key + "categor"].FormattedValue).Trim());
+            DataGridViewCell cellCategor = row.Cells[key + "categorname"];
+            if (isOtherType)
+            {
+                if (cellCategor.Value == null || string.IsNullOrEmpty(ToolHelper.GetValue(cellCategor.Value).Trim()))
+                {
+                    cellCategor.ErrorText = "温馨提示：类型名称不能为空。";
+                    result = false;
+                }
+                else
+                    cellCategor.ErrorText = null;
+
+                //文件类别是否已存在
+                string codeParam = ToolHelper.GetValue(cellCode.Value);
+                if (string.IsNullOrEmpty(cellCode.ErrorText) && !string.IsNullOrEmpty(codeParam))
+                {
+                    codeParam = codeParam.Split('-')[0];
+                    int index = SqlHelper.ExecuteCountQuery($"SELECT COUNT(dd_id) FROM data_dictionary WHERE dd_name = '{codeParam}'");
+                    if (index > 0)
+                    {
+                        cellCode.ErrorText = "提示：文件类别已存在。";
+                        result = false;
+                    }
+                    else
+                        cellCode.ErrorText = null;
+                }
+            }
+            else
+                cellCategor.ErrorText = null;
+
+            DataGridViewCell dateCell = row.Cells[key + "date"];
+            if (!string.IsNullOrEmpty(ToolHelper.GetValue(dateCell.Value)))
+            {
+                if (!Regex.IsMatch(ToolHelper.GetValue(dateCell.Value), "\\d{4}-\\d{2}-\\d{2}"))
+                {
+                    dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
+                    result = false;
+                }
+                else
+                {
+                    bool flag = DateTime.TryParse(ToolHelper.GetValue(dateCell.Value), out DateTime date);
+                    if (!flag)
+                    {
+                        dateCell.ErrorText = "提示：请输入格式为 yyyy-MM-dd 的有效日期。";
+                        result = false;
+                    }
+                    else
+                        dateCell.ErrorText = null;
+                }
+            }
+
+            return result;
         }
     }
 }

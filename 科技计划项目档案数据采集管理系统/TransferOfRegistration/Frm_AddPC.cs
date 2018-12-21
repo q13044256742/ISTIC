@@ -160,26 +160,37 @@ namespace 科技计划项目档案数据采集管理系统
                 //新增信息
                 if (isAdd)
                 {
-                    StringBuilder basicInfo_QuerySql = new StringBuilder("INSERT INTO transfer_registration_pc ");
-                    basicInfo_QuerySql.Append("(trp_id,com_id,trp_name,trp_code,trp_log_data,trp_receiver,trp_giver,trp_remark,trp_cd_amount,trp_attachment_id,trp_submit_status,trp_work_status,trp_people,trp_handle_time) VALUES(");
-                    basicInfo_QuerySql.Append("'" + trpId + "',");
-                    basicInfo_QuerySql.Append("'" + sourceUnit + "',");
-                    basicInfo_QuerySql.Append("'" + batchName + "',");
-                    basicInfo_QuerySql.Append("'" + batchCode + "',");
-                    basicInfo_QuerySql.Append("'" + transferTime + "',");
-                    basicInfo_QuerySql.Append("'" + receiver + "',");
-                    basicInfo_QuerySql.Append("'" + giver + "',");
-                    basicInfo_QuerySql.Append("'" + remark + "',");
-                    basicInfo_QuerySql.Append("'" + cdCount + "',");
-                    basicInfo_QuerySql.Append("'" + fileUpload + "',");
-                    basicInfo_QuerySql.Append("'" + (int)SubmitStatus.NonSubmit + "',");
-                    basicInfo_QuerySql.Append("'" + (int)WorkStatus.NonWork + "',");
-                    basicInfo_QuerySql.Append("'" + UserHelper.GetUser().UserKey + "',");
-                    basicInfo_QuerySql.Append("'" + DateTime.Now + "')");
-                    SqlHelper.ExecuteNonQuery(basicInfo_QuerySql.ToString());
+                    //查重
+                    string querySQL = $"SELECT COUNT(trp_id) FROM transfer_registration_pc WHERE trp_code='{batchCode}' OR trp_name='{batchName}'";
+                    int amount = SqlHelper.ExecuteCountQuery(querySQL);
+                    if (amount == 0)
+                    {
+                        StringBuilder basicInfo_QuerySql = new StringBuilder("INSERT INTO transfer_registration_pc ");
+                        basicInfo_QuerySql.Append("(trp_id,com_id,trp_name,trp_code,trp_log_data,trp_receiver,trp_giver,trp_remark,trp_cd_amount,trp_attachment_id,trp_submit_status,trp_work_status,trp_people,trp_handle_time) VALUES(");
+                        basicInfo_QuerySql.Append("'" + trpId + "',");
+                        basicInfo_QuerySql.Append("'" + sourceUnit + "',");
+                        basicInfo_QuerySql.Append("'" + batchName + "',");
+                        basicInfo_QuerySql.Append("'" + batchCode + "',");
+                        basicInfo_QuerySql.Append("'" + transferTime + "',");
+                        basicInfo_QuerySql.Append("'" + receiver + "',");
+                        basicInfo_QuerySql.Append("'" + giver + "',");
+                        basicInfo_QuerySql.Append("'" + remark + "',");
+                        basicInfo_QuerySql.Append("'" + cdCount + "',");
+                        basicInfo_QuerySql.Append("'" + fileUpload + "',");
+                        basicInfo_QuerySql.Append("'" + (int)SubmitStatus.NonSubmit + "',");
+                        basicInfo_QuerySql.Append("'" + (int)WorkStatus.NonWork + "',");
+                        basicInfo_QuerySql.Append("'" + UserHelper.GetUser().UserKey + "',");
+                        basicInfo_QuerySql.Append("'" + DateTime.Now + "')");
+                        SqlHelper.ExecuteNonQuery(basicInfo_QuerySql.ToString());
 
-                    //保存光盘基本信息
-                    SaveCDList(trpId);
+                        //保存光盘基本信息
+                        SaveCDList(trpId);
+                    }
+                    else
+                    {
+                        XtraMessageBox.Show("批次编号或名称已存在，请重新输入!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        return;
+                    }
                 }
                 //更新信息
                 else

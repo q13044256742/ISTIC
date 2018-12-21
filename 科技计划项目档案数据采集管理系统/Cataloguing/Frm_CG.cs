@@ -493,7 +493,8 @@ namespace 科技计划项目档案数据采集管理系统
                 //批次完结（仅批次管理员可用）
                 else if("trp_finish".Equals(columnName))
                 {
-                    if(UserHelper.GetUserRole() == UserRole.W_Q_Manager)
+                    if(UserHelper.GetUserRole() == UserRole.W_Q_Manager 
+                        || UserHelper.GetUserRole() == UserRole.DocManager)
                     {
                         if(XtraMessageBox.Show("是否确认完结当前批次。", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                         {

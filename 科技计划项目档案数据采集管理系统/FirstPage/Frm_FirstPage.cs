@@ -276,7 +276,9 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             }
             else if("tbar_Query".Equals(itemName))//查询借阅
             {
+                SplashScreenManager.ShowDefaultWaitForm(this, true, false);
                 Frm_QueryBorrowing frm = GetFormHelper.GetQueryBorrow(this);
+                SplashScreenManager.CloseDefaultWaitForm();
                 frm.Show();
                 frm.Activate();
             }
