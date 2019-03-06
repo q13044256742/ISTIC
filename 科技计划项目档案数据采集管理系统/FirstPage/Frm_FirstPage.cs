@@ -365,7 +365,7 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             {
                 object id = dataGridView.Rows[e.RowIndex].Tag;
                 Frm_ProDetails details = new Frm_ProDetails(id);
-                if(details.ShowDialog() == DialogResult.OK)
+                if (details.ShowDialog() == DialogResult.OK)
                 {
                     LoadDataListByPage(null, 1);
                 }

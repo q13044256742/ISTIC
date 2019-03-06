@@ -231,14 +231,8 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_Statistics_Load(object sender, EventArgs e)
         {
-            DataTable table = SqlHelper.ExecuteQuery($"SELECT ul_id, real_name FROM user_list");
-            DataRow row = table.NewRow();
-            row[0] = "all"; row[1] = "全部用户";
-            table.Rows.InsertAt(row, 0);
+            InitialUserList(string.Empty);
 
-            cbo_UserList.DataSource = table;
-            cbo_UserList.ValueMember = "ul_id";
-            cbo_UserList.DisplayMember = "real_name";
             tabPane2.SelectedPageIndex = 0;
             tabPane1.SelectedPage = tabNavigationPage1;
             int _pwidth = tabNavigationPage4.Width;
@@ -248,6 +242,39 @@ namespace 科技计划项目档案数据采集管理系统
             chart4.Width = chart5.Width = _pwidth - panel3.Width;
             chart4.Left = chart5.Left = 0;
             panel1.Left = (datachart.Width - panel1.Width) / 2;
+
+            object[] orgList = SqlHelper.ExecuteSingleColumnQuery("SELECT belong_unit FROM user_list GROUP BY belong_unit");
+            cbo_UnitList.Items.Add("全部所属单位");
+            if (orgList.Length > 0)
+            {
+                cbo_UnitList.Items.AddRange(orgList);
+                cbo_UnitList.SelectedIndex = 0;
+            }
+
+            object value = SqlHelper.ExecuteOnlyOneQuery("select MIN(pi_worker_date) from project_info");
+            DateTime MinDate = ToolHelper.GetDateValue(value);
+            dtp_StartDate.MinDate = MinDate;
+            dtp_StartDate.Value = MinDate;
+            dtp_StartDate.MaxDate = DateTime.Now;
+
+            dtp_EndDate.MinDate = MinDate;
+            dtp_EndDate.MaxDate = DateTime.Now;
+
+        }
+
+        private void InitialUserList(string unitName)
+        {
+            string querySQL = $"SELECT ul_id, real_name FROM user_list ";
+            if (!string.IsNullOrEmpty(unitName))
+                querySQL += "WHERE belong_unit= '" + unitName + "'";
+            DataTable table = SqlHelper.ExecuteQuery(querySQL);
+            DataRow row = table.NewRow();
+            row[0] = "all"; row[1] = "全部用户";
+            table.Rows.InsertAt(row, 0);
+
+            cbo_UserList.DataSource = table;
+            cbo_UserList.ValueMember = "ul_id";
+            cbo_UserList.DisplayMember = "real_name";
         }
 
         /// <summary>
@@ -314,6 +341,8 @@ namespace 科技计划项目档案数据采集管理系统
             tabPane3.SelectedPageIndex = 0;
             object userId = cbo_UserList.SelectedValue;
             bool allUser = "all".Equals(userId);
+            //所属单位
+            string unitName = cbo_UnitList.SelectedIndex == 0 ? string.Empty : cbo_UnitList.SelectedItem.ToString();
             DateTime startDate = dtp_StartDate.Value;
             DateTime endDate = dtp_EndDate.Value;
             DataTable table = new DataTable();
@@ -337,6 +366,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     string userConditon = !allUser ? $" AND pi_worker_id='{userId}'" : string.Empty;
                     string queryCondition = string.Empty;
+                    string unitCondition = string.Empty;
                     if(!flag)//全部时间
                     {
                         if(startDate.Date == endDate.Date)
@@ -344,9 +374,13 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                             queryCondition = $"AND pi_worker_date >=  CONVERT(DATE, '{startDate}') AND pi_worker_date <=  CONVERT(DATE, '{endDate}')";
                     }
+                    if (!string.IsNullOrEmpty(unitName))
+                        unitCondition = "INNER JOIN user_list ON pi_worker_id = ul_id AND belong_unit='" + unitName + "'";
+                    else
+                        unitCondition = string.Empty;
                     string querySQL = "SELECT pi_worker_date, COUNT(pi_id) FROM(" +
                         "SELECT pi_id, pi_worker_date, pi_worker_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                        "SELECT ti_id, ti_worker_date, ti_worker_id FROM topic_info WHERE ti_categor = -3) AS TB1 " +
+                       $"SELECT ti_id, ti_worker_date, ti_worker_id FROM topic_info WHERE ti_categor = -3) AS TB1 {unitCondition} " +
                        $"WHERE pi_worker_id IS NOT NULL {queryCondition} {userConditon}" +
                         "GROUP BY pi_worker_date";
                     List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
@@ -366,6 +400,8 @@ namespace 科技计划项目档案数据采集管理系统
                             table.Rows.Add(date, pcount, tcount, fcount, efcount, boxcount, bcount, pgcount);
                         }
                     }
+                    
+                    //单独统计课题/子课题工作量
                     if(!flag)
                     {
                         if(startDate.Date == endDate.Date)
@@ -373,9 +409,13 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                             queryCondition = $"AND ti_worker_date >=  CONVERT(DATE, '{startDate}') AND ti_worker_date <=  CONVERT(DATE, '{endDate}')";
                     }
+                    if (!string.IsNullOrEmpty(unitName))
+                        unitCondition = "INNER JOIN user_list ON ti_worker_id = ul_id AND belong_unit='" + unitName + "'";
+                    else
+                        unitCondition = string.Empty;
                     querySQL = "SELECT ti_worker_date, COUNT(ti_id) FROM topic_info " +
-                         $"LEFT JOIN project_info ON ti_obj_id = pi_id WHERE ti_categor = 3 AND ti_worker_id='{userId}' " +
-                         $"AND ti_worker_date <> pi_worker_date {queryCondition} " +
+                         $"LEFT JOIN project_info ON ti_obj_id = pi_id {unitCondition} " +
+                         $"WHERE ti_categor = 3 AND ti_worker_id='{userId}' AND ti_worker_date <> pi_worker_date {queryCondition} " +
                          "GROUP BY ti_worker_date;";
                     List<object[]> list2 = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                     for(int i = 0; i < list2.Count; i++)
@@ -399,18 +439,22 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                             queryCondition = $"AND pfl_worker_date >=  CONVERT(DATE, '{startDate}') AND pfl_worker_date <=  CONVERT(DATE, '{endDate}')";
                     }
+                    if (!string.IsNullOrEmpty(unitName))
+                        unitCondition = "INNER JOIN user_list ON pfl_worker_id = ul_id AND belong_unit='" + unitName + "'";
+                    else
+                        unitCondition = string.Empty;
                     if (allUser)
                     {
-                        querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list WHERE 1=1 " +
-                            $"{queryCondition} AND pfl_worker_id NOT IN( " +
+                        querySQL = $"SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list {unitCondition} " +
+                            $"WHERE 1=1 {queryCondition} AND pfl_worker_id NOT IN( " +
                             $"SELECT pi_worker_id FROM project_info WHERE pi_worker_date = pfl_worker_date UNION ALL " +
                             $"SELECT ti_worker_id FROM topic_info WHERE ti_worker_date = pfl_worker_date) " +
                             $"GROUP BY pfl_worker_date; ";
                     }
                     else
                     {
-                        querySQL = "SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list WHERE 1=1 " +
-                               $"AND pfl_worker_id='{userId}' {queryCondition} AND pfl_worker_id NOT IN( " +
+                        querySQL = $"SELECT pfl_worker_date, COUNT(pfl_id) FROM processing_file_list {unitCondition} " +
+                               $"WHERE pfl_worker_id='{userId}' {queryCondition} AND pfl_worker_id NOT IN( " +
                                $"SELECT pi_worker_id FROM project_info WHERE pi_worker_id='{userId}' AND pi_worker_date = pfl_worker_date UNION ALL " +
                                $"SELECT ti_worker_id FROM topic_info WHERE ti_worker_id='{userId}' AND ti_worker_date = pfl_worker_date) " +
                                 "GROUP BY pfl_worker_date; ";
@@ -437,16 +481,22 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     string userConditon = !allUser ? $"AND pi_checker_id='{userId}'" : string.Empty;
                     string queryCondition = string.Empty;
-                    if(!flag)//全部时间
+                    string unitCondition = string.Empty;
+                    if (!flag)//全部时间
                     {
                         if(startDate.Date == endDate.Date)
                             queryCondition = $"AND pi_checker_date =  CONVERT(DATE, '{startDate}')";
                         else
                             queryCondition = $"AND pi_checker_date >=  CONVERT(DATE, '{startDate}') AND pi_checker_date <=  CONVERT(DATE, '{endDate}')";
                     }
+                    if (!string.IsNullOrEmpty(unitName))
+                        unitCondition = "INNER JOIN user_list ON pi_checker_id = ul_id AND belong_unit='" + unitName + "'";
+                    else
+                        unitCondition = string.Empty;
                     string querySQL = "SELECT pi_checker_date, COUNT(pi_id) FROM(" +
-                        $"SELECT pi_id, pi_checker_id, pi_checker_date FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                        $"SELECT ti_id, ti_checker_id, ti_checker_date FROM topic_info WHERE ti_categor = -3) AS TB1 WHERE pi_checker_id IS NOT NULL {queryCondition} {userConditon} " +
+                         "SELECT pi_id, pi_checker_id, pi_checker_date FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                        $"SELECT ti_id, ti_checker_id, ti_checker_date FROM topic_info WHERE ti_categor = -3) AS TB1 {unitCondition} " +
+                        $"WHERE pi_checker_id IS NOT NULL {queryCondition} {userConditon} " +
                         $"GROUP BY pi_checker_date";
                     List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                     object userCode = "all".Equals(userId) ? null : userId;
@@ -485,6 +535,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     string userConditon = !allUser ? $" AND pi_worker_id='{userId}'" : string.Empty;
                     string dateCondition = string.Empty;
+                    string unitCondition = string.Empty;
                     string _startDate = dtp_StartDate.Value.ToString("yyyy-MM-dd");
                     string _endDate = dtp_EndDate.Value.ToString("yyyy-MM-dd");
                     if(!chk_AllDate.Checked)//全部时间
@@ -494,9 +545,14 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                             dateCondition = $"AND pi_worker_date >= '{_startDate}' AND pi_worker_date <= '{_endDate}'";
                     }
+                    if (!string.IsNullOrEmpty(unitName))
+                        unitCondition = "INNER JOIN user_list ON pi_worker_id = ul_id AND belong_unit='" + unitName + "'";
+                    else
+                        unitCondition = string.Empty;
                     string querySQL = "SELECT pi_worker_id, COUNT(pi_id) FROM(" +
                         "SELECT pi_id, pi_worker_date, pi_worker_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                       $"SELECT ti_id, ti_worker_date, ti_worker_id FROM topic_info WHERE ti_categor = -3) AS TB1 WHERE pi_worker_id IS NOT NULL {dateCondition} {userConditon}" +
+                       $"SELECT ti_id, ti_worker_date, ti_worker_id FROM topic_info WHERE ti_categor = -3) AS TB1 {unitCondition} " +
+                       $"WHERE pi_worker_id IS NOT NULL {dateCondition} {userConditon} " +
                         "GROUP BY pi_worker_id";
                     List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                     object userCode = "all".Equals(userId) ? null : userId;
@@ -519,6 +575,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     string userConditon = !allUser ? $"AND pi_checker_id='{userId}'" : string.Empty;
                     string dateCondition = string.Empty;
+                    string unitCondition = string.Empty;
                     string _startDate = dtp_StartDate.Value.ToString("yyyy-MM-dd");
                     string _endDate = dtp_EndDate.Value.ToString("yyyy-MM-dd");
                     if(!chk_AllDate.Checked)//全部时间
@@ -528,10 +585,15 @@ namespace 科技计划项目档案数据采集管理系统
                         else
                             dateCondition = $"AND pi_checker_date >= '{_startDate}' AND pi_checker_date <= '{_endDate}'";
                     }
+                    if (!string.IsNullOrEmpty(unitName))
+                        unitCondition = "INNER JOIN user_list ON pi_checker_id = ul_id AND belong_unit='" + unitName + "'";
+                    else
+                        unitCondition = string.Empty;
                     string querySQL = "SELECT pi_checker_id, COUNT(pi_id) FROM(" +
-                        $"SELECT pi_id, pi_checker_id, pi_checker_date FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                        $"SELECT ti_id, ti_checker_id, ti_checker_date FROM topic_info WHERE ti_categor = -3) AS TB1 WHERE pi_checker_id IS NOT NULL {dateCondition} {userConditon} " +
-                        $"GROUP BY pi_checker_id";
+                         "SELECT pi_id, pi_checker_id, pi_checker_date FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                        $"SELECT ti_id, ti_checker_id, ti_checker_date FROM topic_info WHERE ti_categor = -3) AS TB1 {unitCondition} " +
+                        $"WHERE pi_checker_id IS NOT NULL {dateCondition} {userConditon} " +
+                         "GROUP BY pi_checker_id";
                     List<object[]> list = SqlHelper.ExecuteColumnsQuery(querySQL, 2);
                     for(int i = 0; i < list.Count; i++)
                     {
@@ -667,10 +729,7 @@ namespace 科技计划项目档案数据采集管理系统
 
         private int GetFilePageByFid(object date, object userId)
         {
-            string _querySQL = $"SELECT pfl_id FROM processing_file_list " +
-                 "LEFT JOIN project_info ON pi_id = pfl_obj_id " +
-                $"WHERE pfl_worker_id = '{userId}' AND pfl_worker_date='{date}' AND pi_worker_date <> pfl_worker_date";
-            string querySQL = $"SELECT SUM(pfl_pages) FROM processing_file_list WHERE pfl_id IN ({_querySQL})";
+            string querySQL = $"SELECT SUM(pfl_pages) FROM processing_file_list WHERE pfl_worker_id = '{userId}' AND pfl_worker_date='{date}'";
             return SqlHelper.ExecuteCountQuery(querySQL);
         }
 
@@ -2034,6 +2093,14 @@ namespace 科技计划项目档案数据采集管理系统
             AccordionControlElement element = cc_LeftMenu.SelectedElement;
             if(element != null)
                 LocalElement_Click(element, null);
+        }
+
+        private void cbo_UnitList_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            string unitName = string.Empty;
+            if (cbo_UnitList.SelectedIndex != 0)
+                unitName = ToolHelper.GetValue(cbo_UnitList.SelectedItem);
+            InitialUserList(unitName);
         }
     }
 }

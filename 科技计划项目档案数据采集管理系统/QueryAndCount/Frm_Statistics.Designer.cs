@@ -46,6 +46,8 @@
             this.view = new System.Windows.Forms.DataGridView();
             this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
             this.tabNavigationPage1 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+            this.cbo_UnitList = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.tabPane3 = new DevExpress.XtraBars.Navigation.TabPane();
             this.tabNavigationPage3 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
             this.countView = new System.Windows.Forms.DataGridView();
@@ -214,7 +216,7 @@
             this.tabNavigationPage2});
             this.tabPane1.RegularSize = new System.Drawing.Size(1264, 749);
             this.tabPane1.SelectedPage = this.tabNavigationPage1;
-            this.tabPane1.SelectedPageIndex = 1;
+            this.tabPane1.SelectedPageIndex = 0;
             this.tabPane1.Size = new System.Drawing.Size(1264, 749);
             this.tabPane1.TabIndex = 17;
             this.tabPane1.Text = "tabPane1";
@@ -225,6 +227,8 @@
             this.tabNavigationPage1.Appearance.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.tabNavigationPage1.Appearance.Options.UseFont = true;
             this.tabNavigationPage1.Caption = "tabNavigationPage1";
+            this.tabNavigationPage1.Controls.Add(this.cbo_UnitList);
+            this.tabNavigationPage1.Controls.Add(this.label7);
             this.tabNavigationPage1.Controls.Add(this.tabPane3);
             this.tabNavigationPage1.Controls.Add(this.panel2);
             this.tabNavigationPage1.Controls.Add(this.label1);
@@ -245,6 +249,26 @@
             this.tabNavigationPage1.PageText = "工作量统计";
             this.tabNavigationPage1.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.tabNavigationPage1.Size = new System.Drawing.Size(1246, 701);
+            // 
+            // cbo_UnitList
+            // 
+            this.cbo_UnitList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbo_UnitList.FormattingEnabled = true;
+            this.cbo_UnitList.Location = new System.Drawing.Point(142, 18);
+            this.cbo_UnitList.Name = "cbo_UnitList";
+            this.cbo_UnitList.Size = new System.Drawing.Size(303, 29);
+            this.cbo_UnitList.TabIndex = 32;
+            this.cbo_UnitList.SelectionChangeCommitted += new System.EventHandler(this.cbo_UnitList_SelectionChangeCommitted);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Location = new System.Drawing.Point(14, 21);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(122, 22);
+            this.label7.TabIndex = 31;
+            this.label7.Text = "用户所属单位：";
             // 
             // tabPane3
             // 
@@ -486,7 +510,7 @@
             // rdo_ZJ
             // 
             this.rdo_ZJ.AutoSize = true;
-            this.rdo_ZJ.Location = new System.Drawing.Point(398, 22);
+            this.rdo_ZJ.Location = new System.Drawing.Point(858, 22);
             this.rdo_ZJ.Name = "rdo_ZJ";
             this.rdo_ZJ.Size = new System.Drawing.Size(60, 25);
             this.rdo_ZJ.TabIndex = 25;
@@ -525,7 +549,7 @@
             // 
             this.rdo_JG.AutoSize = true;
             this.rdo_JG.Checked = true;
-            this.rdo_JG.Location = new System.Drawing.Point(332, 22);
+            this.rdo_JG.Location = new System.Drawing.Point(792, 22);
             this.rdo_JG.Name = "rdo_JG";
             this.rdo_JG.Size = new System.Drawing.Size(60, 25);
             this.rdo_JG.TabIndex = 24;
@@ -548,7 +572,7 @@
             // 
             this.dtp_EndDate.CustomFormat = "yyyy-MM-dd";
             this.dtp_EndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_EndDate.Location = new System.Drawing.Point(332, 70);
+            this.dtp_EndDate.Location = new System.Drawing.Point(309, 70);
             this.dtp_EndDate.Name = "dtp_EndDate";
             this.dtp_EndDate.Size = new System.Drawing.Size(136, 29);
             this.dtp_EndDate.TabIndex = 18;
@@ -566,7 +590,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(294, 73);
+            this.label3.Location = new System.Drawing.Point(283, 73);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(22, 22);
             this.label3.TabIndex = 16;
@@ -586,7 +610,7 @@
             // 
             this.cbo_UserList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbo_UserList.FormattingEnabled = true;
-            this.cbo_UserList.Location = new System.Drawing.Point(142, 20);
+            this.cbo_UserList.Location = new System.Drawing.Point(602, 20);
             this.cbo_UserList.Name = "cbo_UserList";
             this.cbo_UserList.Size = new System.Drawing.Size(136, 29);
             this.cbo_UserList.TabIndex = 14;
@@ -595,7 +619,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(46, 23);
+            this.label4.Location = new System.Drawing.Point(506, 23);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(90, 22);
             this.label4.TabIndex = 13;
@@ -974,7 +998,7 @@
             this.tabPage2.Controls.Add(this.bc_LeftMenu);
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(284, 715);
+            this.tabPage2.Size = new System.Drawing.Size(284, 667);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "计划类别";
             // 
@@ -1004,7 +1028,7 @@
             this.bc_LeftMenu.Name = "bc_LeftMenu";
             this.bc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.bc_LeftMenu.ShowToolTips = false;
-            this.bc_LeftMenu.Size = new System.Drawing.Size(284, 715);
+            this.bc_LeftMenu.Size = new System.Drawing.Size(284, 667);
             this.bc_LeftMenu.TabIndex = 14;
             // 
             // tabPage3
@@ -1012,7 +1036,7 @@
             this.tabPage3.Controls.Add(this.cc_LeftMenu);
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(284, 715);
+            this.tabPage3.Size = new System.Drawing.Size(284, 667);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "地域";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1043,7 +1067,7 @@
             this.cc_LeftMenu.Name = "cc_LeftMenu";
             this.cc_LeftMenu.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Auto;
             this.cc_LeftMenu.ShowToolTips = false;
-            this.cc_LeftMenu.Size = new System.Drawing.Size(284, 715);
+            this.cc_LeftMenu.Size = new System.Drawing.Size(284, 667);
             this.cc_LeftMenu.TabIndex = 15;
             // 
             // Frm_Statistics
@@ -1158,5 +1182,7 @@
         private System.Windows.Forms.ComboBox cbo_SourceList;
         private System.Windows.Forms.Panel mapPanel;
         private System.Windows.Forms.Panel chart1;
+        private System.Windows.Forms.ComboBox cbo_UnitList;
+        private System.Windows.Forms.Label label7;
     }
 }

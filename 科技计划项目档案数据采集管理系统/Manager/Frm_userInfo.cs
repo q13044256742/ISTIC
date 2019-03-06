@@ -13,6 +13,22 @@ namespace 科技计划项目档案数据采集管理系统
         //查询
         private void U_btnSearch(object sender, EventArgs e)
         {
+            string key = u_SearchKey.Text;
+            if (!string.IsNullOrEmpty(key))
+            {
+                u_DataList.ClearSelection();
+                foreach (DataGridViewRow row in u_DataList.Rows)
+                {
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        if (ToolHelper.GetValue(cell.Value).Contains(key))
+                        {
+                            cell.Selected = true;
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         //新增

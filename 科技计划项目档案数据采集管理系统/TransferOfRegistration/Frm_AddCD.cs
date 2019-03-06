@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Text;
 using System.Windows.Forms;
 
@@ -6,10 +7,13 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 {
     public partial class Frm_AddCD : DevExpress.XtraEditors.XtraForm
     {
-        private string pid;
+        /// <summary>
+        /// 批次ID
+        /// </summary>
+        private string TRP_ID;
         public Frm_AddCD(string pid)
         {
-            this.pid = pid;
+            this.TRP_ID = pid;
             InitializeComponent();
         }
 
@@ -18,11 +22,11 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
             string name = txt_CDName.Text.Trim();
             string code = txt_CDCode.Text.Trim();
             string remark = txt_CDRemark.Text.Trim();
-            object sort = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(trc_sort) FROM transfer_registraion_cd WHERE trp_id='{pid}'") ?? -1;
-            int _sort = Convert.ToInt32(sort) + 1;
+            object sort = SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(trc_sort) FROM transfer_registraion_cd WHERE trp_id='{TRP_ID}'") ?? -1;
+            int _sort = ToolHelper.GetIntValue(sort) + 1;
 
             if(string.IsNullOrEmpty(name) || string.IsNullOrEmpty(code))
-                MessageBox.Show("请先将表单补充完整!");
+                XtraMessageBox.Show("请先将表单补充完整!");
             else
             {
                 CDEntity cd = new CDEntity()
@@ -30,7 +34,7 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     TrcId = Guid.NewGuid().ToString(),
                     TrcName = name,
                     TrcCode = code,
-                    TrpId = pid,
+                    TrpId = TRP_ID,
                     TrcRemark = remark
                 };
                 StringBuilder cdInfo_querySql = new StringBuilder("INSERT INTO transfer_registraion_cd ");
@@ -49,11 +53,10 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
                 //刷新批次下的光盘数
                 string refreshSql = "UPDATE transfer_registration_pc SET trp_cd_amount= " +
-                    "(SELECT COUNT(*) FROM transfer_registraion_cd WHERE trp_id = '" + pid + "') " +
-                    "WHERE trp_id = '" + pid + "'";
+                    "(SELECT COUNT(trc_id) FROM transfer_registraion_cd WHERE trp_id = '" + TRP_ID + "') WHERE trp_id = '" + TRP_ID + "'";
                 SqlHelper.ExecuteNonQuery(refreshSql);
 
-                if(MessageBox.Show("保存成功，是否返回列表页?","操作成功", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                if(XtraMessageBox.Show("保存成功，是否返回列表页?","操作成功", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                 {
                     DialogResult = DialogResult.OK;
                     Close();
@@ -63,26 +66,20 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
         private void Frm_AddCD_Load(object sender, EventArgs e)
         {
-            string querySql = $"SELECT trp_name FROM transfer_registration_pc WHERE trp_id='{pid}'";
-            string name = Convert.ToString(SqlHelper.ExecuteOnlyOneQuery(querySql));
+            string querySql = $"SELECT trp_name FROM transfer_registration_pc WHERE trp_id='{TRP_ID}'";
+            string name = ToolHelper.GetValue(SqlHelper.ExecuteOnlyOneQuery(querySql));
             lbl_PCName.Text = name;
             Txt_CDCode_Enter(null, null);
         }
 
         private void Txt_CDCode_Enter(object sender, EventArgs e)
         {
-            object unitCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_code FROM data_dictionary WHERE dd_id =" +
-                $"(SELECT com_id FROM transfer_registration_pc WHERE trp_id='{pid}')");
-            int index = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(trc_id) FROM transfer_registraion_cd WHERE trp_id='{pid}'"));
-            for(int i = 1; i <= index + 1; i++)
+            object[] vals = SqlHelper.ExecuteRowsQuery($"SELECT trp_code, trp_cd_amount+1 FROM transfer_registration_pc WHERE trp_id='{TRP_ID}'");
+            if (vals != null && vals.Length == 2)
             {
-                string code = CreateBatchCode(unitCode, i);
-                int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(*) FROM transfer_registraion_cd WHERE trc_code='{code}'");
-                if(count == 0)
-                {
-                    txt_CDCode.Text = code;
-                    break;
-                }
+                string Pcode = ToolHelper.GetValue(vals[0]);
+                string Pamount = ToolHelper.GetValue(vals[1]);
+                txt_CDCode.Text = Pcode + "-" + Pamount.PadLeft(3, '0');
             }
         }
 

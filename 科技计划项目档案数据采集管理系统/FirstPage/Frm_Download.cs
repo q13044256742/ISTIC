@@ -174,7 +174,7 @@ namespace 科技计划项目档案数据采集管理系统
                 gridControl.DataSource = null;
 
                 string querySQL = $"SELECT at_id, at_name, at_size, at_date, at_uploader, at_loadticker FROM Attachment WHERE 1=1 " +
-                    $"WHERE at_name LIKE '%{key}%' OR at_code LIKE '%{key}%' ";
+                    $"AND at_name LIKE '%{key}%' OR at_code LIKE '%{key}%' ";
 
                 DataTable table = SqlHelper.ExecuteQuery(querySQL);
                 gridControl.DataSource = table;

@@ -262,6 +262,36 @@ namespace 科技计划项目档案数据采集管理系统
             }
             return null;
         }
+
+        /// <summary>
+        /// 获取时间对象的DATE格式对象，若转换失败则返回当前时间
+        /// </summary>
+        internal static DateTime GetDateValue(object value)
+        {
+            string dateStr = ToolHelper.GetValue(value);
+            if (DateTime.TryParse(dateStr, out DateTime date))
+                return date;
+            return new DateTime();
+        }
+
+        /// <summary>
+        /// 将用指定分隔符切割后的字符串用指定间隔符和包围符重新组合
+        /// </summary>
+        /// <param name="oldString">原字符串</param>
+        /// <param name="newFlag">间隔符</param>
+        /// <param name="newParam">包围符</param>
+        /// <param name="oldSplitTag">切割符</param>
+        internal static string GetFullStringBySplit(string oldString, char oldSplitTag, string newFlag, string newParam)
+        {
+            string result = string.Empty;
+            string[] strs = oldString.Split(oldSplitTag);
+            for (int i = 0; i < strs.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(strs[i]))
+                    result += $"{newParam}{strs[i]}{newParam}{newFlag}";
+            }
+            return result.Length > 0 ? result.Substring(0, result.Length - 1) : string.Empty;
+        }
     }
 
 }

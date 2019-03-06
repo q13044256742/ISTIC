@@ -91,6 +91,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cataloguing\BatchRecInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cataloguing\BatchRecInfo.Designer.cs">
+      <DependentUpon>BatchRecInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cataloguing\FileWorkEntity.cs" />
     <Compile Include="Cataloguing\Frm_AddFile.cs">
       <SubType>Form</SubType>
@@ -109,6 +115,12 @@
     </Compile>
     <Compile Include="Cataloguing\Frm_CG.Designer.cs">
       <DependentUpon>Frm_CG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cataloguing\Frm_DiskList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cataloguing\Frm_DiskList.Designer.cs">
+      <DependentUpon>Frm_DiskList.cs</DependentUpon>
     </Compile>
     <Compile Include="Cataloguing\Frm_FileList.cs">
       <SubType>Form</SubType>
@@ -407,6 +419,9 @@
       <DependentUpon>Frm_ToR.cs</DependentUpon>
     </Compile>
     <Compile Include="TransferOfRegistration\TransferOfRegistration.cs" />
+    <EmbeddedResource Include="Cataloguing\BatchRecInfo.resx">
+      <DependentUpon>BatchRecInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Cataloguing\Frm_AddFile.resx">
       <DependentUpon>Frm_AddFile.cs</DependentUpon>
     </EmbeddedResource>
@@ -415,6 +430,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Cataloguing\Frm_CG.resx">
       <DependentUpon>Frm_CG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cataloguing\Frm_DiskList.resx">
+      <DependentUpon>Frm_DiskList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Cataloguing\Frm_FileList.resx">
       <DependentUpon>Frm_FileList.cs</DependentUpon>

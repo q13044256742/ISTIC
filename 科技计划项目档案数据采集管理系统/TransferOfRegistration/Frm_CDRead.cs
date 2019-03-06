@@ -49,8 +49,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                     else
                     {
                         localKey = Guid.NewGuid().ToString();
-                        SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                            $"('{localKey}', '{trpName}', '{DateTime.Now}', '{UserHelper.GetUser().UserKey}', '{trcId}', -1)");
+                        SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                            $"('{localKey}', '{trpName}', '{targetPath}', '{DateTime.Now}', '{UserHelper.GetUser().UserKey}', '{trcId}', -1)");
                     }
                     CopyFile(directoryInfo, targetPath, localKey, totalFileAmount);
                     pgb_CD.Tag = true;
@@ -386,6 +386,8 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
 
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
+            if (btn_Sure.Enabled)
+                DialogResult = DialogResult.OK;
             Close();
         }
 

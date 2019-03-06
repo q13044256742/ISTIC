@@ -149,6 +149,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录系统";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_Login_FormClosing);
+            this.Load += new System.EventHandler(this.Frm_Login_Load);
             this.pal_Login.ResumeLayout(false);
             this.pal_Login.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_loginPassword.Properties)).EndInit();

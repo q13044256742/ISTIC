@@ -18,8 +18,6 @@ namespace 科技计划项目档案数据采集管理系统
             LoadRootTree(chk_ShowAll.Checked);
         }
 
-        private string GetValue(object value) => value == null ? string.Empty : value.ToString();
-
         private void Frm_AddFile_FileSelect_Load(object sender, EventArgs e)
         {
             imageList = new ImageList();
@@ -59,7 +57,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
             if(result && flag)
-                if(!string.IsNullOrEmpty(GetValue(node.Tag)))//批次名称永不消逝
+                if(!string.IsNullOrEmpty(ToolHelper.GetValue(node.Tag)))//批次名称永不消逝
                     node.Remove();
             return result;
         }
@@ -71,7 +69,7 @@ namespace 科技计划项目档案数据采集管理系统
             for(int i = 0; i < SelectedFileId.Length; i++)
             {
                 SelectedFileId[i] = lsv_Selected.Items[i].Name;
-                SelectedFileName[i] = GetValue(lsv_Selected.Items[i].Tag);
+                SelectedFileName[i] = ToolHelper.GetValue(lsv_Selected.Items[i].Tag);
             }
             if(SelectedFileId.Length > 0)
                 DialogResult = DialogResult.OK;
@@ -89,19 +87,28 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="isShowAll">是否显示已加工节点</param>
         private void LoadRootTree(bool isShowAll)
         {
+            object batchCode = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_name FROM backup_files_info WHERE bfi_id='{rootId[0]}'");
             tv_file.Nodes.Clear();
+            //一级节点【批次编号】
+            TreeNode batchNode = new TreeNode()
+            {
+                Text = ToolHelper.GetValue(batchCode),
+                ToolTipText = "-1",
+            };
+            tv_file.Nodes.Add(batchNode);
             for(int i = 0; i < rootId.Length; i++)
             {
-                object[] objs = SqlHelper.ExecuteRowsQuery($"SELECT bfi_id, bfi_name, bfi_path, bfi_type FROM backup_files_info WHERE bfi_id='{rootId[i]}'");
-                TreeNode treeNode = new TreeNode()
+                object[] objs = SqlHelper.ExecuteRowsQuery("SELECT bfi_id, bfi_name, bfi_path, bfi_type, trc_code FROM backup_files_info a " +
+                    $"LEFT JOIN transfer_registraion_cd b on a.bfi_trcid = b.trc_id WHERE bfi_id='{rootId[i]}'");
+                //二级节点【光盘编号】
+                string rootFileName = ToolHelper.GetValue(objs[4]);
+                TreeNode diskNode = new TreeNode()
                 {
-                    Name = GetValue(objs[0]),
-                    Text = GetValue(objs[1]),
-                    Tag = GetValue(objs[2]),
-                    ToolTipText = GetValue(objs[3]),
+                    Text = rootFileName,
+                    ToolTipText = ToolHelper.GetValue(objs[3]),
                 };
-                tv_file.Nodes.Add(treeNode);
-                InitialTree(rootId[i], treeNode, isShowAll);
+                batchNode.Nodes.Add(diskNode);
+                InitialTree(rootId[i], diskNode, isShowAll);
             }
             if(tv_file.Nodes.Count > 0)
             {
@@ -127,15 +134,15 @@ namespace 科技计划项目档案数据采集管理系统
                 int state = ToolHelper.GetIntValue(list[i][3], 0);
                 if(state != 1 || isShowAll)
                 {
-                    int imageIndex = GetFileIconIndex(state, GetValue(list[i][1]), list[i][4]);
+                    int imageIndex = GetFileIconIndex(state, ToolHelper.GetValue(list[i][1]), list[i][4]);
                     TreeNode treeNode = new TreeNode()
                     {
-                        Name = GetValue(list[i][0]),
-                        Text = GetValue(list[i][1]),
-                        Tag = GetValue(list[i][2]),
+                        Name = ToolHelper.GetValue(list[i][0]),
+                        Text = ToolHelper.GetValue(list[i][1]),
+                        Tag = ToolHelper.GetValue(list[i][2]),
                         ImageIndex = imageIndex,
                         SelectedImageIndex = imageIndex,
-                        ToolTipText = GetValue(list[i][4]),
+                        ToolTipText = ToolHelper.GetValue(list[i][4]),
                         StateImageKey = state.ToString(),
                     };
                     parentNode.Nodes.Add(treeNode);

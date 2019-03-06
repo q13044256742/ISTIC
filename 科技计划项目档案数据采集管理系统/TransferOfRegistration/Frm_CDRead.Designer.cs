@@ -68,7 +68,6 @@
             this.txt_CD_Path.Location = new System.Drawing.Point(23, 55);
             this.txt_CD_Path.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txt_CD_Path.Name = "txt_CD_Path";
-            this.txt_CD_Path.ReadOnly = true;
             this.txt_CD_Path.Size = new System.Drawing.Size(465, 24);
             this.txt_CD_Path.TabIndex = 1;
             // 

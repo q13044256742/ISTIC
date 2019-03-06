@@ -1,4 +1,6 @@
-﻿namespace 科技计划项目档案数据采集管理系统
+﻿using System.Windows.Forms;
+
+namespace 科技计划项目档案数据采集管理系统
 {
     partial class Frm_CG
     {
@@ -19,7 +21,6 @@
             }
             base.Dispose(disposing);
         }
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -379,6 +380,7 @@
             this.Name = "Frm_CG";
             this.ShowInTaskbar = false;
             this.Text = "著录加工";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_CG_FormClosing);
             this.Load += new System.EventHandler(this.Frm_CG_Load);
             ((System.ComponentModel.ISupportInitialize)(this.view)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Search.Properties)).EndInit();

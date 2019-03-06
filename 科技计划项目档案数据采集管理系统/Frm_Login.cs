@@ -28,6 +28,8 @@ namespace 科技计划项目档案数据采集管理系统
                 bool result = userLogin.IsExist(new User(loginName, loginPassword));
                 if(result)
                 {
+                    OperateIniFile.GetInstance().WriteIniData("LoginLocal", "UserName", loginName);
+                    OperateIniFile.GetInstance().WriteIniData("LoginLocal", "PassWord", loginPassword);
                     User user = userLogin.GetUser(loginName, loginPassword);
                     UserHelper.SetUser(user);
                     UserHelper.SetLogin(true);
@@ -51,6 +53,17 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(e.KeyCode == Keys.Enter)
                 btn_Login_Click(null, null);
+        }
+
+        private void Frm_Login_Load(object sender, EventArgs e)
+        {
+            OperateIniFile oper = OperateIniFile.GetInstance();
+            string username = oper.ReadIniData("LoginLocal", "UserName", null);
+            string password = oper.ReadIniData("LoginLocal", "PassWord", null);
+            if (!string.IsNullOrEmpty(username))
+                txt_loginName.Text = username;
+            if (!string.IsNullOrEmpty(password))
+                txt_loginPassword.Text = password;
         }
     }
 }

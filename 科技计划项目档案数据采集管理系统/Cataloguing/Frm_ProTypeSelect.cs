@@ -47,14 +47,14 @@ namespace 科技计划项目档案数据采集管理系统
                     _type = WorkType.CDWork_Imp;
                 _ctype = ControlType.Imp;
             }
-            else if("YF".Equals(obj))
-            {
-                if(workType == WorkType.PaperWork)
-                    _type = WorkType.PaperWork_Special;
-                else if(workType == WorkType.CDWork)
-                    _type = WorkType.CDWork_Special;
-                _ctype = ControlType.Special;
-            }
+            //else if("YF".Equals(obj))
+            //{
+            //    if(workType == WorkType.PaperWork)
+            //        _type = WorkType.PaperWork_Special;
+            //    else if(workType == WorkType.CDWork)
+            //        _type = WorkType.CDWork_Special;
+            //    _ctype = ControlType.Special;
+            //}
             else
             {
                 if(workType == WorkType.PaperWork)

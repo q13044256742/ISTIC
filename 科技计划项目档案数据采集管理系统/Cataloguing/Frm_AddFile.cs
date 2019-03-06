@@ -1,7 +1,13 @@
 ﻿using DevExpress.XtraEditors;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -20,7 +26,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// 所属对象主键
         /// </summary>
         public object parentId;
-      
+        /// <summary>
+        /// 对象编号【用于匹配指定光盘名称】
+        /// </summary>
+        public object objectCode;
         /// <summary>
         /// 光盘ID
         /// </summary>
@@ -78,6 +87,31 @@ namespace 科技计划项目档案数据采集管理系统
                 txt_Unit.Text = GetValue(row["pfl_unit"]);
                 LoadFileLinkList(GetValue(row["pfl_file_id"]));
                 txt_Remark.Text = GetValue(row["pfl_remark"]);
+                LoadFileLinkList(fileId);
+            }
+        }
+
+        /// <summary>
+        /// 加载相关链接列表
+        /// </summary>
+        private void LoadFileLinkList(object fileId)
+        {
+            DataGridViewStyleHelper.ResetDataGridView(dgv_link, false);
+            object[] links = SqlHelper.ExecuteSingleColumnQuery($"SELECT code FROM file_link WHERE fid='{fileId}'");
+            if (links.Length > 0)
+            {
+                int rowCount = links.Length % dgv_link.ColumnCount == 0 ? links.Length / dgv_link.ColumnCount : links.Length / dgv_link.ColumnCount + 1;
+                int index = 0;
+                for (int i = 0; i < rowCount; i++)
+                {
+                    int j = dgv_link.Rows.Add();
+                    if (links.Length > index)
+                        dgv_link.Rows[j].Cells[0].Value = links[index++];
+                    if (links.Length > index)
+                        dgv_link.Rows[j].Cells[1].Value = links[index++];
+                    if (links.Length > index)
+                        dgv_link.Rows[j].Cells[2].Value = links[index++];
+                }
             }
         }
 
@@ -204,39 +238,6 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 将用,切割后的字符串用指定间隔符和引号重新组合
-        /// </summary>
-        public string GetFullStringBySplit(string _str, string flag, string param)
-        {
-            string result = string.Empty;
-            string[] strs = _str.Split(',');
-            for(int i = 0; i < strs.Length; i++)
-            {
-                result += $"{param}{strs[i]}{param}{flag}";
-            }
-            return result.Length > 0 ? result.Substring(0, result.Length - 1) : string.Empty;
-        }
-
-        /// <summary>
-        /// 将用指定分隔符切割后的字符串用指定间隔符和引号重新组合
-        /// </summary>
-        /// <param name="_str">原字符串</param>
-        /// <param name="flag">间隔符</param>
-        /// <param name="param">包围符</param>
-        /// <param name="splitTag">切割符</param>
-        public string GetFullStringBySplit(string _str, string flag, string param, char splitTag)
-        {
-            string result = string.Empty;
-            string[] strs = _str.Split(splitTag);
-            for(int i = 0; i < strs.Length; i++)
-            {
-                if(!string.IsNullOrEmpty(strs[i]))
-                    result += $"{param}{strs[i]}{param}{flag}";
-            }
-            return result.Length > 0 ? result.Substring(0, result.Length - 1) : string.Empty;
-        }
-
-        /// <summary>
         /// 将字符串数组转换成指定分隔符组合成的字符串
         /// </summary>
         /// <param name="_str">字符串数组</param>
@@ -249,8 +250,6 @@ namespace 科技计划项目档案数据采集管理系统
                 str += $"{param}{_str[i]}{param}{flag}";
             return string.IsNullOrEmpty(str) ? string.Empty : str.Substring(0, str.Length - 1);
         }
-
-
 
         /// <summary>
         /// 获取文件链接主键
@@ -293,10 +292,10 @@ namespace 科技计划项目档案数据采集管理系统
             object link = GetFullStringBySplit(GetLinkList(2), "；", string.Empty);
             string _fileId = GetFullStringBySplit(GetLinkList(1), ",", "'");
             object remark = txt_Remark.Text;
-
-            if(isAdd)
+            object[] flink = GetFileLink();
+            if (isAdd)
             {
-                if(isOtherType)
+                if (isOtherType)
                 {
                     categor = Guid.NewGuid().ToString();
                     object pid = cbo_stage.SelectedValue;
@@ -304,7 +303,7 @@ namespace 科技计划项目档案数据采集管理系统
                     int sort = cbo_categor.Items.Count - 1;
                     object dicId = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_id FROM data_dictionary WHERE dd_name='{value}' AND dd_pId='{pid}'");
                     string sqlString = string.Empty;
-                    if(dicId != null)
+                    if (dicId != null)
                     {
                         categor = dicId;
                         sqlString += $"DELETE FROM data_dictionary WHERE dd_name='{value}' AND dd_pId='{stage}';";
@@ -313,44 +312,73 @@ namespace 科技计划项目档案数据采集管理系统
                         $"VALUES('{categor}', '{value}', '{name}', '{pid}', '{sort}', '{categorName}', '{1}');";
                     SqlHelper.ExecuteNonQuery(sqlString);
                 }
-
-                string insertSql = "INSERT INTO processing_file_list (" +
-                "pfl_id, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort, pfl_remark, pfl_worker_id, pfl_worker_date) " +
-                $"VALUES( '{primaryKey}', '{stage}', '{categor}', '{code}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}', '{parentId}', -1, '{view.RowCount}', '{remark}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');";
+                StringBuilder insertSql = new StringBuilder();
+                insertSql.Append("INSERT INTO processing_file_list (pfl_id, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_link, pfl_file_id, pfl_obj_id, pfl_status, pfl_sort, pfl_remark, pfl_worker_id, pfl_worker_date) " +
+                   $"VALUES( '{primaryKey}', '{stage}', '{categor}', '{code}', '{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{link}', '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}', '{parentId}', -1, '{view.RowCount}', '{remark}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');");
                 //将备份表中的文件标记为已选取
-                if(!string.IsNullOrEmpty(_fileId))
-                    insertSql += $"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({_fileId});";
-                SqlHelper.ExecuteNonQuery(insertSql);
+                if (!string.IsNullOrEmpty(_fileId))
+                    insertSql.Append($"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({_fileId});");
+                foreach (object item in flink)
+                    insertSql.Append($"INSERT INTO file_link(id, code, fid) VALUES('{Guid.NewGuid().ToString()}', '{item}', '{primaryKey}');");
+
+                SqlHelper.ExecuteNonQuery(insertSql.ToString());
             }
             else
             {
-                string oldFileId = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pfl_file_id FROM processing_file_list WHERE pfl_id='{primaryKey}';"));
-                string updateSql = $"UPDATE backup_files_info SET bfi_state=0 WHERE bfi_id IN ({GetFullStringBySplit(oldFileId, ",", "'")});";
-                       updateSql += "UPDATE processing_file_list SET " +
-                        $"[pfl_stage] = '{stage}'" +
-                        $",[pfl_categor] = '{categor}'" +
-                        $",[pfl_code] = '{code}'" +
-                        $",[pfl_name] = '{name}'" +
-                        $",[pfl_user] = '{user}'" +
-                        $",[pfl_type] = '{type}'" +
-                        $",[pfl_pages] = '{pages}'" +
-                        $",[pfl_count] = '{count}'" +
-                        $",[pfl_amount] = '{amount}'" +
-                        $",[pfl_date] = '{date}'" +
-                        $",[pfl_unit] = '{unit}'" +
-                        $",[pfl_carrier] = '{carrier}'" +
-                        $",[pfl_link] = '{link}'" +
-                        $",[pfl_remark] = '{remark}'" +
-                        $",[pfl_file_id] = '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}'" +
-                        $" WHERE pfl_id= '{fileId}';";
-                if(!string.IsNullOrEmpty(_fileId))
-                    updateSql += $"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({_fileId});";
-                SqlHelper.ExecuteNonQuery(updateSql);
+                string oldFileId = GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT pfl_file_id FROM processing_file_list WHERE pfl_id='{fileId}';"));
 
-                XtraMessageBox.Show("数据已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                StringBuilder updateSql = new StringBuilder();
+                if (!string.IsNullOrEmpty(oldFileId))
+                    updateSql.Append($"UPDATE backup_files_info SET bfi_state=0 WHERE bfi_id IN ({ToolHelper.GetFullStringBySplit(oldFileId, ',', ",", "'")});");
+                updateSql.Append("UPDATE processing_file_list SET " +
+                    $"[pfl_stage] = '{stage}'" +
+                    $",[pfl_categor] = '{categor}'" +
+                    $",[pfl_code] = '{code}'" +
+                    $",[pfl_name] = '{name}'" +
+                    $",[pfl_user] = '{user}'" +
+                    $",[pfl_type] = '{type}'" +
+                    $",[pfl_pages] = '{pages}'" +
+                    $",[pfl_count] = '{count}'" +
+                    $",[pfl_amount] = '{amount}'" +
+                    $",[pfl_date] = '{date}'" +
+                    $",[pfl_unit] = '{unit}'" +
+                    $",[pfl_carrier] = '{carrier}'" +
+                    $",[pfl_link] = '{link}'" +
+                    $",[pfl_remark] = '{remark}'" +
+                    $",[pfl_file_id] = '{GetFullStringBySplit(GetLinkList(1), ",", string.Empty)}'" +
+                    $" WHERE pfl_id= '{fileId}';");
+                if (!string.IsNullOrEmpty(_fileId))
+                    updateSql.Append($"UPDATE backup_files_info SET bfi_state=1 WHERE bfi_id IN ({_fileId});");
+
+                updateSql.Append($"DELETE FROM file_link WHERE fid='{fileId}';");
+                foreach (object item in flink)
+                    updateSql.Append($"INSERT INTO file_link(id, code, fid) VALUES('{Guid.NewGuid().ToString()}', '{item}', '{fileId}');");
+
+                SqlHelper.ExecuteNonQuery(updateSql.ToString());
+
             }
-
+            XtraMessageBox.Show("操作成功。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             UpdateDataSource?.Invoke(view, parentId, -1);
+        }
+
+        /// <summary>
+        /// 获取文件相关链接列表
+        /// </summary>
+        private object[] GetFileLink()
+        {
+            List<object> list = new List<object>();
+            foreach (DataGridViewRow row in dgv_link.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    string value = ToolHelper.GetValue(cell.Value);
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        list.Add(value);
+                    }
+                }
+            }
+            return list.ToArray();
         }
 
         private object GetCarrierValue()
@@ -415,13 +443,13 @@ namespace 科技计划项目档案数据采集管理系统
                         DataGridViewRow row = view.Rows[CurrentRowIndex];
                         view.ClearSelection();
                         row.Selected = true;
-                        //view.CurrentCell = row.Cells[1];
+                        view.CurrentCell = row.Cells[2];
                     }
                 }
             }
             else
             {
-                MessageBox.Show("检查数据是否完整。", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                XtraMessageBox.Show("检查数据是否完整。", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
@@ -429,7 +457,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             foreach(DataGridViewRow row in view.Rows)
             {
-                if(fileId.Equals(row.Cells[key + "num"].Value))
+                if(fileId.Equals(row.Cells[key + "id"].Value))
                 {
                     SaveFileInfo(false);
                     break;
@@ -604,33 +632,41 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void OpenFile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            string ids = GetFullStringBySplit(GetValue(trcId), ",", "'", ';');
-            if(string.IsNullOrEmpty(ids))
+            string ids = ToolHelper.GetFullStringBySplit(GetValue(trcId), ';', ",", "'");
+            if (string.IsNullOrEmpty(ids))
             {
                 XtraMessageBox.Show("尚未导入文件。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            object[] rootId = SqlHelper.ExecuteSingleColumnQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_trcid IN ({ids}) AND bfi_type=-1");
-            if(rootId.Length == 0)
+            Frm_DiskList diskList = new Frm_DiskList(ids);
+            if (diskList.ShowDialog() == DialogResult.OK)
             {
-                XtraMessageBox.Show("生成文件树失败。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            Frm_AddFile_FileSelect frm = new Frm_AddFile_FileSelect(rootId);
-            if(frm.ShowDialog() == DialogResult.OK)
-            {
-                string[] fullPath = frm.SelectedFileName;
-                for(int i = 0; i < fullPath.Length; i++)
+                string querySQL = "SELECT bfi_id FROM backup_files_info A " +
+                    "LEFT JOIN transfer_registraion_cd B ON A.bfi_trcid = B.trc_id " +
+                   $"WHERE bfi_trcid IN({diskList.objectCode}) AND bfi_type = -1 " +
+                    "ORDER BY trc_code";
+                object[] rootId = SqlHelper.ExecuteSingleColumnQuery(querySQL);
+                if (rootId.Length == 0)
                 {
-                    if(File.Exists(fullPath[i]))
+                    XtraMessageBox.Show("生成文件树失败，请确认当前编号已导入对应电子文件。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                Frm_AddFile_FileSelect frm = new Frm_AddFile_FileSelect(rootId);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    string[] fullPath = frm.SelectedFileName;
+                    for (int i = 0; i < fullPath.Length; i++)
                     {
-                        if(NotExist(fullPath[i]))
-                            AddFileToList(fullPath[i], frm.SelectedFileId[i]);
+                        if (File.Exists(fullPath[i]))
+                        {
+                            if (NotExist(fullPath[i]))
+                                AddFileToList(fullPath[i], frm.SelectedFileId[i]);
+                            else
+                                XtraMessageBox.Show($"{Path.GetFileName(fullPath[i])}文件已存在，不可重复添加。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        }
                         else
-                            XtraMessageBox.Show($"{Path.GetFileName(fullPath[i])}文件已存在，不可重复添加。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            XtraMessageBox.Show($"无法访问指定文件[{Path.GetFileName(fullPath[i])}]", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
-                    else
-                        XtraMessageBox.Show($"服务器不存在文件{Path.GetFileName(fullPath[i])}。", "打开失败", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
             }
         }
@@ -661,7 +697,7 @@ namespace 科技计划项目档案数据采集管理系统
                 int count = lsv_LinkList.SelectedItems.Count;
                 if(count > 0)
                 {
-                    if(MessageBox.Show("是否删除选中项？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if(XtraMessageBox.Show("是否删除选中项？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         for(int i = 0; i < count; i++)
                             lsv_LinkList.SelectedItems[i].Remove();
                 }
@@ -671,7 +707,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void Lsv_LinkList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int index = lsv_LinkList.SelectedItems.Count;
-            if(index > 0 && MessageBox.Show("是否打开文件？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if(index > 0 && XtraMessageBox.Show("是否打开文件？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 ListViewItem item = lsv_LinkList.SelectedItems[0];
                 string filePath = item.SubItems[1].Text;
@@ -697,11 +733,11 @@ namespace 科技计划项目档案数据采集管理系统
                 int currentRowIndex = ((DataGridViewRow)currentRow).Index;
                 if(currentRowIndex > 0)
                 {
-                    fileId = view.Rows[currentRowIndex - 1].Cells[0].Value;
+                    fileId = view.Rows[currentRowIndex - 1].Cells[view.Tag + "id"].Value;
                     Frm_AddFile_Load(null, null);
                     view.ClearSelection();
                     view.Rows[currentRowIndex - 1].Selected = true;
-                    view.CurrentCell = view.Rows[currentRowIndex - 1].Cells[1];
+                    view.CurrentCell = view.Rows[currentRowIndex - 1].Cells[2];
                 }
             }
         }
@@ -716,11 +752,11 @@ namespace 科技计划项目档案数据采集管理系统
                 int maxRowIndex = flag ? view.RowCount - 1 : view.RowCount;
                 if(currentRowIndex < maxRowIndex - 1)
                 {
-                    fileId = view.Rows[currentRowIndex + 1].Cells[0].Value;
+                    fileId = view.Rows[currentRowIndex + 1].Cells[view.Tag + "id"].Value;
                     Frm_AddFile_Load(null, null);
                     view.ClearSelection();
                     view.Rows[currentRowIndex + 1].Selected = true;
-                    view.CurrentCell = view.Rows[currentRowIndex + 1].Cells[1];
+                    view.CurrentCell = view.Rows[currentRowIndex + 1].Cells[2];
                 }
             }
         }

@@ -31,6 +31,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_QT));
             this.pal_LeftMenu = new System.Windows.Forms.Panel();
             this.ace_LeftMenu = new 科技计划项目档案数据采集管理系统.KyoControl.KyoAccordion();
@@ -63,6 +64,9 @@ namespace 科技计划项目档案数据采集管理系统
             this.btn_MyWorkQuery = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.提交SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.全部提交AToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pal_LeftMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ace_LeftMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Imp)).BeginInit();
@@ -81,6 +85,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_SearchData_F.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_SearchDate_S.Properties)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pal_LeftMenu
@@ -541,6 +546,28 @@ namespace 科技计划项目档案数据采集管理系统
             this.label2.TabIndex = 10;
             this.label2.Text = "日期范围：";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.提交SToolStripMenuItem,
+            this.全部提交AToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(152, 48);
+            // 
+            // 提交SToolStripMenuItem
+            // 
+            this.提交SToolStripMenuItem.Name = "提交SToolStripMenuItem";
+            this.提交SToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.提交SToolStripMenuItem.Text = "提交选中项(&S)";
+            this.提交SToolStripMenuItem.Click += new System.EventHandler(this.提交SToolStripMenuItem_Click);
+            // 
+            // 全部提交AToolStripMenuItem
+            // 
+            this.全部提交AToolStripMenuItem.Name = "全部提交AToolStripMenuItem";
+            this.全部提交AToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.全部提交AToolStripMenuItem.Text = "全部提交(&A)";
+            this.全部提交AToolStripMenuItem.Click += new System.EventHandler(this.全部提交AToolStripMenuItem_Click);
+            // 
             // Frm_QT
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -579,6 +606,7 @@ namespace 科技计划项目档案数据采集管理系统
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_SearchData_F.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_SearchDate_S.Properties)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -615,5 +643,8 @@ namespace 科技计划项目档案数据采集管理系统
         private KyoControl.KyoButton btn_MyWorkQuery;
         private Label label3;
         private Label label2;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem 提交SToolStripMenuItem;
+        private ToolStripMenuItem 全部提交AToolStripMenuItem;
     }
 }

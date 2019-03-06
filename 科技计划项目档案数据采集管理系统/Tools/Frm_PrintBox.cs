@@ -218,7 +218,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string newRr = "<tr>" +
                     $"<td>{++i}</td>" +
                     $"<td>{dataRow["pfl_code"]}&nbsp;</td>" +
-                    $"<td>{dataRow["pfl_user"]}&nbsp;</td>" +
+                    $"<td style=\"\">{dataRow["pfl_user"]}&nbsp;</td>" +
                     $"<td style='text-align: left;'>{dataRow["pfl_name"]}&nbsp;</td>" +
                     $"<td>{ToolHelper.GetDateValue(dataRow["pfl_date"], "yyyy-MM-dd")}&nbsp;</td>" +
                     $"<td>{(_page == 0 ? string.Empty : _page.ToString())}&nbsp;</td>" +

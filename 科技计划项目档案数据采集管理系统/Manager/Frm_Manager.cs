@@ -1,13 +1,11 @@
 ﻿using DevExpress.XtraEditors;
 using System;
 using System.Data;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统.Manager
 {
-    public partial class Frm_Manager : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_Manager : XtraForm
     {
         public Frm_Manager(object id)
         {
@@ -25,6 +23,22 @@ namespace 科技计划项目档案数据采集管理系统.Manager
         //查询
         private void btn_Search_Click(object sender, EventArgs e)
         {
+            string key = txt_SearchKey.Text;
+            if (!string.IsNullOrEmpty(key))
+            {
+                dgv_DataList.ClearSelection();
+                foreach (DataGridViewRow row in dgv_DataList.Rows)
+                {
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        if (ToolHelper.GetValue(cell.Value).Contains(key))
+                        {
+                            cell.Selected = true;
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         //添加

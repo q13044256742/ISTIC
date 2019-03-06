@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -321,8 +322,6 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_Special_FileList.Columns["special_fl_link"].Visible = false;
             }
 
-            InitialForm(objId, controlType);
-
             //阶段
             InitialStageList(dgv_Plan_FileList.Columns["plan_fl_stage"]);
             InitialStageList(dgv_Project_FileList.Columns["project_fl_stage"]);
@@ -407,6 +406,7 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_Imp_FileList.AutoGenerateColumns = false;
             dgv_Special_FileList.AutoGenerateColumns = false;
 
+            InitialForm(objId, controlType);
         }
 
         private void InitialProvinceList(System.Windows.Forms.ComboBox comboBox)
@@ -415,6 +415,7 @@ namespace 科技计划项目档案数据采集管理系统
             comboBox.DataSource = table;
             comboBox.DisplayMember = "dd_name";
             comboBox.ValueMember = "dd_id";
+            comboBox.SelectedItem = null;
         }
 
         /// <summary>
@@ -798,7 +799,7 @@ namespace 科技计划项目档案数据采集管理系统
                             for (int i = 0; i < maxLength; i++)
                             {
                                 DataGridViewRow row = view.Rows[i];
-                                row.Cells[$"{key}num"].Value = AddFileInfo(key, row, parentID, row.Index);
+                                row.Cells[$"{key}id"].Value = AddFileInfo(key, row, parentID, row.Index);
                             }
                             //自动更新缺失文件表
                             UpdateLostFileList(parentID);
@@ -859,7 +860,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 if (fileName != null)
                                 {
                                     DataGridViewRow row = view.Rows[i];
-                                    row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
+                                    row.Cells[$"{key}id"].Value = AddFileInfo(key, row, objId, row.Index);
                                 }
                             }
                             UpdateLostFileList(objId);
@@ -926,7 +927,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 if (fileName != null)
                                 {
                                     DataGridViewRow row = view.Rows[i];
-                                    row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
+                                    row.Cells[$"{key}id"].Value = AddFileInfo(key, row, objId, row.Index);
                                 }
                             }
                             //自动更新缺失文件表
@@ -993,7 +994,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 if (fileName != null)
                                 {
                                     DataGridViewRow row = view.Rows[i];
-                                    row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
+                                    row.Cells[$"{key}id"].Value = AddFileInfo(key, row, objId, row.Index);
                                 }
                             }
                             //自动更新缺失文件表
@@ -1056,7 +1057,7 @@ namespace 科技计划项目档案数据采集管理系统
                             if (fileName != null)
                             {
                                 DataGridViewRow row = dgv_Imp_FileList.Rows[i];
-                                row.Cells[$"{key}num"].Value = AddFileInfo(key, row, objId, row.Index);
+                                row.Cells[$"{key}id"].Value = AddFileInfo(key, row, objId, row.Index);
                             }
                         }
                         //自动更新缺失文件表
@@ -1125,7 +1126,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     if (fileName != null)
                                     {
                                         DataGridViewRow row = dgv_Special_FileList.Rows[i];
-                                        row.Cells[$"{key}num"].Value = AddFileInfo(key, row, parentID, row.Index);
+                                        row.Cells[$"{key}id"].Value = AddFileInfo(key, row, parentID, row.Index);
                                     }
                                 }
                                 //自动更新缺失文件表
@@ -2059,7 +2060,7 @@ namespace 科技计划项目档案数据采集管理系统
         private object AddFileInfo(object key, DataGridViewRow row, object parentId, int sort)
         {
             string nonQuerySql = string.Empty;
-            string _fileId = ToolHelper.GetValue(row.Cells[key + "num"].Value);
+            string _fileId = ToolHelper.GetValue(row.Cells[key + "id"].Value);
             object stage = row.Cells[key + "stage"].Value;
             object categor = row.Cells[key + "categor"].Value;
             object categorName = row.Cells[key + "categorname"].Value;
@@ -2585,22 +2586,36 @@ namespace 科技计划项目档案数据采集管理系统
                 //默认加载计划页面
                 if (treeView.Nodes.Count > 0 && tab_MenuList.TabPages.Count == 0)
                 {
-                    TreeNode node = treeView.Nodes[0];
-                    ControlType _type = (ControlType)node.Tag;
-                    if (_type == ControlType.Plan)
+                    TreeNode node = GetLastNode(treeView.Nodes[0]);
+                    if (node != null)
                     {
-                        ShowTab("plan", 0);
-                        LoadPlanPage(node);
-                    }
-                    else if (_type == ControlType.Imp)
-                    {
-                        ShowTab("imp", 0);
-                        LoadImpPage(node);
+                        TreeView_NodeMouseClick(node, new TreeNodeMouseClickEventArgs(node, MouseButtons.Left, 1, 0, 0));
+                        if (tab_MenuList.TabPages.Count > 0)
+                        {
+                            tab_MenuList.SelectedIndex = tab_MenuList.TabPages.Count - 1;
+                        }
                     }
                 }
                 treeView.ExpandAll();
 
             }
+        }
+
+        private TreeNode GetLastNode(TreeNode pNode)
+        {
+            TreeNode treeNode = null;
+            foreach (TreeNode node in pNode.Nodes)
+            {
+                if (node.GetNodeCount(true)==0)
+                {
+                    treeNode = node;
+                }
+                else
+                {
+                    return GetLastNode(node);
+                }
+            }
+            return treeNode ?? pNode;
         }
 
         /// <summary>
@@ -2911,6 +2926,11 @@ namespace 科技计划项目档案数据采集管理系统
 
                     ShowTab("special", 1);
                     LoadPageBasicInfo(e.Node, type);
+                }
+
+                if (tab_MenuList.TabCount > 0)
+                {
+                    tab_MenuList.SelectedIndex = tab_MenuList.TabCount - 1;
                 }
             }
         }
@@ -3548,7 +3568,7 @@ namespace 科技计划项目档案数据采集管理系统
                 string updateSQL = string.Empty;
                 for (int i = 0; i < fileIds.Length; i++)
                 {
-                    updateSQL += $"UPDATE processing_file_list SET pfl_box_id='{boxId}', pfl_box_sort='{i}' WHERE pfl_id='{fileIds[i]}';";
+                    updateSQL += $"UPDATE processing_file_list SET pfl_box_id='{boxId}', pfl_box_sort=(SELECT COUNT(pfl_id) FROM processing_file_list WHERE pfl_box_id='{boxId}') WHERE pfl_id='{fileIds[i]}';";
                 }
                 SqlHelper.ExecuteNonQuery(updateSQL);
             }
@@ -3876,7 +3896,7 @@ namespace 科技计划项目档案数据采集管理系统
                $"SELECT DISTINCT(pb_gc_number) FROM processing_box a where a.pb_unit_id = '{unitCode}') A) A WHERE num<> pb_gc_number";
             object value = SqlHelper.ExecuteOnlyOneQuery(querySql);
             result = value == null
-                ? SqlHelper.ExecuteCountQuery($"SELECT MAX(pb_gc_number) + 1 FROM processing_box WHERE pb_unit_id='{unitCode}'")
+                ? ToolHelper.GetIntValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT MAX(pb_gc_number) + 1 FROM processing_box WHERE pb_unit_id='{unitCode}'"), 1)
                 : ToolHelper.GetIntValue(value);
             return result;
         }
@@ -4119,17 +4139,8 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Project_Field.Text = ToolHelper.GetValue(row["pi_field"]);
                     txt_Project_Theme.Text = ToolHelper.GetValue(row["pb_theme"]);
                     txt_Project_Funds.Text = ToolHelper.GetValue(row["pi_funds"]);
-
-                    string startTime = ToolHelper.GetValue(row["pi_start_datetime"]);
-                    DateTime _startTime = new DateTime();
-                    if (DateTime.TryParse(startTime, out _startTime))
-                        dtp_Project_StartTime.Value = _startTime;
-
-                    string endTime = ToolHelper.GetValue(row["pi_end_datetime"]);
-                    DateTime _endTime = new DateTime();
-                    if (DateTime.TryParse(endTime, out _endTime))
-                        dtp_Project_EndTime.Value = _endTime;
-
+                    txt_Project_StartTime.Text = ToolHelper.GetDateValue(row["pi_start_datetime"], "yyyy-MM-dd");
+                    txt_Project_EndTime.Text = ToolHelper.GetDateValue(row["pi_end_datetime"], "yyyy-MM-dd");
                     txt_Project_Year.Text = ToolHelper.GetValue(row["pi_year"]);
                     txt_Project_Unit.Text = ToolHelper.GetValue(row["pi_unit"]);
                     cbo_Project_Province.SelectedValue = ToolHelper.GetValue(row["pi_province"]);
@@ -4155,16 +4166,8 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Topic_Field.Text = ToolHelper.GetValue(row["ti_field"]);
                     txt_Topic_Theme.Text = ToolHelper.GetValue(row["tb_theme"]);
                     txt_Topic_Fund.Text = ToolHelper.GetValue(row["ti_funds"]);
-
-                    string startTime = ToolHelper.GetValue(row["ti_start_datetime"]);
-                    DateTime _startTime = new DateTime();
-                    if (DateTime.TryParse(startTime, out _startTime))
-                        dtp_Topic_StartTime.Value = _startTime;
-                    string endTime = ToolHelper.GetValue(row["ti_end_datetime"]);
-                    DateTime _endTime = new DateTime();
-                    if (DateTime.TryParse(endTime, out _endTime))
-                        dtp_Topic_EndTime.Value = _endTime;
-
+                    txt_Topic_StartTime.Text = ToolHelper.GetDateValue(row["ti_start_datetime"], "yyyy-MM-dd");
+                    txt_Topic_EndTime.Text = ToolHelper.GetDateValue(row["ti_end_datetime"], "yyyy-MM-dd");
                     txt_Topic_Year.Text = ToolHelper.GetValue(row["ti_year"]);
                     txt_Topic_Unit.Text = ToolHelper.GetValue(row["ti_unit"]);
                     cbo_Topic_Province.SelectedValue = ToolHelper.GetValue(row["ti_province"]);
@@ -4192,17 +4195,8 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Subject_Field.Text = ToolHelper.GetValue(row["si_field"]);
                     txt_Subject_Theme.Text = ToolHelper.GetValue(row["si_theme"]);
                     txt_Subject_Fund.Text = ToolHelper.GetValue(row["si_funds"]);
-
-                    string startTime = ToolHelper.GetValue(row["si_start_datetime"]);
-                    DateTime _startTime = new DateTime();
-                    if (DateTime.TryParse(startTime, out _startTime))
-                        dtp_Subject_StartTime.Value = _startTime;
-
-                    string endTime = ToolHelper.GetValue(row["si_end_datetime"]);
-                    DateTime _endTime = new DateTime();
-                    if (DateTime.TryParse(endTime, out _endTime))
-                        dtp_Subject_EndTime.Value = _endTime;
-
+                    txt_Subject_StartTime.Text = ToolHelper.GetDateValue(row["si_start_datetime"], "yyyy-MM-dd");
+                    txt_Subject_EndTime.Text = ToolHelper.GetDateValue(row["si_end_datetime"], "yyyy-MM-dd");
                     txt_Subject_Year.Text = ToolHelper.GetValue(row["si_year"]);
                     txt_Subject_Unit.Text = ToolHelper.GetValue(row["si_unit"]);
                     cbo_Subject_Province.SelectedValue = ToolHelper.GetValue(row["si_province"]);
@@ -4500,7 +4494,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Plan_FileList.SelectedRows.Count == 1 && dgv_Plan_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Plan_FileList, key, dgv_Plan_FileList.SelectedRows[0].Cells[key + "num"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Plan_FileList, key, dgv_Plan_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Plan_FileList, key, null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
@@ -4518,12 +4512,13 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Project_FileList.SelectedRows.Count == 1 && dgv_Project_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.SelectedRows[0].Cells[key + "num"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Project_FileList, key, null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.UpdateDataSource = LoadFileList;
+                    frm.objectCode = txt_Project_Code.Text;
                     frm.Show();
                 }
                 else
@@ -4536,12 +4531,13 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Topic_FileList.SelectedRows.Count == 1 && dgv_Topic_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.SelectedRows[0].Cells[key + "num"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Topic_FileList, key, null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.UpdateDataSource = LoadFileList;
+                    frm.objectCode = txt_Topic_Code.Text;
                     frm.Show();
                 }
                 else
@@ -4554,12 +4550,13 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Subject_FileList.SelectedRows.Count == 1 && dgv_Subject_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.SelectedRows[0].Cells[key + "num"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Subject_FileList, key, null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.UpdateDataSource = LoadFileList;
+                    frm.objectCode = txt_Subject_Code.Text;
                     frm.Show();
                 }
                 else
@@ -4572,7 +4569,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Imp_FileList.SelectedRows.Count == 1 && dgv_Imp_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Imp_FileList, key, dgv_Imp_FileList.SelectedRows[0].Cells[key + "num"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Imp_FileList, key, dgv_Imp_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Imp_FileList, key, null, trcId);
                     frm.parentId = objId;
@@ -4590,7 +4587,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Special_FileList.SelectedRows.Count == 1 && dgv_Special_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Special_FileList, key, dgv_Special_FileList.SelectedRows[0].Cells[key + "num"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Special_FileList, key, dgv_Special_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
                     else
                         frm = new Frm_AddFile(dgv_Special_FileList, key, null, trcId);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
@@ -4838,7 +4835,7 @@ namespace 科技计划项目档案数据采集管理系统
             int index = view.CurrentCell.RowIndex;
             if (index != view.RowCount - 1)
             {
-                removeIdList.Add(view.Rows[index].Cells[view.Tag + "num"].Value);
+                removeIdList.Add(view.Rows[index].Cells[view.Tag + "id"].Value);
                 view.Rows.RemoveAt(index);
             }
         }
@@ -5290,7 +5287,7 @@ namespace 科技计划项目档案数据采集管理系统
                 if (lastRowIndex > 0)//当前行不能是第一行
                 {
                     DataGridViewRow row = view.Rows[lastRowIndex - 1];
-                    if (row.Cells[view.Tag + "num"].Value == null)//当前行不能使修改（只能新增）
+                    if (row.Cells[view.Tag + "id"].Value == null)//当前行不能使修改（只能新增）
                     {
                         object pId = null;
                         if (view.Name.Contains("Plan"))
@@ -5308,7 +5305,7 @@ namespace 科技计划项目档案数据采集管理系统
 
                         if (CheckFileName(row, view.Tag) && pId != null)
                         {
-                            row.Cells[$"{view.Tag}num"].Value = AddFileInfo(view.Tag, row, pId, row.Index);
+                            row.Cells[view.Tag + "id"].Value = AddFileInfo(view.Tag, row, pId, row.Index);
                         }
                     }
                 }
@@ -5440,26 +5437,26 @@ namespace 科技计划项目档案数据采集管理系统
             DataGridView view = (DataGridView)(sender as ToolStripItem).GetCurrentParent().Tag;
             string name = (sender as ToolStripMenuItem).Name;
             int index = view.CurrentRow.Index;
-            object currentRowId = view.Rows[index].Cells[view.Tag + $"num"].Value;
+            object currentRowId = view.Rows[index].Cells[view.Tag + "id"].Value;
             if (currentRowId != null)
             {
                 if (name.Contains("Up"))
                 {
                     if (index != 0)
                     {
-                        object lastRowId = view.Rows[index - 1].Cells[view.Tag + $"num"].Value;
+                        object lastRowId = view.Rows[index - 1].Cells[view.Tag + "id"].Value;
                         ChangeFileSort(currentRowId, index - 1, lastRowId, index);
                     }
-                    LoadFileList(view, view.Parent.Parent.Tag, -1);
+                    LoadFileList(view, view.Parent.Parent.Tag, index - 1);
                 }
                 else if (name.Contains("Down"))
                 {
                     if (index != view.RowCount - 1)
                     {
-                        object nextRowId = view.Rows[index + 1].Cells[view.Tag + $"num"].Value;
+                        object nextRowId = view.Rows[index + 1].Cells[view.Tag + "id"].Value;
                         ChangeFileSort(currentRowId, index + 1, nextRowId, index);
                     }
-                    LoadFileList(view, view.Parent.Parent.Tag, -1);
+                    LoadFileList(view, view.Parent.Parent.Tag, index + 1);
                 }
             }
         }
@@ -5478,7 +5475,7 @@ namespace 科技计划项目档案数据采集管理系统
         private void FileList_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
             DataGridView view = sender as DataGridView;
-            removeIdList.Add(e.Row.Cells[view.Tag + "num"].Value);
+            removeIdList.Add(e.Row.Cells[view.Tag + "id"].Value);
         }
 
         private int GetSelectedRowIndex(DataGridView view) => view.CurrentRow == null ? 0 : view.CurrentRow.Index;
@@ -5510,27 +5507,97 @@ namespace 科技计划项目档案数据采集管理系统
         private void 自动排序AToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridView view = (DataGridView)(sender as ToolStripItem).GetCurrentParent().Tag;
-            object objId = view.Parent.Parent.Tag;
-            if (objId != null)
+            object parentID = view.Parent.Parent.Tag;
+            if (parentID != null)
             {
-                string updateSQL = "UPDATE processing_file_list SET " +
-                    "pfl_sort= (" +
-                    "   SELECT num FROM( " +
-                    "   SELECT pfl_id id, pfl_code, ROW_NUMBER() OVER(ORDER BY SUBSTRING(pfl_code,1,3), pfl_date) num FROM processing_file_list A " +
-                   $"   WHERE pfl_obj_id='{objId}' )A WHERE A.id = pfl_id), " +
-                    "pfl_code= ( " +
-                    "   SELECT code FROM(SELECT id, CONCAT(SUBSTRING(pfl_code, 1, 3), '-', RIGHT(1000+num,2)) code FROM( " +
-                    "   SELECT pfl_id id, pfl_code, ROW_NUMBER() OVER(ORDER BY SUBSTRING(pfl_code,1,3), pfl_date) num FROM processing_file_list A  " +
-                   $"   WHERE pfl_obj_id='{objId}' )A)A WHERE A.id = pfl_id ) " +
-                   $"WHERE pfl_obj_id='{objId}' AND pfl_carrier IS NOT NULL ";
-                SqlHelper.ExecuteNonQuery(updateSQL);
-                LoadFileList(view, objId, -1);
+                try
+                {
+                    SplashScreenManager.ShowDefaultWaitForm(this, false, false);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    string queryTypeCode = $"SELECT SUBSTRING(pfl_code, 0,CHARINDEX('-',pfl_code)) FROM processing_file_list WHERE pfl_obj_id = '{parentID}' " +
+                        "GROUP BY SUBSTRING(pfl_code, 0, CHARINDEX('-', pfl_code))";
+                    object[] typeCodeList = SqlHelper.ExecuteSingleColumnQuery(queryTypeCode);
+                    foreach (object typeCode in typeCodeList)
+                    {
+                        string orderTable = "SELECT ROW_NUMBER() OVER(ORDER BY CASE WHEN LEN(pfl_date)=0 THEN 1 ELSE 0 END ASC, pfl_date) ID, pfl_id FROM processing_file_list " +
+                           $"WHERE pfl_obj_id = '{parentID}' AND SUBSTRING(pfl_code, 0,CHARINDEX('-', pfl_code) )= '{typeCode}'";
+                        DataTable newTable = SqlHelper.ExecuteQuery(orderTable);
+                        foreach (DataRow row in newTable.Rows)
+                        {
+                            string codeNumber = ToolHelper.GetValue(row["ID"]);
+                            string newCode = typeCode + "-" + codeNumber.PadLeft(2, '0');
+                            stringBuilder.Append($"UPDATE processing_file_list SET pfl_code='{newCode}' WHERE pfl_id='{row["pfl_id"]}';");
+                        }
+                    }
+
+                    SqlHelper.ExecuteNonQuery(stringBuilder.ToString());
+
+                    bool result = AutoSortFileByPID(parentID);
+                    if (result)
+                        LoadFileList(view, parentID, -1);
+                }
+                catch (Exception ex)
+                {
+                    LogsHelper.AddErrorLogs("文件列表自动排序失败", "失败原因：" + ex.Message);
+                }
+                finally
+                {
+                    SplashScreenManager.CloseDefaultWaitForm();
+                }
+            }
+        }
+        
+        private void FileList_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView view = sender as DataGridView;
+            DataTable table = (DataTable)view.DataSource;
+            string columnName = view.Columns[e.ColumnIndex].Name;
+            if (columnName.Contains("fl_code"))
+            {
+                SplashScreenManager.ShowDefaultWaitForm(this, false, false);
+                object parentID = view.Parent.Parent.Tag;
+                if (view.Name.Contains("Plan"))
+                    parentID = cbo_Plan_AJ_Code.SelectedValue;
+                else if (view.Name.Contains("Special"))
+                    parentID = cbo_Special_AJ_Code.SelectedValue;
+                if (parentID != null)
+                {
+                    bool result = AutoSortFileByPID(parentID);
+                    if (result)
+                        LoadFileList(view, parentID, -1);
+                }
+                SplashScreenManager.CloseDefaultWaitForm();
             }
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 自动按文件编号排序
+        /// </summary>
+        /// <param name="parentID">父ID</param>
+        /// <returns>是否排序成功</returns>
+        private bool AutoSortFileByPID(object parentID)
         {
-
+            try
+            {
+                string querySql = $"SELECT pfl_id FROM processing_file_list WHERE pfl_obj_id = '{parentID}' " +
+                    "ORDER BY SUBSTRING(pfl_code, 0, CHARINDEX('-', pfl_code)), TRY_PARSE(SUBSTRING(pfl_code, CHARINDEX('-', pfl_code) + 1, LEN(pfl_code)) AS int)";
+                DataTable newTable = SqlHelper.ExecuteQuery(querySql);
+                if (newTable.Rows.Count > 0)
+                {
+                    StringBuilder updateSQL = new StringBuilder();
+                    for (int i = 0; i < newTable.Rows.Count; i++)
+                    {
+                        updateSQL.Append($"UPDATE processing_file_list SET pfl_sort={i} WHERE pfl_id='{newTable.Rows[i][0]}';");
+                    }
+                    SqlHelper.ExecuteNonQuery(updateSQL.ToString());
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogsHelper.AddErrorLogs("文件按编号排序失败", "失败原因：" + ex.Message);
+            }
+            return false;
         }
     }
 }

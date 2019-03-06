@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_AddFile));
             this.lbl_OpenFile = new System.Windows.Forms.LinkLabel();
             this.txt_Remark = new System.Windows.Forms.TextBox();
@@ -65,6 +68,11 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txt_fileName = new System.Windows.Forms.TextBox();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.label11 = new System.Windows.Forms.Label();
+            this.dgv_link = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_Next = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Last = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.btn_Reset = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
@@ -75,6 +83,7 @@
             this.pal_type.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Count)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_link)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_OpenFile
@@ -461,13 +470,84 @@
             this.labelControl1.TabIndex = 82;
             this.labelControl1.Text = "  请简要说明本文件中所包含的各个子文件名称。若此文件（包含电子和纸质）未移交，需在此标明文件的保存位置（或编号）。";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
+            this.label11.Location = new System.Drawing.Point(19, 608);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(84, 25);
+            this.label11.TabIndex = 85;
+            this.label11.Text = "相关关联";
+            // 
+            // dgv_link
+            // 
+            this.dgv_link.AllowUserToResizeColumns = false;
+            this.dgv_link.AllowUserToResizeRows = false;
+            this.dgv_link.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_link.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgv_link.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgv_link.ColumnHeadersVisible = false;
+            this.dgv_link.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_link.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgv_link.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.dgv_link.Location = new System.Drawing.Point(114, 608);
+            this.dgv_link.Name = "dgv_link";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_link.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgv_link.RowHeadersVisible = false;
+            this.dgv_link.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgv_link.RowTemplate.Height = 23;
+            this.dgv_link.Size = new System.Drawing.Size(572, 103);
+            this.dgv_link.TabIndex = 86;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "";
+            this.Column2.Name = "Column2";
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "";
+            this.Column3.Name = "Column3";
+            // 
             // btn_Next
             // 
+            this.btn_Next.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btn_Next.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Next.Appearance.Options.UseFont = true;
             this.btn_Next.Image = ((System.Drawing.Image)(resources.GetObject("btn_Next.Image")));
             this.btn_Next.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Next.Location = new System.Drawing.Point(484, 608);
+            this.btn_Next.Location = new System.Drawing.Point(484, 717);
             this.btn_Next.Name = "btn_Next";
             this.btn_Next.Size = new System.Drawing.Size(67, 30);
             this.btn_Next.TabIndex = 84;
@@ -476,11 +556,12 @@
             // 
             // btn_Last
             // 
+            this.btn_Last.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btn_Last.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Last.Appearance.Options.UseFont = true;
             this.btn_Last.Image = ((System.Drawing.Image)(resources.GetObject("btn_Last.Image")));
             this.btn_Last.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_Last.Location = new System.Drawing.Point(191, 608);
+            this.btn_Last.Location = new System.Drawing.Point(191, 717);
             this.btn_Last.Name = "btn_Last";
             this.btn_Last.Size = new System.Drawing.Size(67, 30);
             this.btn_Last.TabIndex = 83;
@@ -489,12 +570,13 @@
             // 
             // btn_Reset
             // 
+            this.btn_Reset.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btn_Reset.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Reset.Appearance.Options.UseFont = true;
             this.btn_Reset.Image = ((System.Drawing.Image)(resources.GetObject("btn_Reset.Image")));
             this.btn_Reset.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Reset.ImageToTextIndent = 5;
-            this.btn_Reset.Location = new System.Drawing.Point(262, 608);
+            this.btn_Reset.Location = new System.Drawing.Point(262, 717);
             this.btn_Reset.Name = "btn_Reset";
             this.btn_Reset.Size = new System.Drawing.Size(67, 30);
             this.btn_Reset.TabIndex = 16;
@@ -503,12 +585,13 @@
             // 
             // btn_Exit
             // 
+            this.btn_Exit.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btn_Exit.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Exit.Appearance.Options.UseFont = true;
             this.btn_Exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exit.Image")));
             this.btn_Exit.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Exit.ImageToTextIndent = 5;
-            this.btn_Exit.Location = new System.Drawing.Point(413, 608);
+            this.btn_Exit.Location = new System.Drawing.Point(413, 717);
             this.btn_Exit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(67, 30);
@@ -518,12 +601,13 @@
             // 
             // btn_Save_Add
             // 
+            this.btn_Save_Add.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btn_Save_Add.Appearance.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Save_Add.Appearance.Options.UseFont = true;
             this.btn_Save_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save_Add.Image")));
             this.btn_Save_Add.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Save_Add.ImageToTextIndent = 0;
-            this.btn_Save_Add.Location = new System.Drawing.Point(333, 608);
+            this.btn_Save_Add.Location = new System.Drawing.Point(333, 717);
             this.btn_Save_Add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_Save_Add.Name = "btn_Save_Add";
             this.btn_Save_Add.Size = new System.Drawing.Size(76, 30);
@@ -535,7 +619,9 @@
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(743, 652);
+            this.ClientSize = new System.Drawing.Size(743, 761);
+            this.Controls.Add(this.dgv_link);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.btn_Next);
             this.Controls.Add(this.btn_Last);
             this.Controls.Add(this.labelControl1);
@@ -586,6 +672,7 @@
             this.pal_type.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Count)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_link)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -633,5 +720,10 @@
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private KyoControl.KyoButton btn_Next;
         private KyoControl.KyoButton btn_Last;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.DataGridView dgv_link;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     }
 }

@@ -166,8 +166,13 @@ namespace 科技计划项目档案数据采集管理系统
             btn_Back.Enabled = false;
             btn_Add.Enabled = true;
 
+            btn_Delete.Tag = 1;
         }
-     
+
+        /// <summary>
+        /// 批次ID，批次名称【仅针对光盘列表】
+        /// </summary>
+        object TrpId = null, TrpName = null;
         /// <summary>
         /// 加载光盘数据
         /// </summary>
@@ -201,6 +206,10 @@ namespace 科技计划项目档案数据采集管理系统
 
             btn_Back.Enabled = true;
             btn_Add.Enabled = false;
+
+            btn_Delete.Tag = 2;
+            this.TrpId = trpId;
+            this.TrpName = trpName;
         }
       
         /// <summary>
@@ -358,18 +367,32 @@ namespace 科技计划项目档案数据采集管理系统
             int amount = dgv_SWDJ.SelectedRows.Count;
             if (amount > 0)
             {
-                string tipString = "此操作会删除批次下所有已录入数据，是否确认继续？";
-                if(XtraMessageBox.Show(tipString, "删除确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+                int index = ToolHelper.GetIntValue(btn_Delete.Tag, -1);
+                string tipString = $"此操作会删除选中{(index == 1 ? "批次" : "光盘")}下所有已存在数据，是否确认继续？";
+                if(XtraMessageBox.Show(tipString, "删除确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
                 {
                     int type = tc_ToR.SelectedTabPageIndex;
-                    if(type == 0)
+                    if (type == 0)
                     {
-                        foreach(DataGridViewRow row in dgv_SWDJ.SelectedRows)
+                        if (index == 1)
                         {
-                            object pid = row.Cells["trp_id"].Value;
-                            DeleteBatchById(pid);
+                            foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
+                            {
+                                object pid = row.Cells["trp_id"].Value;
+                                DeleteBatchById(pid);
+                            }
+                            LoadPCDataScoure(null);
                         }
-                        LoadPCDataScoure(null);
+                        else if (index == 2)
+                        {
+                            foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
+                            {
+                                object cid = row.Cells["trc_id"].Value;
+                                DeleteCDById(cid);
+                            }
+                            RefreshCDAmountByPid(TrpId);
+                            LoadCDDataScoure(TrpId, TrpName);
+                        }
                     }
                     //else if(type == 1)
                     //{
@@ -394,6 +417,31 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 XtraMessageBox.Show("请先至少选择一条要删除的数据!", "尚未选择数据", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
+        }
+
+        /// <summary>
+        /// 刷新批次下的光盘数
+        /// </summary>
+        /// <param name="trpId">批次ID</param>
+        private void RefreshCDAmountByPid(object trpId)
+        {
+            string updateSQL = "UPDATE transfer_registration_pc SET trp_cd_amount= " +
+                "(SELECT COUNT(trc_id) FROM transfer_registraion_cd WHERE trp_id = '" + trpId + "') WHERE trp_id = '" + trpId + "';";
+            SqlHelper.ExecuteNonQuery(updateSQL);
+        }
+
+        /// <summary>
+        /// 删除光盘信息
+        /// </summary>
+        /// <param name="cid">光盘ID</param>
+        private void DeleteCDById(object cid)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            //删除当前光盘下的文件记录
+            stringBuilder.Append($"DELETE FROM backup_files_info WHERE bfi_trcid='{cid}';");
+            //删除当前光盘记录
+            stringBuilder.Append($"DELETE FROM transfer_registraion_cd WHERE trc_id='{cid}';");
+            SqlHelper.ExecuteNonQuery(stringBuilder.ToString());
         }
 
         /// <summary>
@@ -553,7 +601,7 @@ namespace 科技计划项目档案数据采集管理系统
                 StringBuilder querySql = new StringBuilder("SELECT trc_id, trp_submit_status, dd_name, trc_code, trc_name, trc_status, trp_name " +
                     "FROM transfer_registraion_cd trc LEFT JOIN(" +
                     "SELECT trp.trp_id, trp.trp_submit_status, dd_name, dd_sort, trp_name FROM transfer_registration_pc trp, data_dictionary dd WHERE trp.com_id = dd.dd_id ) tb " +
-                    "ON trc.trp_id = tb.trp_id WHERE 1=1 AND trp_submit_status=1 ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort, trc_sort");
+                    "ON trc.trp_id = tb.trp_id WHERE 1=1 AND trp_submit_status=1 ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort, trc_sort, trc_code");
                 table = SqlHelper.ExecuteQuery(querySql.ToString());
             }
             else
@@ -570,7 +618,10 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_GPDJ.Rows[_index].Cells["trc_subject_amount"].Value = GetSubjectAmount(row["trc_id"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_file_amount"].Value = GetFileAmount(row["trc_id"]);
                 dgv_GPDJ.Rows[_index].Cells["trc_status"].Tag = row["trc_status"];
-                dgv_GPDJ.Rows[_index].Cells["trc_status"].Value = GetReadStatus(GetInt32(row["trc_status"]));
+                int statuNum = ToolHelper.GetIntValue(row["trc_status"]);
+                if (statuNum != 2)
+                    dgv_GPDJ.Rows[_index].Cells["trc_status"].Style.ForeColor = System.Drawing.Color.DarkRed;
+                dgv_GPDJ.Rows[_index].Cells["trc_status"].Value = GetReadStatus(statuNum);
             }
             if (dgv_GPDJ.Columns.Count > 0)
                 dgv_GPDJ.Columns[0].Visible = false;
@@ -604,18 +655,6 @@ namespace 科技计划项目档案数据采集管理系统
         }
     
         /// <summary>
-        /// 将Object对象转换成Int对象
-        /// </summary>
-        private int GetInt32(object _obj)
-        {
-            int temp = 0;
-            if (_obj == null)
-                return temp;
-            int.TryParse(_obj.ToString(), out temp);
-            return temp;
-        }
-    
-        /// <summary>
         /// 光盘页搜索
         /// </summary>
         private void Btn_CD_Search_Click(object sender, EventArgs e)
@@ -630,7 +669,7 @@ namespace 科技计划项目档案数据采集管理系统
             querySql.Append(" SELECT trp.trp_id, dd_name, dd_sort, trp_name FROM transfer_registration_pc trp, data_dictionary cs WHERE trp.com_id = cs.dd_id ) tb");
             querySql.Append(" ON trc.trp_id = tb.trp_id");
             querySql.Append(queryCondition);
-            querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort ASC");
+            querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort ASC, trc_code");
 
             LoadGPDJ(querySql.ToString());
         }
@@ -680,7 +719,7 @@ namespace 科技计划项目档案数据采集管理系统
                 querySql.Append(" SELECT trp.trp_id, trp.trp_submit_status, dd_id, dd_name, dd_sort, trp_name FROM transfer_registration_pc trp, data_dictionary cs WHERE trp.com_id = cs.dd_id ) tb");
                 querySql.Append(" ON trc.trp_id = tb.trp_id WHERE 1=1 AND trp_submit_status=1");
                 if (index != 0) querySql.Append(" AND trc_status='" + index + "'");
-                querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort ASC");
+                querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, trc_status ASC, dd_sort ASC, trc_code");
                 LoadGPDJ(querySql.ToString());
             }
         }

@@ -47,6 +47,22 @@ namespace 科技计划项目档案数据采集管理系统
             ace_LeftMenu.SelectedElement = ace_Login;
 
             searchControl.Visible = false;
+
+            dgv_MyReg.CellMouseDown += Dgv_MyReg_CellMouseDown;
+        }
+
+        private void Dgv_MyReg_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                DataGridView view = sender as DataGridView;
+                if (e.Button == MouseButtons.Right && e.RowIndex != -1 && e.ColumnIndex != -1)
+                {
+                    view.Rows[e.RowIndex].Selected = true;
+                    contextMenuStrip1.Tag = view;
+                    contextMenuStrip1.Show(MousePosition);
+                }
+            }
         }
 
         /// <summary>
@@ -589,7 +605,7 @@ namespace 科技计划项目档案数据采集管理系统
             });
             string queryCondition = string.Empty;
             if(!string.IsNullOrEmpty(key))
-                queryCondition = $"AND (pi.pi_code LIKE '%{key}%' OR pi.pi_name LIKE '%{key}%')";
+                queryCondition = $"AND (pi.pi_code LIKE '%{key}%' OR pi.pi_name LIKE '%{key}%' OR trp.trp_code LIKE '%{key}%')";
             string querySql = "SELECT * FROM(SELECT ROW_NUMBER() OVER(ORDER BY dd.dd_name) num, dd.dd_name, wm.wm_id, pi.pi_id, pi.pi_code, pi.pi_name, trp.trp_code " +
                 "FROM (SELECT * FROM project_info UNION ALL SELECT * FROM topic_info) pi, work_myreg wm " +
                 "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
@@ -1015,6 +1031,50 @@ namespace 科技计划项目档案数据采集管理系统
             if (!string.IsNullOrEmpty(fData))
                 fData = $"AND TRY_CAST(ISNULL(wm.wm_accepter_date, A.pi_checker_date) AS DATE) <= '{fData}'";
             LoadMyRegedList(sData, fData);
+        }
+
+        /// <summary>
+        /// 提交选中行
+        /// </summary>
+        private void 提交SToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!SureToSubmit(1)) return;
+            DataGridView view = (DataGridView)(sender as ToolStripItem).GetCurrentParent().Tag;
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (DataGridViewRow row in view.SelectedRows)
+            {
+                object wmid = row.Tag;
+                stringBuilder.Append($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityFinish}, wm_accepter_date='{DateTime.Now}' WHERE wm_id='{wmid}'");
+            }
+            if (stringBuilder.Length > 0)
+            {
+                SqlHelper.ExecuteNonQuery(stringBuilder.ToString());
+                LoadMyRegList();
+            }
+        }
+
+        private void 全部提交AToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!SureToSubmit(2)) return;
+            DataGridView view = (DataGridView)(sender as ToolStripItem).GetCurrentParent().Tag;
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (DataGridViewRow row in view.Rows)
+            {
+                object wmid = row.Tag;
+                stringBuilder.Append($"UPDATE work_myreg SET wm_status={(int)QualityStatus.QualityFinish}, wm_accepter_date='{DateTime.Now}' WHERE wm_id='{wmid}'");
+            }
+            if (stringBuilder.Length > 0)
+            {
+                SqlHelper.ExecuteNonQuery(stringBuilder.ToString());
+                LoadMyRegList();
+            }
+        }
+
+        private bool SureToSubmit(int type)
+        {
+            string value = type == 1 ? "当前选中行":"全部行";
+            DialogResult result = XtraMessageBox.Show($"请确保{value}已经质检完成，是否继续提交？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
+            return result == DialogResult.Yes;
         }
     }
 }
