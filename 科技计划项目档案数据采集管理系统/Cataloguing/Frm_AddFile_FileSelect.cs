@@ -1,17 +1,31 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Properties;
 
 namespace 科技计划项目档案数据采集管理系统
 {
-    public partial class Frm_AddFile_FileSelect : DevExpress.XtraEditors.XtraForm
+    public partial class Frm_FileSelect : DevExpress.XtraEditors.XtraForm
     {
         public string[] SelectedFileName;
         public string[] SelectedFileId;
         private ImageList imageList;
         private object[] rootId;
-        public Frm_AddFile_FileSelect(object[] rootId)
+
+        /// <summary>
+        /// 标记是否是移动模式[默认false]
+        /// </summary>
+        public bool IsMoveMode = false;
+        /// <summary>
+        /// 批次ID
+        /// </summary>
+        public object BatchID;
+        /// <summary>
+        /// 光盘编号
+        /// </summary>
+        public object DiskCode;
+        public Frm_FileSelect(object[] rootId)
         {
             InitializeComponent();
             this.rootId = rootId;
@@ -117,6 +131,10 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     ClearHasWordedWithFolder(tv_file.Nodes[0]);
                 }
+                if (IsMoveMode)
+                {
+                    tv_file.ExpandAll();
+                }
             }
         }
 
@@ -184,12 +202,12 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Tv_file_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if(e.Button == MouseButtons.Left)
+            TreeNode node = e.Node;
+            int type = Convert.ToInt32(node.ToolTipText);//0:文件 1:文件夹
+            if (e.Button == MouseButtons.Left)
             {
-                TreeNode node = e.Node;
-                int type = Convert.ToInt32(node.ToolTipText);//0:文件 1:文件夹
                 string state = node.StateImageKey;//1:已加工
-                if(type == 0 && !"1".Equals(state))
+                if (type == 0 && !"1".Equals(state))
                 {
                     ListViewItem item = new ListViewItem()
                     {
@@ -197,10 +215,18 @@ namespace 科技计划项目档案数据采集管理系统
                         Text = node.Text,
                         Tag = node.Tag + "\\" + node.Text
                     };
-                    if(Control.ModifierKeys != Keys.Control)
+                    if (Control.ModifierKeys != Keys.Control)
                         lsv_Selected.Items.Clear();
-                    if(IsNotExist(item))
+                    if (IsNotExist(item))
                         ChangeItem(item, true);
+                }
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                if (IsMoveMode && type == 0)//只能操作文件
+                {
+                    tv_file.SelectedNode = e.Node;
+                    contextMenuStrip1.Show(MousePosition);
                 }
             }
         }
@@ -239,6 +265,34 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 foreach(ListViewItem item in lsv_Selected.SelectedItems)
                     ChangeItem(item, false);
+            }
+        }
+
+        private void 移动MToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            object value = tv_file.SelectedNode.Text;
+            object id = tv_file.SelectedNode.Name;
+            Frm_FileMove fileMove = new Frm_FileMove(BatchID, DiskCode);
+            fileMove.Text = $"将[{value}]移动至...";
+            fileMove.objectName = value;
+            fileMove.objectId = id;
+            if(fileMove.ShowDialog() == DialogResult.OK)
+            {
+                LoadRootTree(chk_ShowAll.Checked);
+            }
+        }
+
+        private void 删除DToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            object value = tv_file.SelectedNode.Text;
+            object id = tv_file.SelectedNode.Name;
+            string queryString = $"确定要删除文件[{value}]吗？";
+            if (XtraMessageBox.Show(queryString, "删除确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                string deleteSQL = $"DELETE FROM backup_files_info WHERE bfi_id='{id}'";
+                SqlHelper.ExecuteNonQuery(deleteSQL);
+                XtraMessageBox.Show("操作成功。");
+                tv_file.SelectedNode.Remove();
             }
         }
     }

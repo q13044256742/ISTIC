@@ -22,7 +22,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         ///   返回此类使用的缓存的 ResourceManager 实例。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("科技计划项目档案数据采集管理系统.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         ///   重写当前线程的 CurrentUICulture 属性。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap _1 {
+        public static System.Drawing.Bitmap _1 {
             get {
                 object obj = ResourceManager.GetObject("_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +73,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap _2 {
+        public static System.Drawing.Bitmap _2 {
             get {
                 object obj = ResourceManager.GetObject("_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +83,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap _3 {
+        public static System.Drawing.Bitmap _3 {
             get {
                 object obj = ResourceManager.GetObject("_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +93,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap _lock {
+        public static System.Drawing.Bitmap _lock {
             get {
                 object obj = ResourceManager.GetObject("_lock", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +103,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap banner {
+        public static System.Drawing.Bitmap banner {
             get {
                 object obj = ResourceManager.GetObject("banner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -136,7 +136,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         ///    &lt;p style=&quot;text-align: left&quot;&gt;档号：&lt;span id=&quot;dh&quot;&gt;&lt;/span&gt;&lt;/p&gt;
         ///	&lt;div style=&quot;border: 1px solid blac [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
-        internal static string bkb {
+        public static string bkb {
             get {
                 return ResourceManager.GetString("bkb", resourceCulture);
             }
@@ -145,7 +145,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap current2 {
+        public static System.Drawing.Bitmap current2 {
             get {
                 object obj = ResourceManager.GetObject("current2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -155,7 +155,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap dhbg {
+        public static System.Drawing.Bitmap dhbg {
             get {
                 object obj = ResourceManager.GetObject("dhbg", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -165,7 +165,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap doc {
+        public static System.Drawing.Bitmap doc {
             get {
                 object obj = ResourceManager.GetObject("doc", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -184,7 +184,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         ///    &lt;meta name=&quot;ProgId&quot; content=&quot;Word.Document&quot; /&gt;
         ///    &lt;meta name=&quot;Generator&quot; content=&quot; [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
-        internal static string domrec {
+        public static string domrec {
             get {
                 return ResourceManager.GetString("domrec", resourceCulture);
             }
@@ -193,7 +193,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap excel {
+        public static System.Drawing.Bitmap excel {
             get {
                 object obj = ResourceManager.GetObject("excel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -203,7 +203,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap file {
+        public static System.Drawing.Bitmap file {
             get {
                 object obj = ResourceManager.GetObject("file", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -211,9 +211,19 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         }
         
         /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Icon file_open {
+            get {
+                object obj = ResourceManager.GetObject("file_open", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap file2 {
+        public static System.Drawing.Bitmap file2 {
             get {
                 object obj = ResourceManager.GetObject("file2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -232,38 +242,38 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         ///    &lt;meta name=&quot;ProgId&quot; content=&quot;Word.Document&quot; /&gt;
         ///    &lt;meta name=&quot;Generator&quot; content=&quot; [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
-        internal static string fm {
+        public static string fm {
             get {
                 return ResourceManager.GetString("fm", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 
+        ///   查找类似 &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+        ///&lt;meta http-equiv=&quot;x-ua-compatible&quot; content=&quot;IE=edge&quot;&gt;
         ///&lt;html&gt;
-        ///&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
         ///&lt;head&gt;
-        ///	&lt;style&gt;
+        ///    &lt;style&gt;
         ///        thead td {
         ///            text-align: center;
         ///            padding: 7px 0px;
         ///        }
-        ///		tbody td {
-        ///			border: 1px solid black;
-        ///			text-align: center;
-        ///		}
-        ///	&lt;/style&gt;
+        ///
+        ///        tbody td {
+        ///            border: 1px solid black;
+        ///            text-align: center;
+        ///        }
+        ///    &lt;/style&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
-        ///	&lt;h1
-        ///		style=&quot;word-break: break-all; text-align: center;; font-family: 黑体;&quot;&gt;卷内目录&lt;/h1&gt;
-        ///	&lt;br /&gt;
-        ///	&lt;br /&gt;
-        ///	&lt;p style=&quot;word-break: break-all; font-family: 黑体; margin:13px 5px;&quot;&gt;
-        ///		&lt;b&gt;档号:&lt;/b&gt;&lt;span id=&quot;ajbh&quot;&gt;&lt;/span&gt;
-        ///		&lt;spa [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///    &lt;h1 style=&quot;word-break: break-all; text-align: center;; font-family: 黑体;&quot;&gt;
+        ///        卷内目录
+        ///    &lt;/h1&gt;
+        ///    &lt;br /&gt;
+        ///    &lt;br /&gt;
+        ///  [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
-        internal static string jnml {
+        public static string jnml {
             get {
                 return ResourceManager.GetString("jnml", resourceCulture);
             }
@@ -272,7 +282,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap login2 {
+        public static System.Drawing.Bitmap login2 {
             get {
                 object obj = ResourceManager.GetObject("login2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -282,7 +292,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap logo {
+        public static System.Drawing.Bitmap logo {
             get {
                 object obj = ResourceManager.GetObject("logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -292,7 +302,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap logo1 {
+        public static System.Drawing.Bitmap logo1 {
             get {
                 object obj = ResourceManager.GetObject("logo1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -302,7 +312,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Icon logo2 {
+        public static System.Drawing.Icon logo2 {
             get {
                 object obj = ResourceManager.GetObject("logo2", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
@@ -312,7 +322,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap pdf {
+        public static System.Drawing.Bitmap pdf {
             get {
                 object obj = ResourceManager.GetObject("pdf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -322,7 +332,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Icon qbico {
+        public static System.Drawing.Icon qbico {
             get {
                 object obj = ResourceManager.GetObject("qbico", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
@@ -332,7 +342,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap rar {
+        public static System.Drawing.Bitmap rar {
             get {
                 object obj = ResourceManager.GetObject("rar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -342,7 +352,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap top {
+        public static System.Drawing.Bitmap top {
             get {
                 object obj = ResourceManager.GetObject("top", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -352,7 +362,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap top_bg {
+        public static System.Drawing.Bitmap top_bg {
             get {
                 object obj = ResourceManager.GetObject("top_bg", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -362,7 +372,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap word {
+        public static System.Drawing.Bitmap word {
             get {
                 object obj = ResourceManager.GetObject("word", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -372,7 +382,7 @@ namespace 科技计划项目档案数据采集管理系统.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap xsl {
+        public static System.Drawing.Bitmap xsl {
             get {
                 object obj = ResourceManager.GetObject("xsl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

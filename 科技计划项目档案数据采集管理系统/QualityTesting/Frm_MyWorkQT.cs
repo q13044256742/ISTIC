@@ -2606,7 +2606,7 @@ namespace 科技计划项目档案数据采集管理系统
             TreeNode treeNode = null;
             foreach (TreeNode node in pNode.Nodes)
             {
-                if (node.GetNodeCount(true)==0)
+                if (node.GetNodeCount(true) == 0)
                 {
                     treeNode = node;
                 }
@@ -4490,7 +4490,7 @@ namespace 科技计划项目档案数据采集管理系统
             if ("btn_Plan_AddFile".Equals(name))
             {
                 key = "plan_fl_";
-                object objId = tab_Plan_Info.Tag;
+                object objId = cbo_Plan_AJ_Code.SelectedValue;
                 if (objId != null)
                 {
                     if (dgv_Plan_FileList.SelectedRows.Count == 1 && dgv_Plan_FileList.RowCount != 1)
@@ -4583,7 +4583,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if ("btn_Special_AddFile".Equals(name))
             {
                 key = "special_fl_";
-                object objId = tab_Special_Info.Tag;
+                object objId = cbo_Special_AJ_Code.SelectedValue;
                 if (objId != null)
                 {
                     if (dgv_Special_FileList.SelectedRows.Count == 1 && dgv_Special_FileList.RowCount != 1)
@@ -5546,7 +5546,7 @@ namespace 科技计划项目档案数据采集管理系统
                 }
             }
         }
-        
+
         private void FileList_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView view = sender as DataGridView;

@@ -172,7 +172,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 批次ID，批次名称【仅针对光盘列表】
         /// </summary>
-        object TrpId = null, TrpName = null;
+        object BatchID = null, BatchName = null;
         /// <summary>
         /// 加载光盘数据
         /// </summary>
@@ -202,14 +202,13 @@ namespace 科技计划项目档案数据采集管理系统
                 dgv_SWDJ.Rows[index].Tag = trpId;
                 dgv_SWDJ.Rows[index].Cells["trc_read"].Tag = trpName;
             }
-            dgv_SWDJ.Columns["trc_id"].Visible = false;
 
             btn_Back.Enabled = true;
             btn_Add.Enabled = false;
-
+            dgv_SWDJ.Columns["trc_id"].Visible = false;
             btn_Delete.Tag = 2;
-            this.TrpId = trpId;
-            this.TrpName = trpName;
+            this.BatchID = trpId;
+            this.BatchName = trpName;
         }
       
         /// <summary>
@@ -390,8 +389,8 @@ namespace 科技计划项目档案数据采集管理系统
                                 object cid = row.Cells["trc_id"].Value;
                                 DeleteCDById(cid);
                             }
-                            RefreshCDAmountByPid(TrpId);
-                            LoadCDDataScoure(TrpId, TrpName);
+                            RefreshCDAmountByPid(BatchID);
+                            LoadCDDataScoure(BatchID, BatchName);
                         }
                     }
                     //else if(type == 1)
@@ -801,6 +800,27 @@ namespace 科技计划项目档案数据采集管理系统
                     if(frm.ShowDialog() == DialogResult.OK)
                     {
                         LoadPCDataScoure(null);
+                    }
+                }
+                //光盘编号点击>>移动文件
+                else if ("trc_code".Equals(name))
+                {
+                    object trcId = dgv_SWDJ.Rows[e.RowIndex].Cells["trc_id"].Value;
+                    string querySQL = "SELECT bfi_id FROM backup_files_info A LEFT JOIN transfer_registraion_cd B ON A.bfi_trcid = B.trc_id " +
+                       $"WHERE bfi_trcid='{trcId}' AND bfi_type = -1 ORDER BY trc_code";
+                    object[] rootId = SqlHelper.ExecuteSingleColumnQuery(querySQL);
+                    if (rootId.Length > 0)
+                    {
+                        object trcCode = dgv_SWDJ.Rows[e.RowIndex].Cells["trc_code"].Value;
+                        Frm_FileSelect fileSelect = new Frm_FileSelect(rootId);
+                        fileSelect.IsMoveMode = true;
+                        fileSelect.BatchID = BatchID;
+                        fileSelect.DiskCode = trcCode;
+                        fileSelect.ShowDialog();
+                    }
+                    else
+                    {
+                        XtraMessageBox.Show("当前光盘下尚无文件", "编辑失败");
                     }
                 }
             }

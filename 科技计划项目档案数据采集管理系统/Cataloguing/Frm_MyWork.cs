@@ -1201,7 +1201,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 //移除文件列表
                                 RemoveFileList(parentID);
                                 LoadFileList(view, parentID, selectedRow);
-                                XtraMessageBox.Show("信息保存成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                XtraMessageBox.Show("保存成功。");
                             }
                         }
                         else
@@ -5058,7 +5058,6 @@ namespace 科技计划项目档案数据采集管理系统
                 }
 
                 tab_Special_Info.SelectedTabPageIndex = 0;
-                LoadFileList(dgv_Special_FileList, ToolHelper.GetValue(row["imp_id"]), -1);
             }
         }
 
@@ -5565,7 +5564,8 @@ namespace 科技计划项目档案数据采集管理系统
             else if ("btn_Special_AddFile".Equals(name))
             {
                 key = "special_fl_";
-                object objId = tab_Special_Info.Tag;
+                //object objId = tab_Special_Info.Tag;
+                object objId = cbo_Special_AJ_Code.SelectedValue;
                 if (objId != null)
                 {
                     if (dgv_Special_FileList.SelectedRows.Count == 1 && dgv_Special_FileList.RowCount != 1)
@@ -5578,7 +5578,7 @@ namespace 科技计划项目档案数据采集管理系统
                     frm.Show();
                 }
                 else
-                    XtraMessageBox.Show("请先保存基本信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    XtraMessageBox.Show("请先添加档号信息。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 

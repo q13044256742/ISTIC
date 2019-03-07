@@ -1,6 +1,6 @@
 ﻿namespace 科技计划项目档案数据采集管理系统
 {
-    partial class Frm_AddFile_FileSelect
+    partial class Frm_FileSelect
     {
         /// <summary>
         /// Required designer variable.
@@ -28,12 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_AddFile_FileSelect));
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_FileSelect));
             this.tv_file = new System.Windows.Forms.TreeView();
             this.btn_sure = new 科技计划项目档案数据采集管理系统.KyoControl.KyoButton();
             this.label1 = new System.Windows.Forms.Label();
             this.chk_ShowAll = new System.Windows.Forms.CheckBox();
             this.lsv_Selected = new System.Windows.Forms.ListView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.移动MToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tv_file
@@ -100,7 +105,31 @@
             this.lsv_Selected.View = System.Windows.Forms.View.List;
             this.lsv_Selected.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Lb_Selected_KeyDown);
             // 
-            // Frm_AddFile_FileSelect
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.移动MToolStripMenuItem,
+            this.删除DToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(121, 48);
+            // 
+            // 移动MToolStripMenuItem
+            // 
+            this.移动MToolStripMenuItem.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._3;
+            this.移动MToolStripMenuItem.Name = "移动MToolStripMenuItem";
+            this.移动MToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.移动MToolStripMenuItem.Text = "移动(&M)";
+            this.移动MToolStripMenuItem.Click += new System.EventHandler(this.移动MToolStripMenuItem_Click);
+            // 
+            // 删除DToolStripMenuItem
+            // 
+            this.删除DToolStripMenuItem.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._2;
+            this.删除DToolStripMenuItem.Name = "删除DToolStripMenuItem";
+            this.删除DToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.删除DToolStripMenuItem.Text = "删除(&D)";
+            this.删除DToolStripMenuItem.Click += new System.EventHandler(this.删除DToolStripMenuItem_Click);
+            // 
+            // Frm_FileSelect
             // 
             this.AcceptButton = this.btn_sure;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -113,10 +142,11 @@
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Frm_AddFile_FileSelect";
+            this.Name = "Frm_FileSelect";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "文件选择";
             this.Load += new System.EventHandler(this.Frm_AddFile_FileSelect_Load);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,5 +159,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chk_ShowAll;
         private System.Windows.Forms.ListView lsv_Selected;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 移动MToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 删除DToolStripMenuItem;
     }
 }

@@ -412,6 +412,12 @@
     <Compile Include="TransferOfRegistration\Frm_CDRead.Designer.cs">
       <DependentUpon>Frm_CDRead.cs</DependentUpon>
     </Compile>
+    <Compile Include="TransferOfRegistration\Frm_FileMove.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransferOfRegistration\Frm_FileMove.Designer.cs">
+      <DependentUpon>Frm_FileMove.cs</DependentUpon>
+    </Compile>
     <Compile Include="TransferOfRegistration\Frm_ToR.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -551,7 +557,7 @@
       <DependentUpon>Frm_Manager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -565,6 +571,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_CDRead.resx">
       <DependentUpon>Frm_CDRead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferOfRegistration\Frm_FileMove.resx">
+      <DependentUpon>Frm_FileMove.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferOfRegistration\Frm_ToR.resx">
       <DependentUpon>Frm_ToR.cs</DependentUpon>
@@ -590,6 +599,7 @@
     <Content Include="bin\x86\Debug\Datas\js\jquery-1.11.1.min.js" />
     <Content Include="bin\x86\Debug\Datas\pie.html" />
     <Content Include="Resources\chinamap.html" />
+    <None Include="Resources\file_open.ico" />
     <Content Include="Resources\js\china.js" />
     <Content Include="Resources\js\echarts.min.js" />
     <Content Include="Resources\js\jquery-1.11.1.min.js" />

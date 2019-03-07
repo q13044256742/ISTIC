@@ -124,7 +124,7 @@ namespace 科技计划项目档案数据采集管理系统
                 {
                     if(!string.IsNullOrEmpty(_ids[i]))
                     {
-                        object filePath = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_path + '\' + bfi_name FROM backup_files_info WHERE bfi_id='{_ids[i]}'");
+                        object filePath = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_path + '\\' + bfi_name FROM backup_files_info WHERE bfi_id='{_ids[i]}'");
                         AddFileToList(GetValue(filePath), _ids[i]);
                     }
                 }
@@ -651,7 +651,7 @@ namespace 科技计划项目档案数据采集管理系统
                     XtraMessageBox.Show("生成文件树失败，请确认当前编号已导入对应电子文件。", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                Frm_AddFile_FileSelect frm = new Frm_AddFile_FileSelect(rootId);
+                Frm_FileSelect frm = new Frm_FileSelect(rootId);
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     string[] fullPath = frm.SelectedFileName;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
@@ -37,22 +38,26 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 new Thread(delegate ()
                 {
                     DirectoryInfo directoryInfo = new DirectoryInfo(sourPath);
-                    pgb_CD.Tag = false;
-                    int totalFileAmount = GetFilesCount(directoryInfo);
-                    SetDocProcessTip(0, totalFileAmount);
-                    pgb_CD.Value = pgb_CD.Minimum;
-                    pgb_CD.Maximum = totalFileAmount;
 
+                    pgb_CD.Tag = false;
+                    int totalFileAmount = Directory.GetFiles(sourPath, "*", SearchOption.AllDirectories).Length;// GetFilesCount(directoryInfo);
+                    pgb_CD.Maximum = totalFileAmount;
+                    pgb_CD.Value = 0;
+                    SetDocProcessTip(0, totalFileAmount);
+
+                    StringBuilder builder = new StringBuilder();
                     object localKey = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_id FROM backup_files_info WHERE bfi_name='{trpName}' AND bfi_trcid='{trcId}'");
                     if(localKey != null)
-                        SqlHelper.ExecuteNonQuery($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_userid='{UserHelper.GetUser().UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{localKey}'");
+                        builder.Append($"UPDATE backup_files_info SET bfi_date='{DateTime.Now}', bfi_userid='{UserHelper.GetUser().UserKey}', bfi_trcid='{trcId}' WHERE bfi_id='{localKey}';");
                     else
                     {
                         localKey = Guid.NewGuid().ToString();
-                        SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                            $"('{localKey}', '{trpName}', '{targetPath}', '{DateTime.Now}', '{UserHelper.GetUser().UserKey}', '{trcId}', -1)");
+                        builder.Append($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                            $"('{localKey}', '{trpName}', '{targetPath}', '{DateTime.Now}', '{UserHelper.GetUser().UserKey}', '{trcId}', -1);");
                     }
-                    CopyFile(directoryInfo, targetPath, localKey, totalFileAmount);
+                    CopyFileAndData(directoryInfo, targetPath, localKey, totalFileAmount, ref builder);
+                    if (builder.Length > 0)
+                        SqlHelper.ExecuteNonQuery(builder.ToString());
                     pgb_CD.Tag = true;
                     SetButtonState();
                     DevExpress.XtraEditors.XtraMessageBox.Show("文件备份完成。");
@@ -87,6 +92,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 pgb_DS.Tag = true;
         }
 
+        /// <summary>
+        /// 设置提示进度文本
+        /// </summary>
         private void SetDocProcessTip(params object[] value)
         {
             lbl_DocProcess.Text = $"文档读写进度（{value[0]}/{value[1]}）";
@@ -141,19 +149,18 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// </summary>
         /// <param name="sPath">源文件夹目录</param>
         /// <param name="tPath">目标文件夹基路径</param>
-        private void CopyFile(DirectoryInfo sPath, string tPath, object pid, int totalFileAmount)
+        private void CopyFileAndData(DirectoryInfo sPath, string tPath, object pid, int totalFileAmount, ref StringBuilder insertSQLs)
         {
             FileInfo[] file = sPath.GetFiles();
             for(int i = 0; i < file.Length; i++)
             {
                 string fileName = file[i].Name;
                 string primaryKey = Guid.NewGuid().ToString();
-                SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                    $"('{primaryKey}', '{fileName}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetUser().UserKey}', '{trcId}', 0)");
+                insertSQLs.Append($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                    $"('{primaryKey}', '{fileName}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetUser().UserKey}', '{trcId}', 0);");
+                UploadFile(file[i], tPath, fileName);
 
-                UploadFile(file[i].FullName, tPath, fileName);
-                pgb_CD.Value++;
-                SetDocProcessTip(pgb_CD.Value, totalFileAmount);
+                SetDocProcessTip(++pgb_CD.Value, totalFileAmount);
             }
             DirectoryInfo[] infos = sPath.GetDirectories();
             for(int i = 0; i < infos.Length; i++)
@@ -161,9 +168,9 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
                 if(!IsSystemHidden(infos[i]))
                 {
                     string primaryKey = Guid.NewGuid().ToString();
-                    SqlHelper.ExecuteNonQuery($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
-                       $"('{primaryKey}', '{infos[i].Name}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetUser().UserKey}', '{trcId}', 1)");
-                    CopyFile(infos[i], tPath + "\\" + infos[i].Name + @"\", primaryKey, totalFileAmount);
+                    insertSQLs.Append($"INSERT INTO backup_files_info(bfi_id, bfi_name, bfi_path, bfi_date, bfi_pid, bfi_userid, bfi_trcid, bfi_type) VALUES " +
+                       $"('{primaryKey}', '{infos[i].Name}', '{tPath}', '{DateTime.Now}', '{pid}', '{UserHelper.GetUser().UserKey}', '{trcId}', 1);");
+                    CopyFileAndData(infos[i], $"{tPath}\\{infos[i].Name}\\", primaryKey, totalFileAmount, ref insertSQLs);
                 }
             }
         }
@@ -172,25 +179,16 @@ namespace 科技计划项目档案数据采集管理系统.TransferOfRegistratio
         /// 将本地文件上传到远程服务器共享目录  
         /// </summary>  
         /// <param name="src">本地文件的绝对路径，包含扩展名</param>  
-        /// <param name="dst">远程服务器共享文件路径，不包含文件扩展名</param>  
-        /// <param name="fileName">上传到远程服务器后的文件扩展名</param>  
-        public static void UploadFile(string src, string dst, string fileName)
+        /// <param name="dst">远程服务器共享文件路径，不包含文件名</param>  
+        /// <param name="fileName">上传到远程服务器后的文件名</param>  
+        public static void UploadFile(FileInfo sourceFile, string dst, string fileName)
         {
             try
             {
-                FileStream inFileStream = new FileStream(src, FileMode.Open, FileAccess.Read);    //此处假定本地文件存在，不然程序会报错     
                 if(!Directory.Exists(dst))        //判断上传到的远程服务器路径是否存在  
                     Directory.CreateDirectory(dst);
                 dst = dst + "\\" + fileName;            //上传到远程服务器共享文件夹后文件的绝对路径  
-                FileStream outFileStream = new FileStream(dst, FileMode.OpenOrCreate);
-                byte[] buf = new byte[inFileStream.Length];
-                int byteCount;
-                while((byteCount = inFileStream.Read(buf, 0, buf.Length)) > 0)
-                    outFileStream.Write(buf, 0, byteCount);
-                inFileStream.Flush();
-                inFileStream.Close();
-                outFileStream.Flush();
-                outFileStream.Close();
+                sourceFile.CopyTo(dst, true);
             }
             catch(Exception e)
             {
