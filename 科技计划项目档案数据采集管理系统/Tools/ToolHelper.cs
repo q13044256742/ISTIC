@@ -40,14 +40,22 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="format">格式化类型</param>
         public static string GetDateValue(object dateObject, string format)
         {
-            if(dateObject == null)
-                return string.Empty;
-            else
+            if (dateObject != null)
             {
-                if(DateTime.TryParse(GetValue(dateObject), out DateTime result))
+                if (DateTime.TryParse(GetValue(dateObject), out DateTime result))
                     return result.ToString(format);
-                return string.Empty;
             }
+            return string.Empty;
+        }
+
+        public static DateTime GetDateValue(object dateObject, DateTime defaultDateTime)
+        {
+            if (dateObject != null)
+            {
+                if (DateTime.TryParse(GetValue(dateObject), out DateTime result))
+                    return result;
+            }
+            return defaultDateTime;
         }
 
         ///<summary>

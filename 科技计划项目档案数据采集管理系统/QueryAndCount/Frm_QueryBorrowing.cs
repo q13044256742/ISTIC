@@ -11,7 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using 科技计划项目档案数据采集管理系统.FirstPage; 
+using 科技计划项目档案数据采集管理系统.FirstPage;
 
 namespace 科技计划项目档案数据采集管理系统
 {
@@ -643,6 +643,8 @@ namespace 科技计划项目档案数据采集管理系统
             dtp_eDate.ResetText();
             chk_allDate.Checked = true;
             txt_Province.SelectedIndex = 0;
+            link_Export_Plan.Enabled = false;
+            link_Export_Unit.Enabled = false;
         }
 
         private void chk_allDate_CheckedChanged(object sender, EventArgs e)
@@ -1549,69 +1551,19 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private DataSet boxDataSet;
 
-        private void 导出EToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            int i = cbo_SourceOrg.SelectedIndex;
-            if (i != 0)
-            {
-                docDataSet = new DataSet("Documents");
-                fileDataSet = new DataSet("Files");
-                boxDataSet = new DataSet("Boxs");
-                //try
-                //{
-                    string savePath = Application.StartupPath + @"\TEMP_FOLD\";
-                    if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-                    {
-                        savePath = folderBrowserDialog1.SelectedPath;
-                    }
-
-                    object orgCode = cbo_SourceOrg.SelectedValue;//来源单位
-                    object planCode = cbo_PlanTypeList.SelectedValue;//计划类别
-
-                    string querySQL = $"SELECT pi_id, pi_code, pi_name FROM project_info WHERE pi_categor=1 AND pi_orga_id='{orgCode}'";
-                    DataTable table = SqlHelper.ExecuteQuery(querySQL);
-                    foreach (DataRow row in table.Rows)
-                    {
-                        string tipMsg = $"{cbo_SourceOrg.Text}[{row["pi_name"]}]";
-                        SplashScreenManager.ShowDefaultWaitForm(this, true, false, "正在导出：", tipMsg);
-                        ExportEFile(row["pi_id"], planCode, savePath + @"\" + row["pi_code"]);
-                        SplashScreenManager.CloseDefaultWaitForm();
-                    }
-                    docDataSet.WriteXml(savePath + @"\Documents.xml");
-                    fileDataSet.WriteXml(savePath + @"\Files.xml");
-                    boxDataSet.WriteXml(savePath + @"\Boxs.xml");
-
-                    DialogResult dialogResult = XtraMessageBox.Show("导出完毕，是否立即打开文件夹？", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    if (dialogResult == DialogResult.OK)
-                    {
-                        WinFormOpenHelper.OpenWinForm(0, "open", null, null, savePath, ShowWindowCommands.SW_NORMAL);
-                    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show(ex.Message);
-                //}
-                //finally
-                //{
-                //    SplashScreenManager.CloseDefaultWaitForm();
-                //}
-            }
-        }
-
         /// <summary>
         /// 导出指定单位或计划下的所有数据
         /// </summary>
-        /// <param name="planID">计划ID</param>
+        /// <param name="orgCode">计划ID</param>
         /// <param name="planCode">计划类别编号</param>
         /// <param name="destPath">电子文件拷贝至文件夹</param>
-        private void ExportEFile(object planID, object planCode, string destPath)
+        private void ExportEFile(object orgCode, object planCode, string destPath)
         {
             //专项下的项目/课题数
             DataTable proTable = SqlHelper.ExecuteQuery("SELECT  pi_id id, pi_code code, pi_name name, pi_field field, pb_theme theme, pi_funds funds, pi_start_datetime startDate, pi_end_datetime endDate, pi_year year, pi_unit unit, pi_province province, pi_uniter uinter, pi_prouser prouser, pi_intro intro, pi_categor categor, pi_source_id sourceCode, pi_orga_id orgaCode, pi_obj_id objId FROM(" +
                  "SELECT pi_id, pi_code, pi_name, pi_field, pb_theme, pi_funds, pi_start_datetime, pi_end_datetime, pi_year, pi_unit, pi_province, pi_uniter, pi_prouser, pi_intro, pi_categor, pi_source_id, pi_orga_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
                  "SELECT ti_id, ti_code, ti_name, ti_field, tb_theme, ti_funds, ti_start_datetime, ti_end_datetime, ti_year, ti_unit, ti_province, ti_uniter, ti_prouser, ti_intro, ti_categor, ti_source_id, ti_orga_id, ti_obj_id FROM topic_info WHERE ti_categor = -3)A " +
-                $"WHERE pi_obj_id='{planID}'");
+                $"WHERE pi_orga_id='{orgCode}' AND pi_source_id='{planCode}'");
             for (int i = 0; i < proTable.Rows.Count; i++)
             {
                 DataRow proRow = proTable.Rows[i];
@@ -1643,112 +1595,200 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="dataRow">待加载表的行</param>
         private void LoadDataSetInfo(DataRow _dataRow, string destPath)
         {
-            DataRow dataRow = _dataRow.Table.NewRow();
-            dataRow.ItemArray = (object[])_dataRow.ItemArray.Clone();
-            object objectID = dataRow["id"];
+            object objectID = _dataRow["id"];
             //项目|课题|子课题信息
-            int categor = ToolHelper.GetIntValue(dataRow["categor"]);
+            int categor = ToolHelper.GetIntValue(_dataRow["categor"]);
             if (categor == 1 || categor == 2)
             {
                 DataTable _table = docDataSet.Tables["Project"];
-                if (_table != null)
-                    _table.ImportRow(dataRow);
-                else
+                if (_table == null)
                 {
-                    dataRow.Table.TableName = "Project";
-                    docDataSet.Tables.Add(dataRow.Table);
+                    _table = _dataRow.Table.Clone();
+                    _table.TableName = "Project";
+                    docDataSet.Tables.Add(_table);
                 }
+                _table.ImportRow(_dataRow);
             }
             else if (categor == 3 || categor == -3)
             {
                 DataTable _table = docDataSet.Tables["Topic"];
-                if (_table != null)
-                    _table.ImportRow(dataRow);
-                else
+                if (_table == null)
                 {
-                    dataRow.Table.TableName = "Topic";
-                    docDataSet.Tables.Add(dataRow.Table);
+                    _table = _dataRow.Table.Clone();
+                    _table.TableName = "Topic";
+                    docDataSet.Tables.Add(_table);
                 }
+                _table.ImportRow(_dataRow);
             }
             else if (categor == 4)
             {
                 DataTable _table = docDataSet.Tables["Subject"];
-                if (_table != null)
-                    _table.ImportRow(dataRow);
-                else
+                if (_table == null)
                 {
-                    dataRow.Table.TableName = "Subject";
-                    docDataSet.Tables.Add(dataRow.Table);
+                    _table = _dataRow.Table.Clone();
+                    _table.TableName = "Subject";
+                    docDataSet.Tables.Add(_table);
                 }
+                _table.ImportRow(_dataRow);
             }
             //文件信息
-            string fileQuerySql = $"SELECT pfl_id, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_user, pfl_type, pfl_scert, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_remark, pfl_obj_id, pfl_sort, pfl_box_id, pfl_box_sort FROM processing_file_list WHERE pfl_obj_id='{dataRow["id"]}';";
+            string fileQuerySql = $"SELECT pfl_id, pfl_stage, pfl_categor, pfl_code, pfl_name, pfl_user, pfl_type, pfl_scert, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_format, pfl_link, pfl_remark, pfl_obj_id, pfl_sort, pfl_box_id, pfl_box_sort FROM processing_file_list WHERE pfl_obj_id='{objectID}';";
             DataTable fileTable = SqlHelper.ExecuteQuery(fileQuerySql);
             if (fileTable.Rows.Count > 0)
             {
                 //导出数据库至XML
                 DataTable _table = fileDataSet.Tables["File"];
-                if (_table != null)
+                if (_table == null)
                 {
-                    foreach (DataRow row in fileTable.Rows)
-                        _table.ImportRow(row);
+                    _table = fileTable.Clone();
+                    _table.TableName = "File";
+                    fileDataSet.Tables.Add(_table);
                 }
-                else
-                {
-                    fileTable.TableName = "File";
-                    fileDataSet.Tables.Add(fileTable);
-                }
+                foreach (DataRow row in fileTable.Rows)
+                    _table.ImportRow(row);
+
                 //拷贝挂接的电子文件
                 foreach (DataRow fileRow in fileTable.Rows)
                 {
                     string _fileLink = ToolHelper.GetValue(fileRow["pfl_link"]);
-                    string[] fileLinkArray = _fileLink.Split('；');
-                    foreach (string fileLink in fileLinkArray)
+                    if (!string.IsNullOrEmpty(_fileLink))
                     {
-                        if (File.Exists(fileLink))
+                        string[] fileLinkArray = _fileLink.Split('；');
+                        foreach (string fileLink in fileLinkArray)
                         {
-                            string _filePath = destPath + @"\" + Path.GetFileName(fileLink);
-                            if (!Directory.Exists(destPath))
-                                Directory.CreateDirectory(destPath);
-                            if (!File.Exists(_filePath))
-                                File.Create(_filePath).Close();
-                            File.Copy(fileLink, _filePath, true);
+                            if (File.Exists(fileLink))
+                            {
+                                string _filePath = destPath + @"\" + Path.GetFileName(fileLink);
+                                if (!Directory.Exists(destPath))
+                                    Directory.CreateDirectory(destPath);
+                                if (!File.Exists(_filePath))
+                                    File.Create(_filePath).Close();
+                                File.Copy(fileLink, _filePath, true);
+                            }
                         }
                     }
                 }
             }
             //盒信息
-            string boxQuerySQL = $"SELECT pb_id, pb_box_number, pb_gc_id, pb_gc_fix, pb_gc_number, pb_obj_id, pb_unit_id, pt_id FROM processing_box WHERE pb_obj_id='{dataRow["id"]}';";
+            string boxQuerySQL = $"SELECT pb_id, pb_box_number, pb_gc_id, pb_gc_fix, pb_gc_number, pb_obj_id, pb_unit_id, pt_id FROM processing_box WHERE pb_obj_id='{objectID}';";
             DataTable boxTable = SqlHelper.ExecuteQuery(boxQuerySQL);
             if (boxTable.Rows.Count > 0)
             {
                 DataTable _table = boxDataSet.Tables["Box"];
-                if (_table != null)
+                if (_table == null)
                 {
-                    foreach (DataRow row in boxTable.Rows)
-                        _table.ImportRow(row);
+                    _table = boxTable.Clone();
+                    _table.TableName = "Box";
+                    boxDataSet.Tables.Add(_table);
                 }
-                else
-                {
-                    boxTable.TableName = "Box";
-                    boxDataSet.Tables.Add(boxTable);
-                }
+                foreach (DataRow row in boxTable.Rows)
+                    _table.ImportRow(row);
             }
             //卷信息
-            string tagQuerySQL = $"SELECT pt_id, pt_code, pt_name, pt_obj_id FROM processing_tag WHERE pt_obj_id='{dataRow["id"]}';";
+            string tagQuerySQL = $"SELECT pt_id, pt_code, pt_name, pt_obj_id FROM processing_tag WHERE pt_obj_id='{objectID}';";
             DataTable tagTable = SqlHelper.ExecuteQuery(tagQuerySQL);
             if (tagTable.Rows.Count > 0)
             {
                 DataTable _table = boxDataSet.Tables["Tag"];
-                if (_table != null)
+                if (_table == null)
                 {
-                    foreach (DataRow row in tagTable.Rows)
-                        _table.ImportRow(row);
+                    _table = tagTable.Clone();
+                    _table.TableName = "Tag";
+                    boxDataSet.Tables.Add(_table);
+
                 }
-                else
+                foreach (DataRow row in tagTable.Rows)
+                    _table.ImportRow(row);
+            }
+        }
+
+        /// <summary>
+        /// 按来源单位导出数据
+        /// </summary>
+        private void Export_Unit_MouseClick(object sender, MouseEventArgs e)
+        {
+            docDataSet = new DataSet("Documents");
+            fileDataSet = new DataSet("Files");
+            boxDataSet = new DataSet("Boxs");
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string savePath = folderBrowserDialog1.SelectedPath;
+
+                object orgCode = cbo_SourceOrg.SelectedValue;//来源单位
+                object orgName = cbo_SourceOrg.Text;//来源单位名称
+                object planTypeQuery = cbo_PlanTypeList.SelectedIndex == 0 ? "AND pi_source_id<>''" : $"AND pi_source_id='{cbo_PlanTypeList.SelectedValue}'";
+
+                string querySQL = "SELECT pi_source_id id, F_Title name FROM(" +
+                    "   SELECT pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "   SELECT ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3)A " +
+                    "INNER JOIN T_Plan ON F_ID = pi_source_id " +
+                   $"WHERE pi_orga_id = '{orgCode}' {planTypeQuery} GROUP BY pi_source_id, F_Title ORDER BY pi_source_id";
+                DataTable table = SqlHelper.ExecuteQuery(querySQL);
+                foreach (DataRow row in table.Rows)
                 {
-                    tagTable.TableName = "Tag";
-                    boxDataSet.Tables.Add(tagTable);
+                    SplashScreenManager.ShowDefaultWaitForm(this, true, false, $"正在导出[{orgName}]", $"{row["name"]}");
+                    ExportEFile(orgCode, row["id"], savePath + @"\" + orgName + @"\" + row["name"]);
+                    SplashScreenManager.CloseDefaultWaitForm();
+                }
+                docDataSet.WriteXml(savePath + @"\Documents.xml");
+                fileDataSet.WriteXml(savePath + @"\Files.xml");
+                boxDataSet.WriteXml(savePath + @"\Boxs.xml");
+
+                DialogResult dialogResult = XtraMessageBox.Show("导出完毕，是否立即打开文件夹？", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                if (dialogResult == DialogResult.OK)
+                {
+                    WinFormOpenHelper.OpenWinForm(0, "open", null, null, savePath, ShowWindowCommands.SW_NORMAL);
+                }
+            }
+        }
+
+        private void SourceOrg_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
+            bool boo = comboBox.SelectedIndex != 0 && comboBox.SelectedIndex != -1;
+            link_Export_Unit.Enabled = boo;
+        }
+
+        private void PlanTypeList_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
+            bool boo = comboBox.SelectedIndex != 0 && comboBox.SelectedIndex != -1;
+            link_Export_Plan.Enabled = boo;
+        }
+
+        private void Export_Plan_MouseClick(object sender, MouseEventArgs e)
+        {
+            docDataSet = new DataSet("Documents");
+            fileDataSet = new DataSet("Files");
+            boxDataSet = new DataSet("Boxs");
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string savePath = folderBrowserDialog1.SelectedPath;
+
+                object planCode = cbo_PlanTypeList.SelectedValue;//计划类别
+                object planName = cbo_PlanTypeList.Text;//计划类别名称
+                object sourceOrgQuery = cbo_SourceOrg.SelectedIndex == 0 ? "AND pi_orga_id<>''" : $"AND pi_orga_id='{cbo_SourceOrg.SelectedValue}'";
+
+                string querySQL = "SELECT pi_orga_id id, F_Title name FROM( " +
+                    "   SELECT pi_source_id, pi_orga_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                    "   SELECT ti_source_id, ti_orga_id FROM topic_info WHERE ti_categor = -3)A " +
+                    "INNER JOIN T_SourceOrg ON F_ID = pi_orga_id " +
+                   $"WHERE pi_source_id = '{planCode}' {sourceOrgQuery} GROUP BY pi_orga_id, F_Title ORDER BY pi_orga_id";
+                DataTable table = SqlHelper.ExecuteQuery(querySQL);
+                foreach (DataRow row in table.Rows)
+                {
+                    SplashScreenManager.ShowDefaultWaitForm(this, true, false, $"正在导出[{planName}]", $"{row["name"]}");
+                    ExportEFile(row["id"], planCode, savePath + @"\" + planCode + @"\" + row["name"]);
+                    SplashScreenManager.CloseDefaultWaitForm();
+                }
+                docDataSet.WriteXml(savePath + @"\Documents.xml");
+                fileDataSet.WriteXml(savePath + @"\Files.xml");
+                boxDataSet.WriteXml(savePath + @"\Boxs.xml");
+
+                DialogResult dialogResult = XtraMessageBox.Show("导出完毕，是否立即打开文件夹？", "温馨提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                if (dialogResult == DialogResult.OK)
+                {
+                    WinFormOpenHelper.OpenWinForm(0, "open", null, null, savePath, ShowWindowCommands.SW_NORMAL);
                 }
             }
         }

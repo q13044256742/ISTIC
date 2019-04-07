@@ -2246,7 +2246,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ISTIC_IMP"
         "ProductCode" = "8:{FBE03908-CF80-4A0B-9587-165A11BD8240}"
-        "PackageCode" = "8:{ED67BC7A-0B34-401D-8E84-DA4C0863630E}"
+        "PackageCode" = "8:{3B1EA0AE-C6EA-4075-BA26-18AE663B6783}"
         "UpgradeCode" = "8:{A3567B7A-A1D5-4414-992A-979A6A53E430}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"

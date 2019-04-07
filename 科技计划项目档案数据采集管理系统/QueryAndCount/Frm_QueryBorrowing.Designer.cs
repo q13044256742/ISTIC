@@ -28,18 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_QueryBorrowing));
             this.navigationPane1 = new DevExpress.XtraBars.Navigation.NavigationPane();
             this.ngp_Query = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.link_Export_Plan = new DevExpress.XtraEditors.HyperlinkLabelControl();
+            this.link_Export_Unit = new DevExpress.XtraEditors.HyperlinkLabelControl();
             this.cbo_Order2 = new System.Windows.Forms.ComboBox();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.cbo_Order1 = new System.Windows.Forms.ComboBox();
             this.btn_Export = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl17 = new DevExpress.XtraEditors.LabelControl();
             this.cbo_SourceOrg = new System.Windows.Forms.ComboBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.导出EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
             this.chk_allDate = new System.Windows.Forms.CheckBox();
             this.dtp_eDate = new System.Windows.Forms.DateTimePicker();
@@ -147,7 +146,6 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.navigationPane1.SuspendLayout();
             this.ngp_Query.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_BatchCode.Properties)).BeginInit();
@@ -219,6 +217,8 @@
             this.ngp_Query.Appearance.Options.UseFont = true;
             this.ngp_Query.BackgroundPadding = new System.Windows.Forms.Padding(0);
             this.ngp_Query.Caption = "高级检索";
+            this.ngp_Query.Controls.Add(this.link_Export_Plan);
+            this.ngp_Query.Controls.Add(this.link_Export_Unit);
             this.ngp_Query.Controls.Add(this.cbo_Order2);
             this.ngp_Query.Controls.Add(this.labelControl2);
             this.ngp_Query.Controls.Add(this.cbo_Order1);
@@ -258,6 +258,32 @@
             this.ngp_Query.Properties.ShowExpandButton = DevExpress.Utils.DefaultBoolean.False;
             this.ngp_Query.Properties.ShowMode = DevExpress.XtraBars.Navigation.ItemShowMode.ImageAndText;
             this.ngp_Query.Size = new System.Drawing.Size(1112, 708);
+            // 
+            // link_Export_Plan
+            // 
+            this.link_Export_Plan.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("link_Export_Plan.Appearance.Image")));
+            this.link_Export_Plan.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.link_Export_Plan.Enabled = false;
+            this.link_Export_Plan.Location = new System.Drawing.Point(441, 21);
+            this.link_Export_Plan.Name = "link_Export_Plan";
+            this.link_Export_Plan.Size = new System.Drawing.Size(16, 16);
+            this.link_Export_Plan.TabIndex = 34;
+            this.link_Export_Plan.ToolTip = "导出指定计划类别下的所有数据";
+            this.link_Export_Plan.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information;
+            this.link_Export_Plan.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Export_Plan_MouseClick);
+            // 
+            // link_Export_Unit
+            // 
+            this.link_Export_Unit.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("link_Export_Unit.Appearance.Image")));
+            this.link_Export_Unit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.link_Export_Unit.Enabled = false;
+            this.link_Export_Unit.Location = new System.Drawing.Point(441, 117);
+            this.link_Export_Unit.Name = "link_Export_Unit";
+            this.link_Export_Unit.Size = new System.Drawing.Size(16, 16);
+            this.link_Export_Unit.TabIndex = 33;
+            this.link_Export_Unit.ToolTip = "导出指定来源单位下的所有数据";
+            this.link_Export_Unit.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information;
+            this.link_Export_Unit.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Export_Unit_MouseClick);
             // 
             // cbo_Order2
             // 
@@ -306,7 +332,7 @@
             this.btn_Export.Image = ((System.Drawing.Image)(resources.GetObject("btn_Export.Image")));
             this.btn_Export.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Export.ImageToTextIndent = 5;
-            this.btn_Export.Location = new System.Drawing.Point(5211, 205);
+            this.btn_Export.Location = new System.Drawing.Point(7183, 205);
             this.btn_Export.Name = "btn_Export";
             this.btn_Export.Size = new System.Drawing.Size(70, 26);
             this.btn_Export.TabIndex = 27;
@@ -324,7 +350,6 @@
             // 
             // cbo_SourceOrg
             // 
-            this.cbo_SourceOrg.ContextMenuStrip = this.contextMenuStrip1;
             this.cbo_SourceOrg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbo_SourceOrg.FormattingEnabled = true;
             this.cbo_SourceOrg.IntegralHeight = false;
@@ -333,21 +358,7 @@
             this.cbo_SourceOrg.Name = "cbo_SourceOrg";
             this.cbo_SourceOrg.Size = new System.Drawing.Size(292, 29);
             this.cbo_SourceOrg.TabIndex = 26;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.导出EToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(140, 26);
-            // 
-            // 导出EToolStripMenuItem
-            // 
-            this.导出EToolStripMenuItem.Image = global::科技计划项目档案数据采集管理系统.Properties.Resources._1;
-            this.导出EToolStripMenuItem.Name = "导出EToolStripMenuItem";
-            this.导出EToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.导出EToolStripMenuItem.Text = "导出数据(&E)";
-            this.导出EToolStripMenuItem.Click += new System.EventHandler(this.导出EToolStripMenuItem_Click);
+            this.cbo_SourceOrg.SelectionChangeCommitted += new System.EventHandler(this.SourceOrg_SelectionChangeCommitted);
             // 
             // labelControl9
             // 
@@ -401,6 +412,7 @@
             this.cbo_PlanTypeList.Name = "cbo_PlanTypeList";
             this.cbo_PlanTypeList.Size = new System.Drawing.Size(292, 29);
             this.cbo_PlanTypeList.TabIndex = 18;
+            this.cbo_PlanTypeList.SelectionChangeCommitted += new System.EventHandler(this.PlanTypeList_SelectionChangeCommitted);
             // 
             // labelControl8
             // 
@@ -499,7 +511,7 @@
             this.panel3.Location = new System.Drawing.Point(0, 205);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1430, 746);
+            this.panel3.Size = new System.Drawing.Size(3402, 1443);
             this.panel3.TabIndex = 1;
             // 
             // tab_ResultSet
@@ -515,10 +527,10 @@
             this.tap_Plan,
             this.tap_Special,
             this.tap_Project});
-            this.tab_ResultSet.RegularSize = new System.Drawing.Size(1430, 713);
+            this.tab_ResultSet.RegularSize = new System.Drawing.Size(3402, 1410);
             this.tab_ResultSet.SelectedPage = this.tap_Project;
             this.tab_ResultSet.SelectedPageIndex = 2;
-            this.tab_ResultSet.Size = new System.Drawing.Size(1430, 713);
+            this.tab_ResultSet.Size = new System.Drawing.Size(3402, 1410);
             this.tab_ResultSet.TabIndex = 5;
             this.tab_ResultSet.Text = "tabPane1";
             this.tab_ResultSet.SelectedPageChanged += new DevExpress.XtraBars.Navigation.SelectedPageChangedEventHandler(this.tab_ResultSet_SelectedPageChanged);
@@ -533,7 +545,7 @@
             this.tap_Plan.Margin = new System.Windows.Forms.Padding(0);
             this.tap_Plan.Name = "tap_Plan";
             this.tap_Plan.PageText = "计划列表";
-            this.tap_Plan.Size = new System.Drawing.Size(1428, 683);
+            this.tap_Plan.Size = new System.Drawing.Size(3400, 1380);
             // 
             // dgv_Plan
             // 
@@ -560,7 +572,7 @@
             this.dgv_Plan.Name = "dgv_Plan";
             this.dgv_Plan.ReadOnly = true;
             this.dgv_Plan.RowTemplate.Height = 23;
-            this.dgv_Plan.Size = new System.Drawing.Size(1428, 683);
+            this.dgv_Plan.Size = new System.Drawing.Size(3400, 1380);
             this.dgv_Plan.TabIndex = 0;
             this.dgv_Plan.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Plan_CellDoubleClick);
             // 
@@ -652,7 +664,7 @@
             this.tap_Special.Margin = new System.Windows.Forms.Padding(0);
             this.tap_Special.Name = "tap_Special";
             this.tap_Special.PageText = "专项列表";
-            this.tap_Special.Size = new System.Drawing.Size(1428, 683);
+            this.tap_Special.Size = new System.Drawing.Size(3400, 1380);
             // 
             // dgv_Special
             // 
@@ -679,7 +691,7 @@
             this.dgv_Special.Name = "dgv_Special";
             this.dgv_Special.ReadOnly = true;
             this.dgv_Special.RowTemplate.Height = 23;
-            this.dgv_Special.Size = new System.Drawing.Size(1428, 683);
+            this.dgv_Special.Size = new System.Drawing.Size(3400, 1380);
             this.dgv_Special.TabIndex = 1;
             this.dgv_Special.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Special_CellDoubleClick);
             // 
@@ -767,7 +779,7 @@
             this.dataGridView2.Location = new System.Drawing.Point(0, 0);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 23;
-            this.dataGridView2.Size = new System.Drawing.Size(1428, 683);
+            this.dataGridView2.Size = new System.Drawing.Size(3400, 1380);
             this.dataGridView2.TabIndex = 0;
             // 
             // tap_Project
@@ -780,7 +792,7 @@
             this.tap_Project.Margin = new System.Windows.Forms.Padding(0);
             this.tap_Project.Name = "tap_Project";
             this.tap_Project.PageText = "项目/课题";
-            this.tap_Project.Size = new System.Drawing.Size(1428, 683);
+            this.tap_Project.Size = new System.Drawing.Size(3400, 1380);
             // 
             // treeList1
             // 
@@ -796,7 +808,7 @@
             this.treeList1.OptionsBehavior.Editable = false;
             this.treeList1.OptionsCustomization.AllowBandMoving = false;
             this.treeList1.OptionsCustomization.AllowColumnMoving = false;
-            this.treeList1.Size = new System.Drawing.Size(1428, 683);
+            this.treeList1.Size = new System.Drawing.Size(3400, 1380);
             this.treeList1.TabIndex = 4;
             this.treeList1.NodeCellStyle += new DevExpress.XtraTreeList.GetCustomNodeCellStyleEventHandler(this.treeList1_NodeCellStyle);
             this.treeList1.EndSorting += new System.EventHandler(this.treeList1_EndSorting);
@@ -811,16 +823,16 @@
             this.panel4.Controls.Add(this.btn_fpage);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 713);
+            this.panel4.Location = new System.Drawing.Point(0, 1410);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1430, 33);
+            this.panel4.Size = new System.Drawing.Size(3402, 33);
             this.panel4.TabIndex = 3;
             // 
             // txt_page
             // 
             this.txt_page.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_page.EditValue = "";
-            this.txt_page.Location = new System.Drawing.Point(1217, 3);
+            this.txt_page.Location = new System.Drawing.Point(3189, 3);
             this.txt_page.Name = "txt_page";
             this.txt_page.Properties.Appearance.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.txt_page.Properties.Appearance.Options.UseFont = true;
@@ -839,7 +851,7 @@
             this.btn_lpage.Appearance.Options.UseFont = true;
             this.btn_lpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_lpage.Image")));
             this.btn_lpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_lpage.Location = new System.Drawing.Point(1175, 5);
+            this.btn_lpage.Location = new System.Drawing.Point(3147, 5);
             this.btn_lpage.Name = "btn_lpage";
             this.btn_lpage.Size = new System.Drawing.Size(41, 23);
             this.btn_lpage.TabIndex = 6;
@@ -852,7 +864,7 @@
             this.btn_npage.Appearance.Options.UseFont = true;
             this.btn_npage.Image = ((System.Drawing.Image)(resources.GetObject("btn_npage.Image")));
             this.btn_npage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_npage.Location = new System.Drawing.Point(1259, 5);
+            this.btn_npage.Location = new System.Drawing.Point(3231, 5);
             this.btn_npage.Name = "btn_npage";
             this.btn_npage.Size = new System.Drawing.Size(41, 23);
             this.btn_npage.TabIndex = 5;
@@ -865,7 +877,7 @@
             this.btn_epage.Appearance.Options.UseFont = true;
             this.btn_epage.Image = ((System.Drawing.Image)(resources.GetObject("btn_epage.Image")));
             this.btn_epage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_epage.Location = new System.Drawing.Point(1302, 5);
+            this.btn_epage.Location = new System.Drawing.Point(3274, 5);
             this.btn_epage.Name = "btn_epage";
             this.btn_epage.Size = new System.Drawing.Size(41, 23);
             this.btn_epage.TabIndex = 4;
@@ -878,7 +890,7 @@
             this.btn_fpage.Appearance.Options.UseFont = true;
             this.btn_fpage.Image = ((System.Drawing.Image)(resources.GetObject("btn_fpage.Image")));
             this.btn_fpage.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_fpage.Location = new System.Drawing.Point(1132, 5);
+            this.btn_fpage.Location = new System.Drawing.Point(3104, 5);
             this.btn_fpage.Name = "btn_fpage";
             this.btn_fpage.Size = new System.Drawing.Size(41, 23);
             this.btn_fpage.TabIndex = 3;
@@ -1262,7 +1274,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 191);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(7136, 2611);
+            this.panel1.Size = new System.Drawing.Size(9108, 3308);
             this.panel1.TabIndex = 18;
             // 
             // view2
@@ -1278,7 +1290,7 @@
             this.view2.Name = "view2";
             this.view2.ReadOnly = true;
             this.view2.RowTemplate.Height = 23;
-            this.view2.Size = new System.Drawing.Size(7136, 2581);
+            this.view2.Size = new System.Drawing.Size(9108, 3278);
             this.view2.TabIndex = 1;
             this.view2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.View2_CellContentClick);
             // 
@@ -1290,7 +1302,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(7136, 30);
+            this.panel2.Size = new System.Drawing.Size(9108, 30);
             this.panel2.TabIndex = 0;
             // 
             // btn_Refresh
@@ -1519,6 +1531,10 @@
             this.labelControl19.TabIndex = 32;
             this.labelControl19.Text = "借阅单编号：";
             // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
             // Frm_QueryBorrowing
             // 
             this.Appearance.Options.UseFont = true;
@@ -1537,7 +1553,6 @@
             this.navigationPane1.ResumeLayout(false);
             this.ngp_Query.ResumeLayout(false);
             this.ngp_Query.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_ProjectCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_BatchCode.Properties)).EndInit();
@@ -1697,8 +1712,8 @@
         private DevExpress.XtraEditors.LabelControl labelControl2;
         public System.Windows.Forms.ComboBox cbo_Order1;
         public System.Windows.Forms.ComboBox cbo_Order2;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem 导出EToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private DevExpress.XtraEditors.HyperlinkLabelControl link_Export_Unit;
+        private DevExpress.XtraEditors.HyperlinkLabelControl link_Export_Plan;
     }
 }

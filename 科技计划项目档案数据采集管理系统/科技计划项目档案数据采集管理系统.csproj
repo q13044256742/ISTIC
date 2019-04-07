@@ -604,7 +604,6 @@
     <Content Include="Resources\js\echarts.min.js" />
     <Content Include="Resources\js\jquery-1.11.1.min.js" />
     <Content Include="Resources\pie.html" />
-    <Content Include="sqls\sql.txt" />
     <None Include="Resources\bkb.html" />
     <None Include="Resources\jnml.html" />
     <None Include="Resources\fm.html" />

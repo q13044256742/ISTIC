@@ -222,7 +222,7 @@ namespace 科技计划项目档案数据采集管理系统
                     $"<td style='text-align: left;'>{dataRow["pfl_name"]}&nbsp;</td>" +
                     $"<td>{ToolHelper.GetDateValue(dataRow["pfl_date"], "yyyy-MM-dd")}&nbsp;</td>" +
                     $"<td>{(_page == 0 ? string.Empty : _page.ToString())}&nbsp;</td>" +
-                    $"<td>{dataRow["pfl_remark"]}&nbsp;</td>" +
+                    $"<td>&nbsp;</td>" +
                     $"</tr>";
                 jnmlString = jnmlString.Replace("</tbody>", $"{newRr}</tbody>");
                 pageCount += ToolHelper.GetIntValue(dataRow["pfl_pages"]);

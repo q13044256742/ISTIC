@@ -144,7 +144,7 @@
             this.MinimizeBox = false;
             this.Name = "Frm_FileSelect";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "文件选择";
+            this.Text = "文件选择(按住Ctrl键可多选)";
             this.Load += new System.EventHandler(this.Frm_AddFile_FileSelect_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);

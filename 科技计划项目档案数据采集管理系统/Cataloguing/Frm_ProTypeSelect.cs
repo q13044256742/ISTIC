@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Text;
 using System.Windows.Forms;
 
 namespace 科技计划项目档案数据采集管理系统
@@ -13,7 +12,10 @@ namespace 科技计划项目档案数据采集管理系统
         private WorkType workType;
         private object objId;
         public object unitCode;
-        public object trcId;
+        /// <summary>
+        /// 批次ID
+        /// </summary>
+        public object batchId;
         public Frm_ProTypeSelect(WorkType workType, object objId)
         {
             InitializeComponent();
@@ -68,7 +70,7 @@ namespace 科技计划项目档案数据采集管理系统
                 Frm_MyWork frm = new Frm_MyWork(_type, cbo_TypeSelect.SelectedValue, objId, _ctype, false);
                 frm.planCode = obj;
                 frm.unitCode = unitCode;
-                frm.trcId = trcId;
+                frm.trcId = batchId;
                 frm.Show();
             }
         }
@@ -76,17 +78,15 @@ namespace 科技计划项目档案数据采集管理系统
         private void cbo_TypeSelect_SelectionChangeCommitted(object sender, EventArgs e)
         {
             string querySQL = $"SELECT dd_code FROM data_dictionary WHERE dd_id='{cbo_TypeSelect.SelectedValue}'";
-            object sorCode = SqlHelper.ExecuteOnlyOneQuery(querySQL);
-
-            querySQL = $"SELECT pi_id FROM project_info WHERE pi_categor=1 AND pi_source_id='{sorCode}' AND pi_orga_id='{unitCode}'";
+            querySQL = $"SELECT pi_id FROM project_info WHERE pi_categor=1 AND pi_source_id=({querySQL}) AND pi_orga_id='{unitCode}'";
             object id = SqlHelper.ExecuteOnlyOneQuery(querySQL);
             if(id != null)
             {
-                DialogResult dialogResult = DevExpress.XtraEditors.XtraMessageBox.Show("所选计划在当前来源单位已录入，是否补录数据？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                string tipMsg = "所选计划在当前来源单位已录入，如果要补录数据，则会将原有批次下的所有数据为改为编辑状态，是否继续补录？";
+                DialogResult dialogResult = DevExpress.XtraEditors.XtraMessageBox.Show(tipMsg, "温馨提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if(dialogResult == DialogResult.Yes)
                 {
-                    InheritImpInfo(trcId, id);
-                    ResetProjectState(id);
+                    ResetDatasStateToUnSubmit(batchId, id);
                     DevExpress.XtraEditors.XtraMessageBox.Show("操作成功，再次点击即可。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     Close();
                 }
@@ -94,25 +94,18 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 将已有计划绑定新批次
+        /// 将已有计划绑定新批次，并重置改计划下所有数据状态为 未提交
         /// </summary>
-        private void InheritImpInfo(object trpId, object planId)
-        {
-            string updateSQL = $"UPDATE project_info SET trc_id='{trpId}' WHERE pi_id='{planId}';";
-            SqlHelper.ExecuteNonQuery(updateSQL);
-        }
-
-        /// <summary>
-        /// 重置指定计划下所有项目课题状态为 未提交
-        /// </summary>
-        /// <param name="id">计划ID</param>
-        private void ResetProjectState(object id)
+        /// <param name="trpId">新的批次ID</param>
+        /// <param name="planId">旧的计划ID</param>
+        private void ResetDatasStateToUnSubmit(object trpId, object planId)
         {
             string updateSQL = string.Empty;
+             updateSQL += $"UPDATE project_info SET pi_obj_id='{trpId}', pi_submit_status=1 WHERE pi_id='{planId}';";
             string proQuerySql = "SELECT A.pi_id FROM project_info p LEFT JOIN ( " +
                 "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
                 "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=-3)A ON A.pi_obj_id=p.pi_id " +
-               $"WHERE p.pi_id='{id}' AND A.pi_id IS NOT NULL";
+               $"WHERE p.pi_id='{planId}'";
             object[] proIds = SqlHelper.ExecuteSingleColumnQuery(proQuerySql);
             string pids = ToolHelper.GetFullStringBySplit(proIds, ",", "'");
             updateSQL += 

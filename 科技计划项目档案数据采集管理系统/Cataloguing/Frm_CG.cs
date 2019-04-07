@@ -3,6 +3,7 @@ using DevExpress.XtraEditors;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -314,30 +315,60 @@ namespace 科技计划项目档案数据采集管理系统
             }
 
             view.Columns["bk_id"].Visible = false;
+            view.Columns["bk_reason"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
-       
+
         /// <summary>
         /// 获取质检意见
         /// </summary>
         private string GetAdvicesById(object objid)
         {
-            StringBuilder sb = new StringBuilder();
-            List<object[]> _obj = SqlHelper.ExecuteColumnsQuery($"SELECT distinct(qa_type) FROM quality_advices WHERE qa_obj_id='{objid}'", 1);
-            for(int i = 0; i < _obj.Count; i++)
+            string resonStr = string.Empty;
+            List<string> list = new List<string>();
+            object[] _obj = SqlHelper.ExecuteSingleColumnQuery($"SELECT DISTINCT(qa_type) FROM quality_advices WHERE qa_obj_id='{objid}'");
+            for (int i = 0; i < _obj.Length; i++)
+                SetListResult(list, ToolHelper.GetIntValue(_obj[i]));
+            string _querySql = $"SELECT ti_id FROM topic_info WHERE ti_obj_id='{objid}' UNION ALL SELECT si_id FROM subject_info WHERE si_obj_id = '{objid}'";
+            object[] tids = SqlHelper.ExecuteSingleColumnQuery(_querySql);
+            foreach (object tid in tids)
             {
-                int index = Convert.ToInt32(_obj[i][0]);
-                if(index == 0)
-                    sb.Append("[基本信息]、");
-                else if(index == 1)
-                    sb.Append("[文件列表]、");
-                else if(index == 2)
-                    sb.Append("[文件核查]、");
-                else if(index == 3)
-                    sb.Append("[案盒信息]、");
+                object[] __obj = SqlHelper.ExecuteSingleColumnQuery($"SELECT distinct(qa_type) FROM quality_advices WHERE qa_obj_id='{tid}'");
+                for (int j = 0; j < __obj.Length; j++)
+                    SetListResult(list, ToolHelper.GetIntValue(__obj[j]));
+                string __querySql = $"SELECT si_id FROM subject_info WHERE si_obj_id = '{tid}'";
+                object[] sids = SqlHelper.ExecuteSingleColumnQuery(__querySql);
+                foreach (object sid in sids)
+                {
+                    object[] ___obj = SqlHelper.ExecuteSingleColumnQuery($"SELECT distinct(qa_type) FROM quality_advices WHERE qa_obj_id='{sid}'");
+                    for (int k = 0; k < ___obj.Length; k++)
+                        SetListResult(list, ToolHelper.GetIntValue(___obj[k]));
+                }
             }
-            return sb.Length > 0 ? sb.ToString().Substring(0, sb.Length - 1) : null;
+            if (list.Count > 0)
+                resonStr = string.Join("、", list.Distinct().ToArray());
+            return resonStr;
         }
-    
+
+        private void SetListResult(List<string> list, int index)
+        {
+            if (index == 0)
+            {
+                list.Add("[基本信息]");
+            }
+            else if (index == 1)
+            {
+                list.Add("[文件列表]");
+            }
+            else if (index == 2)
+            {
+                list.Add("[文件核查]");
+            }
+            else if (index == 3)
+            {
+                list.Add("[案盒信息]");
+            }
+        }
+
         /// <summary>
         /// 根据加工登记主键获取对应项目/课题信息
         /// </summary>
@@ -709,7 +740,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 {
                                     Frm_ProTypeSelect frm = GetFormHelper.GetProTypeSelecter(WorkType.CDWork, objId);
                                     frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
-                                    frm.trcId = objId;
+                                    frm.batchId = objId;
                                     frm.Show();
                                     frm.Activate();
                                 }
@@ -726,7 +757,7 @@ namespace 科技计划项目档案数据采集管理系统
                     else if (typeValue.Contains("纸本"))
                     {
                         //普通计划
-                        object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
+                        object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}' OR pi_obj_id='{objId}'");
                         if (planId != null)
                         {
                             object[] trcIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT trc_id FROM transfer_registraion_cd WHERE trp_id='{objId}'");
@@ -754,6 +785,7 @@ namespace 科技计划项目档案数据采集管理系统
                                     Frm_ProTypeSelect frm = GetFormHelper.GetProTypeSelecter(WorkType.PaperWork, objId);
                                     frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
                                     frm.Show();
+                                    frm.batchId = objId;
                                     frm.Activate();
                                 }
                                 else
@@ -998,7 +1030,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         object piId = view.Rows[e.RowIndex].Cells["bk_id"].Value;
                         object trpId = view.Rows[e.RowIndex].Cells["bk_id"].Tag;
-                        object trcId = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id='{piId}' UNION ALL SELECT trc_id FROM topic_info WHERE ti_id='{piId}'");
+                        object trcId = GetDiskList(trpId);
                         Frm_MyWork frm = new Frm_MyWork(type, piId, trcId, ControlType.Project, true);
                         frm.trcId = trcId;
                         frm.Show();
@@ -1099,6 +1131,24 @@ namespace 科技计划项目档案数据采集管理系统
                     frm.Activate();
                 }
             }
+        }
+
+        private object GetDiskList(object projectID)
+        {
+            string querySQL = $"SELECT trc_id FROM transfer_registraion_cd WHERE trc_id=(SELECT trc_id FROM project_info WHERE pi_id='{projectID}' UNION ALL SELECT trc_id FROM topic_info WHERE ti_id='{projectID}')";
+            object result = SqlHelper.ExecuteOnlyOneQuery(querySQL);
+            if(result == null)
+            {
+                querySQL = $"SELECT trc_id+';' FROM transfer_registraion_cd WHERE trp_id=(SELECT trc_id FROM project_info WHERE pi_id='{projectID}' UNION ALL SELECT trc_id FROM topic_info WHERE ti_id='{projectID}') FOR XML PATH('')";
+                result = SqlHelper.ExecuteOnlyOneQuery(querySQL);
+                if (result != null)
+                {
+                    string _str = ToolHelper.GetValue(result);
+                    if (_str.Length > 0)
+                        result = _str.Substring(0, _str.Length - 1);
+                }
+            }
+            return result;
         }
 
         /// <summary>

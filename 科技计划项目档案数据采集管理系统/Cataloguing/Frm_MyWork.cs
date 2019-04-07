@@ -115,6 +115,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         private void LoadPlanPage(TreeNode node)
         {
+            if (node == null) return;
             if ((ControlType)node.Tag == ControlType.Plan)
             {
                 DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT * FROM project_info WHERE pi_id='{node.Name}'");
@@ -2073,8 +2074,9 @@ namespace 科技计划项目档案数据采集管理系统
                 object code = lbl_Plan_Name.Tag;
                 string name = lbl_Plan_Name.Text.Replace("'", "''");
                 string intro = txt_Plan_Intro.Text;
+                string diskIds = GetDiskIdsByPid(OBJECT_ID);
                 string insertSql = "INSERT INTO project_info(pi_id, trc_id, pi_code, pi_name, pi_intro, pi_obj_id, pi_categor, pi_submit_status, pi_worker_id, pi_source_id, pi_orga_id) VALUES" +
-                    $"('{primaryKey}', '{OBJECT_ID}', '{code}', N'{name}', N'{intro}', '{parentId}', '{(int)type}', '{1}', '{UserHelper.GetUser().UserKey}', '{Tag}', '{togle.Tag}')";
+                    $"('{primaryKey}', '{diskIds}', '{code}', N'{name}', N'{intro}', '{OBJECT_ID}', '{(int)type}', '{1}', '{UserHelper.GetUser().UserKey}', '{Tag}', '{togle.Tag}')";
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             else if (type == ControlType.Project)
@@ -2170,6 +2172,17 @@ namespace 科技计划项目档案数据采集管理系统
                 SqlHelper.ExecuteNonQuery(insertSql);
             }
             return primaryKey;
+        }
+
+        /// <summary>
+        /// 根据批次ID获取其下的光盘ID列表
+        /// </summary>
+        /// <param name="batchID">批次ID</param>
+        private string GetDiskIdsByPid(object batchID)
+        {
+            string querySQL = $"SELECT trc_id+';' FROM transfer_registraion_cd WHERE trp_id='{batchID}' FOR XML PATH('')";
+            object value = SqlHelper.ExecuteOnlyOneQuery(querySQL);
+            return ToolHelper.GetValue(value);
         }
 
         private string GetFloatValue(string text, int length)
@@ -3608,7 +3621,7 @@ namespace 科技计划项目档案数据采集管理系统
                     {
                         tab_MenuList.TabPages.Clear();
                         object tempId = SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_obj_id FROM topic_info WHERE ti_id=(SELECT si_obj_id FROM subject_info WHERE si_id='{e.Node.Name}')");
-                        object _tempParam = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_id='{tempId}'");
+                        object _tempParam = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_id='{tempId}' AND pi_categor=2");
                         if (_tempParam != null)
                         {
                             ShowTab("plan", 0);
@@ -5035,6 +5048,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Special_Name.Text = ToolHelper.GetValue(row["imp_name"]);
                     txt_Special_Unit.Text = ToolHelper.GetValue(row["imp_unit"]);
                     lbl_Special_Tip.Text = $"著录人：{UserHelper.GetUserNameById(row["imp_source_id"])}";
+                    txt_Special_Intro.Text = ToolHelper.GetValue(row["imp_intro"]);
                     tab_Special_Info.Tag = ToolHelper.GetValue(row["imp_id"]);
                     bool flag = Convert.ToInt32(row["imp_submit_status"]) != 2;
                     EnableControls(ControlType.Special, flag);
@@ -5322,42 +5336,33 @@ namespace 科技计划项目档案数据采集管理系统
                 DataRow row = SqlHelper.ExecuteSingleRowQuery($"SELECT dd_code, dd_name, dd_note FROM data_dictionary WHERE dd_id='{value}'");
                 if (row != null)
                 {
-                    object sorCode = row["dd_code"];
-                    object orgCode = togle.Tag;
+                    object specialCode = row["dd_code"];
                     string querySQL = "SELECT ii.imp_id ipi, idi.* FROM transfer_registration_pc " +
                         "LEFT JOIN imp_info ii ON ii.imp_obj_id = trp_id " +
                         "LEFT JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id " +
                         "LEFT JOIN data_dictionary dd ON dd.dd_id = com_id " +
-                       $"WHERE idi.imp_code = '{sorCode}' AND dd.dd_code = '{orgCode}'";
+                       $"WHERE idi.imp_code = '{specialCode}' AND dd.dd_code = '{unitCode}'";
                     DataRow speRow = SqlHelper.ExecuteSingleRowQuery(querySQL);
                     if (speRow != null)
                     {
                         DialogResult dialogResult = XtraMessageBox.Show("所选专项在当前来源单位已录入，是否补录数据？", "确认提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (dialogResult == DialogResult.Yes)
                         {
-                            InheritImpInfo(speRow["ipi"], id);
+                            InheritImpInfo(speRow["ipi"], speRow["imp_id"], id);
                             ResetProjectState(speRow["imp_id"]);
 
-                            tab_Special_Info.Tag = speRow["imp_id"];
-                            txt_Special_Code.Text = ToolHelper.GetValue(speRow["imp_code"]);
-                            txt_Special_Name.Text = ToolHelper.GetValue(speRow["imp_name"]);
-                            txt_Special_Intro.Text = ToolHelper.GetValue(speRow["imp_intro"]);
-
                             LoadTreeList(PLAN_ID, controlType);
-
-                            ShowTab("imp", 0);
-                            LoadPlanPage(treeView.Nodes[0]);
                         }
                         else
                         {
-                            txt_Special_Code.Text = ToolHelper.GetValue(sorCode);
+                            txt_Special_Code.Text = ToolHelper.GetValue(specialCode);
                             txt_Special_Name.Text = ToolHelper.GetValue(row["dd_name"]);
                             txt_Special_Intro.Text = ToolHelper.GetValue(row["dd_note"]);
                         }
                     }
                     else
                     {
-                        txt_Special_Code.Text = ToolHelper.GetValue(sorCode);
+                        txt_Special_Code.Text = ToolHelper.GetValue(specialCode);
                         txt_Special_Name.Text = ToolHelper.GetValue(row["dd_name"]);
                         txt_Special_Intro.Text = ToolHelper.GetValue(row["dd_note"]);
                     }
@@ -5379,29 +5384,29 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 新重大专项继承旧数据(保留旧数据，转移并删除新数据)
+        /// 新重大专项继承旧数据
         /// </summary>
-        private void InheritImpInfo(object oldImpId, object newImpId)
+        private void InheritImpInfo(object oldImpId, object oldSpeId, object newImpId)
         {
             string updateSQL =
-                $"UPDATE processing_file_list SET pfl_obj_id='{oldImpId}' WHERE pfl_obj_id='{newImpId}';" +
-                $"UPDATE processing_box SET pb_obj_id='{oldImpId}' WHERE pb_obj_id='{newImpId}';";
-            updateSQL += $"UPDATE imp_info SET imp_obj_id=(SELECT imp_obj_id FROM imp_info WHERE imp_id='{newImpId}') WHERE imp_id='{oldImpId}';";
-            updateSQL += $"DELETE FROM imp_info WHERE imp_id='{newImpId}';";
+                $"UPDATE processing_file_list SET pfl_obj_id='{newImpId}' WHERE pfl_obj_id='{oldImpId}'; " +
+                $"UPDATE processing_tag SET pt_obj_id='{newImpId}' WHERE pt_obj_id='{oldImpId}';" +
+                $"UPDATE processing_box SET pb_obj_id='{newImpId}' WHERE pb_obj_id='{oldImpId}';" +
+                $"UPDATE imp_dev_info SET imp_obj_id='{newImpId}', imp_submit_status=1 WHERE imp_id='{oldSpeId}';";
             SqlHelper.ExecuteNonQuery(updateSQL);
         }
 
         /// <summary>
         /// 重置指定专项下所有项目课题状态为 未提交
         /// </summary>
-        /// <param name="id">专项ID</param>
-        private void ResetProjectState(object id)
+        /// <param name="specialId">专项ID</param>
+        private void ResetProjectState(object specialId)
         {
-            string updateSQL = $"UPDATE imp_dev_info SET imp_submit_status=1 WHERE imp_id='{id}';";
-            string proQuerySql = "SELECT A.pi_id FROM imp_dev_info p LEFT JOIN ( " +
+            string updateSQL = string.Empty;
+            string proQuerySql = "SELECT A.pi_id FROM imp_dev_info p INNER JOIN ( " +
                 "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
-                "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=-3)A ON A.pi_obj_id=p.imp_id " +
-               $"WHERE p.imp_id='{id}' AND A.pi_id IS NOT NULL";
+                "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=-3)A ON A.pi_obj_id = p.imp_id " +
+               $"WHERE p.imp_id='{specialId}'";
             object[] proIds = SqlHelper.ExecuteSingleColumnQuery(proQuerySql);
             string pids = ToolHelper.GetFullStringBySplit(proIds, ",", "'");
             if (!string.IsNullOrEmpty(pids))

@@ -252,14 +252,13 @@ namespace 科技计划项目档案数据采集管理系统
             }
 
             object value = SqlHelper.ExecuteOnlyOneQuery("select MIN(pi_worker_date) from project_info");
-            DateTime MinDate = ToolHelper.GetDateValue(value);
+            DateTime MinDate = ToolHelper.GetDateValue(value, DateTime.Now);
             dtp_StartDate.MinDate = MinDate;
             dtp_StartDate.Value = MinDate;
             dtp_StartDate.MaxDate = DateTime.Now;
 
             dtp_EndDate.MinDate = MinDate;
             dtp_EndDate.MaxDate = DateTime.Now;
-
         }
 
         private void InitialUserList(string unitName)

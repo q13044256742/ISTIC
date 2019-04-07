@@ -56,7 +56,7 @@ namespace 科技计划项目档案数据采集管理系统
         {
             if(sqlConnection!=null && sqlConnection.State == ConnectionState.Open)
             {
-                sqlConnection.Close();
+                //sqlConnection.Close();
             }
         }
 
@@ -122,27 +122,22 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="nonQuerySql">SQL语句</param>
         public static void ExecuteNonQuery(string nonQuerySql)
         {
-            if(!string.IsNullOrEmpty(nonQuerySql))
+            if (!string.IsNullOrEmpty(nonQuerySql))
             {
-                using(SqlCommand sqlCommand = new SqlCommand(nonQuerySql, GetConnect()))
+                SqlConnection con = GetConnect();
+                SqlCommand sqlCommand = new SqlCommand(nonQuerySql, con);
+                SqlTransaction sqlTransaction = con.BeginTransaction();
+                sqlCommand.Transaction = sqlTransaction;
+                try
                 {
-                    SqlTransaction sqlTransaction = GetConnect().BeginTransaction();
-                    sqlCommand.Transaction = sqlTransaction;
-                    try
-                    {
-                        sqlCommand.ExecuteNonQuery();
-                        sqlTransaction.Commit();
-                    }
-                    catch(Exception e)
-                    {
-                        sqlTransaction.Rollback();
-                        DevExpress.XtraEditors.XtraMessageBox.Show(e.Message, "数据出错(详情查看错误日志)");
-                        LogsHelper.AddErrorLogs("执行SQL语句失败", $"Sql语句为>> {nonQuerySql}");
-                    }
-                    finally
-                    {
-                        CloseConnect();
-                    }
+                    sqlCommand.ExecuteNonQuery();
+                    sqlTransaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    sqlTransaction.Rollback();
+                    DevExpress.XtraEditors.XtraMessageBox.Show(e.Message, "数据出错(详情查看错误日志)");
+                    LogsHelper.AddErrorLogs("执行SQL语句失败", $"SQL语句为 >> {nonQuerySql}");
                 }
             }
         }
