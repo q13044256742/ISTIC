@@ -148,7 +148,7 @@ namespace 科技计划项目档案数据采集管理系统
         public static string GetUserNameById(object userId)
         {
             object value = SqlHelper.ExecuteOnlyOneQuery($"SELECT real_name FROM user_list WHERE ul_id='{userId}'");
-            return value == null ? string.Empty : value.ToString();
+            return ToolHelper.GetValue(value);
         }
     }
 }

@@ -306,13 +306,14 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
 
         private void Frm_FirstPage_FormClosing(object sender, FormClosingEventArgs e)
         {
-            UserHelper.SetLogin(false);
             try
             {
+                UserHelper.SetLogin(false);
                 if (Cef.IsInitialized)
                 {
                     Cef.Shutdown();
                 }
+                SqlHelper.CloseConnect();
                 Environment.Exit(0);
             }
             catch(Exception ex)

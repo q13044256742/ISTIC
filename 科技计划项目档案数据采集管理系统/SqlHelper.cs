@@ -38,6 +38,7 @@ namespace 科技计划项目档案数据采集管理系统
             OpenConnect();
             return sqlConnection;
         }
+      
         /// <summary>
         /// 打开数据库连接
         /// </summary> 
@@ -50,13 +51,13 @@ namespace 科技计划项目档案数据采集管理系统
         }
         
         /// <summary>
-        /// 关闭数据库连接
+        /// 关闭全局数据库连接
         /// </summary>
         public static void CloseConnect()
         {
-            if(sqlConnection!=null && sqlConnection.State == ConnectionState.Open)
+            if (sqlConnection != null && sqlConnection.State == ConnectionState.Open)
             {
-                //sqlConnection.Close();
+                sqlConnection.Close();
             }
         }
 
@@ -70,7 +71,6 @@ namespace 科技计划项目档案数据采集管理系统
             SqlDataAdapter adapter = new SqlDataAdapter(querySql, GetConnect());
             DataTable table = new DataTable();
             adapter.Fill(table);
-            CloseConnect();
             return table;
         }
 
@@ -82,15 +82,14 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 查询唯一结果的SQL(count)
+        /// 查询唯一结果的SQL(无结果返回null)
         /// </summary>
         public static object ExecuteOnlyOneQuery(string querySql)
         {
             SqlCommand sqlCommand = new SqlCommand(querySql, GetConnect());
             object result = sqlCommand.ExecuteScalar();
-            CloseConnect();
-            if(result != null)
-                if(string.IsNullOrEmpty(result.ToString()))
+            if (result != null)
+                if (string.IsNullOrEmpty(ToolHelper.GetValue(result)))
                     result = null;
             return result;
         }
@@ -159,7 +158,6 @@ namespace 科技计划项目档案数据采集管理系统
                 sqlCommand.Parameters.Add(sqlParameter);
                 sqlCommand.ExecuteNonQuery();
             }
-            CloseConnect();
         }
 
         /// <summary>
@@ -179,7 +177,6 @@ namespace 科技计划项目档案数据采集管理系统
                 list.Add(_obj);
             }
             sqlDataReader.Close();
-            CloseConnect();
             return list;
         }
 
@@ -197,7 +194,6 @@ namespace 科技计划项目档案数据采集管理系统
                 sqlDataReader.GetValues(_obj);
             }
             sqlDataReader.Close();
-            CloseConnect();
             return _obj;
         }
 
@@ -277,14 +273,19 @@ namespace 科技计划项目档案数据采集管理系统
             return ToolHelper.GetIntValue(value, 0);
         }
 
-        public static string GetValueByKey(object companyId)
+        /// <summary>
+        /// 根据字典表的主键获取值(默认返回空字符串)
+        /// </summary>
+        /// <param name="objectId">字典表主键</param>
+        /// <param name="fieldName">待显示的字段名</param>
+        public static string GetValueByKey(object objectId, object fieldName)
         {
-            object obj = ExecuteOnlyOneQuery($"SELECT dd_name FROM data_dictionary WHERE dd_id='{companyId}'");
-            return obj == null ? string.Empty : obj.ToString();
+            object value = ExecuteOnlyOneQuery($"SELECT {fieldName} FROM data_dictionary WHERE dd_id='{objectId}'");
+            return ToolHelper.GetValue(value);
         }
 
         /// <summary>
-        /// 获取单列数据
+        /// 获取单列数据(无结果length=0)
         /// </summary>
         public static object[] ExecuteSingleColumnQuery(string querySql)
         {
@@ -296,7 +297,6 @@ namespace 科技计划项目档案数据采集管理系统
                     list.Add(sqlDataReader.GetValue(0));
             }
             sqlDataReader.Close();
-            CloseConnect();
             return list.ToArray();
         }
 
@@ -310,7 +310,6 @@ namespace 科技计划项目档案数据采集管理系统
                     result.Add(sqlDataReader.GetValue(0), sqlDataReader.GetInt32(1));
             }
             sqlDataReader.Close();
-            CloseConnect();
             return result;
         }
 
@@ -336,10 +335,6 @@ namespace 科技计划项目档案数据采集管理系统
             {
                 LogsHelper.AddErrorLogs("批量插入失败", e.Message);
                 adapter.SelectCommand.Transaction.Rollback();
-            }
-            finally
-            {
-                CloseConnect();
             }
         }
 

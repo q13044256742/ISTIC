@@ -45,7 +45,10 @@ namespace 科技计划项目档案数据采集管理系统
         /// 加工类型【返工】
         /// </summary>
         private ControlType controlType;
-
+        /// <summary>
+        /// 批次ID
+        /// </summary>
+        public object BATCH_ID;
         /// <summary>
         /// 禁用背景色
         /// </summary>
@@ -787,7 +790,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if (index == 0)//文件
                 {
                     if (objId == null)
+                    {
                         objId = tab_Plan_Info.Tag = AddBasicInfo(plan.Tag, ControlType.Plan);
+                    }
                     else
                         UpdateBasicInfo(objId, ControlType.Plan);
                     if (CheckFileList(view.Rows, key))
@@ -846,7 +851,10 @@ namespace 科技计划项目档案数据采集管理系统
                     if (CheckMustEnter(button.Name, objId))
                     {
                         if (objId == null)
+                        {
                             objId = tab_Project_Info.Tag = AddBasicInfo(project.Tag, ControlType.Project);
+                            LogsHelper.AddWorkLog(WorkLogType.Project_Topic, 1, BATCH_ID, 1, objId);
+                        }
                         else
                             UpdateBasicInfo(objId, ControlType.Project);
 
@@ -915,8 +923,10 @@ namespace 科技计划项目档案数据采集管理系统
                         if (objId != null)//更新
                             UpdateBasicInfo(objId, ControlType.Topic);
                         else//新增
+                        {
                             objId = tab_Topic_Info.Tag = AddBasicInfo(topic.Tag, ControlType.Topic);
-
+                            LogsHelper.AddWorkLog(WorkLogType.Project_Topic, 1, BATCH_ID, 1, objId);
+                        }
                         if (CheckFileList(view.Rows, key))
                         {
                             int selectedRow = GetSelectedRowIndex(view);
@@ -983,7 +993,10 @@ namespace 科技计划项目档案数据采集管理系统
                         if (objId != null)
                             UpdateBasicInfo(objId, ControlType.Subject);
                         else
+                        {
                             objId = tab_Subject_Info.Tag = AddBasicInfo(subject.Tag, ControlType.Subject);
+                            LogsHelper.AddWorkLog(WorkLogType.Topic_Subject, 1, BATCH_ID, 1, objId);
+                        }
                         if (CheckFileList(view.Rows, key))
                         {
                             int selectedRow = GetSelectedRowIndex(view);
@@ -1970,8 +1983,7 @@ namespace 科技计划项目档案数据采集管理系统
                     "pi_end_datetime, pi_year, pi_company_id, pi_company_user, pi_province, pi_project_user, pi_introduction, pi_work_status, " +
                     "pi_obj_id, pi_categor, pi_submit_status, pi_worker_id)" +
                     "VALUES" +
-                    $"('{primaryKey}',null,'{code}', N'{name}','{planType}','{ly}','{zt}','{funds}','{starttime}'" +
-                    $",'{endtime}','{year}','{unit}','{unituser}'" +
+                    $"('{primaryKey}', null, '{code}',  N'{name}', '{planType}', '{ly}', '{zt}', '{funds}', '{starttime}', '{endtime}', '{year}', '{unit}', '{unituser}'" +
                     $",'{province}','{objuser}', N'{intro}','{(int)WorkStatus.Default}','{parentId}',{(int)type}, 1,'{UserHelper.GetUser().UserKey}')";
 
                 SqlHelper.ExecuteNonQuery(insertSql);
@@ -2102,6 +2114,7 @@ namespace 科技计划项目档案数据采集管理系统
                 _fileId = Guid.NewGuid().ToString();
                 nonQuerySql += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_obj_id, pfl_sort, pfl_worker_id, pfl_worker_date) " +
                     $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', N'{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{parentId}', '{sort}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');";
+                LogsHelper.AddWorkLog(WorkLogType.File, 1, BATCH_ID, 1, _fileId);
             }
             SqlHelper.ExecuteNonQuery(nonQuerySql);
             return _fileId;
@@ -3596,12 +3609,14 @@ namespace 科技计划项目档案数据采集管理系统
                     if ("lbl_Plan_Box_Add".Equals(label.Name))//新增
                     {
                         //当前已有盒号数量
-                        int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{parentID}'"));
+                        int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{parentID}'");
                         string[] gch = GetBoxCode(parentID, null, 1, DateTime.Now.Year.ToString(), null, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
+                        string pk = Guid.NewGuid().ToString();
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id, pt_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{parentID}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{parentID}')";
+                            $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{parentID}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{parentID}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
                     }
                     else if ("lbl_Plan_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3634,7 +3649,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if ("lbl_Project_Box_Add".Equals(label.Name))//新增
                     {
                         //当前已有盒号数量
-                        int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
+                        int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
                         string[] gch = GetBoxCode(objId, txt_Project_Code.Text, 1, txt_Project_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
                         //默认档号和案卷名称为当前项目
@@ -3642,9 +3657,11 @@ namespace 科技计划项目档案数据采集管理系统
                         string __code = txt_Project_Code.Text;
                         string _name = txt_Project_Name.Text;
                         string insertSql = $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}', '{__code}', '{_name}', '{objId}');";
+                        string pk = Guid.NewGuid().ToString();
                         insertSql += $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id, pt_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{primaryKey}')";
+                            $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{primaryKey}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
                     }
                     else if ("lbl_Project_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3678,7 +3695,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if ("lbl_Subject_Box_Add".Equals(label.Name))//新增
                     {
                         //当前已有盒号数量
-                        int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
+                        int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
                         string[] gch = GetBoxCode(objId, txt_Subject_Code.Text, 1, txt_Subject_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
                         //默认档号和案卷名称为当前项目
@@ -3686,9 +3703,11 @@ namespace 科技计划项目档案数据采集管理系统
                         string __code = txt_Subject_Code.Text;
                         string _name = txt_Subject_Name.Text;
                         string insertSql = $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}', '{__code}', '{_name}', '{objId}');";
+                        string pk = Guid.NewGuid().ToString();
                         insertSql += $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id, pt_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{primaryKey}')";
+                            $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{primaryKey}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
                     }
                     else if ("lbl_Subject_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3719,7 +3738,7 @@ namespace 科技计划项目档案数据采集管理系统
                     if ("lbl_Topic_Box_Add".Equals(label.Name))//新增
                     {
                         //当前已有盒号数量
-                        int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
+                        int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
                         string[] gch = GetBoxCode(objId, txt_Topic_Code.Text, 1, txt_Topic_Year.Text, txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
                         //默认档号和案卷名称为当前项目
@@ -3727,9 +3746,11 @@ namespace 科技计划项目档案数据采集管理系统
                         string __code = txt_Topic_Code.Text;
                         string _name = txt_Topic_Name.Text;
                         string insertSql = $"INSERT INTO processing_tag(pt_id, pt_code, pt_name, pt_obj_id) VALUES('{primaryKey}', '{__code}', '{_name}', '{objId}');";
+                        string pk = Guid.NewGuid().ToString();
                         insertSql += $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id, pt_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{primaryKey}')";
+                            $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{primaryKey}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
                     }
                     else if ("lbl_Topic_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3760,12 +3781,14 @@ namespace 科技计划项目档案数据采集管理系统
                     if ("lbl_Imp_Box_Add".Equals(label.Name))//新增
                     {
                         //当前已有盒号数量
-                        int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'"));
+                        int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{objId}'");
                         string[] gch = GetBoxCode(objId, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
+                        string pk = Guid.NewGuid().ToString();
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}')";
+                            $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
                     }
                     else if ("lbl_Imp_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3796,12 +3819,14 @@ namespace 科技计划项目档案数据采集管理系统
                     if ("lbl_Special_Box_Add".Equals(label.Name))//新增
                     {
                         //当前已有盒号数量
-                        int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{parentID}'"));
+                        int amount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pb_box_number) FROM processing_box WHERE pb_obj_id='{parentID}'");
                         string[] gch = GetBoxCode(parentID, null, 1, DateTime.Now.Year.ToString(), txt_Special_Code.Text, ToolHelper.GetValue(unitCode));
                         object _code = ToolHelper.GetValue(Tag).StartsWith("ZX") ? Tag : string.Empty;
+                        string pk = Guid.NewGuid().ToString();
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id, pt_id) " +
-                            $"VALUES('{Guid.NewGuid().ToString()}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{parentID}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{parentID}')";
+                            $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{parentID}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{parentID}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
                     }
                     else if ("lbl_Special_Box_Remove".Equals(label.Name))//删除
                     {
@@ -4494,9 +4519,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Plan_FileList.SelectedRows.Count == 1 && dgv_Plan_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Plan_FileList, key, dgv_Plan_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Plan_FileList, key, dgv_Plan_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId, BATCH_ID);
                     else
-                        frm = new Frm_AddFile(dgv_Plan_FileList, key, null, trcId);
+                        frm = new Frm_AddFile(dgv_Plan_FileList, key, null, trcId, BATCH_ID);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.UpdateDataSource = LoadFileList;
@@ -4512,9 +4537,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Project_FileList.SelectedRows.Count == 1 && dgv_Project_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId, BATCH_ID);
                     else
-                        frm = new Frm_AddFile(dgv_Project_FileList, key, null, trcId);
+                        frm = new Frm_AddFile(dgv_Project_FileList, key, null, trcId, BATCH_ID);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.UpdateDataSource = LoadFileList;
@@ -4531,9 +4556,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Topic_FileList.SelectedRows.Count == 1 && dgv_Topic_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId, BATCH_ID);
                     else
-                        frm = new Frm_AddFile(dgv_Topic_FileList, key, null, trcId);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, key, null, trcId, BATCH_ID);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.UpdateDataSource = LoadFileList;
@@ -4550,9 +4575,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Subject_FileList.SelectedRows.Count == 1 && dgv_Subject_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId, BATCH_ID);
                     else
-                        frm = new Frm_AddFile(dgv_Subject_FileList, key, null, trcId);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, key, null, trcId, BATCH_ID);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.UpdateDataSource = LoadFileList;
@@ -4569,9 +4594,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Imp_FileList.SelectedRows.Count == 1 && dgv_Imp_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Imp_FileList, key, dgv_Imp_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Imp_FileList, key, dgv_Imp_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId, BATCH_ID);
                     else
-                        frm = new Frm_AddFile(dgv_Imp_FileList, key, null, trcId);
+                        frm = new Frm_AddFile(dgv_Imp_FileList, key, null, trcId, BATCH_ID);
                     frm.parentId = objId;
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.UpdateDataSource = LoadFileList;
@@ -4587,9 +4612,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if (objId != null)
                 {
                     if (dgv_Special_FileList.SelectedRows.Count == 1 && dgv_Special_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Special_FileList, key, dgv_Special_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId);
+                        frm = new Frm_AddFile(dgv_Special_FileList, key, dgv_Special_FileList.SelectedRows[0].Cells[key + "id"].Value, trcId, BATCH_ID);
                     else
-                        frm = new Frm_AddFile(dgv_Special_FileList, key, null, trcId);
+                        frm = new Frm_AddFile(dgv_Special_FileList, key, null, trcId, BATCH_ID);
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
                     frm.UpdateDataSource = LoadFileList;
@@ -5256,11 +5281,11 @@ namespace 科技计划项目档案数据采集管理系统
             treeView.Visible = toggleSwitch1.IsOn ? true : false;
         }
 
-        public Action<WorkType, object, object, object> BackCallMethod;
+        public Action<WorkType, object, object, object, object> BackCallMethod;
 
         private void Frm_MyWorkQT_FormClosed(object sender, FormClosedEventArgs e)
         {
-            BackCallMethod?.Invoke(workType, objId, wmid, objId);
+            BackCallMethod?.Invoke(workType, objId, wmid, objId, BATCH_ID);
         }
 
         private void FileList_DataSourceChanged(object sender, EventArgs e)

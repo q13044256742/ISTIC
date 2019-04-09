@@ -202,7 +202,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="values">数组对象</param>
         /// <param name="v1">分隔符</param>
         /// <param name="v2">包围符号</param>
-        internal static string GetFullStringBySplit(object[] values, string v1, string v2)
+        internal static string GetStringBySplit(object[] values, string v1, string v2)
         {
             string result = string.Empty;
             if(values.Length == 0) return result;

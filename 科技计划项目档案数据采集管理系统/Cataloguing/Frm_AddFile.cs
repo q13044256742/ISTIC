@@ -34,15 +34,20 @@ namespace 科技计划项目档案数据采集管理系统
         /// 光盘ID
         /// </summary>
         public object trcId;
+        /// <summary>
+        /// 批次ID
+        /// </summary>
+        public object BATCH_ID;
         public Action<DataGridView, object, int> UpdateDataSource;
 
-        public Frm_AddFile(DataGridView view, object key, object fileId, object trcId)
+        public Frm_AddFile(DataGridView view, object key, object fileId, object trcId, object batchID)
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             this.view = view;
             this.key = key;
             this.trcId = trcId;
+            BATCH_ID = batchID;
             if(fileId != null)
             {
                 Text = "编辑文件";
@@ -125,7 +130,8 @@ namespace 科技计划项目档案数据采集管理系统
                     if(!string.IsNullOrEmpty(_ids[i]))
                     {
                         object filePath = SqlHelper.ExecuteOnlyOneQuery($"SELECT bfi_path + '\\' + bfi_name FROM backup_files_info WHERE bfi_id='{_ids[i]}'");
-                        AddFileToList(GetValue(filePath), _ids[i]);
+                        if (filePath != null)
+                            AddFileToList(GetValue(filePath), _ids[i]);
                     }
                 }
             }
@@ -322,6 +328,7 @@ namespace 科技计划项目档案数据采集管理系统
                     insertSql.Append($"INSERT INTO file_link(id, code, fid) VALUES('{Guid.NewGuid().ToString()}', '{item}', '{primaryKey}');");
 
                 SqlHelper.ExecuteNonQuery(insertSql.ToString());
+                LogsHelper.AddWorkLog(WorkLogType.File, 1, BATCH_ID, 1, primaryKey);
             }
             else
             {

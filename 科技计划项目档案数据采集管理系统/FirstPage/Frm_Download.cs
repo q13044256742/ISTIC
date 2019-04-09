@@ -76,7 +76,6 @@ namespace 科技计划项目档案数据采集管理系统
                     com.Parameters.Add("@fileByte", SqlDbType.Image, fileByte.Length);
                     com.Parameters["@fileByte"].Value = fileByte;
                     com.ExecuteNonQuery();
-                    SqlHelper.CloseConnect();
                     progressBar.Properties.Stopped = true;
                     progressBar.Text = "文件上传成功。";
                 }).Start();
@@ -116,7 +115,6 @@ namespace 科技计划项目档案数据采集管理系统
                         SqlDataAdapter dataAdapter = new SqlDataAdapter(querySQL, con);
                         DataSet dataSet = new DataSet();
                         dataAdapter.Fill(dataSet);
-                        SqlHelper.CloseConnect();
 
                         Byte[] fileByte = (Byte[])dataSet.Tables[0].Rows[0]["at_entity"];
                         BinaryWriter bw = new BinaryWriter(File.Open(savePath + "\\" + name, FileMode.OpenOrCreate, FileAccess.Write));

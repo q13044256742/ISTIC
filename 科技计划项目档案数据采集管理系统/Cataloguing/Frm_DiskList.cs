@@ -51,7 +51,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             if (list.Count > 0)
             {
-                objectCode = ToolHelper.GetFullStringBySplit(list.ToArray(), ",", "'");
+                objectCode = ToolHelper.GetStringBySplit(list.ToArray(), ",", "'");
                 DialogResult = System.Windows.Forms.DialogResult.OK;
             }
         }

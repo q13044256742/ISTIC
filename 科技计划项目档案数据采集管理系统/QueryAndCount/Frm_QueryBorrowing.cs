@@ -1348,7 +1348,6 @@ namespace 科技计划项目档案数据采集管理系统
                             }
                         }
                     }
-                    SqlHelper.CloseConnect();
                     //排序
                     DataView view = table.DefaultView;
                     view.Sort = "项目编号 ASC, 馆藏号 ASC";

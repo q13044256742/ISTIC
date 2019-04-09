@@ -27,10 +27,10 @@ namespace 科技计划项目档案数据采集管理系统
                 List<EntityObject> datas = new List<EntityObject>();
                 for(int i = 0; i < list.Count; i++)
                 {
-                    string code = SqlHelper.GetValueByKey(list[i]["pfl_categor"]);
+                    string code = SqlHelper.GetValueByKey(list[i]["pfl_categor"], "dd_name");
                     string name = ToolHelper.GetValue(list[i]["pfl_filename"]);
                     string user = ToolHelper.GetValue(list[i]["pfl_user"]);
-                    string carrier = SqlHelper.GetValueByKey(list[i]["pfl_carrier"]);
+                    string carrier = SqlHelper.GetValueByKey(list[i]["pfl_carrier"], "dd_name");
                     int pages = Convert.ToInt32(list[i]["pfl_page_amount"]);
                     int number = Convert.ToInt32(list[i]["pfl_amount"]);
                     DateTime date = Convert.ToDateTime(list[i]["pfl_complete_date"]);

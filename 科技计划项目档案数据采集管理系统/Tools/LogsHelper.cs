@@ -92,25 +92,48 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="logType">记录类别</param>
         /// <param name="amount">数量</param>
         /// <param name="batchCode">批次编号</param>
-        public static void AddWorkLog(WorkLogType logType, int amount, string batchCode)
+        /// <param name="segment">环节<para>1：加工</para><para>2：质检</para></param>
+        public static void AddWorkLog(WorkLogType logType, int amount, object batchCode, int segment, object objectId)
         {
+            if (string.IsNullOrEmpty(ToolHelper.GetValue(batchCode))) return;
             string date = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd");
             string userid = UserHelper.GetUser().UserKey;
             int type = (int)logType;
 
-            string existQuery = $"SELECT wl_id FROM work_log WHERE wl_user_id='{userid}' AND wl_datetime='{date}' AND wl_batch_code='{batchCode}' AND wl_type='{type}'";
+            string existQuery = $"SELECT wl_id FROM work_log WHERE wl_user_id='{userid}' AND wl_datetime='{date}' AND wl_batch_code='{batchCode}' AND wl_type='{type}' AND wl_segment={segment}";
             object result = SqlHelper.ExecuteOnlyOneQuery(existQuery);
             if (result != null)
             {
-                //更新记录数字
-                string updateSQL = $"UPDATE work_log SET amount+={amount} WHERE wl_id='{result}'";
+                string updateSQL = $"UPDATE work_log SET wl_amount += {amount} WHERE wl_id='{result}'";
                 SqlHelper.ExecuteNonQuery(updateSQL);
             }
             else
             {
                 //新增记录
-                string insertSQL = "INSERT INTO work_log(wl_id, wl_type, wl_batch_code, wl_amount, wl_datetime, wl_user_id) VALUES" +
-                    $"('{Guid.NewGuid().ToString()}', '{type}', '{batchCode}', '{amount}', '{date}', '{userid}')";
+                string insertSQL = "INSERT INTO work_log(wl_id, wl_type, wl_batch_code, wl_amount, wl_datetime, wl_user_id, wl_segment, wl_object_id) VALUES" +
+                    $"('{Guid.NewGuid().ToString()}', '{type}', '{batchCode}', '{amount}', '{date}', '{userid}', {segment}, '{objectId}')";
+                SqlHelper.ExecuteNonQuery(insertSQL);
+            }
+        }
+
+        public static void AddWorkLog(WorkLogType logType, int amount, object batchCode, int segment, object objectId, object userid)
+        {
+            if (string.IsNullOrEmpty(ToolHelper.GetValue(batchCode))) return;
+            string date = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd");
+            int type = (int)logType;
+
+            string existQuery = $"SELECT wl_id FROM work_log WHERE wl_user_id='{userid}' AND wl_datetime='{date}' AND wl_batch_code='{batchCode}' AND wl_type='{type}' AND wl_segment={segment}";
+            object result = SqlHelper.ExecuteOnlyOneQuery(existQuery);
+            if (result != null)
+            {
+                string updateSQL = $"UPDATE work_log SET wl_amount += {amount} WHERE wl_id='{result}'";
+                SqlHelper.ExecuteNonQuery(updateSQL);
+            }
+            else
+            {
+                //新增记录
+                string insertSQL = "INSERT INTO work_log(wl_id, wl_type, wl_batch_code, wl_amount, wl_datetime, wl_user_id, wl_segment, wl_object_id) VALUES" +
+                    $"('{Guid.NewGuid().ToString()}', '{type}', '{batchCode}', '{amount}', '{date}', '{userid}', {segment}, '{objectId}')";
                 SqlHelper.ExecuteNonQuery(insertSQL);
             }
         }

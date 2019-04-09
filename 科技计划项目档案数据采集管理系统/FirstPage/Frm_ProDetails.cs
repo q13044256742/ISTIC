@@ -628,9 +628,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Project_FileList.SelectedRows.Count == 1 && dgv_Project_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.SelectedRows[0].Cells[key + "id"].Value, null);
+                        frm = new Frm_AddFile(dgv_Project_FileList, key, dgv_Project_FileList.SelectedRows[0].Cells[key + "id"].Value, null, null);
                     else
-                        frm = new Frm_AddFile(dgv_Project_FileList, key, null, null);
+                        frm = new Frm_AddFile(dgv_Project_FileList, key, null, null, null);
                     frm.UpdateDataSource = LoadFileList;
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
@@ -646,9 +646,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Topic_FileList.SelectedRows.Count == 1 && dgv_Topic_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.SelectedRows[0].Cells[key + "id"].Value, null);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, key, dgv_Topic_FileList.SelectedRows[0].Cells[key + "id"].Value, null, null);
                     else
-                        frm = new Frm_AddFile(dgv_Topic_FileList, key, null, null);
+                        frm = new Frm_AddFile(dgv_Topic_FileList, key, null, null, null);
                     frm.UpdateDataSource = LoadFileList;
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
@@ -664,9 +664,9 @@ namespace 科技计划项目档案数据采集管理系统
                 if(objId != null)
                 {
                     if(dgv_Subject_FileList.SelectedRows.Count == 1 && dgv_Subject_FileList.RowCount != 1)
-                        frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.SelectedRows[0].Cells[key + "id"].Value, null);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, key, dgv_Subject_FileList.SelectedRows[0].Cells[key + "id"].Value, null, null);
                     else
-                        frm = new Frm_AddFile(dgv_Subject_FileList, key, null, null);
+                        frm = new Frm_AddFile(dgv_Subject_FileList, key, null, null, null);
                     frm.UpdateDataSource = LoadFileList;
                     frm.txt_Unit.Text = UserHelper.GetUser().UnitName;
                     frm.parentId = objId;
@@ -1334,7 +1334,7 @@ namespace 科技计划项目档案数据采集管理系统
             if (removeIdList.Count > 0)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                string rids = ToolHelper.GetFullStringBySplit(removeIdList.ToArray(), ",", "'");
+                string rids = ToolHelper.GetStringBySplit(removeIdList.ToArray(), ",", "'");
                 //删除当前文件
                 stringBuilder.Append($"DELETE FROM processing_file_list WHERE pfl_id IN ({rids});");
 
