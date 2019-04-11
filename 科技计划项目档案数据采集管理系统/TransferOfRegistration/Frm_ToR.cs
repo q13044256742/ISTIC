@@ -87,13 +87,11 @@ namespace 科技计划项目档案数据采集管理系统
                 }
                 else if(tc_ToR.SelectedTabPageIndex == 1)
                 {
-                    StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status");
-                    querySql.Append(" FROM transfer_registraion_cd trc");
-                    querySql.Append(" LEFT JOIN(");
-                    querySql.Append(" SELECT trp.trp_id, dd_id, dd_name, dd_sort FROM transfer_registration_pc trp, data_dictionary dd WHERE trp.com_id = dd.dd_id ) tb");
-                    querySql.Append(" ON trc.trp_id = tb.trp_id");
-                    querySql.Append(" WHERE tb.dd_id='" + element.Name + "'");
-                    querySql.Append(" ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, dd_sort ASC, trc_code ASC");
+                    StringBuilder querySql = new StringBuilder("SELECT trc_id,dd_name,trc_code,trc_name,trc_project_amount,trc_subject_amount,trc_status " +
+                        "FROM transfer_registraion_cd trc LEFT JOIN( " +
+                        "SELECT trp.trp_id, dd_id, dd_name, dd_sort FROM transfer_registration_pc trp, data_dictionary dd WHERE trp.com_id = dd.dd_id ) tb ON trc.trp_id = tb.trp_id " +
+                        "WHERE tb.dd_id='" + element.Name + "' " +
+                        "ORDER BY CASE WHEN dd_name IS NULL THEN 1 ELSE 0 END, dd_sort ASC, trc_code ASC");
                     LoadGPDJ(querySql.ToString());
                 }
                 currentUnit = element.Name;
@@ -309,7 +307,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 UpdateTrcId(impId, trcId, ref sb);
 
                             /*-- 批次下的计划 - 项目/课题 --*/
-                            object piId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{trpId}'");
+                            object piId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_categor=1 AND pi_obj_id='{trpId}'");
                             if(piId != null)
                                 UpdateTrcId(piId, trcId, ref sb);
                         }
@@ -497,7 +495,7 @@ namespace 科技计划项目档案数据采集管理系统
             }
             else//计划
             {
-                object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_categor=1 AND trc_id='{pid}'");
+                object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_categor=1 AND pi_obj_id='{pid}'");
                 if(planId != null)
                 {
                     //删除【计划】记录

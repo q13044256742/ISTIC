@@ -2079,13 +2079,13 @@ namespace 科技计划项目档案数据采集管理系统
             object name = ToolHelper.GetValue(row.Cells[key + "name"].Value).Replace("'", "''");
             object user = row.Cells[key + "user"].Value;
             object type = row.Cells[key + "type"].Value;
-            object pages = row.Cells[key + "pages"].Value;
+            int pages = ToolHelper.GetIntValue(row.Cells[key + "pages"].Value, 0);
             object count = row.Cells[key + "count"].Value;
             object amount = row.Cells[key + "amount"].Value;
             object code = row.Cells[key + "code"].Value;
             object date = row.Cells[key + "date"].Value;
             object unit = row.Cells[key + "unit"].Value;
-            object carrier = row.Cells[key + "carrier"].Value;
+            string carrier = ToolHelper.GetValue(row.Cells[key + "carrier"].Value);
             bool isOtherType = "其他".Equals(row.Cells[key + "categor"].FormattedValue);
             if (isOtherType)
             {
@@ -2114,7 +2114,15 @@ namespace 科技计划项目档案数据采集管理系统
                 _fileId = Guid.NewGuid().ToString();
                 nonQuerySql += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_obj_id, pfl_sort, pfl_worker_id, pfl_worker_date) " +
                     $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', N'{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{parentId}', '{sort}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');";
-                LogsHelper.AddWorkLog(WorkLogType.File, 1, BATCH_ID, 1, _fileId);
+                LogsHelper.AddWorkLog(WorkLogType.Pages, pages, BATCH_ID, 2, null);
+                if (!string.IsNullOrEmpty(carrier))
+                {
+                    string carCode = SqlHelper.GetValueByKey(carrier, "dd_code");
+                    if ("ZT_ZZ".Equals(carCode))
+                        LogsHelper.AddWorkLog(WorkLogType.File, 1, BATCH_ID, 2, _fileId);
+                    else
+                        LogsHelper.AddWorkLog(WorkLogType.File_Electronic, 1, BATCH_ID, 2, _fileId);
+                }
             }
             SqlHelper.ExecuteNonQuery(nonQuerySql);
             return _fileId;

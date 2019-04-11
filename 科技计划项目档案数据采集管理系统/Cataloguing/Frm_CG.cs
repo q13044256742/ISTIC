@@ -713,7 +713,7 @@ namespace 科技计划项目档案数据采集管理系统
                     string typeValue = GetValue(view.Rows[e.RowIndex].Cells["type"].Value);
                     if (typeValue.Contains("光盘"))
                     {
-                        object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{batchId}' AND pi_categor=1");
+                        object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_categor=1 AND pi_obj_id='{batchId}'");
                         //已存在 - 普通计划
                         if (planId != null)
                         {
@@ -756,12 +756,13 @@ namespace 科技计划项目档案数据采集管理系统
                     }
                     else if (typeValue.Contains("纸本"))
                     {
-                        object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{batchId}' OR pi_obj_id='{batchId}'");
+                        object planId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_categor=1 AND pi_obj_id='{batchId}'");
                         object[] trcIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT trc_id FROM transfer_registraion_cd WHERE trp_id='{batchId}'");
                         //已存在 >> 普通计划
                         if (planId != null)
                         {
-                            object[] addRecs = SqlHelper.ExecuteSingleColumnQuery($"SELECT br_auxiliary_id FROM batch_relevance WHERE br_main_id='{batchId}' AND br_type=1");
+                            object value = SqlHelper.ExecuteSingleColumnQuery($"SELECT br_auxiliary_id FROM batch_relevance WHERE br_main_id='{batchId}' AND br_type=1");
+                            object[] addRecs = ToolHelper.GetValue(value).Split(',');
                             Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Plan, planId, batchId, ControlType.Plan, false);
                             frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
                             frm.trcId = ToolHelper.GetStringBySplit(trcIds, ";", string.Empty);
@@ -774,7 +775,8 @@ namespace 科技计划项目档案数据采集管理系统
                             //已存在 >> 重大专项
                             if (planId != null)
                             {
-                                object[] addRecs = SqlHelper.ExecuteSingleColumnQuery($"SELECT br_auxiliary_id FROM batch_relevance WHERE br_main_id='{batchId}' AND br_type=2");
+                                object value = SqlHelper.ExecuteOnlyOneQuery($"SELECT br_auxiliary_id FROM batch_relevance WHERE br_main_id='{batchId}' AND br_type=2");
+                                object[] addRecs = ToolHelper.GetValue(value).Split(',');
                                 Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Imp, planId, batchId, ControlType.Imp, false);
                                 frm.Tag = SqlHelper.ExecuteOnlyOneQuery($"SELECT imp_code FROM imp_dev_info WHERE imp_obj_id='{planId}'");
                                 frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
@@ -933,7 +935,7 @@ namespace 科技计划项目档案数据采集管理系统
                                 StringBuilder sb = new StringBuilder();
                                 object trpId = view.Rows[e.RowIndex].Cells["id"].Value;
                                 object wrId = view.Rows[e.RowIndex].Cells["id"].Tag;
-                                object pId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{trpId}'");
+                                object pId = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_categor=1 AND pi_obj_id='{trpId}'");
                                 if (pId != null)//普通计划
                                 {
                                     int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(wm_id) FROM work_myreg WHERE wm_obj_id='{pId}'");
@@ -1310,7 +1312,7 @@ namespace 科技计划项目档案数据采集管理系统
             else if(workType == WorkType.CDWork)
             {
                 //查询光盘下普通计划
-                DataRow firstRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE trc_id=(SELECT wr_obj_id FROM work_registration WHERE wr_id='{objId}')");
+                DataRow firstRow = SqlHelper.ExecuteSingleRowQuery($"SELECT pi_id, pi_submit_status FROM project_info WHERE pi_obj_id=1 AND pi_obj_id=(SELECT wr_obj_id FROM work_registration WHERE wr_id='{objId}')");
                 if(firstRow != null)
                 {
                     int fstate = Convert.ToInt32(firstRow["pi_submit_status"]);
@@ -1506,24 +1508,19 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 获取指定项目/课题获取其所属计划ID
         /// </summary>
-        private object GetRootId(object objId, WorkType type)
+        private object GetRootId(object batchId, WorkType type)
         {
             if(type == WorkType.CDWork)
             {
-                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id='{objId}'");
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_categor=1 AND pi_obj_id='{batchId}'");
             }
             else if(type == WorkType.PaperWork)
             {
-                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE trc_id='{objId}'");
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM project_info WHERE pi_categor=1 AND pi_obj_id='{batchId}'");
             }
             if(type == WorkType.ProjectWork)
             {
-                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{objId}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_obj_id FROM topic_info WHERE ti_id='{objId}'");
-            }
-            else if(type == WorkType.TopicWork)
-            {
-                object pid = SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_id FROM subject_info WHERE si_id='{objId}'");
-                return GetRootId(pid, WorkType.ProjectWork);
+                return SqlHelper.ExecuteOnlyOneQuery($"SELECT pi_obj_id FROM project_info WHERE pi_id='{batchId}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT ti_obj_id FROM topic_info WHERE ti_id='{batchId}'");
             }
             return null;
         }
@@ -1541,20 +1538,6 @@ namespace 科技计划项目档案数据采集管理系统
 
         private string GetValue(object value) => value == null ? string.Empty : value.ToString();
      
-        /// <summary>
-        /// 根据光盘编号获取对应的项目下的课题总数
-        /// </summary>
-        /// <param name="trcid">光盘ID</param>
-        private int GetSubjectAmountWithProject(object trcid)
-        {
-            int totalAmount = 0;
-            List<object[]> list = SqlHelper.ExecuteColumnsQuery($"SELECT pi_id FROM project_info WHERE pi_obj_id=" +
-                $"(SELECT pi_id FROM project_info WHERE trc_id='{trcid}')", 1);
-            for (int i = 0; i < list.Count; i++)
-                totalAmount += Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(*) FROM subject_info WHERE pi_id='{list[i][0]}'"));
-            return totalAmount;
-        }
-      
         /// <summary>
         /// 加载课题/子课题列表
         /// </summary>
@@ -1673,8 +1656,8 @@ namespace 科技计划项目档案数据采集管理系统
             int proAmount = 0;
             if(trcId != null)
             {
-                proAmount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE trc_id='{trcId}' AND pi_work_status={(int)WorkStatus.WorkSuccess}");
-                proAmount += SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE trc_id='{trcId}' AND ti_work_status={(int)WorkStatus.WorkSuccess}");
+                proAmount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pi_id) FROM project_info WHERE trc_id='{trcId}' AND pi_work_status=2");
+                proAmount += SqlHelper.ExecuteCountQuery($"SELECT COUNT(ti_id) FROM topic_info WHERE trc_id='{trcId}' AND ti_work_status=2");
             }
             return proAmount;
         }

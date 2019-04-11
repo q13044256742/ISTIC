@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -41,6 +42,15 @@ namespace 科技计划项目档案数据采集管理系统
             cbo_SpecialType.DisplayMember = "dd_name";
             cbo_SpecialType.ValueMember = "dd_id";
 
+            listbox.DrawItem += Listbox_DrawItem;
+        }
+
+        private void Listbox_DrawItem(object sender, ListBoxDrawItemEventArgs e)
+        {
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            {
+                e.Appearance.ForeColor = Color.DarkRed;
+            }
         }
 
         private void Btn_Sure_Click(object sender, EventArgs e)

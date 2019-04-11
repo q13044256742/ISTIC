@@ -73,7 +73,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(369, 123);
+            this.groupBox1.Size = new System.Drawing.Size(379, 123);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "待选择计划类别";
@@ -111,11 +111,14 @@
             // 
             // pal_BatchList
             // 
+            this.pal_BatchList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pal_BatchList.Controls.Add(this.listbox);
             this.pal_BatchList.Enabled = false;
             this.pal_BatchList.Location = new System.Drawing.Point(0, 131);
             this.pal_BatchList.Name = "pal_BatchList";
-            this.pal_BatchList.Size = new System.Drawing.Size(369, 117);
+            this.pal_BatchList.Size = new System.Drawing.Size(379, 185);
             this.pal_BatchList.TabIndex = 4;
             this.pal_BatchList.TabStop = false;
             this.pal_BatchList.Text = "可选择继承的批次(ctrl键可多选)";
@@ -132,7 +135,7 @@
             this.listbox.Location = new System.Drawing.Point(3, 21);
             this.listbox.Name = "listbox";
             this.listbox.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listbox.Size = new System.Drawing.Size(363, 93);
+            this.listbox.Size = new System.Drawing.Size(373, 161);
             this.listbox.TabIndex = 0;
             this.listbox.SelectedIndexChanged += new System.EventHandler(this.listbox_SelectedIndexChanged);
             // 
@@ -145,10 +148,10 @@
             this.btn_Sure.Image = ((System.Drawing.Image)(resources.GetObject("btn_Sure.Image")));
             this.btn_Sure.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
             this.btn_Sure.ImageToTextIndent = 5;
-            this.btn_Sure.Location = new System.Drawing.Point(151, 263);
+            this.btn_Sure.Location = new System.Drawing.Point(151, 331);
             this.btn_Sure.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Sure.Name = "btn_Sure";
-            this.btn_Sure.Size = new System.Drawing.Size(67, 30);
+            this.btn_Sure.Size = new System.Drawing.Size(77, 30);
             this.btn_Sure.TabIndex = 288;
             this.btn_Sure.Text = "确定";
             this.btn_Sure.Click += new System.EventHandler(this.Btn_Sure_Click);
@@ -157,15 +160,15 @@
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(369, 303);
+            this.ClientSize = new System.Drawing.Size(379, 371);
             this.Controls.Add(this.btn_Sure);
             this.Controls.Add(this.pal_BatchList);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(395, 410);
             this.Name = "Frm_ProTypeSelect";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

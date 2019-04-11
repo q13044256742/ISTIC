@@ -70,7 +70,15 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 被返工
         /// </summary>
-        BeBackWork
+        BeBackWork,
+        /// <summary>
+        /// 电子文件
+        /// </summary>
+        File_Electronic,
+        /// <summary>
+        /// 页数
+        /// </summary>
+        Pages,
     }
     class LogsHelper
     {
