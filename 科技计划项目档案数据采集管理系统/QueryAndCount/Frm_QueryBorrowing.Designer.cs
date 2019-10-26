@@ -337,7 +337,7 @@
             this.btn_Export.Size = new System.Drawing.Size(70, 26);
             this.btn_Export.TabIndex = 27;
             this.btn_Export.Text = "导出";
-            this.btn_Export.Click += new System.EventHandler(this.btn_Export_Click);
+            this.btn_Export.Click += new System.EventHandler(this.Export_Click);
             // 
             // labelControl17
             // 

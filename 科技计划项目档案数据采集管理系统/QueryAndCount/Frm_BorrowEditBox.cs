@@ -36,7 +36,7 @@ namespace 科技计划项目档案数据采集管理系统
                     txt_Unit.Text = ToolHelper.GetValue(row["bl_user_unit"]);
                     txt_User.Text = ToolHelper.GetValue(row["bl_user"]);
                     txt_Phone.Text = ToolHelper.GetValue(row["bl_user_phone"]);
-                    txt_Borrow_Date.Text = ToolHelper.GetDateValue(row["bl_date"], "yyyy-MM-dd HH:mm:dd");
+                    txt_Borrow_Date.Text = ToolHelper.GetDateValue(row["bl_date"], "yyyy-MM-dd HH:mm");
                     txt_Borrow_Term.Text = ToolHelper.GetValue(row["bl_term"]);
                     cbo_FileType.SelectedIndex = ToolHelper.GetIntValue(row["bl_form"], -1);
                     txt_Should_Return_Date.Text = ToolHelper.GetValue(row["bl_should_return_term"]);
@@ -60,8 +60,6 @@ namespace 科技计划项目档案数据采集管理系统
 
         private void Frm_BorrowEdit_Load(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(txt_Real_Return_Date.Text))
-                txt_Real_Return_Date.Text = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd HH:mm:dd");
             if(string.IsNullOrEmpty(lbl_Code.Text))
                 lbl_Code.Text = GetCode();
             if(string.IsNullOrEmpty(lbl_LogUser.Text))
@@ -91,7 +89,7 @@ namespace 科技计划项目档案数据采集管理系统
                     string user = txt_User.Text;
                     string phone = txt_Phone.Text;
                     int ftype = cbo_FileType.SelectedIndex;
-                    string bdate = ToolHelper.GetDateValue(DateTime.Now, "yyyy-MM-dd HH:mm");
+                    string bdate = ToolHelper.GetDateValue(txt_Borrow_Date.EditValue, "yyyy-MM-dd HH:mm");
                     string bterm = txt_Borrow_Term.Text;
                     string sbdate = ToolHelper.GetDateValue(txt_Should_Return_Date.EditValue, "yyyy-MM-dd");
                     string loguser = lbl_LogUser.Text;

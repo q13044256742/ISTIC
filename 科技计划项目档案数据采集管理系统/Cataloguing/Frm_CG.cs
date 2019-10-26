@@ -349,7 +349,7 @@ namespace 科技计划项目档案数据采集管理系统
             return resonStr;
         }
 
-        private void SetListResult(List<string> list, int index)
+        public void SetListResult(List<string> list, int index)
         {
             if (index == 0)
             {
@@ -369,49 +369,6 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        /// <summary>
-        /// 根据加工登记主键获取对应项目/课题信息
-        /// </summary>
-        private static object[] GetObjectListById(object objid)
-        {
-            string querySql = $" SELECT wr_id, wr_type,wr_obj_id FROM work_registration wr LEFT JOIN(" +
-                            $"SELECT trp_id, dd_id FROM transfer_registration_pc LEFT JOIN data_dictionary ON com_id = dd_id) tb " +
-                            $"ON wr.trp_id = tb.trp_id WHERE wr_id='{objid}'";
-            object[] list = SqlHelper.ExecuteRowsQuery(querySql);
-            List<DataTable> resultList = new List<DataTable>();
-            WorkType type = (WorkType)list[1];
-            object id = list[2];
-            string _querySql = null;
-            switch(type)
-            {
-                case WorkType.PaperWork:
-                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',trp_code,trp_name,dd_name FROM transfer_registration_pc LEFT JOIN " +
-                        $"data_dictionary ON com_id = dd_id WHERE trp_id='{id}'";
-                    break;
-                case WorkType.CDWork:
-                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',trc_code,trc_name,dd_name FROM transfer_registraion_cd trc LEFT JOIN(" +
-                        $"SELECT trp_id, dd_name FROM transfer_registration_pc LEFT JOIN data_dictionary ON com_id = dd_id ) tb1 " +
-                        $"ON tb1.trp_id = trc.trp_id WHERE trc_id='{id}'";
-                    break;
-                case WorkType.ProjectWork:
-                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',pi_code,pi_name,dd_name FROM project_info pi " +
-                        $"LEFT JOIN(SELECT trc_id, dd_name FROM transfer_registraion_cd trc " +
-                        $"LEFT JOIN(SELECT trp_id, dd_name FROM transfer_registration_pc trp " +
-                        $"LEFT JOIN data_dictionary ON dd_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
-                        $"WHERE pi_id='{id}'";
-                    break;
-                case WorkType.TopicWork:
-                    _querySql = $"SELECT '{(int)type}','{list[0]}','{id}',si_code,si_name,dd_name FROM subject_info si LEFT JOIN(" +
-                       $"SELECT pi_id,dd_name FROM project_info pi " +
-                       $"LEFT JOIN(SELECT trc_id, dd_name FROM transfer_registraion_cd trc " +
-                       $"LEFT JOIN(SELECT trp_id, dd_name FROM transfer_registration_pc trp " +
-                       $"LEFT JOIN data_dictionary ON dd_id = trp.com_id)tb1 ON trc.trp_id = tb1.trp_id) tb2 ON tb2.trc_id = pi.trc_id " +
-                       $") tb3 ON tb3.pi_id = si.pi_id WHERE si.si_id='{id}'";
-                    break;
-            }
-            return SqlHelper.ExecuteRowsQuery(_querySql);
-        }
-        
         /// <summary>
         /// 加工中列表
         /// </summary>
@@ -761,7 +718,7 @@ namespace 科技计划项目档案数据采集管理系统
                         //已存在 >> 普通计划
                         if (planId != null)
                         {
-                            object value = SqlHelper.ExecuteSingleColumnQuery($"SELECT br_auxiliary_id FROM batch_relevance WHERE br_main_id='{batchId}' AND br_type=1");
+                            object value = SqlHelper.ExecuteOnlyOneQuery($"SELECT br_auxiliary_id FROM batch_relevance WHERE br_main_id='{batchId}' AND br_type=1");
                             object[] addRecs = ToolHelper.GetValue(value).Split(',');
                             Frm_MyWork frm = new Frm_MyWork(WorkType.PaperWork_Plan, planId, batchId, ControlType.Plan, false);
                             frm.unitCode = view.Rows[e.RowIndex].Cells["dd_name"].Tag;
@@ -865,8 +822,8 @@ namespace 科技计划项目档案数据采集管理系统
                                         }
                                     }
                                     //当前批次下其他补录批次提交
-                                    object[] planIds = SqlHelper.ExecuteSingleColumnQuery($"SELECT pi_id FROM batch_relevance INNER JOIN project_info ON pi_categor = 1 AND pi_obj_id = br_auxiliary_id WHERE br_main_id = '{trpId}'");
-                                    if (planIds.Length > 0)
+                                    object[] planIds = SqlHelper.GetOtherBatchRootIds(trpId, 0);
+                                    if (planIds != null)
                                     {
                                         //查询计划下当前用户著录的项目|课题
                                         object[] list = SqlHelper.ExecuteSingleColumnQuery("SELECT pi_id FROM (" +
@@ -906,14 +863,37 @@ namespace 科技计划项目档案数据采集管理系统
                                                 sb.Append($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_date, wm_type, wm_obj_id, wm_ticker) VALUES " +
                                                 $"('{Guid.NewGuid().ToString()}', '{wrId}', 1, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}', '{(int)WorkType.PaperWork_Special}', '{speRow["imp_id"]}', 0);");
                                         }
-                                        //项目|课题
-                                        object[] list = SqlHelper.ExecuteSingleColumnQuery($"SELECT pi_id FROM (SELECT pi_id, pi_worker_id FROM project_info WHERE pi_obj_id='{speRow["imp_id"]}' UNION ALL " +
-                                            $"SELECT ti_id, ti_worker_id FROM topic_info WHERE ti_obj_id='{speRow["imp_id"]}' AND ti_worker_id='{UserHelper.GetUser().UserKey}') tb1 " +
-                                            $"WHERE tb1.pi_id NOT IN (SELECT wm_obj_id FROM work_myreg) AND pi_worker_id='{UserHelper.GetUser().UserKey}';");
+
+                                        //查询专项下当前用户著录的项目|课题
+                                        object[] list = SqlHelper.ExecuteSingleColumnQuery("SELECT pi_id FROM (" +
+                                            $"SELECT pi_id, pi_worker_id FROM project_info WHERE pi_categor=2 AND pi_obj_id='{speRow["imp_id"]}' UNION ALL " +
+                                            $"SELECT ti_id, ti_worker_id FROM topic_info WHERE ti_categor=-3 AND ti_obj_id='{speRow["imp_id"]}') tb1 " +
+                                            $"WHERE pi_worker_id='{UserHelper.GetUser().UserKey}';");
+                                        //提交尚未提交的【项目|课题】至质检
                                         for (int i = 0; i < list.Length; i++)
                                         {
-                                            sb.Append($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_date, wm_type, wm_obj_id, wm_ticker) VALUES " +
-                                               $"('{Guid.NewGuid().ToString()}', '{wrId}', 1, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}', '{(int)WorkType.ProjectWork}', '{list[i]}', 0);");
+                                            int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(wm_id) FROM work_myreg WHERE wm_batch_id='{trpId}' AND wm_obj_id='{list[i]}'");
+                                            if (count == 0)
+                                                sb.Append($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_date, wm_type, wm_obj_id, wm_ticker, wm_batch_id) VALUES " +
+                                                    $"('{Guid.NewGuid().ToString()}', '{wrId}', 1, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}', 3, '{list[i]}', 0, '{trpId}');");
+                                        }
+                                    }
+                                    //当前专项下其他补录批次提交
+                                    object[] impIds = SqlHelper.GetOtherBatchRootIds(trpId, 1);
+                                    if (impIds != null)
+                                    {
+                                        //查询计划下当前用户著录的项目|课题
+                                        object[] list = SqlHelper.ExecuteSingleColumnQuery("SELECT pi_id FROM (" +
+                                            "SELECT pi_id, pi_worker_id, pi_obj_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                                            "SELECT ti_id, ti_worker_id, ti_obj_id FROM topic_info WHERE ti_categor=-3) tb1 " +
+                                           $"WHERE tb1.pi_obj_id IN({ToolHelper.GetStringBySplit(impIds, ",", "'")}) AND pi_worker_id='{UserHelper.GetUser().UserKey}';");
+                                        //提交尚未提交的【项目|课题】至质检
+                                        for (int i = 0; i < list.Length; i++)
+                                        {
+                                            int count = SqlHelper.ExecuteCountQuery($"SELECT COUNT(wm_id) FROM work_myreg WHERE wm_batch_id='{trpId}' AND wm_obj_id='{list[i]}'");
+                                            if (count == 0)
+                                                sb.Append($"INSERT INTO work_myreg(wm_id, wr_id, wm_status, wm_user, wm_date, wm_type, wm_obj_id, wm_ticker, wm_batch_id) VALUES " +
+                                                     $"('{Guid.NewGuid().ToString()}', '{wrId}', 1, '{UserHelper.GetUser().UserKey}', '{DateTime.Now}', 3, '{list[i]}', 0, '{trpId}');");
                                         }
                                     }
                                     sb.Append($"UPDATE work_registration SET wr_submit_status =2, wr_submit_date='{DateTime.Now}' WHERE wr_id='{wrId}';");
@@ -1832,7 +1812,7 @@ namespace 科技计划项目档案数据采集管理系统
             pal_UnitList.Visible = "ac_Login".Equals(e.Element.Name);
         }
 
-        int index = -1;
+        private int index = -1;
         private void Txt_Search_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter)

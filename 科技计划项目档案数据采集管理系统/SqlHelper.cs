@@ -15,15 +15,15 @@ namespace 科技计划项目档案数据采集管理系统
         /// <para>SQLServer_Local：本地</para>
         /// <para>SQLServer_Server：服务端</para>
         /// </summary>
-        static readonly string SERVER_TYPE = "SQLServer_Server";
-        static readonly string IPAddress = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "IPAddress", null);
-        static readonly string Username = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Username", null);
-        static readonly string Password = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Password", null);
-        static readonly string CatalogName = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "CatalogName", null);
+        private const string SERVER_TYPE = "SQLServer_Server";
+        private static readonly string IPAddress = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "IPAddress", null);
+        private static readonly string Username = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Username", null);
+        private static readonly string Password = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "Password", null);
+        private static readonly string CatalogName = OperateIniFile.GetInstance().ReadIniData(SERVER_TYPE, "CatalogName", null);
         /// <summary>
         /// 数据连接字符串
         /// </summary>
-        private static string SQL_CONNECT = $"Data Source={IPAddress};Initial Catalog={CatalogName};Persist Security Info=True;MultipleActiveResultSets=true;User ID={Username};Password={Password}";
+        private static readonly string SQL_CONNECT = $"Data Source={IPAddress};Initial Catalog={CatalogName};Persist Security Info=True;MultipleActiveResultSets=true;User ID={Username};Password={Password}";
 
         private static SqlConnection sqlConnection; 
 
@@ -72,13 +72,6 @@ namespace 科技计划项目档案数据采集管理系统
             DataTable table = new DataTable();
             adapter.Fill(table);
             return table;
-        }
-
-        public static DataTable ExecuteQuery(string querySql, string tableName)
-        {
-            DataTable dataTable = ExecuteQuery(querySql);
-            dataTable.TableName = tableName;
-            return dataTable;
         }
 
         /// <summary>
@@ -142,25 +135,6 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 查询带参数的
-        /// </summary>
-        /// <param name="insertSql">原始SQL语句</param>
-        /// <param name="paramName">参数名称</param>
-        /// <param name="paramType">参数类型</param>
-        /// <param name="paramValue">参数值</param>
-        internal static void ExecuteNonQueryWithParam(string insertSql,string[] paramName, SqlDbType[] paramType, object[] paramValue)
-        {
-            SqlCommand sqlCommand = new SqlCommand(insertSql, GetConnect( ));
-            for (int i = 0; i < paramName.Length; i++)
-            {
-                SqlParameter sqlParameter = new SqlParameter(paramName[i], paramType[i]);
-                sqlParameter.Value = paramValue[i];
-                sqlCommand.Parameters.Add(sqlParameter);
-                sqlCommand.ExecuteNonQuery();
-            }
-        }
-
-        /// <summary>
         /// 执行指定列数返回结果的SQL语句
         /// </summary>
         /// <param name="querySql">SQL语句</param>
@@ -198,22 +172,12 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 根据单位ID获取单位名称
-        /// </summary>
-        /// <param name="companyId">来源单位ID</param>
-        /// <returns></returns>
-        public static string GetCompanysNameById(object companyId)
-        {
-            object obj = SqlHelper.ExecuteOnlyOneQuery($"SELECT dd_name FROM data_dictionary WHERE dd_id='{companyId}'");
-            return obj == null ? string.Empty : obj.ToString();
-        }
-        /// <summary>
         /// 获取来源单位列表
         /// </summary>
         public static DataTable GetCompanyList()
         {
             string key = "dic_key_company_source";
-            string querySql = $"SELECT * FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary WHERE dd_code='{key}') ORDER BY dd_sort";
+            string querySql = $"SELECT dd_id, dd_code, dd_name FROM data_dictionary WHERE dd_pId = (SELECT dd_id FROM data_dictionary WHERE dd_code='{key}') ORDER BY dd_sort";
             return ExecuteQuery(querySql);
         }
         /// <summary>
@@ -224,35 +188,41 @@ namespace 科技计划项目档案数据采集管理系统
         /// <returns>1：单位Code；2：单位名称</returns>
         public static object[] GetCompanyByParam(object id, object workType)
         {
-            WorkType type = (WorkType)Convert.ToInt32(workType);
+            var type = (WorkType)Convert.ToInt32(workType);
             string querySql = null;
-            if(type == WorkType.PaperWork)
+            switch (type)
             {
-                object comid = SqlHelper.ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{id}'");
-                querySql = $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
+                case WorkType.PaperWork:
+                {
+                    object comId = ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{id}'");
+                    querySql = $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{comId}'";
+                    break;
+                }
+                case WorkType.CDWork:
+                {
+                    object trpId = ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{id}'");
+                    object comId = ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpId}'");
+                    querySql = $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{comId}'";
+                    break;
+                }
+                case WorkType.ProjectWork:
+                {
+                    object trcid = ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id= '{id}'") ?? ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id='{id}'");
+                    object trpid = ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
+                    object comid = ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpid}'");
+                    querySql = $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
+                    break;
+                }
+                case WorkType.TopicWork:
+                {
+                    object trcid = ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id='{id}'") ?? ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id=(SELECT si_obj_id FROM subject_info WHERE si_id='{id}')");
+                    object trpid = ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
+                    object comid = ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpid}'");
+                    querySql = $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
+                    break;
+                }
             }
-            else if(type== WorkType.CDWork)
-            {
-                object trpid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{id}'");
-                object comid = SqlHelper.ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpid}'");
-                querySql = $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
-
-            }
-            else if(type == WorkType.ProjectWork)
-            {
-                object trcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM project_info WHERE pi_id= '{id}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id='{id}'");
-                object trpid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
-                object comid = SqlHelper.ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpid}'");
-                querySql = $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
-            }
-            else if(type == WorkType.TopicWork)
-            {
-                object trcid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id='{id}'") ?? SqlHelper.ExecuteOnlyOneQuery($"SELECT trc_id FROM topic_info WHERE ti_id=(SELECT si_obj_id FROM subject_info WHERE si_id='{id}')");
-                object trpid = SqlHelper.ExecuteOnlyOneQuery($"SELECT trp_id FROM transfer_registraion_cd WHERE trc_id='{trcid}'");
-                object comid = SqlHelper.ExecuteOnlyOneQuery($"SELECT com_id FROM transfer_registration_pc WHERE trp_id='{trpid}'");
-                querySql = $"SELECT dd_code, dd_name FROM data_dictionary WHERE dd_id='{comid}'";
-            }
-            return SqlHelper.ExecuteRowsQuery(querySql);
+            return ExecuteRowsQuery(querySql);
         }
        
         /// <summary>
@@ -269,7 +239,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// </summary>
         public static int ExecuteCountQuery(string querySql)
         {
-            object value = SqlHelper.ExecuteOnlyOneQuery(querySql);
+            object value = ExecuteOnlyOneQuery(querySql);
             return ToolHelper.GetIntValue(value, 0);
         }
 
@@ -314,31 +284,6 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 批量插入/更新数据
-        /// </summary>
-        /// <param name="table">数据源</param>
-        public static void ExecuteUpdateQuery(DataTable table)
-        {
-            SqlConnection con = GetConnect();
-            SqlCommand com = new SqlCommand($"SELECT TOP(0) FROM {table.TableName}", con);
-            SqlDataAdapter adapter = new SqlDataAdapter(com);
-            try
-            {
-                adapter.UpdateBatchSize = 5000;
-                adapter.SelectCommand.Transaction = con.BeginTransaction();
-                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-                adapter.Update(table.GetChanges());
-                adapter.SelectCommand.Transaction.Commit();
-                table.AcceptChanges();
-            }
-            catch(Exception e)
-            {
-                LogsHelper.AddErrorLogs("批量插入失败", e.Message);
-                adapter.SelectCommand.Transaction.Rollback();
-            }
-        }
-
-        /// <summary>
         /// 获取地区（省市）表
         /// </summary>
         /// <returns></returns>
@@ -349,6 +294,45 @@ namespace 科技计划项目档案数据采集管理系统
                $"(SELECT dd_id FROM data_dictionary WHERE dd_code = '{key}') " +
                 "ORDER BY dd_sort";
             return ExecuteQuery(querySQL);
+        }
+
+        /// <summary>
+        /// 获取所有必交类型的文件的编号
+        /// </summary>
+        public static List<object> GetIsMustCategor()
+        {
+            string querySql = "SELECT d2.dd_name FROM data_dictionary d1 " +
+                "LEFT JOIN data_dictionary d2 ON d1.dd_id = d2.dd_pId " +
+                "WHERE d1.dd_pId = '3f5c727a-1fb7-4197-81d7-3c2fef295aa0' AND d2.extend_2 = 1";
+            object[] result = ExecuteSingleColumnQuery(querySql);
+            return new List<object>(result);
+        }
+
+        /// <summary>
+        /// 根据指定批次ID获取其补录的其他批次根节点ID
+        /// </summary>
+        /// <param name="batchId">待查找批次ID</param>
+        /// <param name="type">查找类型<para>0：计划</para><para>1：专项</para></param>
+        public static object[] GetOtherBatchRootIds(object batchId, int type)
+        {
+            object otherBatchIds = ExecuteOnlyOneQuery($"SELECT br_auxiliary_id FROM batch_relevance WHERE br_main_id='{batchId}'");
+            string otherBatchIdString = ToolHelper.GetFullStringBySplit(ToolHelper.GetValue(otherBatchIds), ',', ",", "'");
+            if (otherBatchIdString.Length > 0)
+            {
+                if (type == 0)
+                {
+                    string querySql = $"SELECT pi_id FROM project_info WHERE pi_categor = 1 AND pi_obj_id IN ({otherBatchIdString})";
+                    return ExecuteSingleColumnQuery(querySql);
+                }
+                else
+                {
+                    string querySql = "SELECT idi.imp_id FROM imp_info ii " +
+                        "INNER JOIN imp_dev_info idi ON idi.imp_obj_id = ii.imp_id " +
+                       $"WHERE ii.imp_obj_id IN ({otherBatchIdString})";
+                    return ExecuteSingleColumnQuery(querySql);
+                }
+            }
+            return null;
         }
     }
 }

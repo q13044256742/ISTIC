@@ -375,8 +375,12 @@ namespace 科技计划项目档案数据采集管理系统
                         {
                             foreach (DataGridViewRow row in dgv_SWDJ.SelectedRows)
                             {
-                                object pid = row.Cells["trp_id"].Value;
-                                DeleteBatchById(pid);
+                                string tipMsg = $"即将删除{row.Cells["trp_code"].Value}批次下所有数据，请确认是否继续？";
+                                if (XtraMessageBox.Show(tipMsg, "确认提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.OK)
+                                {
+                                    object pid = row.Cells["trp_id"].Value;
+                                    DeleteBatchById(pid);
+                                }
                             }
                             LoadPCDataScoure(null);
                         }
@@ -391,22 +395,6 @@ namespace 科技计划项目档案数据采集管理系统
                             LoadCDDataScoure(BatchID, BatchName);
                         }
                     }
-                    //else if(type == 1)
-                    //{
-                    //    StringBuilder sb = new StringBuilder();
-                    //    object pid = null, pname = null;
-                    //    foreach(DataGridViewRow row in dgv_SWDJ.SelectedRows)
-                    //    {
-                    //        object cid = row.Cells["trc_id"].Value;
-                    //        pid = row.Tag;
-                    //        pname = row.Cells["trc_read"].Tag;
-                    //        sb.Append($"DELETE FROM work_registration WHERE wr_type=2 AND wr_obj_id='{cid}';");
-                    //        sb.Append($"DELETE FROM transfer_registraion_cd WHERE trc_id = '{cid}';");
-                    //    }
-                    //    sb.Append($"UPDATE transfer_registration_pc SET trp_cd_amount=(SELECT COUNT(trc_id) FROM transfer_registraion_cd WHERE trp_id = '{pid}') WHERE trp_id = '{pid}';");
-                    //    SqlHelper.ExecuteNonQuery(sb.ToString());
-                    //    LoadCDDataScoure(pid, pname);
-                    //}
                     XtraMessageBox.Show("删除成功。", "提示");
                 }
             }

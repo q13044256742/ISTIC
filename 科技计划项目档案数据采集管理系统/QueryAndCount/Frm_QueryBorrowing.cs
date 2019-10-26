@@ -67,7 +67,8 @@ namespace 科技计划项目档案数据采集管理系统
 
             DataTable orgTable = SqlHelper.GetCompanyList(); // SqlHelper.ExecuteQuery("SELECT F_ID, F_Title FROM T_SourceOrg ORDER BY F_ID");
             DataRow orgRow = orgTable.NewRow();
-            orgRow[3] = "all"; orgRow[1] = "全部来源单位";
+            orgRow["dd_id"] = orgRow["dd_code"] = "all";
+            orgRow["dd_name"] = "全部来源单位";
             orgTable.Rows.InsertAt(orgRow, 0);
             cbo_SourceOrg.DataSource = orgTable;
             cbo_SourceOrg.DisplayMember = "dd_name";
@@ -362,8 +363,8 @@ namespace 科技计划项目档案数据采集管理系统
             string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY {orderField[0]}, {orderField[1]}) ID, A.* FROM( " +
                 "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_source_id, pi_orga_id, pi_province, pi_worker_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
                 "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_source_id, ti_orga_id, ti_province, ti_worker_id FROM topic_info WHERE ti_categor = -3) A " +
-                "LEFT JOIN work_myreg ON wm_obj_id=A.pi_id " +
-                "WHERE (wm_status=3 OR (wm_status IS NULL AND pi_worker_id IS NULL)) ";
+                "WHERE ((EXISTS(SELECT wm_id FROM work_myreg WHERE wm_obj_id=pi_id AND wm_status=3 )) " + //新录数据：存在质检记录且质检已通过
+                "OR (NOT EXISTS(SELECT wm_id FROM work_myreg WHERE wm_obj_id=pi_id) AND pi_worker_id IS NULL)) "; //历史数据：无质检记录且加工人为NULL
             if (!string.IsNullOrEmpty(proCode))
                 querySQL += $"AND pi_code LIKE '%{proCode}%' ";
             if (!string.IsNullOrEmpty(proName))
@@ -396,18 +397,18 @@ namespace 科技计划项目档案数据采集管理系统
 
             if (page == 1)
             {
-                string countQuerySQL = "SELECT COUNT(DISTINCT(A.pi_id)) pCount, COUNT(DISTINCT(B.ti_id)) tCount, COUNT(C.si_id) sCount FROM( " +
+                string countQuerySQL = "SELECT COUNT(DISTINCT(A.pi_id)) pCount, COUNT(DISTINCT(B.ti_id)) tCount, COUNT(DISTINCT(C.si_id)) sCount FROM( " +
                    "    SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id, pi_province, pi_worker_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
                    "    SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id, ti_orga_id, ti_province, ti_worker_id FROM topic_info WHERE ti_categor = -3 " +
                    ") A " +
-                   "LEFT JOIN work_myreg wm ON wm.wm_obj_id=A.pi_id " +
                    "LEFT JOIN " +
                    "( " +
                    "    SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
                    "    SELECT si_id, si_obj_id FROM subject_info " +
                    ")B ON A.pi_id = B.ti_obj_id " +
                    "LEFT JOIN subject_info C ON B.ti_id = C.si_obj_id " +
-                   "WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id)>0 AND LEN(A.pi_orga_id)>0 ";
+                   "WHERE LEN(A.pi_source_id)>0 AND LEN(A.pi_orga_id)>0 " +
+                   "AND ((EXISTS(SELECT 1 FROM work_myreg WHERE wm_obj_id=A.pi_id AND wm_status=3 )) OR (NOT EXISTS(SELECT 1 FROM work_myreg WHERE wm_obj_id=A.pi_id) AND A.pi_worker_id IS NULL)) ";
                 string queryCondition = string.Empty;
 
                 if (!string.IsNullOrEmpty(proCode))
@@ -452,13 +453,13 @@ namespace 科技计划项目档案数据采集管理系统
                 }
 
                 string pCount = "SELECT SUM(pCount) FROM( " +
-                   " SELECT COUNT(DISTINCT pb.pb_id) pCount FROM( " +
+                   " SELECT COUNT(DISTINCT(pb.pb_id)) pCount FROM( " +
                    "     SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id, pi_province, pi_worker_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
                    "     SELECT ti_id, ti_name, ti_code, ti_obj_id, ti_start_datetime, ti_source_id, ti_orga_id, ti_province, ti_worker_id FROM topic_info WHERE ti_categor = -3  " +
                    " ) A " +
-                   " LEFT JOIN work_myreg wm ON wm.wm_obj_id=A.pi_id " +
                    " LEFT JOIN processing_box pb ON A.pi_id = pb.pb_obj_id " +
-                  $" WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) AND LEN(A.pi_source_id)>0 AND LEN(A.pi_orga_id)>0 {queryCondition} " +
+                  $" WHERE LEN(A.pi_source_id)>0 AND LEN(A.pi_orga_id)>0 {queryCondition} " +
+                   "AND ((EXISTS(SELECT 1 FROM work_myreg WHERE wm_obj_id=A.pi_id AND wm_status=3 )) OR (NOT EXISTS(SELECT 1 FROM work_myreg WHERE wm_obj_id=A.pi_id) AND A.pi_worker_id IS NULL)) " +
                    " UNION ALL " +
                    " SELECT COUNT(DISTINCT pb.pb_id) FROM( " +
                    "     SELECT pi_id, pi_name, pi_code, pi_obj_id, pi_start_datetime, pi_source_id, pi_orga_id, pi_province, pi_worker_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
@@ -1173,7 +1174,10 @@ namespace 科技计划项目档案数据采集管理系统
             LoadBorrowLog(searchCode);
         }
 
-        private void btn_Export_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 按查询条件导出数据
+        /// </summary>
+        private void Export_Click(object sender, EventArgs e)
         {
             saveFileDialog1.Filter = "表单文件(*.csv)|*.csv";
             saveFileDialog1.Title = "选择文件导出位置";
@@ -1264,8 +1268,7 @@ namespace 科技计划项目档案数据采集管理系统
                         "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_funds, ti_checker_date, ti_source_id, ti_orga_id, ti_province, ti_worker_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A " +
                         "LEFT JOIN project_info B ON B.pi_categor=1 AND A.pi_obj_id=B.pi_id " +
                         "LEFT JOIN transfer_registration_pc C ON B.trc_id = C.trp_id " +
-                        "LEFT JOIN work_myreg wm ON wm.wm_obj_id=A.pi_id " +
-                        "WHERE (wm.wm_status=3 OR (wm.wm_status IS NULL AND A.pi_worker_id IS NULL)) ";
+                        "WHERE ((EXISTS(SELECT 1 FROM work_myreg WHERE wm_obj_id=A.pi_id AND wm_status=3 )) OR (NOT EXISTS(SELECT 1 FROM work_myreg WHERE wm_obj_id=A.pi_id) AND A.pi_worker_id IS NULL)) ";
                     if (!string.IsNullOrEmpty(proCode))
                         querySQL += $"AND A.pi_code LIKE '%{proCode}%' ";
                     if (!string.IsNullOrEmpty(proName))

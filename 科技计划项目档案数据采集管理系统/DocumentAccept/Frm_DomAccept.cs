@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraBars.Navigation;
+using DevExpress.XtraSplashScreen;
 using System;
 using System.Data;
 using System.Windows.Forms;
@@ -36,9 +37,10 @@ namespace 科技计划项目档案数据采集管理系统
             dgv_DataShow.Columns["id"].Visible = false;
 
             string querySql = $"SELECT * FROM transfer_registration_pc LEFT JOIN data_dictionary ON dd_id = com_id " +
-                $"WHERE trp_work_status=2";
-            if(!string.IsNullOrEmpty(unitId)) querySql += $" AND dd_id='{unitId}'";
-
+                $"WHERE trp_work_status=2 ";
+            if(!string.IsNullOrEmpty(unitId))
+                querySql += $" AND dd_id='{unitId}' ";
+            querySql += "ORDER BY trp_code";
             DataTable table = SqlHelper.ExecuteQuery(querySql);
             for(int i = 0; i < table.Rows.Count; i++)
             {
@@ -58,9 +60,8 @@ namespace 科技计划项目档案数据采集管理系统
         private string GetFileCompleteResult(object trpId)
         {
             string querySql = "SELECT wm.wm_obj_id FROM work_myreg wm " +
-                "LEFT JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
-                "LEFT JOIN transfer_registration_pc trp ON trp.trp_id = wr.trp_id " +
-                "WHERE wm.wm_type=3 AND trp.trp_id = '" + trpId + "'";
+                "INNER JOIN work_registration wr ON wr.wr_id = wm.wr_id " +
+               $"WHERE wm.wm_type=3 AND wr.trp_id = '{trpId}'";
             object[] objIDs = SqlHelper.ExecuteSingleColumnQuery(querySql);
 
             foreach(object objID in objIDs)
@@ -165,15 +166,17 @@ namespace 科技计划项目档案数据采集管理系统
             }
         }
 
-        private void btn_ExportEFile_Click(object sender, EventArgs e)
+        private void ExportEFile_Click(object sender, EventArgs e)
         {
             int count = dgv_DataShow.SelectedRows.Count;
             if(count == 1)
             {
+                SplashScreenManager.ShowDefaultWaitForm(this, false, false);
                 object trpId = dgv_DataShow.SelectedRows[0].Cells["id"].Value;
                 Frm_ExportEFile exportEFile = GetFormHelper.GetExportEFile(trpId);
                 exportEFile.Show();
                 exportEFile.Activate();
+                SplashScreenManager.CloseDefaultSplashScreen();
             }
             else
                 DevExpress.XtraEditors.XtraMessageBox.Show("请选择一个批次进行导出。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);

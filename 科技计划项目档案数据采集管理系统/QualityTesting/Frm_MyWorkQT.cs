@@ -3,9 +3,9 @@ using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -20,7 +20,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <summary>
         /// 待删除文件ID
         /// </summary>
-        List<object> removeIdList = new List<object>();
+        private List<object> removeIdList = new List<object>();
 
         /// <summary>
         /// 当前加工类型
@@ -53,8 +53,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 禁用背景色
         /// </summary>
         private Color DisEnbleColor = Color.Gray;
-
-        List<TabPage> tabList = new List<TabPage>();
+        private List<TabPage> tabList = new List<TabPage>();
 
         /// <summary>
         /// 开始加工指定的对象
@@ -75,12 +74,26 @@ namespace 科技计划项目档案数据采集管理系统
                 if (!string.IsNullOrEmpty(ToolHelper.GetValue(_type)))
                     DEV_TYPE = Convert.ToInt32(_type);
             }
+
             string querySql = "SELECT pi_code FROM project_info WHERE pi_id=(SELECT pi_obj_id FROM(" +
-                "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
-                "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A " +
-               $"WHERE pi_id = '{objId}')";
+                              "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                              "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A " +
+                              $"WHERE pi_id = '{objId}')";
             object value = SqlHelper.ExecuteOnlyOneQuery(querySql);
-            if (value != null) Tag = value;
+            if (value == null)
+            {
+                querySql = "SELECT imp_code FROM imp_dev_info WHERE imp_id=( " +
+                           "SELECT pi_obj_id FROM( " +
+                           "SELECT pi_id, pi_obj_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                           "SELECT ti_id, ti_obj_id FROM topic_info WHERE ti_categor = -3) A " +
+                           $"WHERE pi_id = '{objId}')";
+                value = SqlHelper.ExecuteOnlyOneQuery(querySql);
+            }
+
+            if (value != null)
+            {
+                Tag = value;
+            }
         }
 
         public Frm_MyWorkQT(WorkType workType, object objId, object wmid, ControlType controlType, bool isReadOnly) : this(workType, objId, wmid, controlType)
@@ -1318,23 +1331,42 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="objID">项目/课题ID</param>
         private void UpdateLostFileList(object objID)
         {
-            string querySql = "SELECT d1.dd_name, d1.extend_2 FROM data_dictionary d1 " +
-                "INNER JOIN data_dictionary d2 ON d1.dd_pId = d2.dd_id " +
-                "INNER JOIN data_dictionary d3 ON d2.dd_pId = d3.dd_id " +
-                "WHERE d3.dd_code='dic_file_jd' AND d1.dd_name<>'其他' " +
-                "AND d1.dd_name NOT IN ( " +
-                "SELECT dd_name FROM processing_file_list AS fi " +
-                "INNER JOIN data_dictionary AS dd ON fi.pfl_categor = dd.dd_id " +
-               $"WHERE (fi.pfl_obj_id = '{objID}') GROUP BY dd_name ) " +
-                "ORDER BY dd_name";
-            DataTable table = SqlHelper.ExecuteQuery(querySql);
-            StringBuilder sqlString = new StringBuilder($"DELETE FROM processing_file_lost WHERE pfo_obj_id='{objID}';");
-            for (int i = 0; i < table.Rows.Count; i++)
+            StringBuilder sqlString = new StringBuilder();
+            int logCount = SqlHelper.ExecuteCountQuery($"SELECT COUNT(pfo_id) FROM processing_file_lost WHERE pfo_obj_id='{objID}'");
+            //如果是首次保存缺失表，则直接统计缺失情况
+            if (logCount == 0)
             {
-                object categor = table.Rows[i]["dd_name"];
-                int ismust = ToolHelper.GetIntValue(table.Rows[i]["extend_2"], 0);
-                sqlString.Append("INSERT INTO processing_file_lost (pfo_id, pfo_categor, pfo_obj_id, pfo_ismust) " +
-                    $"VALUES('{Guid.NewGuid().ToString()}', '{categor}', '{objID}', '{ismust}');");
+                string querySQL = "SELECT d1.dd_name, d1.extend_2 FROM data_dictionary d1 " +
+                    "INNER JOIN data_dictionary d2 ON d1.dd_pId = d2.dd_id " +
+                    "INNER JOIN data_dictionary d3 ON d2.dd_pId = d3.dd_id " +
+                    "WHERE d3.dd_code='dic_file_jd' AND d1.dd_name<>'其他' " +
+                    "AND d1.dd_name NOT IN ( " +
+                    "SELECT dd_name FROM processing_file_list AS fi " +
+                    "INNER JOIN data_dictionary AS dd ON fi.pfl_categor = dd.dd_id " +
+                    $"WHERE (fi.pfl_obj_id = '{objID}') GROUP BY dd_name ) " +
+                    "ORDER BY dd_name";
+                DataTable table = SqlHelper.ExecuteQuery(querySQL);
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    object categor = table.Rows[i]["dd_name"];
+                    int ismust = ToolHelper.GetIntValue(table.Rows[i]["extend_2"], 0);
+                    sqlString.Append("INSERT INTO processing_file_lost (pfo_id, pfo_categor, pfo_obj_id, pfo_ismust) " +
+                        $"VALUES('{Guid.NewGuid().ToString()}', '{categor}', '{objID}', {ismust});");
+                }
+            }
+            //如果非首次保存，则删除缺失表中已新增的文件类型
+            else
+            {
+                string querySQL = "SELECT dd_name FROM processing_file_list " +
+                    "LEFT JOIN data_dictionary ON pfl_categor = dd_id " +
+                    "WHERE dd_name IN(SELECT pfo_categor FROM processing_file_lost WHERE pfo_obj_id = pfl_obj_id) " +
+                   $"AND pfl_obj_id = '{objID}'";
+                object[] categorList = SqlHelper.ExecuteSingleColumnQuery(querySQL);
+                if (categorList != null && categorList.Length > 0)
+                {
+                    string categorString = ToolHelper.GetStringBySplit(categorList, ",", "'");
+                    sqlString.Append($"DELETE FROM processing_file_lost WHERE pfo_obj_id='{objID}' AND pfo_categor IN ({categorString});");
+                }
             }
             SqlHelper.ExecuteNonQuery(sqlString.ToString());
         }
@@ -2071,7 +2103,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <returns>新增信息主键</returns>
         private object AddFileInfo(object key, DataGridViewRow row, object parentId, int sort)
         {
-            string nonQuerySql = string.Empty;
+            StringBuilder nonQuerySql = new StringBuilder();
             string _fileId = ToolHelper.GetValue(row.Cells[key + "id"].Value);
             object stage = row.Cells[key + "stage"].Value;
             object categor = row.Cells[key + "categor"].Value;
@@ -2097,24 +2129,23 @@ namespace 科技计划项目档案数据采集管理系统
                 if (dicId != null)
                 {
                     categor = dicId;
-                    nonQuerySql += $"DELETE FROM data_dictionary WHERE dd_name='{value}' AND dd_pId='{stage}';";
+                    nonQuerySql.Append($"DELETE FROM data_dictionary WHERE dd_name='{value}' AND dd_pId='{stage}';");
                 }
-                nonQuerySql += "INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
-                    $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');";
+                nonQuerySql.Append("INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
+                    $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');");
             }
             //更新
             if (!string.IsNullOrEmpty(_fileId))
             {
-                nonQuerySql += $"UPDATE processing_file_list SET pfl_stage='{stage}', pfl_categor='{categor}', pfl_code='{code}', pfl_name=N'{name}', pfl_user='{user}', pfl_type='{type}', pfl_pages='{pages}'," +
-                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}', pfl_sort='{sort}' WHERE pfl_id='{_fileId}';";
+                nonQuerySql.Append($"UPDATE processing_file_list SET pfl_stage='{stage}', pfl_categor='{categor}', pfl_code='{code}', pfl_name=N'{name}', pfl_user='{user}', pfl_type='{type}', pfl_pages='{pages}'," +
+                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}', pfl_sort='{sort}' WHERE pfl_id='{_fileId}';");
             }
             //新增
             else
             {
                 _fileId = Guid.NewGuid().ToString();
-                nonQuerySql += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_obj_id, pfl_sort, pfl_worker_id, pfl_worker_date) " +
-                    $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', N'{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{parentId}', '{sort}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');";
-                LogsHelper.AddWorkLog(WorkLogType.Pages, pages, BATCH_ID, 2, null);
+                nonQuerySql.Append("INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_obj_id, pfl_sort, pfl_worker_id, pfl_worker_date) " +
+                    $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', N'{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{parentId}', '{sort}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');");
                 if (!string.IsNullOrEmpty(carrier))
                 {
                     string carCode = SqlHelper.GetValueByKey(carrier, "dd_code");
@@ -2123,8 +2154,12 @@ namespace 科技计划项目档案数据采集管理系统
                     else
                         LogsHelper.AddWorkLog(WorkLogType.File_Electronic, 1, BATCH_ID, 2, _fileId);
                 }
+                else
+                    LogsHelper.AddWorkLog(WorkLogType.File, 1, BATCH_ID, 2, _fileId);
+                if (pages > 0)
+                    LogsHelper.AddWorkLog(WorkLogType.Pages, pages, BATCH_ID, 2, null);
             }
-            SqlHelper.ExecuteNonQuery(nonQuerySql);
+            SqlHelper.ExecuteNonQuery(nonQuerySql.ToString());
             return _fileId;
         }
 
@@ -3624,7 +3659,7 @@ namespace 科技计划项目档案数据采集管理系统
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id, pt_id) " +
                             $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{parentID}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{parentID}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
-                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 2, pk);
                     }
                     else if ("lbl_Plan_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3669,7 +3704,7 @@ namespace 科技计划项目档案数据采集管理系统
                         insertSql += $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id, pt_id) " +
                             $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{primaryKey}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
-                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 2, pk);
                     }
                     else if ("lbl_Project_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3715,7 +3750,7 @@ namespace 科技计划项目档案数据采集管理系统
                         insertSql += $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id, pt_id) " +
                             $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{primaryKey}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
-                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 2, pk);
                     }
                     else if ("lbl_Subject_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3758,7 +3793,7 @@ namespace 科技计划项目档案数据采集管理系统
                         insertSql += $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id, pt_id) " +
                             $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{primaryKey}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
-                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 2, pk);
                     }
                     else if ("lbl_Topic_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3796,7 +3831,7 @@ namespace 科技计划项目档案数据采集管理系统
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id) " +
                             $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{objId}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
-                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 2, pk);
                     }
                     else if ("lbl_Imp_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3834,7 +3869,7 @@ namespace 科技计划项目档案数据采集管理系统
                         string insertSql = $"INSERT INTO processing_box(pb_id, pb_box_number, pb_gc_fix, pb_gc_id, pb_gc_number, pb_obj_id, pb_create_id, pb_create_date, pb_create_type, pb_unit_id, pt_id) " +
                             $"VALUES('{pk}', '{amount + 1}', '{gch[0]}', '{gch[0] + gch[1]}', '{gch[1]}', '{parentID}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now.Date}', 2, '{unitCode}{_code}', '{parentID}')";
                         SqlHelper.ExecuteNonQuery(insertSql);
-                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 1, pk);
+                        LogsHelper.AddWorkLog(WorkLogType.Box, 1, BATCH_ID, 2, pk);
                     }
                     else if ("lbl_Special_Box_Remove".Equals(label.Name))//删除
                     {
@@ -3879,7 +3914,17 @@ namespace 科技计划项目档案数据采集管理系统
                     if ("AAAA".Equals(strs[i]))//专项编号
                     {
                         if (!string.IsNullOrEmpty(zxCode))
-                            code[0] += zxCode;
+                        {
+                            //如果同时存在来源单位，则去电ZX字母
+                            if (strs.Contains("CCCC"))
+                            {
+                                code[0] += zxCode.Replace("ZX", string.Empty);
+                            }
+                            else
+                            {
+                                code[0] += zxCode;
+                            }
+                        }
                         else
                             continue;
                     }
@@ -4269,7 +4314,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// 重置控件为默认状态
         /// </summary>
         /// <param name="type">对象类型</param>
-        void ResetControls(ControlType type)
+        private void ResetControls(ControlType type)
         {
             if (type == ControlType.Project)
             {
@@ -4330,7 +4375,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <param name="type">对象类型</param>
         /// <param name="enable">是否可用</param>
         /// <param name="nextEnable">下一级是否可用</param>
-        void EnableControls(ControlType type, bool enable)
+        private void EnableControls(ControlType type, bool enable)
         {
             if (type == ControlType.Plan)
             {

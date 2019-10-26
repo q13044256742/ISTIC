@@ -2215,7 +2215,7 @@ namespace 科技计划项目档案数据采集管理系统
         /// <returns>新增信息主键</returns>
         private object AddFileInfo(string key, DataGridViewRow row, object parentId, int sort)
         {
-            string nonQuerySql = string.Empty;
+            StringBuilder nonQuerySql = new StringBuilder();
             string _fileId = ToolHelper.GetValue(row.Cells[key + "id"].Value);
             object stage = row.Cells[key + "stage"].Value;
             object categor = row.Cells[key + "categor"].Value;
@@ -2241,34 +2241,37 @@ namespace 科技计划项目档案数据采集管理系统
                 if (dicId != null)
                 {
                     categor = dicId;
-                    nonQuerySql += $"DELETE FROM data_dictionary WHERE dd_name='{value}' AND dd_pId='{stage}';";
+                    nonQuerySql.Append($"DELETE FROM data_dictionary WHERE dd_name='{value}' AND dd_pId='{stage}';");
                 }
-                nonQuerySql += "INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
-                    $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');";
+                nonQuerySql.Append("INSERT INTO data_dictionary (dd_id, dd_name, dd_pId, dd_sort, extend_3, extend_4) " +
+                    $"VALUES('{categor}', '{value}', '{stage}', '{_sort}', '{categorName}', '{1}');");
             }
             //更新
             if (!string.IsNullOrEmpty(_fileId))
             {
-                nonQuerySql += $"UPDATE processing_file_list SET pfl_stage='{stage}', pfl_categor='{categor}', pfl_code='{code}', pfl_name=N'{name}', pfl_user='{user}', pfl_type='{type}', pfl_pages='{pages}'," +
-                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}', pfl_sort='{sort}' WHERE pfl_id='{_fileId}';";
+                nonQuerySql.Append($"UPDATE processing_file_list SET pfl_stage='{stage}', pfl_categor='{categor}', pfl_code='{code}', pfl_name=N'{name}', pfl_user='{user}', pfl_type='{type}', pfl_pages='{pages}'," +
+                    $"pfl_count='{count}', pfl_amount='{amount}', pfl_date='{date}', pfl_unit='{unit}', pfl_carrier='{carrier}', pfl_sort='{sort}' WHERE pfl_id='{_fileId}';");
             }
             //新增
             else
             {
                 _fileId = Guid.NewGuid().ToString();
-                nonQuerySql += "INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_obj_id, pfl_sort, pfl_worker_id, pfl_worker_date) " +
-                    $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', N'{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{parentId}', '{sort}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');";
-                LogsHelper.AddWorkLog(WorkLogType.Pages, pages, OBJECT_ID, 1, null);
+                nonQuerySql.Append("INSERT INTO processing_file_list (pfl_id, pfl_code, pfl_stage, pfl_categor, pfl_name, pfl_user, pfl_type, pfl_pages, pfl_count, pfl_amount, pfl_date, pfl_unit, pfl_carrier, pfl_obj_id, pfl_sort, pfl_worker_id, pfl_worker_date) " +
+                    $"VALUES( '{_fileId}', '{code}', '{stage}', '{categor}', N'{name}', '{user}', '{type}', '{pages}', '{count}', '{amount}', '{date}', '{unit}', '{carrier}', '{parentId}', '{sort}', '{UserHelper.GetUser().UserKey}', '{DateTime.Now}');");
                 if (!string.IsNullOrEmpty(carrier))
                 {
                     string carCode = SqlHelper.GetValueByKey(carrier, "dd_code");
                     if ("ZT_ZZ".Equals(carCode))
-                        LogsHelper.AddWorkLog(WorkLogType.File, 1, OBJECT_ID, 1, _fileId);
+                        LogsHelper.AddWorkLog(WorkLogType.File, 1, OBJECT_ID, 1, null);
                     else
-                        LogsHelper.AddWorkLog(WorkLogType.File_Electronic, 1, OBJECT_ID, 1, _fileId);
+                        LogsHelper.AddWorkLog(WorkLogType.File_Electronic, 1, OBJECT_ID, 1, null);
                 }
+                else
+                    LogsHelper.AddWorkLog(WorkLogType.File, 1, OBJECT_ID, 1, null);
+                if (pages > 0)
+                    LogsHelper.AddWorkLog(WorkLogType.Pages, pages, OBJECT_ID, 1, null);
             }
-            SqlHelper.ExecuteNonQuery(nonQuerySql);
+            SqlHelper.ExecuteNonQuery(nonQuerySql.ToString());
             return _fileId;
         }
 
@@ -3861,16 +3864,6 @@ namespace 科技计划项目档案数据采集管理系统
         }
 
         /// <summary>
-        /// 获取当前计划下案卷总数
-        /// </summary>
-        /// <param name="planCode">计划编号</param>
-        private object GetAJAmount(object planCode)
-        {
-            int amount = Convert.ToInt32(SqlHelper.ExecuteOnlyOneQuery($"SELECT COUNT(pt_id) FROM processing_tag WHERE pt_code LIKE '{planCode}%'"));
-            return (amount + 1).ToString().PadLeft(6, '0');
-        }
-
-        /// <summary>
         /// 获取最高密级
         /// </summary>
         private string GetMaxSecretById(object objid) => ToolHelper.GetValue(SqlHelper.ExecuteOnlyOneQuery($"SELECT TOP(1) dd_name FROM processing_file_list LEFT JOIN data_dictionary ON pfl_scert = dd_id WHERE pfl_obj_id = '{objid}' ORDER BY dd_sort DESC"));
@@ -4453,7 +4446,17 @@ namespace 科技计划项目档案数据采集管理系统
                     if ("AAAA".Equals(strs[i]))//专项编号
                     {
                         if (!string.IsNullOrEmpty(zxCode))
-                            code[0] += zxCode;
+                        {
+                            //如果同时存在来源单位，则去ZX字母
+                            if (strs.Contains("CCCC"))
+                            {
+                                code[0] += zxCode.Replace("ZX", string.Empty);
+                            }
+                            else
+                            {
+                                code[0] += zxCode;
+                            }
+                        }
                         else
                             continue;
                     }

@@ -144,7 +144,7 @@
             this.btn_ExportEFile.Size = new System.Drawing.Size(104, 29);
             this.btn_ExportEFile.TabIndex = 0;
             this.btn_ExportEFile.Text = "数据导出";
-            this.btn_ExportEFile.Click += new System.EventHandler(this.btn_ExportEFile_Click);
+            this.btn_ExportEFile.Click += new System.EventHandler(this.ExportEFile_Click);
             // 
             // Frm_DomAccept
             // 

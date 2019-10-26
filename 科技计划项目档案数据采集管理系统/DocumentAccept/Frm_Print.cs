@@ -1,11 +1,11 @@
 ﻿using DevExpress.XtraEditors;
+using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Windows.Forms;
 using 科技计划项目档案数据采集管理系统.Properties;
 
@@ -48,7 +48,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
 
         private void Btn_Print_Click(object sender, System.EventArgs e)
         {
-            if(TYPE == 1)
+            if (TYPE == 1)
             {
                 //档案接收确认函
                 if(chk1.Checked)
@@ -87,6 +87,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
             saveFileDialog1.Filter = "Word文件|*.doc";
             if(saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                SplashScreenManager.ShowDefaultWaitForm(this, false, false);
                 string savePath = saveFileDialog1.FileName;
                 StreamWriter sw;
                 try
@@ -95,7 +96,8 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                     sw.WriteLine(GetDomRecHTML());
                     sw.Flush();
                     sw.Close();
-                    if(XtraMessageBox.Show("导出档案接收确认函成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                    SplashScreenManager.CloseDefaultSplashScreen();
+                    if (XtraMessageBox.Show("导出档案接收确认函成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                         WinFormOpenHelper.OpenWinForm(0, "open", savePath, null, null, ShowWindowCommands.SW_NORMAL);
                 }
                 catch(Exception ex)
@@ -110,8 +112,9 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
         /// </summary>
         private void CreateLostFileList()
         {
+            SplashScreenManager.ShowDefaultWaitForm(this, false, false);
             idList = new List<object>();
-            string querySQL = "SELECT A.pi_id id, A.pi_code '项目/课题编号', A.pi_name '项目/课题名称', A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称' " +
+            string querySQL = "SELECT A.pi_id id, A.pi_code '项目/课题编号', A.pi_name '项目/课题名称', A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称', dd2.dd_name '缺失原因', pfo.pfo_remark '备注' " +
                 "FROM transfer_registration_pc trp " +
                 "LEFT JOIN imp_info ii ON ii.imp_obj_id=trp.trp_id " +
                 "LEFT JOIN imp_dev_info idi ON idi.imp_obj_id=ii.imp_id " +
@@ -120,7 +123,8 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=-3)A ON A.pi_obj_id=idi.imp_id " +
                 "INNER JOIN processing_file_lost pfo ON (pfo.pfo_obj_id = A.pi_id AND pfo.pfo_ismust=1) " +
                 "LEFT JOIN data_dictionary dd ON pfo.pfo_categor = dd.dd_name " +
-               $"WHERE trp.trp_id='{trpId}' AND A.pi_id IS NOT NULL ORDER BY A.pi_code, dd_name ";
+                "LEFT JOIN data_dictionary dd2 ON pfo.pfo_reason = dd2.dd_id " +
+               $"WHERE trp.trp_id='{trpId}' AND A.pi_id IS NOT NULL ORDER BY A.pi_code, dd.dd_name ";
             DataTable table = SqlHelper.ExecuteQuery(querySQL);
             if(table.Rows.Count > 0)
             {
@@ -130,15 +134,17 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                     object projectID = row["id"];
                     if(idList.Contains(projectID)) continue;
                     else idList.Add(projectID);
-                    string topicQuerySql = "SELECT B.ti_id id, B.ti_code '项目/课题编号', B.ti_name '项目/课题名称', B.ti_unit '承担单位', B.ti_prouser '项目负责人', B.ti_start_datetime '项目开始时间', B.ti_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称' FROM (" +
+                    string topicQuerySql = "SELECT B.ti_id id, B.ti_code '项目/课题编号', B.ti_name '项目/课题名称', B.ti_unit '承担单位', B.ti_prouser '项目负责人', B.ti_start_datetime '项目开始时间', B.ti_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称', dd2.dd_name '缺失原因', pfo.pfo_remark '备注' FROM (" +
                         "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
                         "SELECT si_id, si_code, si_name, si_unit, si_prouser, si_start_datetime, si_end_datetime, si_obj_id FROM subject_info) B " +
                         "INNER JOIN processing_file_lost pfo ON (pfo.pfo_obj_id = B.ti_id AND pfo.pfo_ismust=1) " +
                         "LEFT JOIN data_dictionary dd ON pfo.pfo_categor = dd.dd_name " +
-                       $"WHERE B.ti_obj_id='{projectID}' ORDER BY B.ti_code, dd_name ";
+                        "LEFT JOIN data_dictionary dd2 ON pfo.pfo_reason = dd2.dd_id " +
+                       $"WHERE B.ti_obj_id='{projectID}' ORDER BY B.ti_code, dd.dd_name ";
                     DataTable topicTable = SqlHelper.ExecuteQuery(topicQuerySql);
                     _table.Merge(topicTable);
                 }
+                SplashScreenManager.CloseDefaultSplashScreen();
                 saveFileDialog1.Title = "请选择导出位置";
                 saveFileDialog1.Filter = "CSV文件|*.csv";
                 if(saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -155,7 +161,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
             }
             else
             {
-                string querySQL2 = "SELECT A.pi_id id, A.pi_code '项目/课题编号', A.pi_name '项目/课题名称', A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称' " +
+                string querySQL2 = "SELECT A.pi_id id, A.pi_code '项目/课题编号', A.pi_name '项目/课题名称', A.pi_unit '承担单位', A.pi_prouser '项目负责人', A.pi_start_datetime '项目开始时间', A.pi_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称', dd2.dd_name '缺失原因', pfo.pfo_remark '备注' " +
                     "FROM transfer_registration_pc trp " +
                     "LEFT JOIN project_info pi ON pi.pi_categor=1 AND pi.trc_id=trp.trp_id " +
                     "LEFT JOIN( " +
@@ -163,7 +169,8 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                     "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=-3) A ON A.pi_obj_id=pi.pi_id " +
                     "INNER JOIN processing_file_lost pfo ON (pfo.pfo_obj_id = A.pi_id AND pfo_ismust=1) " +
                     "LEFT JOIN data_dictionary dd ON pfo.pfo_categor = dd.dd_name " +
-                   $"WHERE trp.trp_id='{trpId}' AND pi.pi_id IS NOT NULL ORDER BY A.pi_code, dd_name";
+                    "LEFT JOIN data_dictionary dd2 ON pfo.pfo_reason = dd2.dd_id " +
+                   $"WHERE trp.trp_id='{trpId}' AND pi.pi_id IS NOT NULL ORDER BY A.pi_code, dd.dd_name";
                 DataTable table2 = SqlHelper.ExecuteQuery(querySQL2);
                 if(table2.Rows.Count > 0)
                 {
@@ -173,16 +180,18 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                         object projectID = row["id"];
                         if(idList.Contains(projectID)) continue;
                         else idList.Add(projectID);
-                        string topicQuerySql = "SELECT B.ti_id id, B.ti_code '项目/课题编号', B.ti_name '项目/课题名称', B.ti_unit '承担单位', B.ti_prouser '项目负责人', B.ti_start_datetime '项目开始时间', B.ti_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称' " +
+                        string topicQuerySql = "SELECT B.ti_id id, B.ti_code '项目/课题编号', B.ti_name '项目/课题名称', B.ti_unit '承担单位', B.ti_prouser '项目负责人', B.ti_start_datetime '项目开始时间', B.ti_end_datetime '项目结束时间', dd.dd_name '缺失文件类别', dd.dd_note '缺失文件名称', dd2.dd_name '缺失原因', pfo.pfo_remark '备注' " +
                             "FROM ( " +
                             "SELECT ti_id, ti_code, ti_name, ti_unit, ti_prouser, ti_start_datetime, ti_end_datetime, ti_obj_id FROM topic_info WHERE ti_categor=3 UNION ALL " +
                             "SELECT si_id, si_code, si_name, si_unit, si_prouser, si_start_datetime, si_end_datetime, si_obj_id FROM subject_info) B " +
                             "INNER JOIN processing_file_lost pfo ON (pfo.pfo_obj_id = B.ti_id AND pfo.pfo_ismust=1) " +
                             "LEFT JOIN data_dictionary dd ON pfo.pfo_categor = dd.dd_name " +
-                           $"WHERE B.ti_obj_id='{projectID}' ORDER BY B.ti_code, dd_name ";
+                            "LEFT JOIN data_dictionary dd2 ON pfo.pfo_reason = dd2.dd_id " +
+                           $"WHERE B.ti_obj_id='{projectID}' ORDER BY B.ti_code, dd.dd_name ";
                         DataTable topicTable = SqlHelper.ExecuteQuery(topicQuerySql);
                         _table.Merge(topicTable);
                     }
+                    SplashScreenManager.CloseDefaultSplashScreen();
                     saveFileDialog1.Title = "请选择导出位置";
                     saveFileDialog1.Filter = "CSV文件|*.csv";
                     if(saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -199,6 +208,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 }
                 else
                 {
+                    SplashScreenManager.CloseDefaultSplashScreen();
                     XtraMessageBox.Show("当前批次下尚无缺失文件记录。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
             }
@@ -209,6 +219,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
         /// </summary>
         private void CreateFileList()
         {
+            SplashScreenManager.ShowDefaultWaitForm(this, false, false);
             idList = new List<object>();
             //普通计划
             string querySQL = $"SELECT A.pi_id id, pi.pi_name '计划名称', pt.pt_code '案卷编号/档号', pt.pt_name '案卷题名', " +
@@ -249,6 +260,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                     DataTable topicTable = SqlHelper.ExecuteQuery(topicQuerySql);
                     _table.Merge(topicTable);
                 }
+                SplashScreenManager.CloseDefaultSplashScreen();
                 saveFileDialog1.Title = "请选择导出位置";
                 saveFileDialog1.Filter = "CSV文件|*.csv";
                 if(saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -306,6 +318,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                         DataTable topicTable = SqlHelper.ExecuteQuery(topicQuerySql);
                         _table.Merge(topicTable);
                     }
+                    SplashScreenManager.CloseDefaultSplashScreen();
                     saveFileDialog1.Title = "请选择导出位置";
                     saveFileDialog1.Filter = "CSV文件|*.csv";
                     if(saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -322,6 +335,7 @@ namespace 科技计划项目档案数据采集管理系统.DocumentAccept
                 }
                 else
                 {
+                    SplashScreenManager.CloseDefaultSplashScreen();
                     XtraMessageBox.Show("当前批次下尚无项目/课题。", "导出文件列表清单失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }

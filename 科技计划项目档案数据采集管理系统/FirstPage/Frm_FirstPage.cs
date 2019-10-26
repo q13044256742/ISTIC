@@ -92,10 +92,8 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             if(string.IsNullOrEmpty(querySqlString))
             {
                 querySql = "SELECT ROW_NUMBER() OVER(ORDER BY pi_worker_date DESC, pi_code) id, TB1.* FROM (" +
-                     "SELECT pi_id, pi_code, pi_name, pi_year, pi_worker_date, pi_worker_id, pi_checker_date, pi_checker_id FROM project_info WHERE pi_categor = 2 " +
-                     "UNION ALL " +
-                     "SELECT ti_id, ti_code, ti_name, ti_year, ti_worker_date, ti_worker_id, ti_checker_date, ti_checker_id FROM topic_info " +
-                     "UNION ALL " +
+                     "SELECT pi_id, pi_code, pi_name, pi_year, pi_worker_date, pi_worker_id, pi_checker_date, pi_checker_id FROM project_info WHERE pi_categor = 2 UNION ALL " +
+                     "SELECT ti_id, ti_code, ti_name, ti_year, ti_worker_date, ti_worker_id, ti_checker_date, ti_checker_id FROM topic_info UNION ALL " +
                      "SELECT si_id, si_code, si_name, si_year, si_worker_date, si_worker_id, si_checker_date, si_checker_id FROM subject_info) TB1 " +
                      "WHERE 1=1 ";
             }
@@ -333,10 +331,11 @@ namespace 科技计划项目档案数据采集管理系统.FirstPage
             string key1 = search.Text;
             string key2 = txt_DateSearch.Text;
             int pageNumber = ToolHelper.GetIntValue(sender, 1);
-            string querySQL = $"SELECT ROW_NUMBER() OVER(ORDER BY pi_worker_date DESC, pi_code) id, A.* FROM (SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_checker_date, pi_checker_id FROM project_info " +
-                $"UNION ALL SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_year, ti_funds, ti_worker_date, ti_worker_id, ti_checker_date, ti_checker_id FROM topic_info " +
-                $"UNION ALL SELECT si_id, si_code, si_name, si_start_datetime, si_year, si_funds, si_worker_date, si_worker_id, si_checker_date, si_checker_id FROM subject_info ) A " +
-                $"WHERE 1=1 ";
+            string querySQL = "SELECT ROW_NUMBER() OVER(ORDER BY pi_worker_date DESC, pi_code) id, A.* FROM (" +
+                 "SELECT pi_id, pi_code, pi_name, pi_start_datetime, pi_year, pi_funds, pi_worker_date, pi_worker_id, pi_checker_date, pi_checker_id FROM project_info WHERE pi_categor=2 UNION ALL " +
+                 "SELECT ti_id, ti_code, ti_name, ti_start_datetime, ti_year, ti_funds, ti_worker_date, ti_worker_id, ti_checker_date, ti_checker_id FROM topic_info UNION ALL " +
+                 "SELECT si_id, si_code, si_name, si_start_datetime, si_year, si_funds, si_worker_date, si_worker_id, si_checker_date, si_checker_id FROM subject_info ) A " +
+                 "WHERE 1=1 ";
             if(!string.IsNullOrEmpty(key1))
                 querySQL += $"AND (A.pi_code LIKE '%{key1}%' OR A.pi_name LIKE '%{key1}%') ";
             if(!string.IsNullOrEmpty(key2))
